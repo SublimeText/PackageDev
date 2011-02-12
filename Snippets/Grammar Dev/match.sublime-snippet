@@ -1,0 +1,10 @@
+<!-- See http://www.sublimetext.com/docs/snippets for more information -->
+<snippet>
+    <content><![CDATA[{  "name": "${1:keyword.control.untitled}",
+   "match": "${2:\\b(if|while|for|return)\\b}"
+}${3:,}]]></content>
+    <!-- Optional: Tab trigger to activate the snippet -->
+    <tabTrigger>match</tabTrigger>
+    <!-- Optional: Scope the tab trigger will be active in -->
+    <scope>source.json-tmlanguage</scope>
+</snippet>

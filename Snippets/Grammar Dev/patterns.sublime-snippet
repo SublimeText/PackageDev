@@ -1,0 +1,9 @@
+<!-- See http://www.sublimetext.com/docs/snippets for more information -->
+<snippet>
+    <content><![CDATA["patterns": [$0
+]]]></content>
+    <!-- Optional: Tab trigger to activate the snippet -->
+    <tabTrigger>patterns</tabTrigger>
+    <!-- Optional: Scope the tab trigger will be active in -->
+    <scope>source.json-tmlanguage</scope>
+</snippet>

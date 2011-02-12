@@ -1,0 +1,9 @@
+syntax: glob
+
+*.pyc
+_*.txt
+*.tmLanguage.cache
+sample-grammar.js
+
+dist/
+build/

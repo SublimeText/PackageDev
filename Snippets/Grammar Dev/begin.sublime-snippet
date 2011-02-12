@@ -1,0 +1,12 @@
+<!-- See http://www.sublimetext.com/docs/snippets for more information -->
+<snippet>
+    <content><![CDATA[{  "name": "${1:string.quoted.double.untitled}",
+    "begin": "${2:\"}",
+    "end": "${3:\"}"
+       }
+]]></content>
+    <!-- Optional: Tab trigger to activate the snippet -->
+    <tabTrigger>begin</tabTrigger>
+    <!-- Optional: Scope the tab trigger will be active in -->
+    <scope>source.json-tmlanguage</scope>
+</snippet>
