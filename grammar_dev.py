@@ -16,8 +16,26 @@ def build_path_relative_to_this_package(leaf):
                         leaf)
 
 def get_new_syntax_content():
-    JSON_TEMPLATE = """{ "name": "Untitled",  "scopeName": "source.untitled",  "fileTypes": ["ff", "fff"],  "patterns": [     { "name": "keyword.control.untitled",       "match": "\\\\b(if|while|for|return)\\\\b"     },
-     { "name": "string.quoted.double.untitled",       "begin": "\\\"",       "beginCaptures": {         "0": { "name": "definition.string.quoted.double.untitled" }       },       "end": "\\\"",       "patterns": [          { "name": "constant.character.escape.untitled",            "match": "\\\\."          }        ]     }  ],  "uuid": "%s"}"""
+    JSON_TEMPLATE = """{ "name": "Untitled",
+  "scopeName": "source.untitled", 
+  "fileTypes": ["ff", "fff"], 
+  "patterns": [
+      {"name": "keyword.control.untitled",
+       "match": "\\\\b(if|while|for|return)\\\\b"
+      },
+      {"name": "string.quoted.double.untitled",
+       "begin": "\\\"",
+       "beginCaptures": {"0": {"name": "definition.string.quoted.double.untitled" }},
+       "end": "\\\"",
+       "patterns": [
+            {"name": "constant.character.escape.untitled",
+             "match": "\\\\."
+            }
+       ]
+      } 
+  ],
+  "uuid": "%s"
+}"""
 
     actualTmpl = JSON_TEMPLATE % str(uuid.uuid4())
 
@@ -53,12 +71,12 @@ class NewSyntaxDefCommand(sublime_plugin.TextCommand):
     def run(self, edit, *args):
         grammar_view = self.view.window().new_file()
         grammar_edit = grammar_view.begin_edit()
-        grammar_view.settings().set("syntax", buildPathRelativeToThisPackage("JSON tmLanguage.tmLanguage"))
+        grammar_view.settings().set("syntax", build_path_relative_to_this_package("JSON tmLanguage.tmLanguage"))
         grammar_view.insert(grammar_edit, 0, get_new_syntax_content())
         grammar_view.end_edit(grammar_edit)
 
 
 class GetSyntaxDefCommand(sublime_plugin.TextCommand):
     def run(self, edit, *args):
-        self.view.settings().set("syntax", buildPathRelativeToThisPackage("JSON tmLanguage.tmLanguage"))
+        self.view.settings().set("syntax", build_path_relative_to_this_package("JSON tmLanguage.tmLanguage"))
         self.view.insert(edit, self.view.size(), get_new_syntax_content())
