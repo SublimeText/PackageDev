@@ -4,6 +4,7 @@ syntax: glob
 _*.txt
 *.tmLanguage.cache
 sample-grammar.js
+Manifest
 
 dist/
 build/
