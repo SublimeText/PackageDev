@@ -1,0 +1,3 @@
+<snippet>
+	<content><![CDATA[{ "keys": ["$1"], "command": "$2" }$0]]></content>
+</snippet>

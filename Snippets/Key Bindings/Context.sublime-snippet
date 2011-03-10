@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA["context":
+[
+	{ "key": "$1", "operator": "$2", "operand": "$3" }
+]]]></content>
+</snippet>
