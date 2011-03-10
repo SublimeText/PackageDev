@@ -15,15 +15,15 @@ Overview
 Commands
 ********
 
-``TextCommand``s
-----------------
+Text Commands
+-------------
 
 * new_syntax_def (1st step)
 * new_syntax_def_from_buffer (alt. 1st step)
 * json_to_tmlanguage (2nd step)
 
-``WindowCommand``s
-------------------
+Window Commands
+---------------
 
 * new_package
 
