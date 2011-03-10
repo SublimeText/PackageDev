@@ -7,7 +7,7 @@ import os
 
 DEBUG = 1
 THIS_PACKAGE = "PackageDev"
-if DEBUG: THIS_PACKAGE = "XXX" + THIS_PACKAGE
+# if DEBUG: THIS_PACKAGE = "XXX" + THIS_PACKAGE
 
 status = sublime.status_message
 error = sublime.error_message
