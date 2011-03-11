@@ -86,5 +86,5 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
     """
 
     def run(self, edit):
-        self.view.insert(edit, self.view.size(), get_new_syntax_content())
+        self.view.insert(edit, self.view.size(), get_syntax_def_boilerplate())
         self.view.settings().set("syntax", "Packages/JavaScript/JSON.tmLanguage")
