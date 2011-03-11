@@ -13,3 +13,4 @@ recursive-include Snippets *.*
 recursive-include Lib *.*
 
 recursive-exclude PackageDev *.*
+recursive-exclude dist *.*
