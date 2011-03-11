@@ -3,6 +3,7 @@ import sublime_plugin
 
 SU_FTYPE_EXT_KEYMAP = ".sublime-keymap"
 
+# TODO: sort this out and use real scope selectors
 CONTEXT_VALUE = u"string.quoted.double.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.array.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.array.json source.json "
 CONTEXT_EMPTY_VALUE = u"punctuation.definition.string.end.json string.quoted.double.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.array.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.array.json source.json "
 CONTEXT_KEY = u"string.quoted.double.json meta.structure.dictionary.json meta.structure.array.json meta.structure.dictionary.value.json meta.structure.dictionary.json meta.structure.array.json source.json "
@@ -48,7 +49,6 @@ class AutocompleteContextsCommand(sublime_plugin.EventListener):
                 )):
                 return []
         
-        print "ALL GOOD"
         # Complete only values in JSON dicts, and only for contexts.
         # Must be a better way of doing this.
         caret = first_caret_in_sel(view)    
@@ -56,7 +56,6 @@ class AutocompleteContextsCommand(sublime_plugin.EventListener):
             context_field = type_of_context_key(view, caret)
             completions = []
             if context_field == 'key':
-                    print "MATCHED KEY"
                     completions = [
                         ("auto_complete_visible", "auto_complete_visible"),
                         ("has_next_field", "has_next_field"),
@@ -72,7 +71,6 @@ class AutocompleteContextsCommand(sublime_plugin.EventListener):
                         ("selector", "selector"),
                     ]
             elif context_field == 'operator':
-                    print "MATCHED OPERATOR"
                     completions = [
                             ("equal", "equal"),
                             ("not_equal", "not_equal"),
@@ -81,5 +79,5 @@ class AutocompleteContextsCommand(sublime_plugin.EventListener):
                             ("regex_match", "regex_match"),
                             ("not_regex_match", "not_regex_match"),
                     ]
-                 # 
+
             return completions
