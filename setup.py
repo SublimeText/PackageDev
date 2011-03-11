@@ -563,7 +563,7 @@ class install(Command):
 
 setup(cmdclass={'spa': spa, 'install': install},
       name='PackageDev',
-      version='1.0',
+      version='0.1',
       description='Sublime Text Dev Tools for Packages.',
       author='Guillermo López-Anglada',
       author_email='guillermo@sublimetext.info',

@@ -1,13 +1,15 @@
 include *.py
+include *.sublime-*
+include *.rst
+exclude _*.txt
 exclude sublime_inspect.py
 exclude setup.py
+
 recursive-include *.txt
 recursive-include *.rst
-recursive-include *.sublime-*
 
 recursive-include Support *.*
 recursive-include Snippets *.*
 recursive-include Lib *.*
 
 recursive-exclude PackageDev *.*
-recursive-exclude _*.txt
