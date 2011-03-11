@@ -11,6 +11,16 @@ Overview
 
 * Create syntax defs in json, convert to tmlanguage
 * Create new package skeleton
+* Misc tools
+
+
+Getting Started
+***************
+
+Download the latest version of `PackageDev.sublime-package`_ and double-click
+on it.
+
+.. PackageDev.sublime-package: https://bitbucket.org/guillermooo/packagedev/downloads/PackageDev.sublime-package
 
 
 Commands
@@ -37,7 +47,7 @@ Completions
 	Will clutter your completions list in any kind of python dev.
 	To turn on, change scope selector so ``source.python``.
 
-* smart completions for key bindings
+* smart completions for key bindings (actually, rather dumb)
 
 
 Other Tools
