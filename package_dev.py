@@ -3,6 +3,12 @@ import sublime_plugin
 
 import glob
 import os
+import sys
+
+
+# Makes sublime_lib package available for all packages.
+if not os.path.join(root_at_packages_path("PackageDev/Lib")) in sys.path:
+    sys.path.append(os.path.join(root_at_packages_path("PackageDev/Lib")))
 
 
 DEBUG = 1
