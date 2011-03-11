@@ -17,10 +17,9 @@ Overview
 Getting Started
 ***************
 
-Download the latest version of PackageDev.sublime-package_ and double-click
-on it.
+Download the `latest version`_ and double-click on `PackageDev.sublime-package`.
 
-.. PackageDev.sublime-package: https://bitbucket.org/guillermooo/packagedev/downloads/PackageDev.sublime-package
+.. latest version: https://bitbucket.org/guillermooo/packagedev/downloads/PackageDev.sublime-package
 
 
 Commands
