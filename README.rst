@@ -1,9 +1,10 @@
 PackageDev: Development Tools for Sublime Text Packages
 =======================================================
 
-A collection of utilities for .sublime-package developers.
+A collection of utilities for ``.sublime-package`` developers.
 
-Status: alfa.
+status: experimental
+
 
 Overview
 ********
@@ -26,15 +27,21 @@ Window Commands
 ---------------
 
 * new_package
+* delete_package (opens file browser at ``Packages``)
+
 
 Completions
 ***********
 
-* sublime text plugin dev
+* sublime text plugin dev (off by default)
 	Will clutter your completions list in any kind of python dev.
+	To turn on, change scope selector so ``source.python``.
+
+* smart completions for key bindings
+
 
 Other Tools
 ***********
 
 * snippets for key bindings, syntax def development
-* smart completions for key bindings
+* sublime_lib
