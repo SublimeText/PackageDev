@@ -32,7 +32,7 @@ DEFAULT_FILES = (
 class NewPackageCommand(sublime_plugin.WindowCommand):
 
     def on_done(self, pkg_name):
-        pam = PackageManager(dry_run=False)
+        pam = PackageManager()
         if pam.exists(pkg_name):
             error("  NewPackage -- Error\n\n"
                   "  Package '" + pkg_name + "' already exists.\n"
@@ -54,6 +54,12 @@ class NewPackageCommand(sublime_plugin.WindowCommand):
                             "New Package Name", '', self.on_done, None, None)
 
 
+class DeletePackageCommand(sublime_plugin.WindowCommand):
+    def run(self):
+        pam = PackageManager()
+        pam.browse()
+
+
 class PackageManager(object):
     
     def is_installed(self, name):
@@ -62,8 +68,8 @@ class PackageManager(object):
     def exists(self, name):
         return path_exists(root_at_packages_path(name))
     
-    def delete(self, name):
-        # Let user choose what to delete.
+    def browse(self):
+        # Let user choose.
         sublime.active_window().run_command("open_dir", 
                                             {"dir": sublime.packages_path()})
     
@@ -92,5 +98,5 @@ class PackageManager(object):
         print msg
         status(msg)
     
-    def __init__(self, dry_run=True):
+    def __init__(self, dry_run=False):
         self.dry_run = dry_run
