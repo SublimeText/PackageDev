@@ -2,21 +2,21 @@
   { "keys": ["k", "tab"],
     "command": "insert_snippet", 
     "args": { "scope": "source.json",
-              "name": "Packages/PackageDev/Snippets/Key Bindings/Simple Key Binding.sublime-snippet" }
+              "name": "Packages/AAAPackageDev/Snippets/Key Bindings/Simple Key Binding.sublime-snippet" }
   },
   { "keys": ["a", "r", "g", "s", "tab"],
     "command": "insert_snippet",
     "args": { "scope": "source.json",
-              "name": "Packages/PackageDev/Snippets/Key Bindings/Arguments to Command.sublime-snippet"}
+              "name": "Packages/AAAPackageDev/Snippets/Key Bindings/Arguments to Command.sublime-snippet"}
   },
   { "keys": ["c", "o", "n", "t", "e", "x", "t", "tab"],
     "command": "insert_snippet",
     "args": { "scope": "source.json",
-              "name": "Packages/PackageDev/Snippets/Key Bindings/Context.sublime-snippet" }
+              "name": "Packages/AAAPackageDev/Snippets/Key Bindings/Context.sublime-snippet" }
   },
   { "keys": ["c", "t", "x", "tab"],
     "command": "insert_snippet",
     "args": { "scope": "source.json",
-              "name": "Packages/PackageDev/Snippets/Key Bindings/Context Entry.sublime-snippet" }
+              "name": "Packages/AAAPackageDev/Snippets/Key Bindings/Context Entry.sublime-snippet" }
   }
 ]

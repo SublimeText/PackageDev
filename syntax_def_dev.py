@@ -5,7 +5,7 @@ import json2plist
 import uuid
 
 
-THIS_PACKAGE_NAME = "PackageDev"
+THIS_PACKAGE_NAME = "AAAPackageDev"
 THIS_PACKAGE_DEV_NAME = "XXX" + THIS_PACKAGE_NAME
 DEBUG = os.path.exists(sublime.packages_path() + "/" + THIS_PACKAGE_DEV_NAME)
 
@@ -55,7 +55,7 @@ class JsonToTmlanguage(sublime_plugin.TextCommand):
 
       # TODO: has_extension(view, ext) => Lib
       if not ext.lower() == ".json-tmlanguage":
-          sublime.error_message("~ PackageDev Error ~\n\n"
+          sublime.error_message("~ AAAPackageDev Error ~\n\n"
                                 "Not a valid extension. (Must be: json-tmLanguage)")
           return
 
@@ -63,7 +63,7 @@ class JsonToTmlanguage(sublime_plugin.TextCommand):
           json2plist.make_grammar(self.view.file_name())
       except IOError as e:
           sublime.error_message(
-                        "[PackageDev] Error while converting to Plist.")
+                        "[AAAPackageDev] Error while converting to Plist.")
           return
 
 

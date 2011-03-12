@@ -580,7 +580,7 @@ class test(Command):
 
 
 setup(cmdclass={'spa': spa, 'install': install, 'test': test},
-      name='PackageDev',
+      name='AAAPackageDev',
       version='0.1',
       description='Sublime Text Dev Tools for Packages.',
       author='Guillermo López-Anglada',

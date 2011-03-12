@@ -7,7 +7,7 @@ import sublime
 
 
 here = os.path.split(__file__)[0]
-path_to_lib = os.path.normpath(os.path.join(here, "..", "..", "Lib"))
+path_to_lib = os.path.normpath(os.path.join(here, '..', '..', 'Lib'))
 if not path_to_lib in sys.path:
     sys.path.append(path_to_lib)
 
@@ -15,7 +15,7 @@ if not path_to_lib in sys.path:
 import sublime_lib.view.sel as su_lib_sels
 
 
-def test_has_file_extension():
+def test_has_selections():
     view = mock.Mock()
     view.sel.return_value = range(1)
 

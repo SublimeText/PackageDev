@@ -6,14 +6,14 @@ import os
 import sys
 
 # Makes sublime_lib package available for all packages.
-if not os.path.join(sublime.packages_path(), "PackageDev/Lib") in sys.path:
-    sys.path.append(os.path.join(sublime.packages_path(), "PackageDev/Lib"))
+if not os.path.join(sublime.packages_path(), "AAAPackageDev/Lib") in sys.path:
+    sys.path.append(os.path.join(sublime.packages_path(), "AAAPackageDev/Lib"))
 
 from sublime_lib.path import root_at_packages
 
 
 DEBUG = 1
-THIS_PACKAGE = "PackageDev"
+THIS_PACKAGE = "AAAPackageDev"
 
 status = sublime.status_message
 error = sublime.error_message
