@@ -184,7 +184,7 @@
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.keybinding.sequence.start.sublime-keymap</string>
+							<string>punctuation.definition.keybinding.key.sequence.start.sublime-keymap</string>
 						</dict>
 					</dict>
 					<key>end</key>
@@ -194,11 +194,11 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.keybinding.sequence.end.sublime-keymap</string>
+							<string>punctuation.definition.keybinding.key.sequence.end.sublime-keymap</string>
 						</dict>
 					</dict>
 					<key>name</key>
-					<string>meta.keybinding.sequence.sublime-keymap</string>
+					<string>meta.keybinding.array.key.sequence.sublime-keymap</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -207,17 +207,17 @@
 								<key>1</key>
 								<dict>
 									<key>name</key>
-									<string>entity.other.attribute-name.keybinding.sequence.key.modifier.sublime-keymap</string>
+									<string>entity.other.attribute-name.keybinding.key.sequence.key.modifier.sublime-keymap</string>
 								</dict>
 								<key>2</key>
 								<dict>
 									<key>name</key>
-									<string>keybinding.sequence.key.modifier.suffix.sublime-keymap</string>
+									<string>keybinding.key.sequence.key.modifier.suffix.sublime-keymap</string>
 								</dict>
 								<key>3</key>
 								<dict>
 									<key>name</key>
-									<string>keyword.constant.keybinding.sequence.key.sublime-keymap</string>
+									<string>keyword.constant.keybinding.key.sequence.key.sublime-keymap</string>
 								</dict>
 							</dict>
 							<key>match</key>
