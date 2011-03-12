@@ -1,6 +1,8 @@
 import sublime
 import sublime_plugin
 
+from sublime_lib.view import has_file_extension
+
 SU_FTYPE_EXT_KEYMAP = ".sublime-keymap"
 
 # TODO: sort this out and use real scope selectors
@@ -31,10 +33,6 @@ def type_of_context_key(view, caret):
             caret -= 1
 
     return view.substr(view.word(caret))
-
-
-def has_file_extension(view, ext):
-    return view.file_name().endswith(ext)
 
 
 def has_selections(view):
