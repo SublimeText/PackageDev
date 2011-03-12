@@ -14,6 +14,7 @@ from distutils.filelist import FileList
 from distutils.errors import *
 from distutils.spawn import spawn
 from distutils.dir_util import mkpath
+import subprocess
 
 
 def make_zipfile (base_name, base_dir, verbose=0, dry_run=0):
@@ -561,7 +562,24 @@ class install(Command):
         print NotImplementedError("Command not implemented yet.")
 
 
-setup(cmdclass={'spa': spa, 'install': install},
+class test(Command):
+    """Does it make sense?"""
+
+    user_options = [('aa', 'a', 'aa')]
+
+    def initialize_options(self):
+        pass
+    
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        if os.name == 'nt':
+            subprocess.call(["py.test.exe"])
+
+
+
+setup(cmdclass={'spa': spa, 'install': install, 'test': test},
       name='PackageDev',
       version='0.1',
       description='Sublime Text Dev Tools for Packages.',
