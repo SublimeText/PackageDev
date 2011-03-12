@@ -3,17 +3,22 @@ import sublime_plugin
 
 import glob
 import os
+import sys
+
+# Makes sublime_lib package available for all packages.
+if not os.path.join(sublime.packages_path(), "PackageDev/Lib") in sys.path:
+    sys.path.append(os.path.join(sublime.packages_path(), "PackageDev/Lib"))
+
+from sublime_lib.path import root_at_packages
 
 
 DEBUG = 1
 THIS_PACKAGE = "PackageDev"
-# if DEBUG: THIS_PACKAGE = "XXX" + THIS_PACKAGE
 
 status = sublime.status_message
 error = sublime.error_message
 join_path = os.path.join
 path_exists = os.path.exists
-root_at_packages_path = lambda *leafs: join_path(sublime.packages_path(), *leafs)
 
 DEFAULT_DIRS = (
             "Snippets",
@@ -25,7 +30,7 @@ DEFAULT_DIRS = (
 # name, default template
 DEFAULT_FILES = (
             ("LICENSE.txt", None),
-            ("README.rst", root_at_packages_path(THIS_PACKAGE, "Support/README.rst")),
+            ("README.rst", root_at_packages(THIS_PACKAGE, "Support/README.rst")),
 )
 
 
@@ -66,7 +71,7 @@ class PackageManager(object):
         raise NotImplemented
     
     def exists(self, name):
-        return path_exists(root_at_packages_path(name))
+        return path_exists(root_at_packages(name))
     
     def browse(self):
         # Let user choose.
@@ -75,7 +80,7 @@ class PackageManager(object):
     
     def create_new(self, name):
         print "[NewPackage] Creating new package...",
-        print root_at_packages_path(name)
+        print root_at_packages(name)
         
         if self.dry_run:
             msg = "[NewPackage] ** Nothing done. This was a test. **"
@@ -84,9 +89,9 @@ class PackageManager(object):
             return
 
         # Create top folder, default folders, default files.
-        map(os.makedirs, [root_at_packages_path(name, d) for d in DEFAULT_DIRS])
+        map(os.makedirs, [root_at_packages(name, d) for d in DEFAULT_DIRS])
         
-        for f, template in [(root_at_packages_path(name, fname), template)
+        for f, template in [(root_at_packages(name, fname), template)
                                         for fname, template in DEFAULT_FILES]:
             with open(f, 'w') as fh:
                 if template:
