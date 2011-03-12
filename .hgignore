@@ -3,6 +3,7 @@ syntax: glob
 *.pyc
 _*.txt
 *.tmLanguage.cache
+*.sublime-project
 sample-grammar.js
 Manifest
 
