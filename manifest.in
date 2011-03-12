@@ -10,7 +10,9 @@ exclude setup.py
 
 recursive-include Support *.*
 recursive-include Snippets *.*
-recursive-include Lib *.*
+recursive-include Lib *.py
 
 recursive-exclude PackageDev *.*
+
 recursive-exclude dist *.*
+recursive-exclude tests *.*
