@@ -221,7 +221,7 @@
 								</dict>
 							</dict>
 							<key>match</key>
-							<string>"(?:(ctrl|shift|alt|super)(\+))|(spacebar|backquote|enter|f\d{1,2}|[a-z,;.:-_]+)"</string>
+							<string>"(?:(ctrl|shift|alt|super)(\+))*(spacebar|backquote|enter|f\d{1,2}|[a-z,;.:-_]+)"</string>
 						</dict>
 					</array>
 				</dict>

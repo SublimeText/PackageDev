@@ -52,7 +52,7 @@
                   "1": { "name": "punctuation.definition.keybinding.key.sequence.end.sublime-keymap" }
               },
               "patterns": [
-                  { "match": "\"(?:(ctrl|shift|alt|super)(\\+))|(spacebar|backquote|enter|f\\d{1,2}|[a-z,;.:-_]+)\"",
+                  { "match": "\"(?:(ctrl|shift|alt|super)(\\+))*(spacebar|backquote|enter|f\\d{1,2}|[a-z,;.:-_]+)\"",
                     "captures": {
                         "1": { "name": "entity.other.attribute-name.keybinding.key.sequence.key.modifier.sublime-keymap" },
                         "2": { "name": "keybinding.key.sequence.key.modifier.suffix.sublime-keymap" },
