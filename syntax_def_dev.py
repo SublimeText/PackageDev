@@ -4,6 +4,8 @@ import os
 import json2plist
 import uuid
 
+from sublime_lib.view import has_file_extension
+
 
 THIS_PACKAGE_NAME = "AAAPackageDev"
 THIS_PACKAGE_DEV_NAME = "XXX" + THIS_PACKAGE_NAME
@@ -53,7 +55,7 @@ class JsonToTmlanguage(sublime_plugin.TextCommand):
       path, fname = os.path.split(self.view.file_name())
       plist_grammar_name, ext = os.path.splitext(fname)
 
-      # TODO: has_extension(view, ext) => Lib
+      # TODO: has_file_extension(view, ext) => Lib
       if not ext.lower() == ".json-tmlanguage":
           sublime.error_message("~ AAAPackageDev Error ~\n\n"
                                 "Not a valid extension. (Must be: json-tmLanguage)")
@@ -88,3 +90,13 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.view.insert(edit, self.view.size(), get_syntax_def_boilerplate())
         self.view.settings().set("syntax", "Packages/JavaScript/JSON.tmLanguage")
+
+
+# class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
+    # """Applies custom syntax definitions for several Sublime file types
+    # overriding the build-in behavior.
+    # """
+# 
+    # def on_load(self, view):
+      # if has_file_extension(view, '.sublime-keymap'):
+          # view.set_syntax_file('Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage')

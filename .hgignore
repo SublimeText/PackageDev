@@ -6,6 +6,7 @@ _*.txt
 *.sublime-project
 sample-grammar.js
 Manifest
+MANIFEST
 
 dist/
 build/
