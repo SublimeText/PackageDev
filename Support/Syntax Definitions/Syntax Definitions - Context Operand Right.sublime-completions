@@ -1,8 +1,8 @@
 {
-	"scope": "context.operator.name.sublime-keymap",
+  "scope": "context.operator.name.sublime-keymap",
 
-	"completions": [
+  "completions": [
       "true",
       "false"
-	]
+  ]
 }
