@@ -1,0 +1,8 @@
+{ "name": "Sublime Text Syntax Definition",
+  "scopeName": "source.json-tmlanguage", 
+  "fileTypes": ["JSON-tmLanguage"], 
+  "patterns": [
+  		{ "include": "source.js" }
+  ],
+  "uuid": "8c7e3a99-1780-4b72-9ce5-585949c0563e"
+}

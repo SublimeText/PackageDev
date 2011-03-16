@@ -78,7 +78,7 @@ class NewSyntaxDefCommand(sublime_plugin.TextCommand):
         # TODO: one_edit(view) context manager => Lib
         grammar_view = self.view.window().new_file()
         grammar_edit = grammar_view.begin_edit()
-        grammar_view.settings().set("syntax", "Packages/JavaScript/JSON.tmLanguage")
+        grammar_view.settings().set("syntax", "Packages/AAAPackageDev/Support/Sublime Syntax Definition.tmLanguage")
         grammar_view.insert(grammar_edit, 0, get_syntax_def_boilerplate())
         grammar_view.end_edit(grammar_edit)
 
@@ -89,7 +89,7 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         self.view.insert(edit, self.view.size(), get_syntax_def_boilerplate())
-        self.view.settings().set("syntax", "Packages/JavaScript/JSON.tmLanguage")
+        self.view.settings().set("syntax", "Packages/AAAPackageDev/Support/Sublime Syntax Definition.tmLanguage")
 
 
 class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
