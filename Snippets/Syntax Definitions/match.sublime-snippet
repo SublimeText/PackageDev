@@ -3,5 +3,5 @@
    "match": "${2:\\b(if|while|for|return)\\b}"
 }${3:,}]]></content>
     <tabTrigger>match</tabTrigger>
-    <scope>source.json</scope>
+    <scope>source.json-tmlanguage</scope>
 </snippet>
