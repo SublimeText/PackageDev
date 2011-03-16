@@ -15,7 +15,6 @@ PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF = 'Packages/AAAPackageDev/Support//Sublime JS
 PATH_TO_SUBLIME_KEY_MAP_SYNTAX_DEF = 'Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage'
 
 
-# TODO: root_at_packages_path(*leafs) => Lib
 def build_path_relative_to_this_package(leaf):
     return os.path.join(sublime.packages_path(),
                         THIS_PACKAGE_NAME if not DEBUG else THIS_PACKAGE_DEV_NAME,
@@ -59,7 +58,6 @@ class JsonToTmlanguage(sublime_plugin.TextCommand):
       path, fname = os.path.split(self.view.file_name())
       plist_grammar_name, ext = os.path.splitext(fname)
 
-      # TODO: has_file_extension(view, ext) => Lib
       if not ext.lower() == ".json-tmlanguage":
           sublime.error_message("~ AAAPackageDev Error ~\n\n"
                                 "Not a valid extension. (Must be: json-tmLanguage)")
