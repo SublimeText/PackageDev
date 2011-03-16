@@ -1,5 +1,5 @@
 <snippet>
     <content><![CDATA["${1:name}": "${2:value}"]]></content>
     <tabTrigger>key</tabTrigger>
-    <scope>source.json-tmlanguage</scope>
+    <scope>source.json</scope>
 </snippet>

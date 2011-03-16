@@ -1,0 +1,62 @@
+{ "name": "Sublime Text Build System",
+  "scopeName": "source.sublime-build", 
+  "fileTypes": ["sublime-build"], 
+  "patterns": [
+  		{ "name": "meta.definition.build-system",
+  		  "begin": "\\{",
+  		  "end": "\\}",
+  		  "patterns": [
+  		  		{ "include": "#command" },
+  		  		{ "include": "#fileRegex" },
+  		  		{ "include": "#selector" }
+  		  ]
+  		}
+  ],
+  "repository": {
+  		"command": {
+  			"begin": "\"(cmd)\"\\s*:",
+  			"end": "\\]",
+  			"patterns": [
+  				{  "name": "punctuation.definition.arg.list.end.sublime-build",
+  				   "match": "\\["
+  				},
+  				{ "include": "#genericArray" }
+  			]
+  		},
+	      "genericArray": {
+	          "begin":"\\[",
+	          "end": "\\]",
+	          "name": "meta.definition.array.generic.sublime-keymap",
+	          "patterns": [
+	              { "include": "#string"                
+	              },
+	              { "match": "[\\d\\.]+",
+	                "name": "constant.numeric.sublime-keymap"
+	              },              
+	              { "include": "#genericArray"
+	              }                        
+	          ]
+	      },  	
+      "string": {
+          "begin":"\"",
+          "end": "\"",
+          "patterns": [
+              { "match": "(\\\\(?:\"|t|n|r))",
+                "captures": {
+                    "1": { "name": "constant.character.escape.sublime-keymap" }
+                }
+              },
+              { "match": ".",
+                "name": "string.sublime-keymap"
+              }
+          ]
+      },
+      "fileRegex": {
+      	
+      },
+      "selector": {
+      	
+      }
+  },
+  "uuid": "22a1eed4-8670-460c-91e5-682aa6661180"
+}

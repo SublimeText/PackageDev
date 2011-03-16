@@ -5,5 +5,5 @@
        }
 ]]></content>
     <tabTrigger>begin</tabTrigger>
-    <scope>source.json-tmlanguage</scope>
+    <scope>source.json</scope>
 </snippet>
