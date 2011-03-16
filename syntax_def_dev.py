@@ -14,6 +14,7 @@ DEBUG = os.path.exists(sublime.packages_path() + "/" + THIS_PACKAGE_DEV_NAME)
 PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF = 'Packages/AAAPackageDev/Support//Sublime JSON Syntax Definition.tmLanguage'
 PATH_TO_SUBLIME_KEY_MAP_SYNTAX_DEF = 'Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage'
 
+
 # TODO: root_at_packages_path(*leafs) => Lib
 def build_path_relative_to_this_package(leaf):
     return os.path.join(sublime.packages_path(),
