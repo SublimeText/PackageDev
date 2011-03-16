@@ -11,7 +11,10 @@ THIS_PACKAGE_NAME = "AAAPackageDev"
 THIS_PACKAGE_DEV_NAME = "XXX" + THIS_PACKAGE_NAME
 DEBUG = os.path.exists(sublime.packages_path() + "/" + THIS_PACKAGE_DEV_NAME)
 
-# TODO: root_at_packages_path(*leafs) => Lib
+PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF = 'Packages/AAAPackageDev/Support//Sublime JSON Syntax Definition.tmLanguage'
+PATH_TO_SUBLIME_KEY_MAP_SYNTAX_DEF = 'Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage'
+
+
 def build_path_relative_to_this_package(leaf):
     return os.path.join(sublime.packages_path(),
                         THIS_PACKAGE_NAME if not DEBUG else THIS_PACKAGE_DEV_NAME,
@@ -55,7 +58,6 @@ class JsonToTmlanguage(sublime_plugin.TextCommand):
       path, fname = os.path.split(self.view.file_name())
       plist_grammar_name, ext = os.path.splitext(fname)
 
-      # TODO: has_file_extension(view, ext) => Lib
       if not ext.lower() == ".json-tmlanguage":
           sublime.error_message("~ AAAPackageDev Error ~\n\n"
                                 "Not a valid extension. (Must be: json-tmLanguage)")
@@ -78,7 +80,7 @@ class NewSyntaxDefCommand(sublime_plugin.TextCommand):
         # TODO: one_edit(view) context manager => Lib
         grammar_view = self.view.window().new_file()
         grammar_edit = grammar_view.begin_edit()
-        grammar_view.settings().set("syntax", "Packages/JavaScript/JSON.tmLanguage")
+        grammar_view.settings().set("syntax", PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF)
         grammar_view.insert(grammar_edit, 0, get_syntax_def_boilerplate())
         grammar_view.end_edit(grammar_edit)
 
@@ -89,7 +91,7 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         self.view.insert(edit, self.view.size(), get_syntax_def_boilerplate())
-        self.view.settings().set("syntax", "Packages/JavaScript/JSON.tmLanguage")
+        self.view.settings().set("syntax", PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF)
 
 
 class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
