@@ -14,9 +14,9 @@
                         [
                             { "caption": "New Package...", "command": "new_package" },
                             { "caption": "Delete Package...", "command": "delete_package" },
+                            { "caption": "-" },
                             { "caption": "New Syntax Definition", "command": "new_syntax_def" },
-                            { "caption": "New Syntax Definition from Buffer", "command": "new_syntax_def_from_buffer" },
-                            { "caption": "JSON to tmLanguage", "command": "json_to_tmlanguage" }
+                            { "caption": "New Syntax Definition from Buffer", "command": "new_syntax_def_from_buffer" }
                         ]
                     }
                 ]
