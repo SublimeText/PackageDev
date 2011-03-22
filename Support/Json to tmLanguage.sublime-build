@@ -1,4 +1,3 @@
 {
-  "cmd": ["dummy"],
   "target": "make_tmlanguage"
 }
