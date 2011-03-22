@@ -1,9 +1,9 @@
-# encoding: utf-8
+﻿# encoding: utf-8
 
 """Commands to build and manage .sublime-package archives with distutils."""
 
-import os, string
 import sys
+import os, string
 from types import *
 from glob import glob
 from distutils import log, dir_util, dep_util, file_util, archive_util
