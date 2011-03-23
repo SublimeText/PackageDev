@@ -15,7 +15,7 @@ if not path_to_lib in sys.path:
 import sublime_lib.view.sel as su_lib_sels
 
 
-def test_has_file_extension():
+def test_has_selections():
     view = mock.Mock()
     view.sel.return_value = range(1)
 

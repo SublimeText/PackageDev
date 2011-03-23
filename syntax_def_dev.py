@@ -4,7 +4,7 @@ import os
 import json2plist
 import uuid
 
-from sublime_lib.view import has_file_extension
+from sublime_lib.view import has_file_ext
 from sublime_lib.path import root_at_packages
 
 
@@ -101,19 +101,19 @@ class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
     """
 
     def on_load(self, view):
-      if has_file_extension(view, '.sublime-keymap'):
+      if has_file_ext(view, '.sublime-keymap'):
           view.set_syntax_file('Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage')
 
 
 class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
     def is_enabled(self):
-        return has_file_extension(self.window.active_view(), '.JSON-tmLanguage')
+        return has_file_ext(self.window.active_view(), '.JSON-tmLanguage')
 
     def run(self, **kwargs):
         print "hello"
         v = self.window.active_view()
         path = v.file_name()
-        if not os.path.exists(path) or not has_file_extension(v, 'JSON-tmLanguage'):
+        if not os.path.exists(path) or not has_file_ext(v, 'JSON-tmLanguage'):
             print "[AAAPackageDev] Not a valid JSON-tmLanguage file. (%s)" % path
             return
 
