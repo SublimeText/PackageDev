@@ -16,11 +16,6 @@ PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF = 'Packages/AAAPackageDev/Support//Sublime JS
 PATH_TO_SUBLIME_KEY_MAP_SYNTAX_DEF = 'Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage'
 
 
-def build_path_relative_to_this_package(leaf):
-    return os.path.join(sublime.packages_path(),
-                        THIS_PACKAGE_NAME if not DEBUG else THIS_PACKAGE_DEV_NAME,
-                        leaf)
-
 # TODO: insert template as snippet, replace name with lowercased name.
 def get_syntax_def_boilerplate():
     JSON_TEMPLATE = """{ "name": "${1:Untitled}",
@@ -101,24 +96,25 @@ class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
     """
 
     def on_load(self, view):
-      if has_file_ext(view, '.sublime-keymap'):
-          view.set_syntax_file('Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage')
+        if has_file_ext(view, '.sublime-keymap'):
+            view.set_syntax_file('Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage')
 
 
 class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
+    """Generates a ``.tmLanguage`` file from a ``.JSON-tmLanguage`` syntax def.
+    """
     def is_enabled(self):
         return has_file_ext(self.window.active_view(), '.JSON-tmLanguage')
 
     def run(self, **kwargs):
-        print "hello"
         v = self.window.active_view()
         path = v.file_name()
-        if not os.path.exists(path) or not has_file_ext(v, 'JSON-tmLanguage'):
+        if not (os.path.exists(path) and has_file_ext(v, 'JSON-tmLanguage')):
             print "[AAAPackageDev] Not a valid JSON-tmLanguage file. (%s)" % path
             return
 
         build_cmd = root_at_packages("AAAPackageDev/Support/make_tmlanguage.py")
-
-        file_regex = "Error:\\s+'(.*?)'\\s+.*?\\s+line\\s+(\\d+)\\s+column\\s+(\\d+)"
+        file_regex = r"Error:\s+'(.*?)'\s+.*?\s+line\s+(\d+)\s+column\s+(\d+)"
         cmd = ["python", build_cmd, path]
+
         self.window.run_command("exec", {"cmd": cmd, "file_regex": file_regex})
