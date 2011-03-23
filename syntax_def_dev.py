@@ -18,23 +18,10 @@ PATH_TO_SUBLIME_KEY_MAP_SYNTAX_DEF = 'Packages/AAAPackageDev/Support/Sublime Key
 
 # TODO: insert template as snippet, replace name with lowercased name.
 def get_syntax_def_boilerplate():
-    JSON_TEMPLATE = """{ "name": "${1:Untitled}",
-  "scopeName": "source.${1/./\\l/}", 
-  "fileTypes": ["ff", "fff"], 
-  "patterns": [
-      {"name": "keyword.control.${1/./\\l/}",
-       "match": "\\\\b(if|while|for|return)\\\\b"
-      },
-      {"name": "string.quoted.double.${1/./\\l/}",
-       "begin": "\\\"",
-       "beginCaptures": {"0": {"name": "definition.string.quoted.double.${1/./\\l/}" }},
-       "end": "\\\"",
-       "patterns": [
-            {"name": "constant.character.escape.${1/./\\l/}",
-             "match": "\\\\."
-            }
-       ]
-      } 
+    JSON_TEMPLATE = """{ "name": "${1:Syntax Name}",
+  "scopeName": "source.${2:syntax_name}", 
+  "fileTypes": ["$3"], 
+  "patterns": [$0
   ],
   "uuid": "%s"
 }"""
@@ -67,18 +54,22 @@ class JsonToTmlanguage(sublime_plugin.TextCommand):
           return
 
 
-class NewSyntaxDefCommand(sublime_plugin.TextCommand):
+class NewSyntaxDefCommand(sublime_plugin.WindowCommand):
     """Creates a new syntax definition file for Sublime Text in JSON format
     with some boilerplate text.
     """
 
-    def run(self, edit):
+    def run(self):
         # TODO: one_edit(view) context manager => Lib
-        grammar_view = self.view.window().new_file()
-        grammar_edit = grammar_view.begin_edit()
-        grammar_view.settings().set("syntax", PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF)
-        grammar_view.insert(grammar_edit, 0, get_syntax_def_boilerplate())
-        grammar_view.end_edit(grammar_edit)
+        target = self.window.new_file()
+        edit = target.begin_edit()
+        target.settings().set("syntax", PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF)
+        target.run_command('insert_snippet', {
+                                                'contents':
+                                                get_syntax_def_boilerplate()}
+                                                )
+        # target.insert(edit, 0, get_syntax_def_boilerplate())
+        target.end_edit(edit)
 
 
 class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
@@ -86,8 +77,12 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
     """
 
     def run(self, edit):
-        self.view.insert(edit, self.view.size(), get_syntax_def_boilerplate())
+        self.view.run_command('insert_snippet', {
+                                                'contents':
+                                                get_syntax_def_boilerplate()}
+                                                )
         self.view.settings().set("syntax", PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF)
+        # TODO: force extension for saving. (Used to be: force_extension)
 
 
 class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
