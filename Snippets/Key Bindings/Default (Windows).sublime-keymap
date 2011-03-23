@@ -9,12 +9,12 @@
     "args": { "scope": "source.json",
               "name": "Packages/AAAPackageDev/Snippets/Key Bindings/Arguments to Command.sublime-snippet"}
   },
-  { "keys": ["c", "o", "n", "t", "e", "x", "t", "tab"],
+  { "keys": ["c", "t", "x", "tab"],
     "command": "insert_snippet",
     "args": { "scope": "source.json",
               "name": "Packages/AAAPackageDev/Snippets/Key Bindings/Context.sublime-snippet" }
   },
-  { "keys": ["c", "t", "x", "tab"],
+  { "keys": ["c", "tab"],
     "command": "insert_snippet",
     "args": { "scope": "source.json",
               "name": "Packages/AAAPackageDev/Snippets/Key Bindings/Context Entry.sublime-snippet" }

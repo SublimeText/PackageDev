@@ -4,7 +4,7 @@ import os
 import json2plist
 import uuid
 
-from sublime_lib.view import has_file_extension
+from sublime_lib.view import has_file_ext
 from sublime_lib.path import root_at_packages
 
 
@@ -16,30 +16,12 @@ PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF = 'Packages/AAAPackageDev/Support//Sublime JS
 PATH_TO_SUBLIME_KEY_MAP_SYNTAX_DEF = 'Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage'
 
 
-def build_path_relative_to_this_package(leaf):
-    return os.path.join(sublime.packages_path(),
-                        THIS_PACKAGE_NAME if not DEBUG else THIS_PACKAGE_DEV_NAME,
-                        leaf)
-
 # TODO: insert template as snippet, replace name with lowercased name.
 def get_syntax_def_boilerplate():
-    JSON_TEMPLATE = """{ "name": "${1:Untitled}",
-  "scopeName": "source.${1/./\\l/}", 
-  "fileTypes": ["ff", "fff"], 
-  "patterns": [
-      {"name": "keyword.control.${1/./\\l/}",
-       "match": "\\\\b(if|while|for|return)\\\\b"
-      },
-      {"name": "string.quoted.double.${1/./\\l/}",
-       "begin": "\\\"",
-       "beginCaptures": {"0": {"name": "definition.string.quoted.double.${1/./\\l/}" }},
-       "end": "\\\"",
-       "patterns": [
-            {"name": "constant.character.escape.${1/./\\l/}",
-             "match": "\\\\."
-            }
-       ]
-      } 
+    JSON_TEMPLATE = """{ "name": "${1:Syntax Name}",
+  "scopeName": "source.${2:syntax_name}", 
+  "fileTypes": ["$3"], 
+  "patterns": [$0
   ],
   "uuid": "%s"
 }"""
@@ -72,18 +54,22 @@ class JsonToTmlanguage(sublime_plugin.TextCommand):
           return
 
 
-class NewSyntaxDefCommand(sublime_plugin.TextCommand):
+class NewSyntaxDefCommand(sublime_plugin.WindowCommand):
     """Creates a new syntax definition file for Sublime Text in JSON format
     with some boilerplate text.
     """
 
-    def run(self, edit):
+    def run(self):
         # TODO: one_edit(view) context manager => Lib
-        grammar_view = self.view.window().new_file()
-        grammar_edit = grammar_view.begin_edit()
-        grammar_view.settings().set("syntax", PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF)
-        grammar_view.insert(grammar_edit, 0, get_syntax_def_boilerplate())
-        grammar_view.end_edit(grammar_edit)
+        target = self.window.new_file()
+        edit = target.begin_edit()
+        target.settings().set("syntax", PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF)
+        target.run_command('insert_snippet', {
+                                                'contents':
+                                                get_syntax_def_boilerplate()}
+                                                )
+        # target.insert(edit, 0, get_syntax_def_boilerplate())
+        target.end_edit(edit)
 
 
 class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
@@ -91,8 +77,12 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
     """
 
     def run(self, edit):
-        self.view.insert(edit, self.view.size(), get_syntax_def_boilerplate())
+        self.view.run_command('insert_snippet', {
+                                                'contents':
+                                                get_syntax_def_boilerplate()}
+                                                )
         self.view.settings().set("syntax", PATH_TO_JSON_TMLANGUAGE_SYNTAX_DEF)
+        # TODO: force extension for saving. (Used to be: force_extension)
 
 
 class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
@@ -101,24 +91,25 @@ class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
     """
 
     def on_load(self, view):
-      if has_file_extension(view, '.sublime-keymap'):
-          view.set_syntax_file('Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage')
+        if has_file_ext(view, '.sublime-keymap'):
+            view.set_syntax_file('Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage')
 
 
 class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
+    """Generates a ``.tmLanguage`` file from a ``.JSON-tmLanguage`` syntax def.
+    """
     def is_enabled(self):
-        return has_file_extension(self.window.active_view(), '.JSON-tmLanguage')
+        return has_file_ext(self.window.active_view(), '.JSON-tmLanguage')
 
     def run(self, **kwargs):
-        print "hello"
         v = self.window.active_view()
         path = v.file_name()
-        if not os.path.exists(path) or not has_file_extension(v, 'JSON-tmLanguage'):
+        if not (os.path.exists(path) and has_file_ext(v, 'JSON-tmLanguage')):
             print "[AAAPackageDev] Not a valid JSON-tmLanguage file. (%s)" % path
             return
 
         build_cmd = root_at_packages("AAAPackageDev/Support/make_tmlanguage.py")
-
-        file_regex = "Error:\\s+'(.*?)'\\s+.*?\\s+line\\s+(\\d+)\\s+column\\s+(\\d+)"
+        file_regex = r"Error:\s+'(.*?)'\s+.*?\s+line\s+(\d+)\s+column\s+(\d+)"
         cmd = ["python", build_cmd, path]
+
         self.window.run_command("exec", {"cmd": cmd, "file_regex": file_regex})

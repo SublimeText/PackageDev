@@ -1,3 +1,5 @@
 <snippet>
-	<content><![CDATA["args": { "$1": "$2"$0 }]]></content>
+	<content><![CDATA["args": {
+	"$1": "$2"$0
+}]]></content>
 </snippet>

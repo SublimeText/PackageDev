@@ -15,14 +15,23 @@ if not path_to_lib in sys.path:
 import sublime_lib.view as su_lib_view
 
 
-def test_has_file_extension():
+def test_has_file_ext():
     view = mock.Mock()
 
-    view.file_name.return_value = "xxx.zzz"
-    assert su_lib_view.has_file_extension(view, "zzz")
+    view.file_name.return_value = "foo.bar"
+    assert su_lib_view.has_file_ext(view, "bar")
 
     view.file_name.return_value = 'foo.'
-    assert not su_lib_view.has_file_extension(view, ".")
+    assert not su_lib_view.has_file_ext(view, ".")
 
     view.file_name.return_value = ''
-    assert not su_lib_view.has_file_extension(view, ".")    
+    assert not su_lib_view.has_file_ext(view, ".")
+
+    view.file_name.return_value = ''
+    assert not su_lib_view.has_file_ext(view, '')    
+
+    view.file_name.return_value = 'foo'
+    assert not su_lib_view.has_file_ext(view, '')
+
+    view.file_name.return_value = 'foo'
+    assert not su_lib_view.has_file_ext(view, 'foo')
