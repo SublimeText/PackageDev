@@ -75,6 +75,9 @@ class NewSyntaxDefCommand(sublime_plugin.WindowCommand):
 class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
     """Inserts boilerplate text for syntax defs into current view.
     """
+    def is_enabled(self):
+        # Don't mess up a non-empty buffer.
+        return self.view.size() == 0
 
     def run(self, edit):
         self.view.run_command('insert_snippet', {
