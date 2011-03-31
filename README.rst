@@ -17,8 +17,8 @@ Overview
 Getting Started
 ***************
 
-#. Download the `latest version`_ and double-click on `AAAPackageDev.sublime-package`.
-#. Access commands from ``Tools/Packages/Package Development``
+#. Download the `latest version`_ and double-click on ``AAAPackageDev.sublime-package``.
+#. Access commands from **Tools | Packages | Package Development**.
 
 .. _latest version: https://bitbucket.org/guillermooo/packagedev/downloads/AAAPackageDev.sublime-package
 
