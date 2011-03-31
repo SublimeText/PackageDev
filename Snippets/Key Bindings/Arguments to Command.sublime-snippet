@@ -2,4 +2,6 @@
 	<content><![CDATA["args": {
 	"$1": "$2"$0
 }]]></content>
+	<scope>source.sublime-keymap</scope>
+	<tabTrigger>args</tabTrigger>
 </snippet>
