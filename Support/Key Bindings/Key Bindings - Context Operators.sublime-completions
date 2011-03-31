@@ -1,5 +1,5 @@
 {
-	"scope": "context.operator.name.sublime-keymap",
+	"scope": "context.operator.name.sublimekeymap",
 
 	"completions": [
 			"equal",

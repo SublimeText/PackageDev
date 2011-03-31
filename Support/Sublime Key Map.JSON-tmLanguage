@@ -1,9 +1,16 @@
 { "name": "Sublime Key Map",
-  "scopeName": "source.sublimekeymap", 
+  "scopeName": "source.papapa", 
   "fileTypes": ["sublime-keymap"], 
   "patterns": [
-      { "begin": "\\[",
-        "end": "\\]",
+      { "begin": "(\\[)",
+        "beginCaptures": {
+            "1": { "name": "punctuation.definition.keybinding.collection.start.sublimekeymap" }
+        },
+        "end": "(\\])",
+        "endCaptures": {
+            "1": { "name": "punctuation.definition.keybinding.collection.end.sublimekeymap" }
+        },
+        
         "patterns": [
             { "include": "#keybinding" },
             { "match": "(?<!\\}),",
@@ -16,7 +23,7 @@
               "name": "invalid.illegal.keybinding.sublimekeymap"
             }
         ],
-        "name": "meta.keybinding.collection.sublimekeymap"
+        "contentName": "meta.keybinding.collection.sublimekeymap"
       }
   ],
   "repository": {
@@ -27,7 +34,7 @@
         "patterns": [
             { "begin": "\"(key)\"\\s*:",
               "end": "(?<=[a-z]\")",
-              "name": "meta.definition.keybinding.context.sublimekeymap",
+              "name": "meta.definition.keybinding.context.key.sublimekeymap",
               "beginCaptures": {
                   "1": { "name": "support.function.context.operand.marker.left.sublimekeymap" }
               },
@@ -105,8 +112,11 @@
       },
       "genericArray": {
           "begin":"\\[",
+          "beginCaptures": {
+              "1": { "name": "punctuation.definition.array.generic.start.sublimekeymap"}
+          },
           "end": "\\]",
-          "name": "meta.definition.array.generic.sublimekeymap",
+          "contentName": "meta.definition.array.generic.sublimekeymap",
           "patterns": [
               { "include": "#string"                
               },

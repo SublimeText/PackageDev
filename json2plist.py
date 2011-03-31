@@ -10,4 +10,5 @@ def make_grammar(json_grammar):
         tmlanguage = json.load(grammar_in_json)
 
     target = os.path.join(path, grammar_name + '.tmLanguage')
+    if os.path.exists(target): os.remove(target)
     plistlib.writePlist(tmlanguage, target)

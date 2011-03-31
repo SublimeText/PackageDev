@@ -1,5 +1,5 @@
 {
-  "scope": "context.operand.left.sublime-keymap",
+  "scope": "context.operand.left.sublimekeymap",
 
   "completions": [
       "num_selections",

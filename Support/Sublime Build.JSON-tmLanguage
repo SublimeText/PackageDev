@@ -1,5 +1,5 @@
 { "name": "Sublime Text Build System",
-  "scopeName": "source.sublime-build", 
+  "scopeName": "source.sublimebuild", 
   "fileTypes": ["sublime-build"], 
   "patterns": [
   		{ "name": "meta.definition.build-system",
@@ -17,7 +17,7 @@
   			"begin": "\"(cmd)\"\\s*:",
   			"end": "\\]",
   			"patterns": [
-  				{  "name": "punctuation.definition.arg.list.end.sublime-build",
+  				{  "name": "punctuation.definition.arg.list.end.sublimebuild",
   				   "match": "\\["
   				},
   				{ "include": "#genericArray" }
@@ -26,12 +26,12 @@
 	      "genericArray": {
 	          "begin":"\\[",
 	          "end": "\\]",
-	          "name": "meta.definition.array.generic.sublime-keymap",
+	          "name": "meta.definition.array.generic.sublimebuild",
 	          "patterns": [
 	              { "include": "#string"                
 	              },
 	              { "match": "[\\d\\.]+",
-	                "name": "constant.numeric.sublime-keymap"
+	                "name": "constant.numeric.sublimebuild"
 	              },              
 	              { "include": "#genericArray"
 	              }                        
@@ -43,11 +43,11 @@
           "patterns": [
               { "match": "(\\\\(?:\"|t|n|r))",
                 "captures": {
-                    "1": { "name": "constant.character.escape.sublime-keymap" }
+                    "1": { "name": "constant.character.escape.sublimebuild" }
                 }
               },
               { "match": ".",
-                "name": "string.sublime-keymap"
+                "name": "string.sublimebuild"
               }
           ]
       },
