@@ -17,8 +17,8 @@ Overview
 Getting Started
 ***************
 
-# Download the `latest version`_ and double-click on `AAAPackageDev.sublime-package`.
-# Access commands from ``Tools/Packages/Package Development``
+#. Download the `latest version`_ and double-click on `AAAPackageDev.sublime-package`.
+#. Access commands from ``Tools/Packages/Package Development``
 
 .. _latest version: https://bitbucket.org/guillermooo/packagedev/downloads/AAAPackageDev.sublime-package
 
@@ -55,10 +55,10 @@ Commands
 --------
 
 ``new_package()``
-	Prompts for a name and creates a new package skeleton in ``Packages``.
+	Window command. Prompts for a name and creates a new package skeleton in ``Packages``.
 
 ``delete_package()``
-	Opens file browser at ``Packages``.
+	Window command. Opens file browser at ``Packages``.
 
 
 .. Completions
