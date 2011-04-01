@@ -146,10 +146,15 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>"(key)"\s*:</string>
+					<string>(")(key)"\s*:</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.context.operand.left.sublimekeymap</string>
+						</dict>
+						<key>2</key>
 						<dict>
 							<key>name</key>
 							<string>support.function.context.operand.marker.left.sublimekeymap</string>
@@ -370,9 +375,25 @@
 		<key>keybinding</key>
 		<dict>
 			<key>begin</key>
-			<string>\{</string>
+			<string>(\{)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.meta.keybinding.definition.start.sublimekeymap</string>
+				</dict>
+			</dict>
 			<key>end</key>
-			<string>\}</string>
+			<string>(\})</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.meta.keybinding.definition.end.sublimekeymap</string>
+				</dict>
+			</dict>
 			<key>name</key>
 			<string>meta.keybinding.definition.sublimekeymap</string>
 			<key>patterns</key>
@@ -407,8 +428,6 @@
 					<string>keyword.other.sublimekeymap</string>
 				</dict>
 			</dict>
-			<key>contentName</key>
-			<string>meta.array.key.sequence.sublimekeymap</string>
 			<key>end</key>
 			<string>(\])</string>
 			<key>endCaptures</key>
@@ -419,8 +438,6 @@
 					<string>punctuation.definition.keybinding.array.key.sequence.end.sublimekeymap</string>
 				</dict>
 			</dict>
-			<key>name</key>
-			<string>meta.keybinding.definition.key.sequence.sublimekeymap</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -541,7 +558,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>source.papapa</string>
+	<string>source.keymap</string>
 	<key>uuid</key>
 	<string>f56e1baa-51fc-4791-a9d9-21301f2e3a01</string>
 </dict>

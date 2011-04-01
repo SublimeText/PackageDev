@@ -1,5 +1,5 @@
 { "name": "Sublime Key Map",
-  "scopeName": "source.papapa", 
+  "scopeName": "source.keymap", 
   "fileTypes": ["sublime-keymap"], 
   "patterns": [
       { "begin": "(\\[)",
@@ -32,11 +32,12 @@
         "begin": "\\{",
         "end": "\\}",
         "patterns": [
-            { "begin": "\"(key)\"\\s*:",
+            { "begin": "(\")(key)\"\\s*:",
               "end": "(?<=[a-z]\")",
               "name": "meta.definition.keybinding.context.key.sublimekeymap",
               "beginCaptures": {
-                  "1": { "name": "support.function.context.operand.marker.left.sublimekeymap" }
+                  "1": { "name": "punctuation.definition.context.operand.left.sublimekeymap" },
+                  "2": { "name": "support.function.context.operand.marker.left.sublimekeymap" }
               },
               "patterns": [
                   { "begin": "\"",
@@ -192,7 +193,6 @@
         "endCaptures": {
             "1": { "name": "punctuation.definition.keybinding.array.key.sequence.end.sublimekeymap" }
         },
-        "name": "meta.keybinding.definition.key.sequence.sublimekeymap",
         "patterns": [
             { "begin": "(\")",
               "beginCaptures": {
@@ -233,8 +233,7 @@
             { "match": "\\[",
               "name": "punctuation.definition.keybinding.array.key.sequence.start.sublimekeymap"
             }
-        ],
-        "contentName": "meta.array.key.sequence.sublimekeymap"
+        ]
       },
       "command": { 
           "match": "\"(command)\":\\s*\"([a-zA-Z_]+)\"",
@@ -244,8 +243,14 @@
           }
       },      
       "keybinding": {
-          "begin": "\\{",
-          "end": "\\}",
+          "begin": "(\\{)",
+          "beginCaptures": {
+              "1": { "name": "punctuation.meta.keybinding.definition.start.sublimekeymap" }
+          },
+          "endCaptures": {
+              "1": { "name": "punctuation.meta.keybinding.definition.end.sublimekeymap" }
+          },
+          "end": "(\\})",
           "name": "meta.keybinding.definition.sublimekeymap",
           "patterns": [
               { "include": "#keys" },
