@@ -43,19 +43,27 @@
 					<key>match</key>
 					<string>(?&lt;!\}),</string>
 					<key>name</key>
-					<string>invalid.illegal.keybinding.sublimekeymap</string>
+					<string>invalid.illegal.keybinding.definition.sublimekeymap</string>
 				</dict>
 				<dict>
 					<key>match</key>
 					<string>,{2,}</string>
 					<key>name</key>
-					<string>invalid.illegal.keybinding.sublimekeymap</string>
+					<string>invalid.illegal.keybinding.definition.sublimekeymap</string>
 				</dict>
 				<dict>
 					<key>match</key>
 					<string>[^,\t\s]</string>
 					<key>name</key>
-					<string>invalid.illegal.keybinding.sublimekeymap</string>
+					<string>invalid.illegal.keybinding.definition.sublimekeymap</string>
+				</dict>
+				<dict>
+					<key>comment</key>
+					<string>XXX</string>
+					<key>match</key>
+					<string>,(?&gt;$\s+\])</string>
+					<key>name</key>
+					<string>invalid.illegal.keybinding.definition.sublimekeymap</string>
 				</dict>
 			</array>
 		</dict>
@@ -71,15 +79,13 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.keymap.dictionary.keybinding.sublimekeymap</string>
+					<string>keyword.other.sublimekeymap</string>
 				</dict>
 			</dict>
-			<key>contentName</key>
-			<string>meta.sequence.keys.sublimekeymap</string>
 			<key>end</key>
-			<string>\}</string>
+			<string>(?&lt;=\})</string>
 			<key>name</key>
-			<string>meta.keymap.keybinding.sequence.sublimekeymap</string>
+			<string>meta.definition.attached.command.arguments.sublimekeymap</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -123,12 +129,12 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.keymap.dictionary.keybinding.sublimekeymap</string>
+					<string>keyword.other.sublimekeymap</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>string.keybinding.attached.command.name.sublimekeymap</string>
+					<string>string.attached.command.name.sublimekeymap</string>
 				</dict>
 			</dict>
 			<key>match</key>
@@ -141,7 +147,7 @@
 			<key>end</key>
 			<string>\}</string>
 			<key>name</key>
-			<string>meta.definition.keybinding.context.sublimekeymap</string>
+			<string>meta.definition.context.sublimekeymap</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -163,7 +169,7 @@
 					<key>end</key>
 					<string>(?&lt;=[a-z]")</string>
 					<key>name</key>
-					<string>meta.definition.keybinding.context.key.sublimekeymap</string>
+					<string>meta.definition.context.condition.sublimekeymap</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -187,7 +193,7 @@
 									<key>match</key>
 									<string>auto_complete_visible|selection_empty|(?:preceding|following)_text|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)</string>
 									<key>name</key>
-									<string>keyword</string>
+									<string>keyword.sublimekeymap</string>
 								</dict>
 							</array>
 						</dict>
@@ -287,20 +293,20 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.function.context.match-all.marker.sublimekeymap</string>
+							<string>support.function.context.matchall.marker.sublimekeymap</string>
 						</dict>
 					</dict>
 					<key>end</key>
 					<string>(?&lt;=true|false)</string>
 					<key>name</key>
-					<string>keybinding.context.match-all.option.sublimekeymap</string>
+					<string>keybinding.context.matchall.option.sublimekeymap</string>
 					<key>patterns</key>
 					<array>
 						<dict>
 							<key>match</key>
 							<string>true|false</string>
 							<key>name</key>
-							<string>constant.numeric.context.match-all.option.value.sublimekeymap</string>
+							<string>constant.numeric.context.matchall.option.value.sublimekeymap</string>
 						</dict>
 					</array>
 				</dict>
@@ -315,26 +321,29 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.keybinding.contexts.sublimekeymap</string>
+					<string>keyword.other.sublimekeymap</string>
 				</dict>
 			</dict>
-			<key>contentName</key>
-			<string>meta.contexts.keys.sublimekeymap</string>
 			<key>end</key>
-			<string>\]</string>
+			<string>(?&lt;=\])</string>
 			<key>name</key>
-			<string>meta.keymap.dictionary.contexts.keybinding.sequence.sublimekeymap</string>
+			<string>meta.definition.context.sublimekeymap</string>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>include</key>
-					<string>#context</string>
-				</dict>
-				<dict>
-					<key>match</key>
+					<key>begin</key>
 					<string>\[</string>
-					<key>name</key>
-					<string>punctuation.definition.array.keybinding.key.sequence</string>
+					<key>contentName</key>
+					<string>meta.definition.context.array.sublimekeymap</string>
+					<key>end</key>
+					<string>\]</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#context</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
@@ -429,102 +438,105 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>(\])</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.keybinding.array.key.sequence.end.sublimekeymap</string>
-				</dict>
-			</dict>
+			<string>,</string>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(")</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.keybinding.definition.key.sequence.start.sublimekeymap</string>
-						</dict>
-					</dict>
-					<key>contentName</key>
-					<string>meta.key.sequence.sublimekeymap</string>
+					<string>\[</string>
 					<key>end</key>
-					<string>(?&lt;!\\)(")</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.keybinding.definition.key.sequence.end.sublime.keymap</string>
-						</dict>
-					</dict>
+					<string>\]</string>
+					<key>name</key>
+					<string>meta.array.key.sequence.sublimekeymap</string>
 					<key>patterns</key>
 					<array>
 						<dict>
-							<key>match</key>
-							<string>(?&lt;!shift|ctrl|alt|super|\+)\+</string>
-							<key>name</key>
-							<string>invalid.illegal.key.sequence.sublimekeymap</string>
-						</dict>
-						<dict>
-							<key>captures</key>
+							<key>begin</key>
+							<string>(")</string>
+							<key>beginCaptures</key>
 							<dict>
 								<key>1</key>
 								<dict>
 									<key>name</key>
-									<string>support.function.modifier.key.sublimekeymap</string>
-								</dict>
-								<key>2</key>
-								<dict>
-									<key>name</key>
-									<string>keyword.modifier.key.connector.sublimekeymap</string>
+									<string>punctuation.keybinding.definition.key.sequence.start.sublimekeymap</string>
 								</dict>
 							</dict>
-							<key>match</key>
-							<string>(shift|ctrl|alt|super)(\+)</string>
+							<key>contentName</key>
+							<string>meta.key.sequence.sublimekeymap</string>
+							<key>end</key>
+							<string>(?&lt;!\\)(")</string>
+							<key>endCaptures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>punctuation.keybinding.definition.key.sequence.end.sublime.keymap</string>
+								</dict>
+							</dict>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>match</key>
+									<string>(?&lt;!shift|ctrl|alt|super|\+)\+</string>
+									<key>name</key>
+									<string>invalid.illegal.key.sequence.sublimekeymap</string>
+								</dict>
+								<dict>
+									<key>captures</key>
+									<dict>
+										<key>1</key>
+										<dict>
+											<key>name</key>
+											<string>support.function.modifier.key.sublimekeymap</string>
+										</dict>
+										<key>2</key>
+										<dict>
+											<key>name</key>
+											<string>keyword.modifier.key.connector.sublimekeymap</string>
+										</dict>
+									</dict>
+									<key>match</key>
+									<string>(shift|ctrl|alt|super)(\+)</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>f(?:[2-9]\d+|\d{3,})</string>
+									<key>name</key>
+									<string>invalid.illegal.key.sublimekeymap</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|f(20|1[0-9]|[1-9])</string>
+									<key>name</key>
+									<string>entity.other.attribute-name.key.named.sublimekeymap</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>[a-z0-9,;.:_=+-]{2,}</string>
+									<key>name</key>
+									<string>invalid.illegal.key.sublimekeymap</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>[^A-Z]</string>
+									<key>name</key>
+									<string>string.key.literal.sublimekeymap</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>.</string>
+									<key>name</key>
+									<string>invalid.illegal.key.sublimekeymap</string>
+								</dict>
+							</array>
 						</dict>
 						<dict>
 							<key>match</key>
-							<string>f(?:[2-9]\d+|\d{3,})</string>
+							<string>[^\s,]</string>
 							<key>name</key>
-							<string>invalid.illegal.key.sublimekeymap</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|f(20|1[0-9]|[1-9])</string>
-							<key>name</key>
-							<string>entity.other.attribute-name.key.named.sublimekeymap</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>[a-z0-9,;.:_=+-]{2,}</string>
-							<key>name</key>
-							<string>invalid.illegal.key.sublimekeymap</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>[^A-Z]</string>
-							<key>name</key>
-							<string>string.key.literal.sublimekeymap</string>
-						</dict>
-						<dict>
-							<key>match</key>
-							<string>.</string>
-							<key>name</key>
-							<string>invalid.illegal.key.sublimekeymap</string>
+							<string>invalid.illegal.key.sequence.sublimekeymap</string>
 						</dict>
 					</array>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\[</string>
-					<key>name</key>
-					<string>punctuation.definition.keybinding.array.key.sequence.start.sublimekeymap</string>
 				</dict>
 			</array>
 		</dict>
