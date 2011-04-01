@@ -470,7 +470,7 @@
 								<key>1</key>
 								<dict>
 									<key>name</key>
-									<string>punctuation.keybinding.definition.key.sequence.end.sublime.keymap</string>
+									<string>punctuation.keybinding.definition.key.sequence.end.sublime.sublimekeymap</string>
 								</dict>
 							</dict>
 							<key>patterns</key>
@@ -570,7 +570,7 @@
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>source.keymap</string>
+	<string>source.sublimekeymap</string>
 	<key>uuid</key>
 	<string>f56e1baa-51fc-4791-a9d9-21301f2e3a01</string>
 </dict>
