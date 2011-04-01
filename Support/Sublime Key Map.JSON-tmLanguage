@@ -1,5 +1,5 @@
 { "name": "Sublime Key Map",
-  "scopeName": "source.keymap", 
+  "scopeName": "source.sublimekeymap", 
   "fileTypes": ["sublime-keymap"], 
   "patterns": [
       { "begin": "(\\[)",
@@ -206,7 +206,7 @@
                   },
                   "end": "(?<!\\\\)(\")",
                   "endCaptures": {
-                      "1": { "name": "punctuation.keybinding.definition.key.sequence.end.sublime.keymap" }
+                      "1": { "name": "punctuation.keybinding.definition.key.sequence.end.sublime.sublimekeymap" }
                   },
                   "patterns": [
                       { "match": "(?<!shift|ctrl|alt|super|\\+)\\+",
