@@ -45,7 +45,7 @@ Creating a New Syntax Definition
 
 #. Create new template with any of the above commands
 #. Select *Json to tmLanguage* build system
-#. Press *F7*
+#. Press ``F7``
 
 
 Packages
