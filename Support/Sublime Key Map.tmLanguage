@@ -271,6 +271,16 @@
 								</dict>
 								<dict>
 									<key>match</key>
+									<string>\\(?&gt;\\)</string>
+									<key>name</key>
+									<string>constant.character.escape.context.operand.value.right.sublimekeymap</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>source.regexp</string>
+								</dict>
+								<dict>
+									<key>match</key>
 									<string>.</string>
 									<key>name</key>
 									<string>string.context.operand.value.right.sublimekeymap</string>

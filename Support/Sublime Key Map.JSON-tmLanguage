@@ -90,7 +90,11 @@
                     "patterns": [
                         { "match": "\\\\\"",
                           "name": "constant.character.escape.context.operand.value.right.sublimekeymap"
-                        },                    
+                        },
+                        { "match": "\\\\(?>\\\\)",
+                          "name": "constant.character.escape.context.operand.value.right.sublimekeymap"
+                        },                        
+                        { "include": "source.regexp" },
                         { "match": ".",
                           "name": "string.context.operand.value.right.sublimekeymap"
                         }
