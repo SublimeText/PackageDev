@@ -1,9 +1,3 @@
-# delete manifest
-# generate html docs
-# generate package
-# copy path to package
-# open chrome
-
 $here = $MyInvocation.MyCommand.Definition
 $here = split-path $here -parent
 $root = resolve-path (join-path $here "..")
