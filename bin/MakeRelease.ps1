@@ -7,6 +7,7 @@ $root = resolve-path (join-path $here "..")
 push-location $root
 	if (-not (test-path (join-path $root "Doc"))) {
 		new-item -itemtype "d" -name "Doc" > $null
+		copy-item ".\Data\main.css" ".\Doc"
 	}
 
 	# Generate docs in html from rst.

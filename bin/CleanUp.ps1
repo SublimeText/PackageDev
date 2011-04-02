@@ -6,5 +6,6 @@ push-location $root
 	# remove-item cmdlet doesn't work well!
 	get-childitem "." -recurse -filter "*.pyc" | remove-item
 	remove-item "dist" -recurse -force
+	remove-item "Doc" -recurse
 	remove-item "MANIFEST"
 pop-location
