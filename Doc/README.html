@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.6: http://docutils.sourceforge.net/" />
+<title>PackageDev</title>
+<link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="packagedev">
+<h1 class="title">PackageDev</h1>
+
+<p>A collection of utilities for Sublime Text package developers.</p>
+<p>status: beta</p>
+<div class="section" id="overview">
+<h1>Overview</h1>
+<ul class="simple">
+<li>Tools for creating syntax definitions</li>
+<li>Tools for creating new packages</li>
+<li>Misc tools</li>
+</ul>
+</div>
+<div class="section" id="getting-started">
+<h1>Getting Started</h1>
+<ol class="arabic simple">
+<li>Download the <a class="reference external" href="https://bitbucket.org/guillermooo/packagedev/downloads/AAAPackageDev.sublime-package">latest version</a> and double-click on <tt class="docutils literal"><span class="pre">AAAPackageDev.sublime-package</span></tt>.</li>
+<li>Access commands from <strong>Tools | Packages | Package Development</strong>.</li>
+</ol>
+</div>
+<div class="section" id="syntax-definitions">
+<h1>Syntax Definitions</h1>
+<div class="section" id="commands">
+<h2>Commands</h2>
+<dl class="docutils">
+<dt><tt class="docutils literal">new_syntax_def()</tt></dt>
+<dd>Window command. Creates a new <tt class="docutils literal"><span class="pre">.JSON-tmLanguage</span></tt> file.</dd>
+<dt><tt class="docutils literal">new_syntax_def_from_buffer()</tt></dt>
+<dd>Text command. Inserts JSON-based template for syntax definitions into the
+active view buffer.</dd>
+<dt><tt class="docutils literal">make_tmlanguage()</tt></dt>
+<dd>Window command. Generates <tt class="docutils literal">.tmLanguage</tt> from <tt class="docutils literal"><span class="pre">.JSON-tmLanguage</span></tt> from
+active buffer. Intended for use in build systems.</dd>
+</dl>
+</div>
+<div class="section" id="build-systems">
+<h2>Build Systems</h2>
+<ul class="simple">
+<li><tt class="docutils literal">Json to tmLanguage</tt></li>
+</ul>
+</div>
+<div class="section" id="creating-a-new-syntax-definition">
+<h2>Creating a New Syntax Definition</h2>
+<ol class="arabic simple">
+<li>Create new template with any of the above commands</li>
+<li>Select <tt class="docutils literal">Json to tmLanguage</tt> build system</li>
+<li>Press <tt class="docutils literal">F7</tt></li>
+</ol>
+</div>
+</div>
+<div class="section" id="packages">
+<h1>Packages</h1>
+<div class="section" id="id1">
+<h2>Commands</h2>
+<dl class="docutils">
+<dt><tt class="docutils literal">new_package()</tt></dt>
+<dd>Window command. Prompts for a name and creates a new package skeleton in <tt class="docutils literal">Packages</tt>.</dd>
+<dt><tt class="docutils literal">delete_package()</tt></dt>
+<dd>Window command. Opens file browser at <tt class="docutils literal">Packages</tt>.</dd>
+</dl>
+<!-- Completions -->
+<!-- - - - - - - - - - - - -->
+<!--  -->
+<!-- * sublime text plugin dev (off by default) -->
+<!-- Will clutter your completions list in any kind of python dev. -->
+<!-- To turn on, change scope selector so ``source.python``. -->
+</div>
+</div>
+<div class="section" id="key-bindings">
+<h1>Key Bindings</h1>
+<p>PackageDev includes a comprehensive syntax definition for <tt class="docutils literal"><span class="pre">.sublime-keymap</span></tt>
+files, in addition to smart completions and snippets for key map development.</p>
+</div>
+<div class="section" id="sublime-library">
+<h1>Sublime Library</h1>
+<p>PackageDev includes <tt class="docutils literal">sublime_lib</tt>, a Python package with utilities for
+plugin developers.</p>
+</div>
+</div>
+</body>
+</html>

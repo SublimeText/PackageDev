@@ -1,9 +1,9 @@
-PackageDev: Development Tools for Sublime Text Packages
-=======================================================
+PackageDev
+==========
 
 A collection of utilities for Sublime Text package developers.
 
-status: alpha
+status: beta
 
 
 Overview
@@ -40,6 +40,11 @@ Commands
 	Window command. Generates ``.tmLanguage`` from ``.JSON-tmLanguage`` from
 	active buffer. Intended for use in build systems.
 
+Build Systems
+-------------
+
+* ``Json to tmLanguage``
+
 Creating a New Syntax Definition
 ------------------------------------
 
@@ -72,12 +77,12 @@ Commands
 Key Bindings
 ************
 
-*PackageDev* includes a comprehensive syntax definition for ``.sublime-keymap``
+PackageDev includes a comprehensive syntax definition for ``.sublime-keymap``
 files, in addition to smart completions and snippets for key map development.
 
 
 Sublime Library
 ***************
 
-*PackageDev* includes ``sublime_lib``, a Python package with utilities for
+PackageDev includes ``sublime_lib``, a Python package with utilities for
 plugin developers.
