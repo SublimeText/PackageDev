@@ -10,4 +10,5 @@ MANIFEST
 
 dist/
 build/
+data/
 Doc/
