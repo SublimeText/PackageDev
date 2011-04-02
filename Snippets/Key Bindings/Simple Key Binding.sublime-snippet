@@ -3,4 +3,6 @@
 	"keys": ["${1:ctrl+shift+h}"],
 	"command": "${2:foo_bar}"$0
 }]]></content>
+	<scope>source.sublimekeymap</scope>
+	<tabTrigger>k</tabTrigger>
 </snippet>

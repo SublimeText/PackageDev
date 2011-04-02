@@ -1,45 +1,57 @@
 { "name": "Sublime Key Map",
-  "scopeName": "source.sublime-keymap", 
+  "scopeName": "source.sublimekeymap", 
   "fileTypes": ["sublime-keymap"], 
   "patterns": [
-      { "begin": "\\[",
-        "end": "\\]",
+      { "begin": "(\\[)",
+        "beginCaptures": {
+            "1": { "name": "punctuation.definition.keybinding.collection.start.sublimekeymap" }
+        },
+        "end": "(\\])",
+        "endCaptures": {
+            "1": { "name": "punctuation.definition.keybinding.collection.end.sublimekeymap" }
+        },
+        
         "patterns": [
             { "include": "#keybinding" },
             { "match": "(?<!\\}),",
-              "name": "invalid.illegal.keybinding.sublime-keymap"
+              "name": "invalid.illegal.keybinding.definition.sublimekeymap"
             },            
             { "match": ",{2,}",
-              "name": "invalid.illegal.keybinding.sublime-keymap"
+              "name": "invalid.illegal.keybinding.definition.sublimekeymap"
             },
             { "match": "[^,\\t\\s]",
-              "name": "invalid.illegal.keybinding.sublime-keymap"
+              "name": "invalid.illegal.keybinding.definition.sublimekeymap"
+            },
+            {  "name": "invalid.illegal.keybinding.definition.sublimekeymap",
+               "match": ",(?>$\\s+\\])",
+               "comment": "XXX"
             }
         ],
-        "name": "meta.keybinding.collection.sublime-keymap"
+        "contentName": "meta.keybinding.collection.sublimekeymap"
       }
   ],
   "repository": {
       "context": {
-        "name": "meta.definition.keybinding.context.sublime-keymap",
+        "name": "meta.definition.context.sublimekeymap",
         "begin": "\\{",
         "end": "\\}",
         "patterns": [
-            { "begin": "\"(key)\"\\s*:",
+            { "begin": "(\")(key)\"\\s*:",
               "end": "(?<=[a-z]\")",
-              "name": "meta.definition.keybinding.context.sublime-keymap",
+              "name": "meta.definition.context.condition.sublimekeymap",
               "beginCaptures": {
-                  "1": { "name": "support.function.context.operand.marker.left.sublime-keymap" }
+                  "1": { "name": "punctuation.definition.context.operand.left.sublimekeymap" },
+                  "2": { "name": "support.function.context.operand.marker.left.sublimekeymap" }
               },
               "patterns": [
                   { "begin": "\"",
                     "end": "\"",
-                    "contentName": "context.operand.left.sublime-keymap",
+                    "contentName": "context.operand.left.sublimekeymap",
                     "patterns": [
                         { "match": "auto_complete_visible|selection_empty|(?:preceding|following)_text|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)",
-                          "name": "keyword",
+                          "name": "keyword.sublimekeymap",
                           "captures": {
-                              "1": { "name": "string.context.operand.value.left.sublime-keymap" }
+                              "1": { "name": "string.context.operand.value.left.sublimekeymap" }
                           }
                         }
                     ]
@@ -48,17 +60,17 @@
             },
             { "begin": "\"(operator)\"\\s*:",
               "end": "(?<=[a-z]\")",
-              "name": "context.operator.sublime-keymap",
+              "name": "context.operator.sublimekeymap",
               "beginCaptures": {
-                  "1": { "name": "support.function.context.operator.marker.sublime-keymap" }
+                  "1": { "name": "support.function.context.operator.marker.sublimekeymap" }
               },
               "patterns": [
                   { "begin": "\"",
                     "end": "\"",
-                    "contentName": "context.operator.name.sublime-keymap",
+                    "contentName": "context.operator.name.sublimekeymap",
                     "patterns": [
                         { "match": "(?:not_)?equal|(?:not_)?regex_(?:match|contains)",
-                          "name": "keyword.other.context.operator.name.sublime-keymap"
+                          "name": "keyword.other.context.operator.name.sublimekeymap"
                         }
                     ]
                   }
@@ -66,38 +78,42 @@
             },
             { "begin": "\"(operand)\"\\s*:",
               "end": "(?<=.\"|true|false|[0-9])",
-              "name": "meta.context.operand.right.sublime-keymap",
-              "contentName": "context.operand.right.sublime-keymap",
+              "name": "meta.context.operand.right.sublimekeymap",
+              "contentName": "context.operand.right.sublimekeymap",
               "beginCaptures": {
-                  "1": { "name": "support.function.context.operand.marker.right.sublime-keymap" }
+                  "1": { "name": "support.function.context.operand.marker.right.sublimekeymap" }
               },
               "patterns": [
                   { "begin": "\"",
                     "end": "\"",
-                    "contentName": "context.operand.right.sublime-keymap",
+                    "contentName": "context.operand.right.sublimekeymap",
                     "patterns": [
                         { "match": "\\\\\"",
-                          "name": "constant.character.escape.context.operand.value.right.sublime-keymap"
-                        },                    
+                          "name": "constant.character.escape.context.operand.value.right.sublimekeymap"
+                        },
+                        { "match": "\\\\(?>\\\\)",
+                          "name": "constant.character.escape.context.operand.value.right.sublimekeymap"
+                        },                        
+                        { "include": "source.regexp" },
                         { "match": ".",
-                          "name": "string.context.operand.value.right.sublime-keymap"
+                          "name": "string.context.operand.value.right.sublimekeymap"
                         }
                     ]
                   },
                   { "match": "true|false|[0-9]",
-                    "name": "constant.numeric.context.operand.value.right.sublime-keymap"
+                    "name": "constant.numeric.context.operand.value.right.sublimekeymap"
                   }
               ]
             },
             { "begin": "\"(match_all)\"\\s*:",
               "end": "(?<=true|false)",
-              "name": "keybinding.context.match-all.option.sublime-keymap",
+              "name": "keybinding.context.matchall.option.sublimekeymap",
               "beginCaptures": {
-                  "1": { "name": "support.function.context.match-all.marker.sublime-keymap" }
+                  "1": { "name": "support.function.context.matchall.marker.sublimekeymap" }
               },
               "patterns": [
                   { "match": "true|false",
-                    "name": "constant.numeric.context.match-all.option.value.sublime-keymap"
+                    "name": "constant.numeric.context.matchall.option.value.sublimekeymap"
                   }
               ]
             }
@@ -105,13 +121,16 @@
       },
       "genericArray": {
           "begin":"\\[",
+          "beginCaptures": {
+              "1": { "name": "punctuation.definition.array.generic.start.sublimekeymap"}
+          },
           "end": "\\]",
-          "name": "meta.definition.array.generic.sublime-keymap",
+          "contentName": "meta.definition.array.generic.sublimekeymap",
           "patterns": [
               { "include": "#string"                
               },
               { "match": "[\\d\\.]+",
-                "name": "constant.numeric.sublime-keymap"
+                "name": "constant.numeric.sublimekeymap"
               },              
               { "include": "#genericArray"
               }                        
@@ -123,120 +142,128 @@
           "patterns": [
               { "match": "(\\\\(?:\"|t|n|r))",
                 "captures": {
-                    "1": { "name": "constant.character.escape.sublime-keymap" }
+                    "1": { "name": "constant.character.escape.sublimekeymap" }
                 }
               },
               { "match": ".",
-                "name": "string.sublime-keymap"
+                "name": "string.sublimekeymap"
               }
           ]
       },
       "contextDef": { 
         "begin": "\"(context)\"\\s*:",
         "beginCaptures": {
-            "1": { "name": "keyword.keybinding.contexts.sublime-keymap"}
+            "1": { "name": "keyword.other.sublimekeymap"}
         },
-        "end": "\\]",
-        "name": "meta.keymap.dictionary.contexts.keybinding.sequence.sublime-keymap",
+        "end": "(?<=\\])",
+        "name": "meta.definition.context.sublimekeymap",
         "patterns": [
-            { "include": "#context" },
-            { "match": "\\[",
-              "name": "punctuation.definition.array.keybinding.key.sequence"
+            { "contentName": "meta.definition.context.array.sublimekeymap",
+              "begin": "\\[",
+              "end": "\\]",
+              "patterns": [
+                  { "include": "#context" }
+              ]
             }
-        ],
-        "contentName": "meta.contexts.keys.sublime-keymap"
+        ]
       },
       "args": {
         "begin": "\"(args)\"\\s*:",
         "beginCaptures": {
-            "1": { "name": "keyword.keymap.dictionary.keybinding.sublime-keymap"}
+            "1": { "name": "keyword.other.sublimekeymap"}
         },
-        "end": "\\}",
-        "name": "meta.keymap.keybinding.sequence.sublime-keymap",
+        "end": "(?<=\\})",
+        "name": "meta.definition.attached.command.arguments.sublimekeymap",
         "patterns": [
             { "include": "#genericArray"
             },
             { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
               "captures": {
-                  "1": { "name": "support.function.array.generic.key.sublime-keymap" }
+                  "1": { "name": "support.function.array.generic.key.sublimekeymap" }
               }
             },
             { "include": "#string"
             },
             { "match": "true|false|\\d+",
-              "name": "constant.numeric.sublime-keymap"
+              "name": "constant.numeric.sublimekeymap"
             },   
 
             { "match": "\\{",
               "name": "punctuation.definition.array.keybinding.key.sequence"
             }
-        ],
-        "contentName": "meta.sequence.keys.sublime-keymap"
+        ]
       },
       "keys": {
         "begin": "\"(keys)\"\\s*:",
         "beginCaptures": {
-            "1": { "name": "keyword.other.sublime-keymap"}
+            "1": { "name": "keyword.other.sublimekeymap"}
         },
-        "end": "(\\])",
-        "endCaptures": {
-            "1": { "name": "punctuation.definition.keybinding.array.key.sequence.end.sublime-keymap" }
-        },
-        "name": "meta.keybinding.definition.key.sequence.sublime-keymap",
+        "end": ",",
         "patterns": [
-            { "begin": "(\")",
-              "beginCaptures": {
-                  "1": { "name": "punctuation.keybinding.definition.key.sequence.start.sublime-keymap" }
-              },
-              "end": "(?<!\\\\)(\")",
-              "endCaptures": {
-                  "1": { "name": "punctuation.keybinding.definition.key.sequence.end.sublime.keymap" }
-              },
+            { "begin": "\\[",
+              "end": "\\]",
+              "name": "meta.array.key.sequence.sublimekeymap",
               "patterns": [
-                  { "match": "(?<!shift|ctrl|alt|super|\\+)\\+",
-                    "name": "invalid.illegal.key.sequence.sublime-keymap"
+                { "begin": "(\")",
+                  "beginCaptures": {
+                      "1": { "name": "punctuation.keybinding.definition.key.sequence.start.sublimekeymap" }
                   },
-                  { "match": "(shift|ctrl|alt|super)(\\+)",
-                    "captures": {
-                        "1": { "name": "support.function.modifier.key.sublime-keymap" },
-                        "2": { "name": "keyword.modifier.key.connector.sublime-keymap" }
-                    }
+                  "end": "(?<!\\\\)(\")",
+                  "endCaptures": {
+                      "1": { "name": "punctuation.keybinding.definition.key.sequence.end.sublime.sublimekeymap" }
                   },
-                  { "match": "f(?:[2-9]\\d+|\\d{3,})",
-                    "name": "invalid.illegal.key.sublime-keymap"
-                  },                                    
-                  { "match": "up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|f(20|1[0-9]|[1-9])",
-                    "name": "entity.other.attribute-name.key.named.sublime-keymap"
+                  "patterns": [
+                      { "match": "(?<!shift|ctrl|alt|super|\\+)\\+",
+                        "name": "invalid.illegal.key.sequence.sublimekeymap"
+                      },
+                      { "match": "(shift|ctrl|alt|super)(\\+)",
+                        "captures": {
+                            "1": { "name": "support.function.modifier.key.sublimekeymap" },
+                            "2": { "name": "keyword.modifier.key.connector.sublimekeymap" }
+                        }
+                      },
+                      { "match": "f(?:[2-9]\\d+|\\d{3,})",
+                        "name": "invalid.illegal.key.sublimekeymap"
+                      },                                    
+                      { "match": "up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|f(20|1[0-9]|[1-9])",
+                        "name": "entity.other.attribute-name.key.named.sublimekeymap"
+                      },
+                      { "match": "[a-z0-9,;.:_=+-]{2,}",
+                        "name": "invalid.illegal.key.sublimekeymap"
+                      },                                                      
+                      { "match": "[^A-Z]",
+                        "name": "string.key.literal.sublimekeymap"
+                      },
+                      { "match": ".",
+                        "name": "invalid.illegal.key.sublimekeymap"
+                      }
+                  ],
+                  "contentName": "meta.key.sequence.sublimekeymap"            
                   },
-                  { "match": "[a-z0-9,;.:_=+-]{2,}",
-                    "name": "invalid.illegal.key.sublime-keymap"
-                  },                                                      
-                  { "match": "[^A-Z]",
-                    "name": "string.key.literal.sublime-keymap"
-                  },
-                  { "match": ".",
-                    "name": "invalid.illegal.key.sublime-keymap"
-                  }            
-              ],
-              "contentName": "meta.key.sequence.sublime-keymap"            
-            },
-            { "match": "\\[",
-              "name": "punctuation.definition.keybinding.array.key.sequence.start.sublime-keymap"
+                  {  "name": "invalid.illegal.key.sequence.sublimekeymap",
+                     "match": "[^\\s,]"
+                  }
+              ]
             }
-        ],
-        "contentName": "meta.array.key.sequence.sublime-keymap"
+        ]
       },
       "command": { 
           "match": "\"(command)\":\\s*\"([a-zA-Z_]+)\"",
           "captures": {
-              "1": { "name": "keyword.keymap.dictionary.keybinding.sublime-keymap" },
-              "2": { "name": "string.keybinding.attached.command.name.sublime-keymap" }
+              "1": { "name": "keyword.other.sublimekeymap" },
+              "2": { "name": "string.attached.command.name.sublimekeymap" }
           }
       },      
       "keybinding": {
-          "begin": "\\{",
-          "end": "\\}",
-          "name": "meta.keybinding.definition.sublime-keymap",
+          "begin": "(\\{)",
+          "beginCaptures": {
+              "1": { "name": "punctuation.meta.keybinding.definition.start.sublimekeymap" }
+          },
+          "endCaptures": {
+              "1": { "name": "punctuation.meta.keybinding.definition.end.sublimekeymap" }
+          },
+          "end": "(\\})",
+          "name": "meta.keybinding.definition.sublimekeymap",
           "patterns": [
               { "include": "#keys" },
               { "include": "#command" },

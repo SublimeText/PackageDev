@@ -88,16 +88,6 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
         # TODO: force extension for saving. (Used to be: force_extension)
 
 
-class ApplyPackageDevSyntaxDef(sublime_plugin.EventListener):
-    """Applies custom syntax definitions for several Sublime file types
-    overriding the build-in behavior.
-    """
-
-    def on_load(self, view):
-        if has_file_ext(view, '.sublime-keymap'):
-            view.set_syntax_file('Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage')
-
-
 class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
     """Generates a ``.tmLanguage`` file from a ``.JSON-tmLanguage`` syntax def.
     """

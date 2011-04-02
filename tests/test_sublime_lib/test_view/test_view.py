@@ -35,3 +35,10 @@ def test_has_file_ext():
 
     view.file_name.return_value = 'foo'
     assert not su_lib_view.has_file_ext(view, 'foo')
+
+
+def test_has_sels():
+    view = mock.Mock()
+    view.sel.return_value = range(1)
+
+    assert su_lib_view.has_sels(view)

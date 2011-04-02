@@ -1,18 +1,18 @@
-include *.sublime-*
-exclude *.sublime-project
+global-include *.sublime-*
+global-exclude *.sublime-project
 
-include *.rst
-exclude _*.txt
+global-exclude _*.txt
+exclude html_template.txt
 
-include *.py
+global-include *.py
 exclude sublime_inspect.py
 exclude setup.py
 
-recursive-include Support *.*
-recursive-include Snippets *.*
-recursive-include Lib *.py
+graft Support
+graft Snippets
+graft Doc
+# recursive-include Lib *.py
 
-recursive-exclude PackageDev *.*
-
-recursive-exclude dist *.*
-recursive-exclude tests *.*
+prune PackageDev
+prune dist
+prune tests

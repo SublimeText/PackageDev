@@ -48,7 +48,7 @@
 					<key>match</key>
 					<string>\[</string>
 					<key>name</key>
-					<string>punctuation.definition.arg.list.end.sublime-build</string>
+					<string>punctuation.definition.arg.list.end.sublimebuild</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -66,7 +66,7 @@
 			<key>end</key>
 			<string>\]</string>
 			<key>name</key>
-			<string>meta.definition.array.generic.sublime-keymap</string>
+			<string>meta.definition.array.generic.sublimebuild</string>
 			<key>patterns</key>
 			<array>
 				<dict>
@@ -77,7 +77,7 @@
 					<key>match</key>
 					<string>[\d\.]+</string>
 					<key>name</key>
-					<string>constant.numeric.sublime-keymap</string>
+					<string>constant.numeric.sublimebuild</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -102,7 +102,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>constant.character.escape.sublime-keymap</string>
+							<string>constant.character.escape.sublimebuild</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -112,13 +112,13 @@
 					<key>match</key>
 					<string>.</string>
 					<key>name</key>
-					<string>string.sublime-keymap</string>
+					<string>string.sublimebuild</string>
 				</dict>
 			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
-	<string>source.sublime-build</string>
+	<string>source.sublimebuild</string>
 	<key>uuid</key>
 	<string>22a1eed4-8670-460c-91e5-682aa6661180</string>
 </dict>
