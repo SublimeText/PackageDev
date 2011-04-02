@@ -10,4 +10,4 @@ MANIFEST
 
 dist/
 build/
-Doc/
+data/
