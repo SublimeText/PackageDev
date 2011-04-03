@@ -11,7 +11,8 @@ Overview
 
 * Tools for creating syntax definitions
 * Tools for creating new packages
-* Misc tools
+* Tools for creating snippets
+* Sublime Library
 
 
 Getting Started
@@ -79,6 +80,16 @@ Key Bindings
 
 PackageDev includes a comprehensive syntax definition for ``.sublime-keymap``
 files, in addition to smart completions and snippets for key map development.
+
+
+Snippets (Not Implemented)
+**************************
+
+``new_snippet_raw``
+	Window command. A especial *view* into a snippet for development only (highlighting, snippets...).
+``generate_snippet``
+	Text command. Generates a snippet file from a raw snippet.
+	
 
 
 Sublime Library
