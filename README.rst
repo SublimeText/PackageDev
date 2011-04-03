@@ -82,12 +82,14 @@ PackageDev includes a comprehensive syntax definition for ``.sublime-keymap``
 files, in addition to smart completions and snippets for key map development.
 
 
-Snippets (Not Implemented)
-**************************
+Snippets
+********
 
 ``new_snippet_raw``
 	Window command. A especial *view* into a snippet for development only (highlighting, snippets...).
-``generate_snippet``
+``new_raw_snippet_from_snippet``
+	Text command. Creates a new raw snippet from the ``content`` of an open ``.sublime-snippet``.
+``generate_snippet_from_raw_snippet``
 	Text command. Generates a snippet file from a raw snippet.
 	
 
