@@ -6,9 +6,9 @@ from xml.etree import ElementTree as ET
 
 
 TPL = """<snippet>
-    <content><![CDATA[%s]]></content>
-    <tabTrigger>${1:tab_trigger}</tabTrigger>
-    <scope>${2:source.name}</scope>
+    <content><![CDATA[$1]]></content>
+    <tabTrigger>${2:tab_trigger}</tabTrigger>
+    <scope>${3:source.name}</scope>
 </snippet>"""
 
 
@@ -19,14 +19,18 @@ class NewRawSnippetCommand(sublime_plugin.WindowCommand):
 
 
 class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
+    def is_enabled(self):
+        return self.view.match_selector(0, 'source.sublimesnippetraw')
+
     def run(self, edit):
-        if self.view.match_selector(0, 'source.sublimesnippetraw'):
-            new_snippet = TPL % self.view.substr(sublime.Region(0, self.view.size()))
-            self.view.replace(edit, sublime.Region(0, self.view.size()), new_snippet)
-            self.view.settings().set('syntax', 'Packages/XML/XML.tmLanguage')
+        content = self.view.substr(sublime.Region(0, self.view.size()))
+        self.view.replace(edit, sublime.Region(0, self.view.size()), '')
+        self.view.run_command("insert_snippet", { "contents": TPL })
+        self.view.settings().set('syntax', 'Packages/XML/XML.tmLanguage')
+        self.view.insert(edit, self.view.sel()[0].begin(), content)
 
 
-class GenerateRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
+class NewRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return has_file_ext(self.view, 'sublime-snippet')
 

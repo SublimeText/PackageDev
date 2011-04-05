@@ -19,8 +19,8 @@
                             { "caption": "New Syntax Definition from Buffer", "command": "new_syntax_def_from_buffer" },
                             { "caption": "-" },
                             { "caption": "New Raw Snippet...", "command": "new_raw_snippet" },
-                            { "caption": "New Raw Snippet From Snippet...", "command": "generate_snippet_from_raw_snippet" },
-                            { "caption": "Generate Snippet From Raw Snippet", "command": "new_raw_snippet_from_snippet" }
+                            { "caption": "New Raw Snippet From Snippet...", "command": "new_raw_snippet_from_snippet" },
+                            { "caption": "Generate Snippet From Raw Snippet", "command": "generate_snippet_from_raw_snippet" }
                         ]
                     }
                 ]
