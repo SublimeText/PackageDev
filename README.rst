@@ -1,5 +1,5 @@
-PackageDev
-==========
+AAAPackageDev
+=============
 
 A collection of utilities for Sublime Text package developers.
 
@@ -21,7 +21,7 @@ Getting Started
 #. Download the `latest version`_ and double-click on ``AAAPackageDev.sublime-package``.
 #. Access commands from **Tools | Packages | Package Development**.
 
-.. _latest version: https://bitbucket.org/guillermooo/packagedev/downloads/AAAPackageDev.sublime-package
+.. _latest version: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
 
 
 Syntax Definitions
@@ -78,24 +78,24 @@ Commands
 Key Bindings
 ************
 
-PackageDev includes a comprehensive syntax definition for ``.sublime-keymap``
+AAAPackageDev includes a comprehensive syntax definition for ``.sublime-keymap``
 files, in addition to smart completions and snippets for key map development.
 
 
 Snippets
 ********
 
-``new_snippet_raw``
+``new_raw_snippet()``
 	Window command. A especial *view* into a snippet for development only (highlighting, snippets...).
-``new_raw_snippet_from_snippet``
+``new_raw_snippet_from_snippet()``
 	Text command. Creates a new raw snippet from the ``content`` of an open ``.sublime-snippet``.
-``generate_snippet_from_raw_snippet``
-	Text command. Generates a snippet file from a raw snippet.
+``generate_snippet_from_raw_snippet()``
+	Text command. Generates a snippet file from a raw snippet. Replaces the raw snippet instead of creating a new view.
 	
 
 
 Sublime Library
 ***************
 
-PackageDev includes ``sublime_lib``, a Python package with utilities for
+AAAPackageDev includes ``sublime_lib``, a Python package with utilities for
 plugin developers.
