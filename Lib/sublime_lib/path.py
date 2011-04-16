@@ -18,7 +18,6 @@ def root_at_packages(*leafs):
     return os.path.join(sublime.packages_path(), *leafs)
 
 
-# XXX Test
 def root_at_data(*leafs):
     """Combines leafs with Sublime's ``Data`` folder.
     """
