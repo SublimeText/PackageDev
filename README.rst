@@ -19,9 +19,11 @@ Getting Started
 ***************
 
 #. Download the `latest version`_ and double-click on ``AAAPackageDev.sublime-package``.
+	(If you're running a portable installation, `manual installation`_ is required.)
 #. Access commands from **Tools | Packages | Package Development**.
 
 .. _latest version: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
+.. _manual installation: http://sublimetext.info/docs/extensibility/packages.html
 
 
 Syntax Definitions
