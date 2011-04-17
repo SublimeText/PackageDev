@@ -91,6 +91,18 @@ Snippets
 	Text command. Creates a new raw snippet from the ``content`` of an open ``.sublime-snippet``.
 ``generate_snippet_from_raw_snippet()``
 	Text command. Generates a snippet file from a raw snippet. Replaces the raw snippet instead of creating a new view.
+
+Creating a New Snippet
+----------------------
+
+#. Create new *raw* snippet with any available command
+#. Edit snippet using snippets, syntax highlighting, etc.
+#. Generate snippet from raw snippet with existing command
+#. Save new snippet
+
+.. note:
+	All generated snippets must be saved before they can be used.
+
 	
 
 
