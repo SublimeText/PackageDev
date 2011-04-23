@@ -1,3 +1,27 @@
+import contextlib
+
+
+def append(view, text):
+    """Appends text to view."""
+    with in_one_edit(view) as edit:
+        view.insert(edit, view.size(), text)
+
+
+@contextlib.contextmanager
+def in_one_edit(view):
+    """Context manager to group edits in a view.
+
+        Example:
+            ...
+            with in_one_edit(view):
+                ...
+            ...
+    """
+    try:
+        edit = view.begin_edit()
+        yield edit
+    finally:
+        view.end_edit(edit)
 
 
 def has_sels(view):
