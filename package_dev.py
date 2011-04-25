@@ -24,13 +24,22 @@ DEFAULT_DIRS = (
             "Snippets",
             "Support",
             "Docs",
-            "Macros"
+            "Macros",
+            "bin",
+            "data"
             )
 
 # name, default template
 DEFAULT_FILES = (
-            ("LICENSE.txt", None),
-            ("README.rst", root_at_packages(THIS_PACKAGE, "Support/README.rst")),
+    ("LICENSE.txt", None),
+    ("README.rst", root_at_packages(THIS_PACKAGE, "data/README.rst")),
+    (".hgignore", root_at_packages(THIS_PACKAGE, "data/hgignore.txt")),
+    (".gitignore", root_at_packages(THIS_PACKAGE, "data/gitignore.txt")),
+    ("bin/MakeRelease.ps1", root_at_packages(THIS_PACKAGE, "data/MakeRelease.ps1")),
+    ("bin/CleanUp.ps1", root_at_packages(THIS_PACKAGE, "data/CleanUp.ps1")),
+    ("data/html_template.txt", root_at_packages(THIS_PACKAGE, "data/html_template.txt")),
+    ("data/main.css", root_at_packages(THIS_PACKAGE, "data/main.css")),
+    ("setup.py", root_at_packages(THIS_PACKAGE, "data/setup.py")),
 )
 
 
@@ -95,8 +104,14 @@ class PackageManager(object):
                                         for fname, template in DEFAULT_FILES]:
             with open(f, 'w') as fh:
                 if template:
-                    content = "".join(open(template, 'r').readlines()) % \
+                    try:
+                        content = "".join(open(template, 'r').readlines()) % \
                                                         {"package_name": name}
+                    except:
+                        pass
+                    finally:
+                        content = "".join(open(template, 'r').readlines())
+
                     fh.write(content)
         
         msg = "[NewPackage] Created new package '%s'." % name
