@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA[\${${1:1}/${2:search_text}/${3:replacement_text}/$4}$0]]></content>
+    <tabTrigger>fff</tabTrigger>
+    <scope>source.sublimesnippetraw</scope>
+</snippet>

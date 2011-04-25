@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA[\$${1:field_name}]]></content>
+    <tabTrigger>f</tabTrigger>
+    <scope>source.sublimesnippetraw</scope>
+</snippet>
