@@ -191,7 +191,7 @@
 										</dict>
 									</dict>
 									<key>match</key>
-									<string>auto_complete_visible|selection_empty|(?:preceding|following)_text|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)</string>
+									<string>auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)</string>
 									<key>name</key>
 									<string>keyword.sublimekeymap</string>
 								</dict>
