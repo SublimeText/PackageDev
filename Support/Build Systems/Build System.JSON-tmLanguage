@@ -1,0 +1,183 @@
+{ "name": "Sublime Build System",
+  "scopeName": "source.sublimebuild",
+  "fileTypes": ["sublime-build"],
+  "patterns": [
+      { "begin": "(\\{)",
+        "beginCaptures": {
+            "1": { "name": "punctuation.definition.options.start.sublimebuild" }
+        },
+        "end": "(\\})",
+        "endCaptures": {
+            "1": { "name": "punctuation.definition.options.end.sublimebuild" }
+        },
+
+        "patterns": [
+            { "include": "#cmd" },
+            { "include": "#env" },
+            { "include": "#simpleOptions" },
+            { "include": "#errorRegex" },
+            { "include": "#encoding" },
+            { "match": "(?<!\\}|\"|\\]),",
+              "name": "invalid.illegal.separator.sublimebuild"
+            },
+            { "match": ",{2,}",
+              "name": "invalid.illegal.character.sublimebuild"
+            },
+            { "match": "[^,\\t\\s]",
+              "name": "invalid.illegal.character.sublimebuild"
+            },
+            {  "name": "invalid.illegal.separator.sublimebuild",
+               "match": ",(?>$\\s+\\])",
+               "comment": "XXX"
+            }
+        ],
+        "contentName": "meta.options.sublimebuild"
+      }
+  ],
+  "repository": {
+      "cmd": {
+        "begin": "\"(cmd)\"\\s*:",
+        "beginCaptures": {
+            "1": { "name": "keyword.other.sublimebuild"}
+        },
+        "end": "(?<=\\])",
+        "name": "meta.definition.command.sublimebuild",
+        "patterns": [
+            { "include": "#genericArray"
+            },
+            { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
+              "captures": {
+                  "1": { "name": "support.function.array.generic.key.sublimebuild" }
+              }
+            }
+        ]
+      },
+      "env": {
+        "begin": "\"(env)\"\\s*:",
+        "beginCaptures": {
+            "1": { "name": "keyword.other.sublimebuild"}
+        },
+        "end": "(?<=\\})",
+        "name": "meta.definition.environment.block.sublimebuild",
+        "patterns": [
+            { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
+              "captures": {
+                  "1": { "name": "string.variable.name.sublimebuild" }
+              }
+            },
+            { "include": "#envVarString"
+            },
+            { "match": "\\{"
+            }
+        ]
+      },
+      "simpleOptions": {
+        "match": "\"(working_dir|selector|target)\":\\s*\"(.*?)\"",
+        "comment": "Maybe make this a begin-end: paths must contain characters; cling to that.",
+        "captures": {
+            "1": { "name": "keyword.other.sublimebuild" },
+            "2": { "name": "string.sublimebuild" }
+        }
+      },
+      "encoding": {
+        "match": "\"(encoding)\":\\s*\"(.*?)\"",
+        "comment": "No exhaustive list of encodings for Python exist, so we cannot restrict this.",
+        "captures": {
+            "1": { "name": "keyword.other.encoding.sublimebuild" },
+            "2": { "name": "string.sublimebuild" }
+        }
+      },
+      "errorRegex": {
+        "begin": "\"(file_regex|line_regex)\"\\s*:\\s*(\")",
+        "beginCaptures": {
+            "1": { "name": "keyword.other.error.regex.sublimebuild"},
+            "2": { "name": "punctuation.definition.regex.start.sublimebuild" }
+        },
+        "end": "(?<!\\\\)\"",
+        "name": "meta.definition.attached.command.arguments.sublimebuild",
+        "patterns": [
+            { "include": "source.regexp" },
+            { "match": "\"",
+              "name": "punctuation.definition.regex.end.sublimebuild"
+            }
+        ]
+      },
+      "genericArray": {
+          "begin":"\\[",
+          "beginCaptures": {
+              "1": { "name": "punctuation.definition.array.generic.start.sublimebuild"}
+          },
+          "end": "\\]",
+          "contentName": "meta.definition.array.generic.sublimebuild",
+          "patterns": [
+              { "include": "#string"
+              },
+              { "match": "[\\d\\.]+",
+                "name": "constant.numeric.sublimebuild"
+              },
+              { "include": "#genericArray"
+              }
+          ]
+      },
+      "string": {
+          "begin":"\"",
+          "end": "\"",
+          "patterns": [
+              { "match": "(\\\\(?:\"|t|n|r))",
+                "captures": {
+                    "1": { "name": "constant.character.escape.sublimebuild" }
+                }
+              },
+              { "match": "(\\$)([a-zA-Z]+)",
+                "captures": {
+                    "1": { "name": "support.function.variable.sign.sublimebuild" },
+                    "2": { "name": "entity.other.attribute-name.variable.name.sublimebuild" }
+                }
+              },
+              { "match": ".",
+                "name": "string.sublimebuild"
+              }
+          ]
+      },
+      "envVarString": {
+          "begin":"\"",
+          "end": "\"",
+          "patterns": [
+              { "match": "(\\\\(?:\"|t|n|r))",
+                "captures": {
+                    "1": { "name": "constant.character.escape.sublimebuild" }
+                }
+              },
+              {  "name": "meta.environment.variable.sublimebuild",
+                 "match": "(%)(.*?)(%)",
+                 "captures": {
+                     "1": { "name": "support.function.sublimebuild" },
+                     "2": { "name": "entity.other.attribute-name.sublimebuild" },
+                     "3": { "name": "support.function.sublimebuild" }
+                 }
+              },
+              {  "name": "meta.environment.variable.sublimebuild",
+                 "match": "(\\$)([A-Z]+)",
+                 "captures": {
+                     "1": { "name": "support.function.sublimebuild" },
+                     "2": { "name": "entity.other.attribute-name.sublimebuild" }
+                 }
+              },
+              {  "name": "meta.environment.variable.sublimebuild",
+                 "match": "(\\$){(.*?)}",
+                 "captures": {
+                     "1": { "name": "support.function.sublimebuild" },
+                     "2": { "name": "entity.other.attribute-name.sublimebuild" }
+                 }
+              },
+              {  "name": "keyword.other.path.separator.sublimebuild",
+                 "match": ";|:(?!\\\\)"
+              },
+              { "match": ".",
+                "name": "string.sublimebuild"
+              }
+          ]
+      }
+  },
+  "uuid": "855d82a3-8501-467f-ba88-4bf91e02ea6d"
+}
