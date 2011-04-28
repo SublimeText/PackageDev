@@ -1,4 +1,4 @@
-{ "name": "Sublime Build System",
+{ "name": "Sublime Text Build System",
   "scopeName": "source.sublimebuild",
   "fileTypes": ["sublime-build"],
   "patterns": [
@@ -17,6 +17,8 @@
             { "include": "#simpleOptions" },
             { "include": "#errorRegex" },
             { "include": "#encoding" },
+            { "include": "#path" },
+            { "include": "#shell" },
             { "match": "(?<!\\}|\"|\\]),",
               "name": "invalid.illegal.separator.sublimebuild"
             },
@@ -70,6 +72,28 @@
             { "match": "\\{"
             }
         ]
+      },
+      "path": {
+        "begin": "\"(path)\"\\s*:\\s*(\")",
+        "beginCaptures": {
+            "1": { "name": "keyword.other.path.sublimebuild"},
+            "2": { "name": "punctuation.definition.path.start.sublimebuild" }
+        },
+        "end": "(?<!\\\\)\"",
+        "name": "meta.definition.path.variable.sublimebuild",
+        "patterns": [
+            { "include": "#envVarString" },
+            { "match": "\"",
+              "name": "punctuation.definition.path.end.sublimebuild"
+            }
+        ]
+      },
+      "shell": {
+        "match": "\"(shell)\":\\s*\"(true|false)\"",
+        "captures": {
+            "1": { "name": "keyword.other.shell.sublimebuild" },
+            "2": { "name": "constant.boolean.sublimebuild" }
+        }
       },
       "simpleOptions": {
         "match": "\"(working_dir|selector|target)\":\\s*\"(.*?)\"",
