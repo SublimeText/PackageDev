@@ -303,7 +303,7 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>source.regexp</string>
+					<string>source.escapedregexp</string>
 				</dict>
 				<dict>
 					<key>match</key>

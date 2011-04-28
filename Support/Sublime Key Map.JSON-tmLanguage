@@ -94,7 +94,7 @@
                         { "match": "\\\\(?>\\\\)",
                           "name": "constant.character.escape.context.operand.value.right.sublimekeymap"
                         },
-                        { "include": "source.regexp" },
+                        { "include": "source.escapedregexp" },
                         { "match": ".",
                           "name": "string.context.operand.value.right.sublimekeymap"
                         }

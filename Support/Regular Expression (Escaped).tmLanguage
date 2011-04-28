@@ -34,7 +34,7 @@
 			<key>include</key>
 			<string>#character_class</string>
 		</dict>
-		<dict>
+ 		<dict>
 			<key>include</key>
 			<string>#escaped_char</string>
 		</dict>
@@ -67,6 +67,18 @@
 					<key>name</key>
 					<string>keyword.operator.intersection.escapedregexp</string>
 				</dict>
+		<dict>
+			<key>match</key>
+			<string>\\{4}</string>
+			<key>name</key>
+			<string>constant.character.escape.escapedregexp</string>
+		</dict>						
+		<dict>
+			<key>match</key>
+			<string>\\{1,2}</string>
+			<key>name</key>
+			<string>invalid.illegal.character.unescaped.escapedregexp</string>
+		</dict>					
 			</array>
 		</dict>
 		<dict>
@@ -98,6 +110,12 @@
 		</dict>
 		<dict>
 			<key>match</key>
+			<string>\\("|/|b|f|n|r|t|u[0-9A-Fa-f]{4})</string>
+			<key>name</key>
+			<string>entity.other.attribute-name.json.escape.character.escapedregexp</string>
+		</dict>		
+		<dict>
+			<key>match</key>
 			<string>\\\\(\n\d+|\k\w+|(?&lt;!\|)\g\w+)</string>
 			<key>name</key>
 			<string>keyword.other.backref-and-recursion.escapedregexp</string>
@@ -116,16 +134,16 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\\\\</string>
+			<string>\\{4}</string>
 			<key>name</key>
-			<string>constant.character.escape.character.escapedregexp</string>
-		</dict>				
+			<string>constant.character.escape.escapedregexp</string>
+		</dict>						
 		<dict>
 			<key>match</key>
-			<string>\\</string>
+			<string>\\{1,2}</string>
 			<key>name</key>
 			<string>invalid.illegal.character.unescaped.escapedregexp</string>
-		</dict>		
+		</dict>				
 	</array>
 	<key>repository</key>
 	<dict>
@@ -141,7 +159,7 @@
 			<key>comment</key>
 			<string>escaped character</string>
 			<key>match</key>
-			<string>\\\\.</string>
+			<string>\\\\(\?|\*|\.|\{|\}|\(|\)|\[|\])</string>
 			<key>name</key>
 			<string>constant.character.escape.escapedregexp</string>
 		</dict>

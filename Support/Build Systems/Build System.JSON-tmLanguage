@@ -94,9 +94,9 @@
             "2": { "name": "punctuation.definition.regex.start.sublimebuild" }
         },
         "end": "(?<!\\\\)\"",
-        "name": "meta.definition.attached.command.arguments.sublimebuild",
+        "name": "meta.definition.error.data.sublimebuild",
         "patterns": [
-            { "include": "source.regexp" },
+            { "include": "source.escapedregexp" },
             { "match": "\"",
               "name": "punctuation.definition.regex.end.sublimebuild"
             }
