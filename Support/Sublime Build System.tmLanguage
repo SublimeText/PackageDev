@@ -358,7 +358,7 @@
 		<key>path</key>
 		<dict>
 			<key>begin</key>
-			<string>"(path)"\s*:\s*(")</string>
+			<string>"(path)"\s*:</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -373,7 +373,15 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>(?&lt;!\\)"</string>
+			<string>(?&lt;=")</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.path.end.untitled</string>
+				</dict>
+			</dict>
 			<key>name</key>
 			<string>meta.definition.path.variable.sublimebuild</string>
 			<key>patterns</key>
@@ -381,12 +389,6 @@
 				<dict>
 					<key>include</key>
 					<string>#envVarString</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>"</string>
-					<key>name</key>
-					<string>punctuation.definition.path.end.sublimebuild</string>
 				</dict>
 			</array>
 		</dict>
@@ -402,11 +404,11 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>constant.boolean.sublimebuild</string>
+					<string>constant.numeric.boolean.sublimebuild</string>
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>"(shell)":\s*"(true|false)"</string>
+			<string>"(shell)":\s*(true|false)</string>
 		</dict>
 		<key>simpleOptions</key>
 		<dict>

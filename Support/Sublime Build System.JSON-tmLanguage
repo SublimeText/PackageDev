@@ -74,25 +74,25 @@
         ]
       },
       "path": {
-        "begin": "\"(path)\"\\s*:\\s*(\")",
+        "begin": "\"(path)\"\\s*:",
         "beginCaptures": {
             "1": { "name": "keyword.other.path.sublimebuild"},
             "2": { "name": "punctuation.definition.path.start.sublimebuild" }
         },
-        "end": "(?<!\\\\)\"",
+        "end": "(?<=\")",
+        "endCaptures": {
+            "1": { "name": "punctuation.definition.path.end.untitled" }
+        },
         "name": "meta.definition.path.variable.sublimebuild",
         "patterns": [
-            { "include": "#envVarString" },
-            { "match": "\"",
-              "name": "punctuation.definition.path.end.sublimebuild"
-            }
+            { "include": "#envVarString" }
         ]
       },
       "shell": {
-        "match": "\"(shell)\":\\s*\"(true|false)\"",
+        "match": "\"(shell)\":\\s*(true|false)",
         "captures": {
             "1": { "name": "keyword.other.shell.sublimebuild" },
-            "2": { "name": "constant.boolean.sublimebuild" }
+            "2": { "name": "constant.numeric.boolean.sublimebuild" }
         }
       },
       "simpleOptions": {
