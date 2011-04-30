@@ -581,10 +581,9 @@ class test(Command):
 
 setup(cmdclass={'spa': spa, 'install': install, 'test': test},
       name='AAAPackageDev',
-      version='0.1',
+      version='0.5',
       description='Sublime Text Dev Tools for Packages.',
       author='Guillermo López-Anglada',
       author_email='guillermo@sublimetext.info',
       url='http://sublimetext.info',
-      # py_modules=['PackageDev']
      )
