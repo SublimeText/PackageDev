@@ -80,15 +80,15 @@ Commands
 .. To turn on, change scope selector so ``source.python``.
 
 
-Key Bindings
-************
+Key Maps
+********
 
 AAAPackageDev includes a comprehensive syntax definition for ``.sublime-keymap``
 files, in addition to smart completions and snippets for key map development.
 
 
-Snippets
-********
+Snippet Development
+*******************
 
 ``new_raw_snippet()``
 	Window command. A especial *view* into a snippet for development only (highlighting, snippets...).
@@ -109,6 +109,21 @@ Creating a New Snippet
 	All generated snippets must be saved before they can be used.
 
 	
+Packages
+********
+
+``new_package``
+	Window command. Prompts for a name and creates a skeleton for a new package.
+
+``delete_package``
+	Window command. Opens the file browser at ``Packages``.
+
+
+Snippets
+********
+
+The ``AAAPackageDev/Snippet`` folder contains many snippets for all kinds of
+development mentioned above.
 
 
 Sublime Library
