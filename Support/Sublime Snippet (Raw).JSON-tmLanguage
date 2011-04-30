@@ -2,8 +2,8 @@
 	"name": "Sublime Snippet (Raw)",
 	"scopeName": "source.sublimesnippetraw",
 	"patterns": [
-		{	"name": "variable.environment.sublimesnippetraw",
-			"match": "(\\$)(PARAM(\\d)|TM_SELECTED_TEXT|USER_NAME)",
+		{	"name": "entity.other.attribute-name.environment.sublimesnippetraw",
+			"match": "(\\$)(PARAM(\\d)|TM_SELECTED_TEXT|USER_NAME|SELECTION)",
 			"captures": {
 			 	"1": { "name": "keyword.other.sublimesnippetraw" },
 			 	"2": { "name": "variable.storage.name.sublimesnippetraw" },
@@ -37,7 +37,7 @@
 			]
 		},
 		{	"name": "variable.field.sublimesnippetraw",
-			"match": "(\\$)([^\\s\\{]+)",
+			"match": "(\\$)([a-zA-Z0-9_]+)",
 			"captures": {
 			    "1": { "name": "keyword.other.sublimesnippetraw" },
 			    "2": { "name": "variable.storage.name.sublimesnippetraw" }
@@ -48,7 +48,10 @@
 			"beginCaptures": {
 				"1": { "name": "keyword.other.sublimesnippetraw" }
 			},
-			"end": "\\}",
+			"end": "(\\})",
+			"endCaptures": {
+				"1": { "name": "meta.definition.variable.complex.sublimesnippetraw" }
+			},
 			"patterns": [
 				{	"match": "(?<=\\{)(\\d+)(?>:)",
 					"captures": {
@@ -56,13 +59,10 @@
 				   }
 				},
 				{ "include": "$self" },
-				{  "match": ".",
-				   "name": "string.sublimesnippetraw"
+				{  "name": "string.sublimesnippetraw",
+				   "match": "."
 				}
 			]
-		},
-		{  "name": "string.sublimesnippetraw",
-		   "match": "."
 		}
 	],
 	"uuid": "9c9f9b3c-0e97-4423-a995-14d6412613d3"
