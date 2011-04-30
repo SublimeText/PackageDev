@@ -18,12 +18,15 @@ Overview
 Getting Started
 ***************
 
-#. Download the `latest version`_ and double-click on ``AAAPackageDev.sublime-package``.
-	(If you're running a portable installation, `manual installation`_ is required.)
+#. Install `AAAPackageDev`_.
 #. Access commands from **Tools | Packages | Package Development**.
 
-.. _latest version: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
-.. _manual installation: http://sublimetext.info/docs/extensibility/packages.html
+.. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
+
+If you're running a full installation of Sublime Text, simply doubleclick on the ``.sublime-package`` files.
+If you're running a portable installation, you need to do the installation `by hand`_.
+
+.. _by hand: http://sublimetext.info/docs/extensibility/packages.html#installation-of-packages-with-sublime-package-archives
 
 
 Syntax Definitions
@@ -77,15 +80,15 @@ Commands
 .. To turn on, change scope selector so ``source.python``.
 
 
-Key Bindings
-************
+Key Maps
+********
 
 AAAPackageDev includes a comprehensive syntax definition for ``.sublime-keymap``
 files, in addition to smart completions and snippets for key map development.
 
 
-Snippets
-********
+Snippet Development
+*******************
 
 ``new_raw_snippet()``
 	Window command. A especial *view* into a snippet for development only (highlighting, snippets...).
@@ -106,6 +109,21 @@ Creating a New Snippet
 	All generated snippets must be saved before they can be used.
 
 	
+Packages
+********
+
+``new_package``
+	Window command. Prompts for a name and creates a skeleton for a new package.
+
+``delete_package``
+	Window command. Opens the file browser at ``Packages``.
+
+
+Snippets
+********
+
+The ``AAAPackageDev/Snippet`` folder contains many snippets for all kinds of
+development mentioned above.
 
 
 Sublime Library

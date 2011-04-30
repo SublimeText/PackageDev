@@ -1,4 +1,4 @@
-{ "name": "Sublime Build System",
+{ "name": "Sublime Text Build System",
   "scopeName": "source.sublimebuild",
   "fileTypes": ["sublime-build"],
   "patterns": [
@@ -17,6 +17,8 @@
             { "include": "#simpleOptions" },
             { "include": "#errorRegex" },
             { "include": "#encoding" },
+            { "include": "#path" },
+            { "include": "#shell" },
             { "match": "(?<!\\}|\"|\\]),",
               "name": "invalid.illegal.separator.sublimebuild"
             },
@@ -71,6 +73,28 @@
             }
         ]
       },
+      "path": {
+        "begin": "\"(path)\"\\s*:",
+        "beginCaptures": {
+            "1": { "name": "keyword.other.path.sublimebuild"},
+            "2": { "name": "punctuation.definition.path.start.sublimebuild" }
+        },
+        "end": "(?<=\")",
+        "endCaptures": {
+            "1": { "name": "punctuation.definition.path.end.untitled" }
+        },
+        "name": "meta.definition.path.variable.sublimebuild",
+        "patterns": [
+            { "include": "#envVarString" }
+        ]
+      },
+      "shell": {
+        "match": "\"(shell)\":\\s*(true|false)",
+        "captures": {
+            "1": { "name": "keyword.other.shell.sublimebuild" },
+            "2": { "name": "constant.numeric.boolean.sublimebuild" }
+        }
+      },
       "simpleOptions": {
         "match": "\"(working_dir|selector|target)\":\\s*\"(.*?)\"",
         "comment": "Maybe make this a begin-end: paths must contain characters; cling to that.",
@@ -94,9 +118,9 @@
             "2": { "name": "punctuation.definition.regex.start.sublimebuild" }
         },
         "end": "(?<!\\\\)\"",
-        "name": "meta.definition.attached.command.arguments.sublimebuild",
+        "name": "meta.definition.error.data.sublimebuild",
         "patterns": [
-            { "include": "source.regexp" },
+            { "include": "source.escapedregexp" },
             { "match": "\"",
               "name": "punctuation.definition.regex.end.sublimebuild"
             }

@@ -7,7 +7,7 @@
 		<string>sublime-build</string>
 	</array>
 	<key>name</key>
-	<string>Sublime Build System</string>
+	<string>Sublime Text Build System</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -54,6 +54,14 @@
 				<dict>
 					<key>include</key>
 					<string>#encoding</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#path</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#shell</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -298,12 +306,12 @@
 			<key>end</key>
 			<string>(?&lt;!\\)"</string>
 			<key>name</key>
-			<string>meta.definition.attached.command.arguments.sublimebuild</string>
+			<string>meta.definition.error.data.sublimebuild</string>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>include</key>
-					<string>source.regexp</string>
+					<string>source.escapedregexp</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -346,6 +354,61 @@
 					<string>#genericArray</string>
 				</dict>
 			</array>
+		</dict>
+		<key>path</key>
+		<dict>
+			<key>begin</key>
+			<string>"(path)"\s*:</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.path.sublimebuild</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.path.start.sublimebuild</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?&lt;=")</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.path.end.untitled</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.definition.path.variable.sublimebuild</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#envVarString</string>
+				</dict>
+			</array>
+		</dict>
+		<key>shell</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.shell.sublimebuild</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>constant.numeric.boolean.sublimebuild</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>"(shell)":\s*(true|false)</string>
 		</dict>
 		<key>simpleOptions</key>
 		<dict>

@@ -191,7 +191,7 @@
 										</dict>
 									</dict>
 									<key>match</key>
-									<string>auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)</string>
+									<string>eol_selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)</string>
 									<key>name</key>
 									<string>keyword.sublimekeymap</string>
 								</dict>
@@ -264,6 +264,10 @@
 							<key>patterns</key>
 							<array>
 								<dict>
+									<key>include</key>
+									<string>source.escapedregexp</string>
+								</dict>
+								<dict>
 									<key>match</key>
 									<string>\\"</string>
 									<key>name</key>
@@ -274,10 +278,6 @@
 									<string>\\(?&gt;\\)</string>
 									<key>name</key>
 									<string>constant.character.escape.context.operand.value.right.sublimekeymap</string>
-								</dict>
-								<dict>
-									<key>include</key>
-									<string>source.regexp</string>
 								</dict>
 								<dict>
 									<key>match</key>
@@ -569,6 +569,10 @@
 					</dict>
 					<key>match</key>
 					<string>(\\(?:"|t|n|r))</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>source.sublimesnippetraw</string>
 				</dict>
 				<dict>
 					<key>match</key>

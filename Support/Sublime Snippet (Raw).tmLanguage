@@ -26,9 +26,9 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\$)(PARAM(\d)|TM_SELECTED_TEXT|USER_NAME)</string>
+			<string>(\$)(PARAM(\d)|TM_SELECTED_TEXT|USER_NAME|SELECTION)</string>
 			<key>name</key>
-			<string>variable.environment.sublimesnippetraw</string>
+			<string>entity.other.attribute-name.environment.sublimesnippetraw</string>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -110,7 +110,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\$)([^\s\{]+)</string>
+			<string>(\$)([a-zA-Z0-9_]+)</string>
 			<key>name</key>
 			<string>variable.field.sublimesnippetraw</string>
 		</dict>
@@ -126,7 +126,15 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>\}</string>
+			<string>(\})</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>meta.definition.variable.complex.sublimesnippetraw</string>
+				</dict>
+			</dict>
 			<key>name</key>
 			<string>meta.definition.variable.complex.sublimesnippetraw</string>
 			<key>patterns</key>
@@ -154,12 +162,6 @@
 					<string>string.sublimesnippetraw</string>
 				</dict>
 			</array>
-		</dict>
-		<dict>
-			<key>match</key>
-			<string>.</string>
-			<key>name</key>
-			<string>string.sublimesnippetraw</string>
 		</dict>
 	</array>
 	<key>scopeName</key>
