@@ -24,7 +24,7 @@ Getting Started
 .. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
 
 If you're running a full installation of Sublime Text, simply doubleclick on the ``.sublime-package`` files.
-If you're running a portable installation, you need to do the installation `by hand`_.
+If you're running a portable installation, you need to do the installation `by hand`_ for ``.sublime-package``.
 
 .. _by hand: http://sublimetext.info/docs/extensibility/packages.html#installation-of-packages-with-sublime-package-archives
 
@@ -122,7 +122,7 @@ Packages
 Snippets
 ********
 
-The ``AAAPackageDev/Snippet`` folder contains many snippets for all kinds of
+The ``AAAPackageDev/Snippets`` folder contains many snippets for all kinds of
 development mentioned above.
 
 
