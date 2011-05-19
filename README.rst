@@ -23,14 +23,14 @@ Getting Started
 
 .. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
 
-If you're running a full installation of Sublime Text, simply doubleclick on the ``.sublime-package`` files.
-If you're running a portable installation, you need to do the installation `by hand`_ for ``.sublime-package``.
+If you're running a full installation of Sublime Text, simply double click on any ``.sublime-package`` file.
+If you're running a portable installation, you need to do the installation for any ``.sublime-package`` `by hand`_.
 
 .. _by hand: http://sublimetext.info/docs/extensibility/packages.html#installation-of-packages-with-sublime-package-archives
 
 
-Syntax Definitions
-******************
+Syntax Definition Development
+*****************************
 
 Commands
 --------
@@ -50,17 +50,19 @@ Build Systems
 -------------
 
 * ``Json to tmLanguage``
+	Converts the current file (``.JSON-tmLanguage``) into a suitable ``.tmLanguage``
+	syntax definition (**Tools | Build System**).
 
 Creating a New Syntax Definition
 ------------------------------------
 
 #. Create new template with any of the above commands
-#. Select ``Json to tmLanguage`` build system
+#. Select ``Json to tmLanguage`` build system from **Tools | Build System**
 #. Press ``F7``
 
 
-Packages
-********
+Package Development
+*******************
 
 Commands
 --------
@@ -78,6 +80,12 @@ Commands
 .. * sublime text plugin dev (off by default)
 .. Will clutter your completions list in any kind of python dev.
 .. To turn on, change scope selector so ``source.python``.
+
+Build System Development
+************************
+
+AAAPackageDev includes a comprehensive syntax definition for ``.build-system``
+files.
 
 
 Key Maps
@@ -107,16 +115,6 @@ Creating a New Snippet
 
 .. note:
 	All generated snippets must be saved before they can be used.
-
-	
-Packages
-********
-
-``new_package``
-	Window command. Prompts for a name and creates a skeleton for a new package.
-
-``delete_package``
-	Window command. Opens the file browser at ``Packages``.
 
 
 Snippets
