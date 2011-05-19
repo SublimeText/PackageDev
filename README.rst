@@ -18,7 +18,7 @@ Overview
 Getting Started
 ***************
 
-#. Install `AAAPackageDev`_.
+#. Download and install `AAAPackageDev`_.
 #. Access commands from **Tools | Packages | Package Development**.
 
 .. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
