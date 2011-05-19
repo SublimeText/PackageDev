@@ -1,15 +1,15 @@
+import os
+import uuid
+
+
 import sublime, sublime_plugin
 
-import os
-import json2plist
-import uuid
 
 from sublime_lib.view import has_file_ext, in_one_edit
 from sublime_lib.path import root_at_data
 
 
 JSON_TMLANGUAGE_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime JSON Syntax Definition.tmLanguage'
-SUBLIME_KEY_MAP_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime Key Map.tmLanguage'
 
 
 # XXX: Move this to a txt file. Let user define his own under User too.
