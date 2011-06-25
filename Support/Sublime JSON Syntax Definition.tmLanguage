@@ -5,6 +5,7 @@
 	<key>fileTypes</key>
 	<array>
 		<string>JSON-tmLanguage</string>
+		<string>json-tmlanguage</string>
 	</array>
 	<key>name</key>
 	<string>Sublime Text Syntax Definition</string>

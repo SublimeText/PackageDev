@@ -1,6 +1,6 @@
 { "name": "Sublime Text Syntax Definition",
   "scopeName": "source.json-tmlanguage",
-  "fileTypes": ["JSON-tmLanguage"],
+  "fileTypes": ["JSON-tmLanguage", "json-tmlanguage"],
   "patterns": [
     { "include": "#syntaxName" },
     { "include": "#scopeName" },

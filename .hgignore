@@ -2,7 +2,7 @@ syntax: glob
 
 *.pyc
 _*.txt
-*.tmLanguage.cache
+*.cache
 *.sublime-project
 sample-grammar.js
 Manifest
