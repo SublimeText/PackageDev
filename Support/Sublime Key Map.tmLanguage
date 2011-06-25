@@ -138,7 +138,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>"(command)":\s*"([a-zA-Z_]+)"</string>
+			<string>"(command|caption)":\s*"([a-zA-Z_: ]+)"</string>
 		</dict>
 		<key>context</key>
 		<dict>

@@ -8,6 +8,7 @@
     { "include": "#fileTypes" },
     { "include": "#patterns" },
     { "include": "#repo" },
+    { "include": "#comment" },
     { "include": "#uuid" }
   ],
   "repository": {
@@ -55,7 +56,8 @@
           { "include": "#match" },
           { "include": "#include" },
           { "include": "#patterns" },
-          { "include": "#captures" }
+          { "include": "#captures" },
+          { "include": "#comment" }
         ]
       },
       "fileTypes": {
@@ -93,6 +95,13 @@
           "2": { "name": "string.meta.scope.name.json-tmlanguage" }
         }
       },
+      "comment": {
+        "match": "\"(comment)\"\\s*?:\\s*?\"(.+?)\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "comment.json-tmlanguage" }
+        }
+      },
       "uuid": {
         "match": "\"(uuid)\"\\s*?:\\s*?\"([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)\"",
         "captures": {
@@ -125,7 +134,8 @@
           { "include": "#match" },
           { "include": "#name" },
           { "include": "#patterns" },
-          { "include": "#captures" }
+          { "include": "#captures" },
+          { "include": "#comment" }
         ]
       },
       "captures": {
