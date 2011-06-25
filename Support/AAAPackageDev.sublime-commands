@@ -1,0 +1,11 @@
+[
+    { "caption": "AAAPackageDev: New Raw Snippet", "command": "new_raw_snippet" },
+    { "caption": "AAAPackageDev: Generate Snippet from Raw Snippet", "command": "generate_snippet_from_raw_snippet" },
+    { "caption": "AAAPackageDev: New Raw Snippet from Snippet", "command": "new_raw_snippet_from_snippet" },
+
+    { "caption": "AAAPackageDev: New Syntax Definition", "command": "new_syntax_def" },
+    { "caption": "AAAPackageDev: New Syntax Definition from Buffer", "command": "new_syntax_def_from_buffer" },
+
+    { "caption": "AAAPackageDev: New Package", "command": "new_package" },
+    { "caption": "AAAPackageDev: Delete Package", "command": "delete_package" }
+]
