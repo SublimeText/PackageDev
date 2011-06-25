@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Sublime Snippet (Raw)</string>
+	<string>Sublime Text Snippet (Raw)</string>
 	<key>patterns</key>
 	<array>
 		<dict>

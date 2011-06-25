@@ -1,5 +1,5 @@
 {
-	"name": "Sublime Snippet (Raw)",
+	"name": "Sublime Text Snippet (Raw)",
 	"scopeName": "source.sublimesnippetraw",
 	"patterns": [
 		{	"name": "entity.other.attribute-name.environment.sublimesnippetraw",

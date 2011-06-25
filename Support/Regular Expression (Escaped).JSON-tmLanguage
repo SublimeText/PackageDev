@@ -1,6 +1,5 @@
 { "name": "Regular Expression (Escaped)",
   "scopeName": "source.escapedregexp",
-  "fileTypes": [""],
   "patterns": [
     { "include": "#classes" },
     { "include": "#allEscapes" },

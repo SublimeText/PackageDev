@@ -1,4 +1,4 @@
-{ "name": "Sublime Commands",
+{ "name": "Sublime Text Commands",
   "scopeName": "source.sublimecommands",
   "fileTypes": ["sublime-commands"],
   "patterns": [

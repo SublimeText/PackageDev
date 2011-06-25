@@ -7,7 +7,7 @@
 		<string>sublime-keymap</string>
 	</array>
 	<key>name</key>
-	<string>Sublime Key Map</string>
+	<string>Sublime Text Key Map</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -138,7 +138,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>"(command|caption)":\s*"([a-zA-Z_: ]+)"</string>
+			<string>"(command)":\s*"([a-zA-Z_]+)"</string>
 		</dict>
 		<key>context</key>
 		<dict>

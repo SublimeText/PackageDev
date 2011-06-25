@@ -7,7 +7,7 @@
 		<string>sublime-commands</string>
 	</array>
 	<key>name</key>
-	<string>Sublime Commands</string>
+	<string>Sublime Text Commands</string>
 	<key>patterns</key>
 	<array>
 		<dict>
