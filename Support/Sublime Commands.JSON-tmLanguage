@@ -31,10 +31,6 @@
       }
   ],
   "repository": {
-      "include": {
-        "match": "\"(include)\":\\s*?\"(?:(?:(#)([a-zA-Z0-9]+))|(\\$)(self))\"",
-        "name": ""
-      },
       "genericArray": {
           "begin":"\\[",
           "beginCaptures": {

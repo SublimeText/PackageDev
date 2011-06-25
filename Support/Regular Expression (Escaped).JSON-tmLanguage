@@ -1,15 +1,18 @@
 { "name": "Regular Expression (Escaped)",
   "scopeName": "source.escapedregexp",
+
   "patterns": [
     { "include": "#classes" },
     { "include": "#allEscapes" },
     { "include": "#quantifiers" },
-    { "include": "#moreQuantifiers" },
+    { "include": "#granularQuantifier" },
     { "include": "#operators" },
     { "include": "#characterClassGroup" },
     { "include": "#groups" }
   ],
+
   "repository": {
+
     "allEscapes": {
       "comment": "Order matters.",
       "patterns" : [
@@ -18,24 +21,29 @@
         { "include": "#jsonEscapeSequences" }
       ]
     },
+
     "regexpEscapeSequences": {
-      "match": "(?<!\\\\\\\\)\\\\\\\\(?:[+?*.(){}]|\\[|\\])",
+      "match": "(?<!\\\\\\\\)\\\\\\\\(?:[+?*.(){}]|\\[|\\]|b)",
       "name": "constant.character.escape.sequence.regexp.escapedregexp",
       "comment": "Escape next char if the slash isn't being escaped itself."
     },
+
     "regexpEscapedBackslash": {
       "match": "\\\\\\\\",
       "name": "constant.character.escape.sequence.regexp.escapedregexp"
     },
+
     "jsonEscapeSequences": {
       "match": "\\\\[bfntr\"\/]",
       "name": "entity.other.attribute-name.escape.sequence.json.escapedregexp"
     },
+
     "quantifiers": {
       "match": "(\\+|\\*|\\?)(\\?)?",
       "name": "keyword.other.quantifier.escapedregexp"
     },
-    "moreQuantifiers": {
+
+    "granularQuantifier": {
       "match": "(\\{)([0-9]+)(,)?([0-9]+)?(\\})",
       "name": "meta.granular.quantifier.escapedregexp",
       "captures": {
@@ -46,14 +54,17 @@
           "5": { "name": "entity.other.attribute-name.punctuation.quantifier.start.escapedregexp" }
       }
     },
+
     "classes": {
       "match": "\\\\\\\\[dswDSW]",
       "name": "keyword.other.character-class.escapedregexp"
     },
+
     "operators": {
       "match": "[|.]",
       "name": "keyword.other.operator.escapedregexp"
     },
+
     "characterClassGroup": {
       "begin": "\\[",
       "beginCaptures": {
@@ -74,6 +85,7 @@
         }
       ]
     },
+
     "groups": {
       "begin": "\\(",
       "beginCaptures": {
@@ -91,5 +103,6 @@
       ]
     }
   },
+
   "uuid": "26c6799e-6824-4926-b2e5-87140300b97b"
 }

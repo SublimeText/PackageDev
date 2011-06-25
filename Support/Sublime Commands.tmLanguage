@@ -189,13 +189,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>include</key>
-		<dict>
-			<key>match</key>
-			<string>"(include)":\s*?"(?:(?:(#)([a-zA-Z0-9]+))|(\$)(self))"</string>
-			<key>name</key>
-			<string></string>
-		</dict>
 		<key>stringWithSnippets</key>
 		<dict>
 			<key>begin</key>

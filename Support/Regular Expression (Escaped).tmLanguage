@@ -20,7 +20,7 @@
 		</dict>
 		<dict>
 			<key>include</key>
-			<string>#moreQuantifiers</string>
+			<string>#granularQuantifier</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -110,6 +110,41 @@
 			<key>name</key>
 			<string>keyword.other.character-class.escapedregexp</string>
 		</dict>
+		<key>granularQuantifier</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.other.attribute-name.punctuation.quantifier.start.escapedregexp</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>constant.numeric.escapedregexp</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.separator.escapedregexp</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>constant.numeric.escapedregexp</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>entity.other.attribute-name.punctuation.quantifier.start.escapedregexp</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(\{)([0-9]+)(,)?([0-9]+)?(\})</string>
+			<key>name</key>
+			<string>meta.granular.quantifier.escapedregexp</string>
+		</dict>
 		<key>groups</key>
 		<dict>
 			<key>begin</key>
@@ -153,41 +188,6 @@
 			<key>name</key>
 			<string>entity.other.attribute-name.escape.sequence.json.escapedregexp</string>
 		</dict>
-		<key>moreQuantifiers</key>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.other.attribute-name.punctuation.quantifier.start.escapedregexp</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.escapedregexp</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.other.separator.escapedregexp</string>
-				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.escapedregexp</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>entity.other.attribute-name.punctuation.quantifier.start.escapedregexp</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(\{)([0-9]+)(,)?([0-9]+)?(\})</string>
-			<key>name</key>
-			<string>meta.granular.quantifier.escapedregexp</string>
-		</dict>
 		<key>operators</key>
 		<dict>
 			<key>match</key>
@@ -207,7 +207,7 @@
 			<key>comment</key>
 			<string>Escape next char if the slash isn't being escaped itself.</string>
 			<key>match</key>
-			<string>(?&lt;!\\\\)\\\\(?:[+?*.(){}]|\[|\])</string>
+			<string>(?&lt;!\\\\)\\\\(?:[+?*.(){}]|\[|\]|b)</string>
 			<key>name</key>
 			<string>constant.character.escape.sequence.regexp.escapedregexp</string>
 		</dict>
