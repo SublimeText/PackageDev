@@ -23,7 +23,7 @@
     },
 
     "regexpEscapeSequences": {
-      "match": "(?<!\\\\\\\\)\\\\\\\\(?:[+?*.(){}]|\\[|\\]|b)",
+      "match": "(?<!\\\\\\\\)\\\\\\\\(?:[\\^+?*.(){}]|\\[|\\]|b)",
       "name": "constant.character.escape.sequence.regexp.escapedregexp",
       "comment": "Escape next char if the slash isn't being escaped itself."
     },
@@ -66,9 +66,11 @@
     },
 
     "characterClassGroup": {
-      "begin": "\\[",
+      "begin": "(\\[)(\\^)?(\\])?",
       "beginCaptures": {
-          "0": { "name": "keyword.other.range.escapedregexp" }
+          "1": { "name": "keyword.other.range.escapedregexp" },
+          "2": { "name": "keyword.other.range.operator.negate.escapedregexp" },
+          "3": { "name": "string.character-class.element.escapedregexp" }
       },
       "endCaptures": {
           "0": { "name": "keyword.other.range.escapedregexp" }
