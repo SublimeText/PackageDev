@@ -23,7 +23,7 @@
     },
 
     "regexpEscapeSequences": {
-      "match": "(?<!\\\\\\\\)\\\\\\\\(?:[\\^+?*.(){}]|\\[|\\]|b)",
+      "match": "(?<!\\\\\\\\)\\\\\\\\(?:[\\^+?*.(){}$]|\\[|\\])",
       "name": "constant.character.escape.sequence.regexp.escapedregexp",
       "comment": "Escape next char if the slash isn't being escaped itself."
     },

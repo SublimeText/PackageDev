@@ -217,7 +217,7 @@
 			<key>comment</key>
 			<string>Escape next char if the slash isn't being escaped itself.</string>
 			<key>match</key>
-			<string>(?&lt;!\\\\)\\\\(?:[\^+?*.(){}]|\[|\]|b)</string>
+			<string>(?&lt;!\\\\)\\\\(?:[\^+?*.(){}$]|\[|\])</string>
 			<key>name</key>
 			<string>constant.character.escape.sequence.regexp.escapedregexp</string>
 		</dict>
