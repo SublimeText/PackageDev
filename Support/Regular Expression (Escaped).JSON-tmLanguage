@@ -3,7 +3,9 @@
 
   "patterns": [
     { "include": "#classes" },
+    { "include": "#anchorsWithBackslash" },
     { "include": "#allEscapes" },
+    { "include": "#anchors" },
     { "include": "#quantifiers" },
     { "include": "#granularQuantifier" },
     { "include": "#operators" },
@@ -56,8 +58,9 @@
     },
 
     "classes": {
-      "match": "\\\\\\\\[dswDSW]",
-      "name": "keyword.other.character-class.escapedregexp"
+      "match": "\\\\\\\\[dDsSwW]",
+      "name": "keyword.other.character-class.escapedregexp",
+      "comment": "XXX: Add unicode escapes \x00"
     },
 
     "operators": {
@@ -78,9 +81,13 @@
       "end": "]",
       "patterns": [
         {  "name": "support.function.character-class.range.escapedregexp",
-           "match": "[A-Za-z0-9]-[A-Za-z0-9]"
+           "match": "[A-Za-z0-9](-)[A-Za-z0-9]",
+           "captures": {
+               "1": { "name": "keyword.operator.other.character-class.range.separator.escapedregexp" }
+           }
         },
         { "include": "#regexpEscapeSequences" },
+        { "include": "#classes" },
         { "include": "#jsonEscapeSequences" },
         {  "name": "string.character-class.element.escapedregexp",
            "match": ".*?"
@@ -103,6 +110,16 @@
         },
         { "include": "$self" }
       ]
+    },
+
+    "anchorsWithBackslash": {
+      "match": "(?:\\\\\\\\[AbBZ])",
+      "name": "entity.other.attribute-name.anchor.escapedregexp"
+    },
+
+    "anchors": {
+      "match": "[$^]",
+      "name": "entity.other.attribute-name.anchor.escapedregexp"
     }
   },
 
