@@ -9,7 +9,7 @@
     { "include": "#quantifiers" },
     { "include": "#granularQuantifier" },
     { "include": "#operators" },
-    { "include": "#characterClassGroup" },
+    { "include": "#sets" },
     { "include": "#groups" }
   ],
 
@@ -60,7 +60,7 @@
     "classes": {
       "match": "\\\\\\\\[dDsSwW]",
       "name": "keyword.other.character-class.escapedregexp",
-      "comment": "XXX: Add unicode escapes \x00"
+      "comment": "XXX: Add unicode escapes \\x00 and escapes within comments."
     },
 
     "operators": {
@@ -68,28 +68,28 @@
       "name": "keyword.other.operator.escapedregexp"
     },
 
-    "characterClassGroup": {
+    "sets": {
       "begin": "(\\[)(\\^)?(\\])?",
       "beginCaptures": {
-          "1": { "name": "keyword.other.range.escapedregexp" },
-          "2": { "name": "keyword.other.range.operator.negate.escapedregexp" },
-          "3": { "name": "string.character-class.element.escapedregexp" }
-      },
-      "endCaptures": {
-          "0": { "name": "keyword.other.range.escapedregexp" }
+          "1": { "name": "keyword.other.set.escapedregexp" },
+          "2": { "name": "keyword.other.set.operator.negate.escapedregexp" },
+          "3": { "name": "string.set.element.escapedregexp" }
       },
       "end": "]",
+      "endCaptures": {
+          "0": { "name": "keyword.other.set.escapedregexp" }
+      },
       "patterns": [
-        {  "name": "support.function.character-class.range.escapedregexp",
+        {  "name": "support.function.set.range.escapedregexp",
            "match": "[A-Za-z0-9](-)[A-Za-z0-9]",
            "captures": {
-               "1": { "name": "keyword.operator.other.character-class.range.separator.escapedregexp" }
+               "1": { "name": "keyword.operator.other.set.range.separator.escapedregexp" }
            }
         },
         { "include": "#regexpEscapeSequences" },
         { "include": "#classes" },
         { "include": "#jsonEscapeSequences" },
-        {  "name": "string.character-class.element.escapedregexp",
+        {  "name": "string.set.element.escapedregexp",
            "match": ".*?"
         }
       ]
@@ -109,7 +109,8 @@
            "match": "(\\?(?::|=|!|<=|<!))"
         },
         { "include": "$self" }
-      ]
+      ],
+      "comment": "XXX: Implement named groups, options and yes/no groups."
     },
 
     "anchorsWithBackslash": {
