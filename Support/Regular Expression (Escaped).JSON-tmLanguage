@@ -1,4 +1,5 @@
 { "name": "Regular Expression (Escaped)",
+
   "scopeName": "source.escapedregexp",
 
   "patterns": [

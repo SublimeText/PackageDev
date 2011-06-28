@@ -1,6 +1,9 @@
 { "name": "Sublime Text Syntax Definition",
+
   "scopeName": "source.json-tmlanguage",
+
   "fileTypes": ["JSON-tmLanguage", "json-tmlanguage"],
+
   "patterns": [
     { "include": "#syntaxName" },
     { "include": "#scopeName" },
@@ -11,7 +14,9 @@
     { "include": "#comment" },
     { "include": "#uuid" }
   ],
+
   "repository": {
+
       "match": {
         "begin": "\"(match|begin|end)\"\\s*?:\\s*(\")",
         "end": "(\")",
@@ -27,6 +32,7 @@
             "1": { "name": "punctuation.definition.regex.end.json-tmlanguage" }
         }
       },
+
       "include": {
         "match": "\"(include)\"\\s*?:\\s*?\"(?:(#)(\\w+)|(\\$)(self)|([A-Za-z0-9.]+))\"",
         "captures": {
@@ -38,6 +44,7 @@
           "6": { "name": "string.repository.item.identifier.json-tmlanguage" }
         }
       },
+
       "patterns": {
         "begin": "\"(patterns)\"\\s*?:\\s*?\\[",
         "beginCaptures": {
@@ -48,6 +55,7 @@
           { "include": "#patternsItem" }
         ]
       },
+
       "patternsItem": {
         "begin": "\\{",
         "end": "\\}",
@@ -60,6 +68,7 @@
           { "include": "#comment" }
         ]
       },
+
       "fileTypes": {
         "begin": "\"(fileTypes)\"\\s*?:\\s*?\\[",
         "beginCaptures": {
@@ -74,6 +83,7 @@
           }
         ]
       },
+
       "name": {
         "match": "\"((?:content)?[nN]ame)\"\\s*?:\\s*?\"(.+?)\"",
         "captures": {
@@ -81,6 +91,7 @@
           "2": { "name": "string.meta.data.json-tmlanguage" }
         }
       },
+
       "syntaxName": {
         "match": "\"(name)\"\\s*?:\\s*?\"(.+?)\"",
         "captures": {
@@ -88,6 +99,7 @@
           "2": { "name": "string.meta.sytax.name.json-tmlanguage" }
         }
       },
+
       "scopeName": {
         "match": "\"(scopeName)\"\\s*?:\\s*?\"(.+?)\"",
         "captures": {
@@ -95,6 +107,7 @@
           "2": { "name": "string.meta.scope.name.json-tmlanguage" }
         }
       },
+
       "comment": {
         "match": "\"(comment)\"\\s*?:\\s*?\"(.+?)\"",
         "captures": {
@@ -102,6 +115,7 @@
           "2": { "name": "comment.json-tmlanguage" }
         }
       },
+
       "uuid": {
         "match": "\"(uuid)\"\\s*?:\\s*?\"([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)\"",
         "captures": {
@@ -113,6 +127,7 @@
           "6": { "name": "constant.numeric.json-tmlanguage" }
         }
       },
+
       "repo": {
         "begin": "\"(repository)\"\\s*?:\\s*?\\{",
         "beginCaptures": {
@@ -124,6 +139,7 @@
         ],
         "contentName": "meta.repository.json-tmlanguage"
       },
+
       "repositoryItem": {
         "begin": "\"([a-zA-Z0-9_-]+)\"\\s*?:\\s*?\\{",
         "beginCaptures": {
@@ -138,6 +154,7 @@
           { "include": "#comment" }
         ]
       },
+
       "captures": {
         "begin": "\"((?:begin|end)?[cC]aptures)\"\\s*?:\\s*?\\{",
         "beginCaptures": {
@@ -149,6 +166,7 @@
         ],
         "contentName": "meta.captures.json-tmlanguage"
       },
+
       "captureItem": {
         "begin": "\"(\\d+)\"\\s+*?:\\s*?\\{",
         "beginCaptures": {
@@ -161,5 +179,6 @@
         "contentName": "meta.capture.json-tmlanguage"
       }
   },
+
   "uuid": "8c7e3a99-1780-4b72-9ce5-585949c0563e"
 }
