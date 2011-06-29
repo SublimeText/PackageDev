@@ -6,6 +6,8 @@
     { "caption": "AAAPackageDev: New Syntax Definition", "command": "new_syntax_def" },
     { "caption": "AAAPackageDev: New Syntax Definition from Buffer", "command": "new_syntax_def_from_buffer" },
 
+    { "caption": "AAAPackageDev: New Settings File", "command": "new_settings" },
+
     { "caption": "AAAPackageDev: New Package", "command": "new_package" },
     { "caption": "AAAPackageDev: Delete Package", "command": "delete_package" }
 ]
