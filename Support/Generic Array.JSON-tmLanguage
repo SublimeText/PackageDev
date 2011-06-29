@@ -16,29 +16,8 @@
           "end": "\\]",
           "contentName": "meta.definition.array.jsongenericarray",
           "patterns": [
-              { "include": "#string"
-              },
-              { "match": "\\d+(?:\\.\\d+)?",
-                "name": "constant.numeric.jsongenericarray"
-              },
-              { "include": "#genericArray"
-              }
-          ]
-      },
-
-      "string": {
-          "begin":"\"",
-          "end": "\"",
-          "patterns": [
-              { "match": "\\\\[\"tnr]",
-                "captures": {
-                    "0": { "name": "constant.character.escape.jsongenericarray" }
-                }
-              },
-              { "include": "source.sublimesnippetraw" },
-              {  "name": "string.jsongenericarray",
-                 "match": ".+?"
-              }
+              { "include": "source.jsongenericarrayelements" },
+              { "include": "#genericArray" }
           ]
       }
   },
