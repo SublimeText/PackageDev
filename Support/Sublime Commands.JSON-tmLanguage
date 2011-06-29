@@ -1,6 +1,9 @@
 { "name": "Sublime Text Commands",
+
   "scopeName": "source.sublimecommands",
+
   "fileTypes": ["sublime-commands"],
+
   "patterns": [
       { "begin": "(\\[)",
         "beginCaptures": {
@@ -30,39 +33,9 @@
         ]
       }
   ],
+
   "repository": {
-      "genericArray": {
-          "begin":"\\[",
-          "beginCaptures": {
-              "1": { "name": "punctuation.definition.array.generic.start.sublimecommands"}
-          },
-          "end": "\\]",
-          "contentName": "meta.definition.array.generic.sublimecommands",
-          "patterns": [
-              { "include": "#stringWithSnippets"
-              },
-              { "match": "[\\d\\.]+",
-                "name": "constant.numeric.sublimecommands"
-              },
-              { "include": "#genericArray"
-              }
-          ]
-      },
-      "stringWithSnippets": {
-          "begin":"\"",
-          "end": "\"",
-          "patterns": [
-              { "match": "(\\\\(?:\"|t|n|r))",
-                "captures": {
-                    "1": { "name": "constant.character.escape.sublimecommands" }
-                }
-              },
-              { "include": "source.sublimesnippetraw" },
-              {  "name": "string.sublimecommands",
-                 "match": "."
-              }
-          ]
-      },
+
       "args": {
         "begin": "\"(args)\"\\s*:",
         "beginCaptures": {
@@ -71,14 +44,14 @@
         "end": "(?<=\\})",
         "name": "meta.definition.attached.command.arguments.sublimecommands",
         "patterns": [
-            { "include": "#genericArray"
+            { "include": "source.jsongenericarray"
             },
             { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
               "captures": {
                   "1": { "name": "support.function.array.generic.key.sublimecommands" }
               }
             },
-            { "include": "#stringWithSnippets"
+            { "include": "source.jsongenericarrayelements"
             },
             { "match": "true|false|\\d+",
               "name": "constant.numeric.sublimecommands"
@@ -89,11 +62,12 @@
             }
         ]
       },
+
       "command": {
         "begin": "\\{",
         "end": "\\}",
         "patterns": [
-          { "match": "\"(command|caption)\":\\s*\"([a-zA-Z_: ]+)\"",
+          { "match": "\"(command|caption)\":\\s*\"([a-zA-Z0-9_: ]+)\"",
             "captures": {
               "1": { "name": "keyword.other.sublimecommands" },
               "2": { "name": "string.attached.command.name.sublimecommands" }
@@ -103,5 +77,6 @@
         ]
       }
   },
+
   "uuid": "f56e1baa-51fc-4791-a9d9-21301f2e3a01"
 }
