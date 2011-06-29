@@ -53,7 +53,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>[^,\t\s]</string>
+					<string>[^,	\s]</string>
 					<key>name</key>
 					<string>invalid.illegal.keybinding.definition.sublimekeymap</string>
 				</dict>
@@ -106,7 +106,7 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#string</string>
+					<string>source.jsongenericarrayelements</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -357,40 +357,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>genericArray</key>
-		<dict>
-			<key>begin</key>
-			<string>\[</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.array.generic.start.sublimekeymap</string>
-				</dict>
-			</dict>
-			<key>contentName</key>
-			<string>meta.definition.array.generic.sublimekeymap</string>
-			<key>end</key>
-			<string>\]</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#string</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\d+(?:\.\d+)?</string>
-					<key>name</key>
-					<string>constant.numeric.sublimekeymap</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#genericArray</string>
-				</dict>
-			</array>
-		</dict>
 		<key>keybinding</key>
 		<dict>
 			<key>begin</key>
@@ -547,38 +513,6 @@
 							<string>invalid.illegal.key.sequence.sublimekeymap</string>
 						</dict>
 					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>string</key>
-		<dict>
-			<key>begin</key>
-			<string>"</string>
-			<key>end</key>
-			<string>"</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>constant.character.escape.sublimekeymap</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(\\(?:"|t|n|r))</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>source.sublimesnippetraw</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>.</string>
-					<key>name</key>
-					<string>string.sublimekeymap</string>
 				</dict>
 			</array>
 		</dict>
