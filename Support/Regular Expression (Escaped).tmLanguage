@@ -151,7 +151,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(\?(?:[:=!]|&lt;[=!]))</string>
+					<string>(\?(?:[:=!&gt;]|&lt;[=!]))</string>
 					<key>name</key>
 					<string>support.function.assertion.escapedregexp</string>
 				</dict>

@@ -45,7 +45,7 @@
         "end": "(?<=\\])",
         "name": "meta.definition.command.sublimebuild",
         "patterns": [
-            { "include": "#genericArray"
+            { "include": "source.jsongenericarray"
             },
             { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
               "captures": {
@@ -126,43 +126,7 @@
             }
         ]
       },
-      "genericArray": {
-          "begin":"\\[",
-          "beginCaptures": {
-              "1": { "name": "punctuation.definition.array.generic.start.sublimebuild"}
-          },
-          "end": "\\]",
-          "contentName": "meta.definition.array.generic.sublimebuild",
-          "patterns": [
-              { "include": "#string"
-              },
-              { "match": "[\\d\\.]+",
-                "name": "constant.numeric.sublimebuild"
-              },
-              { "include": "#genericArray"
-              }
-          ]
-      },
-      "string": {
-          "begin":"\"",
-          "end": "\"",
-          "patterns": [
-              { "match": "(\\\\(?:\"|t|n|r))",
-                "captures": {
-                    "1": { "name": "constant.character.escape.sublimebuild" }
-                }
-              },
-              { "match": "(\\$)([a-zA-Z]+)",
-                "captures": {
-                    "1": { "name": "support.function.variable.sign.sublimebuild" },
-                    "2": { "name": "entity.other.attribute-name.variable.name.sublimebuild" }
-                }
-              },
-              { "match": ".",
-                "name": "string.sublimebuild"
-              }
-          ]
-      },
+
       "envVarString": {
           "begin":"\"",
           "end": "\"",

@@ -92,7 +92,7 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#genericArray</string>
+					<string>source.jsongenericarray</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -108,7 +108,7 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#stringWithSnippets</string>
+					<string>source.jsongenericarrayelements</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -147,77 +147,11 @@
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>"(command|caption)":\s*"([a-zA-Z_: ]+)"</string>
+					<string>"(command|caption)":\s*"([a-zA-Z0-9_: ]+)"</string>
 				</dict>
 				<dict>
 					<key>include</key>
 					<string>#args</string>
-				</dict>
-			</array>
-		</dict>
-		<key>genericArray</key>
-		<dict>
-			<key>begin</key>
-			<string>\[</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.array.generic.start.sublimecommands</string>
-				</dict>
-			</dict>
-			<key>contentName</key>
-			<string>meta.definition.array.generic.sublimecommands</string>
-			<key>end</key>
-			<string>\]</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#stringWithSnippets</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>[\d\.]+</string>
-					<key>name</key>
-					<string>constant.numeric.sublimecommands</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#genericArray</string>
-				</dict>
-			</array>
-		</dict>
-		<key>stringWithSnippets</key>
-		<dict>
-			<key>begin</key>
-			<string>"</string>
-			<key>end</key>
-			<string>"</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>constant.character.escape.sublimecommands</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(\\(?:"|t|n|r))</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>source.sublimesnippetraw</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>.</string>
-					<key>name</key>
-					<string>string.sublimecommands</string>
 				</dict>
 			</array>
 		</dict>

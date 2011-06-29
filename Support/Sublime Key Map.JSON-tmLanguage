@@ -19,7 +19,7 @@
             { "match": ",{2,}",
               "name": "invalid.illegal.keybinding.definition.sublimekeymap"
             },
-            { "match": "[^,\\t\\s]",
+            { "match": "[^,\t\\s]",
               "name": "invalid.illegal.keybinding.definition.sublimekeymap"
             },
             {  "name": "invalid.illegal.keybinding.definition.sublimekeymap",
@@ -119,38 +119,7 @@
             }
         ]
       },
-      "genericArray": {
-          "begin":"\\[",
-          "beginCaptures": {
-              "1": { "name": "punctuation.definition.array.generic.start.sublimekeymap"}
-          },
-          "end": "\\]",
-          "contentName": "meta.definition.array.generic.sublimekeymap",
-          "patterns": [
-              { "include": "#string"
-              },
-              { "match": "\\d+(?:\\.\\d+)?",
-                "name": "constant.numeric.sublimekeymap"
-              },
-              { "include": "#genericArray"
-              }
-          ]
-      },
-      "string": {
-          "begin":"\"",
-          "end": "\"",
-          "patterns": [
-              { "match": "(\\\\(?:\"|t|n|r))",
-                "captures": {
-                    "1": { "name": "constant.character.escape.sublimekeymap" }
-                }
-              },
-              { "include": "source.sublimesnippetraw" },
-              {  "name": "string.sublimekeymap",
-                 "match": "."
-              }
-          ]
-      },
+
       "contextDef": {
         "begin": "\"(context)\"\\s*:",
         "beginCaptures": {
@@ -176,19 +145,16 @@
         "end": "(?<=\\})",
         "name": "meta.definition.attached.command.arguments.sublimekeymap",
         "patterns": [
-            { "include": "source.jsongenericarray"
-            },
+            { "include": "source.jsongenericarray"},
             { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
               "captures": {
                   "1": { "name": "support.function.array.generic.key.sublimekeymap" }
               }
             },
-            { "include": "#string"
-            },
+            { "include": "source.jsongenericarrayelements" },
             { "match": "true|false|\\d+",
               "name": "constant.numeric.sublimekeymap"
             },
-
             { "match": "\\{",
               "name": "punctuation.definition.array.keybinding.key.sequence"
             }

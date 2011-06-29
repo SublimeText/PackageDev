@@ -114,7 +114,7 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#genericArray</string>
+					<string>source.jsongenericarray</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -321,40 +321,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>genericArray</key>
-		<dict>
-			<key>begin</key>
-			<string>\[</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.array.generic.start.sublimebuild</string>
-				</dict>
-			</dict>
-			<key>contentName</key>
-			<string>meta.definition.array.generic.sublimebuild</string>
-			<key>end</key>
-			<string>\]</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#string</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>[\d\.]+</string>
-					<key>name</key>
-					<string>constant.numeric.sublimebuild</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#genericArray</string>
-				</dict>
-			</array>
-		</dict>
 		<key>path</key>
 		<dict>
 			<key>begin</key>
@@ -429,51 +395,6 @@
 			<string>Maybe make this a begin-end: paths must contain characters; cling to that.</string>
 			<key>match</key>
 			<string>"(working_dir|selector|target)":\s*"(.*?)"</string>
-		</dict>
-		<key>string</key>
-		<dict>
-			<key>begin</key>
-			<string>"</string>
-			<key>end</key>
-			<string>"</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>constant.character.escape.sublimebuild</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(\\(?:"|t|n|r))</string>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.function.variable.sign.sublimebuild</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>entity.other.attribute-name.variable.name.sublimebuild</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(\$)([a-zA-Z]+)</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>.</string>
-					<key>name</key>
-					<string>string.sublimebuild</string>
-				</dict>
-			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
