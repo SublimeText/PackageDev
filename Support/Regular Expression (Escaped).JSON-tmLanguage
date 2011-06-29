@@ -107,7 +107,7 @@
       "end": "\\)",
       "patterns": [
         {  "name": "support.function.assertion.escapedregexp",
-           "match": "(\\?(?:[:=!]|<[=!]))"
+           "match": "(\\?(?:[:=!>]|<[=!]))"
         },
         { "include": "$self" }
       ],
