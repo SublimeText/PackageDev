@@ -2,7 +2,7 @@
 
   "scopeName": "source.json-tmlanguage",
 
-  "fileTypes": ["JSON-tmLanguage", "json-tmlanguage"],
+  "fileTypes": ["json-tmlanguage"],
 
   "patterns": [
     { "include": "#syntaxName" },
@@ -48,7 +48,7 @@
       "patterns": {
         "begin": "\"(patterns)\"\\s*?:\\s*?\\[",
         "beginCaptures": {
-          "1": { "name": "keyword.other.control.json-tmLanguage" }
+          "1": { "name": "keyword.other.control.json-tmlanguage" }
         },
         "end": "\\]",
         "patterns": [
@@ -72,13 +72,14 @@
       "fileTypes": {
         "begin": "\"(fileTypes)\"\\s*?:\\s*?\\[",
         "beginCaptures": {
-          "1": { "name": "keyword.other.control.json-tmLanguage" }
+          "1": { "name": "keyword.other.control.json-tmlanguage" }
         },
         "end": "\\]",
         "patterns": [
-          { "include": "source.jsongenericarray" }
+          { "include": "source.jsongenericarrayelements" }
 
-        ]
+        ],
+        "contentName": "meta.json.generic.array.json.tmlanguage"
       },
 
       "name": {
@@ -128,7 +129,7 @@
       "repo": {
         "begin": "\"(repository)\"\\s*?:\\s*?\\{",
         "beginCaptures": {
-          "1": { "name": "keyword.other.control.json-tmLanguage" }
+          "1": { "name": "keyword.other.control.json-tmlanguage" }
         },
         "end": "\\}",
         "patterns": [
@@ -140,7 +141,7 @@
       "repositoryItem": {
         "begin": "\"([a-zA-Z0-9_-]+)\"\\s*?:\\s*?\\{",
         "beginCaptures": {
-          "1": { "name": "entity.other.attribute-name.json-tmLanguage" }
+          "1": { "name": "entity.other.attribute-name.json-tmlanguage" }
         },
         "end": "\\}",
         "patterns": [
@@ -155,7 +156,7 @@
       "captures": {
         "begin": "\"((?:begin|end)?[cC]aptures)\"\\s*?:\\s*?\\{",
         "beginCaptures": {
-          "1": { "name": "keyword.other.control.json-tmLanguage" }
+          "1": { "name": "keyword.other.control.json-tmlanguage" }
         },
         "end": "\\}",
         "patterns": [

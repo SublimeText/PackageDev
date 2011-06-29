@@ -4,7 +4,6 @@
 <dict>
 	<key>fileTypes</key>
 	<array>
-		<string>JSON-tmLanguage</string>
 		<string>json-tmlanguage</string>
 	</array>
 	<key>name</key>
@@ -79,7 +78,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.control.json-tmLanguage</string>
+					<string>keyword.other.control.json-tmlanguage</string>
 				</dict>
 			</dict>
 			<key>contentName</key>
@@ -121,16 +120,18 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.control.json-tmLanguage</string>
+					<string>keyword.other.control.json-tmlanguage</string>
 				</dict>
 			</dict>
+			<key>contentName</key>
+			<string>meta.json.generic.array.json.tmlanguage</string>
 			<key>end</key>
 			<string>\]</string>
 			<key>patterns</key>
 			<array>
 				<dict>
 					<key>include</key>
-					<string>source.jsongenericarray</string>
+					<string>source.jsongenericarrayelements</string>
 				</dict>
 			</array>
 		</dict>
@@ -236,7 +237,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.control.json-tmLanguage</string>
+					<string>keyword.other.control.json-tmlanguage</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -292,7 +293,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.control.json-tmLanguage</string>
+					<string>keyword.other.control.json-tmlanguage</string>
 				</dict>
 			</dict>
 			<key>contentName</key>
@@ -316,7 +317,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>entity.other.attribute-name.json-tmLanguage</string>
+					<string>entity.other.attribute-name.json-tmlanguage</string>
 				</dict>
 			</dict>
 			<key>end</key>
