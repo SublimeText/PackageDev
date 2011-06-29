@@ -76,11 +76,8 @@
         },
         "end": "\\]",
         "patterns": [
-          { "match": "\"([a-zA-Z0-9-]+)\"",
-            "captures": {
-              "1": { "name": "string.file.extension.json-tmLanguage" }
-            }
-          }
+          { "include": "source.jsongenericarray" }
+
         ]
       },
 

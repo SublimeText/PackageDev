@@ -26,7 +26,7 @@
     },
 
     "regexpEscapeSequences": {
-      "match": "(?<!\\\\\\\\)\\\\\\\\(?:[\\^+?*.(){}$]|\\[|\\])",
+      "match": "(?<!\\\\\\\\)\\\\\\\\(?:[]^+?*.(){}$\\[])",
       "name": "constant.character.escape.sequence.regexp.escapedregexp",
       "comment": "Escape next char if the slash isn't being escaped itself."
     },
@@ -50,11 +50,11 @@
       "match": "(\\{)([0-9]+)(,)?([0-9]+)?(\\})",
       "name": "meta.granular.quantifier.escapedregexp",
       "captures": {
-          "1": { "name": "entity.other.attribute-name.punctuation.quantifier.start.escapedregexp" },
+          "1": { "name": "keyword.other.punctuation.quantifier.start.escapedregexp" },
           "2": { "name": "constant.numeric.escapedregexp" },
           "3": { "name": "keyword.other.separator.escapedregexp" },
           "4": { "name": "constant.numeric.escapedregexp" },
-          "5": { "name": "entity.other.attribute-name.punctuation.quantifier.start.escapedregexp" }
+          "5": { "name": "keyword.other.punctuation.quantifier.end.escapedregexp" }
       }
     },
 
@@ -107,7 +107,7 @@
       "end": "\\)",
       "patterns": [
         {  "name": "support.function.assertion.escapedregexp",
-           "match": "(\\?(?::|=|!|<=|<!))"
+           "match": "(\\?(?:[:=!]|<[=!]))"
         },
         { "include": "$self" }
       ],

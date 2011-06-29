@@ -95,7 +95,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>entity.other.attribute-name.punctuation.quantifier.start.escapedregexp</string>
+					<string>keyword.other.punctuation.quantifier.start.escapedregexp</string>
 				</dict>
 				<key>2</key>
 				<dict>
@@ -115,7 +115,7 @@
 				<key>5</key>
 				<dict>
 					<key>name</key>
-					<string>entity.other.attribute-name.punctuation.quantifier.start.escapedregexp</string>
+					<string>keyword.other.punctuation.quantifier.end.escapedregexp</string>
 				</dict>
 			</dict>
 			<key>match</key>
@@ -151,7 +151,7 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>(\?(?::|=|!|&lt;=|&lt;!))</string>
+					<string>(\?(?:[:=!]|&lt;[=!]))</string>
 					<key>name</key>
 					<string>support.function.assertion.escapedregexp</string>
 				</dict>
@@ -187,7 +187,7 @@
 			<key>comment</key>
 			<string>Escape next char if the slash isn't being escaped itself.</string>
 			<key>match</key>
-			<string>(?&lt;!\\\\)\\\\(?:[\^+?*.(){}$]|\[|\])</string>
+			<string>(?&lt;!\\\\)\\\\(?:[]^+?*.(){}$\[])</string>
 			<key>name</key>
 			<string>constant.character.escape.sequence.regexp.escapedregexp</string>
 		</dict>

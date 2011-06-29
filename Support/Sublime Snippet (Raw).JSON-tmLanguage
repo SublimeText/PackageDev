@@ -21,14 +21,14 @@
 		},
 
 		{	"name": "meta.definition.substitution.sublimesnippetraw",
-			"begin": "(\\$)\\{(\\d+)(?=/)",
+			"begin": "(\\$)\\{(\\d+)(?=\/)",
 			"beginCaptures": {
 				"1": { "name": "keyword.other.sublimesnippetraw" },
 				"2": { "name": "support.constant.numeric.sublimesnippetraw" }
 			},
 			"end": "\\}",
 			"patterns": [
-				{  "match": "(?<!\\\\)(/)",
+				{  "match": "(?<!\\\\)(\/)",
 					"captures": {
 					    "1": { "name": "punctuation.definition.substitution.sublimesnippetraw" }
 					}

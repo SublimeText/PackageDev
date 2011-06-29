@@ -129,16 +129,8 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>string.file.extension.json-tmLanguage</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>"([a-zA-Z0-9-]+)"</string>
+					<key>include</key>
+					<string>source.jsongenericarray</string>
 				</dict>
 			</array>
 		</dict>
