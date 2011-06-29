@@ -1,0 +1,5 @@
+<snippet>
+    <content><![CDATA["$1": {$0}]]></content>
+    <tabTrigger>ss</tabTrigger>
+    <scope>source.sublime-settings</scope>
+</snippet>
