@@ -1,4 +1,4 @@
-{ "name": "Sublime Key Map",
+{ "name": "Sublime Text Key Map",
   "scopeName": "source.sublimekeymap",
   "fileTypes": ["sublime-keymap"],
   "patterns": [
@@ -129,7 +129,7 @@
           "patterns": [
               { "include": "#string"
               },
-              { "match": "[\\d\\.]+",
+              { "match": "\\d+(?:\\.\\d+)?",
                 "name": "constant.numeric.sublimekeymap"
               },
               { "include": "#genericArray"
@@ -176,7 +176,7 @@
         "end": "(?<=\\})",
         "name": "meta.definition.attached.command.arguments.sublimekeymap",
         "patterns": [
-            { "include": "#genericArray"
+            { "include": "source.jsongenericarray"
             },
             { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
               "captures": {

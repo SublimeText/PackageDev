@@ -1,6 +1,7 @@
 {
-	"name": "Sublime Snippet (Raw)",
+	"name": "Sublime Text Snippet (Raw)",
 	"scopeName": "source.sublimesnippetraw",
+
 	"patterns": [
 		{	"name": "entity.other.attribute-name.environment.sublimesnippetraw",
 			"match": "(\\$)(PARAM(\\d)|TM_SELECTED_TEXT|USER_NAME|SELECTION)",
@@ -9,7 +10,8 @@
 			 	"2": { "name": "variable.storage.name.sublimesnippetraw" },
 			 	"3": { "name": "support.constant.numeric.sublimesnippetraw" }
 			}
-			},
+		},
+
 		{	"name": "variable.field.numbered.sublimesnippetraw",
 			"match": "(\\$)(\\d+)",
 			"captures": {
@@ -17,15 +19,16 @@
 			    "2": { "name": "support.constant.numeric.name.sublimesnippetraw" }
 			}
 		},
+
 		{	"name": "meta.definition.substitution.sublimesnippetraw",
-			"begin": "(\\$)\\{(\\d+)(?>/)",
+			"begin": "(\\$)\\{(\\d+)(?=\/)",
 			"beginCaptures": {
 				"1": { "name": "keyword.other.sublimesnippetraw" },
 				"2": { "name": "support.constant.numeric.sublimesnippetraw" }
 			},
 			"end": "\\}",
 			"patterns": [
-				{  "match": "(?<!\\\\)(/)",
+				{  "match": "(?<!\\\\)(\/)",
 					"captures": {
 					    "1": { "name": "punctuation.definition.substitution.sublimesnippetraw" }
 					}
@@ -36,13 +39,16 @@
 				}
 			]
 		},
+
 		{	"name": "variable.field.sublimesnippetraw",
-			"match": "(\\$)([a-zA-Z0-9_]+)",
+			"match": "(\\$)(?:(packages)|([a-zA-Z0-9_]+))",
 			"captures": {
 			    "1": { "name": "keyword.other.sublimesnippetraw" },
-			    "2": { "name": "variable.storage.name.sublimesnippetraw" }
+			    "2": { "name": "entity.other.attribute-name.variable.storage.known.name.sublimesnippetraw" },
+			    "3": { "name": "variable.storage.name.sublimesnippetraw" }
 			}
 		},
+
 		{	"name": "meta.definition.variable.complex.sublimesnippetraw",
 			"begin": "(\\$)\\{",
 			"beginCaptures": {
@@ -58,6 +64,9 @@
 				    	"1": { "name": "support.constant.numeric.sublimesnippetraw" }
 				   }
 				},
+				{  "name": "entity.other.attribute-name.variable.storage.known.name.sublimesnippetraw",
+				   "match": "\\b(packages)\\b"
+				},
 				{ "include": "$self" },
 				{  "name": "string.sublimesnippetraw",
 				   "match": "."
@@ -65,5 +74,6 @@
 			]
 		}
 	],
+
 	"uuid": "9c9f9b3c-0e97-4423-a995-14d6412613d3"
 }

@@ -7,7 +7,7 @@
 		<string>sublime-keymap</string>
 	</array>
 	<key>name</key>
-	<string>Sublime Key Map</string>
+	<string>Sublime Text Key Map</string>
 	<key>patterns</key>
 	<array>
 		<dict>
@@ -90,7 +90,7 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#genericArray</string>
+					<string>source.jsongenericarray</string>
 				</dict>
 				<dict>
 					<key>captures</key>
@@ -381,7 +381,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>[\d\.]+</string>
+					<string>\d+(?:\.\d+)?</string>
 					<key>name</key>
 					<string>constant.numeric.sublimekeymap</string>
 				</dict>

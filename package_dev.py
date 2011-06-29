@@ -66,7 +66,7 @@ class NewPackageCommand(sublime_plugin.WindowCommand):
     def run(self):
         self.window.show_input_panel(
                             "New Package Name", '', self.on_done, None, None)
-
+                            
 
 class DeletePackageCommand(sublime_plugin.WindowCommand):
     def run(self):
