@@ -1,0 +1,47 @@
+{ "name": "JSON Generic Array",
+
+  "scopeName": "source.jsongenericarray",
+
+  "patterns": [
+  	{ "include": "#genericArray" }
+  ],
+
+  "repository": {
+
+      "genericArray": {
+          "begin":"\\[",
+          "beginCaptures": {
+              "1": { "name": "punctuation.definition.array.start.jsongenericarray"}
+          },
+          "end": "\\]",
+          "contentName": "meta.definition.array.jsongenericarray",
+          "patterns": [
+              { "include": "#string"
+              },
+              { "match": "\\d+(?:\\.\\d+)?",
+                "name": "constant.numeric.jsongenericarray"
+              },
+              { "include": "#genericArray"
+              }
+          ]
+      },
+
+      "string": {
+          "begin":"\"",
+          "end": "\"",
+          "patterns": [
+              { "match": "\\\\[\"tnr]",
+                "captures": {
+                    "0": { "name": "constant.character.escape.jsongenericarray" }
+                }
+              },
+              { "include": "source.sublimesnippetraw" },
+              {  "name": "string.jsongenericarray",
+                 "match": ".+?"
+              }
+          ]
+      }
+  },
+
+  "uuid": "8a5a7ee7-e39f-46ff-96ba-0691d65e946b"
+}
