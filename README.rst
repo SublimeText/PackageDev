@@ -1,29 +1,35 @@
+=============
 AAAPackageDev
 =============
 
-A collection of utilities for Sublime Text package developers.
-
 status: beta
-
 
 Overview
 ********
 
-* Tools for creating syntax definitions
-* Tools for creating new packages
-* Tools for creating snippets
-* Sublime Library
+AAAPackageDev streamlines creation of snippets, completions files, build systems
+and nearly any other Sublime Text extension.
+
+The general workflow looks like this:
+
+- execute ``new_*`` command (``new_raw_snippet``, ``new_completions``, ``new_syntax_def``...)
+- edit file (with specific snippets, completions, higlighting, build systems...)
+- save file
+
+AAAPackageDev ``new_*`` commands are typically accessible through the *Command
+Palette* (``Ctrl+Shift+P``).
 
 
 Getting Started
 ***************
 
 #. Download and install `AAAPackageDev`_.
-#. Access commands from **Tools | Packages | Package Development**.
+#. Access commands from **Tools | Packages | Package Development** or the
+	*Command Palette* (``Ctrl+Shift+P``).
 
 .. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
 
-If you're running a full installation of Sublime Text, simply double click on any ``.sublime-package`` file.
+If you're running a full installation of Sublime Text, simply double click on any ``.sublime-package`` file to install it.
 If you're running a portable installation, you need to do the installation for any ``.sublime-package`` `by hand`_.
 
 .. _by hand: http://sublimetext.info/docs/extensibility/packages.html#installation-of-packages-with-sublime-package-archives
@@ -117,15 +123,31 @@ Creating a New Snippet
 	All generated snippets must be saved before they can be used.
 
 
-Snippets
-********
+About Snippets in AAAPackageDev
+*******************************
 
 The ``AAAPackageDev/Snippets`` folder contains many snippets for all kinds of
-development mentioned above.
+development mentioned above. These snippets follow memorable rules to make their
+use easy. 
+
+The snippets used more often have short tab triggers like ``f`` (*field*),
+``c`` (*completion*), ``k`` (*key binding*), etc. In cases where increasingly
+complex items might exist (for example: numbered fields, fields with place holders
+and substitutions, for snippets), their tab triggers will consist in a repeated
+character, like ``f``, ``ff`` and ``fff`` ---in the example just mentioned---,
+or ``c`` and ``cc`` in ``.sublime-completions`` files (for simple completions
+and trigger-based completions, respectively).
+
+In general, the more complex the snippet, the longer its tab trigger.
+
+Also, ``i`` (for *item*) is often a generic synonym for the most common snippet
+in a type of file and will insert the same snippet as them. In such cases,
+``ii`` and even longer tab triggers might work too for convenience.
 
 
 Sublime Library
 ***************
 
 AAAPackageDev includes ``sublime_lib``, a Python package with utilities for
-plugin developers.
+plugin developers. Once AAAPackageDev is installed, ``sublime_lib`` will be
+importable from any plugin residing in ``Packages``.
