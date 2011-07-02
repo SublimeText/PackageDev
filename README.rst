@@ -25,7 +25,7 @@ Getting Started
 
 #. Download and install `AAAPackageDev`_.
 #. Access commands from **Tools | Packages | Package Development** or the
-	*Command Palette* (``Ctrl+Shift+P``).
+*Command Palette* (``Ctrl+Shift+P``).
 
 .. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
 
