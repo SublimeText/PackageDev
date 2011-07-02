@@ -134,12 +134,32 @@
 							<string>support.function.key.sublimecompletions</string>
 						</dict>
 					</dict>
+					<key>comment</key>
+					<string>XXX: rules below are becoming a mess. escaped $ does not work at the moment.</string>
 					<key>contentName</key>
 					<string>source.sublimesnippetraw</string>
 					<key>end</key>
 					<string>"</string>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>match</key>
+							<string>\\\\(?:\$)</string>
+							<key>name</key>
+							<string>constant.character.escape.sequence.snippet.sublimecompletions</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\\(?:[tvbarn"\\])</string>
+							<key>name</key>
+							<string>entity.other.attribute-name.escape.sequence.json.sublimecompletions</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\$(?!\{|[0-9A-Za-z])</string>
+							<key>name</key>
+							<string>invalid.illegal.unescaped.characters.sublimecompletions</string>
+						</dict>
 						<dict>
 							<key>include</key>
 							<string>source.sublimesnippetraw</string>

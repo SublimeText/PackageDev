@@ -6,7 +6,7 @@ TPL = """{
     "scope": "source.${1:off}",
 
     "completions": [
-    $0
+        { "trigger": "${2:some_trigger}", "contents": "${3:Hint: Use f, ff and fff plus Tab inside here.}" }$0
     ]
 }"""
 

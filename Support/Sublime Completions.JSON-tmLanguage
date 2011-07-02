@@ -64,7 +64,17 @@
           "beginCaptures": {
             "1": { "name": "support.function.key.sublimecompletions" }
           },
+          "comment": "XXX: rules below are becoming a mess. escaped $ does not work at the moment after escaped backslashes.",
           "patterns": [
+            {  "name": "constant.character.escape.sequence.snippet.sublimecompletions",
+               "match": "\\\\\\\\(?:\\$)"
+            },
+            {  "name": "entity.other.attribute-name.escape.sequence.json.sublimecompletions",
+               "match": "\\\\(?:[tvbarn\"\\\\])"
+            },
+            {  "name": "invalid.illegal.unescaped.characters.sublimecompletions",
+               "match": "\\$(?!\\{|[0-9A-Za-z])"
+            },
             { "include": "source.sublimesnippetraw" },
             {  "name": "string.snippet.sublimecompletions",
                "match": ".*?"
