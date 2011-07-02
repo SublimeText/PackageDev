@@ -2,6 +2,7 @@
     "scope": "source.sublimecompletions",
 
     "completions": [
-    	{ "trigger": "c", "contents": "{ \"trigger\": \"$1\", \"contents\": \"$2\" }$0" }
+    	{ "trigger": "c", "contents": "{ \"trigger\": \"$1\", \"contents\": \"$2\" }$0" },
+    	{ "trigger": "i", "contents": "{ \"trigger\": \"$1\", \"contents\": \"$2\" }$0" }
     ]
 }
