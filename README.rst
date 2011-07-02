@@ -134,15 +134,13 @@ The snippets used more often have short tab triggers like ``f`` (*field*),
 ``c`` (*completion*), ``k`` (*key binding*), etc. In cases where increasingly
 complex items might exist (for example: numbered fields, fields with place holders
 and substitutions, for snippets), their tab triggers will consist in a repeated
-character, like ``f``, ``ff`` and ``fff`` ---in the example just mentioned---,
-or ``c`` and ``cc`` in ``.sublime-completions`` files (for simple completions
-and trigger-based completions, respectively).
+character, like ``f``, ``ff`` and ``fff`` ---in the example just mentioned---.
 
-In general, the more complex the snippet, the longer its tab trigger.
+As a rule of thumb, the more complex the snippet, the longer its tab trigger.
 
 Also, ``i`` (for *item*) is often a generic synonym for the most common snippet
 in a type of file and will insert the same snippet as them. In such cases,
-``ii`` and even longer tab triggers might work too for convenience.
+``ii`` and even longer tab triggers might work too for consistency.
 
 
 Sublime Library
