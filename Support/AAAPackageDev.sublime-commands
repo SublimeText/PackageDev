@@ -8,6 +8,8 @@
 
     { "caption": "AAAPackageDev: New Settings File", "command": "new_settings" },
 
+    { "caption": "AAAPackageDev: New Completions File", "command": "new_completions" },
+
     { "caption": "AAAPackageDev: New Package", "command": "new_package" },
     { "caption": "AAAPackageDev: Delete Package", "command": "delete_package" }
 ]
