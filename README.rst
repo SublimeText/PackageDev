@@ -43,7 +43,7 @@ uses ``.tmLanguage`` files, though, they need to be converted before use. The
 conversion is done through the included build system ``Json to tmLanguage``.
 
 Creating a New Syntax Definition
---------------------------------
+********************************
 
 #. Create new template (through **Tools | Packages | AAAPackageDev**) or the *Command Palette*
 #. Select ``Json to tmLanguage`` build system from **Tools | Build System**
@@ -62,7 +62,7 @@ Package Development
 Resources for package development are in a very early stage.
 
 Commands
---------
+********
 
 ``new_package()``
 	Window command. Prompts for a name and creates a new package skeleton in ``Packages``.
@@ -149,7 +149,7 @@ in a type of file and will insert the same snippet as them. In such cases,
 
 
 Sublime Library
-***************
+===============
 
 AAAPackageDev includes ``sublime_lib``, a Python package with utilities for
 plugin developers. Once AAAPackageDev is installed, ``sublime_lib`` will be
