@@ -5,14 +5,14 @@ AAAPackageDev
 status: beta
 
 Overview
-********
+========
 
-AAAPackageDev streamlines creation of snippets, completions files, build systems
-and nearly any other Sublime Text extension.
+AAAPackageDev helps create and edit snippets, completions files, build systems
+and other Sublime Text extensions.
 
 The general workflow looks like this:
 
-- execute ``new_*`` command (``new_raw_snippet``, ``new_completions``, ``new_syntax_def``...)
+- run ``new_*`` command (``new_raw_snippet``, ``new_completions``, ``new_syntax_def``...)
 - edit file (with specific snippets, completions, higlighting, build systems...)
 - save file
 
@@ -21,11 +21,11 @@ Palette* (``Ctrl+Shift+P``).
 
 
 Getting Started
-***************
+===============
 
 #. Download and install `AAAPackageDev`_.
-#. Access commands from **Tools | Packages | Package Development** or the
-*Command Palette* (``Ctrl+Shift+P``).
+#. Access commands from **Tools | Packages | Package Development** or the *Command Palette* (``Ctrl+Shift+P``).
+
 
 .. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
 
@@ -36,39 +36,30 @@ If you're running a portable installation, you need to do the installation for a
 
 
 Syntax Definition Development
-*****************************
+=============================
 
-Commands
---------
-
-``new_syntax_def()``
-	Window command. Creates a new ``.JSON-tmLanguage`` file.
-
-``new_syntax_def_from_buffer()``
-	Text command. Inserts JSON-based template for syntax definitions into the
-	active view buffer.
-
-``make_tmlanguage()``
-	Window command. Generates ``.tmLanguage`` from ``.JSON-tmLanguage`` from
-	active buffer. Intended for use in build systems.
-
-Build Systems
--------------
-
-* ``Json to tmLanguage``
-	Converts the current file (``.JSON-tmLanguage``) into a suitable ``.tmLanguage``
-	syntax definition (**Tools | Build System**).
+In AAAPackageDev, syntax definitions are written in JSON. Because Sublime Text
+uses ``.tmLanguage`` files, though, they need to be converted before use. The
+conversion is done through the included build system ``Json to tmLanguage``.
 
 Creating a New Syntax Definition
-------------------------------------
+--------------------------------
 
-#. Create new template with any of the above commands
+#. Create new template (through **Tools | Packages | AAAPackageDev**) or the *Command Palette*
 #. Select ``Json to tmLanguage`` build system from **Tools | Build System**
 #. Press ``F7``
 
+To reload changes to a syntax definition, you must restart Sublime Text.
+
+Other included resources for syntax definition development:
+
+* Snippets
+
 
 Package Development
-*******************
+===================
+
+Resources for package development are in a very early stage.
 
 Commands
 --------
@@ -87,44 +78,58 @@ Commands
 .. Will clutter your completions list in any kind of python dev.
 .. To turn on, change scope selector so ``source.python``.
 
+
 Build System Development
-************************
+========================
 
-AAAPackageDev includes a comprehensive syntax definition for ``.build-system``
-files.
+* Syntax definition for ``.build-system`` files.
 
 
-Key Maps
-********
+Key Map Development
+===================
 
-AAAPackageDev includes a comprehensive syntax definition for ``.sublime-keymap``
-files, in addition to smart completions and snippets for key map development.
+* Syntax definition for ``.sublime-keymap`` files.
+* Completions
+* Snippets
 
 
 Snippet Development
-*******************
+===================
 
-``new_raw_snippet()``
-	Window command. A especial *view* into a snippet for development only (highlighting, snippets...).
-``new_raw_snippet_from_snippet()``
-	Text command. Creates a new raw snippet from the ``content`` of an open ``.sublime-snippet``.
-``generate_snippet_from_raw_snippet()``
-	Text command. Generates a snippet file from a raw snippet. Replaces the raw snippet instead of creating a new view.
+AAAPackageDev provides a means to edit snippets using snippets. These snippets
+are called *raw snippets*. You can use snippets and snippet-like syntax in many
+files, but if you want to create ``.sublime-snippet`` files, you need to convert
+raw snippets first. This converion is done with a command.
 
-Creating a New Snippet
-----------------------
+Creating Snippets
+*****************
 
-#. Create new *raw* snippet with any available command
-#. Edit snippet using snippets, syntax highlighting, etc.
-#. Generate snippet from raw snippet with existing command
-#. Save new snippet
+#. Create new raw snippet with included commands (**Tools | Packages | AAAPackageDev** or *Command Palette*)
+#. Edit snippet
+#. If needed, convert to ``.sublime-snippet`` with included command
 
-.. note:
-	All generated snippets must be saved before they can be used.
+You can use raw snippets directly in some files, like ``.sublime-completions`` files.
+
+
+Completions Development
+=======================
+
+* Syntax definition for ``.sublime-completions`` files
+* Snippets
+
+You can use raw snippets directly in the ``contents`` element of a trigger-based
+completion.
+
+
+Settings File Development
+=========================
+
+* Syntax definition for ``.sublime-settings`` files
+* Snippets
 
 
 About Snippets in AAAPackageDev
-*******************************
+===============================
 
 The ``AAAPackageDev/Snippets`` folder contains many snippets for all kinds of
 development mentioned above. These snippets follow memorable rules to make their
