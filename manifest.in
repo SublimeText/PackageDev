@@ -1,6 +1,6 @@
 global-include *.sublime-*
 global-exclude *.sublime-project
-global-exclude *.*.cache
+global-exclude *.cache
 
 global-exclude _*.txt
 exclude html_template.txt
