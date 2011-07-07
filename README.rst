@@ -23,11 +23,11 @@ Palette* (``Ctrl+Shift+P``).
 Getting Started
 ===============
 
-#. Download and install `AAAPackageDev`_. (See `instructions to install`_ ``.sublime-package`` files.)
+#. Download and install `AAAPackageDev`_. (See `installation instructions`_ for ``.sublime-package`` files.)
 #. Access commands from **Tools | Packages | Package Development** or the *Command Palette* (``Ctrl+Shift+P``).
 
 .. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
-.. _instructions to install: http://sublimetext.info/docs/en/extensibility/packages.html#installation-of-packages-with-sublime-package-archives
+.. _installation instructions: http://sublimetext.info/docs/en/extensibility/packages.html#installation-of-packages
 
 
 Syntax Definition Development
