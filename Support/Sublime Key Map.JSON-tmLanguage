@@ -48,7 +48,7 @@
                     "end": "\"",
                     "contentName": "context.operand.left.sublimekeymap",
                     "patterns": [
-                        { "match": "eol_selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)",
+                        { "match": "(?:eol_)?selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)",
                           "name": "keyword.sublimekeymap",
                           "captures": {
                               "1": { "name": "string.context.operand.value.left.sublimekeymap" }
