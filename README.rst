@@ -23,16 +23,12 @@ Palette* (``Ctrl+Shift+P``).
 Getting Started
 ===============
 
-#. Download and install `AAAPackageDev`_.
+#. Download and install `AAAPackageDev`_. (See `instructions to install`_ 
+``.sublime-package`` files.)
 #. Access commands from **Tools | Packages | Package Development** or the *Command Palette* (``Ctrl+Shift+P``).
 
-
 .. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
-
-If you're running a full installation of Sublime Text, simply double click on any ``.sublime-package`` file to install it.
-If you're running a portable installation, you need to do the installation for any ``.sublime-package`` `by hand`_.
-
-.. _by hand: http://sublimetext.info/docs/extensibility/packages.html#installation-of-packages-with-sublime-package-archives
+.. _instructions to install: http://sublimetext.info/docs/en/extensibility/packages.html#installation-of-packages-with-sublime-package-archives
 
 
 Syntax Definition Development
@@ -45,7 +41,7 @@ conversion is done through the included build system ``Json to tmLanguage``.
 Creating a New Syntax Definition
 ********************************
 
-#. Create new template (through **Tools | Packages | AAAPackageDev**) or the *Command Palette*
+#. Create new template (through **Tools | Packages | Package Development**) or the *Command Palette*
 #. Select ``Json to tmLanguage`` build system from **Tools | Build System**
 #. Press ``F7``
 
@@ -101,10 +97,15 @@ are called *raw snippets*. You can use snippets and snippet-like syntax in many
 files, but if you want to create ``.sublime-snippet`` files, you need to convert
 raw snippets first. This converion is done with a command.
 
+Inside ``AAAPackageDev/Support`` you will find a ``.sublime-keymap`` file.
+The key bindings in it are included for reference. If you want them to work,
+you need to copy the contents over to your personal ``.sublime-keymap`` file
+under ``Packages/User``.
+
 Creating Snippets
 *****************
 
-#. Create new raw snippet with included commands (**Tools | Packages | AAAPackageDev** or *Command Palette*)
+#. Create new raw snippet with included commands (**Tools | Packages | Package Development** or *Command Palette*)
 #. Edit snippet
 #. If needed, convert to ``.sublime-snippet`` with included command
 
@@ -137,15 +138,15 @@ use easy.
 
 The snippets used more often have short tab triggers like ``f`` (*field*),
 ``c`` (*completion*), ``k`` (*key binding*), etc. In cases where increasingly
-complex items might exist (for example: numbered fields, fields with place holders
-and substitutions, for snippets), their tab triggers will consist in a repeated
-character, like ``f``, ``ff`` and ``fff`` ---in the example just mentioned---.
+complex items of a similar kind might exist (numbered fields, fields with place
+holders and fields with substitutions in the case of snippets), their tab triggers
+will consist in a repeated character, like ``f``, ``ff`` and ``fff``.
 
 As a rule of thumb, the more complex the snippet, the longer its tab trigger.
 
 Also, ``i`` (for *item*) is often a generic synonym for the most common snippet
-in a type of file and will insert the same snippet as them. In such cases,
-``ii`` and even longer tab triggers might work too for consistency.
+in a type of file. In such cases, ``ii`` and even longer tab triggers might work
+too for consistency.
 
 
 Sublime Library
