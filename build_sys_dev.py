@@ -6,7 +6,7 @@ from sublime_lib.path import root_at_data
 BUILD_SYSTEM_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime Text Build System.tmLanguage'
 
 
-# '2' differentiates this command from the one shipped with Sublime.
+# Adding "2" to avoid name clash with shipped command.
 class NewBuildSystem2Command(sublime_plugin.WindowCommand):
     def run(self):
         v = self.window.new_file()
