@@ -195,14 +195,12 @@
                       { "match": "up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|f(20|1[0-9]|[1-9])",
                         "name": "entity.other.attribute-name.key.named.sublimekeymap"
                       },
-                      { "match": "[a-z0-9,;.:_=+-]{2,}",
+                      { "match": "[A-Za-z0-9,;.:_=+-]{2,}",
                         "name": "invalid.illegal.key.sublimekeymap"
                       },
-                      { "match": "[^A-Z]",
+                      { "match": ".{1}",
+                        "comment": "XXX What's invalid for key names?",
                         "name": "string.key.literal.sublimekeymap"
-                      },
-                      { "match": ".",
-                        "name": "invalid.illegal.key.sublimekeymap"
                       }
                   ],
                   "contentName": "meta.key.sequence.sublimekeymap"

@@ -488,21 +488,17 @@
 								</dict>
 								<dict>
 									<key>match</key>
-									<string>[a-z0-9,;.:_=+-]{2,}</string>
+									<string>[A-Za-z0-9,;.:_=+-]{2,}</string>
 									<key>name</key>
 									<string>invalid.illegal.key.sublimekeymap</string>
 								</dict>
 								<dict>
+									<key>comment</key>
+									<string>XXX What's invalid for key names?</string>
 									<key>match</key>
-									<string>[^A-Z]</string>
+									<string>.{1}</string>
 									<key>name</key>
 									<string>string.key.literal.sublimekeymap</string>
-								</dict>
-								<dict>
-									<key>match</key>
-									<string>.</string>
-									<key>name</key>
-									<string>invalid.illegal.key.sublimekeymap</string>
 								</dict>
 							</array>
 						</dict>
