@@ -3,6 +3,7 @@ import sublime, sublime_plugin
 from sublime_lib.view import has_file_ext
 
 from xml.etree import ElementTree as ET
+import os
 
 
 RAW_SNIPPETS_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime Snippet (Raw).tmLanguage'
@@ -18,7 +19,7 @@ TPL = """<snippet>
 class NewRawSnippetCommand(sublime_plugin.WindowCommand):
     def run(self):
         v = self.window.new_file()
-        v.settings().set('default_dir', 'Packages/User')
+        v.settings().set('default_dir', os.path.join(sublime.packages_path(), 'User'))
         v.settings().set('syntax', RAW_SNIPPETS_SYNTAX)
         v.set_scratch(True)
 
