@@ -67,7 +67,7 @@
         "begin": "\\{",
         "end": "\\}",
         "patterns": [
-          { "match": "\"(command|caption)\":\\s*\"([a-zA-Z0-9_: ]+)\"",
+          { "match": "\"(command|caption)\":\\s*\"([^\"]+)\"",
             "captures": {
               "1": { "name": "keyword.other.sublimecommands" },
               "2": { "name": "string.attached.command.name.sublimecommands" }

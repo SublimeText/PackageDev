@@ -4,6 +4,7 @@ syntax: glob
 _*.txt
 *.cache
 *.sublime-project
+*.sublime-workspace
 sample-grammar.js
 Manifest
 MANIFEST
