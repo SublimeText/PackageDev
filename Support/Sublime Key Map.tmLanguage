@@ -87,7 +87,7 @@
 			<key>contentName</key>
 			<string>meta.definition.attached.command.arguments.sublimekeymap</string>
 			<key>end</key>
-			<string>(?&lt;=\})</string>
+			<string>\}</string>
 			<key>endCaptures</key>
 			<dict>
 				<key>0</key>
@@ -233,7 +233,7 @@
 										</dict>
 									</dict>
 									<key>match</key>
-									<string>(?:eol_)?selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|panel|(?:panel|overlay)_(?:visible|has_focus)|setting.([a-z_]+)</string>
+									<string>(?:eol_)?selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_(?:visible|has_focus)|panel|setting.([a-z_]+)</string>
 									<key>name</key>
 									<string>keyword.sublimekeymap</string>
 								</dict>
