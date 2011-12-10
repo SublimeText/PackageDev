@@ -11,6 +11,8 @@
 
     { "caption": "z:AAAPackageDev: New Completions File", "command": "new_completions" },
 
+    { "caption": "z:AAAPackageDev: New Commands File", "command": "new_commands_file" },
+
     { "caption": "z:AAAPackageDev: New Build System", "command": "new_build_system2" },
 
     { "caption": "z:AAAPackageDev: New Plugin", "command": "new_plugin" },

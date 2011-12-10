@@ -6,7 +6,7 @@ import sublime, sublime_plugin
 
 
 from sublime_lib.view import has_file_ext, in_one_edit
-from sublime_lib.path import root_at_data
+from sublime_lib.path import root_at_data, root_at_packages
 
 
 JSON_TMLANGUAGE_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime JSON Syntax Definition.tmLanguage'
@@ -33,12 +33,11 @@ class NewSyntaxDefCommand(sublime_plugin.WindowCommand):
     def run(self):
         target = self.window.new_file()
         
-        target.settings().set('default_dir', 'Packages/User')
+        target.settings().set('default_dir', root_at_packages('User'))
         target.settings().set('syntax', JSON_TMLANGUAGE_SYNTAX)
         
-        with in_one_edit(target) as edit:            
-            target.run_command('insert_snippet',
-                               {'contents': get_syntax_def_boilerplate()})
+        target.run_command('insert_snippet',
+                           {'contents': get_syntax_def_boilerplate()})
 
 
 class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
@@ -49,7 +48,7 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
         return self.view.size() == 0
 
     def run(self, edit):
-        self.view.settings().set('default_dir', 'Packages/User')
+        self.view.settings().set('default_dir', root_at_packages('User'))
         self.view.settings().set('syntax', JSON_TMLANGUAGE_SYNTAX)
 
         with in_one_edit(self.view):

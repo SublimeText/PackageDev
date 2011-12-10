@@ -1,5 +1,7 @@
 import sublime, sublime_plugin
 
+from sublime_lib.path import root_at_packages
+
 
 COMPLETIONS_SYNTAX_DEF = "Packages/AAAPackageDev/Support/Sublime Completions.tmLanguage"
 TPL = """{
@@ -16,4 +18,4 @@ class NewCompletionsCommand(sublime_plugin.WindowCommand):
         v = self.window.new_file()
         v.run_command('insert_snippet', {"contents": TPL})
         v.settings().set('syntax', COMPLETIONS_SYNTAX_DEF)
-        v.settings().set('default_dir', 'Packages/User')
+        v.settings().set('default_dir', root_at_packages('User'))
