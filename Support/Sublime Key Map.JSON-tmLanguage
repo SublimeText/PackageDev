@@ -48,7 +48,7 @@
                     "end": "\"",
                     "contentName": "context.operand.left.sublimekeymap",
                     "patterns": [
-                        { "match": "eol_selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)",
+                        { "match": "(?:eol_)?selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_(?:visible|has_focus)|panel|setting.([a-z_]+)",
                           "name": "keyword.sublimekeymap",
                           "captures": {
                               "1": { "name": "string.context.operand.value.left.sublimekeymap" }
@@ -138,26 +138,47 @@
         ]
       },
       "args": {
+        "comment": "XXX This element is a hack and makes no sense.",
         "begin": "\"(args)\"\\s*:",
         "beginCaptures": {
             "1": { "name": "keyword.other.sublimekeymap"}
         },
-        "end": "(?<=\\})",
-        "name": "meta.definition.attached.command.arguments.sublimekeymap",
+        "end": "\\}",
+        "endCaptures": {
+          "0": { "name": "punctuation.definition.sublimekeymap" }
+        },
+        "contentName": "meta.definition.attached.command.arguments.sublimekeymap",
         "patterns": [
-            { "include": "source.jsongenericarray"},
-            { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
-              "captures": {
-                  "1": { "name": "support.function.array.generic.key.sublimekeymap" }
+          { "begin": "\\{",
+            "end": "\\}",
+            "patterns": [
+              { "name": "constant.numeric.sublimekeymap",
+                "match": "([+-])?(\\d+|\\d+\\.\\d+)"
+              },
+              { "match": "\"([^\"]*?)\"\\s*?:",
+                "captures": {
+                    "1": { "name": "support.function.key.name.sublimekeymap" }
+                }
+              },
+              { "begin":"\"",
+                "end": "\"",
+                "patterns": [
+                  { "match": "\\\\[\"tnr]",
+                    "captures": {
+                        "0": { "name": "constant.character.escape.jsongenericarrayelements" }
+                    }
+                  },
+                  { "include": "source.sublimesnippetraw" },
+                  {  "name": "string.jsongenericarrayelements",
+                     "match": ".+?"
+                  }
+                ]
+              },
+              {  "name": "constant.numeric.boolean.sublimekeymap",
+                 "match": "\\b((?:tru|fals)e)\\b"
               }
-            },
-            { "include": "source.jsongenericarrayelements" },
-            { "match": "true|false|\\d+",
-              "name": "constant.numeric.sublimekeymap"
-            },
-            { "match": "\\{",
-              "name": "punctuation.definition.array.keybinding.key.sequence"
-            }
+            ]
+          }
         ]
       },
       "keys": {
@@ -195,14 +216,12 @@
                       { "match": "up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|f(20|1[0-9]|[1-9])",
                         "name": "entity.other.attribute-name.key.named.sublimekeymap"
                       },
-                      { "match": "[a-z0-9,;.:_=+-]{2,}",
+                      { "match": "[A-Za-z0-9,;.:_=+-]{2,}",
                         "name": "invalid.illegal.key.sublimekeymap"
                       },
-                      { "match": "[^A-Z]",
+                      { "match": ".{1}",
+                        "comment": "XXX What's invalid for key names?",
                         "name": "string.key.literal.sublimekeymap"
-                      },
-                      { "match": ".",
-                        "name": "invalid.illegal.key.sublimekeymap"
                       }
                   ],
                   "contentName": "meta.key.sequence.sublimekeymap"

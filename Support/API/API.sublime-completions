@@ -2,12 +2,12 @@
 	"scope": "source.off",
 
 	"completions": [
-	
+
 		{ "trigger": "sublime", "contents": "sublime" },
 		{ "trigger": "sublime_plugin", "contents": "sublime_plugin" },
 
 
-		{"trigger": "set_timeout", "contents": "set_timeout(${1:callback}, $	{2:delay})" },
+		{"trigger": "set_timeout", "contents": "set_timeout(${1:callback}, ${2:delay})" },
 		{"trigger": "status_message", "contents": "status_message(${1:string})" },
 		{"trigger": "error_message", "contents": "error_message(${1:string})" },
 		{"trigger": "load_settings", "contents": "load_settings(${1:base_name})" },
@@ -133,6 +133,6 @@
 		{ "trigger": "is_enabled", "contents": "is_enabled(<args>)" },
 
 
-		{ "trigger": "run(edit, <args>)", "contents": "run(edit, <args>)" }
+		{ "trigger": "run", "contents": "run(edit, <args>)" }
 	]
 }

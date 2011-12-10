@@ -1,6 +1,9 @@
 import sublime
 import sublime_plugin
 
+import plistlib
+import json
+
 import glob
 import os
 import sys
@@ -120,3 +123,14 @@ class PackageManager(object):
     
     def __init__(self, dry_run=False):
         self.dry_run = dry_run
+
+
+class PlistToJson(sublime_plugin.TextCommand):
+    def is_enabled(self ):
+        return self.view.file_name().endswith('.tmLanguage')
+        
+    def run(self, edit):
+        plist_data = plistlib.readPlist(self.view.file_name())
+        v = self.view.window().new_file()
+        v.insert(edit, 0, json.dumps(plist_data, indent=4))
+        v.set_syntax_file('Packages/AAAPackageDev/Support/Sublime JSON Syntax Definition.tmLanguage')

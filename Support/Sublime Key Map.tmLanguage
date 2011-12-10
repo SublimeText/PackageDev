@@ -82,43 +82,85 @@
 					<string>keyword.other.sublimekeymap</string>
 				</dict>
 			</dict>
-			<key>end</key>
-			<string>(?&lt;=\})</string>
-			<key>name</key>
+			<key>comment</key>
+			<string>XXX This element is a hack and makes no sense.</string>
+			<key>contentName</key>
 			<string>meta.definition.attached.command.arguments.sublimekeymap</string>
+			<key>end</key>
+			<string>\}</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.sublimekeymap</string>
+				</dict>
+			</dict>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>include</key>
-					<string>source.jsongenericarray</string>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.function.array.generic.key.sublimekeymap</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>"([a-zA-Z0-9_]+)"\s*:</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>source.jsongenericarrayelements</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>true|false|\d+</string>
-					<key>name</key>
-					<string>constant.numeric.sublimekeymap</string>
-				</dict>
-				<dict>
-					<key>match</key>
+					<key>begin</key>
 					<string>\{</string>
-					<key>name</key>
-					<string>punctuation.definition.array.keybinding.key.sequence</string>
+					<key>end</key>
+					<string>\}</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>([+-])?(\d+|\d+\.\d+)</string>
+							<key>name</key>
+							<string>constant.numeric.sublimekeymap</string>
+						</dict>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>support.function.key.name.sublimekeymap</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>"([^"]*?)"\s*?:</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>"</string>
+							<key>end</key>
+							<string>"</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>captures</key>
+									<dict>
+										<key>0</key>
+										<dict>
+											<key>name</key>
+											<string>constant.character.escape.jsongenericarrayelements</string>
+										</dict>
+									</dict>
+									<key>match</key>
+									<string>\\["tnr]</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>source.sublimesnippetraw</string>
+								</dict>
+								<dict>
+									<key>match</key>
+									<string>.+?</string>
+									<key>name</key>
+									<string>string.jsongenericarrayelements</string>
+								</dict>
+							</array>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\b((?:tru|fals)e)\b</string>
+							<key>name</key>
+							<string>constant.numeric.boolean.sublimekeymap</string>
+						</dict>
+					</array>
 				</dict>
 			</array>
 		</dict>
@@ -191,7 +233,7 @@
 										</dict>
 									</dict>
 									<key>match</key>
-									<string>eol_selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_visible|setting.([a-z_]+)</string>
+									<string>(?:eol_)?selector|auto_complete_visible|selection_empty|(?:preceding|following)_text|text|last_command|has_(?:prev|next)_field|num_selections|(?:panel|overlay)_(?:visible|has_focus)|panel|setting.([a-z_]+)</string>
 									<key>name</key>
 									<string>keyword.sublimekeymap</string>
 								</dict>
@@ -488,21 +530,17 @@
 								</dict>
 								<dict>
 									<key>match</key>
-									<string>[a-z0-9,;.:_=+-]{2,}</string>
+									<string>[A-Za-z0-9,;.:_=+-]{2,}</string>
 									<key>name</key>
 									<string>invalid.illegal.key.sublimekeymap</string>
 								</dict>
 								<dict>
+									<key>comment</key>
+									<string>XXX What's invalid for key names?</string>
 									<key>match</key>
-									<string>[^A-Z]</string>
+									<string>.{1}</string>
 									<key>name</key>
 									<string>string.key.literal.sublimekeymap</string>
-								</dict>
-								<dict>
-									<key>match</key>
-									<string>.</string>
-									<key>name</key>
-									<string>invalid.illegal.key.sublimekeymap</string>
 								</dict>
 							</array>
 						</dict>

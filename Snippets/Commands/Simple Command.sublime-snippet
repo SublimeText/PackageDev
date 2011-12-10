@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[{
-	"caption": "$1",
-	"command": "$2"
-}]]></content>
-    <tabTrigger>c</tabTrigger>
-    <scope>source.sublimecommands</scope>
-</snippet>
