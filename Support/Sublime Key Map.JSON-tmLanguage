@@ -76,10 +76,12 @@
         }
       },
       "string": {
-        "match": "\"(.+?)\"",
-        "captures": {
-            "1": { "name": "string.sublimekeymap" }
-        }
+        "begin" : "\"",
+        "end": "(?<!\\\\)\"",
+        "patterns": [
+          { "include": "source.sublimesnippetraw" }
+        ],
+        "contentName": "string.double.quote.sublimekeymap"
       },
       "lineComment": {
         "match": "//.*?$",
