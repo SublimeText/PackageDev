@@ -171,7 +171,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>"(include)"\s*?:\s*?"(?:(#)(\w+)|(\$)(self)|([A-Za-z0-9.]+))"</string>
+			<string>"(include)"\s*?:\s*?"(?:(#)([a-zA-Z0-9_-]+)|(\$)(self)|([A-Za-z0-9.]+))"</string>
 		</dict>
 		<key>match</key>
 		<dict>
