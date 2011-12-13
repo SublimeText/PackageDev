@@ -7,11 +7,11 @@
   "patterns": [
       { "begin": "(\\[)",
         "beginCaptures": {
-            "1": { "name": "punctuation.definition.collection.start.sublimecommands" }
+            "1": { "name": "punctuation.definition.collection.start.sublimemacro" }
         },
         "end": "(\\])",
         "endCaptures": {
-            "1": { "name": "punctuation.definition.collection.end.sublimecommands" }
+            "1": { "name": "punctuation.definition.collection.end.sublimemacro" }
         },
 
         "patterns": [
@@ -26,22 +26,22 @@
       "args": {
         "begin": "\"(args)\"\\s*:",
         "beginCaptures": {
-            "1": { "name": "keyword.other.sublimecommands"}
+            "1": { "name": "keyword.other.sublimemacro"}
         },
         "end": "(?<=\\})",
-        "name": "meta.definition.attached.command.arguments.sublimecommands",
+        "name": "meta.definition.attached.command.arguments.sublimemacro",
         "patterns": [
             { "include": "source.jsongenericarray"
             },
             { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
               "captures": {
-                  "1": { "name": "support.function.array.generic.key.sublimecommands" }
+                  "1": { "name": "support.function.array.generic.key.sublimemacro" }
               }
             },
             { "include": "source.jsongenericarrayelements"
             },
             { "match": "true|false|\\d+",
-              "name": "constant.numeric.sublimecommands"
+              "name": "constant.numeric.sublimemacro"
             },
 
             { "match": "\\{",
@@ -56,8 +56,8 @@
         "patterns": [
           { "match": "\"(command)\":\\s*\"([^\"]+)\"",
             "captures": {
-              "1": { "name": "keyword.other.sublimecommands" },
-              "2": { "name": "string.attached.command.name.sublimecommands" }
+              "1": { "name": "keyword.other.sublimemacro" },
+              "2": { "name": "string.attached.command.name.sublimemacro" }
             }
           },
           { "include": "#args" }
