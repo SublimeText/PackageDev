@@ -11,6 +11,14 @@
 	<key>patterns</key>
 	<array>
 		<dict>
+			<key>include</key>
+			<string>#multiLineComment</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#lineComment</string>
+		</dict>
+		<dict>
 			<key>begin</key>
 			<string>(^\[$)</string>
 			<key>contentName</key>
@@ -19,6 +27,14 @@
 			<string>(^\]$)</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>include</key>
+					<string>#multiLineComment</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#lineComment</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>#keys</string>
@@ -34,10 +50,6 @@
 				<dict>
 					<key>include</key>
 					<string>#string</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#lineComment</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -120,7 +132,7 @@
 						</dict>
 						<dict>
 							<key>match</key>
-							<string>up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|f(20|1[0-9]|[1-9])</string>
+							<string>\b(?:up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|forward_slash|backquote|plus|equals|minus|f(20|1[0-9]|[1-9]))\b</string>
 							<key>name</key>
 							<string>entity.other.attribute-name.key.named.sublimekeymap</string>
 						</dict>
@@ -167,6 +179,15 @@
 			</dict>
 			<key>match</key>
 			<string>"(command|args|context|key)":</string>
+		</dict>
+		<key>multiLineComment</key>
+		<dict>
+			<key>begin</key>
+			<string>/\*</string>
+			<key>end</key>
+			<string>\*/</string>
+			<key>name</key>
+			<string>comment.single.line.sublimekeymap</string>
 		</dict>
 		<key>numericPrimitives</key>
 		<dict>

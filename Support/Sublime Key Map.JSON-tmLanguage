@@ -2,15 +2,20 @@
   "scopeName": "source.sublimekeymap",
   "fileTypes": ["sublime-keymap"],
   "patterns": [
+
+      { "include": "#multiLineComment" },
+      { "include": "#lineComment" },
+      
       { "begin": "(^\\[$)",
         "end": "(^\\]$)",
 
         "patterns": [
+          { "include": "#multiLineComment" },
+          { "include": "#lineComment" },
           { "include": "#keys" },
           { "include": "#mainKeys" },
           { "include": "#supportKeys" },
           { "include": "#string" },
-          { "include": "#lineComment" },
           { "include": "#numericPrimitives" }
         ],
         "contentName": "meta.keybinding.collection.sublimekeymap"
@@ -45,7 +50,7 @@
                 { "match": "f(?:[2-9]\\d+|\\d{3,})",
                   "name": "invalid.illegal.key.sublimekeymap"
                 },
-                { "match": "up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|f(20|1[0-9]|[1-9])",
+                { "match": "\\b(?:up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|forward_slash|backquote|plus|equals|minus|f(20|1[0-9]|[1-9]))\\b",
                   "name": "entity.other.attribute-name.key.named.sublimekeymap"
                 },
                 { "match": "[A-Za-z0-9,;.:_=+-]{2,}",
@@ -85,6 +90,11 @@
       },
       "lineComment": {
         "match": "//.*?$",
+        "name": "comment.single.line.sublimekeymap"
+      },
+      "multiLineComment": {
+        "begin": "/\\*",
+        "end": "\\*/",
         "name": "comment.single.line.sublimekeymap"
       },
       "numericPrimitives": {
