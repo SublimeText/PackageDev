@@ -5,7 +5,7 @@
 
     { "caption": "z:AAAPackageDev: New Syntax Definition", "command": "new_syntax_def" },
     { "caption": "z:AAAPackageDev: New Syntax Definition from Buffer", "command": "new_syntax_def_from_buffer" },
-    { "caption": "z:AAAPackageDev: New .JSON-tmLanguage from Buffer", "command": "plist_to_json" },
+    { "caption": "z:AAAPackageDev: Generate .tmLanguage from Buffer", "command": "make_tmlanguage" },
 
     { "caption": "z:AAAPackageDev: New Settings File", "command": "new_settings" },
 
@@ -19,5 +19,5 @@
 
     { "caption": "z:AAAPackageDev: New Package", "command": "new_package" },
     { "caption": "z:AAAPackageDev: Delete Package", "command": "delete_package" }
-    
+
 ]
