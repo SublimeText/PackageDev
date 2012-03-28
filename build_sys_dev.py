@@ -1,4 +1,4 @@
-import sublime, sublime_plugin
+import sublime_plugin
 
 from sublime_lib.path import root_at_packages
 
