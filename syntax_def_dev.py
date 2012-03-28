@@ -1,7 +1,6 @@
 import json
 import os
 import plistlib
-import sys
 import uuid
 
 import sublime_plugin
@@ -70,13 +69,11 @@ class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
         v = self.window.active_view()
         path = v.file_name()
         if not (os.path.exists(path) and has_file_ext(v, 'JSON-tmLanguage')):
-            # XXX: Can we/Should we use sublimelog.log?
             print "[AAAPackageDev] Not a valid JSON-tmLanguage file. (%s)" % path
             return
 
         assert os.path.exists(path), "Need a path to a .JSON-tmLanguage file."
         self.make_tmlanguage_grammar(path)
-        # self.window.run_command("aaa_package_dev", {"cmd": cmd, "file_regex": file_regex})
 
     def make_tmlanguage_grammar(self, json_grammar):
         path, fname = os.path.split(json_grammar)
@@ -100,8 +97,6 @@ class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
                 with open(json_grammar) as grammar_in_json:
                     tmlanguage = json.load(grammar_in_json)
             except ValueError, e:
-                # Avoid DeprecationWarning by not calling e.message.
-                # sys.stderr.write("Error: '%s' %s" % (json_grammar, str(e)))
                 self.output_view.insert(edit, 0, "Error: '%s' %s" % (json_grammar, str(e)))
             else:
                 target = os.path.join(path, grammar_name + '.tmLanguage')
