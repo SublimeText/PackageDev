@@ -3,9 +3,13 @@
   "fileTypes": ["sublime-settings"],
   "patterns": [
     {  "name": "comment.single.line.sublime-settings",
-       "match": "\/\/.*"
+       "match": "//.*"
     },
-  	{  "match": "\"([a-z0-9_]+)\"\\s*?:",
+    { "name": "comment.block.sublime-settings",
+      "begin": "/\\*",
+      "end": "\\*/"
+    },
+  	{  "match": "\"([a-z0-9_.-]+)\"\\s*?:",
   	   "captures": {
   	       "1": { "name": "keyword.other.name.sublime-settings" }
   	   }

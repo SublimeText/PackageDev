@@ -17,6 +17,14 @@
 			<string>comment.single.line.sublime-settings</string>
 		</dict>
 		<dict>
+			<key>begin</key>
+			<string>/\*</string>
+			<key>end</key>
+			<string>\*/</string>
+			<key>name</key>
+			<string>comment.block.sublime-settings</string>
+		</dict>
+		<dict>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
@@ -26,7 +34,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>"([a-z0-9_]+)"\s*?:</string>
+			<string>"([a-z0-9_.-]+)"\s*?:</string>
 		</dict>
 		<dict>
 			<key>include</key>
