@@ -34,7 +34,7 @@
       },
 
       "include": {
-        "match": "\"(include)\"\\s*?:\\s*?\"(?:(#)(\\w+)|(\\$)(self)|([A-Za-z0-9.]+))\"",
+        "match": "\"(include)\"\\s*?:\\s*?\"(?:(#)([a-zA-Z0-9_-]+)|(\\$)(self)|([A-Za-z0-9.]+))\"",
         "captures": {
           "1": { "name": "keyword.other.control.json-tmlanguage" },
           "2": { "name": "keyword.other.variable.mark.json-tmlanguage" },
