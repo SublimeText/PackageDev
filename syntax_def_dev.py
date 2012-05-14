@@ -92,7 +92,7 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
         print os.path.split(json_file)
         path, fname = os.path.split(json_file)
         fbase, old_ext = os.path.splitext(fname)
-        file_regex = r"Error:\s+'(.*?)'\s+.*?\s+line\s+(\d+)\s+column\s+(\d+)"
+        file_regex = r"Error parsing JSON:\s+'(.*?)'\s+.*?\s+line\s+(\d+)\s+column\s+(\d+)"
 
         if not hasattr(self, 'output_view'):
             # Try not to call get_output_panel until the regexes are assigned
@@ -111,7 +111,7 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
                 with open(json_file) as json_content:
                     tmlanguage = json.load(json_content)
             except ValueError, e:
-                self.output_view.insert(edit, 0, "Error: '%s' %s" % (json_file, str(e)))
+                self.output_view.insert(edit, 0, "Error parsing JSON: '%s' %s" % (json_file, str(e)))
             else:
                 target = os.path.join(path, fbase + new_ext)
                 self.output_view.insert(edit, 0, "Writing plist... (%s)" % target)
