@@ -58,7 +58,7 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
 
 
 # XXX: Why is this a WindowCommand? Wouldn't it work otherwise in build-systems?
-class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
+class JsonToPlistCommand(sublime_plugin.WindowCommand):
     """
     Parses ``.json`` files and writes them into corresponding ``.plist``.
     Source file ``.JSON-XXX`` will generate a plist file named ``.XXX``.
