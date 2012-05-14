@@ -2,11 +2,12 @@ import json
 import os
 import plistlib
 import uuid
+import re
 
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
-from sublime_lib.view import has_file_ext, in_one_edit
+from sublime_lib.view import in_one_edit
 
 
 JSON_TMLANGUAGE_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime JSON Syntax Definition.tmLanguage'
@@ -58,26 +59,39 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
 
 # XXX: Why is this a WindowCommand? Wouldn't it work otherwise in build-systems?
 class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
-    """Generates a ``.tmLanguage`` file from a ``.JSON-tmLanguage`` syntax def.
-    Should be used from a ``.build-system only``.
     """
-    # XXX: We whould prevent this from working except if called in a build system.
+    Parses ``.json`` files and writes them into corresponding ``.plist``.
+    Source file ``.JSON-XXX`` will generate a plist file named ``.XXX``.
+    Pretty useful with ``.JSON-tmLanguage`` but works with almost any other name.
+    """
+    ext_regexp = re.compile(r'\.json(?:-([^\.]+))?$', flags=re.I)
+
     def is_enabled(self):
-        return has_file_ext(self.window.active_view(), '.JSON-tmLanguage')
+        return self.get_file_ext(self.window.active_view().file_name()) is not None
+
+    def get_file_ext(self, file_name):
+        ret = self.ext_regexp.search(file_name)
+        if ret is None:
+            return None
+        return '.' + (ret.group(1) or 'plist')
 
     def run(self, **kwargs):
         v = self.window.active_view()
         path = v.file_name()
-        if not (os.path.exists(path) and has_file_ext(v, 'JSON-tmLanguage')):
-            print "[AAAPackageDev] Not a valid JSON-tmLanguage file. (%s)" % path
+        ext = self.get_file_ext(path)
+        if not os.path.exists(path):
+            print "[AAAPackageDev] File does not exists. (%s)" % path
+            return
+        if ext is None:
+            print "[AAAPackageDev] Not a valid JSON file, please check extension. (%s)" % path
             return
 
-        assert os.path.exists(path), "Need a path to a .JSON-tmLanguage file."
-        self.make_tmlanguage_grammar(path)
+        self.json_to_plist(path, ext)
 
-    def make_tmlanguage_grammar(self, json_grammar):
-        path, fname = os.path.split(json_grammar)
-        grammar_name, ext = os.path.splitext(fname)
+    def json_to_plist(self, json_file, new_ext):
+        print os.path.split(json_file)
+        path, fname = os.path.split(json_file)
+        fbase, old_ext = os.path.splitext(fname)
         file_regex = r"Error:\s+'(.*?)'\s+.*?\s+line\s+(\d+)\s+column\s+(\d+)"
 
         if not hasattr(self, 'output_view'):
@@ -94,13 +108,13 @@ class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
 
         with in_one_edit(self.output_view) as edit:
             try:
-                with open(json_grammar) as grammar_in_json:
-                    tmlanguage = json.load(grammar_in_json)
+                with open(json_file) as json_content:
+                    tmlanguage = json.load(json_content)
             except ValueError, e:
-                self.output_view.insert(edit, 0, "Error: '%s' %s" % (json_grammar, str(e)))
+                self.output_view.insert(edit, 0, "Error: '%s' %s" % (json_file, str(e)))
             else:
-                target = os.path.join(path, grammar_name + '.tmLanguage')
-                self.output_view.insert(edit, 0, "Writing tmLanguage... (%s)" % target)
+                target = os.path.join(path, fbase + new_ext)
+                self.output_view.insert(edit, 0, "Writing plist... (%s)" % target)
                 plistlib.writePlist(tmlanguage, target)
 
         self.window.run_command("show_panel", {"panel": "output.aaa_package_dev"})
