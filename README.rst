@@ -35,16 +35,15 @@ Syntax Definition Development
 
 In AAAPackageDev, syntax definitions are written in JSON. Because Sublime Text
 uses ``.tmLanguage`` files, though, they need to be converted before use. The
-conversion is done through the included build system ``Json to tmLanguage``.
+conversion is done through the included build system ``JSON to Property List``.
 
 Creating a New Syntax Definition
 ********************************
 
 #. Create new template (through **Tools | Packages | Package Development**) or the *Command Palette*
-#. Select ``Json to tmLanguage`` build system from **Tools | Build System**
+#. Select ``JSON to Property List`` build system from **Tools | Build System** or leave as ``Automatic``
 #. Press ``F7``
 
-To reload changes to a syntax definition, you must restart Sublime Text.
 
 Other included resources for syntax definition development:
 
@@ -68,7 +67,7 @@ Commands
 
 .. Completions
 .. -----------
-.. 
+..
 .. * sublime text plugin dev (off by default)
 .. Will clutter your completions list in any kind of python dev.
 .. To turn on, change scope selector so ``source.python``.
@@ -133,7 +132,7 @@ About Snippets in AAAPackageDev
 
 The ``AAAPackageDev/Snippets`` folder contains many snippets for all kinds of
 development mentioned above. These snippets follow memorable rules to make their
-use easy. 
+use easy.
 
 The snippets used more often have short tab triggers like ``f`` (*field*),
 ``c`` (*completion*), ``k`` (*key binding*), etc. In cases where increasingly
