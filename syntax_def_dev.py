@@ -62,8 +62,11 @@ class MakeTmlanguageCommand(sublime_plugin.WindowCommand):
     Should be used from a ``.build-system only``.
     """
     # XXX: We whould prevent this from working except if called in a build system.
+    # XXX: find out whether .is_enabled() affects build systems at all and
+    # make this return always False if it doesn't.
     def is_enabled(self):
-        return has_file_ext(self.window.active_view(), '.JSON-tmLanguage')
+        v = self.window.active_view()
+        return (v and (has_file_ext(v, '.JSON-tmLanguage')))
 
     def run(self, **kwargs):
         v = self.window.active_view()
