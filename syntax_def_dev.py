@@ -67,7 +67,8 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
     ext_regexp = re.compile(r'\.json(?:-([^\.]+))?$', flags=re.I)
 
     def is_enabled(self):
-        return self.get_file_ext(self.window.active_view().file_name()) is not None
+        v = self.window.active_view()
+        return (v and (self.get_file_ext(v.file_name()) is not None))
 
     def get_file_ext(self, file_name):
         ret = self.ext_regexp.search(file_name)
