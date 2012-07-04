@@ -554,7 +554,7 @@ class install(Command):
 
     def initialize_options(self):
         pass
-    
+
     def finalize_options(self):
         pass
 
@@ -569,7 +569,7 @@ class test(Command):
 
     def initialize_options(self):
         pass
-    
+
     def finalize_options(self):
         pass
 
@@ -581,7 +581,7 @@ class test(Command):
 
 setup(cmdclass={'spa': spa, 'install': install, 'test': test},
       name='AAAPackageDev',
-      version='0.5',
+      version='0.6',
       description='Sublime Text Dev Tools for Packages.',
       author='Guillermo López-Anglada',
       author_email='guillermo@sublimetext.info',
