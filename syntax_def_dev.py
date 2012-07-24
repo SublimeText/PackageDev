@@ -90,7 +90,6 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
         self.json_to_plist(path, ext)
 
     def json_to_plist(self, json_file, new_ext):
-        print os.path.split(json_file)
         path, fname = os.path.split(json_file)
         fbase, old_ext = os.path.splitext(fname)
         file_regex = r"Error parsing JSON:\s+'(.*?)'\s+.*?\s+line\s+(\d+)\s+column\s+(\d+)"
