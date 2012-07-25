@@ -152,6 +152,11 @@ Commands
     first two lines in order to use this command, otherwise it will assume that you don't
     have a Property List open.
 
+    Please note:
+        Non-native JSON data types (such as <date> or <data>) result in unpredictable
+        behavior. Floats types (<float> or <real>) tend to lose precision when being cast into
+        Python data types.
+
     * ``I am json.plist`` will be parsed into ``I am json.json``.
     * ``I am json.propertyList`` will be parsed into ``I am json.JSON-propertyList`` *only
       if the doctype* ``<!DOCTYPE plist`` *is specified*.
