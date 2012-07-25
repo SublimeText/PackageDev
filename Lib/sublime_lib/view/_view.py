@@ -62,7 +62,7 @@ def relative_point(view, x=0, y=0, p=None):
     Supports relative (negative) parameters and checks if they are in the
     bounds (other than ``View.text_point()``).
 
-    If p (indexable -> ``p[0]``, ``len(p) == 2``; preferrably a touple) is
+    If p (indexable -> ``p[0]``, ``len(p) == 2``; preferrably a tuple) is
     specified, x and y parameters are overridden.
     """
     if p is not None:
@@ -95,7 +95,7 @@ def coorded_region(view, reg1=None, reg2=None):
     """Returns a region of two coordinate pairs parsed by ``relative_point(view, p=reg1)``.
 
     The pairs are supporsed to be indexable and have a length of 2.
-    Touples are preferred.
+    Tuples are preferred.
 
     Defaults to the whole buffer (``reg1=(0, 0), reg2=(-1, -1)``).
     """
@@ -111,7 +111,7 @@ def coorded_substr(view, reg1=None, reg2=None):
     """Returns the string of two coordinate pairs parsed by ``relative_point(view, p=reg1)``.
 
     The pairs are supporsed to be indexable and have a length of 2.
-    Touples are preferred.
+    Tuples are preferred.
 
     Defaults to the whole buffer.
     """

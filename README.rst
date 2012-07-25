@@ -145,7 +145,7 @@ Commands
     * ``I am json.json`` will be parsed into ``I am json.plist``.
     * ``I am json.JSON-propertyList`` will be parsed into ``I am json.propertyList``.
 
-``json_to_plist`` (Palette: ``JSON to Property List``)
+``plist_to_json`` (Palette: ``Property List to JSON``)
     This command is just the reverse of the above. Considers the current file's filename
     similarly and adjusts the target filename. However, if your file's extension is not
     ``.plist`` you need the doctype ``<!DOCTYPE plist`` at the beginning in one of the
