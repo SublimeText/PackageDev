@@ -192,7 +192,6 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
                            sort_keys=True
                           )
         json_params.update(kwargs)
-        print json_params
 
         # Handle the output
         if not hasattr(self, 'output_view'):
