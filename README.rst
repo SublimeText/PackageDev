@@ -58,10 +58,10 @@ Resources for package development are in a very early stage.
 Commands
 ********
 
-``new_package()``
+``new_package``
 	Window command. Prompts for a name and creates a new package skeleton in ``Packages``.
 
-``delete_package()``
+``delete_package``
 	Window command. Opens file browser at ``Packages``.
 
 
@@ -70,7 +70,7 @@ Commands
 ..
 .. * sublime text plugin dev (off by default)
 .. Will clutter your completions list in any kind of python dev.
-.. To turn on, change scope selector so ``source.python``.
+.. To turn on, change scope selector to ``source.python``.
 
 
 Build System Development
@@ -125,6 +125,41 @@ Settings File Development
 
 * Syntax definition for ``.sublime-settings`` files
 * Snippets
+
+
+JSON and Property List Conversion
+=================================
+
+If you need to parse a ``.plist`` into a ``.json`` file or vice versa AAAPackageDev
+can also be of help.
+
+Commands
+********
+
+``json_to_plist`` (Palette: ``JSON to Property List``)
+    This command has already been mentioned in the Syntax Definition section, but it
+    is not stated that this command in fact works for almost any JSON file you can imagine.
+
+    It considers the current file's filename and adjusts the target filename accordingly.
+
+    * ``I am json.json`` will be parsed into ``I am json.plist``.
+    * ``I am json.JSON-propertyList`` will be parsed into ``I am json.propertyList``.
+
+``plist_to_json`` (Palette: ``Property List to JSON``)
+    This command is just the reverse of the above. Considers the current file's filename
+    similarly and adjusts the target filename. However, if your file's extension is not
+    ``.plist`` you need the doctype ``<!DOCTYPE plist`` at the beginning in one of the
+    first two lines in order to use this command, otherwise it will assume that you don't
+    have a Property List open.
+
+    Please note:
+        Non-native JSON data types (such as <date> or <data>) result in unpredictable
+        behavior. Floats types (<float> or <real>) tend to lose precision when being cast into
+        Python data types.
+
+    * ``I am json.plist`` will be parsed into ``I am json.json``.
+    * ``I am json.propertyList`` will be parsed into ``I am json.JSON-propertyList`` *only
+      if the doctype* ``<!DOCTYPE plist`` *is specified*.
 
 
 About Snippets in AAAPackageDev
