@@ -1,28 +1,46 @@
 import contextlib
-from sublime import Region
-
-
-def append(view, text):
-    """Appends text to view."""
-    with in_one_edit(view) as edit:
-        view.insert(edit, view.size(), text)
+from sublime import Region, Edit
 
 
 @contextlib.contextmanager
-def in_one_edit(view):
+def in_one_edit(view, edit=None):
     """Context manager to group edits in a view.
 
-        Example:
+    Can also be used if you are not sure that the passed edit is valid (not None)
+    and will wrap "the calls" if it isn't.
+    Please note that the edit is not closed when the parameter is valid!
+
+        Examples:
             ...
-            with in_one_edit(view):
+            with in_one_edit(view) as edit:
+                ...
+            ...
+            with in_one_edit(view, edit) as edit:
                 ...
             ...
     """
+    edit_valid = (edit is not None and isinstance(edit, Edit))
     try:
-        edit = view.begin_edit()
+        if not edit_valid:
+            edit = view.begin_edit()
         yield edit
     finally:
-        view.end_edit(edit)
+        if not edit_valid:
+            view.end_edit(edit)
+
+
+def append(view, edit, text=None):
+    """Appends text to ``view``. edit parameter can be omitted.
+
+        Examples:
+            append(view, "append this text")
+            append(view, edit, "append using edit")
+    """
+    if text is None:
+        text = edit
+        edit = None
+    with in_one_edit(view, edit) as edit:
+        view.insert(edit, view.size(), text)
 
 
 def has_sels(view):
@@ -32,7 +50,7 @@ def has_sels(view):
 
 
 def has_file_ext(view, ext):
-    """Returns ``True`` if view has file extension ``ext``.
+    """Returns ``True`` if ``view`` has file extension ``ext``.
     ``ext`` may be specified with or without leading ``.``.
     """
     if not view.file_name() or not ext.strip().replace('.', ''):
