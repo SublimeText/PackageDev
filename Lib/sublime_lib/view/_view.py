@@ -43,6 +43,13 @@ def append(view, edit, text=None):
         view.insert(edit, view.size(), text)
 
 
+def clear(view, edit=None):
+    """Removes all the text in ``view``. edit parameter can be omitted.
+    """
+    with in_one_edit(view, edit) as edit:
+        view.erase(edit, Region(0, view.size()))
+
+
 def has_sels(view):
     """Returns ``True`` if ``view`` has one selection or more.``
     """
