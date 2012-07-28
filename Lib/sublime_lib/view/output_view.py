@@ -4,71 +4,71 @@ from ._view import append, clear
 class OutputView(object):
     """This class represents an output view (which are used for e.g. build systems).
 
-    OutputView(window, panel_name, file_regex=None, path=None)
-        * window
-            The window. This is usually ``self.window`` or ``self.view.window()``,
-            depending on the type of your command.
+        OutputView(window, panel_name, file_regex=None, path=None)
+            * window
+                The window. This is usually ``self.window`` or ``self.view.window()``,
+                depending on the type of your command.
 
-        * panel_name
-            The panel's name, passed to ``window.get_output_panel()``.
+            * panel_name
+                The panel's name, passed to ``window.get_output_panel()``.
 
-        * file_regex
-            Important for Build Systems. The user can browse the errors you write
-            with F4 and Shift+F4 keys. The error's location is determined with 3
-            capturing groups: the file name, the line number and the column.
+            * file_regex
+                Important for Build Systems. The user can browse the errors you write
+                with F4 and Shift+F4 keys. The error's location is determined with 3
+                capturing groups: the file name, the line number and the column.
 
-            Example:
-                r"Error in file "(.*?)", line (\d+), column (\d+)"
+                Example:
+                    r"Error in file "(.*?)", line (\d+), column (\d+)"
 
-        * path
-            This is only needed if you specify the file_regex param and will be used
-            as the root dir for relative filenames when determining error locations.
+            * path
+                This is only needed if you specify the file_regex param and will be used
+                as the root dir for relative filenames when determining error locations.
 
-    Useful attributes:
+        Useful attributes:
 
-        view
-            The view handle of the output view.
-            Can be passed to ``in_one_edit(output.view)`` to group modifications.
+            view
+                The view handle of the output view.
+                Can be passed to ``in_one_edit(output.view)`` to group modifications.
 
-    Defines the following methods:
+        Defines the following methods:
 
-        set_path(path, file_regex=None)
-            Used to update the path (and optionally the file_regex) when called.
-            The file_regex is updated automatically because it might happen that
-            the same panel_name is used multiple times. If file_regex is omitted
-            or ``None`` it will be reset to the latest regex specified (when
-            creating the instance or from the last call of set_regex/path).
+            set_path(path, file_regex=None)
+                Used to update the path (and optionally the file_regex) when called.
+                The file_regex is updated automatically because it might happen that
+                the same panel_name is used multiple times. If file_regex is omitted
+                or ``None`` it will be reset to the latest regex specified (when
+                creating the instance or from the last call of set_regex/path).
 
-        set_regex(file_regex=None)
-            Subset of set_path. Read there for further information.
+            set_regex(file_regex=None)
+                Subset of set_path. Read there for further information.
 
-        write(text)
-        write(edit, text)
-            Will just write into the output view while appending ``text``.
-            The edit parameter can be omitted, in this case the first parameter
-            will be used as the text to be written.
+            write(text)
+            write(edit, text)
+                Will just write into the output view while appending ``text``.
+                The edit parameter can be omitted, in this case the first parameter
+                will be used as the text to be written.
 
-            * edit
-                An instance of sublime.Edit to be passed View.insert().
-                Can be omitted, in this case the function will create its own edit.
+                * edit
+                    An instance of sublime.Edit to be passed View.insert().
+                    Can be omitted, in this case the function will create its own edit.
 
-            * text
-                Will be appended to the output view.
+                * text
+                    Will be appended to the output view.
 
-        writeln(text)
-        writeln(edit, text)
-            Same as write() but inserts a newline at the end.
+            writeln(text)
+            writeln(edit, text)
+                Same as write() but inserts a newline at the end.
 
-        clear(edit=None)
-            Erases all text in the output view. edit can be omitted.
+            clear(edit=None)
+                Erases all text in the output view. edit can be omitted.
 
-            * edit
-                An instance of sublime.Edit to be passed View.insert().
-                Can be omitted, in this case the function will create its own edit.
+                * edit
+                    An instance of sublime.Edit to be passed View.insert().
+                    Can be omitted, in this case the function will create its own edit.
 
-        show()
-        hide()
-            Show or hide the output view (= panel).
+            show()
+            hide()
+                Show or hide the output view (= panel).
     """
     def __init__(self, window, panel_name, file_regex=None, path=None):
         self.window = window
@@ -90,7 +90,8 @@ class OutputView(object):
         """
         if file_regex is not None:
             self.file_regex = file_regex
-        self.view.settings().set("result_file_regex", self.file_regex)
+        if hasattr(self, 'file_regex'):
+            self.view.settings().set("result_file_regex", self.file_regex)
         # Call get_output_panel so that it'll be picked up as a result buffer
         self.window.get_output_panel(self.panel_name)
 
