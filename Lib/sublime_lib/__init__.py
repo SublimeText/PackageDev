@@ -4,7 +4,7 @@ from sublime import Window, View
 
 class WindowAndTextCommand(sublime_plugin.WindowCommand, sublime_plugin.TextCommand):
     """A class to derive from when using a Window- and a TextCommand in one class
-    (e.g. when you make a build system that should/could also be calles from the command
+    (e.g. when you make a build system that should/could also be called from the command
     palette).
 
         Defines both self.view and self.window.

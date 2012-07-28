@@ -69,6 +69,12 @@ def has_file_ext(view, ext):
     return view.file_name().endswith(ext)
 
 
+def scope_name(view):
+    """Returns the view's base scope.
+    """
+    return view.scope_name(0).split(' ', 1)[0]
+
+
 def rowcount(view):
     """Returns the number of rows in ``view``.
     """

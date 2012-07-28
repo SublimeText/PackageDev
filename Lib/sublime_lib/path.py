@@ -23,3 +23,18 @@ def root_at_data(*leafs):
     """
     data = os.path.join(os.path.split(sublime.packages_path())[0])
     return os.path.join(data, *leafs)
+
+
+def path_to_dict(file_path):
+    """Returns a dict with the following fields:
+    file_path, path, file_name, ext, no_ext
+    """
+    path, file_name = os.path.split(file_path)
+    base_name, ext = os.path.splitext(file_name)
+    return dict(
+        file_path=file_path,
+        path=path,
+        file_name=file_name,
+        ext=ext,
+        no_ext=os.path.join(path, base_name)
+    )
