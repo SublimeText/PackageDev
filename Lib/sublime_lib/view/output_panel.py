@@ -1,4 +1,5 @@
 from ._view import unset_read_only, append, clear
+from .view_settings import ViewSettings
 
 
 class OutputPanel(object):
@@ -83,6 +84,7 @@ class OutputPanel(object):
         self.panel_name = panel_name
         self.view = window.get_output_panel(panel_name)
         self.view.set_read_only(read_only)
+        self.settings = ViewSettings(self.view)
 
         self.set_path(path, file_regex, line_regex)
 
@@ -91,7 +93,7 @@ class OutputPanel(object):
         Only overrides the previous settings if parameters are not None.
         """
         if path is not None:
-            self.view.settings().set('result_base_dir', path)
+            self.settings.result_base_dir = path
         # Also update the file_regex
         self.set_regex(file_regex, line_regex)
 
@@ -102,12 +104,12 @@ class OutputPanel(object):
         if file_regex is not None:
             self.file_regex = file_regex
         if hasattr(self, 'file_regex'):
-            self.view.settings().set('result_file_regex', self.file_regex)
+            self.settings.result_file_regex = self.file_regex
 
         if line_regex is not None:
             self.line_regex = line_regex
         if hasattr(self, 'line_regex'):
-            self.view.settings().set('result_line_regex', self.line_regex)
+            self.settings.result_line_regex = self.line_regex
         # Call get_output_panel so that it'll be picked up as a result buffer
         self.window.get_output_panel(self.panel_name)
 
