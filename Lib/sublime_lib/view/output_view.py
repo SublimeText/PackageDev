@@ -1,10 +1,10 @@
-from ._view import append, clear
+from ._view import unset_read_only, append, clear
 
 
 class OutputPanel(object):
     """This class represents an output panel (which are used for e.g. build systems).
 
-        OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None)
+        OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True)
             * window
                 The window. This is usually ``self.window`` or
                 ``self.view.window()``, depending on the type of your command.
@@ -36,6 +36,11 @@ class OutputPanel(object):
                 This is only needed if you specify the file_regex param and
                 will be used as the root dir for relative filenames when
                 determining error locations.
+
+            * read_only
+                A boolean whether the output panel should be read only.
+                You usually want this to be true.
+                Can be modified with ``self.view.set_read_only()`` when needed.
 
         Useful attributes:
 
@@ -73,10 +78,11 @@ class OutputPanel(object):
             hide()
                 Show or hide the output panel.
     """
-    def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None):
+    def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
         self.window = window
         self.panel_name = panel_name
         self.view = window.get_output_panel(panel_name)
+        self.view.set_read_only(read_only)
 
         self.set_path(path, file_regex, line_regex)
 
@@ -109,7 +115,8 @@ class OutputPanel(object):
         """Appends ``text`` to the output panel.
         Alias for ``sublime_lib.view.append(self.view, text)``.
         """
-        append(self.view, text)
+        with unset_read_only(self.view):
+            append(self.view, text)
 
     def write_line(self, text):
         """Appends ``text`` to the output panel and starts a new line.
@@ -120,7 +127,8 @@ class OutputPanel(object):
         """Clears the output panel.
         Alias for ``sublime_lib.view.clear(self.view)``.
         """
-        clear(self.view)
+        with unset_read_only(self.view):
+            clear(self.view)
 
     def show(self):
         """Makes the output panel visible.

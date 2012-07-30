@@ -3,6 +3,30 @@ from sublime import Region
 
 
 @contextlib.contextmanager
+def unset_read_only(view):
+    """Context manager to make sure a view writable if it is read only.
+    However, if the view is not read only it will just leave it untouched.
+
+        Yields a boolean indicating whether the view was read only before or
+        not. This has limited use.
+
+            Examples:
+                ...
+                with unset_read_only(view):
+                    ...
+                ...
+    """
+    read_only_before = view.is_read_only()
+    try:
+        if read_only_before:
+            view.set_read_only(False)
+        yield read_only_before
+    finally:
+        if read_only_before:
+            view.set_read_only(True)
+
+
+@contextlib.contextmanager
 def in_one_edit(view, name=""):
     """Context manager to group modifications in a view.
 
@@ -26,14 +50,14 @@ def in_one_edit(view, name=""):
 
 
 def append(view, text=None):
-    """Appends text to ``view``.
+    """Appends text to ``view``. Won't work if the view is read only.
     """
     with in_one_edit(view) as edit:
         view.insert(edit, view.size(), text)
 
 
 def clear(view, edit=None):
-    """Removes all the text in ``view``.
+    """Removes all the text in ``view``. Won't work if the view is read only.
     """
     with in_one_edit(view) as edit:
         view.erase(edit, Region(0, view.size()))
