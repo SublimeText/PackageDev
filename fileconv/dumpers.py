@@ -4,7 +4,7 @@ import json
 import yaml
 import plistlib
 
-from sublime_lib.view import OutputView
+from sublime_lib.view import OutputPanel
 
 
 class DumperProto(object):
@@ -34,7 +34,7 @@ class DumperProto(object):
 
                 Data to write is defined in ``data``.
                 The parsed data should be returned.
-                To output problems, use ``self.output.writeln(str)``.
+                To output problems, use ``self.output.write_line(str)``.
                 The default self.dump function will catch excetions raised
                 and print them via ``str()`` to the output.
 
@@ -66,10 +66,10 @@ class DumperProto(object):
         self.file_path = file_path or view.file_name()
         self.new_file_path = new_file_path
 
-        if isinstance(output, OutputView):
+        if isinstance(output, OutputPanel):
             self.output = output
         elif window:
-            self.output = OutputView(window, self.output_panel_name)
+            self.output = OutputPanel(window, self.output_panel_name)
 
     def validate_data(self, data, *args, **kwargs):
         """To be implemented (optional).
@@ -110,13 +110,13 @@ class DumperProto(object):
 
         This function is called by the handler directly.
         """
-        self.output.writeln("Writing %s... (%s)" % (self.name, self.new_file_path))
+        self.output.write_line("Writing %s... (%s)" % (self.name, self.new_file_path))
         self.output.show()
         self.validate_data(data)
         try:
             self.write(data, *args, **kwargs)
         except Exception, e:
-            self.output.writeln("Error writing json: %s" % str(e))
+            self.output.write_line("Error writing json: %s" % str(e))
 
     def write(self, data, *args, **kwargs):
         """To be implemented.

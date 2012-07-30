@@ -8,7 +8,7 @@ from xml.parsers.expat import ExpatError, ErrorString
 
 import sublime
 
-from sublime_lib.view import OutputView, coorded_substr, scope_name
+from sublime_lib.view import OutputPanel, coorded_substr, scope_name
 from sublime_lib.path import path_to_dict
 
 appendix_regex = r'(?i)\.([^\.\-]+?)(?:-([^\.]+))?$'
@@ -67,7 +67,7 @@ class LoaderProto(object):
 
                 The file to be read from is defined in ``self.file_path``.
                 The parsed data should be returned.
-                To output problems, use ``self.output.writeln(str)`` and use a
+                To output problems, use ``self.output.write_line(str)`` and use a
                 string matched by ``self.file_regex`` if possible.
 
                 *args, **kwargs parameters are passed from
@@ -103,7 +103,7 @@ class LoaderProto(object):
             self.ext_regex = r'(?i)\.%s(?:-([^\.]+))?$' % self.ext
 
         path = os.path.split(self.file_path)[0]
-        self.output = OutputView(self.window, self.output_panel_name, self.file_regex, path)
+        self.output = OutputPanel(self.window, self.output_panel_name, file_regex=self.file_regex, path=path)
 
     def get_ext_appendix(self):
         """Returns the appendix part of a file_name in style ".json-Appendix",
@@ -153,7 +153,7 @@ class LoaderProto(object):
             raise NotImplementedError("Not a %s file. Please check extension." % self.name)
 
         self.output.clear()
-        self.output.writeln("Parsing %s... (%s)" % (self.name, self.file_path))
+        self.output.write_line("Parsing %s... (%s)" % (self.name, self.file_path))
         self.output.show()
 
         return self.parse(*args, **kwargs)
@@ -178,9 +178,9 @@ class JSONLoader(LoaderProto):
             with open(self.file_path) as f:
                 data = json.load(f)
         except ValueError, e:
-            self.output.writeln(self.debug_base % (self.file_path, str(e)))
+            self.output.write_line(self.debug_base % (self.file_path, str(e)))
         except IOError, e:
-            self.output.writeln('Error opening "%s": %s' % (self.file_path, str(e)))
+            self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
             # TODO: Use buffer's contents instead?
         else:
             return data
@@ -210,7 +210,7 @@ class PlistLoader(LoaderProto):
             try:
                 data = plistlib.readPlist(self.file_path)
             except ExpatError, e:
-                self.output.writeln(self.debug_base
+                self.output.write_line(self.debug_base
                                     % (self.file_path,
                                        ErrorString(e.code),
                                        e.lineno,
@@ -218,7 +218,7 @@ class PlistLoader(LoaderProto):
                                    )
         except BaseException, e:
             # Whatever could happen here ...
-            self.output.writeln(self.debug_base % (self.file_path, str(e)))
+            self.output.write_line(self.debug_base % (self.file_path, str(e)))
         else:
             return data
 
@@ -236,9 +236,9 @@ class YAMLLoader(LoaderProto):
             with open(self.file_path) as f:
                 data = yaml.safe_load(f)
         except yaml.YAMLError, e:
-            self.output.writeln(self.debug_base % join_multiline(str(e)))
+            self.output.write_line(self.debug_base % join_multiline(str(e)))
         except IOError, e:
-            self.output.writeln('Error opening "%s": %s' % (self.file_path, str(e)))
+            self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
             # TODO: Use buffer's contents instead?
         else:
             return data

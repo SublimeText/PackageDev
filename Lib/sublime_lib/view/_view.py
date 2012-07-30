@@ -1,52 +1,41 @@
 import contextlib
-from sublime import Region, Edit
+from sublime import Region
 
 
 @contextlib.contextmanager
-def in_one_edit(view, edit=None):
-    """Context manager to group edits in a view.
+def in_one_edit(view, name=""):
+    """Context manager to group modifications in a view.
 
-    Can also be used if you are not sure that the passed edit is valid (not None)
-    and will wrap "the calls" if it isn't.
-    Please note that the edit is not closed when the parameter is valid!
+        If there is already an edit for ``view`` all the child edits' changes
+        are merged into the outer-most one.
 
-        Examples:
-            ...
-            with in_one_edit(view) as edit:
+        The parameter ``name`` usually contains the plugin's name, as for view
+        commands this is ``self.name()``.
+
+            Examples:
                 ...
-            ...
-            with in_one_edit(view, edit) as edit:
+                with in_one_edit(view) as edit:
+                    ...
                 ...
-            ...
     """
-    edit_valid = (edit is not None and isinstance(edit, Edit))
     try:
-        if not edit_valid:
-            edit = view.begin_edit()
+        edit = view.begin_edit(name)
         yield edit
     finally:
-        if not edit_valid:
-            view.end_edit(edit)
+        view.end_edit(edit)
 
 
-def append(view, edit, text=None):
-    """Appends text to ``view``. edit parameter can be omitted.
-
-        Examples:
-            append(view, "append this text")
-            append(view, edit, "append using edit")
+def append(view, text=None):
+    """Appends text to ``view``.
     """
-    if text is None:
-        text = edit
-        edit = None
-    with in_one_edit(view, edit) as edit:
+    with in_one_edit(view) as edit:
         view.insert(edit, view.size(), text)
 
 
 def clear(view, edit=None):
-    """Removes all the text in ``view``. edit parameter can be omitted.
+    """Removes all the text in ``view``.
     """
-    with in_one_edit(view, edit) as edit:
+    with in_one_edit(view) as edit:
         view.erase(edit, Region(0, view.size()))
 
 
