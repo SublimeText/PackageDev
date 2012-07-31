@@ -130,7 +130,7 @@ class LoaderProto(object):
         appendix = self.get_ext_appendix()
         if appendix:
             return ('.' + appendix, False)
-        if self.is_valid():
+        if self.is_valid() and not path_to_dict(self.file_path).ext == '.' + self.ext:
             return (os.path.splitext(self.file_path)[1], True)
         return (None, False)
 
