@@ -116,7 +116,7 @@ class DumperProto(object):
         try:
             self.write(data, *args, **kwargs)
         except Exception, e:
-            self.output.write_line("Error writing json: %s" % str(e))
+            self.output.write_line("Error writing %s: %s" % (self.name, str(e)))
 
     def write(self, data, *args, **kwargs):
         """To be implemented.
