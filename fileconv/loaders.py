@@ -150,7 +150,9 @@ class LoaderProto(object):
         This function is called by the handler directly.
         """
         if not self.is_valid():
-            raise NotImplementedError("Not a %s file. Please check extension." % self.name)
+            msg = "Not a %s file. Please check extension." % self.name
+            self.output.append(msg)
+            raise NotImplementedError(msg)
 
         self.output.clear()
         self.output.write_line("Parsing %s... (%s)" % (self.name, self.file_path))
@@ -173,7 +175,7 @@ class JSONLoader(LoaderProto):
     file_regex = debug_base % (r'(.*?)', r'.+? line (\d+) column (\d+)')
 
     # No parameters needed.
-    def parse(self):
+    def parse(self, *args, **kwargs):
         try:
             with open(self.file_path) as f:
                 data = json.load(f)
@@ -205,7 +207,7 @@ class PlistLoader(LoaderProto):
                 return True
         return False
 
-    def parse(self):
+    def parse(self, *args, **kwargs):
         try:
             try:
                 data = plistlib.readPlist(self.file_path)
@@ -231,7 +233,7 @@ class YAMLLoader(LoaderProto):
     file_regex = re.escape(debug_base).replace(r'\%', '%') % r'.+? in "(.*?)", line (\d+), column (\d+)'
 
     # No parameters needed.
-    def parse(self):
+    def parse(self, *args, **kwargs):
         try:
             with open(self.file_path) as f:
                 data = yaml.safe_load(f)
