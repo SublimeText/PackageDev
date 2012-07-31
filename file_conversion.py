@@ -71,7 +71,7 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         if not new_ext:
             new_ext = new_ext or '.' + target
-        new_file_path = path_to_dict(file_path)["no_ext"] + new_ext
+        new_file_path = path_to_dict(file_path).no_ext + new_ext
 
         # Init the Dumper
         dumper = dumpers.get[target](self.window, self.view, new_file_path, output=loader.output)

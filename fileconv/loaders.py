@@ -139,7 +139,7 @@ class LoaderProto(object):
         this loader.
         """
         return (self.get_ext_appendix() is not None
-                or path_to_dict(self.file_path)["ext"] == '.' + self.ext
+                or path_to_dict(self.file_path).ext == '.' + self.ext
                 or (self.scope is not None
                     and base_scope(self.view) == self.scope))
 
@@ -194,7 +194,7 @@ class PlistLoader(LoaderProto):
     DOCTYPE = "<!DOCTYPE plist"
 
     def is_valid(self):
-        if self.get_ext_appendix() is not None or path_to_dict(self.file_path)["ext"] == '.' + self.ext:
+        if self.get_ext_appendix() is not None or path_to_dict(self.file_path).ext == '.' + self.ext:
             return True
 
         # Plists have no scope (syntax definition) since they are XML.
