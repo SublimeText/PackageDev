@@ -1,4 +1,5 @@
-from ._view import ViewSettings, unset_read_only, append, clear
+from sublime import Region
+from ._view import ViewSettings, unset_read_only, in_one_edit, append, clear
 
 
 class OutputPanel(object):
@@ -77,6 +78,10 @@ class OutputPanel(object):
             show()
             hide()
                 Show or hide the output panel.
+
+            finish()
+                Call this when you are done with updating the panel.
+                Required if you want the next_result command (F4) to work.
     """
     def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
         self.window = window
@@ -140,3 +145,13 @@ class OutputPanel(object):
         """Makes the output panel invisible.
         """
         self.window.run_command("hide_panel", {"panel": "output.%s" % self.panel_name})
+
+    def finish(self):
+        """Things that are required to use the output panel properly.
+
+            Set the selection to the start, so that next_result will work as
+            expected.
+        """
+        with in_one_edit(self.view):
+            self.view.sel().clear()
+            self.view.sel().add(Region(0))

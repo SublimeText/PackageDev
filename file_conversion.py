@@ -1,4 +1,5 @@
 import os
+import time
 
 import sublime
 
@@ -55,11 +56,11 @@ class ConvertFileCommand(WindowAndTextCommand):
             self.status("File does not exist.", file_path)
             return
 
+        start_time = time.time()
+
         # Init the Loader
         loader = loaders.get[source](self.window, self.view)
-        new_ext, prepend_target = loader.get_new_file_ext()
-        if prepend_target:
-            new_ext = ".%s-%s" % (target.upper(), new_ext[1:])
+        output = loader.output
 
         try:
             data = loader.load(*args, **kwargs)
@@ -69,14 +70,20 @@ class ConvertFileCommand(WindowAndTextCommand):
         if not data:
             return
 
-        if not new_ext:
-            new_ext = new_ext or '.' + target
-        new_file_path = path_to_dict(file_path).no_ext + new_ext
+        # Determine new file name
+        new_ext, prepend_target = loader.get_new_file_ext()
+        if prepend_target:
+            new_ext = ".%s-%s" % (target.upper(), new_ext[1:])
+        new_file_path = path_to_dict(file_path).no_ext + (new_ext or '.' + target)
 
         # Init the Dumper
-        dumper = dumpers.get[target](self.window, self.view, new_file_path, output=loader.output)
+        dumper = dumpers.get[target](self.window, self.view, new_file_path, output=output)
         if dumper.dump(data, *args, **kwargs):
             self.status("File conversion successful. (%s -> %s)" % (source, target))
+
+        # Finish
+        output.write("[Finished in %.3fs]" % (time.time() - start_time))
+        output.finish()
 
     # TODO: define is_visible / is_enabled and check if parameters
     # are passed when specified in a build system
