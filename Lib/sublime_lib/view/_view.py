@@ -81,11 +81,25 @@ def in_one_edit(view, name=""):
         view.end_edit(edit)
 
 
-def append(view, text=None):
+def append(view, text, scroll_always=False):
     """Appends text to ``view``. Won't work if the view is read only.
+
+        The scroll_always parameter may be one of these values:
+
+            True:  Always scroll to the end of the view.
+            False: Scroll only if the selecton is already at the end.
+            None:  Don't scroll.
     """
     with in_one_edit(view) as edit:
-        view.insert(edit, view.size(), text)
+        size = view.size()
+        scroll = scroll_always
+        if not scroll and scroll is not None:
+            scroll = (len(view.sel()) == 1 and view.sel()[0] == Region(size))
+
+        view.insert(edit, size, text)
+
+        if scroll:
+            view.show(view.size())
 
 
 def clear(view, edit=None):
@@ -103,7 +117,7 @@ def has_sels(view):
 
 def has_file_ext(view, ext):
     """Returns ``True`` if ``view`` has file extension ``ext``.
-    ``ext`` may be specified with or without leading ``.``.
+    ``ext`` may be specified with or without leading ".".
     """
     if not view.file_name() or not ext.strip().replace('.', ''):
         return False
