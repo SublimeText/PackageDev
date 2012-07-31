@@ -1,5 +1,37 @@
 import contextlib
-from sublime import Region
+from sublime import Region, View
+
+from .. import Settings
+
+__all__ = ['ViewSettings', 'unset_read_only', 'in_one_edit', 'append', 'clear',
+           'has_sels', 'has_file_ext', 'scope_name', 'rowcount', 'rowwidth',
+           'relative_point', 'coorded_region', 'coorded_substr', 'get_text']
+
+
+class ViewSettings(Settings):
+    """Helper class for accessing settings' values from views.
+
+        Derived from sublime_lib.Settings. Please also read the documentation
+        there.
+
+        ViewSettings(view, none_erases=False)
+
+            * view (sublime.View)
+                Forwarding ``view.settings()``.
+
+            * none_erases (bool, optional)
+                Iff ``True`` a setting's key will be erased when setting it to
+                ``None``. This only has a meaning when the key you erase is
+                defined in a parent Settings collection which would be
+                retrieved in that case.
+    """
+    def __init__(self, view, none_erases=False):
+        if not isinstance(view, View):
+            raise ValueError("Invalid view")
+        settings = view.settings()
+        if not settings:
+            raise ValueError("Could not resolve view.settings()")
+        super(ViewSettings, self).__init__(settings, none_erases)
 
 
 @contextlib.contextmanager

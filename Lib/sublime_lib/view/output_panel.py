@@ -1,5 +1,4 @@
-from ._view import unset_read_only, append, clear
-from .view_settings import ViewSettings
+from ._view import ViewSettings, unset_read_only, append, clear
 
 
 class OutputPanel(object):

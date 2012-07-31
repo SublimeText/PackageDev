@@ -1,3 +1,3 @@
-from ._view import *
+# for importing the module
 from .output_panel import OutputPanel
-from .view_settings import ViewSettings
+from ._view import *
