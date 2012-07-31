@@ -4,7 +4,7 @@ from sublime import Region, View
 from .. import Settings
 
 __all__ = ['ViewSettings', 'unset_read_only', 'in_one_edit', 'append', 'clear',
-           'has_sels', 'has_file_ext', 'scope_name', 'rowcount', 'rowwidth',
+           'has_sels', 'has_file_ext', 'base_scope', 'rowcount', 'rowwidth',
            'relative_point', 'coorded_region', 'coorded_substr', 'get_text']
 
 
@@ -114,7 +114,7 @@ def has_file_ext(view, ext):
     return view.file_name().endswith(ext)
 
 
-def scope_name(view):
+def base_scope(view):
     """Returns the view's base scope.
     """
     return view.scope_name(0).split(' ', 1)[0]
