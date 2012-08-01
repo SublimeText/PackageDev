@@ -30,9 +30,9 @@ class ConvertFileCommand(WindowAndTextCommand):
             ".json"         json  -> yaml  ".yaml"
             ".json"         yaml  -> plist ".PLIST-json"
 
-        Whether the parser is considered valid is determined from the extesion,
-        the extesion + appendix or the view's base scope (or in a special case
-        with plist using.
+        Whether the parser is considered valid is determined from the
+        extension, the extension + appendix or the view's base scope (or in a
+        special case with plist using the file's xml header).
         This is also used to auto-detect the file type if the source parameter
         is omitted.
 
