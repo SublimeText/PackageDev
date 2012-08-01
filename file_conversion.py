@@ -12,23 +12,24 @@ from fileconv import *
 
 # build command
 class ConvertFileCommand(WindowAndTextCommand):
-    """Convert a file (view's buffer) of type ``source`` to type ``target``.
+    """Convert a file (view's buffer) of type ``source_format`` to type
+    ``target_format``.
 
         Supports the following parsers/loaders:
-            json
-            plist
-            yaml
+            'json'
+            'plist'
+            'yaml'
 
         Supports the following writers/dumpers:
-            json
-            plist
-            yaml
+            'json'
+            'plist'
+            'yaml'
 
         The file extesion is determined by a special algorythm using
         "appendixes". Here are a few examples:
             ".YAML-ppplist" yaml  -> plist ".ppplist"
             ".json"         json  -> yaml  ".yaml"
-            ".json"         yaml  -> plist ".PLIST-json"
+            ".tmplist"      plist -> json ".JSON-tmplist"
 
         Whether the parser is considered valid is determined from the
         extension, the extension + appendix or the view's base scope (or in a
@@ -40,7 +41,7 @@ class ConvertFileCommand(WindowAndTextCommand):
         This works well for json -> anything because json only defines
         strings, numbers, lists and objects (dicts, arrays, hash tables).
     """
-    def run(self, source=None, target=None, *args, **kwargs):
+    def run(self, source_format=None, target_format=None, *args, **kwargs):
         # Check the environment (view, args, ...)
         if self.view.is_scratch():
             return
@@ -52,39 +53,42 @@ class ConvertFileCommand(WindowAndTextCommand):
         if not file_path or not os.path.exists(file_path):
             return self.status("File does not exist.", file_path)
 
-        if target == source:
-            return self.status("Target and source file type are identical. (%s)" % target)
+        if not target_format:
+            return self.status("Please define a target format.")
 
-        if source and not source in loaders.get:
-            return self.status("%s for '%s' not supported/implemented." % ("Loader", source))
+        if target_format == source_format:
+            return self.status("Target and source file format are identical. (%s)" % target_format)
 
-        if not target in dumpers.get:
-            return self.status("%s for '%s' not supported/implemented." % ("Dumper", target))
+        if source_format and not source_format in loaders.get:
+            return self.status("%s for '%s' not supported/implemented." % ("Loader", source_format))
+
+        if not target_format in dumpers.get:
+            return self.status("%s for '%s' not supported/implemented." % ("Dumper", target_format))
 
         # Now the actual "building" starts
         output = OutputPanel(self.window or sublime.active_window(), "aaa_package_dev")
         output.show()
 
         # Auto-determine the file type if it's not specified
-        if not source:
+        if not source_format:
             output.write("Input type not specified, auto-detecting...")
             for Loader in loaders.get.values():
                 if Loader.file_is_valid(self.view):
-                    source = Loader.ext
+                    source_format = Loader.ext
                     output.write_line(' %s\n' % Loader.name)
                     break
 
-            if not source:
+            if not source_format:
                 output.write_line("\nCould not determine file type.")
                 return
-            elif target == source:
-                output.write_line("File already is %s." % loaders.get[target].name)
+            elif target_format == source_format:
+                output.write_line("File already is %s." % loaders.get[source_format].name)
                 return
 
         start_time = time.time()
 
         # Init the Loader
-        loader = loaders.get[source](self.window, self.view, output=output)
+        loader = loaders.get[source_format](self.window, self.view, output=output)
 
         data = None
         try:
@@ -96,22 +100,22 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         if data:
             # Determine new file name
-            new_ext, prepend_target = loader.new_file_ext()
-            if prepend_target:
-                new_ext = ".%s-%s" % (target.upper(), new_ext[1:])
-            new_file_path = path_to_dict(file_path).no_ext + (new_ext or '.' + target)
+            new_ext, prepend_target_format = loader.new_file_ext()
+            if prepend_target_format:
+                new_ext = ".%s-%s" % (target_format.upper(), new_ext[1:])
+            new_file_path = path_to_dict(file_path).no_ext + (new_ext or '.' + target_format)
 
             # Init the Dumper
-            dumper = dumpers.get[target](self.window, self.view, new_file_path, output=output)
+            dumper = dumpers.get[target_format](self.window, self.view, new_file_path, output=output)
             if dumper.dump(data, *args, **kwargs):
-                self.status("File conversion successful. (%s -> %s)" % (source, target))
+                self.status("File conversion successful. (%s -> %s)" % (source_format, target_format))
 
         # Finish
         output.write("[Finished in %.3fs]" % (time.time() - start_time))
         output.finish()
 
     # TODO: define is_visible / is_enabled and check if parameters
-    # are passed when specified in a build system
+    # are passed when specified in a build system / command palette
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
