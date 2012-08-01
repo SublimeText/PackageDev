@@ -5,6 +5,8 @@ import sublime
 
 from sublime_lib import WindowAndTextCommand
 from sublime_lib.path import path_to_dict
+from sublime_lib.view import OutputPanel
+
 from fileconv import *
 
 
@@ -40,38 +42,57 @@ class ConvertFileCommand(WindowAndTextCommand):
         if self.view.is_scratch():
             return
 
-        if not source in loaders.get:
-            self.status("%s for '%s' not supported/implemented." % ("Loader", source))
-            return
-        if not target in dumpers.get:
-            self.status("%s for '%s' not supported/implemented." % ("Dumper", target))
-            return
-
         if self.view.is_dirty():
-            self.status("Please safe the file.")
-            return
+            return self.status("Please safe the file.")
 
         file_path = self.view.file_name()
         if not file_path or not os.path.exists(file_path):
-            self.status("File does not exist.", file_path)
-            return
+            return self.status("File does not exist.", file_path)
+
+        if target == source:
+            return self.status("Target and source file type are identical. (%s)" % target)
+
+        if source and not source in loaders.get:
+            return self.status("%s for '%s' not supported/implemented." % ("Loader", source))
+
+        if not target in dumpers.get:
+            return self.status("%s for '%s' not supported/implemented." % ("Dumper", target))
+
+        # Now the actual "building" starts
+        output = OutputPanel(self.window or sublime.active_window(), "aaa_package_dev")
+        output.show()
+
+        # Auto-determine the file type if it's not specified
+        if not source:
+            output.write("Input type not specified, determining...")
+            for Loader in loaders.get.values():
+                if Loader.file_is_valid(self.view):
+                    source = Loader.ext
+                    output.write_line(' %s\n' % Loader.name)
+                    break
+
+            if not source:
+                output.write_line("\nCould not determine file type.")
+                return
+            elif target == source:
+                output.write_line("File already is %s." % loaders.get[target].name)
+                return
 
         start_time = time.time()
 
         # Init the Loader
-        loader = loaders.get[source](self.window, self.view)
-        output = loader.output
+        loader = loaders.get[source](self.window, self.view, output=output)
 
         try:
             data = loader.load(*args, **kwargs)
         except NotImplementedError, e:
-            self.status(str(e), file_path)
-            return
+            outout.write_line(str(e))
+            return self.status(str(e), file_path)
         if not data:
             return
 
         # Determine new file name
-        new_ext, prepend_target = loader.get_new_file_ext()
+        new_ext, prepend_target = loader.new_file_ext()
         if prepend_target:
             new_ext = ".%s-%s" % (target.upper(), new_ext[1:])
         new_file_path = path_to_dict(file_path).no_ext + (new_ext or '.' + target)

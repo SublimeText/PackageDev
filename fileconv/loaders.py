@@ -14,7 +14,7 @@ from sublime_lib.path import path_to_dict
 appendix_regex = r'(?i)\.([^\.\-]+?)(?:-([^\.]+))?$'
 
 
-def join_multiline(string):
+def _join_multiline(string):
     return " ".join([line.strip() for line in string.split("\n")])
 
 
@@ -24,7 +24,7 @@ class LoaderProto(object):
         Classes derived from this class (and in this file) will be appended
         to the module's ``get`` variable (a dict) with ``self.ext`` as their key.
 
-        Variables to be defined:
+        Variables to define:
 
             name (str)
                 The loaders name, e.g. "JSON" or "Property List".
@@ -60,7 +60,7 @@ class LoaderProto(object):
                 Defaults to ``r'(?i)\.%s(?:-([^\.]+))?$' % self.ext``.
 
 
-        Methods to be implemented:
+        Methods to implement:
 
             parse(self, *args, **kwargs)
                 This is called when the actual parsing should happen.
@@ -77,9 +77,19 @@ class LoaderProto(object):
         Methods you can override/implement
         (please read their documentation/code to understand their purposes):
 
-            get_ext_appendix(self)
+            @classmethod
+            _pre_init_(cls)
 
-            get_new_file_ext(self)
+            @classmethod
+            get_ext_appendix(cls, file_name)
+
+            @classmethod
+            get_new_file_ext(cls, view, file_name=None)
+
+            new_file_ext(self)
+
+            @classmethod
+            file_is_valid(cls, view, file_name=None)
 
             is_valid(self)
 
@@ -91,57 +101,89 @@ class LoaderProto(object):
     file_regex = ""
     output_panel_name = "aaa_package_dev"
 
-    def __init__(self, window, view, file_path=None, *args, **kwargs):
+    def __init__(self, window, view, file_path=None, output=None, *args, **kwargs):
         """Mirror the parameters to ``self``, do "init" stuff.
         """
-        super(LoaderProto, self).__init__()  # object.__init__() takes no parameters
+        super(LoaderProto, self).__init__()  # object.__init__ takes no parameters
 
         self.window = window or view.window() or sublime.active_window()
         self.view = view
         self.file_path = file_path or view.file_name()
-        if not hasattr(self, 'ext_regex'):
-            self.ext_regex = r'(?i)\.%s(?:-([^\.]+))?$' % self.ext
 
         path = os.path.split(self.file_path)[0]
-        self.output = OutputPanel(self.window, self.output_panel_name, file_regex=self.file_regex, path=path)
+        if isinstance(output, OutputPanel):
+            output.set_path(path, self.file_regex)
+            self.output = output
+        else:
+            self.output = OutputPanel(self.window, self.output_panel_name, file_regex=self.file_regex, path=path)
+            self.output.clear()
 
-    def get_ext_appendix(self):
+    @classmethod
+    def _pre_init_(cls):
+        """Assign attributes that depend on other attributes defined by subclasses.
+        """
+        if not hasattr(cls, 'ext_regex'):
+            cls.ext_regex = r'(?i)\.%s(?:-([^\.]+))?$' % cls.ext
+
+    @classmethod
+    def get_ext_appendix(cls, file_name):
         """Returns the appendix part of a file_name in style ".json-Appendix",
         "json" being ``self.ext`` respectively, or ``None``.
         """
-        if self.file_path:
-            ret = re.search(self.ext_regex, self.file_path)
+        if file_name:
+            ret = re.search(cls.ext_regex, file_name)
             if ret and ret.group(1):
                 return ret.group(1)
         return None
 
-    def get_new_file_ext(self):
+    @classmethod
+    def get_new_file_ext(cls, view, file_path=None):
         """Returns a tuple in style (str(ext), bool(prepend_ext)).
 
         The first part is the extension string, which may be ``None``.
-        The second part is a boolean value that indicates that the dumper
+        The second part is a boolean value that indicates whether the dumper
         (or the handler) should use the value of the first part as appendix
         and prepend the actual "new" file type.
 
-        This function is called by the handler directly.
-
         See also get_ext_appendix().
         """
-        appendix = self.get_ext_appendix()
+        file_path = file_path or view and view.file_name()
+        if not file_path:
+            return (None, False)
+
+        appendix = cls.get_ext_appendix(file_path)
         if appendix:
             return ('.' + appendix, False)
-        if self.is_valid() and not path_to_dict(self.file_path).ext == '.' + self.ext:
-            return (os.path.splitext(self.file_path)[1], True)
+
+        ext = os.path.splitext(file_path)[1]
+        if not ext == '.' + cls.ext and cls.file_is_valid(view, file_path):
+            return (ext, True)
+
         return (None, False)
 
-    def is_valid(self):
-        """Returns a boolean whether ``self.file_path`` is a valid file for
+    def new_file_ext(self):
+        """Instance method wrapper for ``cls.get_new_file_ext``.
+        """
+        return self.__class__.get_new_file_ext(self.view, self.file_path)
+
+    @classmethod
+    def file_is_valid(cls, view, file_path=None):
+        """Returns a boolean whether ``file_path`` is a valid file for
         this loader.
         """
-        return (self.get_ext_appendix() is not None
-                or path_to_dict(self.file_path).ext == '.' + self.ext
-                or (self.scope is not None
-                    and base_scope(self.view) == self.scope))
+        file_path = file_path or view and view.file_name()
+        if not file_path:
+            return None
+
+        return (cls.get_ext_appendix(file_path) is not None
+                or path_to_dict(file_path).ext == '.' + cls.ext
+                or (cls.scope is not None and view
+                    and base_scope(view) == cls.scope))
+
+    def is_valid(self):
+        """Instance method wrapper for ``cls.file_is_valid``.
+        """
+        return self.__class__.file_is_valid(self.view, self.file_path)
 
     def load(self, *args, **kwargs):
         """Wraps ``self.parse(*args, **kwargs)`` and calls some other functions
@@ -150,13 +192,9 @@ class LoaderProto(object):
         This function is called by the handler directly.
         """
         if not self.is_valid():
-            msg = "Not a %s file. Please check extension." % self.name
-            self.output.append(msg)
-            raise NotImplementedError(msg)
+            raise NotImplementedError("Not a %s file." % self.name)
 
-        self.output.clear()
         self.output.write_line("Parsing %s... (%s)" % (self.name, self.file_path))
-        self.output.show()
 
         return self.parse(*args, **kwargs)
 
@@ -195,16 +233,33 @@ class PlistLoader(LoaderProto):
     file_regex = re.escape(debug_base).replace(r'\%', '%') % (r'(.*?)', r'.*?', r'(\d+)', r'(\d+)')
     DOCTYPE = "<!DOCTYPE plist"
 
-    def is_valid(self):
-        if self.get_ext_appendix() is not None or path_to_dict(self.file_path).ext == '.' + self.ext:
+    @classmethod
+    def file_is_valid(cls, view, file_path=None):
+        file_path = file_path or view and view.file_name()
+        if not file_path:
+            return None
+
+        if (cls.get_ext_appendix(file_path) is not None
+            or os.path.splitext(file_path)[1] == '.' + cls.ext):
             return True
 
         # Plists have no scope (syntax definition) since they are XML.
         # Instead, check for the DOCTYPE in the first two lines.
-        for i in range(2):  # This would be a really terrible one-liner
-            text = coorded_substr(self.view, (i, 0), (i, len(self.DOCTYPE)))
-            if text == self.DOCTYPE:
-                return True
+        if view:
+            for i in range(2):  # This would be a really terrible one-liner
+                text = coorded_substr(view, (i, 0), (i, len(cls.DOCTYPE)))
+                if text == cls.DOCTYPE:
+                    return True
+        else:
+            # Check in the file if view is not available
+            with open(file_path) as f:
+                i = 0
+                for line in f:
+                    i += 1
+                    if i == 2:
+                        break
+                    if line.startswith(cls.DOCTYPE):
+                        return True
         return False
 
     def parse(self, *args, **kwargs):
@@ -238,7 +293,7 @@ class YAMLLoader(LoaderProto):
             with open(self.file_path) as f:
                 data = yaml.safe_load(f)
         except yaml.YAMLError, e:
-            self.output.write_line(self.debug_base % join_multiline(str(e)))
+            self.output.write_line(self.debug_base % _join_multiline(str(e)))
         except IOError, e:
             self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
             # TODO: Use buffer's contents instead?
@@ -257,6 +312,7 @@ for type_name in dir():
         if t.__bases__:
             is_plugin = False
             if issubclass(t, LoaderProto) and not t is LoaderProto:
+                t._pre_init_()
                 get[t.ext] = t
 
     except AttributeError:

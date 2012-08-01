@@ -119,8 +119,6 @@ class OutputPanel(object):
             self.line_regex = line_regex
         if hasattr(self, 'line_regex'):
             self.settings.result_line_regex = self.line_regex
-        # Call get_output_panel so that it'll be picked up as a result buffer
-        self.window.get_output_panel(self.panel_name)
 
     def write(self, text):
         """Appends ``text`` to the output panel.
