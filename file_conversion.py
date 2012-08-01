@@ -31,10 +31,13 @@ class ConvertFileCommand(WindowAndTextCommand):
             ".json"         yaml  -> plist ".PLIST-json"
 
         Whether the parser is considered valid is determined from the extesion,
-        the extesion + appendix or the view's base scope.
+        the extesion + appendix or the view's base scope (or in a special case
+        with plist using.
+        This is also used to auto-detect the file type if the source parameter
+        is omitted.
 
         The different dumpers try to validate the data passed.
-        This works well for json -> anything, because json only defines
+        This works well for json -> anything because json only defines
         strings, numbers, lists and objects (dicts, arrays, hash tables).
     """
     def run(self, source=None, target=None, *args, **kwargs):
@@ -64,7 +67,7 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         # Auto-determine the file type if it's not specified
         if not source:
-            output.write("Input type not specified, determining...")
+            output.write("Input type not specified, auto-detecting...")
             for Loader in loaders.get.values():
                 if Loader.file_is_valid(self.view):
                     source = Loader.ext
@@ -83,24 +86,25 @@ class ConvertFileCommand(WindowAndTextCommand):
         # Init the Loader
         loader = loaders.get[source](self.window, self.view, output=output)
 
+        data = None
         try:
             data = loader.load(*args, **kwargs)
         except NotImplementedError, e:
+            # use NotImplementedError to make the handler report the message as it pleases
             outout.write_line(str(e))
-            return self.status(str(e), file_path)
-        if not data:
-            return
+            self.status(str(e), file_path)
 
-        # Determine new file name
-        new_ext, prepend_target = loader.new_file_ext()
-        if prepend_target:
-            new_ext = ".%s-%s" % (target.upper(), new_ext[1:])
-        new_file_path = path_to_dict(file_path).no_ext + (new_ext or '.' + target)
+        if data:
+            # Determine new file name
+            new_ext, prepend_target = loader.new_file_ext()
+            if prepend_target:
+                new_ext = ".%s-%s" % (target.upper(), new_ext[1:])
+            new_file_path = path_to_dict(file_path).no_ext + (new_ext or '.' + target)
 
-        # Init the Dumper
-        dumper = dumpers.get[target](self.window, self.view, new_file_path, output=output)
-        if dumper.dump(data, *args, **kwargs):
-            self.status("File conversion successful. (%s -> %s)" % (source, target))
+            # Init the Dumper
+            dumper = dumpers.get[target](self.window, self.view, new_file_path, output=output)
+            if dumper.dump(data, *args, **kwargs):
+                self.status("File conversion successful. (%s -> %s)" % (source, target))
 
         # Finish
         output.write("[Finished in %.3fs]" % (time.time() - start_time))
