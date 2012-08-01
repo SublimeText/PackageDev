@@ -229,7 +229,7 @@ class JSONLoader(LoaderProto):
 class PlistLoader(LoaderProto):
     name = "Property List"
     ext  = "plist"
-    debug_base = 'Error parsing ' + name + ' "%s": %s, line (%s), column (%s)'
+    debug_base = 'Error parsing ' + name + ' "%s": %s, line %s, column %s'
     file_regex = re.escape(debug_base).replace(r'\%', '%') % (r'(.*?)', r'.*?', r'(\d+)', r'(\d+)')
     DOCTYPE = "<!DOCTYPE plist"
 
@@ -264,15 +264,14 @@ class PlistLoader(LoaderProto):
 
     def parse(self, *args, **kwargs):
         try:
-            try:
-                data = plistlib.readPlist(self.file_path)
-            except ExpatError, e:
-                self.output.write_line(self.debug_base
-                                    % (self.file_path,
-                                       ErrorString(e.code),
-                                       e.lineno,
-                                       e.offset)
-                                   )
+            data = plistlib.readPlist(self.file_path)
+        except ExpatError, e:
+            self.output.write_line(self.debug_base
+                                % (self.file_path,
+                                   ErrorString(e.code),
+                                   e.lineno,
+                                   e.offset)
+                               )
         except BaseException, e:
             # Whatever could happen here ...
             self.output.write_line(self.debug_base % (self.file_path, str(e)))
