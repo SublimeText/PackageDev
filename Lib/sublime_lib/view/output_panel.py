@@ -1,4 +1,4 @@
-from sublime import Region
+from sublime import Region, Window
 from ._view import ViewSettings, unset_read_only, in_one_edit, append, clear
 
 
@@ -84,6 +84,11 @@ class OutputPanel(object):
                 Required if you want the next_result command (F4) to work.
     """
     def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
+        if not isinstance(window, Window):
+            raise ValueError("window parameter is invalid")
+        if not isinstance(panel_name, basestring):
+            raise ValueError("panel_name must be a string")
+
         self.window = window
         self.panel_name = panel_name
         self.view = window.get_output_panel(panel_name)
