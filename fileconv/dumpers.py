@@ -234,7 +234,8 @@ class PlistDumper(DumperProto):
         return self._validate_data(data, [
             # TOTEST: sets
             # yaml; lost of precision when converting to datetime.datetime
-            (lambda x: isinstance(x, datetime.date), str)
+            (lambda x: isinstance(x, datetime.date), str),
+            (lambda x: x is None, False)
         ])
 
     def write(self, data):
