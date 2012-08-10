@@ -69,7 +69,7 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
 
     def is_enabled(self):
         v = self.window.active_view()
-        return (v and (self.get_file_ext(v.file_name()) is not None))
+        return (v and v.file_name() and (self.get_file_ext(v.file_name()) is not None))
 
     def get_file_ext(self, file_name):
         ret = self.ext_regexp.search(file_name)
@@ -144,7 +144,7 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
         return (self.get_file_ext(v) is not None)
 
     def get_file_ext(self, v):
-        if not v:
+        if not v or not v.file_name():
             return None
         fn = v.file_name()
         ext = os.path.splitext(fn)[1]
