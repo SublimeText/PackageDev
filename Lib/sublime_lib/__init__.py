@@ -40,8 +40,19 @@ class WindowAndTextCommand(sublime_plugin.WindowCommand, sublime_plugin.TextComm
         else:
             raise TypeError("Something really bad happend and you are responsible")
 
-    def run(self, *args, **kwargs):
-        pass
+    def run_(self, args):
+        """Wraps the other run_ method implementations from sublime_plugin.
+
+            Required to update the self.view variable if the command is a
+            window command (which means that the constructor is not invoked
+            when the active view changes).
+        """
+        # super does not work here
+        if self._window_command:
+            self.view = self.window.active_view()
+            sublime_plugin.WindowCommand.run_(self, args)
+        else:
+            sublime_plugin.TextCommand.run_(self, args)
 
 
 class Settings(object):
