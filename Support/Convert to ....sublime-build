@@ -26,6 +26,12 @@
             "default_flow_style": false
         },
         {
+            "name": "YAML (Default Style)",
+
+            "target": "convert_file",
+            "target_format": "yaml"
+        },
+        {
             "name": "YAML (Flow Style)",
 
             "target": "convert_file",
