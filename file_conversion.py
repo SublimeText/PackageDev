@@ -2,12 +2,20 @@ import os
 import time
 
 import sublime
+from sublime_plugin import WindowCommand
 
 from sublime_lib import WindowAndTextCommand
 from sublime_lib.path import path_to_dict
 from sublime_lib.view import OutputPanel
 
 from fileconv import *
+
+
+class WindowShowOverlayCommand(WindowCommand):
+    """Wrap show_overlay command because I can't call this from a build system.
+    """
+    def run(self, *args, **kwargs):
+        self.window.run_command('show_overlay', kwargs)
 
 
 # build command
