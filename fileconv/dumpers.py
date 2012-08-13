@@ -269,8 +269,6 @@ class JSONDumper(DumperProto):
 
                 Character encoding for str instances, default is UTF-8.
         """
-        print params
-
         with open(self.new_file_path, "w") as f:
             json.dump(data, f, **params)
 
