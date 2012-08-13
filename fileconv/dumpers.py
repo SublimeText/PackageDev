@@ -79,7 +79,8 @@ class DumperProto(object):
             Example:
                 return self._validate_data(data, [
                     ((lambda x: isinstance(x, float), int),
-                     (lambda x: isinstance(x, datetime.datetime), str))
+                     (lambda x: isinstance(x, datetime.datetime), str),
+                     (lambda x: x is None, False))
                 ]
         """
         pass
@@ -91,21 +92,30 @@ class DumperProto(object):
         represents two functions, one to test whether the data is invalid
         and one to validate it. Both functions accept one parameter:
         the object to test.
+        The validation value can be a function (is callable) or be a value.
+        In the latter case the value will always be used instead of the
+        previous object.
 
         Example:
             funcs = ((lambda x: isinstance(x, float), int),
-                     (lambda x: isinstance(x, datetime.datetime), str))
+                     (lambda x: isinstance(x, datetime.datetime), str),
+                     (lambda x: x is None, False))
         """
         checked = []
 
         def check_recursive(obj):
-            if obj in checked:  # won't work for immutable types
-                return
+            # won't and shouldn't work for immutable types
+            # I mean, why would you even reference objects inside themselves?
+            if obj in checked:
+                return obj
             checked.append(obj)
 
             for is_invalid, validate in funcs:
                 if is_invalid(obj):
-                    obj = validate(obj)
+                    if callable(validate):
+                        obj = validate(obj)
+                    else:
+                        obj = validate
 
             if isinstance(obj, dict):  # dicts are fine
                 for key in obj:
@@ -325,7 +335,6 @@ for type_name in dir():
     try:
         t = globals()[type_name]
         if t.__bases__:
-            is_plugin = False
             if issubclass(t, DumperProto) and not t is DumperProto:
                 get[t.ext] = t
 

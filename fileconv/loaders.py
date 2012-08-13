@@ -309,7 +309,6 @@ for type_name in dir():
     try:
         t = globals()[type_name]
         if t.__bases__:
-            is_plugin = False
             if issubclass(t, LoaderProto) and not t is LoaderProto:
                 t._pre_init_()
                 get[t.ext] = t
