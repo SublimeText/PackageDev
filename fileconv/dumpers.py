@@ -26,10 +26,17 @@ class DumperProto(object):
                 reference name.
                 Defaults to ``"aaa_package_dev"``.
 
+            default_params (dict; optional)
+                Just a dict of the default params for self.write().
+
+            allowed_params (tuple; optional)
+                A collection of strings defining the allowed parameters for
+                self.write(). Other keys in the kwargs dict will be removed.
+
 
         Methods to be implemented:
 
-            write(self, data, *args, **kwargs)
+            write(self, data, params, *args, **kwargs)
                 This is called when the actual parsing should happen.
 
                 Data to write is defined in ``data``.
@@ -38,6 +45,9 @@ class DumperProto(object):
                 The default self.dump function will catch excetions raised
                 and print them via ``str()`` to the output.
 
+                Parameters to the dumping functions are in ``params`` dict,
+                which have been validated before, according to the class
+                variables (see above).
                 *args, **kwargs parameters are passed from
                 ``load(self, *args, **kwargs)``. If you want to specify or
                 process any options or optional parsing, use these.
@@ -52,11 +62,15 @@ class DumperProto(object):
 
             _validate_data(self, data, funcs)
 
+            validate_params(self, params)
+
             dump(self, *args, **kwargs)
     """
     name = ""
     ext  = ""
     output_panel_name = "aaa_package_dev"
+    default_params = {}
+    allowed_params = ()
 
     def __init__(self, window, view, new_file_path, output=None, file_path=None, *args, **kwargs):
         """Guess what this does.
@@ -139,6 +153,17 @@ class DumperProto(object):
 
         return check_recursive(data)
 
+    def validate_params(self, params):
+        """Validate the parameters according to self.default_params and
+        self.allowed_params.
+        """
+        new_params = self.default_params.copy()
+        new_params.update(params)
+        for key in new_params.keys():
+            if key not in self.allowed_params:
+                del new_params[key]
+        return new_params
+
     def dump(self, data, *args, **kwargs):
         """Wraps the ``self.write`` function.
 
@@ -147,8 +172,9 @@ class DumperProto(object):
         self.output.write_line("Writing %s... (%s)" % (self.name, self.new_file_path))
         self.output.show()
         data = self.validate_data(data)
+        params = self.validate_params(kwargs)
         try:
-            self.write(data, *args, **kwargs)
+            self.write(data, params, *args, **kwargs)
         except Exception, e:
             self.output.write_line("Error writing %s: %s" % (self.name, e))
         else:
@@ -162,16 +188,31 @@ class DumperProto(object):
 class JSONDumper(DumperProto):
     name = "JSON"
     ext  = "json"
+    default_params = dict(
+        skipkeys=True,
+        check_circular=False,  # there won't be references here, hopefully
+        indent=4
+    )
+    allowed_params = (
+        'skipkeys',
+        'ensure_ascii',
+        'check_circular',
+        'allow_nan',
+        'sort_keys',
+        'indent',
+        'separators',
+        'encoding'
+    )
 
     def validate_data(self, data):
-        return self._validate_data(data, [
+        return self._validate_data(data, (
             # TOTEST: sets
             (lambda x: isinstance(x, plistlib.Data), lambda x: x.data),  # plist
             (lambda x: isinstance(x, datetime.date), str),  # yaml
             (lambda x: isinstance(x, datetime.datetime), str)  # plist and yaml
-        ])
+        ))
 
-    def write(self, data, *args, **kwargs):
+    def write(self, data, params, *args, **kwargs):
         """Parameters:
 
             skipkeys (bool)
@@ -204,6 +245,11 @@ class JSONDumper(DumperProto):
                 specification, instead of using the JavaScript equivalents
                 (NaN, Infinity, -Infinity).
 
+            sort_keys (bool)
+                Default: True
+
+                The output of dictionaries will be sorted by key.
+
             indent (int)
                 Default: 4
 
@@ -223,17 +269,10 @@ class JSONDumper(DumperProto):
 
                 Character encoding for str instances, default is UTF-8.
         """
-        # Define default parameters
-        json_params = dict(
-                           skipkeys=True,
-                           check_circular=False,  # there won't be references here, hopefully
-                           indent=4,
-                           sort_keys=True
-                          )
-        json_params.update(kwargs)
+        print params
 
         with open(self.new_file_path, "w") as f:
-            json.dump(data, f, **json_params)
+            json.dump(data, f, **params)
 
 
 class PlistDumper(DumperProto):
@@ -241,30 +280,45 @@ class PlistDumper(DumperProto):
     ext  = "plist"
 
     def validate_data(self, data):
-        return self._validate_data(data, [
+        return self._validate_data(data, (
             # TOTEST: sets
             # yaml; lost of precision when converting to datetime.datetime
             (lambda x: isinstance(x, datetime.date), str),
             (lambda x: x is None, False)
-        ])
+        ))
 
-    def write(self, data):
+    def write(self, data, params, *args, **kwargs):
         plistlib.writePlist(data, self.new_file_path)
 
 
 class YAMLDumper(DumperProto):
     name = "YAML"
     ext  = "yaml"
+    default_params = {}
+    allowed_params = (
+        'default_style',
+        'default_flow_style',
+        'canonical',
+        'indent',
+        'width',
+        'allow_unicode',
+        'line_break',
+        'encoding',
+        'explicit_start',
+        'explicit_end',
+        'version',
+        'tags'
+    )
 
     def validate_data(self, data):
-        return self._validate_data(data, [
+        return self._validate_data(data, (
             # plistlib defines its own dict wrapper,
             # yaml.safe_dump only dumps "dict" type ...
             (lambda x: isinstance(x, plistlib._InternalDict), dict),
             (lambda x: isinstance(x, plistlib.Data), lambda x: x.data)  # plist
-        ])
+        ))
 
-    def write(self, data, *args, **kwargs):
+    def write(self, data, params, *args, **kwargs):
         """Parameters:
 
             default_style (str)
@@ -323,7 +377,7 @@ class YAMLDumper(DumperProto):
                 ???
         """
         with open(self.new_file_path, "w") as f:
-            yaml.safe_dump(data, f, **kwargs)
+            yaml.safe_dump(data, f, **params)
 
 
 ###############################################################################
