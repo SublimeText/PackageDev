@@ -5,7 +5,7 @@ import sublime
 from sublime_plugin import WindowCommand
 
 from sublime_lib import WindowAndTextCommand
-from sublime_lib.path import path_to_dict
+from sublime_lib.path import file_path_tuple
 from sublime_lib.view import OutputPanel
 
 from fileconv import *
@@ -111,7 +111,7 @@ class ConvertFileCommand(WindowAndTextCommand):
             new_ext, prepend_target_format = loader.new_file_ext()
             if prepend_target_format:
                 new_ext = ".%s-%s" % (target_format.upper(), new_ext[1:])
-            new_file_path = path_to_dict(file_path).no_ext + (new_ext or '.' + target_format)
+            new_file_path = file_path_tuple(file_path).no_ext + (new_ext or '.' + target_format)
 
             # Init the Dumper
             dumper = dumpers.get[target_format](self.window, self.view, new_file_path, output=output)

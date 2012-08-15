@@ -9,7 +9,7 @@ from xml.parsers.expat import ExpatError, ErrorString
 import sublime
 
 from sublime_lib.view import OutputPanel, coorded_substr, base_scope
-from sublime_lib.path import path_to_dict
+from sublime_lib.path import file_path_tuple
 
 appendix_regex = r'(?i)\.([^\.\-]+?)(?:-([^\.]+))?$'
 
@@ -176,7 +176,7 @@ class LoaderProto(object):
             return None
 
         return (cls.get_ext_appendix(file_path) is not None
-                or path_to_dict(file_path).ext == '.' + cls.ext
+                or file_path_tuple(file_path).ext == '.' + cls.ext
                 or (cls.scope is not None and view
                     and base_scope(view) == cls.scope))
 

@@ -25,16 +25,16 @@ def root_at_data(*leafs):
     return _os.path.join(data, *leafs)
 
 
-PathDict = _namedtuple("PathDict", "file_path path file_name base_name ext no_ext")
+FilePath = _namedtuple("FilePath", "file_path path file_name base_name ext no_ext")
 
 
-def path_to_dict(file_path):
-    """Returns a dict with the following fields:
-    file_path, path, file_name, ext, no_ext
+def file_path_tuple(file_path):
+    """Creates a named tuple with the following attributes:
+    file_path, path, file_name, base_name, ext, no_ext
     """
     path, file_name = _os.path.split(file_path)
     base_name, ext = _os.path.splitext(file_name)
-    return PathDict(
+    return FilePath(
         file_path,
         path,
         file_name,
