@@ -7,7 +7,7 @@
 		<string>json-tmlanguage</string>
 	</array>
 	<key>name</key>
-	<string>Sublime Text Syntax Definition</string>
+	<string>Sublime Text Syntax Def (JSON)</string>
 	<key>patterns</key>
 	<array>
 		<dict>
