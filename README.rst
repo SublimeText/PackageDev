@@ -12,7 +12,7 @@ and other Sublime Text extensions.
 
 The general workflow looks like this:
 
-- run ``new_*`` command (``new_raw_snippet``, ``new_completions``, ``new_syntax_def``...)
+- run ``new_*`` command (``new_raw_snippet``, ``new_completions``, ``new_json_syntax_def``...)
 - edit file (with specific snippets, completions, higlighting, build systems...)
 - save file
 
