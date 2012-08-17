@@ -1,11 +1,12 @@
-import contextlib
+from contextlib import contextmanager
 from sublime import Region, View
 
 from .. import Settings
 
 __all__ = ['ViewSettings', 'unset_read_only', 'in_one_edit', 'append', 'clear',
            'has_sels', 'has_file_ext', 'base_scope', 'rowcount', 'rowwidth',
-           'relative_point', 'coorded_region', 'coorded_substr', 'get_text']
+           'relative_point', 'coorded_region', 'coorded_substr', 'get_text',
+           'get_viewport_point', 'get_viewport_coords', 'set_viewport']
 
 
 class ViewSettings(Settings):
@@ -34,7 +35,7 @@ class ViewSettings(Settings):
         super(ViewSettings, self).__init__(settings, none_erases)
 
 
-@contextlib.contextmanager
+@contextmanager
 def unset_read_only(view):
     """Context manager to make sure a view writable if it is read only.
     However, if the view is not read only it will just leave it untouched.
@@ -58,7 +59,7 @@ def unset_read_only(view):
             view.set_read_only(True)
 
 
-@contextlib.contextmanager
+@contextmanager
 def in_one_edit(view, name=""):
     """Context manager to group modifications in a view.
 
@@ -214,3 +215,32 @@ def get_text(view):
     Alias for ``coorded_substr(view)``.
     """
     return coorded_substr(view)
+
+
+def get_viewport_point(view):
+    """Returns the text point of the current viewport.
+    """
+    return view.layout_to_text(view.viewport_position())
+
+
+def get_viewport_coords(view):
+    """Returns the text coordinates of the current viewport.
+    """
+    return view.rowcol(get_viewport_point(view))
+
+
+def set_viewport(view, x, y=None):
+    """Sets the current viewport from either a text point or relative coords.
+
+        set_viewport(view, 892)      # point
+        set_viewport(view, 2, 27)    # coords1
+        set_viewport(view, (2, 27))  # coords2
+    """
+    if y is None:
+        pos = x
+    if type(x) == tuple:
+        pos = relative_point(view, p=x)
+    else:
+        pos = relative_point(view, x, y)
+
+    view.set_viewport_position(view.text_to_layout(pos))
