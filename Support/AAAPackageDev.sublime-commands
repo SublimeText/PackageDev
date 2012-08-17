@@ -4,7 +4,9 @@
     { "caption": "z:AAAPackageDev: Generate Snippet from Raw Snippet", "command": "generate_snippet_from_raw_snippet" },
 
     { "caption": "z:AAAPackageDev: New JSON Syntax Definition", "command": "new_json_syntax_def" },
-    { "caption": "z:AAAPackageDev: New JSON Syntax Definition from Buffer", "command": "new_json_syntax_def_from_buffer" },
+    { "caption": "z:AAAPackageDev: New YAML Syntax Definition", "command": "new_yaml_syntax_def" },
+    { "caption": "z:AAAPackageDev: New JSON Syntax Definition to Buffer", "command": "new_yaml_syntax_def_to_buffer" },
+    { "caption": "z:AAAPackageDev: New YAML Syntax Definition to Buffer", "command": "new_yaml_syntax_def_to_buffer" },
 
     { "caption": "z:AAAPackageDev: New Settings File", "command": "new_settings" },
 
