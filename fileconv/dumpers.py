@@ -292,7 +292,7 @@ class PlistDumper(DumperProto):
 class YAMLDumper(DumperProto):
     name = "YAML"
     ext  = "yaml"
-    default_params = {}
+    default_params = dict(Dumper=yaml.SafeDumper)
     allowed_params = (
         'default_style',
         'default_flow_style',
@@ -305,15 +305,13 @@ class YAMLDumper(DumperProto):
         'explicit_start',
         'explicit_end',
         'version',
-        'tags'
+        'tags',
+        'Dumper'
     )
 
     def validate_data(self, data):
         return self._validate_data(data, (
-            # plistlib defines its own dict wrapper,
-            # yaml.safe_dump only dumps "dict" type ...
-            (lambda x: isinstance(x, plistlib._InternalDict), dict),
-            (lambda x: isinstance(x, plistlib.Data), lambda x: x.data)  # plist
+            (lambda x: isinstance(x, plistlib.Data), lambda x: x.data),  # plist
         ))
 
     def write(self, data, params, *args, **kwargs):
@@ -373,9 +371,19 @@ class YAMLDumper(DumperProto):
                 Default: None
 
                 ???
+
+            ===========================
+
+            Dumper (supposedly derived from yaml.BaseDumper)
+                You should know what you are doing when passing this.
         """
         with open(self.new_file_path, "w") as f:
-            yaml.safe_dump(data, f, **params)
+            yaml.dump(data, f, **params)
+
+
+# Add the internal plistlib dict wrapper to the safe dumper
+yaml.SafeDumper.add_representer(plistlib._InternalDict,
+        yaml.SafeDumper.represent_dict)
 
 
 ###############################################################################
