@@ -8,6 +8,8 @@
     { "caption": "z:AAAPackageDev: New JSON Syntax Definition to Buffer", "command": "new_yaml_syntax_def_to_buffer" },
     { "caption": "z:AAAPackageDev: New YAML Syntax Definition to Buffer", "command": "new_yaml_syntax_def_to_buffer" },
 
+    { "caption": "z:AAAPackageDev: Rearrange YAML Syntax Definition", "command": "rearrange_yaml_syntax_def" },
+
     { "caption": "z:AAAPackageDev: New Settings File", "command": "new_settings" },
 
     { "caption": "z:AAAPackageDev: New Completions File", "command": "new_completions" },
