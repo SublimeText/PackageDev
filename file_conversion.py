@@ -122,9 +122,6 @@ class ConvertFileCommand(WindowAndTextCommand):
         output.write("[Finished in %.3fs]" % (time.time() - start_time))
         output.finish()
 
-    # TODO: define is_visible / is_enabled and check if parameters
-    # are passed when specified in a build system / command palette
-
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
         print "[AAAPackageDev] " + msg + (" (%s)" % file_path if file_path is not None else "")

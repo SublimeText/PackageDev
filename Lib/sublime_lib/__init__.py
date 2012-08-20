@@ -38,7 +38,7 @@ class WindowAndTextCommand(sublime_plugin.WindowCommand, sublime_plugin.TextComm
             self.window = param.window()
             self._window_command = False
         else:
-            raise TypeError("Something really bad happend and you are responsible")
+            raise TypeError("Something really bad happened and you are responsible")
 
     def run_(self, args):
         """Wraps the other run_ method implementations from sublime_plugin.
