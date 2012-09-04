@@ -26,7 +26,10 @@
     "typeString": {
       "name": "string.quoted.double.jsongenericobject",
       "begin": "\"",
-      "end": "\""
+      "end": "\"",
+      "patterns": [
+        { "include": "source.jsonstring" }
+      ]
     },
     "typeList": {
       "name": "list.jsongenericobject",
