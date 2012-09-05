@@ -23,7 +23,7 @@ push-location $root
 
 	# Ensure MANIFEST reflects all changes to file system.
 	remove-item ".\MANIFEST" -erroraction silentlycontinue
-	& ".\setup.py" "spa"
+	& "python" ".\setup.py" "spa"
 
 	(get-item ".\dist\AAAPackageDev.sublime-package").fullname | clip.exe
 pop-location

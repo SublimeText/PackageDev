@@ -16,11 +16,12 @@
   		"contentName": "meta.completions.dictionary.sublimecompletions",
   		"patterns": [
   			{ "include": "#scope" },
-        { "include": "#completionsList" }  		]
+        { "include": "#completionsList" }
+      ]
   	},
 
   	"scope": {
-  		"match": "\"(scope)\"\\s*?:\\s*?\"([a-zA-Z0-9.-]+)\"",
+  		"match": "\"(scope)\"\\s*?:\\s*?\"([a-zA-Z0-9. ,-]+)\"",
   		"captures": {
   		    "1": { "name": "keyword.key.sublimecompletions" },
   		    "2": { "name": "string.scope.selector.sublimecompletions" }
@@ -28,13 +29,14 @@
   	},
 
     "completionsList": {
-      "begin": "\"(completions)\"\\s*?:\\s*?\\[",
+      "begin": "\"(completions)\"\\s*?:\\s*?",
       "beginCaptures": {
         "1" : { "name": "keyword.key.sublimecompletions" }
       },
-      "end": "\\]",
+      "end": "(?<=\\])",
       "contentName": "meta.completions.array.sublimecompletions",
       "patterns": [
+        { "match": "\\[" },
         { "include": "#triggerCompletion" },
         { "include": "#simpleCompletion" }
       ]

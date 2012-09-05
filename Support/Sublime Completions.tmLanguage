@@ -40,7 +40,7 @@
 		<key>completionsList</key>
 		<dict>
 			<key>begin</key>
-			<string>"(completions)"\s*?:\s*?\[</string>
+			<string>"(completions)"\s*?:\s*?</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -52,9 +52,13 @@
 			<key>contentName</key>
 			<string>meta.completions.array.sublimecompletions</string>
 			<key>end</key>
-			<string>\]</string>
+			<string>(?&lt;=\])</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>match</key>
+					<string>\[</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>#triggerCompletion</string>
@@ -81,7 +85,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>"(scope)"\s*?:\s*?"([a-zA-Z0-9.-]+)"</string>
+			<string>"(scope)"\s*?:\s*?"([a-zA-Z0-9. ,-]+)"</string>
 		</dict>
 		<key>simpleCompletion</key>
 		<dict>
@@ -135,7 +139,7 @@
 						</dict>
 					</dict>
 					<key>comment</key>
-					<string>XXX: rules below are becoming a mess. escaped $ does not work at the moment.</string>
+					<string>XXX: rules below are becoming a mess. escaped $ does not work at the moment after escaped backslashes.</string>
 					<key>contentName</key>
 					<string>source.sublimesnippetraw</string>
 					<key>end</key>
