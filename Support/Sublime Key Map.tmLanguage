@@ -143,6 +143,20 @@
 							<string>invalid.illegal.key.sublimekeymap</string>
 						</dict>
 						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>entity.other.attribute-name.key.captured.sublimekeymap</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>&lt;(character)&gt;</string>
+							<key>name</key>
+							<string>keyword.control.other.sublimekeymap</string>
+						</dict>
+						<dict>
 							<key>comment</key>
 							<string>XXX What's invalid for key names?</string>
 							<key>match</key>

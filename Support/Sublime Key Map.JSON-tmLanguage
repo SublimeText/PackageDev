@@ -56,6 +56,12 @@
                 { "match": "[A-Za-z0-9,;.:_=+-]{2,}",
                   "name": "invalid.illegal.key.sublimekeymap"
                 },
+                {  "name": "keyword.control.other.sublimekeymap",
+                   "match": "<(character)>",
+                   "captures": {
+                       "1": { "name": "entity.other.attribute-name.key.captured.sublimekeymap" }
+                   }
+                },
                 { "match": ".{1}",
                   "comment": "XXX What's invalid for key names?",
                   "name": "string.key.literal.sublimekeymap"
