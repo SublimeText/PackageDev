@@ -127,7 +127,7 @@ class PackageManager(object):
 
 class PlistToJson(sublime_plugin.TextCommand):
     def is_enabled(self ):
-        return self.view.file_name().endswith('.tmLanguage')
+        return self.view.file_name() and self.view.file_name().endswith('.tmLanguage')
         
     def run(self, edit):
         plist_data = plistlib.readPlist(self.view.file_name())
