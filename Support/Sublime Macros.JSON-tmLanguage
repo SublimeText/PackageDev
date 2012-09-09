@@ -5,6 +5,7 @@
   "fileTypes": ["sublime-macro"],
 
   "patterns": [
+      { "include": "#comments" },
       { "begin": "(\\[)",
         "beginCaptures": {
             "1": { "name": "punctuation.definition.collection.start.sublimemacro" }
@@ -16,12 +17,24 @@
 
         "patterns": [
             { "include": "#command" },
-            { "include": "#args" }
+            { "include": "#args" },
+            { "include": "#comments" }
         ]
       }
   ],
 
   "repository": {
+      "comments": {
+        "patterns": [
+            {  "name": "comment.single.line.sublimemacro",
+               "match": "//.*"
+            },
+            { "name": "comment.block.sublimemacro",
+              "begin": "/\\*",
+              "end": "\\*/"
+            }
+        ]
+      },
 
       "args": {
         "begin": "\"(args)\"\\s*:",

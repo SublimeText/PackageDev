@@ -90,7 +90,7 @@
 					<key>contentName</key>
 					<string>meta.key.sequence.sublimekeymap</string>
 					<key>end</key>
-					<string>(?&lt;!\\)(")</string>
+					<string>(?&lt;!(?&lt;!(?&lt;!\\)\\)\\)"</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>
