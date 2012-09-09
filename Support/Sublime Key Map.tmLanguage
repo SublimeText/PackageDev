@@ -90,7 +90,7 @@
 					<key>contentName</key>
 					<string>meta.key.sequence.sublimekeymap</string>
 					<key>end</key>
-					<string>(?&lt;!\\)(")</string>
+					<string>(?&lt;![^\\]\\)(")</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>
@@ -228,7 +228,7 @@
 			<key>contentName</key>
 			<string>string.double.quote.sublimekeymap</string>
 			<key>end</key>
-			<string>(?&lt;!\\)"</string>
+			<string>(?&lt;![^\\]\\)"</string>
 			<key>patterns</key>
 			<array>
 				<dict>
