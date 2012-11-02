@@ -94,7 +94,7 @@ def append(view, text, scroll_always=False):
     with in_one_edit(view) as edit:
         size = view.size()
         scroll = scroll_always
-        if not scroll and scroll is not None:
+        if scroll == False:
             scroll = (len(view.sel()) == 1 and view.sel()[0] == Region(size))
 
         view.insert(edit, size, text)
@@ -147,64 +147,77 @@ def rowwidth(view, row):
     return view.rowcol(view.line(view.text_point(row, 0)).end())[1]
 
 
-def relative_point(view, x=0, y=0, p=None):
+def relative_point(view, row=0, col=0, p=None):
     """Returns a point (int) to the given coordinates.
 
-    Supports relative (negative) parameters and checks if they are in the
-    bounds (other than ``View.text_point()``).
+        Supports relative (negative) parameters and checks if they are in the
+        bounds (other than ``View.text_point()``).
 
-    If p (indexable -> ``p[0]``, ``len(p) == 2``; preferrably a tuple) is
-    specified, x and y parameters are overridden.
+        If p (indexable -> ``p[0]``, ``len(p) == 2``; preferrably a tuple) is
+        specified, row and col parameters are overridden.
     """
     if p is not None:
         if len(p) != 2:
             raise TypeError("Coordinates have 2 dimensions, not %d" % len(p))
-        (x, y) = p
-    row, col = x, y
+        (row, col) = p
 
     # shortcut
-    if x == -1 and y == -1:
+    if row == -1 and col == -1:
         return view.size()
 
     # calc absolute coords and check if coords are in the bounds
     rowc = rowcount(view)
-    if x < 0:
-        row = max(rowc + x, 0)
+    if row < 0:
+        row = max(rowc + row, 0)
     else:
         row = min(row, rowc)
 
     roww = rowwidth(view, row)
-    if y < 0:
-        col = max(roww + y, 0)
+    if col < 0:
+        col = max(roww + col, 0)
     else:
         col = min(col, roww)
 
     return view.text_point(row, col)
 
 
-def coorded_region(view, reg1=None, reg2=None):
+def coorded_region(view, reg1=None, reg2=None, rel=None):
     """Returns a region of two coordinate pairs parsed by ``relative_point(view, p=reg1)``.
 
-    The pairs are supporsed to be indexable and have a length of 2.
-    Tuples are preferred.
+        You may also supply a ``rel`` parameter which will determine the Region's end point
+        relative to ``reg1``, as a pair.
+        The pairs are supposed to be indexable and have a length of 2.
+        Tuples are preferred.
 
-    Defaults to the whole buffer (``reg1=(0, 0), reg2=(-1, -1)``).
+        Defaults to the whole buffer (``reg1=(0, 0), reg2=(-1, -1)``).
+
+            Examples:
+                coorded_region(view, (20, 0), (22, -1))    # normal usage
+                coorded_region(view, (20, 0), rel=(2, -1)) # relative, works because 0-1=-1
+                coorded_region(view, (22, 6), rel=(2, 15)) # relative, slightly more than 3
+                                                           # lines, if line 25 is long enough
+
     """
     reg1 = reg1 or (0, 0)
-    reg2 = reg2 or (-1, -1)
+    if rel:
+        reg2 = (reg1[0] + rel[0], reg1[1] + rel[1])
+    else:
+        reg2 = reg2 or (-1, -1)
 
     p1 = relative_point(view, p=reg1)
     p2 = relative_point(view, p=reg2)
     return Region(p1, p2)
 
 
-def coorded_substr(view, reg1=None, reg2=None):
+def coorded_substr(view, reg1=None, reg2=None, rel=None):
     """Returns the string of two coordinate pairs parsed by ``relative_point(view, p=reg1)``.
 
-    The pairs are supporsed to be indexable and have a length of 2.
-    Tuples are preferred.
+        The pairs are supporsed to be indexable and have a length of 2.
+        Tuples are preferred.
 
-    Defaults to the whole buffer.
+        Defaults to the whole buffer.
+
+            For examples, see ``coorded_region``.
     """
     return view.substr(coorded_region(view, reg1, reg2))
 
@@ -212,7 +225,7 @@ def coorded_substr(view, reg1=None, reg2=None):
 def get_text(view):
     """Returns the whole string of a buffer.
 
-    Alias for ``coorded_substr(view)``.
+        Alias for ``coorded_substr(view)``.
     """
     return coorded_substr(view)
 
@@ -229,18 +242,19 @@ def get_viewport_coords(view):
     return view.rowcol(get_viewport_point(view))
 
 
-def set_viewport(view, x, y=None):
+def set_viewport(view, row, col=None):
     """Sets the current viewport from either a text point or relative coords.
 
         set_viewport(view, 892)      # point
         set_viewport(view, 2, 27)    # coords1
         set_viewport(view, (2, 27))  # coords2
     """
-    if y is None:
-        pos = x
-    if type(x) == tuple:
-        pos = relative_point(view, p=x)
+    if col is None:
+        pos = row
+
+    if type(row) == tuple:
+        pos = relative_point(view, p=row)
     else:
-        pos = relative_point(view, x, y)
+        pos = relative_point(view, row, col)
 
     view.set_viewport_position(view.text_to_layout(pos))
