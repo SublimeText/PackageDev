@@ -4,7 +4,17 @@ import os
 import json
 import yaml
 import plistlib
-from xml.parsers.expat import ExpatError, ErrorString
+try:
+    from xml.parsers.expat import ExpatError, ErrorString
+except ImportError:
+    # Define dummy identifiers if the expat module is not available.
+    # These errors rarely occur anyway and they can be expressed using the
+    # default method and converting them into a string.
+    class ExpatError(Exception):
+        pass
+
+    def ErrorString(n):
+        pass
 
 import sublime
 
