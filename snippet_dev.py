@@ -1,4 +1,5 @@
-import sublime, sublime_plugin
+import sublime
+import sublime_plugin
 
 from sublime_lib.view import has_file_ext
 from sublime_lib.path import root_at_packages
@@ -6,8 +7,9 @@ from sublime_lib.path import root_at_packages
 from xml.etree import ElementTree as ET
 import os
 
+PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]
 
-RAW_SNIPPETS_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime Snippet (Raw).tmLanguage'
+RAW_SNIPPETS_SYNTAX = "Packages/%s/Support/Syntax Definitions/Sublime Snippet (Raw).tmLanguage" % PLUGIN_NAME
 
 
 TPL = """<snippet>

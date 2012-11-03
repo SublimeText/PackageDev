@@ -2,17 +2,13 @@ import sublime
 import sublime_plugin
 
 import os
-import sys
 
-# Makes sublime_lib package available for all packages.
-if not os.path.join(sublime.packages_path(), "AAAPackageDev/Lib") in sys.path:
-    sys.path.append(os.path.join(sublime.packages_path(), "AAAPackageDev/Lib"))
+PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]
 
 from sublime_lib.path import root_at_packages
 
 
 DEBUG = 1
-THIS_PACKAGE = "AAAPackageDev"
 
 status = sublime.status_message
 error = sublime.error_message
@@ -31,14 +27,14 @@ DEFAULT_DIRS = (
 # name, default template
 DEFAULT_FILES = (
     ("LICENSE.txt", None),
-    ("README.rst", root_at_packages(THIS_PACKAGE, "data/README.rst")),
-    (".hgignore", root_at_packages(THIS_PACKAGE, "data/hgignore.txt")),
-    (".gitignore", root_at_packages(THIS_PACKAGE, "data/gitignore.txt")),
-    ("bin/MakeRelease.ps1", root_at_packages(THIS_PACKAGE, "data/MakeRelease.ps1")),
-    ("bin/CleanUp.ps1", root_at_packages(THIS_PACKAGE, "data/CleanUp.ps1")),
-    ("data/html_template.txt", root_at_packages(THIS_PACKAGE, "data/html_template.txt")),
-    ("data/main.css", root_at_packages(THIS_PACKAGE, "data/main.css")),
-    ("setup.py", root_at_packages(THIS_PACKAGE, "data/setup.py")),
+    ("README.rst", root_at_packages(PLUGIN_NAME, "data/README.rst")),
+    (".hgignore", root_at_packages(PLUGIN_NAME, "data/hgignore.txt")),
+    (".gitignore", root_at_packages(PLUGIN_NAME, "data/gitignore.txt")),
+    ("bin/MakeRelease.ps1", root_at_packages(PLUGIN_NAME, "data/MakeRelease.ps1")),
+    ("bin/CleanUp.ps1", root_at_packages(PLUGIN_NAME, "data/CleanUp.ps1")),
+    ("data/html_template.txt", root_at_packages(PLUGIN_NAME, "data/html_template.txt")),
+    ("data/main.css", root_at_packages(PLUGIN_NAME, "data/main.css")),
+    ("setup.py", root_at_packages(PLUGIN_NAME, "data/setup.py")),
 )
 
 

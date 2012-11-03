@@ -1,9 +1,10 @@
 import uuid
 import re
+import os
 import time
 import yaml
 
-from sublime import Region
+from sublime import Region, packages_path
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
@@ -14,8 +15,9 @@ from ordereddict_yaml import *
 
 from fileconv import *
 
+PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]  # os.path.abspath(os.path.dirname(__file__))
 
-BASE_SYNTAX_LANGUAGE = 'Packages/AAAPackageDev/Support/Sublime Text Syntax Def (%s).tmLanguage'
+BASE_SYNTAX_LANGUAGE = "Packages/%s/Support/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
 
 
 # XXX: Move this to a txt file. Let user define his own under User too.
