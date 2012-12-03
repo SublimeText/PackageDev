@@ -1,0 +1,286 @@
+---
+name: Sublime Text Syntax Def (YAML)
+scopeName: source.yaml-tmlanguage
+fileTypes: [YAML-tmLanguage]
+fileTypes:
+- YAML-tmLanguage
+uuid: 112dad9d-558e-4ab2-a4cc-c5f1ffa80ee6
+
+patterns:
+## first, match the global stuff
+- name: entity.other.document-start.yaml-tmlanguage
+  match: ^---
+
+- name: entity.other.document-end.yaml-tmlanguage
+  match: ^\.{3}$
+
+- name: invalid.illegal.tab-indent.yaml-tmlanguage
+  match: ^\t+
+
+- include: '#comment'
+
+## second, match content
+# main scope
+- include: '#uuid'
+- include: '#repository'
+- include: '#name-main'
+- include: '#scope-name'
+- include: '#file-types'
+
+# child scope
+- include: '#patterns'
+- include: '#captures'
+
+- include: '#name'
+- include: '#match'
+- include: '#include'
+- include: '#comment-from-key'
+- include: '#number-key'
+
+# the other remaining keys
+- include: '#repository-key'
+
+# match for comments again after consuming the other sequences
+- include: '#comment'
+
+#######################################
+
+repository:
+
+# control sequences
+  comment:
+    match: (?:^ *|\G +)((#).*)
+    captures:
+      '1': {name: comment.line.number-sign.yaml-tmlanguage}
+      '2': {name: punctuation.definition.comment.line.yaml-tmlanguage}
+
+# special keys (main scope)
+  uuid:
+    # Note: Since you are allowed to name your repositories whatever you want
+    # I can't mark invalid keys as illegal (nor other appearances of uuid)
+    name: meta.uuid.yaml-tmlanguage
+    match: (?:,|\{|^)((["']?)(uuid)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: keyword.other.uuid.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+      #'6': {name: string.other.quoted-or-unquoted.yaml-tmlanguage} # "string constant" is assigned by certain color schemes
+      '7': {name: punctuation.definition.string.yaml-tmlanguage}
+      '8': {name: constant.numeric.uuid.yaml-tmlanguage}
+      '9': {name: punctuation.definition.string.yaml-tmlanguage}
+
+  name-main:
+    # This one is allowed to contain nearly all characters instead of
+    # the scope defining 'name' (not recognized in flow style, i.e. after ",")
+    # NOTE: Please refuse to use " or ' in you syntax name, it makes things complicated
+    name: meta.name-main.yaml-tmlanguage
+    match: ^((["']?)(name)(\2))(:) +((["']?).*?(\7))(?= *$| +#)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: keyword.other.name.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+      '6': {name: entity.other.name.yaml-tmlanguage}
+      '7': {name: punctuation.definition.string.yaml-tmlanguage}
+      '8': {name: punctuation.definition.string.yaml-tmlanguage}
+
+  scope-name:
+    name: meta.name.yaml-tmlanguage
+    match: (?:,|\{|^)((["']?)(scopeName)(\2))(:) +((["']?)[-\w\. ]*(\7))
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: keyword.other.name.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '7': {name: punctuation.definition.string.yaml-tmlanguage}
+      '8': {name: punctuation.definition.string.yaml-tmlanguage}
+
+  file-types:
+    patterns:
+    # single-line
+    - name: meta.file-types.yaml-tmlanguage
+      begin: (?:,|\{|^)((["']?)(fileTypes)(\2))(:) (\[)
+      beginCaptures:
+        '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '2': {name: punctuation.definition.string.yaml-tmlanguage}
+        '3': {name: keyword.other.name.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.control.definition.yaml-tmlanguage}
+        '6': {name: keyword.control.list.opening-bracket.yaml-tmlanguage}
+      end: \]
+      endCaptures:
+        '0': {name: keyword.control.list.closing-bracket.yaml-tmlanguage}
+      patterns:
+        # items (in array)
+        - match: (?:\G|^),? *((["']?)([-\w\._]+)(\2))(?=,| +#| *(?:\Z|\]))
+          captures:
+            '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+            '2': {name: punctuation.definition.string.yaml-tmlanguage}
+            '3': {name: support.other.file-types.item.yaml-tmlanguage}
+            '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        - include: '#comment'
+
+    # multi-line
+    - name: meta.file-types.yaml-tmlanguage
+      begin: (?:,|\{|^)((["']?)(fileTypes)(\2))(:)(?= *$| +#)
+      beginCaptures:
+        '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '2': {name: punctuation.definition.string.yaml-tmlanguage}
+        '3': {name: keyword.other.name.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.control.definition.yaml-tmlanguage}
+      end: ^(?!$|-)
+      patterns:
+        # multi-line items
+        - match: ^- +((["']?)([-\w\. _]+)(\2))(?= *$| +#)
+          captures:
+            '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+            '2': {name: punctuation.definition.string.yaml-tmlanguage}
+            '3': {name: support.other.file-types.item.yaml-tmlanguage}
+            '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        - include: '#comment'
+
+  repository:
+    name: meta.repository.yaml-tmlanguage
+    match: (?:,|\{|^)((["']?)(repository)(\2))(:)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: entity.other.repository.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+# in-block special keys
+  name:
+    name: meta.name.yaml-tmlanguage
+    match: (?:,|\{|^  +|^ *- +)((["']?)(name)(\2))(:) +((["']?)[-\w\. ]*(\7))
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: keyword.other.name.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '7': {name: punctuation.definition.string.yaml-tmlanguage}
+      '8': {name: punctuation.definition.string.yaml-tmlanguage}
+
+  match:
+    patterns:
+    # multi-line (block style)
+    - name: meta.match-block.yaml-tmlanguage
+      begin: ^( *)(?:- +)?((["']?)(match|begin|end)(\3))(:) +([|>])(?= +#| *$)
+      beginCaptures:
+        '2': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '3': {name: punctuation.definition.string.yaml-tmlanguage}
+        '4': {name: keyword.other.match.yaml-tmlanguage}
+        '5': {name: punctuation.definition.string.yaml-tmlanguage}
+        '6': {name: keyword.control.definition.yaml-tmlanguage}
+
+        '7': {name: keyword.control.block.yaml-tmlanguage}
+      end: ^(?! *$|\1 +) # must be indented by at least as much as the key line + 1
+      patterns:
+      - include: '#comment'
+      - include: source.regexp
+
+    # single-line (or single-string)
+    # TODO: consider " and ' separately as they use different escape mechanisms actually
+    - name: meta.match.yaml-tmlanguage
+      begin: (?:,|\{|^  +|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)
+      beginCaptures:
+        '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '2': {name: punctuation.definition.string.yaml-tmlanguage}
+        '3': {name: keyword.other.match.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.control.definition.yaml-tmlanguage}
+        '6': {name: punctuation.definition.string.yaml-tmlanguage}
+      end: (?<!\\)(\6)(?=,\s| +#| *\Z)
+      endCaptures:
+        '1': {name: punctuation.definition.string.yaml-tmlanguage}
+      patterns:
+      - include: source.regexp
+
+  include:
+    name: meta.include.yaml-tmlanguage
+    match: | # example for multi-line match blocks (remember to escape " " spaces when using (?x))
+      (?x)
+      (?:,|\{|^[ ]{2,}|^\ *-\ +)
+        ((["']?)(include)(\2))(:)\ +
+      ((["']?)\#?([-\w\.\ ]*)(\7))
+    #match: (?:,|\{|^  +|^ *- +)((["']?)(include)(\2))(:) +((["']?)#?([-\w\. ]*)(\7))
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: keyword.other.include.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '7': {name: punctuation.definition.string.yaml-tmlanguage}
+      '8': {name: variable.other.include.yaml-tmlanguage}
+      '9': {name: punctuation.definition.string.yaml-tmlanguage}
+
+  comment-from-key:
+    name: meta.comment-from-key.yaml-tmlanguage
+    # again, please do not use "' if not for denoting a string
+    match: (?:,|\{|^  +|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?= *$| +#)
+    comment: this is a test comment # and this is a real comment
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: keyword.other.comment-from-key.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+      '6': {name: punctuation.definition.string.yaml-tmlanguage}
+      '7': {name: comment.block.from-key.yaml-tmlanguage}
+      '8': {name: punctuation.definition.string.yaml-tmlanguage}
+
+# dict keys
+  captures:
+    name: meta.captures.yaml-tmlanguage
+    match: (?:,|\{|^  +(?:\- +)?)((["']?)((?:(?:begin|end)C|c)aptures)(\2))(:)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: entity.other.captures.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+  patterns:
+    name: meta.patterns.yaml-tmlanguage
+    match: (?:,|\{|^  +(?:\- +)?|\G)((["']?)(patterns)(\2))(:)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: support.type.patterns.patterns.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+# variable keys
+  number-key:
+    name: meta.number-key.yaml-tmlanguage
+    match: (?:,|\{|^ *)((["'])(\d+)(\2))(:)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: constant.numeric.key.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+  repository-key:
+    # More like "any other key there is with two leading spaces"
+    name: meta.repository-key.yaml-tmlanguage
+    match: (?:,|\{|^  )((["']?)([-\w]+)(\2))(:)
+    captures:
+      #'1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage} # "string variable" is assigned by certain color schemes
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: variable.other.repository-key.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+...
