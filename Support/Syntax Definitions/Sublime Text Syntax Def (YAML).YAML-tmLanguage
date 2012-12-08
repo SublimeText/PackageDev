@@ -1,7 +1,7 @@
 ---
 name: Sublime Text Syntax Def (YAML)
-scopeName: source.yaml-tmlanguage
 fileTypes: [YAML-tmLanguage]
+scopeName: source.yaml-tmlanguage
 fileTypes:
 - YAML-tmLanguage
 uuid: 112dad9d-558e-4ab2-a4cc-c5f1ffa80ee6
@@ -228,7 +228,7 @@ repository:
   comment-from-key:
     name: meta.comment-from-key.yaml-tmlanguage
     # again, please do not use "' if not for denoting a string
-    match: (?:,|\{|^  +|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?= *$| +#)
+    match: (?:,|\{|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?= *$| +#)
     comment: this is a test comment # and this is a real comment
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
