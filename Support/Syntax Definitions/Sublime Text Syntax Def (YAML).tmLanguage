@@ -122,7 +122,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{|^  +(?:\- +)?)((["']?)((?:(?:begin|end)C|c)aptures)(\2))(:)</string>
+			<string>(?:, +|\{ *|^  +(?:\- +)?)((["']?)((?:(?:begin|end)C|c)aptures)(\2))(:)</string>
 			<key>name</key>
 			<string>meta.captures.yaml-tmlanguage</string>
 		</dict>
@@ -190,9 +190,9 @@
 				</dict>
 			</dict>
 			<key>comment</key>
-			<string>this is a test comment</string>
+			<string>this is a "test" comment</string>
 			<key>match</key>
-			<string>(?:,|\{|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?= *$| +#)</string>
+			<string>(?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})</string>
 			<key>name</key>
 			<string>meta.comment-from-key.yaml-tmlanguage</string>
 		</dict>
@@ -202,7 +202,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>(?:,|\{|^)((["']?)(fileTypes)(\2))(:) (\[)</string>
+					<string>(?:, +|\{ *|^)((["']?)(fileTypes)(\2))(:) (\[)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -275,7 +275,7 @@
 								</dict>
 							</dict>
 							<key>match</key>
-							<string>(?:\G|^),? *((["']?)([-\w\._]+)(\2))(?=,| +#| *(?:\Z|\]))</string>
+							<string>(?:\G|^),? *((["']?)([-\w\._]+)(\2))(?=, |,$| +#| *\Z| *\])</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -285,7 +285,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:,|\{|^)((["']?)(fileTypes)(\2))(:)(?= *$| +#)</string>
+					<string>(?:, +|\{ *|^)((["']?)(fileTypes)(\2))(:)(?= +#| *$)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -345,7 +345,7 @@
 								</dict>
 							</dict>
 							<key>match</key>
-							<string>^- +((["']?)([-\w\. _]+)(\2))(?= *$| +#)</string>
+							<string>^- +((["']?)([-\w\. _]+)(\2))(?= +#| *$)</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -407,7 +407,7 @@
 			</dict>
 			<key>match</key>
 			<string>(?x)
-(?:,|\{|^[ ]{2,}|^\ *-\ +)
+(?:,\ +|\{\ *|^\ {2,}|^\ *-\ +)
   ((["']?)(include)(\2))(:)\ +
 ((["']?)\#?([-\w\.\ ]*)(\7))
 </string>
@@ -420,7 +420,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^( *)(?:- +)?((["']?)(match|begin|end)(\3))(:) +([|&gt;])(?= +#| *$)</string>
+					<string>^( *)(?:- +)?((["']?)(match|begin|end)(\3))(:) +([|&gt;])(?=, |,$| +#| *$)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>2</key>
@@ -472,7 +472,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:,|\{|^  +|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)</string>
+					<string>(?:, +|\{ *|^  +|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -507,7 +507,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>(?&lt;!\\)(\6)(?=,\s| +#| *\Z)</string>
+					<string>(\6)(?=, |,$| +#| *$| *})</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>
@@ -574,7 +574,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{|^  +|^ *- +)((["']?)(name)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
+			<string>(?:, +|\{ *|^  +|^ *- +)((["']?)(name)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
 			<key>name</key>
 			<string>meta.name.yaml-tmlanguage</string>
 		</dict>
@@ -624,7 +624,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>^((["']?)(name)(\2))(:) +((["']?).*?(\7))(?= *$| +#)</string>
+			<string>^((["']?)(name)(\2))(:) +((["']?).*?(\7))(?=, |,$| +#| *$| *})</string>
 			<key>name</key>
 			<string>meta.name-main.yaml-tmlanguage</string>
 		</dict>
@@ -659,7 +659,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{|^ *)((["'])(\d+)(\2))(:)</string>
+			<string>(?:, +|\{ *|^ *)((["'])(\d+)(\2))(:)</string>
 			<key>name</key>
 			<string>meta.number-key.yaml-tmlanguage</string>
 		</dict>
@@ -694,7 +694,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{|^  +(?:\- +)?|\G)((["']?)(patterns)(\2))(:)</string>
+			<string>(?:, +|\{ *|^  +(?:\- +)?|\G)((["']?)(patterns)(\2))(:)</string>
 			<key>name</key>
 			<string>meta.patterns.yaml-tmlanguage</string>
 		</dict>
@@ -729,7 +729,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{|^)((["']?)(repository)(\2))(:)</string>
+			<string>(?:, +|\{ *|^)((["']?)(repository)(\2))(:)</string>
 			<key>name</key>
 			<string>meta.repository.yaml-tmlanguage</string>
 		</dict>
@@ -759,7 +759,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{|^  )((["']?)([-\w]+)(\2))(:)</string>
+			<string>(?:, +|\{ *|^  )((["']?)([-\w]+)(\2))(:)</string>
 			<key>name</key>
 			<string>meta.repository-key.yaml-tmlanguage</string>
 		</dict>
@@ -809,7 +809,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{|^)((["']?)(scopeName)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
+			<string>(?:,|\{ *|^)((["']?)(scopeName)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
 			<key>name</key>
 			<string>meta.name.yaml-tmlanguage</string>
 		</dict>
@@ -859,7 +859,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{|^)((["']?)(uuid)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))</string>
+			<string>(?:,|\{ *|^)((["']?)(uuid)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))</string>
 			<key>name</key>
 			<string>meta.uuid.yaml-tmlanguage</string>
 		</dict>
