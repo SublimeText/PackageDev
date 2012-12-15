@@ -142,7 +142,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:^ *|\G +)((#).*)</string>
+			<string>(?:^ *|\G *)((#).*)</string>
 		</dict>
 		<key>comment-from-key</key>
 		<dict>
