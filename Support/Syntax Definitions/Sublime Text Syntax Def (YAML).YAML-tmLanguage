@@ -211,19 +211,21 @@ repository:
       (?x)
       (?:,\ +|\{\ *|^\ {2,}|^\ *-\ +)
         ((["']?)(include)(\2))(:)\ +
-      ((["']?)\#?([-\w\.\ ]*)(\7))
-    #match: (?:, +|\{ *|^  +|^ *- +)((["']?)(include)(\2))(:) +((["']?)#?([-\w\. ]*?)(\7))
+      ((["']?)(?:\#?([-\w\.\ ]+)
+                |(\$self))(\7))
+    #match: (?:, +|\{ *|^  +|^ *- +)((["']?)(include)(\2))(:) +((["']?)(?:\#?([-\w\. ]+)|(\$self))(\7))
     captures:
-      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
-      '2': {name: punctuation.definition.string.yaml-tmlanguage}
-      '3': {name: keyword.other.include.yaml-tmlanguage}
-      '4': {name: punctuation.definition.string.yaml-tmlanguage}
-      '5': {name: keyword.control.definition.yaml-tmlanguage}
+      '1':  {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2':  {name: punctuation.definition.string.yaml-tmlanguage}
+      '3':  {name: keyword.other.include.yaml-tmlanguage}
+      '4':  {name: punctuation.definition.string.yaml-tmlanguage}
+      '5':  {name: keyword.control.definition.yaml-tmlanguage}
 
-      '6': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
-      '7': {name: punctuation.definition.string.yaml-tmlanguage}
-      '8': {name: variable.other.include.yaml-tmlanguage}
-      '9': {name: punctuation.definition.string.yaml-tmlanguage}
+      '6':  {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '7':  {name: punctuation.definition.string.yaml-tmlanguage}
+      '8':  {name: variable.other.include.yaml-tmlanguage}
+      '9':  {name: storage.modifier.self-include.yaml-tmlanguage}
+      '10': {name: punctuation.definition.string.yaml-tmlanguage}
 
   comment-from-key:
     name: meta.comment-from-key.yaml-tmlanguage
