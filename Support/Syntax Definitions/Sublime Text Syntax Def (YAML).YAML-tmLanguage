@@ -158,7 +158,7 @@ repository:
 # in-block special keys
   name:
     name: meta.name.yaml-tmlanguage
-    match: (?:, +|\{ *|^  +|^ *- +)((["']?)(name)(\2))(:) +((["']?)[-\w\. ]*(\7))
+    match: (?:, +|\{ *|^  +|^ *- +)((["']?)(contentName|name)(\2))(:) +((["']?)[-\w\. ]*(\7))
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2': {name: punctuation.definition.string.yaml-tmlanguage}

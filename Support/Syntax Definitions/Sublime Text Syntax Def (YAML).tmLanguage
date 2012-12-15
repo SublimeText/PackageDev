@@ -580,7 +580,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:, +|\{ *|^  +|^ *- +)((["']?)(name)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
+			<string>(?:, +|\{ *|^  +|^ *- +)((["']?)(contentName|name)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
 			<key>name</key>
 			<string>meta.name.yaml-tmlanguage</string>
 		</dict>
