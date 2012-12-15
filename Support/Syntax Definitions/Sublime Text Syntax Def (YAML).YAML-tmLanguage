@@ -186,7 +186,7 @@ repository:
       end: ^(?! *$|\1 +) # must be indented by at least as much as the key line + 1
       patterns:
       - include: '#comment'
-      - include: source.regexp
+      - include: source.oniregexp
 
     # single-line (or single-string)
     # TODO: consider " and ' separately as they use different escape mechanisms actually
@@ -203,7 +203,7 @@ repository:
       endCaptures:
         '1': {name: punctuation.definition.string.yaml-tmlanguage}
       patterns:
-      - include: source.regexp
+      - include: source.oniregexp
 
   include:
     name: meta.include.yaml-tmlanguage

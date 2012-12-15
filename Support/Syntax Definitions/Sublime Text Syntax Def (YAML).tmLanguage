@@ -472,7 +472,7 @@
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>source.regexp</string>
+							<string>source.oniregexp</string>
 						</dict>
 					</array>
 				</dict>
@@ -528,7 +528,7 @@
 					<array>
 						<dict>
 							<key>include</key>
-							<string>source.regexp</string>
+							<string>source.oniregexp</string>
 						</dict>
 					</array>
 				</dict>
