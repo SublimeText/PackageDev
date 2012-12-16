@@ -18,7 +18,7 @@ except ImportError:
 
 import sublime
 
-from sublime_lib.view import OutputPanel, coorded_substr, base_scope
+from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
 from sublime_lib.path import file_path_tuple
 
 appendix_regex = r'(?i)\.([^\.\-]+?)(?:-([^\.]+))?$'
@@ -222,16 +222,12 @@ class JSONLoader(LoaderProto):
     debug_base = 'Error parsing ' + name + ' "%s": %s'
     file_regex = debug_base % (r'(.*?)', r'.+? line (\d+) column (\d+)')
 
-    # No parameters needed.
     def parse(self, *args, **kwargs):
+        text = get_text(self.view)
         try:
-            with open(self.file_path) as f:
-                data = json.load(f)
+            data = json.loads(text)
         except ValueError, e:
             self.output.write_line(self.debug_base % (self.file_path, str(e)))
-        except IOError, e:
-            self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
-            # TODO: Use buffer's contents instead?
         else:
             return data
 
@@ -260,21 +256,12 @@ class PlistLoader(LoaderProto):
                 text = coorded_substr(view, (i, 0), (i, len(cls.DOCTYPE)))
                 if text == cls.DOCTYPE:
                     return True
-        else:
-            # Check in the file if view is not available
-            with open(file_path) as f:
-                i = 0
-                for line in f:
-                    i += 1
-                    if i == 2:
-                        break
-                    if line.startswith(cls.DOCTYPE):
-                        return True
         return False
 
     def parse(self, *args, **kwargs):
+        text = get_text(self.view)
         try:
-            data = plistlib.readPlist(self.file_path)
+            data = plistlib.readPlistFromString(text)
         except ExpatError, e:
             self.output.write_line(self.debug_base
                                 % (self.file_path,
@@ -283,7 +270,7 @@ class PlistLoader(LoaderProto):
                                    e.offset)
                                )
         except BaseException, e:
-            # Whatever could happen here ...
+            # Whatever could happen here ... (or ExpatError not imported)
             self.output.write_line(self.debug_base % (self.file_path, str(e)))
         else:
             return data
@@ -296,11 +283,10 @@ class YAMLLoader(LoaderProto):
     debug_base = "Error parsing YAML: %s"
     file_regex = re.escape(debug_base).replace(r'\%', '%') % r'.+? in "(.*?)", line (\d+), column (\d+)'
 
-    # No parameters needed.
     def parse(self, *args, **kwargs):
+        text = get_text(self.view)
         try:
-            with open(self.file_path) as f:
-                data = yaml.safe_load(f)
+            data = yaml.safe_load(text)
         except yaml.YAMLError, e:
             self.output.write_line(self.debug_base % _join_multiline(str(e)))
         except IOError, e:
