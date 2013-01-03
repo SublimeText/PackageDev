@@ -2,8 +2,6 @@
 name: Sublime Text Syntax Def (YAML)
 fileTypes: [YAML-tmLanguage]
 scopeName: source.yaml-tmlanguage
-fileTypes:
-- YAML-tmLanguage
 uuid: 112dad9d-558e-4ab2-a4cc-c5f1ffa80ee6
 
 patterns:
