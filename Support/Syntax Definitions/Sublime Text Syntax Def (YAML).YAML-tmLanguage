@@ -72,7 +72,7 @@ repository:
   name-main:
     # This one is allowed to contain nearly all characters instead of
     # the scope defining 'name' (not recognized in flow style, i.e. after ",")
-    # NOTE: Please refuse to use " or ' in you syntax name, it makes things complicated
+    # NOTE: Please refuse to use " or ' in your syntax name, it makes things complicated
     name: meta.name-main.yaml-tmlanguage
     match: ^((["']?)(name)(\2))(:) +((["']?).*?(\7))(?=, |,$| +#| *$| *})
     captures:
@@ -86,7 +86,7 @@ repository:
       '8': {name: punctuation.definition.string.yaml-tmlanguage}
 
   scope-name:
-    name: meta.name.yaml-tmlanguage
+    name: meta.scope-name.yaml-tmlanguage
     match: (?:,|\{ *|^)((["']?)(scopeName)(\2))(:) +((["']?)[-\w\. ]*(\7))
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
@@ -209,7 +209,7 @@ repository:
       (?x)
       (?:,\ +|\{\ *|^\ {2,}|^\ *-\ +)
         ((["']?)(include)(\2))(:)\ +
-      ((["']?)(?:\#?([-\w\.\ ]+)
+      ((["']?)(?:\#?([-\w\.\ ]*)
                 |(\$self))(\7))
     #match: (?:, +|\{ *|^  +|^ *- +)((["']?)(include)(\2))(:) +((["']?)(?:\#?([-\w\. ]+)|(\$self))(\7))
     captures:

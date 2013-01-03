@@ -299,8 +299,20 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         # if (view.match_selector(loc, "meta.name string") or
         #         view.match_selector(loc - 2, "meta.name keyword.control.definition")):
 
-        # TODO: existing repository keys for includes
-        # if (view.match_selector(loc, "variable.other.include"):
+        if view.match_selector(loc, "meta.include string, variable.other.include"):
+            # Search for the whole include string which contains the current location
+            regs = view.find_by_selector("meta.include string")
+            include_text = ""
+            for reg in regs:
+                if reg.contains(loc):
+                    include_text = view.substr(reg)
+                    break
+
+            if not include_text or not include_text.startswith("'#"):
+                return []
+
+            variables = [view.substr(reg) for reg in view.find_by_selector("variable.other.repository-key")]
+            return inhibit(zip(variables, variables))
 
         # Do not bother if the syntax def alread matched the current position
         if view.match_selector(loc, "meta"):
