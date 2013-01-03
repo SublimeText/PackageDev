@@ -4,7 +4,7 @@ import os
 import time
 import yaml
 
-from sublime import Region, packages_path
+from sublime import Region, packages_path, INHIBIT_WORD_COMPLETIONS
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
@@ -286,11 +286,14 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         if not view.match_selector(loc, "source.yaml-tmlanguage"):
             return []
 
+        def inhibit(ret):
+            return (ret, INHIBIT_WORD_COMPLETIONS)
+
         # Extend numerics into `'123': {name: $0}`, as used in captures,
         # but only if they are not in a string scope
         word = view.substr(view.word(loc))
         if word.isdigit() and not view.match_selector(loc, "string"):
-            return [(word, "'%s': {name: $0}" % word)]
+            return inhibit([(word, "'%s': {name: $0}" % word)])
 
         # TODO: naming conventions for scope name
         # if (view.match_selector(loc, "meta.name string") or
@@ -299,10 +302,14 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         # TODO: existing repository keys for includes
         # if (view.match_selector(loc, "variable.other.include"):
 
+        # Do not bother if the syntax def alread matched the current position
+        if view.match_selector(loc, "meta"):
+            return []
+
         # Otherwise, use the default completions + generated uuid
         completions = [
             ('uuid\tuuid: ...', "uuid: %s" % uuid.uuid4()),
         ]
         #special: uuid, include, <numbers>
 
-        return self.base_completions + completions
+        return inhibit(self.base_completions + completions)
