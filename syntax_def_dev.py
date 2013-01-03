@@ -260,3 +260,49 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
         print "[AAAPackageDev] " + msg + (" (%s)" % file_path if file_path is not None else "")
+
+
+class SyntaxDefCompletions(sublime_plugin.EventListener):
+    def __init__(self):
+        base_keys = "match,end,begin,name,comment,scopeName,include".split(',')
+        dict_keys = "repository,captures,beginCaptures,endCaptures".split(',')
+        list_keys = "fileTypes,patterns".split(',')
+
+        completions = list()
+        completions.extend(("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys)
+        completions.extend(("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys)
+        completions.extend(("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)
+        completions.extend([
+            ("include\tinclude: '#...'", "include: '#$0'"),
+            ('include\tinclude: $self',  "include: $self")
+        ])
+
+        self.base_completions = completions
+
+    def on_query_completions(self, view, prefix, locations):
+        # locations usually has only one entry
+        loc = locations[0]
+
+        if not view.match_selector(loc, "source.yaml-tmlanguage"):
+            return []
+
+        # Extend numerics into `'123': {name: $0}`, as used in captures,
+        # but only if they are not in a string scope
+        word = view.substr(view.word(loc))
+        if word.isdigit() and not view.match_selector(loc, "string"):
+            return [(word, "'%s': {name: $0}" % word)]
+
+        # TODO: naming conventions for scope name
+        # if (view.match_selector(loc, "meta.name string") or
+        #         view.match_selector(loc - 2, "meta.name keyword.control.definition")):
+
+        # TODO: existing repository keys for includes
+        # if (view.match_selector(loc, "variable.other.include"):
+
+        # Otherwise, use the default completions + generated uuid
+        completions = [
+            ('uuid\tuuid: ...', "uuid: %s" % uuid.uuid4()),
+        ]
+        #special: uuid, include, <numbers>
+
+        return self.base_completions + completions
