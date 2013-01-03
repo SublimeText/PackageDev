@@ -6,7 +6,8 @@ from .. import Settings
 __all__ = ['ViewSettings', 'unset_read_only', 'in_one_edit', 'append', 'clear',
            'has_sels', 'has_file_ext', 'base_scope', 'rowcount', 'rowwidth',
            'relative_point', 'coorded_region', 'coorded_substr', 'get_text',
-           'get_viewport_point', 'get_viewport_coords', 'set_viewport']
+           'get_viewport_point', 'get_viewport_coords', 'set_viewport',
+           'extract_selector']
 
 
 class ViewSettings(Settings):
@@ -258,3 +259,20 @@ def set_viewport(view, row, col=None):
         pos = relative_point(view, row, col)
 
     view.set_viewport_position(view.text_to_layout(pos))
+
+
+def extract_selector(view, selector, point):
+    """Works similar to view.extract_scope except that you may define the selector
+    (scope) on your own and it does not use the point's scope by default.
+
+        Example:
+            extract_selector(view, "source string", view.sel()[0].begin())
+
+        Returns the Region for the out-most "source string" which contains the beginning of the
+        first selection.
+    """
+    regs = view.find_by_selector(selector)
+    for reg in regs:
+        if reg.contains(point):
+            return reg
+    return None

@@ -8,7 +8,8 @@ from sublime import Region, packages_path, INHIBIT_WORD_COMPLETIONS
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
-from sublime_lib.view import OutputPanel, in_one_edit, base_scope, get_text, get_viewport_coords, set_viewport
+from sublime_lib.view import (OutputPanel, in_one_edit, base_scope, get_text,
+                              get_viewport_coords, set_viewport, extract_selector)
 
 from ordereddict import OrderedDict
 from ordereddict_yaml import *
@@ -301,14 +302,10 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
 
         if view.match_selector(loc, "meta.include string, variable.other.include"):
             # Search for the whole include string which contains the current location
-            regs = view.find_by_selector("meta.include string")
-            include_text = ""
-            for reg in regs:
-                if reg.contains(loc):
-                    include_text = view.substr(reg)
-                    break
+            reg = extract_selector(view, "meta.include string", loc)
+            include_text = view.substr(reg)
 
-            if not include_text or not include_text.startswith("'#"):
+            if not reg or not include_text.startswith("'#") or not include_text.startswith('"#'):
                 return []
 
             variables = [view.substr(reg) for reg in view.find_by_selector("variable.other.repository-key")]
