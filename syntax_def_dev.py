@@ -15,6 +15,7 @@ from ordereddict import OrderedDict
 from ordereddict_yaml import *
 
 from fileconv import *
+from scope_data import COMPILED_HEADS
 
 PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]  # os.path.abspath(os.path.dirname(__file__))
 
@@ -263,9 +264,12 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         print "[AAAPackageDev] " + msg + (" (%s)" % file_path if file_path is not None else "")
 
 
+###############################################################################
+
+
 class SyntaxDefCompletions(sublime_plugin.EventListener):
     def __init__(self):
-        base_keys = "match,end,begin,name,comment,scopeName,include".split(',')
+        base_keys = "match,end,begin,name,contentName,comment,scopeName,include".split(',')
         dict_keys = "repository,captures,beginCaptures,endCaptures".split(',')
         list_keys = "fileTypes,patterns".split(',')
 
@@ -287,8 +291,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         if not view.match_selector(loc, "source.yaml-tmlanguage"):
             return []
 
-        def inhibit(ret):
-            return (ret, INHIBIT_WORD_COMPLETIONS)
+        inhibit = lambda ret: (ret, INHIBIT_WORD_COMPLETIONS)
 
         # Extend numerics into `'123': {name: $0}`, as used in captures,
         # but only if they are not in a string scope
@@ -296,13 +299,57 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         if word.isdigit() and not view.match_selector(loc, "string"):
             return inhibit([(word, "'%s': {name: $0}" % word)])
 
-        # TODO: naming conventions for scope name
-        # if (view.match_selector(loc, "meta.name string") or
-        #         view.match_selector(loc - 2, "meta.name keyword.control.definition")):
+        # Provide a selection of naming convention from TextMate + the base scope appendix
+        if (view.match_selector(loc, "meta.name meta.value string") or
+                view.match_selector(loc - 1, "meta.name meta.value string") or
+                view.match_selector(loc - 2, "meta.name keyword.control.definition")):
+            reg = extract_selector(view, "meta.name meta.value string", loc)
+            if reg:
+                # Tokenize the current selector
+                text = view.substr(reg)
+                pos = loc - reg.begin()
+                scope = re.search(r"[\w\-_.]+$", text[:pos])
+                tokens = scope and scope.group(0).split(".") or ""
+                if len(tokens) > 1:
+                    del tokens[-1]  # The last token is either incomplete or does not exist
+                    # Browse the nodes and their children
+                    nodes = COMPILED_HEADS
+                    for i, token in enumerate(tokens):
+                        node = nodes.find(token)
+                        if not node:
+                            print("[AAA] Warning: `%s` not found in scope naming conventions"
+                                  % '.'.join(tokens[:i + 1]))
+                            return inhibit([])
+                        nodes = node.children
+                        if not nodes:
+                            break
 
-        if view.match_selector(loc, "meta.include string, variable.other.include"):
+                    if nodes:
+                        return inhibit(nodes.to_completion())
+                    else:
+                        print("[AAA] No nodes available in scope naming conventions after `%s`" % '.'.join(tokens))
+                        # Search for the base scope appendix
+                        regs = view.find_by_selector("meta.scope-name meta.value string")
+                        if not regs:
+                            print("[AAA] Warning: Could not find base scope")
+                            return inhibit([])
+
+                        base_scope = view.substr(regs[0]).strip("\"'")
+                        tokens = base_scope.split('.')
+                        return inhibit([(tokens[-1], tokens[-1])])
+
+            # Just return all the head nodes
+            return inhibit(COMPILED_HEADS.to_completion())
+
+        # Check if triggered by a "."
+        # Due to "." being set as a trigger this should not be computed after the block above
+        if view.substr(loc - 1) == ".":
+            return inhibit([])
+
+        # Auto-completion for include values using the repository keys
+        if view.match_selector(loc, "meta.include meta.value string, variable.other.include"):
             # Search for the whole include string which contains the current location
-            reg = extract_selector(view, "meta.include string", loc)
+            reg = extract_selector(view, "meta.include meta.value string", loc)
             include_text = view.substr(reg)
 
             if not reg or not include_text.startswith("'#") or not include_text.startswith('"#'):
@@ -317,8 +364,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
 
         # Otherwise, use the default completions + generated uuid
         completions = [
-            ('uuid\tuuid: ...', "uuid: %s" % uuid.uuid4()),
+            ('uuid\tuuid: ...', "uuid: %s" % uuid.uuid4())
         ]
-        #special: uuid, include, <numbers>
 
         return inhibit(self.base_completions + completions)

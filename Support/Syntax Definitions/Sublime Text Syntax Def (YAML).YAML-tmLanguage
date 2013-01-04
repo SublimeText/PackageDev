@@ -94,7 +94,7 @@ repository:
       '3': {name: keyword.other.name.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
-      '6': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '6': {name: meta.value.yaml-tmlanguage string.other.quoted-or-unquoted.yaml-tmlanguage}
       '7': {name: punctuation.definition.string.yaml-tmlanguage}
       '8': {name: punctuation.definition.string.yaml-tmlanguage}
 
@@ -164,7 +164,7 @@ repository:
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
 
-      '6': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '6': {name: meta.value.yaml-tmlanguage string.other.quoted-or-unquoted.yaml-tmlanguage}
       '7': {name: punctuation.definition.string.yaml-tmlanguage}
       '8': {name: punctuation.definition.string.yaml-tmlanguage}
 
@@ -172,6 +172,7 @@ repository:
     patterns:
     # multi-line (block style)
     - name: meta.match-block.yaml-tmlanguage
+      contentName: meta.value.yaml-tmlanguage
       begin: ^( *)(?:- +)?((["']?)(match|begin|end)(\3))(:) +([|>])(?=, |,$| +#| *$)
       beginCaptures:
         '2': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
@@ -189,6 +190,7 @@ repository:
     # single-line (or single-string)
     # TODO: consider " and ' separately as they use different escape mechanisms actually
     - name: meta.match.yaml-tmlanguage
+      contentName: meta.value.yaml-tmlanguage
       begin: (?:, +|\{ *|^  +|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
@@ -219,7 +221,7 @@ repository:
       '4':  {name: punctuation.definition.string.yaml-tmlanguage}
       '5':  {name: keyword.control.definition.yaml-tmlanguage}
 
-      '6':  {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '6':  {name: meta.value.yaml-tmlanguage string.other.quoted-or-unquoted.yaml-tmlanguage}
       '7':  {name: punctuation.definition.string.yaml-tmlanguage}
       '8':  {name: variable.other.include.yaml-tmlanguage}
       '9':  {name: storage.modifier.self-include.yaml-tmlanguage}
