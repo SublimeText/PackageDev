@@ -21,13 +21,46 @@ import sublime
 from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
 from sublime_lib.path import file_path_tuple
 
-appendix_regex = r'(?i)\.([^\.\-]+?)(?:-([^\.]+))?$'
+###############################################################################
+
+re_js_comments_str = r"""
+    (                               # Capture code
+        (?:
+            "(?:\\.|[^"\\])*"           # String literal
+            |
+            '(?:\\.|[^'\\])*'           # String literal
+            |
+            (?:[^/\n"']|/[^/*\n"'])+    # Any code besides newlines or string literals (essentially no comments)
+            |
+            \n                          # Newline
+        )+                          # Repeat
+    )|
+    (/\* (?:[^*]|\*[^/])* \*/)      # Multi-line comment
+    |
+    (?://(.*)$)                     # Comment
+"""
+re_js_comments = re.compile(re_js_comments_str, re.VERBOSE + re.MULTILINE)
+
+
+def strip_js_comments(string):
+    """Originally obtained from Stackoverflow this function strips JavaScript
+    (and JSON) comments from a string while considering those encapsulated by strings.
+
+        Source: http://stackoverflow.com/questions/2136363/matching-one-line-javascript-comments-with-re
+    """
+    parts = re_js_comments.findall(string)
+    # Stripping the whitespaces is, of course, optional, but the columns are fucked up anyway
+    # with the comments being removed and it doesn't break things.
+    return ''.join([x[0].strip(' ') for x in parts])
 
 
 def _join_multiline(string):
     return " ".join([line.strip() for line in string.split("\n")])
 
+###############################################################################
 
+
+# Define the prototype loader class and the loaders for the separate data types
 class LoaderProto(object):
     """Prototype class for data loaders of different types.
 
@@ -225,6 +258,7 @@ class JSONLoader(LoaderProto):
     def parse(self, *args, **kwargs):
         text = get_text(self.view)
         try:
+            text = strip_js_comments(text)
             data = json.loads(text)
         except ValueError, e:
             self.output.write_line(self.debug_base % (self.file_path, str(e)))
@@ -291,7 +325,6 @@ class YAMLLoader(LoaderProto):
             self.output.write_line(self.debug_base % _join_multiline(str(e)))
         except IOError, e:
             self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
-            # TODO: Use buffer's contents instead?
         else:
             return data
 
