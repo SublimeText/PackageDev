@@ -73,7 +73,11 @@ class LoaderProto(object):
                 The loaders name, e.g. "JSON" or "Property List".
 
             ext (str)
-                The default file extension.
+                The default file extension. Used to construct ``self.ext_regex``.
+
+            comment (str; optional)
+                The line comment string for the file type. Used to construct
+                ``self.opt_regex``.
 
             scope (str; optional)
                 If the view's base scope equals this the file will be considered
@@ -95,12 +99,21 @@ class LoaderProto(object):
             output_panel_name (str; optional)
                 If this is specified it will be used as the output panel's
                 reference name.
+
                 Defaults to ``"aaa_package_dev"``.
 
             ext_regex (str; optional)
                 This regex will be used by get_ext_appendix() to determine the
-                extension's appendix. The appendix should be in group 1.
+                extension's appendix. The appendix should be found in group 1.
+
                 Defaults to ``r'(?i)\.%s(?:-([^\.]+))?$' % self.ext``.
+
+            opt_regex (str; optional)
+                A regex to search for an option dict in a line. Used by
+                ``self.get_options()`` and ``cls.load_options(view)``.
+                Content should be found in group 1.
+
+                Defaults to ``r'^\s*%s\s+\[PackageDev\]\s+(.+)$' % cls.comment``.
 
 
         Methods to implement:
@@ -132,15 +145,21 @@ class LoaderProto(object):
             new_file_ext(self)
 
             @classmethod
+            load_options(self, view)
+
+            get_options(self)
+
+            @classmethod
             file_is_valid(cls, view, file_name=None)
 
             is_valid(self)
 
             load(self, *args, **kwargs)
     """
-    name   = ""
-    ext    = ""
-    scope  = None
+    name    = ""
+    ext     = ""
+    comment = ""
+    scope   = None
     file_regex = ""
     output_panel_name = "aaa_package_dev"
 
@@ -167,6 +186,10 @@ class LoaderProto(object):
         """
         if not hasattr(cls, 'ext_regex'):
             cls.ext_regex = r'(?i)\.%s(?:-([^\.]+))?$' % cls.ext
+
+        if not hasattr(cls, 'opt_regex'):
+            # Will result in an exception when running cls.load_options but will be caught.
+            cls.opt_regex = cls.comment and r'^\s*%s\s+\[PackageDev\]\s+(.+)$' % cls.comment or ""
 
     @classmethod
     def get_ext_appendix(cls, file_name):
@@ -210,6 +233,34 @@ class LoaderProto(object):
         return self.__class__.get_new_file_ext(self.view, self.file_path)
 
     @classmethod
+    def load_options(self, view):
+        """Search for a line comment in the first few lines which starts with
+        ``"[PackageDev]"`` and parse the following things using ``yaml.safe_load``
+        after wrapping them in "{}".
+        """
+        # Don't bother reading the file to load its options.
+        if not view:
+            return None
+
+        # Search for options in the first 3 lines (compatible with xml)
+        for i in range(3):
+            try:
+                line = coorded_substr(view, (i, 0), (i, -1))
+                optstr = re.search(self.opt_regex, line)
+                # Just parse the string with yaml; wrapped in {}
+                # Yeah, I'm lazy like that, but see, I even put "safe_" in front of it
+                return yaml.safe_load('{%s}' % optstr.group(1))
+            except:
+                continue
+
+        return None
+
+    def get_options(self):
+        """Instance method wrapper for ``cls.load_options``.
+        """
+        return self.__class__.load_options(self.view)
+
+    @classmethod
     def file_is_valid(cls, view, file_path=None):
         """Returns a boolean whether ``file_path`` is a valid file for
         this loader.
@@ -249,9 +300,10 @@ class LoaderProto(object):
 
 
 class JSONLoader(LoaderProto):
-    name   = "JSON"
-    ext    = "json"
-    scope  = "source.json"
+    name    = "JSON"
+    ext     = "json"
+    comment = "//"
+    scope   = "source.json"
     debug_base = 'Error parsing ' + name + ' "%s": %s'
     file_regex = debug_base % (r'(.*?)', r'.+? line (\d+) column (\d+)')
 
@@ -271,6 +323,7 @@ class PlistLoader(LoaderProto):
     ext  = "plist"
     debug_base = 'Error parsing ' + name + ' "%s": %s, line %s, column %s'
     file_regex = re.escape(debug_base).replace(r'\%', '%') % (r'(.*?)', r'.*?', r'(\d+)', r'(\d+)')
+    opt_regex = r'^\s*<!--\s+\[PackageDev\]\s+(.+)-->'
     DOCTYPE = "<!DOCTYPE plist"
 
     @classmethod
@@ -311,9 +364,10 @@ class PlistLoader(LoaderProto):
 
 
 class YAMLLoader(LoaderProto):
-    name   = "YAML"
-    ext    = "yaml"
-    scope  = "source.yaml"
+    name    = "YAML"
+    ext     = "yaml"
+    comment = "#"
+    scope   = "source.yaml"
     debug_base = "Error parsing YAML: %s"
     file_regex = re.escape(debug_base).replace(r'\%', '%') % r'.+? in "(.*?)", line (\d+), column (\d+)'
 

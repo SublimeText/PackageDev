@@ -2,20 +2,12 @@ import os
 import time
 
 import sublime
-from sublime_plugin import WindowCommand
 
 from sublime_lib import WindowAndTextCommand
 from sublime_lib.path import file_path_tuple
 from sublime_lib.view import OutputPanel
 
 from fileconv import *
-
-
-class WindowShowOverlayCommand(WindowCommand):
-    """Wrap show_overlay command because I can't call this from a build system.
-    """
-    def run(self, *args, **kwargs):
-        self.window.run_command('show_overlay', kwargs)
 
 
 # build command
@@ -37,7 +29,8 @@ class ConvertFileCommand(WindowAndTextCommand):
         "appendixes". Here are a few examples:
             ".YAML-ppplist" yaml  -> plist ".ppplist"
             ".json"         json  -> yaml  ".yaml"
-            ".tmplist"      plist -> json ".JSON-tmplist"
+            ".tmplist"      plist -> json  ".JSON-tmplist"
+            ".yaml"         json  -> plist ".JSON-yaml" (yes, doesn't make much sense)
 
         Whether the parser is considered valid is determined from the
         extension, the extension + appendix or the view's base scope (or in a
@@ -50,34 +43,36 @@ class ConvertFileCommand(WindowAndTextCommand):
         strings, numbers, lists and objects (dicts, arrays, hash tables).
     """
     def run(self, source_format=None, target_format=None, *args, **kwargs):
+        # If called as a text command...
+        self.window = self.window or sublime.active_window()
+
         # Check the environment (view, args, ...)
         if self.view.is_scratch():
             return
 
         if self.view.is_dirty():
+            # While it works without saving you should always save your files
             return self.status("Please safe the file.")
 
         file_path = self.view.file_name()
         if not file_path or not os.path.exists(file_path):
+            # REVIEW: It is not really necessary for the file to exist
             return self.status("File does not exist.", file_path)
 
-        if not target_format:
-            return self.status("Please define a target format.")
-
-        if target_format == source_format:
+        if source_format and target_format == source_format:
             return self.status("Target and source file format are identical. (%s)" % target_format)
 
         if source_format and not source_format in loaders.get:
             return self.status("%s for '%s' not supported/implemented." % ("Loader", source_format))
 
-        if not target_format in dumpers.get:
+        if target_format and not target_format in dumpers.get:
             return self.status("%s for '%s' not supported/implemented." % ("Dumper", target_format))
 
         # Now the actual "building" starts
-        output = OutputPanel(self.window or sublime.active_window(), "aaa_package_dev")
+        output = OutputPanel(self.window, "aaa_package_dev")
         output.show()
 
-        # Auto-determine the file type if it's not specified
+        # Auto-detect the file type if it's not specified
         if not source_format:
             output.write("Input type not specified, auto-detecting...")
             for Loader in loaders.get.values():
@@ -87,11 +82,32 @@ class ConvertFileCommand(WindowAndTextCommand):
                     break
 
             if not source_format:
-                output.write_line("\nCould not determine file type.")
+                output.write_line("\nCould not detect file type.")
                 return
             elif target_format == source_format:
                 output.write_line("File already is %s." % loaders.get[source_format].name)
                 return
+
+        opts = loaders.get[source_format].load_options(self.view)
+
+        if not target_format:
+            output.write("No target format specified, searching in file...")
+
+            if not opts or not 'target_format' in opts:
+                output.write_line("\nCould not detect target format.")
+                output.write_line("Please select or define a target format.")
+                # Show overlay and possibly recall the whole command because it's the most simple way
+                self.window.run_command('show_overlay', dict(overlay="command_palette",
+                                                             text="Build: "))
+                return
+
+            target_format = opts["target_format"]
+            # Validate the shit again, this time print to output panel
+            if source_format is not None and target_format == source_format:
+                return output.write_line("\nTarget and source file format are identical. (%s)" % target_format)
+
+            if not target_format in dumpers.get:
+                return output.write_line("\n%s for '%s' not supported/implemented." % ("Dumper", target_format))
 
         start_time = time.time()
 
@@ -108,9 +124,13 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         if data:
             # Determine new file name
-            new_ext, prepend_target_format = loader.new_file_ext()
-            if prepend_target_format:
-                new_ext = ".%s-%s" % (target_format.upper(), new_ext[1:])
+            if 'ext' in opts:
+                new_ext = '.' + opts["ext"]
+            else:
+                new_ext, prepend_target_format = loader.new_file_ext()
+                if prepend_target_format:
+                    new_ext = ".%s-%s" % (target_format.upper(), new_ext[1:])
+
             new_file_path = file_path_tuple(file_path).no_ext + (new_ext or '.' + target_format)
 
             # Init the Dumper

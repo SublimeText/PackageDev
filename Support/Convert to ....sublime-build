@@ -1,7 +1,5 @@
 {
-    "target": "window_show_overlay",
-    "overlay": "command_palette",
-    "text": "Build: ",
+    "target": "convert_file",
 
     "selector": "source.json, source.json-tmlanguage, source.yaml, text.xml",
 
