@@ -9,7 +9,7 @@ from yaml.constructor import *
 
 try:
     # included in standard lib from Python 2.7
-    # note: Sublime Text uses 2.6
+    # note: Sublime Text uses 2.6; this will fail
     from collections import OrderedDict
 except ImportError:
     # try importing the backported drop-in replacement
@@ -49,27 +49,26 @@ class BaseOrderedDictLoader(object):
         return mapping
 
 
-class OrderedDictLoader(Loader):
+class OrderedDictLoader(BaseOrderedDictLoader, Loader):
     """A YAML loader that loads mappings into ordered dictionaries.
     """
     pass
 
-OrderedDictLoader.add_constructor(u'tag:yaml.org,2002:map',
-        OrderedDictLoader.construct_yaml_map)
-OrderedDictLoader.add_constructor(u'tag:yaml.org,2002:omap',
-        OrderedDictLoader.construct_yaml_map)
 
-
-class OrderedDictSafeLoader(SafeLoader):
+class OrderedDictSafeLoader(BaseOrderedDictLoader, SafeLoader):
     """A YAML (safe) loader that loads mappings into ordered dictionaries.
     """
     pass
 
 
-OrderedDictSafeLoader.add_constructor(u'tag:yaml.org,2002:map',
-        OrderedDictLoader.construct_yaml_map)
-OrderedDictSafeLoader.add_constructor(u'tag:yaml.org,2002:omap',
-        OrderedDictLoader.construct_yaml_map)
+def add_ordereddict_constructor(cls):
+    cls.add_constructor(u'tag:yaml.org,2002:map',
+            cls.construct_yaml_map)
+    cls.add_constructor(u'tag:yaml.org,2002:omap',
+            cls.construct_yaml_map)
+
+add_ordereddict_constructor(OrderedDictLoader)
+add_ordereddict_constructor(OrderedDictSafeLoader)
 
 
 class OrderedDictSafeDumper(SafeDumper):
@@ -83,6 +82,7 @@ class OrderedDictSafeDumper(SafeDumper):
 
 OrderedDictSafeDumper.add_representer(OrderedDict,
         OrderedDictSafeDumper.represent_ordereddict)
-# add to the default dumper
+
+# Add representer to the default dumper
 yaml.add_representer(OrderedDict,
         OrderedDictSafeDumper.represent_ordereddict)

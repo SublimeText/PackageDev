@@ -115,7 +115,7 @@ class LoaderProto(object):
 
                 *args, **kwargs parameters are passed from
                 ``load(self, *args, **kwargs)``. If you want to specify any options
-                or opntional parsing, use these.
+                or optional parsing, use these.
 
         Methods you can override/implement
         (please read their documentation/code to understand their purposes):

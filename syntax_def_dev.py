@@ -90,25 +90,6 @@ class NewYamlSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugi
 ###############################################################################
 
 
-class YAMLTextLoader(loaders.YAMLLoader):
-    def _join_multiline(self, string):
-        return " ".join([line.strip() for line in string.split("\n")])
-
-    def load(self, text=None, *args, **kwargs):
-        if not self.is_valid():
-            raise NotImplementedError("Not a %s file." % self.name)
-        if text is None:
-            text = get_text(self.view)
-
-        self.output.write_line("Parsing %s..." % self.name)
-        try:
-            data = yaml.safe_load(text)
-        except yaml.YAMLError, e:
-            self.output.write_line(self.debug_base % self._join_multiline(str(e)))
-        else:
-            return data
-
-
 class YAMLOrderedTextDumper(dumpers.YAMLDumper):
     default_params = dict(Dumper=OrderedDictSafeDumper)
 
@@ -226,7 +207,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         self.start_time = time.time()
 
         # Init the Loader
-        loader = YAMLTextLoader(None, self.view, file_path=file_path, output=output)
+        loader = YAMLLoader(None, self.view, file_path=file_path, output=output)
 
         data = None
         try:
