@@ -137,15 +137,15 @@ def base_scope(view):
 
 
 def rowcount(view):
-    """Returns the number of rows in ``view``.
+    """Returns the 1-based number of rows in ``view``.
     """
     return view.rowcol(view.size())[0] + 1
 
 
 def rowwidth(view, row):
-    """Returns the number of characters of ``row`` in ``view``.
+    """Returns the 1-based number of characters of ``row`` in ``view``.
     """
-    return view.rowcol(view.line(view.text_point(row, 0)).end())[1]
+    return view.rowcol(view.line(view.text_point(row, 0)).end())[1] + 1
 
 
 def relative_point(view, row=0, col=0, p=None):
@@ -171,13 +171,13 @@ def relative_point(view, row=0, col=0, p=None):
     if row < 0:
         row = max(rowc + row, 0)
     else:
-        row = min(row, rowc)
+        row = min(row, rowc - 1)
 
     roww = rowwidth(view, row)
     if col < 0:
         col = max(roww + col, 0)
     else:
-        col = min(col, roww)
+        col = min(col, roww - 1)
 
     return view.text_point(row, col)
 
