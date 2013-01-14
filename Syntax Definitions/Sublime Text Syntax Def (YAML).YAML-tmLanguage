@@ -1,3 +1,4 @@
+## target: plist, extension: tmLanguage
 ---
 name: Sublime Text Syntax Def (YAML)
 fileTypes: [YAML-tmLanguage]
