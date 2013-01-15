@@ -109,6 +109,8 @@ class ConvertFileCommand(WindowAndTextCommand):
             if not target_format in dumpers.get:
                 return output.write_line("\n%s for '%s' not supported/implemented." % ("Dumper", target_format))
 
+            output.write_line(' %s\n' % dumpers.get[target_format].name)
+
         start_time = time.time()
 
         # Init the Loader
