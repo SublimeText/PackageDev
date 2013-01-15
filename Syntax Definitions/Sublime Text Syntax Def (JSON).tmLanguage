@@ -42,6 +42,10 @@
 			<key>include</key>
 			<string>#uuid</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#comments</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -67,6 +71,10 @@
 					<key>include</key>
 					<string>#name</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
 			</array>
 		</dict>
 		<key>captures</key>
@@ -91,6 +99,10 @@
 					<key>include</key>
 					<string>#captureItem</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
 			</array>
 		</dict>
 		<key>comment</key>
@@ -110,6 +122,26 @@
 			</dict>
 			<key>match</key>
 			<string>"(comment)"\s*?:\s*?"(.+?)"</string>
+		</dict>
+		<key>comments</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(//).*</string>
+					<key>name</key>
+					<string>comment.line.double-slash.json-tmlanguage</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>/\*</string>
+					<key>end</key>
+					<string>\*/</string>
+					<key>name</key>
+					<string>comment.block.json-tmlanguage</string>
+				</dict>
+			</array>
 		</dict>
 		<key>fileTypes</key>
 		<dict>
@@ -132,6 +164,10 @@
 				<dict>
 					<key>include</key>
 					<string>source.jsongenericarrayelements</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
 				</dict>
 			</array>
 		</dict>
@@ -248,6 +284,10 @@
 					<key>include</key>
 					<string>#patternsItem</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
 			</array>
 		</dict>
 		<key>patternsItem</key>
@@ -282,6 +322,10 @@
 					<key>include</key>
 					<string>#comment</string>
 				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
 			</array>
 		</dict>
 		<key>repo</key>
@@ -305,6 +349,10 @@
 				<dict>
 					<key>include</key>
 					<string>#repositoryItem</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
 				</dict>
 			</array>
 		</dict>
@@ -343,6 +391,10 @@
 				<dict>
 					<key>include</key>
 					<string>#comment</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
 				</dict>
 			</array>
 		</dict>

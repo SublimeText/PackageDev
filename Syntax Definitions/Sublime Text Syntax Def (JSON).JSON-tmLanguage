@@ -1,3 +1,4 @@
+// [PackageDev] target_format: plist
 { "name": "Sublime Text Syntax Def (JSON)",
 
   "scopeName": "source.json-tmlanguage",
@@ -12,7 +13,8 @@
     { "include": "#patterns" },
     { "include": "#repo" },
     { "include": "#comment" },
-    { "include": "#uuid" }
+    { "include": "#uuid" },
+    { "include": "#comments" }
   ],
 
   "repository": {
@@ -52,7 +54,8 @@
         },
         "end": "\\]",
         "patterns": [
-          { "include": "#patternsItem" }
+          { "include": "#patternsItem" },
+          { "include": "#comments" }
         ]
       },
 
@@ -65,7 +68,8 @@
           { "include": "#include" },
           { "include": "#patterns" },
           { "include": "#captures" },
-          { "include": "#comment" }
+          { "include": "#comment" },
+          { "include": "#comments" }
         ]
       },
 
@@ -76,8 +80,8 @@
         },
         "end": "\\]",
         "patterns": [
-          { "include": "source.jsongenericarrayelements" }
-
+          { "include": "source.jsongenericarrayelements" },
+          { "include": "#comments" }
         ],
         "contentName": "meta.json.generic.array.json.tmlanguage"
       },
@@ -133,7 +137,8 @@
         },
         "end": "\\}",
         "patterns": [
-          { "include": "#repositoryItem" }
+          { "include": "#repositoryItem" },
+          { "include": "#comments" }
         ],
         "contentName": "meta.repository.json-tmlanguage"
       },
@@ -149,7 +154,8 @@
           { "include": "#name" },
           { "include": "#patterns" },
           { "include": "#captures" },
-          { "include": "#comment" }
+          { "include": "#comment" },
+          { "include": "#comments" }
         ]
       },
 
@@ -160,7 +166,8 @@
         },
         "end": "\\}",
         "patterns": [
-          { "include": "#captureItem" }
+          { "include": "#captureItem" },
+          { "include": "#comments" }
         ],
         "contentName": "meta.captures.json-tmlanguage"
       },
@@ -172,9 +179,22 @@
         },
         "end": "\\}",
         "patterns": [
-          { "include": "#name" }
+          { "include": "#name" },
+          { "include": "#comments" }
         ],
         "contentName": "meta.capture.json-tmlanguage"
+      },
+
+      "comments": {
+        "patterns": [
+          { "match": "(//).*",
+            "name": "comment.line.double-slash.json-tmlanguage"
+          },
+          { "begin": "/\\*",
+            "end": "\\*/",
+            "name": "comment.block.json-tmlanguage"
+          }
+        ]
       }
   },
 
