@@ -298,7 +298,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                     for i, token in enumerate(tokens):
                         node = nodes.find(token)
                         if not node:
-                            print("[AAA] Warning: `%s` not found in scope naming conventions"
+                            print("[PackageDev] Warning: `%s` not found in scope naming conventions"
                                   % '.'.join(tokens[:i + 1]))
                             return inhibit([])
                         nodes = node.children
@@ -308,11 +308,11 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                     if nodes:
                         return inhibit(nodes.to_completion())
                     else:
-                        print("[AAA] No nodes available in scope naming conventions after `%s`" % '.'.join(tokens))
+                        print("[PackageDev] No nodes available in scope naming conventions after `%s`" % '.'.join(tokens))
                         # Search for the base scope appendix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:
-                            print("[AAA] Warning: Could not find base scope")
+                            print("[PackageDev] Warning: Could not find base scope")
                             return inhibit([])
 
                         base_scope = view.substr(regs[0]).strip("\"'")
@@ -323,8 +323,8 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
             return inhibit(COMPILED_HEADS.to_completion())
 
         # Check if triggered by a "."
-        # Due to "." being set as a trigger this should not be computed after the block above
         if view.substr(loc - 1) == ".":
+            # Due to "." being set as a trigger this should not be computed after the block above
             return inhibit([])
 
         # Auto-completion for include values using the repository keys
@@ -333,10 +333,11 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
             reg = extract_selector(view, "meta.include meta.value string", loc)
             include_text = view.substr(reg)
 
-            if not reg or not include_text.startswith("'#") or not include_text.startswith('"#'):
+            if not reg or (not include_text.startswith("'#") and not include_text.startswith('"#')):
                 return []
 
             variables = [view.substr(reg) for reg in view.find_by_selector("variable.other.repository-key")]
+            print("[PackageDev] Found %d local repository keys to be used in includes" % len(variables))
             return inhibit(zip(variables, variables))
 
         # Do not bother if the syntax def alread matched the current position
