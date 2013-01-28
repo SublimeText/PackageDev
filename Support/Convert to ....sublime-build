@@ -1,7 +1,7 @@
 {
     "target": "convert_file",
 
-    "selector": "source.json, source.json-tmlanguage, source.yaml, text.xml",
+    "selector": "source.json, source.json-tmlanguage, source.yaml-tmlanguage, source.yaml, text.xml",
 
     "variants": [
         {
