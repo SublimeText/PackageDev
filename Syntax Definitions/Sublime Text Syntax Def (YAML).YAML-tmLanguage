@@ -1,4 +1,4 @@
-## target: plist, extension: tmLanguage
+# [PackageDev] target_format: plist, extension: tmLanguage
 ---
 name: Sublime Text Syntax Def (YAML)
 fileTypes: [YAML-tmLanguage]
@@ -19,9 +19,11 @@ patterns:
 - include: '#comment'
 
 ## second, match content
+# in-repo
+- include: '#repository'
+
 # main scope
 - include: '#uuid'
-- include: '#repository'
 - include: '#name-main'
 - include: '#scope-name'
 - include: '#file-types'
@@ -37,10 +39,13 @@ patterns:
 - include: '#number-key'
 
 # the other remaining keys
-- include: '#repository-key'
+- include: '#repository-key-inline'
 
 # match for comments again after consuming the other sequences
 - include: '#comment'
+
+# consider everything else as illegal
+- include: '#illegal'
 
 #######################################
 
@@ -145,14 +150,44 @@ repository:
         - include: '#comment'
 
   repository:
-    name: meta.repository.yaml-tmlanguage
-    match: (?:, +|\{ *|^)((["']?)(repository)(\2))(:)
-    captures:
-      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
-      '2': {name: punctuation.definition.string.yaml-tmlanguage}
-      '3': {name: entity.other.repository.yaml-tmlanguage}
-      '4': {name: punctuation.definition.string.yaml-tmlanguage}
-      '5': {name: keyword.control.definition.yaml-tmlanguage}
+    patterns:
+    # inline (who'd even use this?)
+    # NOTE: probably broken with line breaks AFTER { or ,
+    - name: meta.repository.yaml-tmlanguage
+      match: (?:, +|\{ *)((["']?)(repository)(\2))(:)
+      captures:
+        '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '2': {name: punctuation.definition.string.yaml-tmlanguage}
+        '3': {name: entity.other.repository.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+    # multi-line (this is what you want)
+    - name: meta.repository-block.yaml-tmlanguage
+      begin: ^((["']?)(repository)(\2))(:)
+      beginCaptures:
+        '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '2': {name: punctuation.definition.string.yaml-tmlanguage}
+        '3': {name: entity.other.repository.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.control.definition.yaml-tmlanguage}
+      end: ^(?!\s*($|#))(?=\S)
+      patterns:
+        - include: '#comment'
+        - include: '#repository-key'
+
+        # child scope
+        - include: '#patterns'
+        - include: '#captures'
+
+        - include: '#name'
+        - include: '#match'
+        - include: '#include'
+        - include: '#comment-from-key'
+        - include: '#number-key'
+
+        - include: '#comment'
+        - include: '#illegal'
 
 # in-block special keys
   name:
@@ -183,9 +218,9 @@ repository:
         '6': {name: keyword.control.definition.yaml-tmlanguage}
 
         '7': {name: keyword.control.block.yaml-tmlanguage}
-      end: ^(?! *$|\1 +) # must be indented by at least as much as the key line + 1
+      end: ^(?! *$|\1 ) # must be indented by at least as much as the key line + 1
       patterns:
-      - include: '#comment'
+      - include: '#comment' # for comments after the "|" or ">"
       - include: source.oniregexp
 
     # single-line (or single-string)
@@ -277,13 +312,28 @@ repository:
       '5': {name: keyword.control.definition.yaml-tmlanguage}
 
   repository-key:
-    # More like "any other key there is with two leading spaces"
+    # More like "any key with two leading spaces"
     name: meta.repository-key.yaml-tmlanguage
-    match: (?:, +|\{ *|^  )((["']?)([-\w]+)(\2))(:)
+    match: (?:^  )((["']?)([-\w]+)(\2))(:)
     captures:
       #'1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage} # "string variable" is assigned by certain color schemes
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
       '3': {name: variable.other.repository-key.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+  repository-key-inline:
+    # More like "any other key there is"
+    name: meta.repository-key.yaml-tmlanguage
+    match: (?:, +|\{ *)((["']?)([-\w]+)(\2))(:)
+    captures:
+      #'1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage} # "string variable" is assigned by certain color schemes
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: variable.other.repository-key.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+  illegal:
+    name: invalid.illegal.unrecognized.yaml-tmlanguage
+    match: '[^\s}]'
 ...

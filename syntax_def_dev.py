@@ -8,7 +8,7 @@ from sublime import Region, packages_path, INHIBIT_WORD_COMPLETIONS
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
-from sublime_lib.view import (OutputPanel, in_one_edit, base_scope, get_text,
+from sublime_lib.view import (OutputPanel, in_one_edit, base_scope,
                               get_viewport_coords, set_viewport, extract_selector)
 
 from ordereddict import OrderedDict
@@ -260,7 +260,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         completions.extend(("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)
         completions.extend([
             ("include\tinclude: '#...'", "include: '#$0'"),
-            ('include\tinclude: $self',  "include: $self")
+            ('include\tinclude: $self',  "include: \$self")
         ])
 
         self.base_completions = completions
@@ -308,7 +308,8 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                     if nodes:
                         return inhibit(nodes.to_completion())
                     else:
-                        print("[PackageDev] No nodes available in scope naming conventions after `%s`" % '.'.join(tokens))
+                        print("[PackageDev] No nodes available in scope naming conventions after `%s`"
+                              % '.'.join(tokens))
                         # Search for the base scope appendix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:
@@ -340,8 +341,9 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
             print("[PackageDev] Found %d local repository keys to be used in includes" % len(variables))
             return inhibit(zip(variables, variables))
 
-        # Do not bother if the syntax def alread matched the current position
-        if view.match_selector(loc, "meta"):
+        # Do not bother if the syntax def alread matched the current position, except in the main repository
+        scope = view.scope_name(loc).strip()
+        if (view.match_selector(loc, "meta") and not scope.endswith("meta.repository-block.yaml-tmlanguage")):
             return []
 
         # Otherwise, use the default completions + generated uuid
