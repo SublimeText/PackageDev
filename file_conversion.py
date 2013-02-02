@@ -88,6 +88,7 @@ class ConvertFileCommand(WindowAndTextCommand):
                 output.write_line("File already is %s." % loaders.get[source_format].name)
                 return
 
+        # Load inline options
         opts = loaders.get[source_format].load_options(self.view)
 
         if not target_format:
@@ -97,8 +98,7 @@ class ConvertFileCommand(WindowAndTextCommand):
                 output.write_line("\nCould not detect target format.")
                 output.write_line("Please select or define a target format.")
                 # Show overlay and possibly recall the whole command because it's the most simple way
-                self.window.run_command('show_overlay', dict(overlay="command_palette",
-                                                             text="Build: "))
+                self.window.run_command('show_overlay', dict(overlay="command_palette", text="Build: "))
                 return
 
             target_format = opts["target_format"]
@@ -126,7 +126,7 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         if data:
             # Determine new file name
-            if 'ext' in opts:
+            if opts and 'ext' in opts:
                 new_ext = '.' + opts["ext"]
             else:
                 new_ext, prepend_target_format = loader.new_file_ext()
