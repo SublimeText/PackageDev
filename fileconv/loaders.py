@@ -376,7 +376,8 @@ class YAMLLoader(LoaderProto):
         try:
             data = yaml.safe_load(text)
         except yaml.YAMLError, e:
-            self.output.write_line(self.debug_base % _join_multiline(str(e)))
+            out = self.debug_base % _join_multiline(str(e))
+            self.output.write_line(out.replace("<unicode string>", self.file_path))
         except IOError, e:
             self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
         else:
