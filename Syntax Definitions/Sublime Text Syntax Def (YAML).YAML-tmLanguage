@@ -1,4 +1,4 @@
-# [PackageDev] target_format: plist, extension: tmLanguage
+# [PackageDev] target_format: plist, ext: tmLanguage
 ---
 name: Sublime Text Syntax Def (YAML)
 fileTypes: [YAML-tmLanguage]
@@ -8,7 +8,7 @@ uuid: 112dad9d-558e-4ab2-a4cc-c5f1ffa80ee6
 patterns:
 ## first, match the global stuff
 - name: entity.other.document-start.yaml-tmlanguage
-  match: ^---
+  match: ^---(?= |$)
 
 - name: entity.other.document-end.yaml-tmlanguage
   match: ^\.{3}$
@@ -43,6 +43,9 @@ patterns:
 
 # match for comments again after consuming the other sequences
 - include: '#comment'
+
+# some unmatched list entries (e.g. before "{") and commas at line ends
+- match: '^ *- |,(?= *$| +#)'
 
 # consider everything else as illegal
 - include: '#illegal'

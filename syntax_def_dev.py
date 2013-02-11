@@ -207,7 +207,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         self.start_time = time.time()
 
         # Init the Loader
-        loader = YAMLLoader(None, self.view, file_path=file_path, output=output)
+        loader = loaders.YAMLLoader(None, self.view, file_path=file_path, output=output)
 
         data = None
         try:

@@ -12,7 +12,7 @@
 	<array>
 		<dict>
 			<key>match</key>
-			<string>^---</string>
+			<string>^---(?= |$)</string>
 			<key>name</key>
 			<string>entity.other.document-start.yaml-tmlanguage</string>
 		</dict>
@@ -87,6 +87,10 @@
 		<dict>
 			<key>include</key>
 			<string>#comment</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>^ *- |,(?= *$| +#)</string>
 		</dict>
 		<dict>
 			<key>include</key>
