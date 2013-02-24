@@ -96,7 +96,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.keybinding.definition.key.sequence.end.sublime.sublimekeymap</string>
+							<string>punctuation.keybinding.definition.key.sequence.end.sublimekeymap</string>
 						</dict>
 					</dict>
 					<key>patterns</key>
@@ -135,6 +135,12 @@
 							<string>\b(?:up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|forward_slash|backquote|plus|equals|minus|f(20|1[0-9]|[1-9]))\b</string>
 							<key>name</key>
 							<string>entity.other.attribute-name.key.named.sublimekeymap</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>&lt;character&gt;</string>
+							<key>name</key>
+							<string>support.constant.character.key.sublimekeymap</string>
 						</dict>
 						<dict>
 							<key>match</key>
