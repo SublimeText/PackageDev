@@ -333,13 +333,13 @@ class PlistLoader(LoaderProto):
             return None
 
         if (cls.get_ext_appendix(file_path) is not None
-            or os.path.splitext(file_path)[1] == '.' + cls.ext):
+                or os.path.splitext(file_path)[1] == '.' + cls.ext):
             return True
 
         # Plists have no scope (syntax definition) since they are XML.
-        # Instead, check for the DOCTYPE in the first two lines.
+        # Instead, check for the DOCTYPE in the first three lines.
         if view:
-            for i in range(2):  # This would be a really terrible one-liner
+            for i in range(3):  # This would be a really terrible one-liner
                 text = coorded_substr(view, (i, 0), (i, len(cls.DOCTYPE)))
                 if text == cls.DOCTYPE:
                     return True
@@ -347,18 +347,23 @@ class PlistLoader(LoaderProto):
 
     def parse(self, *args, **kwargs):
         text = get_text(self.view)
+        # Parsing will fail if `<?xml version="1.0" encoding="UTF-8"?>` encoding is in the first line, so strip it.
+        # XXX: Find a better way to fix this misbehaviour of plistlib (I mean, it even "writes" that line)
+        if text.startswith('<?xml version="1.0" encoding="UTF-8"?>'):
+            text = text[38:]
+
         try:
             data = plistlib.readPlistFromString(text)
         except ExpatError, e:
             self.output.write_line(self.debug_base
-                                % (self.file_path,
-                                   ErrorString(e.code),
-                                   e.lineno,
-                                   e.offset)
-                               )
+                                   % (self.file_path,
+                                      ErrorString(e.code),
+                                      e.lineno,
+                                      e.offset)
+                                   )
         except BaseException, e:
-            # Whatever could happen here ... (or ExpatError not imported)
-            self.output.write_line(self.debug_base % (self.file_path, str(e)))
+            # Whatever could happen here ... (or ExpatError not available/imported)
+            self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
         else:
             return data
 
