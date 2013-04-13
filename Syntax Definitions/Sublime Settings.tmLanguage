@@ -34,11 +34,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>"([a-z0-9_.-]+)"\s*?:</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>source.jsongenericarray</string>
+			<string>"([a-z0-9_.*-]+)"\s*?:</string>
 		</dict>
 		<dict>
 			<key>include</key>
