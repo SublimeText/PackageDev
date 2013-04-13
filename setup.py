@@ -2,13 +2,18 @@
 
 """Commands to build and manage .sublime-package archives with distutils."""
 
-import sys
-import os
-import string
-from types import *
-from glob import glob
-import subprocess
-try:
+
+# Wrap all the stuff in a function because the following code apparenly uses
+# stuff from distutils and fails in ST.
+def main():
+
+    import sys
+    import os
+    import string
+    from types import *
+    from glob import glob
+    import subprocess
+
     from distutils import log, dir_util, dep_util, file_util, archive_util
     from distutils.core import Command
     from distutils.core import setup
@@ -17,13 +22,7 @@ try:
     from distutils.errors import *
     from distutils.spawn import spawn
     from distutils.dir_util import mkpath
-except ImportError:
-    pass  # not supported in ST's Python distribution so just ignore it
 
-
-# Wrap all the stuff in a function because the following code apparenly uses
-# stuff from distutils and fails in ST.
-def main():
     def make_zipfile (base_name, base_dir, verbose=0, dry_run=0):
         """Create a zip file from all the files under 'base_dir'.  The output
         zip file will be named 'base_dir' + ".zip".  Uses either the "zipfile"
@@ -579,7 +578,7 @@ def main():
           author='Guillermo López-Anglada',
           author_email='guillermo@sublimetext.info',
           url='http://sublimetext.info',
-         )
+          )
 
 
 if __name__ == '__main__':
