@@ -63,7 +63,7 @@
 		<key>keys</key>
 		<dict>
 			<key>begin</key>
-			<string>"(keys)": \[</string>
+			<string>"(keys)":\s*\[</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -157,6 +157,14 @@
 							<string>string.key.literal.sublimekeymap</string>
 						</dict>
 					</array>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#multiLineComment</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#lineComment</string>
 				</dict>
 				<dict>
 					<key>match</key>

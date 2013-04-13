@@ -23,7 +23,7 @@
   ],
   "repository": {
       "keys": {
-        "begin": "\"(keys)\": \\[",
+        "begin": "\"(keys)\":\\s*\\[",
         "beginCaptures": {
             "1": { "name": "keyword.other.sublimekeymap"}
         },
@@ -66,8 +66,12 @@
             ],
             "contentName": "meta.key.sequence.sublimekeymap"
             },
-            {  "name": "invalid.illegal.key.sequence.sublimekeymap",
-               "match": "[^\\s,]"
+          { "include": "#multiLineComment"
+            },
+          { "include": "#lineComment"
+            },
+          {  "name": "invalid.illegal.key.sequence.sublimekeymap",
+             "match": "[^\\s,]"
             }
         ]
       },
