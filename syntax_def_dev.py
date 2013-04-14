@@ -183,7 +183,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         Other parameters will be forwarded to yaml.dump (if they are valid).
     """
     sort_order = """comment
-        name scopeName fileTypes uuid
+        name scopeName contentName fileTypes uuid
         begin beginCaptures end endCaptures match captures include
         patterns repository""".split()
 
@@ -254,14 +254,14 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         dict_keys = "repository,captures,beginCaptures,endCaptures".split(',')
         list_keys = "fileTypes,patterns".split(',')
 
-        completions = list()
-        completions.extend(("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys)
-        completions.extend(("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys)
-        completions.extend(("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)
-        completions.extend([
+        completions = [
             ("include\tinclude: '#...'", "include: '#$0'"),
             ('include\tinclude: $self',  "include: \$self")
-        ])
+        ]
+        for ex in ((("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys),
+                   (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),
+                   (("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)):
+            completions.extend(ex)
 
         self.base_completions = completions
 
@@ -337,7 +337,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
             if not reg or (not include_text.startswith("'#") and not include_text.startswith('"#')):
                 return []
 
-            variables = [view.substr(reg) for reg in view.find_by_selector("variable.other.repository-key")]
+            variables = [view.substr(r) for r in view.find_by_selector("variable.other.repository-key")]
             print("[PackageDev] Found %d local repository keys to be used in includes" % len(variables))
             return inhibit(zip(variables, variables))
 
