@@ -6,6 +6,7 @@
       { "include": "#multiLineComment" },
       { "include": "#lineComment" },
 
+      
       { "begin": "(^\\[$)",
         "end": "(^\\]$)",
 
@@ -53,11 +54,14 @@
                 { "match": "\\b(?:up|down|right|left|insert|home|end|pageup|pagedown|backspace|delete|tab|enter|pause|escape|space|keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)|clear|sysreq|break|context_menu|browser_(?:back|forward|refresh|stop|search|favorites|home)|forward_slash|backquote|plus|equals|minus|f(20|1[0-9]|[1-9]))\\b",
                   "name": "entity.other.attribute-name.key.named.sublimekeymap"
                 },
-                { "match": "<character>",
-                  "name": "support.constant.character.key.sublimekeymap"
-                },
                 { "match": "[A-Za-z0-9,;.:_=+-]{2,}",
                   "name": "invalid.illegal.key.sublimekeymap"
+                },
+                {  "name": "keyword.control.other.sublimekeymap",
+                   "match": "<(character)>",
+                   "captures": {
+                       "1": { "name": "entity.other.attribute-name.key.captured.sublimekeymap" }
+                   }
                 },
                 { "match": ".{1}",
                   "comment": "XXX What's invalid for key names?",

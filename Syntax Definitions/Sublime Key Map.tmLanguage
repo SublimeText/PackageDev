@@ -138,15 +138,23 @@
 						</dict>
 						<dict>
 							<key>match</key>
-							<string>&lt;character&gt;</string>
-							<key>name</key>
-							<string>support.constant.character.key.sublimekeymap</string>
-						</dict>
-						<dict>
-							<key>match</key>
 							<string>[A-Za-z0-9,;.:_=+-]{2,}</string>
 							<key>name</key>
 							<string>invalid.illegal.key.sublimekeymap</string>
+						</dict>
+						<dict>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>entity.other.attribute-name.key.captured.sublimekeymap</string>
+								</dict>
+							</dict>
+							<key>match</key>
+							<string>&lt;(character)&gt;</string>
+							<key>name</key>
+							<string>keyword.control.other.sublimekeymap</string>
 						</dict>
 						<dict>
 							<key>comment</key>

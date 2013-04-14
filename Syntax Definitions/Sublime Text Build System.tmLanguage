@@ -64,6 +64,14 @@
 					<string>#shell</string>
 				</dict>
 				<dict>
+					<key>include</key>
+					<string>#variant</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>source.jsongenericobject</string>
+				</dict>
+				<dict>
 					<key>match</key>
 					<string>(?&lt;!\}|"|\]),</string>
 					<key>name</key>
@@ -321,6 +329,24 @@
 				</dict>
 			</array>
 		</dict>
+		<key>name</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.sublimebuild</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>string.quoted.double.sublimebuild</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>"(name)"\s*:\s*"(.+?)"</string>
+		</dict>
 		<key>path</key>
 		<dict>
 			<key>begin</key>
@@ -395,6 +421,54 @@
 			<string>Maybe make this a begin-end: paths must contain characters; cling to that.</string>
 			<key>match</key>
 			<string>"(working_dir|selector|target)":\s*"(.*?)"</string>
+		</dict>
+		<key>variant</key>
+		<dict>
+			<key>begin</key>
+			<string>"(variant)"\s*:</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.sublimebuild</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?&lt;=\})</string>
+			<key>name</key>
+			<string>meta.definition.variant.sublimebuild</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#cmd</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#env</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#path</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#name</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>{</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>source.jsongenericobject</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>}</string>
+				</dict>
+			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>

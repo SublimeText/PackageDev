@@ -29,13 +29,14 @@
     },
 
     "completionsList": {
-      "begin": "\"(completions)\"\\s*?:\\s*?\\[",
+      "begin": "\"(completions)\"\\s*?:\\s*?",
       "beginCaptures": {
         "1" : { "name": "keyword.key.sublimecompletions" }
       },
-      "end": "\\]",
+      "end": "(?<=\\])",
       "contentName": "meta.completions.array.sublimecompletions",
       "patterns": [
+        { "match": "\\[" },
         { "include": "#triggerCompletion" },
         { "include": "#simpleCompletion" }
       ]

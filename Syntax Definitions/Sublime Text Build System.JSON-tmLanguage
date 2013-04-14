@@ -19,6 +19,8 @@
             { "include": "#encoding" },
             { "include": "#path" },
             { "include": "#shell" },
+            { "include": "#variant" },
+            { "include": "source.jsongenericobject" },
             { "match": "(?<!\\}|\"|\\]),",
               "name": "invalid.illegal.separator.sublimebuild"
             },
@@ -52,6 +54,30 @@
                   "1": { "name": "support.function.array.generic.key.sublimebuild" }
               }
             }
+        ]
+      },
+      "name": {
+        "match": "\"(name)\"\\s*:\\s*\"(.+?)\"",
+        "captures": {
+            "1": { "name": "keyword.other.sublimebuild" },
+            "2": { "name": "string.quoted.double.sublimebuild" }
+        }
+      },
+      "variant": {
+        "begin": "\"(variant)\"\\s*:",
+        "beginCaptures": {
+          "1": { "name": "keyword.other.sublimebuild" }
+        },
+        "end": "(?<=\\})",
+        "name": "meta.definition.variant.sublimebuild",
+        "patterns": [
+          { "include": "#cmd" },
+          { "include": "#env" },
+          { "include": "#path" },
+          { "include": "#name" },
+          { "match": "{" },
+          { "include": "source.jsongenericobject" },
+          { "match": "}" }
         ]
       },
       "env": {

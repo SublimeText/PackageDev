@@ -40,7 +40,7 @@
 		<key>completionsList</key>
 		<dict>
 			<key>begin</key>
-			<string>"(completions)"\s*?:\s*?\[</string>
+			<string>"(completions)"\s*?:\s*?</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -52,9 +52,13 @@
 			<key>contentName</key>
 			<string>meta.completions.array.sublimecompletions</string>
 			<key>end</key>
-			<string>\]</string>
+			<string>(?&lt;=\])</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>match</key>
+					<string>\[</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>#triggerCompletion</string>
