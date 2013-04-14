@@ -27,7 +27,7 @@
         "beginCaptures": {
             "1": { "name": "keyword.other.sublimekeymap"}
         },
-        "end": "\\],",
+        "end": "\\]",
         "patterns": [
           { "begin": "(\")",
             "beginCaptures": {
