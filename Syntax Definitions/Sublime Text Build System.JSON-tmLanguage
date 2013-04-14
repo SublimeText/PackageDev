@@ -21,9 +21,6 @@
             { "include": "#shell" },
             { "include": "#variant" },
             { "include": "source.jsongenericobject" },
-            { "match": "(?<!\\}|\"|\\]),",
-              "name": "invalid.illegal.separator.sublimebuild"
-            },
             { "match": ",{2,}",
               "name": "invalid.illegal.character.sublimebuild"
             },

@@ -73,12 +73,6 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>(?&lt;!\}|"|\]),</string>
-					<key>name</key>
-					<string>invalid.illegal.separator.sublimebuild</string>
-				</dict>
-				<dict>
-					<key>match</key>
 					<string>,{2,}</string>
 					<key>name</key>
 					<string>invalid.illegal.character.sublimebuild</string>
