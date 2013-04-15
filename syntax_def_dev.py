@@ -19,7 +19,7 @@ from scope_data import COMPILED_HEADS
 
 PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]  # os.path.abspath(os.path.dirname(__file__))
 
-BASE_SYNTAX_LANGUAGE = "Packages/%s/Support/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
+BASE_SYNTAX_LANGUAGE = "Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
 
 
 # XXX: Move this to a txt file. Let user define his own under User too.
@@ -27,9 +27,11 @@ boilerplates = dict(
     json="""{ "name": "${1:Syntax Name}",
   "scopeName": "source.${2:syntax_name}",
   "fileTypes": ["$3"],
-  "patterns": [$0
-  ],
-  "uuid": "%s"
+  "uuid": "%s",
+
+  "patterns": [
+    $0
+  ]
 }""",
     yaml="""---
 name: ${1:Syntax Name}
@@ -39,7 +41,28 @@ uuid: %s
 
 patterns:
 - $0
-..."""
+...""",
+    plist="""<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>name</key>
+    <string>${1:Syntax Name}</string>
+    <key>scopeName</key>
+    <string>source.${2:syntax_name}</string>
+    <key>fileTypes</key>
+    <array>
+        <string>$3</string>
+    </array>
+    <key>uuid</key>
+    <string>%s</string>
+
+    <key>patterns</key>
+    <array>
+        $0
+    </array>
+</dict>
+</plist>"""
 )
 
 
@@ -60,6 +83,10 @@ class NewJsonSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand)
 
 class NewYamlSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand):
     typ = "yaml"
+
+
+class NewPlistSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand):
+    typ = "plist"
 
 
 class NewSyntaxDefToBufferCommand(object):
@@ -85,6 +112,17 @@ class NewJsonSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugi
 
 class NewYamlSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
     typ = "yaml"
+
+
+class NewPlistSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
+    typ = "plist"
+
+    def run(self, edit):
+        self.view.settings().set('default_dir', root_at_packages('User'))
+        self.view.settings().set('syntax', "Packages/XML/XML.tmLanguage")
+
+        with in_one_edit(self.view):
+            self.view.run_command('insert_snippet', {'contents': boilerplates[self.typ] % uuid.uuid4()})
 
 
 ###############################################################################

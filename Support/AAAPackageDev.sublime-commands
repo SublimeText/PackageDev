@@ -3,10 +3,13 @@
     { "caption": "z:AAAPackageDev: New Raw Snippet from Snippet", "command": "new_raw_snippet_from_snippet" },
     { "caption": "z:AAAPackageDev: Generate Snippet from Raw Snippet", "command": "generate_snippet_from_raw_snippet" },
 
-    { "caption": "z:AAAPackageDev: New JSON Syntax Definition", "command": "new_json_syntax_def" },
-    { "caption": "z:AAAPackageDev: New YAML Syntax Definition", "command": "new_yaml_syntax_def" },
-    { "caption": "z:AAAPackageDev: New JSON Syntax Definition to Buffer", "command": "new_yaml_syntax_def_to_buffer" },
-    { "caption": "z:AAAPackageDev: New YAML Syntax Definition to Buffer", "command": "new_yaml_syntax_def_to_buffer" },
+    { "caption": "z:AAAPackageDev: New JSON Syntax Definition",  "command": "new_json_syntax_def" },
+    { "caption": "z:AAAPackageDev: New YAML Syntax Definition",  "command": "new_yaml_syntax_def" },
+    { "caption": "z:AAAPackageDev: New PList Syntax Definition", "command": "new_plist_syntax_def" },
+
+    { "caption": "z:AAAPackageDev: New JSON Syntax Definition to Buffer",  "command": "new_yaml_syntax_def_to_buffer" },
+    { "caption": "z:AAAPackageDev: New YAML Syntax Definition to Buffer",  "command": "new_yaml_syntax_def_to_buffer" },
+    { "caption": "z:AAAPackageDev: New PList Syntax Definition to Buffer", "command": "new_plist_syntax_def_to_buffer" },
 
     { "caption": "z:AAAPackageDev: Rearrange YAML Syntax Definition", "command": "rearrange_yaml_syntax_def" },
 
