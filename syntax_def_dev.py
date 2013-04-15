@@ -24,7 +24,8 @@ BASE_SYNTAX_LANGUAGE = "Packages/%s/Syntax Definitions/Sublime Text Syntax Def (
 
 # XXX: Move this to a txt file. Let user define his own under User too.
 boilerplates = dict(
-    json="""{ "name": "${1:Syntax Name}",
+    json="""// [PackageDev] target_format: plist, ext: tmLanguage
+    { "name": "${1:Syntax Name}",
   "scopeName": "source.${2:syntax_name}",
   "fileTypes": ["$3"],
   "uuid": "%s",
@@ -33,7 +34,8 @@ boilerplates = dict(
     $0
   ]
 }""",
-    yaml="""---
+    yaml="""# [PackageDev] target_format: plist, ext: tmLanguage
+---
 name: ${1:Syntax Name}
 scopeName: source.${2:syntax_name}
 fileTypes: [$3]
