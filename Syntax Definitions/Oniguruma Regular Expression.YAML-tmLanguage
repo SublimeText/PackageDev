@@ -1,3 +1,4 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
 ---
 name: Oniguruma Regular Expression
 comment: 'Version 5.9.1 2007/09/05, Specification used: http://www.geocities.jp/kosako3/oniguruma/doc/RE.txt'
@@ -110,7 +111,7 @@ repository:
     - include: '#special_escapes'
     - include: '#escaped_char'
     - name: constant.other.range.regexp
-      match: .-.
+      match: .-[^\]]
     - name: keyword.operator.intersection.regexp
       match: (?<!\[)&&(?!\])
 
