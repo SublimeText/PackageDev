@@ -130,7 +130,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:, +|\{ *|^  +(?:\- +)?)((["']?)((?:(?:begin|end)C|c)aptures)(\2))(:)</string>
+			<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)((?:(?:begin|end)C|c)aptures)(\2))(:)</string>
 			<key>name</key>
 			<string>meta.captures.yaml-tmlanguage</string>
 		</dict>
@@ -200,7 +200,7 @@
 			<key>comment</key>
 			<string>this is a "test" comment</string>
 			<key>match</key>
-			<string>(?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})</string>
+			<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})</string>
 			<key>name</key>
 			<string>meta.comment-from-key.yaml-tmlanguage</string>
 		</dict>
@@ -495,7 +495,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:, +|\{ *|^  +|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)</string>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -599,7 +599,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:, +|\{ *|^  +|^ *- +)((["']?)(contentName|name)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
+			<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(contentName|name)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
 			<key>name</key>
 			<string>meta.name.yaml-tmlanguage</string>
 		</dict>
@@ -719,7 +719,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:, +|\{ *|^  +(?:\- +)?|\G)((["']?)(patterns)(\2))(:)</string>
+			<string>(?:, +|\{ *|^ *|^ *- +)((["']?)(patterns)(\2))(:)</string>
 			<key>name</key>
 			<string>meta.patterns.yaml-tmlanguage</string>
 		</dict>

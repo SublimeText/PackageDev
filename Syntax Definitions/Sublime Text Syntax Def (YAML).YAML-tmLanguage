@@ -73,6 +73,7 @@ repository:
       '3': {name: keyword.other.uuid.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
+
       #'6': {name: string.other.quoted-or-unquoted.yaml-tmlanguage} # "string constant" is assigned by certain color schemes
       '7': {name: punctuation.definition.string.yaml-tmlanguage}
       '8': {name: constant.numeric.uuid.yaml-tmlanguage}
@@ -90,6 +91,7 @@ repository:
       '3': {name: keyword.other.name.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
+
       '6': {name: entity.other.name.yaml-tmlanguage}
       '7': {name: punctuation.definition.string.yaml-tmlanguage}
       '8': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -103,6 +105,7 @@ repository:
       '3': {name: keyword.other.name.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
+
       '6': {name: meta.value.yaml-tmlanguage string.other.quoted-or-unquoted.yaml-tmlanguage}
       '7': {name: punctuation.definition.string.yaml-tmlanguage}
       '8': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -195,7 +198,7 @@ repository:
 # in-block special keys
   name:
     name: meta.name.yaml-tmlanguage
-    match: (?:, +|\{ *|^  +|^ *- +)((["']?)(contentName|name)(\2))(:) +((["']?)[-\w\. ]*(\7))
+    match: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(contentName|name)(\2))(:) +((["']?)[-\w\. ]*(\7))
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -230,7 +233,7 @@ repository:
     # TODO: consider " and ' separately as they use different escape mechanisms actually
     - name: meta.match.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: (?:, +|\{ *|^  +|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)
+      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -269,7 +272,7 @@ repository:
   comment-from-key:
     name: meta.comment-from-key.yaml-tmlanguage
     # again, please do not use "' if not for denoting a string
-    match: (?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})
+    match: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})
     comment: this is a "test" comment # and this is a real comment
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
@@ -285,7 +288,7 @@ repository:
 # dict keys
   captures:
     name: meta.captures.yaml-tmlanguage
-    match: (?:, +|\{ *|^  +(?:\- +)?)((["']?)((?:(?:begin|end)C|c)aptures)(\2))(:)
+    match: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)((?:(?:begin|end)C|c)aptures)(\2))(:)
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -295,7 +298,8 @@ repository:
 
   patterns:
     name: meta.patterns.yaml-tmlanguage
-    match: (?:, +|\{ *|^  +(?:\- +)?|\G)((["']?)(patterns)(\2))(:)
+    # "patterns" is the only key that is also allowed (required) in global scope
+    match: (?:, +|\{ *|^ *|^ *- +)((["']?)(patterns)(\2))(:)
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
