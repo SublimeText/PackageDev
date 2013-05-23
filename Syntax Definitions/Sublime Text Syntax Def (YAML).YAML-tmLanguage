@@ -273,7 +273,8 @@ repository:
   comment-from-key:
     name: meta.comment-from-key.yaml-tmlanguage
     # again, please do not use "' if not for denoting a string
-    match: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})
+    # "commet" is one of the 2 keys that are also allowed in global scope
+    match: (?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})
     comment: this is a "test" comment # and this is a real comment
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
@@ -299,7 +300,7 @@ repository:
 
   patterns:
     name: meta.patterns.yaml-tmlanguage
-    # "patterns" is the only key that is also allowed (required) in global scope
+    # "patterns" is one of the 2 keys that are also allowed (required) in global scope
     match: (?:, +|\{ *|^ *|^ *- +)((["']?)(patterns)(\2))(:)
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}

@@ -200,7 +200,7 @@
 			<key>comment</key>
 			<string>this is a "test" comment</string>
 			<key>match</key>
-			<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})</string>
+			<string>(?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})</string>
 			<key>name</key>
 			<string>meta.comment-from-key.yaml-tmlanguage</string>
 		</dict>
