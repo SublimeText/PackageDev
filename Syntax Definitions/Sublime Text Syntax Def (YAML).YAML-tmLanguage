@@ -44,8 +44,8 @@ patterns:
 # match for comments again after consuming the other sequences
 - include: '#comment'
 
-# some unmatched list entries (e.g. before "{") and commas at line ends
-- match: '^ *- |,(?= *$| +#)'
+# unmatched but (probably) valid stuff
+- include: '#unmatched'
 
 # consider everything else as illegal
 - include: '#illegal'
@@ -193,6 +193,7 @@ repository:
         - include: '#number-key'
 
         - include: '#comment'
+        - include: '#unmatched'
         - include: '#illegal'
 
 # in-block special keys
@@ -339,6 +340,10 @@ repository:
       '3': {name: variable.other.repository-key.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+  unmatched:
+    # unmatched list entries (e.g. before "{") and commas before newlines
+    match: ^ *- |,(?= *$| +#)
 
   illegal:
     name: invalid.illegal.unrecognized.yaml-tmlanguage

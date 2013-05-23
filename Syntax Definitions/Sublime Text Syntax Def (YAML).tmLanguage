@@ -89,8 +89,8 @@
 			<string>#comment</string>
 		</dict>
 		<dict>
-			<key>match</key>
-			<string>^ *- |,(?= *$| +#)</string>
+			<key>include</key>
+			<string>#unmatched</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -840,6 +840,10 @@
 						</dict>
 						<dict>
 							<key>include</key>
+							<string>#unmatched</string>
+						</dict>
+						<dict>
+							<key>include</key>
 							<string>#illegal</string>
 						</dict>
 					</array>
@@ -955,6 +959,11 @@
 			<string>(?:,|\{ *|^)((["']?)(scopeName)(\2))(:) +((["']?)[-\w\. ]*(\7))</string>
 			<key>name</key>
 			<string>meta.scope-name.yaml-tmlanguage</string>
+		</dict>
+		<key>unmatched</key>
+		<dict>
+			<key>match</key>
+			<string>^ *- |,(?= *$| +#)</string>
 		</dict>
 		<key>uuid</key>
 		<dict>
