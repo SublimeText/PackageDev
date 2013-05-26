@@ -10,7 +10,7 @@ def main():
     import sys
     import os
     import string
-    from types import *
+    from types import TupleType
     from glob import glob
     import subprocess
 
@@ -19,7 +19,8 @@ def main():
     from distutils.core import setup
     from distutils.text_file import TextFile
     from distutils.filelist import FileList
-    from distutils.errors import *
+    from distutils.errors import (DistutilsExecError, DistutilsPlatformError,
+                                  DistutilsOptionError, DistutilsTemplateError)
     from distutils.spawn import spawn
     from distutils.dir_util import mkpath
 
