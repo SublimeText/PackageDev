@@ -103,7 +103,7 @@ class OutputPanel(object):
         """
         if path is not None:
             self.settings.result_base_dir = path
-        # Also update the file_regex
+        # Also always update the file_regex
         self.set_regex(file_regex, line_regex)
 
     def set_regex(self, file_regex=None, line_regex=None):
@@ -119,6 +119,10 @@ class OutputPanel(object):
             self.line_regex = line_regex
         if hasattr(self, 'line_regex'):
             self.settings.result_line_regex = self.line_regex
+
+        # Call get_output_panel again after assigning the above
+        # settings, so that "next_result" and "prev_result" work.
+        self.view = self.window.get_output_panel(self.panel_name)
 
     def write(self, text):
         """Appends ``text`` to the output panel.

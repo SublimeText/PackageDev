@@ -51,11 +51,7 @@ def strip_js_comments(string):
     parts = re_js_comments.findall(string)
     # Stripping the whitespaces is, of course, optional, but the columns are fucked up anyway
     # with the comments being removed and it doesn't break things.
-    return ''.join([x[0].strip(' ') for x in parts])
-
-
-def _join_multiline(string):
-    return " ".join([line.strip() for line in string.split("\n")])
+    return ''.join(x[0].strip(' ') for x in parts)
 
 ###############################################################################
 
@@ -374,15 +370,15 @@ class YAMLLoader(LoaderProto):
     comment = "#"
     scope   = "source.yaml"
     debug_base = "Error parsing YAML: %s"
-    file_regex = re.escape(debug_base).replace(r'\%', '%') % r'.+? in "(.*?)", line (\d+), column (\d+)'
+    file_regex = r'^ +in "(.*?)", line (\d+), column (\d+)'
 
     def parse(self, *args, **kwargs):
         text = get_text(self.view)
         try:
             data = yaml.safe_load(text)
         except yaml.YAMLError, e:
-            out = self.debug_base % _join_multiline(str(e))
-            self.output.write_line(out.replace("<unicode string>", self.file_path))
+            out = self.debug_base % str(e).replace("<unicode string>", self.file_path)
+            self.output.write_line(out)
         except IOError, e:
             self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
         else:
