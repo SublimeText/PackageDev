@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""
-A `Property Lists`_ is a data representation used in Apple's Mac OS X as
+"""A `Property Lists`_ is a data representation used in Apple's Mac OS X as
 a convenient way to store standard object types, such as string, number,
 boolean, and container object.
 
@@ -13,6 +12,14 @@ a property list file and get back a python native data structure.
 .. _Property Lists: http://developer.apple.com/documentation/Cocoa/Conceptual/PropertyLists/
 """
 
+import re
+import sys
+
+
+if sys.version_info >= (3,):
+    # Some forwards compatability
+    basestring = str
+
 
 class PropertyListParseError(Exception):
     """Raised when parsing a property list is failed."""
@@ -20,8 +27,7 @@ class PropertyListParseError(Exception):
 
 
 class XmlPropertyListParser(object):
-    """
-    The ``XmlPropertyListParser`` class provides methods that
+    """The ``XmlPropertyListParser`` class provides methods that
     convert `Property Lists`_ objects from xml format.
     Property list objects include ``string``, ``unicode``,
     ``list``, ``dict``, ``datetime``, and ``int`` or ``float``.
@@ -174,7 +180,6 @@ class XmlPropertyListParser(object):
     # Contents should conform to a subset of ISO 8601
     # (in particular, YYYY '-' MM '-' DD 'T' HH ':' MM ':' SS 'Z'.
     # Smaller units may be omitted with a loss of precision)
-    import re
     DATETIME_PATTERN = re.compile(r"(?P<year>\d\d\d\d)(?:-(?P<month>\d\d)(?:-(?P<day>\d\d)(?:T(?P<hour>\d\d)(?::(?P<minute>\d\d)(?::(?P<second>\d\d))?)?)?)?)?Z$")
 
     def _parse_date(self, name, content):
@@ -256,7 +261,7 @@ class XmlPropertyListParser(object):
                     if name in XmlPropertyListParser.PARSE_CALLBACKS:
                         XmlPropertyListParser.PARSE_CALLBACKS[name](self, name, element.text or "")
                     element.clear()
-        except SyntaxError, e:
+        except SyntaxError as e:
             raise PropertyListParseError(e)
 
         self.endDocument()
@@ -270,14 +275,13 @@ class XmlPropertyListParser(object):
         reader.setContentHandler(self)
         try:
             reader.parse(source)
-        except SAXParseException, e:
+        except SAXParseException as e:
             raise PropertyListParseError(e)
 
         return self.__plist
 
     def parse(self, xml_input):
-        """
-        Parse the property list (`.plist`, `.xml, for example) ``xml_input``,
+        """Parse the property list (`.plist`, `.xml, for example) ``xml_input``,
         which can be either a string or a file-like object.
 
         >>> parser = XmlPropertyListParser()
@@ -293,19 +297,14 @@ class XmlPropertyListParser(object):
             return self._parse_using_sax_parser(xml_input)
 
 
-if __name__ == '__main__':
-    # doctest, and parse .plist specified by ARGV[1]
-    #
-    # For example, parsing iTunes Liberary on your mac.
-    # % python ./plist_parser.py ~/"Music/iTunes/iTunes Music Library.xml"
-    #
-    import sys
-    import doctest
-    doctest.testmod()
+def parse_string(io_or_string):
+    """Parse a string (or a stream) and return the resulting object.
+    """
+    return XmlPropertyListParser().parse(io_or_string)
 
-    if len(sys.argv) > 1:
-        xmlin = open(sys.argv[1])
-        try:
-            print XmlPropertyListParser().parse(xmlin),
-        finally:
-            xmlin.close()
+
+def parse_file(file_path):
+    """Parse the specified file and return the resulting object.
+    """
+    with open(file_path) as f:
+        return XmlPropertyListParser().parse(f)
