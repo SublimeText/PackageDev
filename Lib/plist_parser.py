@@ -13,6 +13,7 @@ a property list file and get back a python native data structure.
 .. _Property Lists: http://developer.apple.com/documentation/Cocoa/Conceptual/PropertyLists/
 """
 
+
 class PropertyListParseError(Exception):
     """Raised when parsing a property list is failed."""
     pass
@@ -40,30 +41,37 @@ class XmlPropertyListParser(object):
     # ------------------------------------------------
     def setDocumentLocator(self, locator):
         pass
+
     def startPrefixMapping(self, prefix, uri):
         pass
+
     def endPrefixMapping(self, prefix):
         pass
+
     def startElementNS(self, name, qname, attrs):
         pass
+
     def endElementNS(self, name, qname):
         pass
+
     def ignorableWhitespace(self, whitespace):
         pass
+
     def processingInstruction(self, target, data):
         pass
+
     def skippedEntity(self, name):
         pass
 
     def startDocument(self):
         self.__stack = []
         self.__plist = self.__key = self.__characters = None
-        # For reducing runtime type checking, 
+        # For reducing runtime type checking,
         # the parser caches top level object type.
         self.__in_dict = False
 
     def endDocument(self):
-        self._assert(self.__plist is not None, "A top level element must be <plist>.")        
+        self._assert(self.__plist is not None, "A top level element must be <plist>.")
         self._assert(
             len(self.__stack) is 0,
             "multiple objects at top level.")
@@ -123,7 +131,7 @@ class XmlPropertyListParser(object):
     def _start_plist(self, name, attrs):
         self._assert(not self.__stack and self.__plist is None, "<plist> more than once.")
         self._assert(attrs.get('version', '1.0') == '1.0',
-            "version 1.0 is only supported, but was '%s'." % attrs.get('version'))
+                     "version 1.0 is only supported, but was '%s'." % attrs.get('version'))
 
     def _start_array(self, name, attrs):
         v = list()
@@ -163,7 +171,7 @@ class XmlPropertyListParser(object):
 
     # http://www.apple.com/DTDs/PropertyList-1.0.dtd says:
     #
-    # Contents should conform to a subset of ISO 8601 
+    # Contents should conform to a subset of ISO 8601
     # (in particular, YYYY '-' MM '-' DD 'T' HH ':' MM ':' SS 'Z'.
     # Smaller units may be omitted with a loss of precision)
     import re
@@ -171,7 +179,7 @@ class XmlPropertyListParser(object):
 
     def _parse_date(self, name, content):
         import datetime
-        
+
         units = ('year', 'month', 'day', 'hour', 'minute', 'second', )
         pattern = XmlPropertyListParser.DATETIME_PATTERN
         match = pattern.match(content)
@@ -230,7 +238,7 @@ class XmlPropertyListParser(object):
             return io_or_string
         else:
             raise TypeError('Can\'t convert %s to file-like-object' % type(io_or_string))
-        
+
     def _parse_using_etree(self, xml_input):
         from xml.etree.cElementTree import iterparse
 
@@ -255,8 +263,7 @@ class XmlPropertyListParser(object):
         return self.__plist
 
     def _parse_using_sax_parser(self, xml_input):
-        from xml.sax import make_parser, handler, xmlreader, \
-                            SAXParseException
+        from xml.sax import make_parser, xmlreader, SAXParseException
         source = xmlreader.InputSource()
         source.setByteStream(self._to_stream(xml_input))
         reader = make_parser()
@@ -272,7 +279,7 @@ class XmlPropertyListParser(object):
         """
         Parse the property list (`.plist`, `.xml, for example) ``xml_input``,
         which can be either a string or a file-like object.
-        
+
         >>> parser = XmlPropertyListParser()
         >>> parser.parse(r'<plist version="1.0">'
         ...              r'<dict><key>Python</key><string>.py</string></dict>'
