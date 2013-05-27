@@ -166,7 +166,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
             (lambda x: isinstance(x, dict), do_sort),
         ))
 
-    def dump(self, data, sort=True, sort_order=False, sort_numeric=True, *args, **kwargs):
+    def dump(self, data, sort=True, sort_order=None, sort_numeric=True, *args, **kwargs):
         self.output.write_line("Sorting %s..." % self.name)
         self.output.show()
         if sort:
@@ -207,15 +207,18 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 beginCaptures, end, endCaptures, match, captures, include,
                 patterns, repository
 
-            remove_single_maps (bool) = True
-                This will in fact turn the "  - {include: '#something'}" lines
-                into "  - include: '#something'", which is also valid YAML.
-                Be careful inside multi-line strings because this is just a
-                simple regexp that's safe for usual syntax definitions.
+            remove_single_line_maps (bool) = True
+                This will in fact turn the "- {include: '#something'}" lines
+                into "- include: '#something'".
+                Also splits mappings like "- {name: anything, match: .*}" to
+                multiple lines.
+
+                Be careful though because this is just a
+                simple regexp that's safe for *usual* syntax definitions.
 
         Other parameters will be forwarded to yaml.dump (if they are valid).
     """
-    sort_order = """comment
+    default_order = """comment
         name scopeName contentName fileTypes uuid
         begin beginCaptures end endCaptures match captures include
         patterns repository""".split()
@@ -223,7 +226,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
     def is_visible(self):
         return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
 
-    def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_maps=True, **kwargs):
+    def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True, **kwargs):
         # Check the environment (view, args, ...)
         if self.view.is_scratch():
             return
@@ -231,7 +234,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         # Collect parameters
         file_path = self.view.file_name()
         if sort_order is None:
-            sort_order = self.sort_order
+            sort_order = self.default_order
         vp = get_viewport_coords(self.view)
 
         output = OutputPanel(self.view.window() or sublime.active_window(), "aaa_package_dev")
@@ -246,7 +249,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         try:
             data = loader.load()
         except NotImplementedError, e:
-            # use NotImplementedError to make the handler report the message as it pleases
+            # Use NotImplementedError to make the handler report the message as it pleases
             output.write_line(str(e))
             self.status(str(e), file_path)
 
@@ -259,10 +262,32 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         if not text:
             self.status("Error re-dumping the data.")
 
-        if remove_single_maps:
-            # Remove the {} for single list mappings (as a list entry)
-            # this does not support all YAML syntaxes but is useful for lang defs
-            text = re.sub(r"(?m)^(\s*- )\{([\w-]+: [^,\}]*)\}$", r"\1\2", text)
+        if remove_single_line_maps:
+            # For the sake of simplicity these regexps are pretty inaccurate but should work in most cases
+            # Please fix the stuff yourself if you encounter problems or PR better regexps
+            #
+            # 1.3 - Remove the {} for single list mappings
+            # Go from 3 to 1 to not match "too much"
+            text = re.sub(r"(?m)^(\s*)- \{([\w-]+: .*), ([\w-]+: .*), ([\w-]+: .*)\}$",
+                          r"\1- \2\n\1  \3\n\1  \4", text)
+
+            # 1.2 - Similar to above but with two entries
+            text = re.sub(r"(?m)^(\s*)- \{([\w-]+: .*), ([\w-]+: .*)\}$",
+                          r"\1- \2\n\1  \3", text)
+            # 1.1 - This time with one entry, you know the deal
+            text = re.sub(r"(?m)^(\s*)- \{([\w-]+: .*)\}$",
+                          r"\1- \2", text)
+
+            # 2.3 - Here we are hunting for mappings in a mapping value
+            # Try not to match "'1': {name: s}"" capture groups
+            text = re.sub(r"(?m)^(\s*)((?!['\"]\d+['\"])[\w-]+:) \{([\w-]+: .*), ([\w-]+: .*), ([\w-]+: .*)\}$",
+                          r"\1\2\n\1  \3\n\1  \4\n\1  \5", text)
+            # 2.2
+            text = re.sub(r"(?m)^(\s*)((?!['\"]\d+['\"])[\w-]+:) \{([\w-]+: .*), ([\w-]+: .*)\}$",
+                          r"\1\2\n\1  \3\n\1  \4", text)
+            # 2.1
+            text = re.sub(r"(?m)^(\s*)((?!['\"]\d+['\"])[\w-]+:) \{([\w-]+: .*)\}$",
+                          r"\1\2\n\1  \3", text)
 
         # Finish
         self.view.replace(edit, Region(0, self.view.size()), text)
