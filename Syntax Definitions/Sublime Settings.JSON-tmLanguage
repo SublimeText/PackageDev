@@ -9,11 +9,11 @@
       "begin": "/\\*",
       "end": "\\*/"
     },
-  	{  "match": "\"([a-z0-9_.*-]+)\"\\s*?:",
-  	   "captures": {
-  	       "1": { "name": "keyword.other.name.sublime-settings" }
-  	   }
-  	},
+    {  "match": "\"([a-z0-9_.*-]+)\"\\s*?:",
+       "captures": {
+           "1": { "name": "keyword.other.name.sublime-settings" }
+       }
+    },
 
     // { "include": "source.jsongenericarray" },
     { "include": "source.jsongenericarrayelements" }

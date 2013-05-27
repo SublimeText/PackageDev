@@ -3,13 +3,13 @@
 
 import yaml
 
-from yaml.loader      import SafeLoader, Loader
-from yaml.dumper      import SafeDumper
+from yaml.loader import SafeLoader, Loader
+from yaml.dumper import SafeDumper
 from yaml.constructor import *
 
 try:
     # included in standard lib from Python 2.7
-    # note: Sublime Text uses 2.6; this will fail
+    # note: Sublime Text 2 uses 2.6; this will fail
     from collections import OrderedDict
 except ImportError:
     # try importing the backported drop-in replacement
@@ -62,10 +62,14 @@ class OrderedDictSafeLoader(BaseOrderedDictLoader, SafeLoader):
 
 
 def add_ordereddict_constructor(cls):
-    cls.add_constructor(u'tag:yaml.org,2002:map',
-            cls.construct_yaml_map)
-    cls.add_constructor(u'tag:yaml.org,2002:omap',
-            cls.construct_yaml_map)
+    cls.add_constructor(
+        u'tag:yaml.org,2002:map',
+        cls.construct_yaml_map
+    )
+    cls.add_constructor(
+        u'tag:yaml.org,2002:omap',
+        cls.construct_yaml_map
+    )
 
 add_ordereddict_constructor(OrderedDictLoader)
 add_ordereddict_constructor(OrderedDictSafeLoader)
@@ -80,9 +84,13 @@ class OrderedDictSafeDumper(SafeDumper):
         # Bypass the sorting in represent_mapping
         return self.represent_mapping(u'tag:yaml.org,2002:map', data.items())
 
-OrderedDictSafeDumper.add_representer(OrderedDict,
-        OrderedDictSafeDumper.represent_ordereddict)
+OrderedDictSafeDumper.add_representer(
+    OrderedDict,
+    OrderedDictSafeDumper.represent_ordereddict
+)
 
 # Add representer to the default dumper
-yaml.add_representer(OrderedDict,
-        OrderedDictSafeDumper.represent_ordereddict)
+yaml.add_representer(
+    OrderedDict,
+    OrderedDictSafeDumper.represent_ordereddict
+)

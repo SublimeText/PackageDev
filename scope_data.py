@@ -1,4 +1,6 @@
 # https://manual.macromates.com/en/language_grammars#naming_conventions
+__all__ = ["COMPILED_NODES", "COMPILED_HEADS"]
+
 DATA = """
     comment
         line
@@ -77,10 +79,12 @@ DATA = """
 
 
 class NodeList(list):
-    #Methods:
-    # find(name)
-    # fine_all(name)
-    # to_completion()
+    """
+    Methods:
+        * find(name)
+        * fine_all(name)
+        * to_completion()
+    """
     def find(self, name):
         for node in self:
             if node == name:
@@ -104,14 +108,16 @@ COMPILED_HEADS = NodeList()
 
 
 class ScopeNode(object):
-    #Attributes:
-    # name
-    # parent
-    # children
-    # level | unused
-    #Methods:
-    # add_child(child)
-    # tree()
+    """
+    Attributes:
+        * name
+        * parent
+        * children
+        * level | unused
+    Methods:
+        * add_child(child)
+        * tree()
+    """
 
     def __init__(self, name, parent=None, children=None):
         self.name = name
@@ -140,12 +146,11 @@ class ScopeNode(object):
     def __repr__(self):
         ret = self.name
         if self.children:
-            ret += " {"
-            for child in self.children:
-                ret += repr(child) + ' '
-            ret = ret[:-1] + "}"
+            ret += " {%s}" % ' '.join(repr(child) for child in self.children)
         return ret
 
+
+#######################################
 
 # parse the DATA string
 lines = DATA.split("\n")
@@ -179,4 +184,5 @@ for line in lines:
         parent.add_child(node)
     else:
         COMPILED_HEADS.append(node)
+
     COMPILED_NODES.append(node)
