@@ -8,11 +8,10 @@ from sublime import Region, packages_path, INHIBIT_WORD_COMPLETIONS
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
-from sublime_lib.view import (OutputPanel, in_one_edit, base_scope,
-                              get_viewport_coords, set_viewport, extract_selector)
+from sublime_lib.view import OutputPanel, base_scope, get_viewport_coords, set_viewport, extract_selector
 
 from ordereddict import OrderedDict
-from ordereddict_yaml import *
+from ordereddict_yaml import OrderedDictSafeDumper
 
 from fileconv import *
 from scope_data import COMPILED_HEADS
@@ -95,6 +94,7 @@ class NewSyntaxDefToBufferCommand(object):
     """Inserts boilerplate text for syntax defs into current view.
     """
     typ = ""
+    lang = None
 
     def is_enabled(self):
         # Don't mess up a non-empty buffer.
@@ -102,10 +102,9 @@ class NewSyntaxDefToBufferCommand(object):
 
     def run(self, edit):
         self.view.settings().set('default_dir', root_at_packages('User'))
-        self.view.settings().set('syntax', BASE_SYNTAX_LANGUAGE % self.typ.upper())
+        self.view.settings().set('syntax', self.lang or BASE_SYNTAX_LANGUAGE % self.typ.upper())
 
-        with in_one_edit(self.view):
-            self.view.run_command('insert_snippet', {'contents': boilerplates[self.typ] % uuid.uuid4()})
+        self.view.run_command('insert_snippet', {'contents': boilerplates[self.typ] % uuid.uuid4()})
 
 
 class NewJsonSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
@@ -118,13 +117,7 @@ class NewYamlSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugi
 
 class NewPlistSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
     typ = "plist"
-
-    def run(self, edit):
-        self.view.settings().set('default_dir', root_at_packages('User'))
-        self.view.settings().set('syntax', "Packages/XML/XML.tmLanguage")
-
-        with in_one_edit(self.view):
-            self.view.run_command('insert_snippet', {'contents': boilerplates[self.typ] % uuid.uuid4()})
+    lang = "Packages/XML/XML.tmLanguage"
 
 
 ###############################################################################
@@ -306,9 +299,11 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         self.base_completions = completions
 
     def on_query_completions(self, view, prefix, locations):
-        # locations usually has only one entry
-        loc = locations[0]
+        # We can't work with multiple selections here
+        if len(locations) > 1:
+            return []
 
+        loc = locations[0]
         if not view.match_selector(loc, "source.yaml-tmlanguage"):
             return []
 
@@ -326,13 +321,15 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                 view.match_selector(loc - 2, "meta.name keyword.control.definition")):
             reg = extract_selector(view, "meta.name meta.value string", loc)
             if reg:
-                # Tokenize the current selector
+                # Tokenize the current selector (only to the cursor)
                 text = view.substr(reg)
                 pos = loc - reg.begin()
                 scope = re.search(r"[\w\-_.]+$", text[:pos])
                 tokens = scope and scope.group(0).split(".") or ""
+
                 if len(tokens) > 1:
-                    del tokens[-1]  # The last token is either incomplete or does not exist
+                    del tokens[-1]  # The last token is either incomplete or empty
+
                     # Browse the nodes and their children
                     nodes = COMPILED_HEADS
                     for i, token in enumerate(tokens):
@@ -340,25 +337,30 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                         if not node:
                             print("[PackageDev] Warning: `%s` not found in scope naming conventions"
                                   % '.'.join(tokens[:i + 1]))
-                            return inhibit([])
+                            break
                         nodes = node.children
                         if not nodes:
                             break
 
-                    if nodes:
+                    if nodes and node:
                         return inhibit(nodes.to_completion())
                     else:
                         print("[PackageDev] No nodes available in scope naming conventions after `%s`"
                               % '.'.join(tokens))
-                        # Search for the base scope appendix
+                        # Search for the base scope appendix/suffix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:
                             print("[PackageDev] Warning: Could not find base scope")
-                            return inhibit([])
+                            return []
 
                         base_scope = view.substr(regs[0]).strip("\"'")
-                        tokens = base_scope.split('.')
-                        return inhibit([(tokens[-1], tokens[-1])])
+                        base_suffix = base_scope.split('.')[-1]
+                        # Only useful when the base scope suffix is not already the last one
+                        # In this case it is even useful to inhibit other completions completely
+                        if tokens[-1] == base_suffix:
+                            return inhibit([])
+
+                        return inhibit([(base_suffix,) * 2])
 
             # Just return all the head nodes
             return inhibit(COMPILED_HEADS.to_completion())
@@ -366,7 +368,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         # Check if triggered by a "."
         if view.substr(loc - 1) == ".":
             # Due to "." being set as a trigger this should not be computed after the block above
-            return inhibit([])
+            return []
 
         # Auto-completion for include values using the repository keys
         if view.match_selector(loc, "meta.include meta.value string, variable.other.include"):
