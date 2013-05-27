@@ -216,6 +216,15 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 Be careful though because this is just a
                 simple regexp that's safe for *usual* syntax definitions.
 
+            insert_newlines (bool) = True
+                Add newlines where appropriate to make the whole data appear
+                better organized.
+
+                Essentially add a new line:
+                - before global "patterns" key
+                - before global "repository" key
+                - before every repository key except for the first
+
         Other parameters will be forwarded to yaml.dump (if they are valid).
     """
     default_order = """comment
@@ -226,7 +235,8 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
     def is_visible(self):
         return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
 
-    def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True, **kwargs):
+    def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True,
+            insert_newlines=True, **kwargs):
         # Check the environment (view, args, ...)
         if self.view.is_scratch():
             return
@@ -289,8 +299,33 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             text = re.sub(r"(?m)^(\s*)((?!['\"]\d+['\"])[\w-]+:) \{([\w-]+: .*)\}$",
                           r"\1\2\n\1  \3", text)
 
-        # Finish
+        # Replace the whole buffer
         self.view.replace(edit, Region(0, self.view.size()), text)
+
+        # Insert the new lines using the syntax definition (which has hopefully been set)
+        if insert_newlines:
+            def collect_regs(sel, first=True):
+                regs = self.view.find_by_selector(sel)
+                if not regs:
+                    return []
+                if not first:
+                    return regs[1:]
+                return regs[:1]
+
+            regs = (
+                collect_regs('meta.patterns - meta.repository-block')
+                + collect_regs('meta.repository-block')
+                + collect_regs('meta.repository-block meta.repository-key', False)
+            )
+            print(regs)
+            # Iterate in reverse order to not clash the regions because we will be modifying the source
+            regs.sort()
+            regs.reverse()
+
+            for reg in regs:
+                self.view.insert(edit, reg.begin(), '\n')
+
+        # Finish
         set_viewport(self.view, vp)
         self.finish(output)
 
