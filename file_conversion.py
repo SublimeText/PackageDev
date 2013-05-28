@@ -82,7 +82,7 @@ class ConvertFileCommand(WindowAndTextCommand):
         if target_format and not target_format in dumpers.get:
             return self.status("%s for '%s' not supported/implemented." % ("Dumper", target_format))
 
-        # Now the actual "building" starts
+        # Now the actual "building" starts (collecting remaining parameters)
         output = output or OutputPanel(self.window, "package_dev")
         output.show()
 
@@ -96,14 +96,26 @@ class ConvertFileCommand(WindowAndTextCommand):
                     break
 
             if not source_format:
-                output.write_line("\nCould not detect file type.")
-                return
+                return output.write_line("\nUnable to detect file type.")
             elif target_format == source_format:
-                output.write_line("File already is %s." % loaders.get[source_format].name)
-                return
+                return output.write_line("File already is %s." % loaders.get[source_format].name)
 
         # Load inline options
-        opts = loaders.get[source_format].load_options(self.view)
+        Loader = loaders.get[source_format]
+        opts = Loader.load_options(self.view)
+
+        # Function to determine the new file extension depending on the target format
+        def get_new_ext(target_format):
+            if opts and 'ext' in opts:
+                new_ext = '.' + opts['ext']
+            else:
+                new_ext, prepend_target_format = Loader.get_new_file_ext(self.view)
+                if prepend_target_format:
+                    new_ext = ".%s-%s" % (target_format.upper(), new_ext[1:])
+
+            return (new_ext or '.' + target_format)
+
+        path_tuple = file_path_tuple(file_path)  # This is the latest point possible
 
         if not target_format:
             output.write("No target format specified, searching in file...")
@@ -117,8 +129,11 @@ class ConvertFileCommand(WindowAndTextCommand):
                 # Save stripped-down `items` for later
                 options, items = [], []
                 for itm in self.target_list:
-                    if itm['kwargs']['target_format'] != source_format:
-                        options.append("Convert to: %s" % itm['name'])
+                    # To not clash with function-local "target_format"
+                    target_format_ = itm['kwargs']['target_format']
+                    if target_format_ != source_format:
+                        options.append(["Convert to: %s" % itm['name'],
+                                        path_tuple.base_name + get_new_ext(target_format_)])
                         items.append(itm)
 
                 def on_select(index):
@@ -133,8 +148,8 @@ class ConvertFileCommand(WindowAndTextCommand):
                 self.window.show_quick_panel(options, on_select)
                 return
 
-            target_format = opts["target_format"]
-            # Validate the shit again, this time print to output panel
+            target_format = opts['target_format']
+            # Validate the shit again, but this time print to output panel
             if source_format is not None and target_format == source_format:
                 return output.write_line("\nTarget and source file format are identical. (%s)" % target_format)
 
@@ -145,8 +160,9 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         start_time = time.time()
 
-        # Init the Loader
-        loader = loaders.get[source_format](self.window, self.view, output=output)
+        # Okay, THIS is where the building really starts
+        # Note: loader or dumper errors are not caught in order to receive a nice traceback in the console
+        loader = Loader(self.window, self.view, output=output)
 
         data = None
         try:
@@ -158,14 +174,7 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         if data:
             # Determine new file name
-            if opts and 'ext' in opts:
-                new_ext = '.' + opts["ext"]
-            else:
-                new_ext, prepend_target_format = loader.new_file_ext()
-                if prepend_target_format:
-                    new_ext = ".%s-%s" % (target_format.upper(), new_ext[1:])
-
-            new_file_path = file_path_tuple(file_path).no_ext + (new_ext or '.' + target_format)
+            new_file_path = path_tuple.no_ext + get_new_ext(target_format)
 
             # Init the Dumper
             dumper = dumpers.get[target_format](self.window, self.view, new_file_path, output=output)
