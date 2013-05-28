@@ -56,7 +56,7 @@ class ConvertFileCommand(WindowAndTextCommand):
                      kwargs={"target_format": "yaml", "default_flow_style": False})
             )
 
-    def run(self, source_format=None, target_format=None, *args, **kwargs):
+    def run(self, source_format=None, target_format=None, output=None, *args, **kwargs):
         # If called as a text command...
         self.window = self.window or sublime.active_window()
 
@@ -83,7 +83,7 @@ class ConvertFileCommand(WindowAndTextCommand):
             return self.status("%s for '%s' not supported/implemented." % ("Dumper", target_format))
 
         # Now the actual "building" starts
-        output = OutputPanel(self.window, "package_dev")
+        output = output or OutputPanel(self.window, "package_dev")
         output.show()
 
         # Auto-detect the file type if it's not specified
@@ -110,8 +110,8 @@ class ConvertFileCommand(WindowAndTextCommand):
 
             # No information about a target format; ask for it
             if not opts or not 'target_format' in opts:
-                output.write_line("\nCould not detect target format.")
-                output.write_line("Please select or define a target format.")
+                output.write(" Could not detect target format.\n"
+                             "Please select or define a target format...")
 
                 # Show overlay with all dumping options except for the current type
                 # Save stripped-down `items` for later
@@ -125,11 +125,10 @@ class ConvertFileCommand(WindowAndTextCommand):
                     target = items[index]
                     output.write_line(' %s\n' % target['name'])
 
-                    params = target['kwargs'].copy()
-                    params['source_format'] = source_format
-                    params.update(kwargs)
-                    print(params)
-                    self.run(*args, **params)
+                    kwargs.update(target['kwargs'])
+                    kwargs.update(dict(source_format=source_format, output=output))
+                    self.run(*args, **kwargs)
+
                 # Forward all params to the new command call
                 self.window.show_quick_panel(options, on_select)
                 return

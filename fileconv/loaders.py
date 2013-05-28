@@ -174,7 +174,6 @@ class LoaderProto(object):
             self.output = output
         else:
             self.output = OutputPanel(self.window, self.output_panel_name, file_regex=self.file_regex, path=path)
-            self.output.clear()
 
     @classmethod
     def _pre_init_(cls):

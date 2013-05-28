@@ -1,87 +1,88 @@
 from sublime import Region, Window
-from ._view import ViewSettings, unset_read_only, in_one_edit, append, clear
+from ._view import ViewSettings, unset_read_only, in_one_edit, append, clear, get_text
 
 
 class OutputPanel(object):
     """This class represents an output panel (which are used for e.g. build systems).
+    Please not that the panel's contents will be cleared on __init__.
 
-        OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True)
-            * window
-                The window. This is usually ``self.window`` or
-                ``self.view.window()``, depending on the type of your command.
+    OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True)
+        * window
+            The window. This is usually ``self.window`` or
+            ``self.view.window()``, depending on the type of your command.
 
-            * panel_name
-                The panel's name, passed to ``window.get_output_panel()``.
+        * panel_name
+            The panel's name, passed to ``window.get_output_panel()``.
 
-            * file_regex
-                Important for Build Systems. The user can browse the errors you
-                writewith F4 and Shift+F4 keys. The error's location is
-                determined with 3 capturing groups:
-                the file name, the line number and the column.
-                The last two are optional.
+        * file_regex
+            Important for Build Systems. The user can browse the errors you
+            writewith F4 and Shift+F4 keys. The error's location is
+            determined with 3 capturing groups:
+            the file name, the line number and the column.
+            The last two are optional.
 
-                Example:
-                    r"Error in file "(.*?)", line (\d+), column (\d+)"
+            Example:
+                r"Error in file "(.*?)", line (\d+), column (\d+)"
 
-            * line_regex
-                Same style as ``file_regex`` except that it misses the first
-                group for the file name.
+        * line_regex
+            Same style as ``file_regex`` except that it misses the first
+            group for the file name.
 
-                If ``file_regex`` doesn't match on the current line, but
-                ``line_regex`` exists, and it does match on the current line,
-                then walk backwards through the buffer until  a line matching
-                file regex is found, and use these two matches
-                to determine the file and line to go to; column is optional.
+            If ``file_regex`` doesn't match on the current line, but
+            ``line_regex`` exists, and it does match on the current line,
+            then walk backwards through the buffer until  a line matching
+            file regex is found, and use these two matches
+            to determine the file and line to go to; column is optional.
 
-            * path
-                This is only needed if you specify the file_regex param and
-                will be used as the root dir for relative filenames when
-                determining error locations.
+        * path
+            This is only needed if you specify the file_regex param and
+            will be used as the root dir for relative filenames when
+            determining error locations.
 
-            * read_only
-                A boolean whether the output panel should be read only.
-                You usually want this to be true.
-                Can be modified with ``self.view.set_read_only()`` when needed.
+        * read_only
+            A boolean whether the output panel should be read only.
+            You usually want this to be true.
+            Can be modified with ``self.view.set_read_only()`` when needed.
 
-        Useful attributes:
+    Useful attributes:
 
-            view
-                The view handle of the output panel. Can be passed to
-                ``in_one_edit(output.view)`` to group modifications for example.
+        view
+            The view handle of the output panel. Can be passed to
+            ``in_one_edit(output.view)`` to group modifications for example.
 
-        Defines the following methods:
+    Defines the following methods:
 
-            set_path(path=None, file_regex=None, line_regex=None)
-                Used to update ``path``, ``file_regex`` and ``line_regex`` if
-                they are not ``None``, see the constructor for information
-                about these parameters.
+        set_path(path=None, file_regex=None, line_regex=None)
+            Used to update ``path``, ``file_regex`` and ``line_regex`` if
+            they are not ``None``, see the constructor for information
+            about these parameters.
 
-                The file_regex is updated automatically because it might happen
-                that the same panel_name is used multiple times.
-                If ``file_regex`` is omitted or ``None`` it will be reset to
-                the latest regex specified (when creating the instance or from
-                the last call of  set_regex/path).
-                The same applies to ``line_regex``.
+            The file_regex is updated automatically because it might happen
+            that the same panel_name is used multiple times.
+            If ``file_regex`` is omitted or ``None`` it will be reset to
+            the latest regex specified (when creating the instance or from
+            the last call of  set_regex/path).
+            The same applies to ``line_regex``.
 
-            set_regex(file_regex=None, line_regex=None)
-                Subset of set_path. Read there for further information.
+        set_regex(file_regex=None, line_regex=None)
+            Subset of set_path. Read there for further information.
 
-            write(text)
-                Will just write appending ``text`` to the output panel.
+        write(text)
+            Will just write appending ``text`` to the output panel.
 
-            write_line(text)
-                Same as write() but inserts a newline at the end.
+        write_line(text)
+            Same as write() but inserts a newline at the end.
 
-            clear()
-                Erases all text in the output panel.
+        clear()
+            Erases all text in the output panel.
 
-            show()
-            hide()
-                Show or hide the output panel.
+        show()
+        hide()
+            Show or hide the output panel.
 
-            finish()
-                Call this when you are done with updating the panel.
-                Required if you want the next_result command (F4) to work.
+        finish()
+            Call this when you are done with updating the panel.
+            Required if you want the next_result command (F4) to work.
     """
     def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
         if not isinstance(window, Window):
@@ -120,9 +121,12 @@ class OutputPanel(object):
         if hasattr(self, 'line_regex'):
             self.settings.result_line_regex = self.line_regex
 
-        # Call get_output_panel again after assigning the above
-        # settings, so that "next_result" and "prev_result" work.
+        # Call get_output_panel again after assigning the above settings, so that "next_result" and
+        # "prev_result" work. However, it will also clear the view so read it before and re-write
+        # its contents afterwards.
+        contents = get_text(self.view)
         self.view = self.window.get_output_panel(self.panel_name)
+        self.write(contents)
 
     def write(self, text):
         """Appends ``text`` to the output panel.
