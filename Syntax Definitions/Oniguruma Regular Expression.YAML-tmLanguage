@@ -43,6 +43,36 @@ patterns:
   begin: \(\?#
   end: (?<!\\)\)
 
+# (?x) group [with # comments]
+# These are really tricky and I'd rather like to have some flag mechanism here
+# but apparently that doesn't work within whole tmLanguages. Thus, this feature
+# only works within the first line where (?x) occurs, which is quite useless...
+- name: meta.regexp.group.extended
+  begin: |
+    (?x) ((?#1)\() # comment in the first line
+    ((?#2)\? # comment in the second
+      [im]?x[im]?(?:-[im]{1,2})?
+      ((?#3)\))
+    )
+  beginCaptures:
+   '1': {name: storage.type.regexp.group.begin}
+   '2': {name: string.regexp constant.other.assertion.regexp}
+   '3': {name: storage.type.regexp.group.end}
+  end: |
+    (?x) ((?#1)\()
+    ((?#2)\?
+      [im]{,2}(?:-[im]?x[im]?)?\)
+    )
+    |\z (?# or the end of the "stream" [which is, apparently, also the end of the line])
+  endCaptures:
+   '1': {name: storage.type.regexp.group.begin}
+   '2': {name: string.regexp constant.other.assertion.regexp}
+   '3': {name: storage.type.regexp.group.end}
+  patterns:
+  - name: comment.line.number-sign.regexp
+    match: '(?<!\\)#.*'
+  - include: source.oniregexp
+
 # group
 - name: meta.regexp.group
   begin: |
@@ -51,7 +81,7 @@ patterns:
       (?:
        <[=!]
       |[>=:!]
-      |[imx]*(?:-[imx]+)?(?::(?!\))|(?=\)))
+      |[imx]{,3}(?:-[imx]{1,3})?(?::(?!\))|(?=\)))
       |[<']((?#3)\w+)[>']
       )
     )?
