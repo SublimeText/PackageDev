@@ -304,23 +304,34 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
         # Insert the new lines using the syntax definition (which has hopefully been set)
         if insert_newlines:
-            def collect_regs(sel, first=True):
-                regs = self.view.find_by_selector(sel)
-                if not regs:
-                    return []
-                if not first:
-                    return regs[1:]
-                return regs[:1]
+            find = self.view.find_by_selector
+
+            def select(l, only_first=True, not_first=True):
+                # 'only_first' has priority
+                if not l:
+                    return l  # empty
+                elif only_first:
+                    return l[:1]
+                elif not_first:
+                    return l[1:]
+                return l
+
+            def filter_pattern_regs(reg):
+                # Only use those keys where the region starts at column 0 and begins with '-'
+                # because these are apparently the first keys of a 1-scope list
+                beg = reg.begin()
+                return self.view.rowcol(beg)[1] == 0 and self.view.substr(beg) == '-'
 
             regs = (
-                collect_regs('meta.patterns - meta.repository-block')
-                + collect_regs('meta.repository-block')
-                + collect_regs('meta.repository-block meta.repository-key', False)
+                select(find('meta.patterns - meta.repository-block'))
+                + select(find('meta.repository-block'))
+                + select(find('meta.repository-block meta.repository-key'), False)
+                + select(filter(filter_pattern_regs, find('meta')), False)
             )
+
             # Iterate in reverse order to not clash the regions because we will be modifying the source
             regs.sort()
             regs.reverse()
-
             for reg in regs:
                 self.view.insert(edit, reg.begin(), '\n')
 
