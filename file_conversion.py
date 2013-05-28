@@ -146,4 +146,4 @@ class ConvertFileCommand(WindowAndTextCommand):
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
-        print "[AAAPackageDev] " + msg + (" (%s)" % file_path if file_path is not None else "")
+        print "[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else "")

@@ -4,7 +4,7 @@ import os
 import time
 import yaml
 
-from sublime import Region, packages_path, INHIBIT_WORD_COMPLETIONS
+import sublime
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
@@ -13,10 +13,10 @@ from sublime_lib.view import OutputPanel, base_scope, get_viewport_coords, set_v
 from ordereddict import OrderedDict
 from ordereddict_yaml import OrderedDictSafeDumper
 
-from fileconv import *
+from fileconv import loaders, dumpers
 from scope_data import COMPILED_HEADS
 
-PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]  # os.path.abspath(os.path.dirname(__file__))
+PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]  # os.path.abspath(os.path.dirname(__file__))
 
 BASE_SYNTAX_LANGUAGE = "Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
 
@@ -123,6 +123,30 @@ class NewPlistSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plug
 ###############################################################################
 
 
+class YAMLLanguageDevDumper(OrderedDictSafeDumper):
+    def represent_scalar(self, tag, value, style=None):
+        if tag == u'tag:yaml.org,2002:str':
+            # Block style for multiline strings
+            if any(c in value for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029"):
+                style = '|'
+            # Use " to denote strings if the string contains ' but not ";
+            # but try to do this only when necessary as non-quoted strings are always better
+            elif "'" in value and not '"' in value and value[0] in "{#'}":
+                style = '"'
+
+        return super(YAMLLanguageDevDumper, self).represent_scalar(tag, value, style)
+
+    def represent_mapping(self, tag, mapping, flow_style=False):
+        # Default to block style; revert back to flow if len = 1 and only has "name" key
+        if len(mapping) == 1:
+            if hasattr(mapping, 'items'):
+                flow_style = ('name' in mapping)
+            else:
+                flow_style = (mapping[0][0] == 'name')
+
+        return super(YAMLLanguageDevDumper, self).represent_mapping(tag, mapping, flow_style)
+
+
 class YAMLOrderedTextDumper(dumpers.YAMLDumper):
     default_params = dict(Dumper=OrderedDictSafeDumper)
 
@@ -152,7 +176,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
                     key = str(num)
                     od[key] = obj[key]
                     del obj[key]
-            # The remaining stuff
+            # The remaining stuff (in alphabetical order)
             keys = obj.keys()
             keys.sort()
             for key in keys:
@@ -268,39 +292,15 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
         # Dump
         dumper = YAMLOrderedTextDumper(output=output)
+        if remove_single_line_maps:
+            kwargs["Dumper"] = YAMLLanguageDevDumper
         text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
         if not text:
             self.status("Error re-dumping the data.")
-
-        if remove_single_line_maps:
-            # For the sake of simplicity these regexps are pretty inaccurate but should work in most cases
-            # Please fix the stuff yourself if you encounter problems or PR better regexps
-            #
-            # 1.3 - Remove the {} for single list mappings
-            # Go from 3 to 1 to not match "too much"
-            text = re.sub(r"(?m)^(\s*)- \{([\w-]+: .*), ([\w-]+: .*), ([\w-]+: .*)\}$",
-                          r"\1- \2\n\1  \3\n\1  \4", text)
-
-            # 1.2 - Similar to above but with two entries
-            text = re.sub(r"(?m)^(\s*)- \{([\w-]+: .*), ([\w-]+: .*)\}$",
-                          r"\1- \2\n\1  \3", text)
-            # 1.1 - This time with one entry, you know the deal
-            text = re.sub(r"(?m)^(\s*)- \{([\w-]+: .*)\}$",
-                          r"\1- \2", text)
-
-            # 2.3 - Here we are hunting for mappings in a mapping value
-            # Try not to match "'1': {name: s}"" capture groups
-            text = re.sub(r"(?m)^(\s*)((?!['\"]\d+['\"])[\w-]+:) \{([\w-]+: .*), ([\w-]+: .*), ([\w-]+: .*)\}$",
-                          r"\1\2\n\1  \3\n\1  \4\n\1  \5", text)
-            # 2.2
-            text = re.sub(r"(?m)^(\s*)((?!['\"]\d+['\"])[\w-]+:) \{([\w-]+: .*), ([\w-]+: .*)\}$",
-                          r"\1\2\n\1  \3\n\1  \4", text)
-            # 2.1
-            text = re.sub(r"(?m)^(\s*)((?!['\"]\d+['\"])[\w-]+:) \{([\w-]+: .*)\}$",
-                          r"\1\2\n\1  \3", text)
+            return
 
         # Replace the whole buffer
-        self.view.replace(edit, Region(0, self.view.size()), text)
+        self.view.replace(edit, sublime.Region(0, self.view.size()), text)
 
         # Insert the new lines using the syntax definition (which has hopefully been set)
         if insert_newlines:
@@ -317,7 +317,6 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 + collect_regs('meta.repository-block')
                 + collect_regs('meta.repository-block meta.repository-key', False)
             )
-            print(regs)
             # Iterate in reverse order to not clash the regions because we will be modifying the source
             regs.sort()
             regs.reverse()
@@ -335,7 +334,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
-        print "[AAAPackageDev] " + msg + (" (%s)" % file_path if file_path is not None else "")
+        print("[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else ""))
 
 
 ###############################################################################
@@ -367,7 +366,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
         if not view.match_selector(loc, "source.yaml-tmlanguage"):
             return []
 
-        inhibit = lambda ret: (ret, INHIBIT_WORD_COMPLETIONS)
+        inhibit = lambda ret: (ret, sublime.INHIBIT_WORD_COMPLETIONS)
 
         # Extend numerics into `'123': {name: $0}`, as used in captures,
         # but only if they are not in a string scope
