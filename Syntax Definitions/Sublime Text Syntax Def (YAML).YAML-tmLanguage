@@ -234,7 +234,7 @@ repository:
     # TODO: consider " and ' separately as they use different escape mechanisms actually
     - name: meta.match.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)
+      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!#)(["']?)
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}

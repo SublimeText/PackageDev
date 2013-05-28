@@ -495,7 +495,7 @@
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)</string>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!#)(["']?)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
