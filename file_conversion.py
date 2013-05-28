@@ -7,7 +7,7 @@ from sublime_lib import WindowAndTextCommand
 from sublime_lib.path import file_path_tuple
 from sublime_lib.view import OutputPanel
 
-from fileconv import *
+from fileconv import dumpers, loaders
 
 
 # build command
@@ -42,6 +42,20 @@ class ConvertFileCommand(WindowAndTextCommand):
         This works well for json -> anything because json only defines
         strings, numbers, lists and objects (dicts, arrays, hash tables).
     """
+    # {name:, kwargs:}
+    # name is for the quick panel; others are arguments used when running the command again
+    target_list = [dict(name=fmt.name,
+                        kwargs={"target_format": fmt.ext})
+                   for fmt in dumpers.get.values()]
+    for i, itm in enumerate(target_list):
+        if itm['name'] == "YAML":
+            # Hardcode YAML block style, who knows if anyone can use this
+            target_list.insert(
+                i + 1,
+                dict(name="YAML (Block Style)",
+                     kwargs={"target_format": "yaml", "default_flow_style": False})
+            )
+
     def run(self, source_format=None, target_format=None, *args, **kwargs):
         # If called as a text command...
         self.window = self.window or sublime.active_window()
@@ -52,11 +66,11 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         if self.view.is_dirty():
             # While it works without saving you should always save your files
-            return self.status("Please safe the file.")
+            return self.status("Please save the file.")
 
         file_path = self.view.file_name()
         if not file_path or not os.path.exists(file_path):
-            # REVIEW: It is not really necessary for the file to exist
+            # REVIEW: It is not really necessary for the file to exist, technically
             return self.status("File does not exist.", file_path)
 
         if source_format and target_format == source_format:
@@ -69,7 +83,7 @@ class ConvertFileCommand(WindowAndTextCommand):
             return self.status("%s for '%s' not supported/implemented." % ("Dumper", target_format))
 
         # Now the actual "building" starts
-        output = OutputPanel(self.window, "aaa_package_dev")
+        output = OutputPanel(self.window, "package_dev")
         output.show()
 
         # Auto-detect the file type if it's not specified
@@ -94,11 +108,30 @@ class ConvertFileCommand(WindowAndTextCommand):
         if not target_format:
             output.write("No target format specified, searching in file...")
 
+            # No information about a target format; ask for it
             if not opts or not 'target_format' in opts:
                 output.write_line("\nCould not detect target format.")
                 output.write_line("Please select or define a target format.")
-                # Show overlay and possibly recall the whole command because it's the most simple way
-                self.window.run_command('show_overlay', dict(overlay="command_palette", text="Build: "))
+
+                # Show overlay with all dumping options except for the current type
+                # Save stripped-down `items` for later
+                options, items = [], []
+                for itm in self.target_list:
+                    if itm['kwargs']['target_format'] != source_format:
+                        options.append("Convert to: %s" % itm['name'])
+                        items.append(itm)
+
+                def on_select(index):
+                    target = items[index]
+                    output.write_line(' %s\n' % target['name'])
+
+                    params = target['kwargs'].copy()
+                    params['source_format'] = source_format
+                    params.update(kwargs)
+                    print(params)
+                    self.run(*args, **params)
+                # Forward all params to the new command call
+                self.window.show_quick_panel(options, on_select)
                 return
 
             target_format = opts["target_format"]
@@ -121,7 +154,7 @@ class ConvertFileCommand(WindowAndTextCommand):
             data = loader.load(*args, **kwargs)
         except NotImplementedError, e:
             # use NotImplementedError to make the handler report the message as it pleases
-            outout.write_line(str(e))
+            output.write_line(str(e))
             self.status(str(e), file_path)
 
         if data:
