@@ -12,10 +12,11 @@ uuid: 516c608b-ce09-4e6f-a2db-caedc8d1fbff
 # Notable issues:
 # - No differentiation between <> and '' for \g, \k and (?<>); (?<name') is validly highlighted.
 # - Using the number sign # in extended mode (?x) is not considered as a comment (due to limitations);
-#   use (?#comment) instead.
+#   use (?#comment) instead. (Works on the first line though.)
 # - \c, \C-, \M- and \M-\C- accept a "character code point value" which I interpreted as \d+.
 # - Folding Markers do not seem to have any effect (and the reindent command shouldn't be used anyway).
-# - (?i:subexp) and (?>subexp) can not be combined, afaik, use (?>(?i)subexp) instead.
+# - (?i:subexp) and (?>subexp) can not be combined, afaik; use (?>(?i)subexp) instead.
+# - [\xa1\xa7-\xa4\xa1] is not yet supported
 
 ###########################################################
 
@@ -63,6 +64,7 @@ patterns:
     ((?#2)\?
       [im]{,2}(?:-[im]?x[im]?)?\)
     )
+    |\) (?# the next closing "\)"; escaped \) would've been matched)
     |\z (?# or the end of the "stream" [which is, apparently, also the end of the line])
   endCaptures:
    '1': {name: storage.type.regexp.group.begin}

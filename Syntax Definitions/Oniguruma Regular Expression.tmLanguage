@@ -75,6 +75,7 @@
 ((?#2)\?
   [im]{,2}(?:-[im]?x[im]?)?\)
 )
+|\) (?# the next closing "\)")
 |\z (?# or the end of the "stream" [which is, apparently, also the end of the line])
 </string>
 			<key>endCaptures</key>
