@@ -154,55 +154,149 @@
 		</dict>
 		<key>comment-from-key</key>
 		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
+			<key>patterns</key>
+			<array>
 				<dict>
+					<key>begin</key>
+					<string>^( *)(?:- +)?((["']?)(comment)(\3))(:) +([|&gt;])(?=, |,$| +#| *$)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.comment-from-key.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.block.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>block
+comment
+</string>
+					<key>contentName</key>
+					<string>comment.block.from-key.block.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>^(?! *$|\1 )</string>
 					<key>name</key>
-					<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+					<string>meta.comment-from-key.block.yaml-tmlanguage</string>
 				</dict>
-				<key>2</key>
 				<dict>
+					<key>begin</key>
+					<string>(?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(?!#)(["'])</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.comment-from-key.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>test comment over multiple lines?</string>
+					<key>contentName</key>
+					<string>comment.block.from-key.quoted.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>(?&lt;![^\\]\\)(\6)(?=, |,$| +#| *$| *})</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+					</dict>
 					<key>name</key>
-					<string>punctuation.definition.string.yaml-tmlanguage</string>
+					<string>meta.comment-from-key.quoted.yaml-tmlanguage</string>
 				</dict>
-				<key>3</key>
 				<dict>
+					<key>begin</key>
+					<string>^( *)(?:-( +))?((["']?)(comment)(\4))(:)[ ]</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.comment-from-key.yaml-tmlanguage</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>comment</key>
+					<string>this is a "test" comment in another line</string>
+					<key>contentName</key>
+					<string>comment.block.from-key.unquoted.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>^(?! *$|\1\2  )</string>
 					<key>name</key>
-					<string>keyword.other.comment-from-key.yaml-tmlanguage</string>
+					<string>meta.comment-from-key.unquoted.yaml-tmlanguage</string>
 				</dict>
-				<key>4</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.yaml-tmlanguage</string>
-				</dict>
-				<key>5</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.definition.yaml-tmlanguage</string>
-				</dict>
-				<key>6</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.yaml-tmlanguage</string>
-				</dict>
-				<key>7</key>
-				<dict>
-					<key>name</key>
-					<string>comment.block.from-key.yaml-tmlanguage</string>
-				</dict>
-				<key>8</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.string.yaml-tmlanguage</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>this is a "test" comment</string>
-			<key>match</key>
-			<string>(?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})</string>
-			<key>name</key>
-			<string>meta.comment-from-key.yaml-tmlanguage</string>
+			</array>
 		</dict>
 		<key>file-types</key>
 		<dict>
@@ -323,7 +417,7 @@
 						</dict>
 					</dict>
 					<key>end</key>
-					<string>^(?!$|-)</string>
+					<string>^(?!$|-| *#)</string>
 					<key>name</key>
 					<string>meta.file-types.yaml-tmlanguage</string>
 					<key>patterns</key>
@@ -480,7 +574,7 @@
 					<key>end</key>
 					<string>^(?! *$|\1 )</string>
 					<key>name</key>
-					<string>meta.match-block.yaml-tmlanguage</string>
+					<string>meta.match.block.yaml-tmlanguage</string>
 					<key>patterns</key>
 					<array>
 						<dict>
@@ -532,7 +626,7 @@
 					<key>contentName</key>
 					<string>meta.value.yaml-tmlanguage</string>
 					<key>end</key>
-					<string>(\6)(?=, |,$| +#| *$| *})</string>
+					<string>(?&lt;![^\\]\\)(\6)(?=, |,$| +#| *$| *})</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>

@@ -63,8 +63,6 @@ repository:
 
 # special keys (main scope)
   uuid:
-    # Note: Since you are allowed to name your repositories whatever you want
-    # I can't mark invalid keys as illegal (nor other appearances of uuid)
     name: meta.uuid.yaml-tmlanguage
     match: (?:,|\{ *|^)((["']?)(uuid)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))
     captures:
@@ -82,7 +80,7 @@ repository:
   name-main:
     # This one is allowed to contain nearly all characters instead of
     # the scope defining 'name' (not recognized in flow style, i.e. after ",")
-    # NOTE: Please refuse to use " or ' in your syntax name, it makes things complicated
+    # Note: Please refuse to use " or ' in your syntax name, it makes things complicated
     name: meta.name-main.yaml-tmlanguage
     match: ^((["']?)(name)(\2))(:) +((["']?).*?(\7))(?=, |,$| +#| *$| *})
     captures:
@@ -144,7 +142,7 @@ repository:
         '3': {name: keyword.other.name.yaml-tmlanguage}
         '4': {name: punctuation.definition.string.yaml-tmlanguage}
         '5': {name: keyword.control.definition.yaml-tmlanguage}
-      end: ^(?!$|-)
+      end: ^(?!$|-| *#)
       patterns:
         # multi-line items
         - match: ^- +((["']?)([-\w\. _]+)(\2))(?= +#| *$)
@@ -158,7 +156,7 @@ repository:
   repository:
     patterns:
     # inline (who'd even use this?)
-    # NOTE: probably broken with line breaks AFTER { or ,
+    # Note: probably broken with line breaks AFTER { or ,
     - name: meta.repository.yaml-tmlanguage
       match: (?:, +|\{ *)((["']?)(repository)(\2))(:)
       captures:
@@ -214,7 +212,7 @@ repository:
   match:
     patterns:
     # multi-line (block style)
-    - name: meta.match-block.yaml-tmlanguage
+    - name: meta.match.block.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
       begin: ^( *)(?:- +)?((["']?)(match|begin|end)(\3))(:) +([|>])(?=, |,$| +#| *$)
       beginCaptures:
@@ -225,7 +223,8 @@ repository:
         '6': {name: keyword.control.definition.yaml-tmlanguage}
 
         '7': {name: keyword.control.block.yaml-tmlanguage}
-      end: ^(?! *$|\1 ) # must be indented by at least as much as the key line + 1
+      # must be indented by at least as much as the key line + 1
+      end: ^(?! *$|\1 )
       patterns:
       - include: '#comment' # for comments after the "|" or ">"
       - include: source.oniregexp
@@ -242,7 +241,7 @@ repository:
         '4': {name: punctuation.definition.string.yaml-tmlanguage}
         '5': {name: keyword.control.definition.yaml-tmlanguage}
         '6': {name: punctuation.definition.string.yaml-tmlanguage}
-      end: (\6)(?=, |,$| +#| *$| *})
+      end: (?<![^\\]\\)(\6)(?=, |,$| +#| *$| *})
       endCaptures:
         '1': {name: punctuation.definition.string.yaml-tmlanguage}
       patterns:
@@ -271,21 +270,62 @@ repository:
       '10': {name: punctuation.definition.string.yaml-tmlanguage}
 
   comment-from-key:
-    name: meta.comment-from-key.yaml-tmlanguage
-    # again, please do not use "' if not for denoting a string
-    # "commet" is one of the 2 keys that are also allowed in global scope
-    match: (?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(["']?)(.*?)(\6)(?=, |,$| +#| *$| *})
-    comment: this is a "test" comment # and this is a real comment
-    captures:
-      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
-      '2': {name: punctuation.definition.string.yaml-tmlanguage}
-      '3': {name: keyword.other.comment-from-key.yaml-tmlanguage}
-      '4': {name: punctuation.definition.string.yaml-tmlanguage}
-      '5': {name: keyword.control.definition.yaml-tmlanguage}
+    patterns:
+    # block style
+    - name: meta.comment-from-key.block.yaml-tmlanguage
+      contentName: comment.block.from-key.block.yaml-tmlanguage
+      comment: | # real comment
+        block
+        comment
+      begin: ^( *)(?:- +)?((["']?)(comment)(\3))(:) +([|>])(?=, |,$| +#| *$)
+      beginCaptures:
+        '2': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '3': {name: punctuation.definition.string.yaml-tmlanguage}
+        '4': {name: keyword.other.comment-from-key.yaml-tmlanguage}
+        '5': {name: punctuation.definition.string.yaml-tmlanguage}
+        '6': {name: keyword.control.definition.yaml-tmlanguage}
 
-      '6': {name: punctuation.definition.string.yaml-tmlanguage}
-      '7': {name: comment.block.from-key.yaml-tmlanguage}
-      '8': {name: punctuation.definition.string.yaml-tmlanguage}
+        '7': {name: keyword.control.block.yaml-tmlanguage}
+      # must be indented by at least as much as the key line + 1
+      end: ^(?! *$|\1 )
+
+    # quoted
+    # TODO: consider " and ' separately as they use different escape mechanisms actually
+    - name: meta.comment-from-key.quoted.yaml-tmlanguage
+      contentName: comment.block.from-key.quoted.yaml-tmlanguage
+      comment: "test comment
+        over multiple lines?"
+      begin: (?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(?!#)(["'])
+      beginCaptures:
+        '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '2': {name: punctuation.definition.string.yaml-tmlanguage}
+        '3': {name: keyword.other.comment-from-key.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.control.definition.yaml-tmlanguage}
+        '6': {name: punctuation.definition.string.yaml-tmlanguage}
+      end: (?<![^\\]\\)(\6)(?=, |,$| +#| *$| *})
+      endCaptures:
+        '1': {name: punctuation.definition.string.yaml-tmlanguage}
+
+    # unquoted
+    - name: meta.comment-from-key.unquoted.yaml-tmlanguage
+      contentName: comment.block.from-key.unquoted.yaml-tmlanguage
+      comment: this is a "test" comment
+        in another line # and this is a real comment
+      begin: ^( *)(?:-( +))?((["']?)(comment)(\4))(:)[ ]
+      beginCaptures:
+        '3': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.other.comment-from-key.yaml-tmlanguage}
+        '6': {name: punctuation.definition.string.yaml-tmlanguage}
+        '7': {name: keyword.control.definition.yaml-tmlanguage}
+      # Must be indented by at least as much as the key line + 1 - or terminated by :stuff:
+      # Note1: can not differentiate if within inline ({) or block and thus
+      # the inline terminating sequences which are valid in blocks are ignored completely.
+      # Currently only interesting for "comment: no # still no"
+      # Note2: Minimum indent is "  " if the coment key is not the first key in a list
+      # (e.g. "- name: something\n  comment: dd"). Easiest workaroung.
+      end: ^(?! *$|\1\2  ) #|(?<=.)(?=, |,$| +#| *(?<![^\\]\\)})
 
 # dict keys
   captures:
