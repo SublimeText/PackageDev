@@ -56,7 +56,7 @@ class ConvertFileCommand(WindowAndTextCommand):
                      kwargs={"target_format": "yaml", "default_flow_style": False})
             )
 
-    def run(self, source_format=None, target_format=None, output=None, *args, **kwargs):
+    def run(self, edit=None, source_format=None, target_format=None, output=None, *args, **kwargs):
         # If called as a text command...
         self.window = self.window or sublime.active_window()
 
