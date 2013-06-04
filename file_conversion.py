@@ -25,19 +25,6 @@ class ConvertFileCommand(WindowAndTextCommand):
             'plist'
             'yaml'
 
-        The file extesion is determined by a special algorythm using
-        "appendixes". Here are a few examples:
-            ".YAML-ppplist" yaml  -> plist ".ppplist"
-            ".json"         json  -> yaml  ".yaml"
-            ".tmplist"      plist -> json  ".JSON-tmplist"
-            ".yaml"         json  -> plist ".JSON-yaml" (yes, doesn't make much sense)
-
-        Whether the parser is considered valid is determined from the
-        extension, the extension + appendix or the view's base scope (or in a
-        special case with plist using the file's xml header).
-        This is also used to auto-detect the file type if the source parameter
-        is omitted.
-
         The different dumpers try to validate the data passed.
         This works well for json -> anything because json only defines
         strings, numbers, lists and objects (dicts, arrays, hash tables).
@@ -56,9 +43,61 @@ class ConvertFileCommand(WindowAndTextCommand):
                      kwargs={"target_format": "yaml", "default_flow_style": False})
             )
 
-    def run(self, edit=None, source_format=None, target_format=None, output=None, *args, **kwargs):
-        # If called as a text command...
-        self.window = self.window or sublime.active_window()
+    def run(self, edit=None, source_format=None, target_format=None, ext=None,
+            open_new_file=False, rearrange_yaml_syntax_def=False, _output=None, *args, **kwargs):
+        """Available parameters:
+
+            edit (sublime.Edit) = None
+                The edit parameter from TextCommand. Unused.
+
+            source_format (str) = None
+                The source format. Any of "yaml", "plist" or "json".
+                If `None`, attempt to automatically detect the format by extension, used syntax
+                highlight or (with plist) the actual contents.
+
+            target_format (str) = None
+                The target format. Any of "yaml", "plist" or "json".
+                If `None`, attempt to find an option set in the file to parse.
+                If unable to find an option, ask the user directly with all available format options.
+
+            ext (str) = None
+                The extension of the file to convert to, without leading dot. If `None`, the extension
+                will be automatically determined by a special algorythm using "appendixes".
+
+                Here are a few examples:
+                    ".YAML-ppplist" yaml  -> plist ".ppplist"
+                    ".json"         json  -> yaml  ".yaml"
+                    ".tmplist"      plist -> json  ".JSON-tmplist"
+                    ".yaml"         json  -> plist ".JSON-yaml" (yes, doesn't make much sense)
+
+            open_new_file (bool) = False
+                Open the (newly) created file in a new buffer.
+
+            rearrange_yaml_syntax_def (bool) = False
+                Interesting for language definitions, will automatically run
+                "rearrange_yaml_syntax_def" command on it, if the target format is "yaml".
+                Overrides "open_new_file" parameter.
+
+            _output (OutputPanel) = None
+                For internal use only.
+
+            *args
+                Forwarded to pretty much every relevant call but does not have any effect.
+                You can't pass *args in commands anyway.
+
+            **kwargs
+                Will be forwarded to both the loading function and the dumping function, after stripping
+                unsopported entries. Only do this if you know what you're doing.
+
+                Functions in question:
+                    yaml.dump
+                    json.dump
+                    plist.writePlist (does not support any parameters)
+
+                A more detailed description of each supported parameter for the respective dumper can be
+                found in `fileconv/dumpers.py`.
+        """
+        # TODO: Ditch *args, can't be passed in commands anyway
 
         # Check the environment (view, args, ...)
         if self.view.is_scratch():
@@ -83,7 +122,7 @@ class ConvertFileCommand(WindowAndTextCommand):
             return self.status("%s for '%s' not supported/implemented." % ("Dumper", target_format))
 
         # Now the actual "building" starts (collecting remaining parameters)
-        output = output or OutputPanel(self.window, "package_dev")
+        output = _output or OutputPanel(self.window, "package_dev")
         output.show()
 
         # Auto-detect the file type if it's not specified
@@ -106,8 +145,10 @@ class ConvertFileCommand(WindowAndTextCommand):
 
         # Function to determine the new file extension depending on the target format
         def get_new_ext(target_format):
+            if ext:
+                return '.' + ext
             if opts and 'ext' in opts:
-                new_ext = '.' + opts['ext']
+                return '.' + opts['ext']
             else:
                 new_ext, prepend_target_format = Loader.get_new_file_ext(self.view)
                 if prepend_target_format:
@@ -141,7 +182,7 @@ class ConvertFileCommand(WindowAndTextCommand):
                     output.write_line(' %s\n' % target['name'])
 
                     kwargs.update(target['kwargs'])
-                    kwargs.update(dict(source_format=source_format, output=output))
+                    kwargs.update(dict(source_format=source_format, _output=output))
                     self.run(*args, **kwargs)
 
                 # Forward all params to the new command call
@@ -184,6 +225,14 @@ class ConvertFileCommand(WindowAndTextCommand):
         # Finish
         output.write("[Finished in %.3fs]" % (time.time() - start_time))
         output.finish()
+
+        if open_new_file or rearrange_yaml_syntax_def:
+            new_view = self.window.open_file(new_file_path)
+
+            if rearrange_yaml_syntax_def:
+                # For some reason, ST would still indicate the new buffer having "usaved changes"
+                # even though there aren't any (calling "save" command here).
+                new_view.run_command("rearrange_yaml_syntax_def", {"save": True})
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)

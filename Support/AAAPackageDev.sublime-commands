@@ -12,6 +12,12 @@
     { "caption": "z:AAAPackageDev: New PList Syntax Definition to Buffer", "command": "new_plist_syntax_def_to_buffer" },
 
     { "caption": "z:AAAPackageDev: Convert (YAML, JSON, PList) to…", "command": "convert_file" },
+    { "caption": "z:AAAPackageDev: Convert to YAML and Rearrange Syntax Definition", "command": "convert_file", "args": {
+        "target_format": "yaml",
+        "ext": "YAML-tmLanguage",
+        "open_new_file": true,
+        "rearrange_yaml_syntax_def": true
+    } },
     { "caption": "z:AAAPackageDev: Rearrange YAML Syntax Definition", "command": "rearrange_yaml_syntax_def" },
 
     { "caption": "z:AAAPackageDev: New Settings File", "command": "new_settings" },

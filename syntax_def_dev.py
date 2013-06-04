@@ -206,8 +206,18 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
 class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
     """Parses YAML and sorts all the dict keys reasonably.
     Does not write to the file, only to the buffer.
+    """
+    default_order = """comment
+        name scopeName contentName fileTypes uuid
+        begin beginCaptures end endCaptures match captures include
+        patterns repository""".split()
 
-        Parameters:
+    def is_visible(self):
+        return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
+
+    def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True,
+            insert_newlines=True, save=False, **kwargs):
+        """Available parameters:
 
             sort (bool) = True
                 Whether the list should be sorted at all. If this is not
@@ -249,20 +259,29 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 - before global "repository" key
                 - before every repository key except for the first
 
-        Other parameters will be forwarded to yaml.dump (if they are valid).
-    """
-    default_order = """comment
-        name scopeName contentName fileTypes uuid
-        begin beginCaptures end endCaptures match captures include
-        patterns repository""".split()
+            save (bool) = False
+                Save the view after processing is done.
 
-    def is_visible(self):
-        return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
-
-    def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True,
-            insert_newlines=True, **kwargs):
+            **kwargs
+                Forwarded to yaml.dump (if they are valid).
+        """
         # Check the environment (view, args, ...)
         if self.view.is_scratch():
+            return
+        if self.view.is_loading():
+            # The view has not yet loaded, recall the command in this case until ST is done
+            kwargs.update(dict(
+                sort=sort,
+                sort_numeric=sort_numeric,
+                sort_order=sort_order,
+                remove_single_line_maps=remove_single_line_maps,
+                insert_newlines=insert_newlines,
+                save=save
+            ))
+            sublime.set_timeout(
+                lambda: self.view.run_command("rearrange_yaml_syntax_def", kwargs),
+                20
+            )
             return
 
         # Collect parameters
@@ -288,6 +307,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             self.status(str(e), file_path)
 
         if not data:
+            output.write_line("No contents in file.")
             return self.finish(output)
 
         # Dump
@@ -334,6 +354,10 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             regs.reverse()
             for reg in regs:
                 self.view.insert(edit, reg.begin(), '\n')
+
+        if save:
+            self.view.run_command("save")
+            output.write_line("File saved")
 
         # Finish
         set_viewport(self.view, vp)
