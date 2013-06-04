@@ -43,10 +43,13 @@
     },
 
     "simpleCompletion": {
-      "match": "\"([a-zA-Z0-9_.]+)\"",
-      "captures": {
-          "1": { "name": "string.completion.simple.sublimecompletions" }
-      }
+      "begin": "\"",
+      "end": "\"",
+      "contentName": "string.completion.simple.sublimecompletions",
+      "patterns": [
+        { "name": "constant.other.escape.sublimecompletions",
+          "match": "\\\\." }
+      ]
     },
 
     "triggerCompletion": {
