@@ -9,7 +9,7 @@ import os
 
 PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]
 
-RAW_SNIPPETS_SYNTAX = "Packages/%s/Support/Syntax Definitions/Sublime Snippet (Raw).tmLanguage" % PLUGIN_NAME
+RAW_SNIPPETS_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Snippet (Raw).tmLanguage" % PLUGIN_NAME
 
 
 TPL = """<snippet>
@@ -35,7 +35,7 @@ class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
         # XXX: sublime_lib: new whole_content(view) function?
         content = self.view.substr(sublime.Region(0, self.view.size()))
         self.view.replace(edit, sublime.Region(0, self.view.size()), '')
-        self.view.run_command('insert_snippet', { 'contents': TPL })
+        self.view.run_command('insert_snippet', {'contents': TPL})
         self.view.settings().set('syntax', 'Packages/XML/XML.tmLanguage')
         # Insert existing contents into CDATA section. We rely on the fact
         # that Sublime will place the first selection in the first field of

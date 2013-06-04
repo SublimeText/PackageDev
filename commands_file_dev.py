@@ -12,7 +12,7 @@ tpl = """[
 
 PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]
 
-SYNTAX_DEF = "Packages/%s/Support/Syntax Definitions/Sublime Commands.tmLanguage" % PLUGIN_NAME
+SYNTAX_DEF = "Packages/%s/Syntax Definitions/Sublime Commands.tmLanguage" % PLUGIN_NAME
 
 
 class NewCommandsFileCommand(sublime_plugin.WindowCommand):
@@ -21,5 +21,3 @@ class NewCommandsFileCommand(sublime_plugin.WindowCommand):
         v.run_command('insert_snippet', {'contents': tpl})
         v.settings().set('default_dir', path.root_at_packages('User'))
         v.set_syntax_file(SYNTAX_DEF)
-
-
