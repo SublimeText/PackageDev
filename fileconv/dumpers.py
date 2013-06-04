@@ -280,7 +280,7 @@ class PlistDumper(DumperProto):
     def validate_data(self, data):
         return self._validate_data(data, (
             # TOTEST: sets
-            # yaml; lost of precision when converting to datetime.datetime
+            # yaml; lost of "precision" when converting to datetime.datetime
             (lambda x: isinstance(x, datetime.date), str),
             (lambda x: x is None, False)
         ))
@@ -382,8 +382,10 @@ class YAMLDumper(DumperProto):
 
 
 # Add the internal plistlib dict wrapper to the safe dumper
-yaml.SafeDumper.add_representer(plistlib._InternalDict,
-        yaml.SafeDumper.represent_dict)
+yaml.SafeDumper.add_representer(
+    plistlib._InternalDict,
+    yaml.SafeDumper.represent_dict
+)
 
 
 ###############################################################################

@@ -16,26 +16,28 @@ join_path = os.path.join
 path_exists = os.path.exists
 
 DEFAULT_DIRS = (
-            "Snippets",
-            "Support",
-            "Docs",
-            "Macros",
-            "bin",
-            "data"
-            )
+    "Snippets",
+    "Support",
+    "Docs",
+    "Macros",
+    "bin",
+    "data"
+)
 
 # name, default template
-DEFAULT_FILES = (
+DEFAULT_FILES = [
     ("LICENSE.txt", None),
-    ("README.rst", root_at_packages(PLUGIN_NAME, "data/README.rst")),
-    (".hgignore", root_at_packages(PLUGIN_NAME, "data/hgignore.txt")),
-    (".gitignore", root_at_packages(PLUGIN_NAME, "data/gitignore.txt")),
-    ("bin/MakeRelease.ps1", root_at_packages(PLUGIN_NAME, "data/MakeRelease.ps1")),
-    ("bin/CleanUp.ps1", root_at_packages(PLUGIN_NAME, "data/CleanUp.ps1")),
-    ("data/html_template.txt", root_at_packages(PLUGIN_NAME, "data/html_template.txt")),
-    ("data/main.css", root_at_packages(PLUGIN_NAME, "data/main.css")),
-    ("setup.py", root_at_packages(PLUGIN_NAME, "data/setup.py")),
-)
+    ("README.rst", "data/README.rst"),
+    (".hgignore", "data/hgignore.txt"),
+    (".gitignore", "data/gitignore.txt"),
+    ("bin/MakeRelease.ps1", "data/MakeRelease.ps1"),
+    ("bin/CleanUp.ps1", "data/CleanUp.ps1"),
+    ("data/html_template.txt", "data/html_template.txt"),
+    ("data/main.css", "data/main.css"),
+    ("setup.py", "data/setup.py"),
+]
+for i, (name, path) in enumerate(DEFAULT_FILES):
+    DEFAULT_FILES[i] = (name, root_at_packages(PLUGIN_NAME, path))
 
 
 class NewPackageCommand(sublime_plugin.WindowCommand):
@@ -46,7 +48,7 @@ class NewPackageCommand(sublime_plugin.WindowCommand):
             error("  NewPackage -- Error\n\n"
                   "  Package '" + pkg_name + "' already exists.\n"
                   "  You cannot overwrite an existing package."
-            )
+                  )
             return
 
         pam.create_new(pkg_name)
@@ -58,8 +60,8 @@ class NewPackageCommand(sublime_plugin.WindowCommand):
         status('on_changed')
 
     def run(self):
-        self.window.show_input_panel(
-                            "New Package Name", '', self.on_done, None, None)
+        self.window.show_input_panel("New Package Name", '', self.on_done,
+                                     None, None)
 
 
 class DeletePackageCommand(sublime_plugin.WindowCommand):
@@ -78,8 +80,10 @@ class PackageManager(object):
 
     def browse(self):
         # Let user choose.
-        sublime.active_window().run_command("open_dir",
-                                            {"dir": sublime.packages_path()})
+        sublime.active_window().run_command(
+            "open_dir",
+            {"dir": sublime.packages_path()}
+        )
 
     def create_new(self, name):
         print "[NewPackage] Creating new package...",
@@ -94,13 +98,12 @@ class PackageManager(object):
         # Create top folder, default folders, default files.
         map(os.makedirs, [root_at_packages(name, d) for d in DEFAULT_DIRS])
 
-        for f, template in [(root_at_packages(name, fname), template)
-                                        for fname, template in DEFAULT_FILES]:
-            with open(f, 'w') as fh:
+        for fname, template in DEFAULT_FILES:
+            with open(root_at_packages(name, fname), 'w') as fh:
                 if template:
                     try:
-                        content = "".join(open(template, 'r').readlines()) % \
-                                                        {"package_name": name}
+                        content = ("".join(open(template, 'r').readlines())
+                                   % {"package_name": name})
                     except:
                         pass
                     finally:
