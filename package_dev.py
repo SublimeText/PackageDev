@@ -37,7 +37,8 @@ DEFAULT_FILES = [
     ("setup.py", "data/setup.py"),
 ]
 for i, (name, path) in enumerate(DEFAULT_FILES):
-    DEFAULT_FILES[i] = (name, root_at_packages(PLUGIN_NAME, path))
+    if path is not None:
+        DEFAULT_FILES[i] = (name, root_at_packages(PLUGIN_NAME, path))
 
 
 class NewPackageCommand(sublime_plugin.WindowCommand):
