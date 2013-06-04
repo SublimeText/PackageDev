@@ -319,8 +319,13 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             self.status("Error re-dumping the data.")
             return
 
-        # Replace the whole buffer
-        self.view.replace(edit, sublime.Region(0, self.view.size()), text)
+        # Replace the whole buffer (with default options)
+        self.view.replace(
+            edit,
+            sublime.Region(0, self.view.size()),
+            "# [PackageDev] target_format: plist, ext: tmLanguage\n"
+            + text
+        )
 
         # Insert the new lines using the syntax definition (which has hopefully been set)
         if insert_newlines:
