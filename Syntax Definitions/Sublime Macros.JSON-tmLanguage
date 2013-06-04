@@ -15,6 +15,7 @@
         },
 
         "patterns": [
+            { "include": "#comment" },
             { "include": "#command" },
             { "include": "#args" }
         ]
@@ -31,6 +32,7 @@
         "end": "(?<=\\})",
         "name": "meta.definition.attached.command.arguments.sublimemacro",
         "patterns": [
+            { "include": "#comment" },
             { "include": "source.jsongenericarray"
             },
             { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
@@ -54,6 +56,7 @@
         "begin": "\\{",
         "end": "\\}",
         "patterns": [
+          { "include": "#comment" },
           { "match": "\"(command)\":\\s*\"([^\"]+)\"",
             "captures": {
               "1": { "name": "keyword.other.sublimemacro" },
@@ -61,6 +64,20 @@
             }
           },
           { "include": "#args" }
+        ]
+      },
+
+      "comment": {
+        "patterns": [
+          {
+            "match": "//.*?$",
+            "name": "comment.line.double-slash.sublimemacro"
+          },
+          {
+            "begin": "/\\*",
+            "end": "\\*/",
+            "name": "comment.block.sublimemacro"
+          }
         ]
       }
   },

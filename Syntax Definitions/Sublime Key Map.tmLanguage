@@ -187,7 +187,7 @@
 			<key>match</key>
 			<string>//.*?$</string>
 			<key>name</key>
-			<string>comment.single.line.sublimekeymap</string>
+			<string>comment.line.double-slash.sublimekeymap</string>
 		</dict>
 		<key>mainKeys</key>
 		<dict>
@@ -209,7 +209,7 @@
 			<key>end</key>
 			<string>\*/</string>
 			<key>name</key>
-			<string>comment.single.line.sublimekeymap</string>
+			<string>comment.block.sublimekeymap</string>
 		</dict>
 		<key>numericPrimitives</key>
 		<dict>

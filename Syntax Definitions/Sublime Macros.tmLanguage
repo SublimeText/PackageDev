@@ -18,7 +18,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.collection.start.sublimecommands</string>
+					<string>punctuation.definition.collection.start.sublimemacro</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -28,11 +28,15 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>punctuation.definition.collection.end.sublimecommands</string>
+					<string>punctuation.definition.collection.end.sublimemacro</string>
 				</dict>
 			</dict>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>include</key>
+					<string>#comment</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>#command</string>
@@ -55,15 +59,19 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.sublimecommands</string>
+					<string>keyword.other.sublimemacro</string>
 				</dict>
 			</dict>
 			<key>end</key>
 			<string>(?&lt;=\})</string>
 			<key>name</key>
-			<string>meta.definition.attached.command.arguments.sublimecommands</string>
+			<string>meta.definition.attached.command.arguments.sublimemacro</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>include</key>
+					<string>#comment</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>source.jsongenericarray</string>
@@ -74,7 +82,7 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.function.array.generic.key.sublimecommands</string>
+							<string>support.function.array.generic.key.sublimemacro</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -88,7 +96,7 @@
 					<key>match</key>
 					<string>true|false|\d+</string>
 					<key>name</key>
-					<string>constant.numeric.sublimecommands</string>
+					<string>constant.numeric.sublimemacro</string>
 				</dict>
 				<dict>
 					<key>match</key>
@@ -107,17 +115,21 @@
 			<key>patterns</key>
 			<array>
 				<dict>
+					<key>include</key>
+					<string>#comment</string>
+				</dict>
+				<dict>
 					<key>captures</key>
 					<dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.other.sublimecommands</string>
+							<string>keyword.other.sublimemacro</string>
 						</dict>
 						<key>2</key>
 						<dict>
 							<key>name</key>
-							<string>string.attached.command.name.sublimecommands</string>
+							<string>string.attached.command.name.sublimemacro</string>
 						</dict>
 					</dict>
 					<key>match</key>
@@ -126,6 +138,26 @@
 				<dict>
 					<key>include</key>
 					<string>#args</string>
+				</dict>
+			</array>
+		</dict>
+		<key>comment</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>//.*?$</string>
+					<key>name</key>
+					<string>comment.line.double-slash.sublimemacro</string>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>/\*</string>
+					<key>end</key>
+					<string>\*/</string>
+					<key>name</key>
+					<string>comment.block.sublimemacro</string>
 				</dict>
 			</array>
 		</dict>

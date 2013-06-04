@@ -6,7 +6,7 @@
       { "include": "#multiLineComment" },
       { "include": "#lineComment" },
 
-      
+
       { "begin": "(^\\[$)",
         "end": "(^\\]$)",
 
@@ -101,12 +101,12 @@
       },
       "lineComment": {
         "match": "//.*?$",
-        "name": "comment.single.line.sublimekeymap"
+        "name": "comment.line.double-slash.sublimekeymap"
       },
       "multiLineComment": {
         "begin": "/\\*",
         "end": "\\*/",
-        "name": "comment.single.line.sublimekeymap"
+        "name": "comment.block.sublimekeymap"
       },
       "numericPrimitives": {
         "patterns": [
