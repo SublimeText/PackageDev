@@ -12,7 +12,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.sublimesnippetraw</string>
+					<string>keyword.other.block.start.sublimesnippetraw</string>
 				</dict>
 				<key>2</key>
 				<dict>
@@ -22,11 +22,16 @@
 				<key>3</key>
 				<dict>
 					<key>name</key>
-					<string>support.constant.numeric.sublimesnippetraw</string>
+					<string>constant.numeric.sublimesnippetraw</string>
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(\$)(PARAM(\d)|TM_SELECTED_TEXT|USER_NAME|SELECTION)</string>
+			<string>(?x) (\$)
+(PARAM(\d)|USER_NAME|SELECTION
+ |TM_(?&gt;CURRENT_LINE|CURRENT_WORD|FILENAME|FILEPATH|FULLNAME
+      |LINE_INDEX|LINE_NUMBER|SELECTED_TEXT|SOFT_TABS|TAB_SIZE)
+ )
+</string>
 			<key>name</key>
 			<string>entity.other.attribute-name.environment.sublimesnippetraw</string>
 		</dict>
@@ -36,12 +41,12 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.sublimesnippetraw</string>
+					<string>keyword.other.block.start.sublimesnippetraw</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>support.constant.numeric.name.sublimesnippetraw</string>
+					<string>constant.numeric.name.sublimesnippetraw</string>
 				</dict>
 			</dict>
 			<key>match</key>
@@ -51,20 +56,55 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>(\$)\{(\d+)(?=/)</string>
+			<string>(?x) (\$)\{
+(?:(\d+)
+ |(PARAM(\d)|USER_NAME|SELECTION
+   |TM_(?&gt;CURRENT_LINE|CURRENT_WORD|FILENAME|FILEPATH|FULLNAME
+        |LINE_INDEX|LINE_NUMBER|SELECTED_TEXT|SOFT_TABS|TAB_SIZE))
+ |(packages)
+ |([a-zA-Z0-9_]+)
+ )(/)
+</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.sublimesnippetraw</string>
+					<string>keyword.other.block.start.sublimesnippetraw</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>support.constant.numeric.sublimesnippetraw</string>
+					<string>constant.numeric.sublimesnippetraw</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.storage.name.sublimesnippetraw</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>constant.numeric.sublimesnippetraw</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>entity.other.attribute-name.variable.storage.known-name.sublimesnippetraw</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>support.variable.storage.name.sublimesnippetraw</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.regex.start.sublimesnippetraw</string>
 				</dict>
 			</dict>
+			<key>contentName</key>
+			<string>string.sublimesnippetraw</string>
 			<key>end</key>
 			<string>\}</string>
 			<key>name</key>
@@ -72,26 +112,50 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
+					<key>begin</key>
+					<string>/</string>
+					<key>beginCaptures</key>
 					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.regex.mid.sublimesnippetraw</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>/([gim]*)(?=\})</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.regex.end.sublimesnippetraw</string>
+						</dict>
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>punctuation.definition.substitution.sublimesnippetraw</string>
+							<string>constant.other.regex-modifier.sublimesnippetraw</string>
 						</dict>
 					</dict>
-					<key>match</key>
-					<string>(?&lt;!\\)(/)</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\\\d+</string>
+							<key>name</key>
+							<string>variable.other.regex.replace.sublimesnippetraw</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\\.</string>
+							<key>name</key>
+							<string>constant.other.escape.regex.replace.sublimesnippetraw</string>
+						</dict>
+					</array>
 				</dict>
 				<dict>
 					<key>include</key>
 					<string>source.regexp</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>.</string>
-					<key>name</key>
-					<string>string.sublimesnippetraw</string>
 				</dict>
 			</array>
 		</dict>
@@ -101,19 +165,21 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.sublimesnippetraw</string>
+					<string>keyword.other.block.start.sublimesnippetraw</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>entity.other.attribute-name.variable.storage.known.name.sublimesnippetraw</string>
+					<string>entity.other.attribute-name.variable.storage.known-name.sublimesnippetraw</string>
 				</dict>
 				<key>3</key>
 				<dict>
 					<key>name</key>
-					<string>variable.storage.name.sublimesnippetraw</string>
+					<string>support.variable.storage.name.sublimesnippetraw</string>
 				</dict>
 			</dict>
+			<key>contentName</key>
+			<string>string.sublimesnippetraw</string>
 			<key>match</key>
 			<string>(\$)(?:(packages)|([a-zA-Z0-9_]+))</string>
 			<key>name</key>
@@ -121,56 +187,34 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>(\$)\{</string>
+			<string>(\$)\{(\d+)(:)</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.other.sublimesnippetraw</string>
+					<string>keyword.other.block.start.sublimesnippetraw</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>constant.numeric.sublimesnippetraw</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.block.definiton.sublimesnippetraw</string>
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>(\})</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>meta.definition.variable.complex.sublimesnippetraw</string>
-				</dict>
-			</dict>
+			<string>\}</string>
 			<key>name</key>
 			<string>meta.definition.variable.complex.sublimesnippetraw</string>
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>support.constant.numeric.sublimesnippetraw</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>(?&lt;=\{)(\d+)(?&gt;:)</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>\b(packages)\b</string>
-					<key>name</key>
-					<string>entity.other.attribute-name.variable.storage.known.name.sublimesnippetraw</string>
-				</dict>
-				<dict>
 					<key>include</key>
 					<string>$self</string>
-				</dict>
-				<dict>
-					<key>match</key>
-					<string>.</string>
-					<key>name</key>
-					<string>string.sublimesnippetraw</string>
 				</dict>
 			</array>
 		</dict>

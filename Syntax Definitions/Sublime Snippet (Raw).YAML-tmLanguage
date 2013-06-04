@@ -1,0 +1,83 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Sublime Text Snippet (Raw)
+scopeName: source.sublimesnippetraw
+uuid: 9c9f9b3c-0e97-4423-a995-14d6412613d3
+
+patterns:
+# Known variables
+- name: entity.other.attribute-name.environment.sublimesnippetraw
+  match: |
+    (?x) (\$)
+    (PARAM(\d)|USER_NAME|SELECTION
+     |TM_(?>CURRENT_LINE|CURRENT_WORD|FILENAME|FILEPATH|FULLNAME
+          |LINE_INDEX|LINE_NUMBER|SELECTED_TEXT|SOFT_TABS|TAB_SIZE)
+     )
+  captures:
+    '1': {name: keyword.other.block.start.sublimesnippetraw}
+    '2': {name: variable.storage.name.sublimesnippetraw}
+    '3': {name: constant.numeric.sublimesnippetraw}
+
+# Fields
+- name: variable.field.numbered.sublimesnippetraw
+  match: (\$)(\d+)
+  captures:
+    '1': {name: keyword.other.block.start.sublimesnippetraw}
+    '2': {name: constant.numeric.name.sublimesnippetraw}
+
+# Field/Variable substitution
+- name: meta.definition.substitution.sublimesnippetraw
+  contentName: string.sublimesnippetraw
+  begin: |
+    (?x) (\$)\{
+    (?:(\d+)
+     |(PARAM(\d)|USER_NAME|SELECTION
+       |TM_(?>CURRENT_LINE|CURRENT_WORD|FILENAME|FILEPATH|FULLNAME
+            |LINE_INDEX|LINE_NUMBER|SELECTED_TEXT|SOFT_TABS|TAB_SIZE))
+     |(packages)
+     |([a-zA-Z0-9_]+)
+     )(/)
+  beginCaptures:
+    '1': {name: keyword.other.block.start.sublimesnippetraw}
+    '2': {name: constant.numeric.sublimesnippetraw}
+    '3': {name: variable.storage.name.sublimesnippetraw}
+    '4': {name: constant.numeric.sublimesnippetraw}
+    '5': {name: entity.other.attribute-name.variable.storage.known-name.sublimesnippetraw}
+    '6': {name: support.variable.storage.name.sublimesnippetraw}
+    '7': {name: keyword.other.regex.start.sublimesnippetraw}
+  end: \}
+  patterns:
+  - begin: /
+    beginCaptures:
+      '0': {name: keyword.other.regex.mid.sublimesnippetraw}
+    end: /([gim]*)(?=\})
+    endCaptures:
+      '0': {name: keyword.other.regex.end.sublimesnippetraw}
+      '1': {name: constant.other.regex-modifier.sublimesnippetraw}
+    patterns:
+    - name: variable.other.regex.replace.sublimesnippetraw
+      match: \\\d+
+    - name: constant.other.escape.regex.replace.sublimesnippetraw
+      match: \\.
+  - include: source.regexp
+
+# Any other variable ?
+- name: variable.field.sublimesnippetraw
+  contentName: string.sublimesnippetraw
+  match: (\$)(?:(packages)|([a-zA-Z0-9_]+))
+  captures:
+    '1': {name: keyword.other.block.start.sublimesnippetraw}
+    '2': {name: entity.other.attribute-name.variable.storage.known-name.sublimesnippetraw}
+    '3': {name: support.variable.storage.name.sublimesnippetraw}
+
+# Complex fields
+- name: meta.definition.variable.complex.sublimesnippetraw
+  begin: (\$)\{(\d+)(:)
+  beginCaptures:
+    '1': {name: keyword.other.block.start.sublimesnippetraw}
+    '2': {name: constant.numeric.sublimesnippetraw}
+    '3': {name: keyword.other.block.definiton.sublimesnippetraw}
+  end: \}
+  patterns:
+  - include: $self
+...
