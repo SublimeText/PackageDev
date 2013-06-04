@@ -253,9 +253,11 @@ repository:
       (?x)
       (?:,\ +|\{\ *|^\ {2,}|^\ *-\ +)
         ((["']?)(include)(\2))(:)\ +
-      ((["']?)(?:\#?([-\w\.\ ]*)
-                |(\$self))(\7))
-    #match: (?:, +|\{ *|^  +|^ *- +)((["']?)(include)(\2))(:) +((["']?)(?:\#?([-\w\. ]+)|(\$self))(\7))
+      ((["'])(?:(\$self)
+                |\#?([-\w\.\ ]*))(\7)
+       |(\$self)
+       |([-\w\.\ ]*)
+      )
     captures:
       '1':  {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2':  {name: punctuation.definition.string.yaml-tmlanguage}
@@ -265,9 +267,11 @@ repository:
 
       '6':  {name: meta.value.yaml-tmlanguage string.other.quoted-or-unquoted.yaml-tmlanguage}
       '7':  {name: punctuation.definition.string.yaml-tmlanguage}
-      '8':  {name: variable.other.include.yaml-tmlanguage}
-      '9':  {name: storage.modifier.self-include.yaml-tmlanguage}
+      '8':  {name: storage.modifier.self-include.yaml-tmlanguage}
+      '9':  {name: variable.other.include.yaml-tmlanguage}
       '10': {name: punctuation.definition.string.yaml-tmlanguage}
+      '11': {name: storage.modifier.self-include.yaml-tmlanguage}
+      '12': {name: variable.other.include.yaml-tmlanguage}
 
   comment-from-key:
     patterns:

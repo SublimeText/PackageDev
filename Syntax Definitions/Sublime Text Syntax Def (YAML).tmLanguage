@@ -478,6 +478,16 @@ comment
 					<key>name</key>
 					<string>punctuation.definition.string.yaml-tmlanguage</string>
 				</dict>
+				<key>11</key>
+				<dict>
+					<key>name</key>
+					<string>storage.modifier.self-include.yaml-tmlanguage</string>
+				</dict>
+				<key>12</key>
+				<dict>
+					<key>name</key>
+					<string>variable.other.include.yaml-tmlanguage</string>
+				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
@@ -511,20 +521,23 @@ comment
 				<key>8</key>
 				<dict>
 					<key>name</key>
-					<string>variable.other.include.yaml-tmlanguage</string>
+					<string>storage.modifier.self-include.yaml-tmlanguage</string>
 				</dict>
 				<key>9</key>
 				<dict>
 					<key>name</key>
-					<string>storage.modifier.self-include.yaml-tmlanguage</string>
+					<string>variable.other.include.yaml-tmlanguage</string>
 				</dict>
 			</dict>
 			<key>match</key>
 			<string>(?x)
 (?:,\ +|\{\ *|^\ {2,}|^\ *-\ +)
   ((["']?)(include)(\2))(:)\ +
-((["']?)(?:\#?([-\w\.\ ]*)
-          |(\$self))(\7))
+((["'])(?:(\$self)
+          |\#?([-\w\.\ ]*))(\7)
+ |(\$self)
+ |([-\w\.\ ]*)
+)
 </string>
 			<key>name</key>
 			<string>meta.include.yaml-tmlanguage</string>
