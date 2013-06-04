@@ -19,15 +19,15 @@
                     "0": { "name": "constant.character.escape.jsongenericarrayelements" }
                 }
               },
-              { "include": "source.sublimesnippetraw" },
-              {  "name": "string.jsongenericarrayelements",
-                 "match": ".+?"
+              // { "include": "source.sublimesnippetraw" },
+              { "name": "string.jsongenericarrayelements",
+                "match": ".+?"
               }
           ]
       },
 
       "numericConstants": {
-      	"match": "\\d+(?:\\.\\d+)?",
+        "match": "\\d+(?:\\.\\d+)?",
         "name": "constant.numeric.jsongenericarrayelements"
       },
 

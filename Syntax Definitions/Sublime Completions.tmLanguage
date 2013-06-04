@@ -174,8 +174,10 @@
 							<string>source.sublimesnippetraw</string>
 						</dict>
 						<dict>
+							<key>comment</key>
+							<string>Match everything else to mark as string</string>
 							<key>match</key>
-							<string>.*?</string>
+							<string>.</string>
 							<key>name</key>
 							<string>string.snippet.sublimecompletions</string>
 						</dict>

@@ -29,7 +29,7 @@ class DumperProto(object):
             default_params (dict; optional)
                 Just a dict of the default params for self.write().
 
-            allowed_params (tuple; optional)
+            allowed_params (set/tuple; optional)
                 A collection of strings defining the allowed parameters for
                 self.write(). Other keys in the kwargs dict will be removed.
 

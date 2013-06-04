@@ -81,9 +81,9 @@
                "match": "\\$(?!\\{|[0-9A-Za-z])"
             },
             { "include": "source.sublimesnippetraw" },
-            {  "name": "string.snippet.sublimecompletions",
-               "match": ".*?"
-            }
+            { "comment": "Match everything else to mark as string",
+              "name": "string.snippet.sublimecompletions",
+              "match": "."}
           ],
           "contentName": "source.sublimesnippetraw"
         }

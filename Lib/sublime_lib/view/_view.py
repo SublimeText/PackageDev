@@ -83,7 +83,7 @@ def in_one_edit(view, name=""):
         view.end_edit(edit)
 
 
-def append(view, text, scroll_always=False):
+def append(view, text, scroll=False):
     """Appends text to ``view``. Won't work if the view is read only.
 
         The scroll_always parameter may be one of these values:
@@ -94,9 +94,7 @@ def append(view, text, scroll_always=False):
     """
     with in_one_edit(view) as edit:
         size = view.size()
-        scroll = scroll_always
-        if scroll == False:
-            scroll = (len(view.sel()) == 1 and view.sel()[0] == Region(size))
+        scroll = scroll or (len(view.sel()) == 1 and view.sel()[0] == Region(size))
 
         view.insert(edit, size, text)
 

@@ -56,10 +56,6 @@
 					<string>\\["tnr]</string>
 				</dict>
 				<dict>
-					<key>include</key>
-					<string>source.sublimesnippetraw</string>
-				</dict>
-				<dict>
 					<key>match</key>
 					<string>.+?</string>
 					<key>name</key>
