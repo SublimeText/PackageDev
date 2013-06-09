@@ -602,7 +602,7 @@ comment
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!#)(["']?)</string>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -639,7 +639,18 @@ comment
 					<key>contentName</key>
 					<string>meta.value.yaml-tmlanguage</string>
 					<key>end</key>
-					<string>(?&lt;![^\\]\\)(\6)(?=, |,$| +#| *$| *})</string>
+					<string>(?x)
+(?:
+ (?&lt;![^\\]\\) (?=["'])(\6) (?# this is the end; if there was a quote, this will terminate it)
+ |\6 (?# better hope we are not in a quoted string and that this works)
+  (?=,[ ]
+  |,$
+  |\ *$
+  |\ *}
+  |(?&lt;=\ )[#{\[]
+  )
+)
+</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>
