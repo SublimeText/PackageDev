@@ -28,6 +28,10 @@ DATA = """
             inherited-class
             attribute-name
 
+    invalid
+        illegal
+        deprecated
+
     keyword
         control
         operator
