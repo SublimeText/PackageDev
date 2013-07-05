@@ -82,10 +82,10 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
         path = v.file_name()
         ext = self.get_file_ext(path)
         if not os.path.exists(path):
-            print "[AAAPackageDev] File does not exists. (%s)" % path
+            print("[AAAPackageDev] File does not exists. (%s)" % path)
             return
         if ext is None:
-            print "[AAAPackageDev] Not a valid JSON file, please check extension. (%s)" % path
+            print("[AAAPackageDev] Not a valid JSON file, please check extension. (%s)" % path)
             return
 
         self.json_to_plist(path, ext)
@@ -111,7 +111,7 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
             try:
                 with open(json_file) as json_content:
                     tmlanguage = json.load(json_content)
-            except ValueError, e:
+            except ValueError as e:
                 self.output_view.insert(edit, 0, "Error parsing JSON: '%s' %s" % (json_file, str(e)))
             else:
                 target = os.path.join(path, fbase + new_ext)
@@ -156,7 +156,7 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
         # check for plist namespace (doctype) in first two lines
         for i in range(2):
             text = coorded_substr(v, (i, 0), (i, len(self.DOCTYPE)))
-            print "i: %d, text: %s" % (i, text)
+            print("i: %d, text: %s" % (i, text))
             if text == self.DOCTYPE:
                 return ".JSON-" + ext[1:]
 
@@ -167,11 +167,11 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
         v = self.window.active_view()
         path = v.file_name()
         if not os.path.exists(path):
-            print "[AAAPackageDev] File does not exists. (%s)" % path
+            print("[AAAPackageDev] File does not exists. (%s)" % path)
             return
         new_ext = self.get_file_ext(v)
         if new_ext is None:
-            print "[AAAPackageDev] Not a valid Property List. (%s)" % path
+            print("[AAAPackageDev] Not a valid Property List. (%s)" % path)
             return
 
         self.plist_to_json(path, new_ext, **kwargs)
@@ -192,7 +192,7 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
                            sort_keys=True
                           )
         json_params.update(kwargs)
-        print json_params
+        print(json_params)
 
         # Handle the output
         if not hasattr(self, 'output_view'):
@@ -210,7 +210,7 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
         with in_one_edit(self.output_view) as edit:
             try:
                 pl = plistlib.readPlist(plist_file)
-            except xml.parsers.expat.ExpatError, e:
+            except xml.parsers.expat.ExpatError as e:
                 self.output_view.insert(edit, 0,
                                         debug_base % (plist_file,
                                                       xml.parsers.expat.ErrorString(e.code),
@@ -222,7 +222,7 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
                 try:
                     with open(target, "w") as f:
                         json.dump(pl, f, **json_params)
-                except Exception, e:
-                    print "[AAAPackageDev] Error writing json: %s" % str(e)
+                except Exception as e:
+                    print("[AAAPackageDev] Error writing json: %s" % str(e))
 
         self.window.run_command("show_panel", {"panel": "output.aaa_package_dev"})

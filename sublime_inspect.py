@@ -22,7 +22,7 @@ class Report(object):
     def collect_info(self):
         try:
             atts = dir(eval(self.s, {"sublime": sublime, "sublime_plugin": sublime_plugin}))
-        except NameError, e:
+        except NameError as e:
             atts = e
         
         self.data = atts
