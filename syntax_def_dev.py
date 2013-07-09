@@ -214,7 +214,7 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
         # settings, so that it'll be picked up as a result buffer
         self.window.get_output_panel("aaa_package_dev")
 
-        self.output_view.run_command("write_plist", 
+        self.output_view.run_command("write_json", 
                     {"plist_file":  plist_file, 
                      "target":      target,
                      "json_params": json_params})
@@ -227,14 +227,14 @@ class WriteJsonCommand(sublime_plugin.TextCommand):
         try:
             pl = plistlib.readPlist(plist_file)
         except xml.parsers.expat.ExpatError as e:
-            self.output_view.insert(edit, 0,
-                                    debug_base % (plist_file,
-                                                  xml.parsers.expat.ErrorString(e.code),
-                                                  e.lineno,
-                                                  e.offset)
-                                    )
+            self.view.insert(edit, 0,
+                            debug_base % (plist_file,
+                                          xml.parsers.expat.ErrorString(e.code),
+                                          e.lineno,
+                                          e.offset)
+                            )
         else:
-            self.output_view.insert(edit, 0, "Writing json... (%s)" % target)
+            self.view.insert(edit, 0, "Writing json... (%s)" % target)
             try:
                 with open(target, "w") as f:
                     json.dump(pl, f, **json_params)
