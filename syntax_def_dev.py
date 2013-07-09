@@ -8,7 +8,7 @@ import re
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
-from sublime_lib.view import (in_one_edit, coorded_substr)
+from sublime_lib.view import coorded_substr
 
 
 JSON_TMLANGUAGE_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime JSON Syntax Definition.tmLanguage'
@@ -53,9 +53,8 @@ class NewSyntaxDefFromBufferCommand(sublime_plugin.TextCommand):
         self.view.settings().set('default_dir', root_at_packages('User'))
         self.view.settings().set('syntax', JSON_TMLANGUAGE_SYNTAX)
 
-        with in_one_edit(self.view):
-            self.view.run_command('insert_snippet',
-                                  {'contents': get_syntax_def_boilerplate()})
+        self.view.run_command('insert_snippet',
+                              {'contents': get_syntax_def_boilerplate()})
 
 
 # XXX: Why is this a WindowCommand? Wouldn't it work otherwise in build-systems?
@@ -93,6 +92,7 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
     def json_to_plist(self, json_file, new_ext):
         path, fname = os.path.split(json_file)
         fbase, old_ext = os.path.splitext(fname)
+        target = os.path.join(path, fbase + new_ext)
         file_regex = r"Error parsing JSON:\s+'(.*?)'\s+.*?\s+line\s+(\d+)\s+column\s+(\d+)"
 
         if not hasattr(self, 'output_view'):
@@ -107,18 +107,25 @@ class JsonToPlistCommand(sublime_plugin.WindowCommand):
         # settings, so that it'll be picked up as a result buffer
         self.window.get_output_panel("aaa_package_dev")
 
-        with in_one_edit(self.output_view) as edit:
-            try:
-                with open(json_file) as json_content:
-                    tmlanguage = json.load(json_content)
-            except ValueError as e:
-                self.output_view.insert(edit, 0, "Error parsing JSON: '%s' %s" % (json_file, str(e)))
-            else:
-                target = os.path.join(path, fbase + new_ext)
-                self.output_view.insert(edit, 0, "Writing plist... (%s)" % target)
-                plistlib.writePlist(tmlanguage, target)
+        self.output_view.run_command("write_plist", 
+                    {"json_file": json_file, 
+                     "target":      target})
 
         self.window.run_command("show_panel", {"panel": "output.aaa_package_dev"})
+
+
+class WritePlistCommand(sublime_plugin.TextCommand):
+    """Helper class for json_to_plist()"""
+    def run(self, edit, json_file, target):
+        try:
+            with open(json_file) as json_content:
+                tmlanguage = json.load(json_content)
+        except ValueError as e:
+            self.view.insert(edit, 0, "Error parsing JSON: '%s' %s" % (json_file, str(e)))
+        else:
+            self.view.insert(edit, 0, "Writing plist... (%s)" % target)
+            plistlib.writePlist(tmlanguage, target)
+        
 
 
 class PlistToJsonCommand(sublime_plugin.WindowCommand):
@@ -207,22 +214,31 @@ class PlistToJsonCommand(sublime_plugin.WindowCommand):
         # settings, so that it'll be picked up as a result buffer
         self.window.get_output_panel("aaa_package_dev")
 
-        with in_one_edit(self.output_view) as edit:
-            try:
-                pl = plistlib.readPlist(plist_file)
-            except xml.parsers.expat.ExpatError as e:
-                self.output_view.insert(edit, 0,
-                                        debug_base % (plist_file,
-                                                      xml.parsers.expat.ErrorString(e.code),
-                                                      e.lineno,
-                                                      e.offset)
-                                        )
-            else:
-                self.output_view.insert(edit, 0, "Writing json... (%s)" % target)
-                try:
-                    with open(target, "w") as f:
-                        json.dump(pl, f, **json_params)
-                except Exception as e:
-                    print("[AAAPackageDev] Error writing json: %s" % str(e))
+        self.output_view.run_command("write_plist", 
+                    {"plist_file":  plist_file, 
+                     "target":      target,
+                     "json_params": json_params})
 
         self.window.run_command("show_panel", {"panel": "output.aaa_package_dev"})
+
+class WriteJsonCommand(sublime_plugin.TextCommand):
+    """Helper class for plist_to_json()"""
+    def run(self, edit, plist_file, target, json_params):
+        try:
+            pl = plistlib.readPlist(plist_file)
+        except xml.parsers.expat.ExpatError as e:
+            self.output_view.insert(edit, 0,
+                                    debug_base % (plist_file,
+                                                  xml.parsers.expat.ErrorString(e.code),
+                                                  e.lineno,
+                                                  e.offset)
+                                    )
+        else:
+            self.output_view.insert(edit, 0, "Writing json... (%s)" % target)
+            try:
+                with open(target, "w") as f:
+                    json.dump(pl, f, **json_params)
+            except Exception as e:
+                print("[AAAPackageDev] Error writing json: %s" % str(e))
+
+        

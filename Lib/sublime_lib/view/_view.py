@@ -1,29 +1,16 @@
-import contextlib
 from sublime import Region
+import sublime_plugin
 
 
 def append(view, text):
     """Appends text to view."""
-    with in_one_edit(view) as edit:
-        view.insert(edit, view.size(), text)
+    view.run_command("lib_view_append", {"text": text})
 
-
-@contextlib.contextmanager
-def in_one_edit(view):
-    """Context manager to group edits in a view.
-
-        Example:
-            ...
-            with in_one_edit(view):
-                ...
-            ...
-    """
-    try:
-        edit = view.begin_edit()
-        yield edit
-    finally:
-        view.end_edit(edit)
-
+class LibViewAppendCommand(sublime_plugin.TextCommand):
+    """Helper class for append()"""
+    def run(self, edit, text):
+        self.view.insert(edit, self.view.size(), text)
+        
 
 def has_sels(view):
     """Returns ``True`` if ``view`` has one selection or more.``
