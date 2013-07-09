@@ -1,9 +1,11 @@
-import sublime
-
 import os
 import sys
+import sublime
+
 
 # Makes sublime_lib package available for all packages.
-if not os.path.join(sublime.packages_path(), "AAAPackageDev/Lib") in sys.path:
-    sys.path.append(os.path.join(sublime.packages_path(), "AAAPackageDev/Lib"))
-    print("[AAAPackageDev] Added sublime_lib to sys.path.")
+here = os.path.split(__file__)[0]
+path_to_lib = os.path.normpath(os.path.join(here, "Lib"))
+if not path_to_lib in sys.path:
+    sys.path.append(path_to_lib)
+    print("[AAAPackageDev] Added %s to sys.path." % path_to_lib)
