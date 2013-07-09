@@ -1,7 +1,10 @@
 import sys
 import os
 
-import mock
+try:
+    import mock
+except:
+    import unittest.mock
 
 import sublime
 

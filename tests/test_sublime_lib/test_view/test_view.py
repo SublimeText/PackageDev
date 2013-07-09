@@ -1,7 +1,10 @@
 import sys
 import os
 
-import mock
+try:
+    import mock
+except:
+    import unittest.mock
 
 import sublime
 
@@ -18,14 +21,14 @@ def test_append():
     assert view.insert.call_args == ((edit, 100, "new text"),)
 
 
-def test_in_one_edit():
-    view = mock.Mock()
+# def test_in_one_edit():
+#     view = mock.Mock()
 
-    edit = object()
-    view.begin_edit.return_value = edit
-    with su_lib_view.in_one_edit(view) as x:
-        assert x is edit
-    assert view.end_edit.call_args == ((edit,),)
+#     edit = object()
+#     view.begin_edit.return_value = edit
+#     with su_lib_view.in_one_edit(view) as x:
+#         assert x is edit
+#     assert view.end_edit.call_args == ((edit,),)
 
 
 def test_has_file_ext():
@@ -58,6 +61,9 @@ def test_has_file_ext():
 
 def test_has_sels():
     view = mock.Mock()
-    view.sel.return_value = range(1)
+    view.sel.return_value = list(range(1))
 
     assert su_lib_view.has_sels(view)
+
+if __name__ == '__main__':
+    test_append()

@@ -91,12 +91,11 @@ class PackageManager(object):
                                             {"dir": sublime.packages_path()})
     
     def create_new(self, name):
-        print "[NewPackage] Creating new package...",
-        print root_at_packages(name)
+        print("[NewPackage] Creating new package...{}".format(root_at_packages(name)))
         
         if self.dry_run:
             msg = "[NewPackage] ** Nothing done. This was a test. **"
-            print msg
+            print(msg)
             status(msg)
             return
 
@@ -118,7 +117,7 @@ class PackageManager(object):
                     fh.write(content)
         
         msg = "[NewPackage] Created new package '%s'." % name
-        print msg
+        print(msg)
         status(msg)
     
     def __init__(self, dry_run=False):
