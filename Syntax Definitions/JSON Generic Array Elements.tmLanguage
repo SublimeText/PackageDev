@@ -18,6 +18,10 @@
 			<key>include</key>
 			<string>#booleanConstants</string>
 		</dict>
+		<dict>
+			<key>include</key>
+			<string>#null</string>
+		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -27,6 +31,13 @@
 			<string>true|false</string>
 			<key>name</key>
 			<string>constant.numeric.boolean.jsongenericarrayelements</string>
+		</dict>
+		<key>null</key>
+		<dict>
+			<key>match</key>
+			<string>null</string>
+			<key>name</key>
+			<string>constant.numeric.null.jsongenericarrayelements</string>
 		</dict>
 		<key>numericConstants</key>
 		<dict>

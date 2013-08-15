@@ -5,7 +5,8 @@
   "patterns": [
     { "include": "#string" },
     { "include": "#numericConstants" },
-    { "include": "#booleanConstants" }
+    { "include": "#booleanConstants" },
+    { "include": "#null" }
   ],
 
   "repository": {
@@ -34,6 +35,11 @@
       "booleanConstants": {
         "match": "true|false",
         "name": "constant.numeric.boolean.jsongenericarrayelements"
+      },
+
+      "null": {
+        "match": "null",
+        "name": "constant.numeric.null.jsongenericarrayelements"
       }
   },
 
