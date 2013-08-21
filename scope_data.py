@@ -18,7 +18,7 @@ DATA = """
         language
         other
 
-    entitiy
+    entity
         name
             function
             type
