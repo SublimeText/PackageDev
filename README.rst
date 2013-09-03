@@ -72,7 +72,11 @@ Other included resources for syntax definition development:
     the base scope name.
   * Includes are completed as per defined repository keys.
 
+For a good example definition (as to why using YAML is way better than the plain Plist), see the
+syntax definition for YAML-tmLanguage files: `Sublime Text Syntax Def (YAML).YAML-tmLanguage`_
+
 .. _TextMate naming conventions: https://manual.macromates.com/en/language_grammars#naming_conventions
+.. _Sublime Text Syntax Def (YAML).YAML-tmLanguage: Syntax%20Definitions/Sublime%20Text%20Syntax%20Def%20(YAML).YAML-tmLanguage
 
 
 "Convert to..." Build System
