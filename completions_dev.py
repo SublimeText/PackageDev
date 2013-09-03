@@ -1,9 +1,13 @@
-import sublime, sublime_plugin
+import os
+
+from sublime import packages_path
+import sublime_plugin
 
 from sublime_lib.path import root_at_packages
 
+PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]
 
-COMPLETIONS_SYNTAX_DEF = "Packages/AAAPackageDev/Support/Sublime Completions.tmLanguage"
+COMPLETIONS_SYNTAX_DEF = "Packages/%s/Syntax Definitions/Sublime Completions.tmLanguage" % PLUGIN_NAME
 TPL = """{
     "scope": "source.${1:off}",
 

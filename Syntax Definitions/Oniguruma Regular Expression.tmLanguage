@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>comment</key>
+	<string>Version 5.9.1 2007/09/05, Specification used: http://www.geocities.jp/kosako3/oniguruma/doc/RE.txt</string>
+	<key>fileTypes</key>
+	<array>
+		<string>ore</string>
+	</array>
+	<key>name</key>
+	<string>Oniguruma Regular Expression</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>match</key>
+			<string>\|</string>
+			<key>name</key>
+			<string>keyword.operator.regexp</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>\\[bBAZzG]|[$^]</string>
+			<key>name</key>
+			<string>entity.other.control.anchors.regexp</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#character_class</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#character_property</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#set</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>\(\?#</string>
+			<key>end</key>
+			<string>(?&lt;!\\)\)</string>
+			<key>name</key>
+			<string>comment.block.number-sign.regexp</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(?x) ((?#1)\() # comment in the first line
+((?#2)\? # comment in the second
+  [im]?x[im]?(?:-[im]{1,2})?
+  ((?#3)\))
+)
+</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.regexp.group.begin</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>string.regexp constant.other.assertion.regexp</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.regexp.group.end</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?x) ((?#1)\()
+((?#2)\?
+  [im]{,2}(?:-[im]?x[im]?)?\)
+)
+|\) (?# the next closing "\)")
+|\z (?# or the end of the "stream" [which is, apparently, also the end of the line])
+</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.regexp.group.begin</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>string.regexp constant.other.assertion.regexp</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.regexp.group.end</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.regexp.group.extended</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\\)#.*</string>
+					<key>name</key>
+					<string>comment.line.number-sign.regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>source.oniregexp</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(?x) ((?#1)\()
+((?#2)\?
+  (?:
+   &lt;[=!]
+  |[&gt;=:!]
+  |[imx]{,3}(?:-[imx]{1,3})?(?::(?!\))|(?=\)))
+  |[&lt;']((?#3)\w+)[&gt;']
+  )
+)?
+</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.regexp.group.begin</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>string.regexp constant.other.assertion.regexp</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.other.regexp</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>\)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.regexp.group.end</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.regexp.group</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>source.oniregexp</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#special_escapes</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>variable.other.regexp</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.backref.regexp</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.other.regexp</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?x)
+ (\\\d+)
+|(\\k[&lt;'](-?\d+|\w+([-+]\d+)?)[&gt;'])
+</string>
+			<key>name</key>
+			<string>keyword.other.backref.regexp</string>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>variable.other.regexp</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>\\g[&lt;'](-?\d+|\w+)[&gt;']</string>
+			<key>name</key>
+			<string>keyword.other.subexp-call.regexp</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>((?&lt;!\()[?*+][?+]?)|\{\d*(,\d*)?\}</string>
+			<key>name</key>
+			<string>support.operator.quantifier.regexp</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#escaped_char</string>
+		</dict>
+	</array>
+	<key>repository</key>
+	<dict>
+		<key>character_class</key>
+		<dict>
+			<key>match</key>
+			<string>\\[wWsSdDhH]|\.</string>
+			<key>name</key>
+			<string>keyword.control.character-class.regexp</string>
+		</dict>
+		<key>character_property</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>constant.other.property.regexp</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?x)
+\\(?:p\{\^?|P\{)(
+  (?#all encodings)
+   (?&gt;Alnum|Alpha|Blank|Cntrl|Digit|Graph|Lower|
+      Print|Punct|Space|Upper|XDigit|Word|ASCII)
+  (?#EUC_JP, Shift_JIS)
+  |(?&gt;Hiragana|Katakana)
+  (?#UTF8, UTF16, UTF32)
+  |(?&gt;Any|Assigned)
+  |(?&gt;C|Cc|Cf|Cn|Co|Cs|L|Ll|Lm|Lo|Lt|Lu|
+      M|Mc|Me|Mn|N|Nd|Nl|No|P|Pc|Pd|Pe|Pf|Pi|Po|Ps|
+      S|Sc|Sk|Sm|So|Z|Zl|Zp|Zs)
+  |(?&gt;Arabic|Armenian|Bengali|Bopomofo|Braille|Buginese|
+      Buhid|Canadian_Aboriginal|Cherokee|Common|Coptic|
+      Cypriot|Cyrillic|Deseret|Devanagari|Ethiopic|Georgian|
+      Glagolitic|Gothic|Greek|Gujarati|Gurmukhi|Han|Hangul|
+      Hanunoo|Hebrew|Hiragana|Inherited|Kannada|Katakana|
+      Kharoshthi|Khmer|Lao|Latin|Limbu|Linear_B|Malayalam|
+      Mongolian|Myanmar|New_Tai_Lue|Ogham|Old_Italic|Old_Persian|
+      Oriya|Osmanya|Runic|Shavian|Sinhala|Syloti_Nagri|Syriac|
+      Tagalog|Tagbanwa|Tai_Le|Tamil|Telugu|Thaana|Thai|Tibetan|
+      Tifinagh|Ugaritic|Yi)
+)\}
+</string>
+			<key>name</key>
+			<string>keyword.contol.character-property.regexp</string>
+		</dict>
+		<key>escaped_char</key>
+		<dict>
+			<key>match</key>
+			<string>\\.</string>
+			<key>name</key>
+			<string>constant.character.escape.general.regexp</string>
+		</dict>
+		<key>set</key>
+		<dict>
+			<key>begin</key>
+			<string>\[(\^?\])?</string>
+			<key>end</key>
+			<string>\]</string>
+			<key>name</key>
+			<string>string.regexp.set</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>\[:\^?(?&gt;alnum|alpha|ascii|blank|cntrl|digit|graph|lower|print|punct|space|upper|xdigit|word):\]</string>
+					<key>name</key>
+					<string>constant.other.posix-bracket.regexp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#set</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#character_class</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#character_property</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#special_escapes</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#escaped_char</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>.-[^\]]</string>
+					<key>name</key>
+					<string>constant.other.range.regexp</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;!\[)&amp;&amp;(?!\])</string>
+					<key>name</key>
+					<string>keyword.operator.intersection.regexp</string>
+				</dict>
+			</array>
+		</dict>
+		<key>special_escapes</key>
+		<dict>
+			<key>match</key>
+			<string>(?x)\\
+([tvnrbfae]   (?# general chars)
+|[0-8]{3}     (?# octal)
+|x\h\h        (?# hexadecimal)
+|x\{7\h{7}\}  (?# wide hexadecimal)
+|c\d+         (?# control char)
+|M-(\\C-)?\d+ (?# meta control char)
+|C-\d+        (?# control char 2)
+)
+</string>
+			<key>name</key>
+			<string>constant.character.escape.special.regexp</string>
+		</dict>
+	</dict>
+	<key>scopeName</key>
+	<string>source.oniregexp</string>
+	<key>uuid</key>
+	<string>516c608b-ce09-4e6f-a2db-caedc8d1fbff</string>
+</dict>
+</plist>

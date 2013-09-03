@@ -1,0 +1,202 @@
+// [PackageDev] target_format: plist
+{ "name": "Sublime Text Syntax Def (JSON)",
+
+  "scopeName": "source.json-tmlanguage",
+
+  "fileTypes": ["JSON-tmLanguage"],
+
+  "patterns": [
+    { "include": "#syntaxName" },
+    { "include": "#scopeName" },
+    { "include": "#name" },
+    { "include": "#fileTypes" },
+    { "include": "#patterns" },
+    { "include": "#repo" },
+    { "include": "#comment" },
+    { "include": "#uuid" },
+    { "include": "#comments" }
+  ],
+
+  "repository": {
+
+      "match": {
+        "begin": "\"(match|begin|end)\"\\s*?:\\s*(\")",
+        "end": "(\")",
+        "name": "meta.definition.error.data.json-tmlanguage",
+        "patterns": [
+            { "include": "source.escapedregexp" }
+        ],
+        "beginCaptures": {
+            "1": { "name": "keyword.other.control.json-tmlanguage"},
+            "2": { "name": "punctuation.definition.regex.start.json-tmlanguage" }
+        },
+        "endCaptures": {
+            "1": { "name": "punctuation.definition.regex.end.json-tmlanguage" }
+        }
+      },
+
+      "include": {
+        "match": "\"(include)\"\\s*?:\\s*?\"(?:(#)([a-zA-Z0-9_-]+)|(\\$)(self)|([A-Za-z0-9.]+))\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "keyword.other.variable.mark.json-tmlanguage" },
+          "3": { "name": "string.repository.item.identifier.json-tmlanguage" },
+          "4": { "name": "keyword.other.variable.mark.json-tmlanguage" },
+          "5": { "name": "support.function.other.variable.mark.json-tmlanguage" },
+          "6": { "name": "string.repository.item.identifier.json-tmlanguage" }
+        }
+      },
+
+      "patterns": {
+        "begin": "\"(patterns)\"\\s*?:\\s*?\\[",
+        "beginCaptures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" }
+        },
+        "end": "\\]",
+        "patterns": [
+          { "include": "#patternsItem" },
+          { "include": "#comments" }
+        ]
+      },
+
+      "patternsItem": {
+        "begin": "\\{",
+        "end": "\\}",
+        "patterns": [
+          { "include": "#name" },
+          { "include": "#match" },
+          { "include": "#include" },
+          { "include": "#patterns" },
+          { "include": "#captures" },
+          { "include": "#comment" },
+          { "include": "#comments" }
+        ]
+      },
+
+      "fileTypes": {
+        "begin": "\"(fileTypes)\"\\s*?:\\s*?\\[",
+        "beginCaptures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" }
+        },
+        "end": "\\]",
+        "patterns": [
+          { "include": "source.jsongenericarrayelements" },
+          { "include": "#comments" }
+        ],
+        "contentName": "meta.json.generic.array.json.tmlanguage"
+      },
+
+      "name": {
+        "match": "\"((?:content)?[nN]ame)\"\\s*?:\\s*?\"(.+?)\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "string.meta.data.json-tmlanguage" }
+        }
+      },
+
+      "syntaxName": {
+        "match": "\"(name)\"\\s*?:\\s*?\"(.+?)\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "string.meta.sytax.name.json-tmlanguage" }
+        }
+      },
+
+      "scopeName": {
+        "match": "\"(scopeName)\"\\s*?:\\s*?\"(.+?)\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "string.meta.scope.name.json-tmlanguage" }
+        }
+      },
+
+      "comment": {
+        "match": "\"(comment)\"\\s*?:\\s*?\"(.+?)\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "comment.json-tmlanguage" }
+        }
+      },
+
+      "uuid": {
+        "match": "\"(uuid)\"\\s*?:\\s*?\"([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)-([a-z0-9]+)\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "constant.numeric.json-tmlanguage" },
+          "3": { "name": "constant.numeric.json-tmlanguage" },
+          "4": { "name": "constant.numeric.json-tmlanguage" },
+          "5": { "name": "constant.numeric.json-tmlanguage" },
+          "6": { "name": "constant.numeric.json-tmlanguage" }
+        }
+      },
+
+      "repo": {
+        "begin": "\"(repository)\"\\s*?:\\s*?\\{",
+        "beginCaptures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" }
+        },
+        "end": "\\}",
+        "patterns": [
+          { "include": "#repositoryItem" },
+          { "include": "#comments" }
+        ],
+        "contentName": "meta.repository.json-tmlanguage"
+      },
+
+      "repositoryItem": {
+        "begin": "\"([a-zA-Z0-9_-]+)\"\\s*?:\\s*?\\{",
+        "beginCaptures": {
+          "1": { "name": "entity.other.attribute-name.json-tmlanguage" }
+        },
+        "end": "\\}",
+        "patterns": [
+          { "include": "#match" },
+          { "include": "#name" },
+          { "include": "#patterns" },
+          { "include": "#captures" },
+          { "include": "#comment" },
+          { "include": "#comments" }
+        ]
+      },
+
+      "captures": {
+        "begin": "\"((?:begin|end)?[cC]aptures)\"\\s*?:\\s*?\\{",
+        "beginCaptures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" }
+        },
+        "end": "\\}",
+        "patterns": [
+          { "include": "#captureItem" },
+          { "include": "#comments" }
+        ],
+        "contentName": "meta.captures.json-tmlanguage"
+      },
+
+      "captureItem": {
+        "begin": "\"(\\d+)\"\\s+*?:\\s*?\\{",
+        "beginCaptures": {
+          "1": { "name": "constant.numeric.capture.name.json-tmlanguage" }
+        },
+        "end": "\\}",
+        "patterns": [
+          { "include": "#name" },
+          { "include": "#comments" }
+        ],
+        "contentName": "meta.capture.json-tmlanguage"
+      },
+
+      "comments": {
+        "patterns": [
+          { "match": "(//).*",
+            "name": "comment.line.double-slash.json-tmlanguage"
+          },
+          { "begin": "/\\*",
+            "end": "\\*/",
+            "name": "comment.block.json-tmlanguage"
+          }
+        ]
+      }
+  },
+
+  "uuid": "8c7e3a99-1780-4b72-9ce5-585949c0563e"
+}

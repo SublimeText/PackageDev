@@ -3,11 +3,22 @@
     { "caption": "z:AAAPackageDev: New Raw Snippet from Snippet", "command": "new_raw_snippet_from_snippet" },
     { "caption": "z:AAAPackageDev: Generate Snippet from Raw Snippet", "command": "generate_snippet_from_raw_snippet" },
 
-    { "caption": "z:AAAPackageDev: New Syntax Definition", "command": "new_syntax_def" },
-    { "caption": "z:AAAPackageDev: New Syntax Definition from Buffer", "command": "new_syntax_def_from_buffer" },
+    { "caption": "z:AAAPackageDev: New JSON Syntax Definition",  "command": "new_json_syntax_def" },
+    { "caption": "z:AAAPackageDev: New YAML Syntax Definition",  "command": "new_yaml_syntax_def" },
+    { "caption": "z:AAAPackageDev: New PList Syntax Definition", "command": "new_plist_syntax_def" },
 
-    { "caption": "z:AAAPackageDev: JSON to Property List", "command": "json_to_plist" },
-    { "caption": "z:AAAPackageDev: Property List to JSON", "command": "plist_to_json" },
+    { "caption": "z:AAAPackageDev: New JSON Syntax Definition to Buffer",  "command": "new_yaml_syntax_def_to_buffer" },
+    { "caption": "z:AAAPackageDev: New YAML Syntax Definition to Buffer",  "command": "new_yaml_syntax_def_to_buffer" },
+    { "caption": "z:AAAPackageDev: New PList Syntax Definition to Buffer", "command": "new_plist_syntax_def_to_buffer" },
+
+    { "caption": "z:AAAPackageDev: Convert (YAML, JSON, PList) to…", "command": "convert_file" },
+    { "caption": "z:AAAPackageDev: Convert to YAML and Rearrange Syntax Definition", "command": "convert_file", "args": {
+        "target_format": "yaml",
+        "ext": "YAML-tmLanguage",
+        "open_new_file": true,
+        "rearrange_yaml_syntax_def": true
+    } },
+    { "caption": "z:AAAPackageDev: Rearrange YAML Syntax Definition", "command": "rearrange_yaml_syntax_def" },
 
     { "caption": "z:AAAPackageDev: New Settings File", "command": "new_settings" },
 
@@ -21,5 +32,4 @@
 
     { "caption": "z:AAAPackageDev: New Package", "command": "new_package" },
     { "caption": "z:AAAPackageDev: Delete Package", "command": "delete_package" }
-
 ]

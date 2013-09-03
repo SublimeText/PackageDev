@@ -1,0 +1,199 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Oniguruma Regular Expression
+comment: 'Version 5.9.1 2007/09/05, Specification used: http://www.geocities.jp/kosako3/oniguruma/doc/RE.txt'
+scopeName: source.oniregexp
+fileTypes: [ore]
+uuid: 516c608b-ce09-4e6f-a2db-caedc8d1fbff
+
+#foldingStartMarker: (?<!\\)\( # buggy for '\\('
+#foldingStopMarker: (?<!\\)\) # buggy for '\\)'
+
+# Notable issues:
+# - No differentiation between <> and '' for \g, \k and (?<>); (?<name') is validly highlighted.
+# - Using the number sign # in extended mode (?x) is not considered as a comment (due to limitations);
+#   use (?#comment) instead. (Works on the first line though.)
+# - \c, \C-, \M- and \M-\C- accept a "character code point value" which I interpreted as \d+.
+# - Folding Markers do not seem to have any effect (and the reindent command shouldn't be used anyway).
+# - (?i:subexp) and (?>subexp) can not be combined, afaik; use (?>(?i)subexp) instead.
+# - [\xa1\xa7-\xa4\xa1] is not yet supported
+
+###########################################################
+
+patterns:
+# basic | operator
+- name: keyword.operator.regexp
+  match: \|
+
+
+# anchors
+- name: entity.other.control.anchors.regexp # was keyword
+  match: \\[bBAZzG]|[$^]
+
+# '\' character classes
+- include: '#character_class'
+
+# '\p{}' character properties
+- include: '#character_property'
+
+# set
+- include: '#set'
+
+# comment group
+- name: comment.block.number-sign.regexp
+  begin: \(\?#
+  end: (?<!\\)\)
+
+# (?x) group [with # comments]
+# These are really tricky and I'd rather like to have some flag mechanism here
+# but apparently that doesn't work within whole tmLanguages. Thus, this feature
+# only works within the first line where (?x) occurs, which is quite useless...
+- name: meta.regexp.group.extended
+  begin: |
+    (?x) ((?#1)\() # comment in the first line
+    ((?#2)\? # comment in the second
+      [im]?x[im]?(?:-[im]{1,2})?
+      ((?#3)\))
+    )
+  beginCaptures:
+   '1': {name: storage.type.regexp.group.begin}
+   '2': {name: string.regexp constant.other.assertion.regexp}
+   '3': {name: storage.type.regexp.group.end}
+  end: |
+    (?x) ((?#1)\()
+    ((?#2)\?
+      [im]{,2}(?:-[im]?x[im]?)?\)
+    )
+    |\) (?# the next closing "\)"; escaped \) would've been matched)
+    |\z (?# or the end of the "stream" [which is, apparently, also the end of the line])
+  endCaptures:
+   '1': {name: storage.type.regexp.group.begin}
+   '2': {name: string.regexp constant.other.assertion.regexp}
+   '3': {name: storage.type.regexp.group.end}
+  patterns:
+  - name: comment.line.number-sign.regexp
+    match: '(?<!\\)#.*'
+  - include: source.oniregexp
+
+# group
+- name: meta.regexp.group
+  begin: |
+    (?x) ((?#1)\()
+    ((?#2)\?
+      (?:
+       <[=!]
+      |[>=:!]
+      |[imx]{,3}(?:-[imx]{1,3})?(?::(?!\))|(?=\)))
+      |[<']((?#3)\w+)[>']
+      )
+    )?
+  beginCaptures:
+   '1': {name: storage.type.regexp.group.begin}
+   '2': {name: string.regexp constant.other.assertion.regexp}
+   '3': {name: variable.other.regexp}
+  end: \)
+  endCaptures:
+   '0': {name: storage.type.regexp.group.end}
+  patterns:
+  - include: source.oniregexp
+
+# special characters (escaped)
+# (needs higher precedence because \123 would be matched by keyword.other.backref.regexp)
+- include: '#special_escapes'
+
+# backref
+- name: keyword.other.backref.regexp
+  match: | # (?<!\|)\g\w+
+    (?x)
+     (\\\d+)
+    |(\\k[<'](-?\d+|\w+([-+]\d+)?)[>'])
+  captures:
+    '1': {name: variable.other.regexp}
+    '2': {name: keyword.other.backref.regexp}
+    '3': {name: variable.other.regexp}
+
+# subexp call
+- name: keyword.other.subexp-call.regexp
+  match: \\g[<'](-?\d+|\w+)[>']
+  captures:
+    '1': {name: variable.other.regexp}
+
+# quantifier
+- name: support.operator.quantifier.regexp # was keyword
+  match: ((?<!\()[?*+][?+]?)|\{\d*(,\d*)?\}
+
+# all the other '\'-escaped chars
+- include: '#escaped_char'
+
+###########################################################
+
+repository:
+# only used for sets and matches used in both global and set scope
+
+  set:
+    name: string.regexp.set
+    begin: \[(\^?\])? # TOCHECK: "[^]]" and "[]]" valid?
+    end: \]
+    patterns:
+    - name: constant.other.posix-bracket.regexp
+      match: \[:\^?(?>alnum|alpha|ascii|blank|cntrl|digit|graph|lower|print|punct|space|upper|xdigit|word):\]
+    - include: '#set' # recursive; '$self' would self-include the whole file
+    - include: '#character_class'
+    - include: '#character_property'
+    - include: '#special_escapes'
+    - include: '#escaped_char'
+    - name: constant.other.range.regexp
+      match: .-[^\]]
+    - name: keyword.operator.intersection.regexp
+      match: (?<!\[)&&(?!\])
+
+  character_class:
+    name: keyword.control.character-class.regexp
+    match: \\[wWsSdDhH]|\.
+
+  character_property:
+    name: keyword.contol.character-property.regexp
+    match: |
+      (?x)
+      \\(?:p\{\^?|P\{)(
+        (?#all encodings)
+         (?>Alnum|Alpha|Blank|Cntrl|Digit|Graph|Lower|
+            Print|Punct|Space|Upper|XDigit|Word|ASCII)
+        (?#EUC_JP, Shift_JIS)
+        |(?>Hiragana|Katakana)
+        (?#UTF8, UTF16, UTF32)
+        |(?>Any|Assigned)
+        |(?>C|Cc|Cf|Cn|Co|Cs|L|Ll|Lm|Lo|Lt|Lu|
+            M|Mc|Me|Mn|N|Nd|Nl|No|P|Pc|Pd|Pe|Pf|Pi|Po|Ps|
+            S|Sc|Sk|Sm|So|Z|Zl|Zp|Zs)
+        |(?>Arabic|Armenian|Bengali|Bopomofo|Braille|Buginese|
+            Buhid|Canadian_Aboriginal|Cherokee|Common|Coptic|
+            Cypriot|Cyrillic|Deseret|Devanagari|Ethiopic|Georgian|
+            Glagolitic|Gothic|Greek|Gujarati|Gurmukhi|Han|Hangul|
+            Hanunoo|Hebrew|Hiragana|Inherited|Kannada|Katakana|
+            Kharoshthi|Khmer|Lao|Latin|Limbu|Linear_B|Malayalam|
+            Mongolian|Myanmar|New_Tai_Lue|Ogham|Old_Italic|Old_Persian|
+            Oriya|Osmanya|Runic|Shavian|Sinhala|Syloti_Nagri|Syriac|
+            Tagalog|Tagbanwa|Tai_Le|Tamil|Telugu|Thaana|Thai|Tibetan|
+            Tifinagh|Ugaritic|Yi)
+      )\}
+    captures:
+      '1': {name: constant.other.property.regexp}
+
+  special_escapes:
+    name: constant.character.escape.special.regexp
+    match: |
+      (?x)\\
+      ([tvnrbfae]   (?# general chars)
+      |[0-8]{3}     (?# octal)
+      |x\h\h        (?# hexadecimal)
+      |x\{7\h{7}\}  (?# wide hexadecimal)
+      |c\d+         (?# control char)
+      |M-(\\C-)?\d+ (?# meta control char)
+      |C-\d+        (?# control char 2)
+      )
+
+  escaped_char:
+    name: constant.character.escape.general.regexp
+    match: \\.
+...

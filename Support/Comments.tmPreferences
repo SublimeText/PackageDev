@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Comments</string>
 	<key>scope</key>
-	<string>source.sublime-settings</string>
+	<string>source.sublime-settings, source.sublimemacro, source.sublimekeymap</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>

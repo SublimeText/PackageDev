@@ -1,9 +1,13 @@
+import os
+
+from sublime import packages_path
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
 
+PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]
 
-BUILD_SYSTEM_SYNTAX = 'Packages/AAAPackageDev/Support/Sublime Text Build System.tmLanguage'
+BUILD_SYSTEM_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Text Build System.tmLanguage" % PLUGIN_NAME
 
 
 # Adding "2" to avoid name clash with shipped command.
