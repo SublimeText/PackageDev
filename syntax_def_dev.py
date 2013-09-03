@@ -440,7 +440,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                     for i, token in enumerate(tokens):
                         node = nodes.find(token)
                         if not node:
-                            print("[PackageDev] Warning: `%s` not found in scope naming conventions"
+                            sublime.status_message("[PackageDev] Warning: `%s` not found in scope naming conventions"
                                   % '.'.join(tokens[:i + 1]))
                             break
                         nodes = node.children
@@ -450,12 +450,12 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                     if nodes and node:
                         return inhibit(nodes.to_completion())
                     else:
-                        print("[PackageDev] No nodes available in scope naming conventions after `%s`"
+                        sublime.status_message("[PackageDev] No nodes available in scope naming conventions after `%s`"
                               % '.'.join(tokens))
                         # Search for the base scope appendix/suffix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:
-                            print("[PackageDev] Warning: Could not find base scope")
+                            sublime.status_message("[PackageDev] Warning: Could not find base scope")
                             return []
 
                         base_scope = view.substr(regs[0]).strip("\"'")
@@ -485,7 +485,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                 return []
 
             variables = [view.substr(r) for r in view.find_by_selector("variable.other.repository-key")]
-            print("[PackageDev] Found %d local repository keys to be used in includes" % len(variables))
+            sublime.status_message("[PackageDev] Found %d local repository keys to be used in includes" % len(variables))
             return inhibit(zip(variables, variables))
 
         # Do not bother if the syntax def already matched the current position, except in the main repository
