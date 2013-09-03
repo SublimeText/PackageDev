@@ -4,17 +4,6 @@ import os
 import json
 import yaml
 import plistlib
-try:
-    from xml.parsers.expat import ExpatError, ErrorString
-except ImportError:
-    # Define dummy identifiers if the expat module is not available.
-    # These errors rarely occur anyway and they can be expressed using the
-    # default method and converting them into a string.
-    class ExpatError(Exception):
-        pass
-
-    def ErrorString(n):
-        pass
 
 import sublime
 
@@ -342,25 +331,45 @@ class PlistLoader(LoaderProto):
 
     def parse(self, *args, **kwargs):
         text = get_text(self.view)
-        # Parsing will fail if `<?xml version="1.0" encoding="UTF-8"?>` encoding is in the first line, so strip it.
-        # XXX: Find a better way to fix this misbehaviour of plistlib (I mean, it even "writes" that line)
+
+        # Parsing will fail if `<?xml version="1.0" encoding="UTF-8"?>` encoding is in the first
+        # line, so strip it.
+        # XXX: Find a better way to fix this misbehaviour of xml stuff in Python
+        #      (I mean, plistliv even "writes" that line)
         if text.startswith('<?xml version="1.0" encoding="UTF-8"?>'):
             text = text[38:]
 
         try:
-            data = plistlib.readPlistFromString(text)
-        except ExpatError, e:
-            self.output.write_line(self.debug_base
-                                   % (self.file_path,
-                                      ErrorString(e.code),
-                                      e.lineno,
-                                      e.offset)
-                                   )
-        except BaseException, e:
-            # Whatever could happen here ... (or ExpatError not available/imported)
-            self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            from xml.parsers.expat import ExpatError, ErrorString
+        except ImportError:
+            # xml.parsers.expat is not available on certain Linux dists, use plist_parser then.
+            # See https://github.com/SublimeText/AAAPackageDev/issues/19
+            import plist_parser
+            print("[AAAPackageDev] Using plist_parser")
+
+            try:
+                data = plist_parser.parse_string(text)
+            except plist_parser.PropertyListParseError, e:
+                self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            else:
+                return data
         else:
-            return data
+            try:
+                # This will try `from xml.parsers.expat import ParserCreate`
+                # but since it is already tried above it should succeed.
+                data = plistlib.readPlistFromString(text)
+            except ExpatError, e:
+                self.output.write_line(self.debug_base
+                                       % (self.file_path,
+                                          ErrorString(e.code),
+                                          e.lineno,
+                                          e.offset)
+                                       )
+            except BaseException, e:
+                # Whatever could happen here ...
+                self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            else:
+                return data
 
 
 class YAMLLoader(LoaderProto):
