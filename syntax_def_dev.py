@@ -101,8 +101,12 @@ class NewSyntaxDefToBufferCommand(object):
         return self.view.size() == 0
 
     def run(self, edit):
-        self.view.settings().set('default_dir', root_at_packages('User'))
-        self.view.settings().set('syntax', self.lang or BASE_SYNTAX_LANGUAGE % self.typ.upper())
+        ext = "%stmLanguage" % ('%s-' % self.typ.upper() if self.typ != 'plist' else '')
+
+        s = self.view.settings()
+        s.set('default_dir', root_at_packages('User'))
+        s.set('default_extension', ext)
+        s.set('syntax', self.lang or BASE_SYNTAX_LANGUAGE % self.typ.upper())
 
         self.view.run_command('insert_snippet', {'contents': boilerplates[self.typ] % uuid.uuid4()})
 

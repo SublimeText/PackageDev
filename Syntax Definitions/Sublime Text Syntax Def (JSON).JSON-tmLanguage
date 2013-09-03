@@ -3,7 +3,7 @@
 
   "scopeName": "source.json-tmlanguage",
 
-  "fileTypes": ["json-tmlanguage"],
+  "fileTypes": ["JSON-tmLanguage"],
 
   "patterns": [
     { "include": "#syntaxName" },

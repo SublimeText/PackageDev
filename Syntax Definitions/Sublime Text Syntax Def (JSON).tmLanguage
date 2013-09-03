@@ -4,7 +4,7 @@
 <dict>
 	<key>fileTypes</key>
 	<array>
-		<string>json-tmlanguage</string>
+		<string>JSON-tmLanguage</string>
 	</array>
 	<key>name</key>
 	<string>Sublime Text Syntax Def (JSON)</string>
