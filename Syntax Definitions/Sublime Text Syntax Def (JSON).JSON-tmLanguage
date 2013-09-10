@@ -8,6 +8,8 @@
   "patterns": [
     { "include": "#syntaxName" },
     { "include": "#scopeName" },
+    { "include": "#foldingStartMarker" },
+    { "include": "#foldingStopMarker" },
     { "include": "#name" },
     { "include": "#fileTypes" },
     { "include": "#patterns" },
@@ -104,6 +106,22 @@
 
       "scopeName": {
         "match": "\"(scopeName)\"\\s*?:\\s*?\"(.+?)\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "string.meta.scope.name.json-tmlanguage" }
+        }
+      },
+
+      "foldingStartMarker": {
+        "match": "\"(foldingStartMarker)\"\\s*?:\\s*?\"(.+?)\"",
+        "captures": {
+          "1": { "name": "keyword.other.control.json-tmlanguage" },
+          "2": { "name": "string.meta.scope.name.json-tmlanguage" }
+        }
+      },
+
+      "foldingStopMarker": {
+        "match": "\"(foldingStopMarker)\"\\s*?:\\s*?\"(.+?)\"",
         "captures": {
           "1": { "name": "keyword.other.control.json-tmlanguage" },
           "2": { "name": "string.meta.scope.name.json-tmlanguage" }

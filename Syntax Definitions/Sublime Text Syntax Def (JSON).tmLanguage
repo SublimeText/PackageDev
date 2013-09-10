@@ -20,6 +20,14 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#foldingStartMarker</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#foldingStopMarker</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#name</string>
 		</dict>
 		<dict>
@@ -170,6 +178,42 @@
 					<string>#comments</string>
 				</dict>
 			</array>
+		</dict>
+		<key>foldingStartMarker</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.control.json-tmlanguage</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>string.meta.scope.name.json-tmlanguage</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>"(foldingStartMarker)"\s*?:\s*?"(.+?)"</string>
+		</dict>
+		<key>foldingStopMarker</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.control.json-tmlanguage</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>string.meta.scope.name.json-tmlanguage</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>"(foldingStopMarker)"\s*?:\s*?"(.+?)"</string>
 		</dict>
 		<key>include</key>
 		<dict>
