@@ -534,9 +534,9 @@ comment
 (?:,\ +|\{\ *|^\ {2,}|^\ *-\ +)
   ((["']?)(include)(\2))(:)\ +
 ((["'])(?:(\$self)
-          |\#?([-\w\.\ ]*))(\7)
- |(\$self)
- |([-\w\.\ ]*)
+       |\#?([-\w\.\ ]*)) (\7)
+|(\$self)
+|([-\w\.\ ]*)
 )
 </string>
 			<key>name</key>
@@ -602,7 +602,7 @@ comment
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)</string>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["'])</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -639,26 +639,66 @@ comment
 					<key>contentName</key>
 					<string>meta.value.yaml-tmlanguage</string>
 					<key>end</key>
-					<string>(?x)
-(?:
- (?&lt;![^\\]\\) (?=["'])(\6) (?# this is the end; if there was a quote, this will terminate it)
- |\6 (?# better hope we are not in a quoted string and that this works)
-  (?=,[ ]
-  |,$
-  |\ *$
-  |\ *}
-  |(?&lt;=\ )[#{\[]
-  )
-)
-</string>
+					<string>\6(?!\6)</string>
 					<key>endCaptures</key>
 					<dict>
-						<key>1</key>
+						<key>0</key>
 						<dict>
 							<key>name</key>
 							<string>punctuation.definition.string.yaml-tmlanguage</string>
 						</dict>
 					</dict>
+					<key>name</key>
+					<string>meta.match.yaml-tmlanguage</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>''</string>
+							<key>name</key>
+							<string>test</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>source.oniregexp</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!["'])</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.match.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>meta.value.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>(?=, |,$| +[#{\['"]| *$| *})</string>
 					<key>name</key>
 					<string>meta.match.yaml-tmlanguage</string>
 					<key>patterns</key>
