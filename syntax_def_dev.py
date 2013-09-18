@@ -133,9 +133,12 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
             # Block style for multiline strings
             if any(c in value for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029"):
                 style = '|'
+
             # Use " to denote strings if the string contains ' but not ";
             # but try to do this only when necessary as non-quoted strings are always better
-            elif "'" in value and not '"' in value and value[0] in "{#'}":
+            elif ("'" in value and not '"' in value
+                  and (value[0] in "[]{#'}@"
+                       or any(s in value for s in (" '", ' #', ', ', ': ')))):
                 style = '"'
 
         return super(YAMLLanguageDevDumper, self).represent_scalar(tag, value, style)

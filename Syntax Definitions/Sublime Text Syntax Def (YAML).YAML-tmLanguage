@@ -229,11 +229,10 @@ repository:
       - include: '#comment' # for comments after the "|" or ">"
       - include: source.oniregexp
 
-    # single-line (or single-string)
-    # TODO: consider " and ' separately as they use different escape mechanisms actually
+    # single-line (quoted)
     - name: meta.match.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["']?)
+      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(["'])
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -241,25 +240,27 @@ repository:
         '4': {name: punctuation.definition.string.yaml-tmlanguage}
         '5': {name: keyword.control.definition.yaml-tmlanguage}
         '6': {name: punctuation.definition.string.yaml-tmlanguage}
-      # This regexp is complex due to the many possibilities to terminate a string.
-      # Special cases:
-      # -
-      # - Anything after closing quotes (" or ')
-      # -
-      end: |
-        (?x)
-        (?:
-         (?<![^\\]\\) (?=["'])(\6) (?# this is the end; if there was a quote, this will terminate it)
-         |\6 (?# better hope we are not in a quoted string and that this works)
-          (?=,[ ]
-          |,$
-          |\ *$
-          |\ *}
-          |(?<=\ )[#{\[]
-          )
-        )
+      end: \6(?!\6)
       endCaptures:
-        '1': {name: punctuation.definition.string.yaml-tmlanguage}
+        '0': {name: punctuation.definition.string.yaml-tmlanguage}
+      patterns:
+      # Consume double-escaped single quotes so they won't interfere with the "end" match
+      - match: "''"
+        name: test
+      - include: source.oniregexp
+
+    # single-line (unquoted)
+    - name: meta.match.yaml-tmlanguage
+      contentName: meta.value.yaml-tmlanguage
+      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!["'])
+      beginCaptures:
+        '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '2': {name: punctuation.definition.string.yaml-tmlanguage}
+        '3': {name: keyword.other.match.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.control.definition.yaml-tmlanguage}
+      # This regexp is complex due to the many possibilities to terminate a string.
+      end: (?=, |,$| +[#{\['"]| *$| *})
       patterns:
       - include: source.oniregexp
 
@@ -270,9 +271,9 @@ repository:
       (?:,\ +|\{\ *|^\ {2,}|^\ *-\ +)
         ((["']?)(include)(\2))(:)\ +
       ((["'])(?:(\$self)
-                |\#?([-\w\.\ ]*))(\7)
-       |(\$self)
-       |([-\w\.\ ]*)
+             |\#?([-\w\.\ ]*)) (\7)
+      |(\$self)
+      |([-\w\.\ ]*)
       )
     captures:
       '1':  {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
