@@ -41,7 +41,7 @@ class BaseOrderedDictLoader(object):
             key = self.construct_object(key_node, deep=deep)
             try:
                 hash(key)
-            except TypeError, exc:
+            except TypeError as exc:
                 raise ConstructorError('while constructing a mapping', node.start_mark, 'found unacceptable key (%s)' % exc, key_node.start_mark)
             value = self.construct_object(value_node, deep=deep)
             mapping[key] = value
@@ -63,11 +63,11 @@ class OrderedDictSafeLoader(BaseOrderedDictLoader, SafeLoader):
 
 def add_ordereddict_constructor(cls):
     cls.add_constructor(
-        u'tag:yaml.org,2002:map',
+        'tag:yaml.org,2002:map',
         cls.construct_yaml_map
     )
     cls.add_constructor(
-        u'tag:yaml.org,2002:omap',
+        'tag:yaml.org,2002:omap',
         cls.construct_yaml_map
     )
 
@@ -82,7 +82,7 @@ class OrderedDictSafeDumper(SafeDumper):
 
     def represent_ordereddict(self, data):
         # Bypass the sorting in represent_mapping
-        return self.represent_mapping(u'tag:yaml.org,2002:map', data.items())
+        return self.represent_mapping('tag:yaml.org,2002:map', list(data.items()))
 
 OrderedDictSafeDumper.add_representer(
     OrderedDict,

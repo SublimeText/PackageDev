@@ -3,7 +3,7 @@ import sublime_plugin
 
 import os
 
-PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]
+PLUGIN_NAME = os.getcwd().replace(sublime.packages_path(), '')[1:]
 
 from sublime_lib.path import root_at_packages
 
@@ -87,17 +87,17 @@ class PackageManager(object):
         )
 
     def create_new(self, name):
-        print "[NewPackage] Creating new package...",
-        print root_at_packages(name)
+        print("[NewPackage] Creating new package...", end=' ')
+        print(root_at_packages(name))
 
         if self.dry_run:
             msg = "[NewPackage] ** Nothing done. This was a test. **"
-            print msg
+            print(msg)
             status(msg)
             return
 
         # Create top folder, default folders, default files.
-        map(os.makedirs, [root_at_packages(name, d) for d in DEFAULT_DIRS])
+        list(map(os.makedirs, [root_at_packages(name, d) for d in DEFAULT_DIRS]))
 
         for fname, template in DEFAULT_FILES:
             with open(root_at_packages(name, fname), 'w') as fh:
@@ -113,7 +113,7 @@ class PackageManager(object):
                     fh.write(content)
 
         msg = "[NewPackage] Created new package '%s'." % name
-        print msg
+        print(msg)
         status(msg)
 
     def __init__(self, dry_run=False):

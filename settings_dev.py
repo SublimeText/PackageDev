@@ -6,7 +6,7 @@ import sublime_plugin
 from sublime_lib.path import root_at_packages
 
 
-PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]
+PLUGIN_NAME = os.getcwd().replace(packages_path(), '')[1:]
 
 SETTINGS_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Settings.tmLanguage" % PLUGIN_NAME
 

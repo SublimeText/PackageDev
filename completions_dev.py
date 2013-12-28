@@ -5,7 +5,7 @@ import sublime_plugin
 
 from sublime_lib.path import root_at_packages
 
-PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]
+PLUGIN_NAME = os.getcwd().replace(packages_path(), '')[1:]
 
 COMPLETIONS_SYNTAX_DEF = "Packages/%s/Syntax Definitions/Sublime Completions.tmLanguage" % PLUGIN_NAME
 TPL = """{

@@ -208,7 +208,7 @@ class ConvertFileCommand(WindowAndTextCommand):
         data = None
         try:
             data = loader.load(*args, **kwargs)
-        except NotImplementedError, e:
+        except NotImplementedError as e:
             # use NotImplementedError to make the handler report the message as it pleases
             output.write_line(str(e))
             self.status(str(e), file_path)
@@ -236,4 +236,4 @@ class ConvertFileCommand(WindowAndTextCommand):
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
-        print "[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else "")
+        print("[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else ""))

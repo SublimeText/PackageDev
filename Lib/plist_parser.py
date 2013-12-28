@@ -14,12 +14,7 @@ a property list file and get back a python native data structure.
 
 import re
 import sys
-
-
-if sys.version_info >= (3,):
-    # Some forwards compatability
-    basestring = str
-
+import collections
 
 class PropertyListParseError(Exception):
     """Raised when parsing a property list is failed."""
@@ -235,11 +230,11 @@ class XmlPropertyListParser(object):
     # XmlPropertyListParser
     # ------------------------------------------------
     def _to_stream(self, io_or_string):
-        if isinstance(io_or_string, basestring):
+        if isinstance(io_or_string, str):
             # Creates a string stream for in-memory contents.
-            from cStringIO import StringIO
+            from io import StringIO
             return StringIO(io_or_string)
-        elif hasattr(io_or_string, 'read') and callable(getattr(io_or_string, 'read')):
+        elif hasattr(io_or_string, 'read') and isinstance(getattr(io_or_string, 'read'), collections.Callable):
             return io_or_string
         else:
             raise TypeError('Can\'t convert %s to file-like-object' % type(io_or_string))

@@ -87,7 +87,7 @@ class OutputPanel(object):
     def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
         if not isinstance(window, Window):
             raise ValueError("window parameter is invalid")
-        if not isinstance(panel_name, basestring):
+        if not isinstance(panel_name, str):
             raise ValueError("panel_name must be a string")
 
         self.window = window

@@ -10,7 +10,7 @@ tpl = """[
     { "caption": "${1:My Caption for the Comand Palette}", "command": "${2:my_command}" }$0
 ]"""
 
-PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]
+PLUGIN_NAME = os.getcwd().replace(packages_path(), '')[1:]
 
 SYNTAX_DEF = "Packages/%s/Syntax Definitions/Sublime Commands.tmLanguage" % PLUGIN_NAME
 

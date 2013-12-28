@@ -5,6 +5,7 @@ import yaml
 import plistlib
 
 from sublime_lib.view import OutputPanel
+import collections
 
 
 class DumperProto(object):
@@ -126,7 +127,7 @@ class DumperProto(object):
 
             for is_invalid, validate in funcs:
                 if is_invalid(obj):
-                    if callable(validate):
+                    if isinstance(validate, collections.Callable):
                         obj = validate(obj)
                     else:
                         obj = validate
@@ -175,7 +176,7 @@ class DumperProto(object):
         params = self.validate_params(kwargs)
         try:
             self.write(data, params, *args, **kwargs)
-        except Exception, e:
+        except Exception as e:
             self.output.write_line("Error writing %s: %s" % (self.name, e))
         else:
             return True

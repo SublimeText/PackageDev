@@ -7,7 +7,7 @@ from sublime_lib.path import root_at_packages
 from xml.etree import ElementTree as ET
 import os
 
-PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]
+PLUGIN_NAME = os.getcwd().replace(sublime.packages_path(), '')[1:]
 
 RAW_SNIPPETS_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Snippet (Raw).tmLanguage" % PLUGIN_NAME
 
