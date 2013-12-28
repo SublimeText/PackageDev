@@ -87,8 +87,7 @@ class PackageManager(object):
         )
 
     def create_new(self, name):
-        print("[NewPackage] Creating new package...", end=' ')
-        print(root_at_packages(name))
+        print("[NewPackage] Creating new package... {0}".format(root_at_packages(name)))
 
         if self.dry_run:
             msg = "[NewPackage] ** Nothing done. This was a test. **"
