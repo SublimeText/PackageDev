@@ -9,7 +9,7 @@ import json
 class SublimeInspect(sublime_plugin.WindowCommand):
     def on_done(self, s):
         rep = Report(s)
-        rep.show()        
+        rep.show()
 
     def run(self):
         self.window.show_input_panel("Search String:", '', self.on_done, None, None)
@@ -24,7 +24,7 @@ class Report(object):
             atts = dir(eval(self.s, {"sublime": sublime, "sublime_plugin": sublime_plugin}))
         except NameError as e:
             atts = e
-        
+
         self.data = atts
 
     def show(self):
