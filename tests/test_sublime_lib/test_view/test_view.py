@@ -22,16 +22,6 @@ def test_append():
     assert view.insert.call_args == ((edit, 100, "new text"),)
 
 
-def test_in_one_edit():
-    view = mock.Mock()
-
-    edit = object()
-    view.begin_edit.return_value = edit
-    with su_lib_view.in_one_edit(view) as x:
-        assert x is edit
-    assert view.end_edit.call_args == ((edit,),)
-
-
 def test_has_file_ext():
     view = mock.Mock()
 

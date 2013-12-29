@@ -1,13 +1,14 @@
 from contextlib import contextmanager
 from sublime import Region, View
+from sublime_plugin import TextCommand
 
 from .. import Settings
 
-__all__ = ['ViewSettings', 'unset_read_only', 'in_one_edit', 'append', 'clear',
+__all__ = ['ViewSettings', 'unset_read_only', 'append', 'clear',
            'has_sels', 'has_file_ext', 'base_scope', 'rowcount', 'rowwidth',
            'relative_point', 'coorded_region', 'coorded_substr', 'get_text',
            'get_viewport_point', 'get_viewport_coords', 'set_viewport',
-           'extract_selector']
+           'extract_selector', 'LibViewAppendCommand', 'LibViewClearCommand']
 
 
 class ViewSettings(Settings):
@@ -60,29 +61,6 @@ def unset_read_only(view):
             view.set_read_only(True)
 
 
-@contextmanager
-def in_one_edit(view, name=""):
-    """Context manager to group modifications in a view.
-
-        If there is already an edit for ``view`` all the child edits' changes
-        are merged into the outer-most one.
-
-        The parameter ``name`` usually contains the plugin's name, as for view
-        commands this is ``self.name()``.
-
-            Examples:
-                ...
-                with in_one_edit(view) as edit:
-                    ...
-                ...
-    """
-    try:
-        edit = view.begin_edit(name)
-        yield edit
-    finally:
-        view.end_edit(edit)
-
-
 def append(view, text, scroll=False):
     """Appends text to ``view``. Won't work if the view is read only.
 
@@ -92,12 +70,17 @@ def append(view, text, scroll=False):
             False: Scroll only if the selecton is already at the end.
             None:  Don't scroll.
     """
-    with in_one_edit(view) as edit:
+    view.run_command("lib_view_append", {"text": text, "scroll": scroll})
+
+
+class LibViewAppendCommand(TextCommand):
+    """Helper class for append()"""
+    def run(self, edit, text, scroll):
+        view = self.view
         size = view.size()
         scroll = scroll or (len(view.sel()) == 1 and view.sel()[0] == Region(size))
 
         view.insert(edit, size, text)
-
         if scroll:
             view.show(view.size())
 
@@ -105,7 +88,13 @@ def append(view, text, scroll=False):
 def clear(view, edit=None):
     """Removes all the text in ``view``. Won't work if the view is read only.
     """
-    with in_one_edit(view) as edit:
+    view.run_command("lib_view_clear")
+
+
+class LibViewClearCommand(TextCommand):
+    """Helper class for append()"""
+    def run(self, edit, text, scroll):
+        view = self.view
         view.erase(edit, Region(0, view.size()))
 
 
