@@ -6,11 +6,9 @@
 # Wrap all the stuff in a function because the following code apparenly uses
 # stuff from distutils and fails in ST.
 def main():
-
     import sys
     import os
     import string
-    from types import TupleType
     from glob import glob
     import subprocess
 
@@ -328,7 +326,7 @@ def main():
                 # XXX
                 if fn == 'setup.py':
                     continue  # We don't want setup.py
-                if type(fn) is TupleType:
+                if isinstance(fn, tuple):
                     alts = fn
                     got_it = 0
                     for fn in alts:
