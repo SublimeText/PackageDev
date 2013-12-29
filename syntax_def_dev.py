@@ -1,6 +1,5 @@
 import uuid
 import re
-import os
 import time
 import yaml
 
@@ -11,12 +10,11 @@ from sublime_lib.path import root_at_packages
 from sublime_lib.view import OutputPanel, base_scope, get_viewport_coords, set_viewport, extract_selector
 
 from AAAPackageDev.py_compat import OrderedDict
+from AAAPackageDev import PLUGIN_NAME
 from ordereddict_yaml import OrderedDictSafeDumper
 
 from AAAPackageDev.fileconv import loaders, dumpers
 from AAAPackageDev.scope_data import COMPILED_HEADS
-
-PLUGIN_NAME = os.getcwd().replace(sublime.packages_path(), '')[1:]  # os.path.abspath(os.path.dirname(__file__))
 
 BASE_SYNTAX_LANGUAGE = "Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
 

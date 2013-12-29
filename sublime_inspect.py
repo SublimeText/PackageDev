@@ -1,9 +1,7 @@
-import sublime, sublime_plugin
-
-import sublime_lib
-
 import os
-import json
+
+import sublime
+import sublime_plugin
 
 
 class SublimeInspect(sublime_plugin.WindowCommand):

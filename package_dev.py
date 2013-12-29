@@ -1,10 +1,8 @@
+import os
 import sublime
 import sublime_plugin
 
-import os
-
-PLUGIN_NAME = os.getcwd().replace(sublime.packages_path(), '')[1:]
-
+from AAAPackageDev import PLUGIN_NAME
 from sublime_lib.path import root_at_packages
 
 
