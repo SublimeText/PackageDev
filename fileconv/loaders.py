@@ -355,9 +355,14 @@ class PlistLoader(LoaderProto):
                 return data
         else:
             try:
+                readPlistFromString = plistlib.readPlistFromString
+            except AttributeError:
+                readPlistFromString = lambda text: plistlib.readPlistFromBytes(text.encode('utf-8'))
+
+            try:
                 # This will try `from xml.parsers.expat import ParserCreate`
                 # but since it is already tried above it should succeed.
-                data = plistlib.readPlistFromString(text)
+                data = readPlistFromString(text)
             except ExpatError as e:
                 self.output.write_line(self.debug_base
                                        % (self.file_path,
