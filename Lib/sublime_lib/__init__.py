@@ -46,13 +46,13 @@ class WindowAndTextCommand(WindowCommand, TextCommand):
         else:
             self.window = self.view.window()
 
-    def run_(self, args):
+    def run_(self, *args):
         """Wraps the other run_ method implementations from sublime_plugin.
         Required to update the self.view and self.window variables.
         """
         self._update_members()
         # super does not work here
-        (self._window_command and WindowCommand or TextCommand).run_(self, args)
+        (self._window_command and WindowCommand or TextCommand).run_(self, *args)
 
 
 class Settings(object):
