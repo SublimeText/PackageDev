@@ -1,11 +1,7 @@
-import os
-
-from sublime import packages_path
 import sublime_plugin
 
 from sublime_lib.path import root_at_packages
-
-PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]
+from AAAPackageDev import PLUGIN_NAME
 
 COMPLETIONS_SYNTAX_DEF = "Packages/%s/Syntax Definitions/Sublime Completions.tmLanguage" % PLUGIN_NAME
 TPL = """{

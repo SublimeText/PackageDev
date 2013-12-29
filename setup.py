@@ -6,11 +6,9 @@
 # Wrap all the stuff in a function because the following code apparenly uses
 # stuff from distutils and fails in ST.
 def main():
-
     import sys
     import os
     import string
-    from types import TupleType
     from glob import glob
     import subprocess
 
@@ -53,10 +51,9 @@ def main():
             except DistutilsExecError:
                 # XXX really should distinguish between "couldn't find
                 # external 'zip' command" and "zip failed".
-                raise DistutilsExecError, \
-                      ("unable to create zip file '%s': "
+                raise DistutilsExecError(("unable to create zip file '%s': "
                        "could neither import the 'zipfile' module nor "
-                       "find a standalone zip utility") % zip_filename
+                       "find a standalone zip utility") % zip_filename)
 
         else:
             log.info("creating '%s' and adding '%s' to it",
@@ -178,14 +175,12 @@ def main():
                 try:
                     self.formats = [self.default_format[os.name]]
                 except KeyError:
-                    raise DistutilsPlatformError, \
-                          "don't know how to create source distributions " + \
-                          "on platform %s" % os.name
+                    raise DistutilsPlatformError("don't know how to create source distributions " + \
+                          "on platform %s" % os.name)
 
             bad_format = archive_util.check_archive_formats(self.formats)
             if bad_format:
-                raise DistutilsOptionError, \
-                      "unknown archive format '%s'" % bad_format
+                raise DistutilsOptionError("unknown archive format '%s'" % bad_format)
 
             if self.dist_dir is None:
                 self.dist_dir = "dist"
@@ -331,7 +326,7 @@ def main():
                 # XXX
                 if fn == 'setup.py':
                     continue  # We don't want setup.py
-                if type(fn) is TupleType:
+                if isinstance(fn, tuple):
                     alts = fn
                     got_it = 0
                     for fn in alts:
@@ -395,7 +390,7 @@ def main():
 
                 try:
                     self.filelist.process_template_line(line)
-                except DistutilsTemplateError, msg:
+                except DistutilsTemplateError as msg:
                     self.warn("%s, line %d: %s" % (template.filename,
                                                    template.current_line,
                                                    msg))
@@ -555,7 +550,7 @@ def main():
             pass
 
         def run(self):
-            print NotImplementedError("Command not implemented yet.")
+            print(NotImplementedError("Command not implemented yet."))
 
     class test(Command):
         """Does it make sense?"""

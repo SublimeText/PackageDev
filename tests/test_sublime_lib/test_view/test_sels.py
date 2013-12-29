@@ -1,6 +1,9 @@
 import sys
 import os
 
-import mock
+try:
+    import mock
+except ImportError:
+    from unittest import mock
 
 import sublime

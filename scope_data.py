@@ -141,8 +141,6 @@ class ScopeNode(object):
     def __eq__(self, other):
         if type(other) == str:
             return str(self) == other
-        elif type(other) == unicode:
-            return unicode(str(self)) == other
 
     def __str__(self):
         return self.name
@@ -175,7 +173,7 @@ for line in lines:
         indent_level += 1
     if not line.startswith(indent * indent_level):
         # indent decreased
-        for level in xrange(indent_level - 1, 0, -1):
+        for level in range(indent_level - 1, 0, -1):
             if line.startswith(indent * level):
                 indent_level = level
                 break

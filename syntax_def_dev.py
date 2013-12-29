@@ -1,6 +1,6 @@
+from __future__ import unicode_literals
 import uuid
 import re
-import os
 import time
 import yaml
 
@@ -10,13 +10,12 @@ import sublime_plugin
 from sublime_lib.path import root_at_packages
 from sublime_lib.view import OutputPanel, base_scope, get_viewport_coords, set_viewport, extract_selector
 
-from ordereddict import OrderedDict
+from AAAPackageDev.py_compat import OrderedDict
+from AAAPackageDev import PLUGIN_NAME
 from ordereddict_yaml import OrderedDictSafeDumper
 
-from fileconv import loaders, dumpers
-from scope_data import COMPILED_HEADS
-
-PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]  # os.path.abspath(os.path.dirname(__file__))
+from AAAPackageDev.fileconv import loaders, dumpers
+from AAAPackageDev.scope_data import COMPILED_HEADS
 
 BASE_SYNTAX_LANGUAGE = "Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
 
@@ -129,9 +128,9 @@ class NewPlistSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plug
 
 class YAMLLanguageDevDumper(OrderedDictSafeDumper):
     def represent_scalar(self, tag, value, style=None):
-        if tag == u'tag:yaml.org,2002:str':
+        if tag == 'tag:yaml.org,2002:str':
             # Block style for multiline strings
-            if any(c in value for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029"):
+            if any(c in value for c in "\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029"):
                 style = '|'
 
             # Use " to denote strings if the string contains ' but not ";
@@ -184,8 +183,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
                     od[key] = obj[key]
                     del obj[key]
             # The remaining stuff (in alphabetical order)
-            keys = obj.keys()
-            keys.sort()
+            keys = sorted(obj.keys())
             for key in keys:
                 od[key] = obj[key]
                 del obj[key]
@@ -206,7 +204,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         self.output.write_line("Dumping %s..." % self.name)
         try:
             return yaml.dump(data, **params)
-        except Exception, e:
+        except Exception as e:
             self.output.write_line("Error dumping %s: %s" % (self.name, e))
 
 
@@ -308,7 +306,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         data = None
         try:
             data = loader.load()
-        except NotImplementedError, e:
+        except NotImplementedError as e:
             # Use NotImplementedError to make the handler report the message as it pleases
             output.write_line(str(e))
             self.status(str(e), file_path)
@@ -358,7 +356,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 select(find('meta.patterns - meta.repository-block'))
                 + select(find('meta.repository-block'))
                 + select(find('meta.repository-block meta.repository-key'), False)
-                + select(filter(filter_pattern_regs, find('meta')), False)
+                + select(list(filter(filter_pattern_regs, find('meta'))), False)
             )
 
             # Iterate in reverse order to not clash the regions because we will be modifying the source
@@ -489,7 +487,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
 
             variables = [view.substr(r) for r in view.find_by_selector("variable.other.repository-key")]
             sublime.status_message("[PackageDev] Found %d local repository keys to be used in includes" % len(variables))
-            return inhibit(zip(variables, variables))
+            return inhibit(list(zip(variables, variables)))
 
         # Do not bother if the syntax def already matched the current position, except in the main repository
         scope = view.scope_name(loc).strip()

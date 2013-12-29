@@ -1,12 +1,22 @@
 import os
 import sys
 
-from sublime import packages_path
-
-PLUGIN_NAME = os.getcwdu().replace(packages_path(), '')[1:]
-
 # Makes sublime_lib package available for all packages.
-libpath = os.path.join(packages_path(), PLUGIN_NAME, "Lib")
-if not libpath in sys.path:
-    sys.path.append(libpath)
-    print "[AAAPackageDev] Added sublime_lib to sys.path."
+PLUGIN_DIR = os.path.abspath(os.path.dirname(__file__))
+PLUGIN_NAME = os.path.split(PLUGIN_DIR)[1]
+
+libpaths = [
+    os.path.join(PLUGIN_DIR, "Lib"),
+    # The current package is not imported as a python module in sublime text 2, so add the import path and use absolute imports.
+    os.path.dirname(PLUGIN_DIR)
+]
+for libpath in libpaths:
+    if not libpath in sys.path:
+        sys.path.append(libpath)
+        print("[AAAPackageDev] Added {0} to sys.path.".format(libpath))
+
+# Import compatibility fixes.
+import AAAPackageDev.py_compat
+
+# Import any submodule commands so they get loaded.
+from sublime_lib.view import *

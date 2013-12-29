@@ -1,5 +1,7 @@
 from sublime import Region, Window
-from ._view import ViewSettings, unset_read_only, in_one_edit, append, clear, get_text
+from sublime_plugin import TextCommand
+from ._view import ViewSettings, unset_read_only, append, clear, get_text
+from AAAPackageDev.py_compat import string_types
 
 
 class OutputPanel(object):
@@ -47,8 +49,7 @@ class OutputPanel(object):
     Useful attributes:
 
         view
-            The view handle of the output panel. Can be passed to
-            ``in_one_edit(output.view)`` to group modifications for example.
+            The view handle of the output panel.
 
     Defines the following methods:
 
@@ -87,7 +88,7 @@ class OutputPanel(object):
     def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
         if not isinstance(window, Window):
             raise ValueError("window parameter is invalid")
-        if not isinstance(panel_name, basestring):
+        if not isinstance(panel_name, string_types):
             raise ValueError("panel_name must be a string")
 
         self.window = window
@@ -163,6 +164,12 @@ class OutputPanel(object):
             Set the selection to the start, so that next_result will work as
             expected.
         """
-        with in_one_edit(self.view):
-            self.view.sel().clear()
-            self.view.sel().add(Region(0))
+        self.view.run_command("lib_view_output_panel_finish")
+
+
+class LibViewOutputPanelFinishCommand(TextCommand):
+    """Helper class for finish()"""
+    def run(self, edit):
+        self.view.sel().clear()
+        self.view.sel().add(Region(0))
+
