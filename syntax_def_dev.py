@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import uuid
 import re
 import time

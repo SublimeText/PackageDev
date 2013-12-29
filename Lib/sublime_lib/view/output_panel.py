@@ -1,6 +1,7 @@
 from sublime import Region, Window
 from sublime_plugin import TextCommand
 from ._view import ViewSettings, unset_read_only, append, clear, get_text
+from AAAPackageDev.py_compat import string_types
 
 
 class OutputPanel(object):
@@ -87,7 +88,7 @@ class OutputPanel(object):
     def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
         if not isinstance(window, Window):
             raise ValueError("window parameter is invalid")
-        if not isinstance(panel_name, str):
+        if not isinstance(panel_name, string_types):
             raise ValueError("panel_name must be a string")
 
         self.window = window
