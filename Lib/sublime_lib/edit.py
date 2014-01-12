@@ -153,7 +153,6 @@ if not ST2:
     # Changed command name to not clash with other variations of this file
     class SlApplyEdit(sublime_plugin.TextCommand):
         def run(self, edit, key):
-            print(edit, key)
             sublime.edit_storage.pop(key).run(self.view, edit)
 
     # Make command known to sublime_command despite not being loaded by it
