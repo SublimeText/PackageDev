@@ -1,27 +1,32 @@
 import uuid
 import re
-import os
 import time
 import yaml
 
 import sublime
 import sublime_plugin
 
-from sublime_lib.path import root_at_packages
+from sublime_lib.path import root_at_packages, get_package_name
 from sublime_lib.view import OutputPanel, base_scope, get_viewport_coords, set_viewport, extract_selector
 
-from ordereddict import OrderedDict
 from ordereddict_yaml import OrderedDictSafeDumper
 
-from fileconv import loaders, dumpers
-from scope_data import COMPILED_HEADS
+try:  # ST2
+    from ordereddict import OrderedDict
+    from fileconv import dumpers, loaders
+    from scope_data import COMPILED_HEADS
+except ImportError:  # ST3
+    from collections import OrderedDict
+    from .fileconv import dumpers, loaders
+    from .scope_data import COMPILED_HEADS
 
-PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]  # os.path.abspath(os.path.dirname(__file__))
+PLUGIN_NAME = get_package_name()
 
+# Must be forward slashes (no os.path.join)!
 BASE_SYNTAX_LANGUAGE = "Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
 
 
-# XXX: Move this to a txt file. Let user define his own under User too.
+# Technically ST does not use uuids at all, but we'll just leave it in
 boilerplates = dict(
     json="""// [PackageDev] target_format: plist, ext: tmLanguage
     { "name": "${1:Syntax Name}",
@@ -67,6 +72,7 @@ patterns:
 )
 
 
+# XXX: make this one command with args or something - 6 should definitely not be needed
 class NewSyntaxDefCommand(object):
     """Creates a new syntax definition file for Sublime Text with some
     boilerplate text.
@@ -203,10 +209,11 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         if sort:
             data = self.sort_keys(data, sort_order, sort_numeric)
         params = self.validate_params(kwargs)
+
         self.output.write_line("Dumping %s..." % self.name)
         try:
             return yaml.dump(data, **params)
-        except Exception, e:
+        except Exception as e:
             self.output.write_line("Error dumping %s: %s" % (self.name, e))
 
 
@@ -308,7 +315,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         data = None
         try:
             data = loader.load()
-        except NotImplementedError, e:
+        except NotImplementedError as e:
             # Use NotImplementedError to make the handler report the message as it pleases
             output.write_line(str(e))
             self.status(str(e), file_path)
@@ -444,7 +451,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                         node = nodes.find(token)
                         if not node:
                             sublime.status_message("[PackageDev] Warning: `%s` not found in scope naming conventions"
-                                  % '.'.join(tokens[:i + 1]))
+                                                   % '.'.join(tokens[:i + 1]))
                             break
                         nodes = node.children
                         if not nodes:
@@ -454,7 +461,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                         return inhibit(nodes.to_completion())
                     else:
                         sublime.status_message("[PackageDev] No nodes available in scope naming conventions after `%s`"
-                              % '.'.join(tokens))
+                                               % '.'.join(tokens))
                         # Search for the base scope appendix/suffix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:

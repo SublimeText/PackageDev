@@ -7,6 +7,7 @@ import plistlib
 
 import sublime
 
+from sublime_lib import ST2
 from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
 from sublime_lib.path import file_path_tuple
 
@@ -296,7 +297,7 @@ class JSONLoader(LoaderProto):
         try:
             text = strip_js_comments(text)
             data = json.loads(text)
-        except ValueError, e:
+        except ValueError as e:
             self.output.write_line(self.debug_base % (self.file_path, str(e)))
         else:
             return data
@@ -330,6 +331,8 @@ class PlistLoader(LoaderProto):
         return False
 
     def parse(self, *args, **kwargs):
+        # Note: I hate Plist and XML. And it doesn't help a bit that parsing
+        # plist files is a REAL PITA.
         text = get_text(self.view)
 
         # Parsing will fail if `<?xml version="1.0" encoding="UTF-8"?>` encoding is in the first
@@ -338,6 +341,10 @@ class PlistLoader(LoaderProto):
         #      (I mean, plistliv even "writes" that line)
         if text.startswith('<?xml version="1.0" encoding="UTF-8"?>'):
             text = text[38:]
+
+        # See https://github.com/SublimeText/AAAPackageDev/issues/34
+        if ST2 and isinstance(text, unicode):
+            text = text.encode('utf-8')
 
         try:
             from xml.parsers.expat import ExpatError, ErrorString
@@ -349,7 +356,7 @@ class PlistLoader(LoaderProto):
 
             try:
                 data = plist_parser.parse_string(text)
-            except plist_parser.PropertyListParseError, e:
+            except plist_parser.PropertyListParseError as e:
                 self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
             else:
                 return data
@@ -357,15 +364,18 @@ class PlistLoader(LoaderProto):
             try:
                 # This will try `from xml.parsers.expat import ParserCreate`
                 # but since it is already tried above it should succeed.
-                data = plistlib.readPlistFromString(text)
-            except ExpatError, e:
+                if ST2:
+                    data = plistlib.readPlistFromString(text)
+                else:
+                    data = plistlib.readPlistFromBytes(text.encode('utf-8'))
+            except ExpatError as e:
                 self.output.write_line(self.debug_base
                                        % (self.file_path,
                                           ErrorString(e.code),
                                           e.lineno,
                                           e.offset)
                                        )
-            except BaseException, e:
+            except BaseException as e:
                 # Whatever could happen here ...
                 self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
             else:
@@ -384,10 +394,10 @@ class YAMLLoader(LoaderProto):
         text = get_text(self.view)
         try:
             data = yaml.safe_load(text)
-        except yaml.YAMLError, e:
+        except yaml.YAMLError as e:
             out = self.debug_base % str(e).replace("<unicode string>", self.file_path)
             self.output.write_line(out)
-        except IOError, e:
+        except IOError as e:
             self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
         else:
             return data

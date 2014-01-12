@@ -1,13 +1,13 @@
+from xml.etree import ElementTree as ET
+
 import sublime
 import sublime_plugin
 
-from sublime_lib.view import has_file_ext
-from sublime_lib.path import root_at_packages
+from sublime_lib.view import has_file_ext, get_text, clear
+from sublime_lib.path import root_at_packages, get_package_name
 
-from xml.etree import ElementTree as ET
-import os
 
-PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]
+PLUGIN_NAME = get_package_name()
 
 RAW_SNIPPETS_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Snippet (Raw).tmLanguage" % PLUGIN_NAME
 
@@ -32,9 +32,8 @@ class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
         return self.view.match_selector(0, 'source.sublimesnippetraw')
 
     def run(self, edit):
-        # XXX: sublime_lib: new whole_content(view) function?
-        content = self.view.substr(sublime.Region(0, self.view.size()))
-        self.view.replace(edit, sublime.Region(0, self.view.size()), '')
+        content = get_text(self.view)
+        clear(self.view)
         self.view.run_command('insert_snippet', {'contents': TPL})
         self.view.settings().set('syntax', 'Packages/XML/XML.tmLanguage')
         # Insert existing contents into CDATA section. We rely on the fact
@@ -48,7 +47,7 @@ class NewRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
         return has_file_ext(self.view, 'sublime-snippet')
 
     def run(self, edit):
-        snippet = self.view.substr(sublime.Region(0, self.view.size()))
+        snippet = get_text(self.view)
         contents = ET.fromstring(snippet).findtext(".//content")
         v = self.view.window().new_file()
         v.insert(edit, 0, contents)
@@ -67,7 +66,7 @@ class CopyAndInsertRawSnippetCommand(sublime_plugin.TextCommand):
         return self.view.match_selector(0, 'source.sublimesnippetraw')
 
     def run(self, edit):
-        snip = self.view.substr(sublime.Region(0, self.view.size()))
+        snip = get_text(self.view)
         self.view.window().run_command('close')
         target = sublime.active_window().active_view()
         target.replace(edit, target.sel()[0], snip)
