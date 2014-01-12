@@ -2,10 +2,11 @@ import os
 import sys
 
 try:  # ST3
-    from .Lib.sublime_lib.path import get_package_name, get_package_path
+    from .Lib.sublime_lib.path import get_package_name
 
     PLUGIN_NAME = get_package_name()
-    libpath = os.path.join(get_package_path(), "Lib")
+    path = os.path.dirname(__file__)
+    libpath = os.path.join(path, "Lib")
 except ValueError:  # ST2
     # For some reason the import does only work when RELOADING the plugin, not
     # when ST is loading it initially.
