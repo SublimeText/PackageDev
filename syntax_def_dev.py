@@ -190,8 +190,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
                     od[key] = obj[key]
                     del obj[key]
             # The remaining stuff (in alphabetical order)
-            keys = obj.keys()
-            keys.sort()
+            keys = sorted(obj.keys())
             for key in keys:
                 od[key] = obj[key]
                 del obj[key]
@@ -365,7 +364,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 select(find('meta.patterns - meta.repository-block'))
                 + select(find('meta.repository-block'))
                 + select(find('meta.repository-block meta.repository-key'), False)
-                + select(filter(filter_pattern_regs, find('meta')), False)
+                + select(list(filter(filter_pattern_regs, find('meta'))), False)
             )
 
             # Iterate in reverse order to not clash the regions because we will be modifying the source

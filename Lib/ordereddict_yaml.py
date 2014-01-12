@@ -78,7 +78,7 @@ class OrderedDictSafeDumper(SafeDumper):
 
     def represent_ordereddict(self, data):
         # Bypass the sorting in represent_mapping
-        return self.represent_mapping(u'tag:yaml.org,2002:map', data.items())
+        return self.represent_mapping(u'tag:yaml.org,2002:map', list(data.items()))
 
 OrderedDictSafeDumper.add_representer(
     OrderedDict,
