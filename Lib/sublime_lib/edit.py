@@ -52,7 +52,7 @@ import inspect
 import sublime
 import sublime_plugin
 
-ST2 = sublime.version().startswith('2')
+from . import ST2
 
 try:
     sublime.edit_storage

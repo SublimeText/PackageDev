@@ -1,6 +1,11 @@
 from sublime_plugin import WindowCommand, TextCommand
 import sublime
 
+__all__ = ['ST2', 'ST3', 'WindowAndTextCommand', 'Settings', 'FileSettings']
+
+ST2 = sublime.version().startswith('2')
+ST3 = not ST2
+
 
 class WindowAndTextCommand(WindowCommand, TextCommand):
     """A class to derive from when using a Window- and a TextCommand in one
@@ -32,9 +37,11 @@ class WindowAndTextCommand(WindowCommand, TextCommand):
         if isinstance(param, sublime.Window):
             self.window = param
             self._window_command = True  # probably called from build system
+            self.typ = WindowCommand
         elif isinstance(param, sublime.View):
             self.view   = param
             self._window_command = False
+            self.typ = TextCommand
         else:
             raise TypeError("Something really bad happened and you are responsible")
 
@@ -46,13 +53,13 @@ class WindowAndTextCommand(WindowCommand, TextCommand):
         else:
             self.window = self.view.window()
 
-    def run_(self, args):
+    def run_(self, *args):
         """Wraps the other run_ method implementations from sublime_plugin.
         Required to update the self.view and self.window variables.
         """
         self._update_members()
-        # super does not work here
-        (self._window_command and WindowCommand or TextCommand).run_(self, args)
+        # Obviously `super` does not work here
+        self.typ.run_(self, *args)
 
 
 class Settings(object):
