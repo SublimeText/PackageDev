@@ -1,0 +1,70 @@
+===============================================================================
+AAAPackageDev received quite a few changes and is finally compatible with
+Sublime Text 3!
+===============================================================================
+
+
+The latest update is mostly ST3-compatibility, but because of technical issues
+the update news from the last update about 4 months ago has never been shown.
+Thus, the changelog from back then is included in this update notice. If you
+just want to read the current changes, see
+https://github.com/SublimeText/AAAPackageDev/pull/38.
+
+
+~ Reworked file conversion (plist <-> json) completely and added YAML to form
+  a "triangle". The Build system has been renamed to "Convert to ...".
+
+  It is recommended you check out the updated guide on
+  http://docs.sublimetext.info/en/sublime-text-2/extensibility/syntaxdefs.html
+  or just take a look at a sample file:
+  https://github.com/SublimeText/AAAPackageDev/blob/6dcb22151c99ede162460c3a54ea0ae69a07fb09/Syntax%20Definitions/Sublime%20Text%20Syntax%20Def%20%28YAML%29.YAML-tmLanguage
+
++ Added syntax definition and dynamic completions for YAML syntax definitions
+
+  The syntax highlight for YAML-tmLanguage files might still have some
+  problems because YAML is not easy to parse with regular expressions. Please
+  open an issue with an example for when the highlighting breaks or does not
+  work as intended.
+
++ Added `rearrange_yaml_syntax_def` command that rearranges and sorts YAML
+  syntax definitions sanely ("z:AAAPackageDev: Convert to YAML and Rearrange
+  Syntax Definition")
+
+~ JavaScript-like comments are recognized and ignored when converting.
+
+~ Revamp Raw Snippets highlighting
+
++ JSON syntax definitions now support the "@" symbol in goto anything (as well
+  as YAML) and highlights JavaScript-like comments, which can also be toggled
++ Added comment toggling for keymaps
+* Fixed #19 and made parsing plists work on certain Linux distributions by
+  using another plist parsing lib
+* Fixed highlighting of comments within sublime settings arrays
+* Fixed #15: Weird highlighting of build variants
+* Highlight `null` in sublime settings
+
+and more ...
+
+
+== Changes to sublime_lib (interesting for developers) ==
+
+Check the respective docstrings for a detailed description on usage:
+https://github.com/SublimeText/AAAPackageDev/tree/master/Lib/sublime_lib
+
++ Added PyYaml, ordereddict and plist_parser to Lib (ordereddict only for ST2)
+
+~ Changes to sublime_lib:
+    + Added `WindowAndTextCommand` class
+    + Added `Settings`, `FileSettings` and `view.ViewSettings` abstraction
+      classes
+    + Added `view.OutputPanel`
+    + Added `view.base_scope()`
+    + Added `view.unset_read_only()` context handler
+    + Added `view.extract_selector()` context handler
+    + Added `rel` parameter to `view.coorded_region()` and `view.substr()`
+    + Added scroll parameter to `view.append()`
+    + Added `path.file_path_tuple()` context handler
+    + Added `get_module_path()`, `get_package_path()` and `get_package_name()`
+      to `path`
+    * Fixed `view.relative_point()` returning wrong values in certain
+      scenarios

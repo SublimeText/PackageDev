@@ -2,13 +2,11 @@
 AAAPackageDev
 =============
 
-status: beta
-
 Overview
 ========
 
-AAAPackageDev helps create and edit syntax definitions, snippets, completions files, build systems
-and other Sublime Text extensions.
+AAAPackageDev is a Sublime Text 2 and 3 plugin that helps create and edit syntax definitions,
+snippets, completions files, build systems and other Sublime Text extensions.
 
 The general workflow looks like this:
 
