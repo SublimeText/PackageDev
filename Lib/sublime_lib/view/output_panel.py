@@ -1,5 +1,9 @@
-from sublime import Region, Window
-from ._view import ViewSettings, unset_read_only, in_one_edit, append, clear, get_text
+from sublime import Region, Window, version
+
+from ._view import ViewSettings, unset_read_only, append, clear, get_text
+
+if int(version()) > 3000:
+    basestring = str
 
 
 class OutputPanel(object):
@@ -8,11 +12,11 @@ class OutputPanel(object):
 
     OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True)
         * window
-            The window. This is usually ``self.window`` or
-            ``self.view.window()``, depending on the type of your command.
+            The window. This is usually `self.window` or
+            `self.view.window()`, depending on the type of your command.
 
         * panel_name
-            The panel's name, passed to ``window.get_output_panel()``.
+            The panel's name, passed to `window.get_output_panel()`.
 
         * file_regex
             Important for Build Systems. The user can browse the errors you
@@ -25,11 +29,11 @@ class OutputPanel(object):
                 r"Error in file "(.*?)", line (\d+), column (\d+)"
 
         * line_regex
-            Same style as ``file_regex`` except that it misses the first
+            Same style as `file_regex` except that it misses the first
             group for the file name.
 
-            If ``file_regex`` doesn't match on the current line, but
-            ``line_regex`` exists, and it does match on the current line,
+            If `file_regex` doesn't match on the current line, but
+            `line_regex` exists, and it does match on the current line,
             then walk backwards through the buffer until  a line matching
             file regex is found, and use these two matches
             to determine the file and line to go to; column is optional.
@@ -42,33 +46,33 @@ class OutputPanel(object):
         * read_only
             A boolean whether the output panel should be read only.
             You usually want this to be true.
-            Can be modified with ``self.view.set_read_only()`` when needed.
+            Can be modified with `self.view.set_read_only()` when needed.
 
     Useful attributes:
 
         view
             The view handle of the output panel. Can be passed to
-            ``in_one_edit(output.view)`` to group modifications for example.
+            `Edit(output.view)` to group modifications for example.
 
     Defines the following methods:
 
         set_path(path=None, file_regex=None, line_regex=None)
-            Used to update ``path``, ``file_regex`` and ``line_regex`` if
-            they are not ``None``, see the constructor for information
+            Used to update `path`, `file_regex` and `line_regex` if
+            they are not `None`, see the constructor for information
             about these parameters.
 
             The file_regex is updated automatically because it might happen
             that the same panel_name is used multiple times.
-            If ``file_regex`` is omitted or ``None`` it will be reset to
+            If `file_regex` is omitted or `None` it will be reset to
             the latest regex specified (when creating the instance or from
             the last call of  set_regex/path).
-            The same applies to ``line_regex``.
+            The same applies to `line_regex`.
 
         set_regex(file_regex=None, line_regex=None)
             Subset of set_path. Read there for further information.
 
         write(text)
-            Will just write appending ``text`` to the output panel.
+            Will just write appending `text` to the output panel.
 
         write_line(text)
             Same as write() but inserts a newline at the end.
@@ -129,20 +133,20 @@ class OutputPanel(object):
         self.write(contents)
 
     def write(self, text):
-        """Appends ``text`` to the output panel.
-        Alias for ``sublime_lib.view.append(self.view, text)``.
+        """Appends `text` to the output panel.
+        Alias for `sublime_lib.view.append(self.view, text)` + `with unset_read_only:`.
         """
         with unset_read_only(self.view):
             append(self.view, text)
 
     def write_line(self, text):
-        """Appends ``text`` to the output panel and starts a new line.
+        """Appends `text` to the output panel and starts a new line.
         """
         self.write(text + "\n")
 
     def clear(self):
         """Clears the output panel.
-        Alias for ``sublime_lib.view.clear(self.view)``.
+        Alias for `sublime_lib.view.clear(self.view)`.
         """
         with unset_read_only(self.view):
             clear(self.view)
@@ -160,9 +164,8 @@ class OutputPanel(object):
     def finish(self):
         """Things that are required to use the output panel properly.
 
-            Set the selection to the start, so that next_result will work as
-            expected.
+        Set the selection to the start, so that next_result will work as
+        expected.
         """
-        with in_one_edit(self.view):
-            self.view.sel().clear()
-            self.view.sel().add(Region(0))
+        self.view.sel().clear()
+        self.view.sel().add(Region(0))

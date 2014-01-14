@@ -7,7 +7,10 @@ from sublime_lib import WindowAndTextCommand
 from sublime_lib.path import file_path_tuple
 from sublime_lib.view import OutputPanel
 
-from fileconv import dumpers, loaders
+try:  # ST3
+    from .fileconv import dumpers, loaders
+except ValueError:  # ST2
+    from fileconv import dumpers, loaders
 
 
 # build command
@@ -26,7 +29,7 @@ class ConvertFileCommand(WindowAndTextCommand):
             'yaml'
 
         The different dumpers try to validate the data passed.
-        This works well for json -> anything because json only defines
+        This works best for json -> anything because json only defines
         strings, numbers, lists and objects (dicts, arrays, hash tables).
     """
     # {name:, kwargs:}
@@ -208,7 +211,7 @@ class ConvertFileCommand(WindowAndTextCommand):
         data = None
         try:
             data = loader.load(*args, **kwargs)
-        except NotImplementedError, e:
+        except NotImplementedError as e:
             # use NotImplementedError to make the handler report the message as it pleases
             output.write_line(str(e))
             self.status(str(e), file_path)
@@ -236,4 +239,4 @@ class ConvertFileCommand(WindowAndTextCommand):
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
-        print "[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else "")
+        print("[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else ""))

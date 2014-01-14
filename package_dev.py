@@ -3,9 +3,9 @@ import sublime_plugin
 
 import os
 
-PLUGIN_NAME = os.getcwdu().replace(sublime.packages_path(), '')[1:]
+from sublime_lib.path import root_at_packages, get_package_name
 
-from sublime_lib.path import root_at_packages
+PLUGIN_NAME = get_package_name()
 
 
 DEBUG = 1
@@ -27,18 +27,21 @@ DEFAULT_DIRS = (
 # name, default template
 DEFAULT_FILES = [
     ("LICENSE.txt", None),
-    ("README.rst", "data/README.rst"),
-    (".hgignore", "data/hgignore.txt"),
-    (".gitignore", "data/gitignore.txt"),
-    ("bin/MakeRelease.ps1", "data/MakeRelease.ps1"),
-    ("bin/CleanUp.ps1", "data/CleanUp.ps1"),
+    ("README.rst",             "data/README.rst"),
+    (".hgignore",              "data/hgignore.txt"),
+    (".gitignore",             "data/gitignore.txt"),
+    ("bin/MakeRelease.ps1",    "data/MakeRelease.ps1"),
+    ("bin/CleanUp.ps1",        "data/CleanUp.ps1"),
     ("data/html_template.txt", "data/html_template.txt"),
-    ("data/main.css", "data/main.css"),
-    ("setup.py", "data/setup.py"),
+    ("data/main.css",          "data/main.css"),
+    ("setup.py",               "data/setup.py")
 ]
 for i, (name, path) in enumerate(DEFAULT_FILES):
     if path is not None:
-        DEFAULT_FILES[i] = (name, root_at_packages(PLUGIN_NAME, path))
+        DEFAULT_FILES[i] = (
+            os.path.join(*name.split("/")),
+            root_at_packages(PLUGIN_NAME, os.path.join(*path.split("/")))
+        )
 
 
 class NewPackageCommand(sublime_plugin.WindowCommand):
@@ -54,15 +57,8 @@ class NewPackageCommand(sublime_plugin.WindowCommand):
 
         pam.create_new(pkg_name)
 
-    def on_cancel(self):
-        status('on_cancel')
-
-    def on_changed(self):
-        status('on_changed')
-
     def run(self):
-        self.window.show_input_panel("New Package Name", '', self.on_done,
-                                     None, None)
+        self.window.show_input_panel("New Package Name", '', self.on_done)
 
 
 class DeletePackageCommand(sublime_plugin.WindowCommand):
@@ -87,12 +83,12 @@ class PackageManager(object):
         )
 
     def create_new(self, name):
-        print "[NewPackage] Creating new package...",
-        print root_at_packages(name)
+        print("[NewPackage] Creating new package...")
+        print(root_at_packages(name))
 
         if self.dry_run:
             msg = "[NewPackage] ** Nothing done. This was a test. **"
-            print msg
+            print(msg)
             status(msg)
             return
 
@@ -113,7 +109,7 @@ class PackageManager(object):
                     fh.write(content)
 
         msg = "[NewPackage] Created new package '%s'." % name
-        print msg
+        print(msg)
         status(msg)
 
     def __init__(self, dry_run=False):

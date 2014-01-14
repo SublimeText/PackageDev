@@ -5,16 +5,12 @@ import yaml
 
 from yaml.loader import SafeLoader, Loader
 from yaml.dumper import SafeDumper
-from yaml.constructor import *
+from yaml.constructor import ConstructorError
 
-try:
-    # included in standard lib from Python 2.7
-    # note: Sublime Text 2 uses 2.6; this will fail
-    from collections import OrderedDict
-except ImportError:
-    # try importing the backported drop-in replacement
-    # it's available on PyPI
+try:  # ST2
     from ordereddict import OrderedDict
+except ImportError:  # ST3
+    from collections import OrderedDict
 
 
 __all__ = ['OrderedDictLoader', 'OrderedDictSafeLoader', 'OrderedDictSafeDumper']
@@ -41,7 +37,7 @@ class BaseOrderedDictLoader(object):
             key = self.construct_object(key_node, deep=deep)
             try:
                 hash(key)
-            except TypeError, exc:
+            except TypeError as exc:
                 raise ConstructorError('while constructing a mapping', node.start_mark, 'found unacceptable key (%s)' % exc, key_node.start_mark)
             value = self.construct_object(value_node, deep=deep)
             mapping[key] = value
@@ -82,7 +78,7 @@ class OrderedDictSafeDumper(SafeDumper):
 
     def represent_ordereddict(self, data):
         # Bypass the sorting in represent_mapping
-        return self.represent_mapping(u'tag:yaml.org,2002:map', data.items())
+        return self.represent_mapping(u'tag:yaml.org,2002:map', list(data.items()))
 
 OrderedDictSafeDumper.add_representer(
     OrderedDict,

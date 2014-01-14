@@ -175,7 +175,7 @@ class DumperProto(object):
         params = self.validate_params(kwargs)
         try:
             self.write(data, params, *args, **kwargs)
-        except Exception, e:
+        except Exception as e:
             self.output.write_line("Error writing %s: %s" % (self.name, e))
         else:
             return True
