@@ -1,0 +1,329 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: Sublime Text Colour Scheme Def (YAML)
+fileTypes: [YAML-tmTheme]
+scopeName: source.yaml-tmtheme
+uuid: a3cebb90-80fe-11e3-baa7-0800200c9a66
+
+patterns:
+
+## Yaml document setup
+- include: '#comment'
+- include: '#yaml-tab-error'
+- include: '#yaml-doc-start'
+- include: '#yaml-doc-end'
+
+## Header infomation
+- include: '#name-main'
+- include: '#author'
+- include: '#colorSpaceName'
+- include: '#semanticClass'
+- include: '#comment-from-key'
+- include: '#uuid'
+
+## Gutter Settings
+- include: '#gutterSettings'
+- include: '#gutterFormatting'
+
+## Scope Settings
+- include: '#settings-main'
+- include: '#settings-default'
+- include: '#name-scope'
+- include: '#scope'
+- include: '#settings-scope'
+- include: '#formatting-colour'
+- include: '#formatting-style'
+- include: '#formatting-font'
+
+## Consider everything else as illegal
+- include: '#illegal'
+
+#######################################
+
+repository:
+
+## Yaml document setup
+  comment:
+    match: (?:^ *|\G *)((#).*)
+    captures:
+      '1': {name: comment.line.number-sign.yaml-tmtheme}
+      '2': {name: punctuation.definition.comment.line.yaml-tmtheme}
+
+  yaml-tab-error:
+    name: invalid.illegal.tab-indent.yaml-tmtheme
+    match: ^\t+
+
+  yaml-doc-start:
+    name: entity.other.document-start.yaml-tmtheme
+    match: ^---(?= |$)
+
+  yaml-doc-end:
+    name: entity.other.document-end.yaml-tmtheme
+    match: ^\.{3}$
+
+## Header infomation
+  name-main:
+    name: meta.name-main.yaml-tmtheme
+    match: ^((["']?)(name)(\2))(:) +((["']?).*?(\7))(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: entity.other.name.yaml-tmtheme}
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: punctuation.definition.string.yaml-tmtheme}
+
+  author:
+    name: meta.author.yaml-tmtheme
+    match: ^((["']?)(author)(\2))(:) +((["']?).*?(\7))(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: punctuation.definition.string.yaml-tmtheme}
+
+  colorSpaceName:
+    name: meta.colorSpaceName.yaml-tmtheme
+    match: ^((["']?)(colorSpaceName)(\2))(:) +((["']?).*?(\7))(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: punctuation.definition.string.yaml-tmtheme}
+
+  semanticClass:
+    name: meta.semanticClass.yaml-tmtheme
+    match: ^((["']?)(semanticClass)(\2))(:) +((["']?).*?(\7))(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: punctuation.definition.string.yaml-tmtheme}
+
+  comment-from-key:
+    patterns:
+    # block style
+    - name: meta.comment-from-key.block.yaml-tmtheme
+      contentName: comment.block.from-key.block.yaml-tmtheme
+      comment: | # real comment
+        block
+        comment
+      begin: ^( *)(?:- +)?((["']?)(comment)(\3))(:) +([|>])(?=, |,$| +#| *$)
+      beginCaptures:
+        '2': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+        '3': {name: punctuation.definition.string.yaml-tmtheme}
+        '4': {name: keyword.other.comment-from-key.yaml-tmtheme}
+        '5': {name: punctuation.definition.string.yaml-tmtheme}
+        '6': {name: keyword.control.definition.yaml-tmtheme}
+
+        '7': {name: keyword.control.block.yaml-tmtheme}
+      # must be indented by at least as much as the key line + 1
+      end: ^(?! *$|\1 )
+
+    # quoted
+    # TODO: consider " and ' separately as they use different escape mechanisms actually
+    - name: meta.comment-from-key.quoted.yaml-tmtheme
+      contentName: comment.block.from-key.quoted.yaml-tmtheme
+      comment: "test comment
+        over multiple lines?"
+      begin: (?:, +|\{ *|^ *|^ *- +)((["']?)(comment)(\2))(:) +(?!#)(["'])
+      beginCaptures:
+        '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+        '2': {name: punctuation.definition.string.yaml-tmtheme}
+        '3': {name: keyword.other.comment-from-key.yaml-tmtheme}
+        '4': {name: punctuation.definition.string.yaml-tmtheme}
+        '5': {name: keyword.control.definition.yaml-tmtheme}
+        '6': {name: punctuation.definition.string.yaml-tmtheme}
+      end: (?<![^\\]\\)(\6)(?=, |,$| +#| *$| *})
+      endCaptures:
+        '1': {name: punctuation.definition.string.yaml-tmtheme}
+
+    # unquoted
+    - name: meta.comment-from-key.unquoted.yaml-tmtheme
+      contentName: comment.block.from-key.unquoted.yaml-tmtheme
+      comment: this is a "test" comment
+        in another line # and this is a real comment
+      begin: ^( *)(?:-( +))?((["']?)(comment)(\4))(:)[ ]
+      beginCaptures:
+        '3': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+        '4': {name: punctuation.definition.string.yaml-tmtheme}
+        '5': {name: keyword.other.comment-from-key.yaml-tmtheme}
+        '6': {name: punctuation.definition.string.yaml-tmtheme}
+        '7': {name: keyword.control.definition.yaml-tmtheme}
+      # Must be indented by at least as much as the key line + 1 - or terminated by :stuff:
+      # Note1: can not differentiate if within inline ({) or block and thus
+      # the inline terminating sequences which are valid in blocks are ignored completely.
+      # Currently only interesting for "comment: no # still no"
+      # Note2: Minimum indent is "  " if the coment key is not the first key in a list
+      # (e.g. "- name: something\n  comment: dd"). Easiest workaroung.
+      end: ^(?! *$|\1\2  ) #|(?<=.)(?=, |,$| +#| *(?<![^\\]\\)})
+
+  uuid:
+    name: meta.uuid.yaml-tmtheme
+    match: (?:,|\{ *|^)((["']?)(uuid)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.uuid.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmtheme} # "string constant" is assigned by certain color schemes
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: constant.numeric.uuid.yaml-tmtheme}
+      '9': {name: punctuation.definition.string.yaml-tmtheme}
+
+## Gutter Settings
+  gutterSettings:
+    name: meta.gutterSettings.yaml-tmtheme
+    match: ^((["']?)(gutterSettings)(\2))(:)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: support.type.settings.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+  gutterFormatting:
+    name: meta.colorSpaceName.yaml-tmtheme
+    match: ^((["']?)  (background|foreground|divider)(\2))(:) +((["']?)(#)([0-9a-fA-F]{6})(\7))(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: string.other.yaml-tmtheme}
+      '9': {name: constant.numeric.yaml-tmtheme}
+      '10': {name: punctuation.definition.string.yaml-tmtheme}
+      '11': {name: keyword.control.definition.yaml-tmtheme}
+
+## Scope Settings
+  settings-main:
+    name: meta.settings-main.yaml-tmtheme
+    match: ^((["']?)(settings)(\2))(:)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: entity.other.settings.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+  settings-default:
+    name: meta.settings-default.yaml-tmtheme
+    match: ^((["']?)(- settings)(\2))(:)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: support.type.settings.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+  name-scope:
+    name: meta.name-main.yaml-tmtheme
+    match: ^((["']?)(- name)(\2))(:) +((["']?).*?(\7))(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: variable.other.name.yaml-tmtheme}
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: punctuation.definition.string.yaml-tmtheme}
+
+  scope:
+    name: meta.scope.yaml-tmtheme
+    match: ^((["']?)(  scope)(\2))(:) +((["']?).*?(\7))(?=,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: variable.other.name.yaml-tmtheme}
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: punctuation.definition.string.yaml-tmtheme}
+
+  settings-scope:
+    name: meta.settings-default.yaml-tmtheme
+    match: ^((["']?)(  settings)(\2))(:)
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: support.type.settings.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+  formatting-colour:
+    name: meta.formatting.colour.yaml-tmtheme
+    match: ^((["']?)    (activeGuide|background|bracketContentsForeground|bracketsForeground|caret|findHighlight|findHighlightForeground|foreground|invisibles|lineHighlight|selection|selectionBorder)(\2))(:) +((["']?)(#)([0-9a-fA-F]{6}[0-9a-fA-F]{2}?)(\7))(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '7': {name: punctuation.definition.string.yaml-tmtheme}
+      '8': {name: string.other.yaml-tmtheme}
+      '9': {name: constant.numeric.yaml-tmtheme}
+      '10': {name: punctuation.definition.string.yaml-tmtheme}
+      '11': {name: keyword.control.definition.yaml-tmtheme}
+
+  formatting-style:
+    name: meta.formatting.style.yaml-tmtheme
+    match: ^((["']?)    (bracketsOptions|tagsOptions|bracketContentsOptions)(\2))(:) +(underline|stippled_underline)(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '7': {name: keyword.control.definition.yaml-tmtheme}
+
+  formatting-font:
+    name: meta.formatting.style.yaml-tmtheme
+    match: ^((["']?)    (fontStyle)(\2))(:)(( | underline| bold| italic)+)(?=, |,$| +#| *$| *})
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '2': {name: punctuation.definition.string.yaml-tmtheme}
+      '3': {name: keyword.other.name.yaml-tmtheme}
+      '4': {name: punctuation.definition.string.yaml-tmtheme}
+      '5': {name: keyword.control.definition.yaml-tmtheme}
+
+      '6': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '7': {name: string.other.quoted-or-unquoted.yaml-tmtheme}
+      '8': {name: keyword.control.definition.yaml-tmtheme}
+
+## Consider everything else as illegal
+  illegal:
+    name: invalid.illegal.unrecognized.yaml-tmtheme
+    match: '[^\s}]'
+...
