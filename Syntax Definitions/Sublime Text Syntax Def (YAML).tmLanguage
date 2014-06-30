@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>fileTypes</key>
@@ -51,6 +51,10 @@
 		<dict>
 			<key>include</key>
 			<string>#file-types</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#folding-markers</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -452,6 +456,175 @@ comment
 						<dict>
 							<key>include</key>
 							<string>#comment</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<key>folding-markers</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^( *)?(?:- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\3))(:) +([|&gt;])(?=, |,$| +#| *$)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.folding-marker.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.block.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>meta.value.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>^(?! *$|\1 )</string>
+					<key>name</key>
+					<string>meta.folding-marker.block.yaml-tmlanguage</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comment</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>source.oniregexp</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\2))(:) +(["'])</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.folding-marker.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>meta.value.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>\6(?!\6)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.folding-marker.yaml-tmlanguage</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>''</string>
+							<key>name</key>
+							<string>test</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>source.oniregexp</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\2))(:) +(?!["'])</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.folding-marker.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>meta.value.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>(?=, |,$| +[#{\['"]| *$| *})</string>
+					<key>name</key>
+					<string>meta.folding-marker.yaml-tmlanguage</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>source.oniregexp</string>
 						</dict>
 					</array>
 				</dict>
