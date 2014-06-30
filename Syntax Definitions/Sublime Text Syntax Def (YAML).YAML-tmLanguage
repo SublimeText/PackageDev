@@ -319,7 +319,7 @@ repository:
 
   include:
     name: meta.include.yaml-tmlanguage
-    match: | # example for multi-line match blocks (remember to escape " " spaces when using (?x))
+    match: |
       (?x)
       (?:,\ +|\{\ *|^\ {2,}|^\ *-\ +)
         ((["']?)(include)(\2))(:)\ +
