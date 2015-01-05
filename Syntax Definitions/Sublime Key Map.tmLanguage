@@ -20,11 +20,11 @@
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>(^\[$)</string>
+			<string>(^\[(\{)?$)</string>
 			<key>contentName</key>
 			<string>meta.keybinding.collection.sublimekeymap</string>
 			<key>end</key>
-			<string>(^\]$)</string>
+			<string>(^\](\})?$)</string>
 			<key>patterns</key>
 			<array>
 				<dict>
