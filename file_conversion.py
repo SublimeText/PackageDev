@@ -103,16 +103,13 @@ class ConvertFileCommand(WindowAndTextCommand):
         # TODO: Ditch *args, can't be passed in commands anyway
 
         # Check the environment (view, args, ...)
-        if self.view.is_scratch():
-            return
 
         if self.view.is_dirty():
             # While it works without saving you should always save your files
             return self.status("Please save the file.")
 
         file_path = self.view.file_name()
-        if not file_path or not os.path.exists(file_path):
-            # REVIEW: It is not really necessary for the file to exist, technically
+        if not file_path:
             return self.status("File does not exist.", file_path)
 
         if source_format and target_format == source_format:
@@ -216,9 +213,18 @@ class ConvertFileCommand(WindowAndTextCommand):
             output.write_line(str(e))
             self.status(str(e), file_path)
 
-        if data:
-            # Determine new file name
-            new_file_path = path_tuple.no_ext + get_new_ext(target_format)
+
+        # Determine new file name
+        new_file_path = path_tuple.no_ext + get_new_ext(target_format)
+        new_dir = os.path.dirname(new_file_path)
+        if not os.path.exists(new_dir):
+            try:
+                os.makedirs(new_dir)
+            except OSError:
+                output.write_line("Could not create folder '%s'" % new_dir)
+
+        if data and os.path.exists(new_dir):
+            # Now dump to new file
 
             # Init the Dumper
             dumper = dumpers.get[target_format](self.window, self.view, new_file_path, output=output)
