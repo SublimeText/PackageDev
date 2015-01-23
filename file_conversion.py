@@ -181,6 +181,11 @@ class ConvertFileCommand(WindowAndTextCommand):
                         items.append(itm)
 
                 def on_select(index):
+                    if index < 0 or index >= len(items):
+                        # canceled or other magic
+                        output.write_line("\n\nBuild canceled.")
+                        return
+
                     target = items[index]
                     output.write_line(' %s\n' % target['name'])
 
