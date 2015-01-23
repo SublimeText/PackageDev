@@ -1,14 +1,15 @@
-from sublime import Region, Window, version
+from sublime import Region, Window
 
 from ._view import ViewSettings, unset_read_only, append, clear, get_text
+from .. import ST3
 
-if int(version()) > 3000:
+if ST3:
     basestring = str
 
 
 class OutputPanel(object):
-    """This class represents an output panel (which are used for e.g. build systems).
-    Please not that the panel's contents will be cleared on __init__.
+    """This class represents an output panel (useful for e.g. build systems).
+    Please note that the panel's contents will be cleared on __init__.
 
     Can be used as a context handler in `with` statement which will
     automatically invoke the `finish()` method.
@@ -44,7 +45,7 @@ class OutputPanel(object):
 
             If `file_regex` doesn't match on the current line, but
             `line_regex` exists, and it does match on the current line,
-            then walk backwards through the buffer until  a line matching
+            then walk backwards through the buffer until a line matching
             file regex is found, and use these two matches
             to determine the file and line to go to; column is optional.
 
@@ -119,6 +120,8 @@ class OutputPanel(object):
 
         self.set_path(path, file_regex, line_regex)
 
+        self.auto_show = auto_show
+
     def set_path(self, path=None, file_regex=None, line_regex=None):
         """Update the view's result_base_dir pattern.
         Only overrides the previous settings if parameters are not None.
@@ -155,7 +158,8 @@ class OutputPanel(object):
 
     def write(self, text):
         """Appends `text` to the output panel.
-        Alias for `sublime_lib.view.append(self.view, text)` + `with unset_read_only:`.
+        Alias for `sublime_lib.view.append(self.view, text)`
+        + `with unset_read_only:`.
         """
         with unset_read_only(self.view):
             append(self.view, text)
@@ -175,12 +179,14 @@ class OutputPanel(object):
     def show(self):
         """Makes the output panel visible.
         """
-        self.window.run_command("show_panel", {"panel": "output.%s" % self.panel_name})
+        self.window.run_command("show_panel",
+                                {"panel": "output.%s" % self.panel_name})
 
     def hide(self):
         """Makes the output panel invisible.
         """
-        self.window.run_command("hide_panel", {"panel": "output.%s" % self.panel_name})
+        self.window.run_command("hide_panel",
+                                {"panel": "output.%s" % self.panel_name})
 
     def finish(self):
         """Things that are required to use the output panel properly.
