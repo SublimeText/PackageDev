@@ -125,11 +125,15 @@ class OutputPanel(object):
         if hasattr(self, 'line_regex'):
             self.settings.result_line_regex = self.line_regex
 
-        # Call get_output_panel again after assigning the above settings, so that "next_result" and
-        # "prev_result" work. However, it will also clear the view so read it before and re-write
-        # its contents afterwards.
+        # Call get_output_panel again after assigning the above settings, so
+        # that "next_result" and "prev_result" work. However, it will also clear
+        # the view so read it before and re-write its contents afterwards. Cache
+        # selection as well.
         contents = get_text(self.view)
+        sel = list(self.view.sel())
         self.view = self.window.get_output_panel(self.panel_name)
+        self.view.sel().clear()
+        self.view.sel().add_all(sel)
         self.write(contents)
 
     def write(self, text):
