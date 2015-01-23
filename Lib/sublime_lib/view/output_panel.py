@@ -10,6 +10,15 @@ class OutputPanel(object):
     """This class represents an output panel (which are used for e.g. build systems).
     Please not that the panel's contents will be cleared on __init__.
 
+    Can be used as a context handler in `with` statement which will
+    automatically invoke the `finish()` method.
+
+    Example usage:
+
+        with OutputPanel(sublime.active_window(), "test") as output:
+            output.write_line("some testing here")
+
+
     OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True)
         * window
             The window. This is usually `self.window` or
@@ -173,3 +182,9 @@ class OutputPanel(object):
         """
         self.view.sel().clear()
         self.view.sel().add(Region(0))
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.finish()
