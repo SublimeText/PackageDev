@@ -115,7 +115,7 @@
         "match": "\"(shell)\":\\s*(true|false)",
         "captures": {
             "1": { "name": "keyword.other.shell.sublimebuild" },
-            "2": { "name": "constant.numeric.boolean.sublimebuild" }
+            "2": { "name": "constant.language.boolean.sublimebuild" }
         }
       },
       "simpleOptions": {
