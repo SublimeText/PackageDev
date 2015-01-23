@@ -19,7 +19,8 @@ class OutputPanel(object):
             output.write_line("some testing here")
 
 
-    OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True)
+    OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None,
+                read_only=True, auto_show=True)
         * window
             The window. This is usually `self.window` or
             `self.view.window()`, depending on the type of your command.
@@ -56,6 +57,10 @@ class OutputPanel(object):
             A boolean whether the output panel should be read only.
             You usually want this to be true.
             Can be modified with `self.view.set_read_only()` when needed.
+
+        * auto_show
+            Option if the panel should be shown when `finish()` is called and
+            text has been added.
 
     Useful attributes:
 
@@ -96,8 +101,11 @@ class OutputPanel(object):
         finish()
             Call this when you are done with updating the panel.
             Required if you want the next_result command (F4) to work.
+            If `auto_show` is true, will also show the panel if text was added.
     """
-    def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
+    def __init__(self, window, panel_name, file_regex=None,
+                 line_regex=None, path=None, read_only=True,
+                 auto_show=True):
         if not isinstance(window, Window):
             raise ValueError("window parameter is invalid")
         if not isinstance(panel_name, basestring):
@@ -178,10 +186,16 @@ class OutputPanel(object):
         """Things that are required to use the output panel properly.
 
         Set the selection to the start, so that next_result will work as
-        expected.
+        expected. Also shows the panel if text has been added.
         """
+        self.set_path()
         self.view.sel().clear()
         self.view.sel().add(Region(0))
+        if self.auto_show:
+            if self.view.size():
+                self.show()
+            else:
+                self.hide()
 
     def __enter__(self):
         return self
