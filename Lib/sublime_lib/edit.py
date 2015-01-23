@@ -32,10 +32,17 @@ Usage 2:
 
 Available methods:
     Note: Any of these parameters can be a function which will be called with
-    `view` and `edit` when processing the edit group.
+    (optional) parameters `view` and `edit` when processing the edit group.
+    Example callbacks:
+        `lambda: 1`
+        `lambda v: v.size()`
+        `lambda v, e: v.erase(e, reg)`
 
     insert(point, string)
         view.insert(edit, point, string)
+
+    append(point, string)
+        view.insert(edit, view.size(), string)
 
     erase(region)
         view.erase(edit, region)
@@ -62,10 +69,12 @@ except AttributeError:
 
 def run_callback(func, *args, **kwargs):
     spec = inspect.getfullargspec(func)
-    if spec.args or spec.varargs:
-        func(*args, **kwargs)
-    else:
-        func()
+
+    args = args[:len(spec.args) or 0]
+    if not spec.varargs:
+        kwargs = {}
+
+    return func(*args, **kwargs)
 
 
 class EditStep:
@@ -91,7 +100,7 @@ class EditStep:
         args = []
         for arg in self.args:
             if callable(arg):
-                arg = arg(view, edit)
+                arg = run_callback(arg, view, edit)
             args.append(arg)
         return args
 
@@ -112,6 +121,10 @@ class Edit:
 
     def insert(self, point, string):
         self.step('insert', point, string)
+
+    def append(self, string):
+        # import spdb ; spdb.start()
+        self.step('insert', lambda v: v.size(), string)
 
     def erase(self, region):
         self.step('erase', region)
