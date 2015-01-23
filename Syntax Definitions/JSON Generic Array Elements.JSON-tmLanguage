@@ -15,7 +15,7 @@
           "begin":"\"",
           "end": "\"",
           "patterns": [
-              { "match": "\\\\[\"tnr]",
+              { "match": "\\\\[\"tnr\\\\]",
                 "captures": {
                     "0": { "name": "constant.character.escape.jsongenericarrayelements" }
                 }
