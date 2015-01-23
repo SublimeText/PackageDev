@@ -159,7 +159,7 @@ class DumperProto(object):
         """
         new_params = self.default_params.copy()
         new_params.update(params)
-        for key in new_params.keys():
+        for key in params.keys():
             if key not in self.allowed_params:
                 del new_params[key]
         return new_params
