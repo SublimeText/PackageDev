@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>fileTypes</key>
@@ -92,10 +92,6 @@
 			<key>include</key>
 			<string>#unmatched</string>
 		</dict>
-		<dict>
-			<key>include</key>
-			<string>#illegal</string>
-		</dict>
 	</array>
 	<key>repository</key>
 	<dict>
@@ -150,7 +146,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:^ *|\G *)((#).*)</string>
+			<string>(?:^ *|\G *| +)((#).*)</string>
 		</dict>
 		<key>comment-from-key</key>
 		<dict>
@@ -158,7 +154,7 @@
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^( *)(?:- +)?((["']?)(comment)(\3))(:) +([|&gt;])(?=, |,$| +#| *$)</string>
+					<string>^( *)(?:- +)?((["']?)(comment)(\3))(:) +([|&gt;](\d*)[-+]?)(?=, |,$| +#| *$)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>2</key>
@@ -190,6 +186,11 @@
 						<dict>
 							<key>name</key>
 							<string>keyword.control.block.yaml-tmlanguage</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>constant.numeric.indentation-indicator.yaml-tmlanguage</string>
 						</dict>
 					</dict>
 					<key>comment</key>
@@ -548,23 +549,18 @@ comment
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^( *)(?:- +)?((["']?)(match|begin|end)(\3))(:) +([|&gt;])(?=, |,$| +#| *$)</string>
+					<string>^( *)(?:-?( +)())((["']?)(match|begin|end)(\3))(:) +([|&gt;](\d*)[-+]?)(?=, |,$| +#| *$)</string>
 					<key>beginCaptures</key>
 					<dict>
-						<key>2</key>
+						<key>10</key>
 						<dict>
 							<key>name</key>
-							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.string.yaml-tmlanguage</string>
+							<string>constant.numeric.indentation-indicator.yaml-tmlanguage</string>
 						</dict>
 						<key>4</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.other.match.yaml-tmlanguage</string>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
 						</dict>
 						<key>5</key>
 						<dict>
@@ -574,9 +570,19 @@ comment
 						<key>6</key>
 						<dict>
 							<key>name</key>
-							<string>keyword.control.definition.yaml-tmlanguage</string>
+							<string>keyword.other.match.yaml-tmlanguage</string>
 						</dict>
 						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>8</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+						<key>9</key>
 						<dict>
 							<key>name</key>
 							<string>keyword.control.block.yaml-tmlanguage</string>
@@ -585,7 +591,7 @@ comment
 					<key>contentName</key>
 					<string>meta.value.yaml-tmlanguage</string>
 					<key>end</key>
-					<string>^(?! *$|\1 )</string>
+					<string>^(?! *$|\1\2  )</string>
 					<key>name</key>
 					<string>meta.match.block.yaml-tmlanguage</string>
 					<key>patterns</key>
@@ -655,8 +661,10 @@ comment
 						<dict>
 							<key>match</key>
 							<string>''</string>
-							<key>name</key>
-							<string>test</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>""</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -666,7 +674,7 @@ comment
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!["'])</string>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!["'\[{])</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

@@ -47,8 +47,8 @@ patterns:
 # unmatched but (probably) valid stuff
 - include: '#unmatched'
 
-# consider everything else as illegal
-- include: '#illegal'
+# everything else should remain unmatched
+# - include: '#illegal'
 
 #######################################
 
@@ -56,7 +56,7 @@ repository:
 
 # control sequences
   comment:
-    match: (?:^ *|\G *)((#).*)
+    match: (?:^ *|\G *| +)((#).*)
     captures:
       '1': {name: comment.line.number-sign.yaml-tmlanguage}
       '2': {name: punctuation.definition.comment.line.yaml-tmlanguage}
@@ -214,17 +214,20 @@ repository:
     # multi-line (block style)
     - name: meta.match.block.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: ^( *)(?:- +)?((["']?)(match|begin|end)(\3))(:) +([|>])(?=, |,$| +#| *$)
+      # I don't have a single fucking clue why but apparently removing
+      # the empty capturing group BREAKS the regexp
+      begin: ^( *)(?:-?( +)())((["']?)(match|begin|end)(\3))(:) +([|>](\d*)[-+]?)(?=, |,$| +#| *$)
       beginCaptures:
-        '2': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
-        '3': {name: punctuation.definition.string.yaml-tmlanguage}
-        '4': {name: keyword.other.match.yaml-tmlanguage}
+        '4': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '5': {name: punctuation.definition.string.yaml-tmlanguage}
-        '6': {name: keyword.control.definition.yaml-tmlanguage}
+        '6': {name: keyword.other.match.yaml-tmlanguage}
+        '7': {name: punctuation.definition.string.yaml-tmlanguage}
+        '8': {name: keyword.control.definition.yaml-tmlanguage}
 
-        '7': {name: keyword.control.block.yaml-tmlanguage}
-      # must be indented by at least as much as the key line + 1
-      end: ^(?! *$|\1 )
+        '9': {name: keyword.control.block.yaml-tmlanguage}
+        '10': {name: constant.numeric.indentation-indicator.yaml-tmlanguage}
+      # must be indented by at least as much as the key line + 1 (+ 1 for the potential '-')
+      end: ^(?! *$|\1\2  )
       patterns:
       - include: '#comment' # for comments after the "|" or ">"
       - include: source.oniregexp
@@ -246,13 +249,13 @@ repository:
       patterns:
       # Consume double-escaped single quotes so they won't interfere with the "end" match
       - match: "''"
-        name: test
+      - match: '""'
       - include: source.oniregexp
 
     # single-line (unquoted)
     - name: meta.match.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!["'])
+      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!["'\[{])
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -298,7 +301,7 @@ repository:
       comment: | # real comment
         block
         comment
-      begin: ^( *)(?:- +)?((["']?)(comment)(\3))(:) +([|>])(?=, |,$| +#| *$)
+      begin: ^( *)(?:- +)?((["']?)(comment)(\3))(:) +([|>](\d*)[-+]?)(?=, |,$| +#| *$)
       beginCaptures:
         '2': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '3': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -307,6 +310,7 @@ repository:
         '6': {name: keyword.control.definition.yaml-tmlanguage}
 
         '7': {name: keyword.control.block.yaml-tmlanguage}
+        '8': {name: constant.numeric.indentation-indicator.yaml-tmlanguage}
       # must be indented by at least as much as the key line + 1
       end: ^(?! *$|\1 )
 
@@ -388,7 +392,7 @@ repository:
     captures:
       #'1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage} # "string variable" is assigned by certain color schemes
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
-      '3': {name: variable.other.repository-key.yaml-tmlanguage}
+      '3': {name: variable.other.repository-key.yaml-tmlanguage} # entity.name.section.repository-key.yaml-tmlanguage
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
 
