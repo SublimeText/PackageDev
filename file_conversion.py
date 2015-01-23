@@ -105,8 +105,11 @@ class ConvertFileCommand(WindowAndTextCommand):
         # Check the environment (view, args, ...)
 
         if self.view.is_dirty():
-            # While it works without saving you should always save your files
-            return self.status("Please save the file.")
+            # Save the file so that source and target file on the drive don't differ
+            self.view.run_command("save")
+            if self.view.is_dirty():
+                return sublime.error_message("The file could not be saved correctly. "
+                                             "The build was aborted")
 
         file_path = self.view.file_name()
         if not file_path:
@@ -212,7 +215,6 @@ class ConvertFileCommand(WindowAndTextCommand):
             # use NotImplementedError to make the handler report the message as it pleases
             output.write_line(str(e))
             self.status(str(e), file_path)
-
 
         # Determine new file name
         new_file_path = path_tuple.no_ext + get_new_ext(target_format)
