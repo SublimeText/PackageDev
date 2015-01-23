@@ -1,3 +1,4 @@
+// [PackageDev] target_format: plist
 { "name": "Sublime Text Key Map",
   "scopeName": "source.sublimekeymap",
   "fileTypes": ["sublime-keymap"],
@@ -39,6 +40,12 @@
                 "1": { "name": "punctuation.keybinding.definition.key.sequence.end.sublimekeymap" }
             },
             "patterns": [
+                {  "name": "keyword.control.other.sublimekeymap",
+                   "match": "(?<=\\\")<(character)>(?=\")",
+                   "captures": {
+                       "1": { "name": "entity.other.attribute-name.key.captured.sublimekeymap" }
+                   }
+                },
                 { "match": "(?<!shift|ctrl|alt|super|\\+)\\+",
                   "name": "invalid.illegal.key.sequence.sublimekeymap"
                 },
@@ -56,12 +63,6 @@
                 },
                 { "match": "[A-Za-z0-9,;.:_=+-]{2,}",
                   "name": "invalid.illegal.key.sublimekeymap"
-                },
-                {  "name": "keyword.control.other.sublimekeymap",
-                   "match": "<(character)>",
-                   "captures": {
-                       "1": { "name": "entity.other.attribute-name.key.captured.sublimekeymap" }
-                   }
                 },
                 { "match": ".{1}",
                   "comment": "XXX What's invalid for key names?",
