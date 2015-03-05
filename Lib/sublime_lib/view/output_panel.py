@@ -89,7 +89,7 @@ class OutputPanel(object):
         write(text)
             Will just write appending `text` to the output panel.
 
-        write_line(text)
+        write_line(text='')
             Same as write() but inserts a newline at the end.
 
         clear()
@@ -166,7 +166,7 @@ class OutputPanel(object):
         with unset_read_only(self.view):
             append(self.view, text)
 
-    def write_line(self, text):
+    def write_line(self, text=''):
         """Appends `text` to the output panel and starts a new line.
         """
         self.write(text + "\n")
