@@ -90,7 +90,7 @@
 					<key>contentName</key>
 					<string>meta.key.sequence.sublimekeymap</string>
 					<key>end</key>
-					<string>(?&lt;!\\)(")</string>
+					<string>(")</string>
 					<key>endCaptures</key>
 					<dict>
 						<key>1</key>
@@ -101,6 +101,12 @@
 					</dict>
 					<key>patterns</key>
 					<array>
+						<dict>
+							<key>match</key>
+							<string>\\.</string>
+							<key>name</key>
+							<string>constant.character.escape.sublimekeymap</string>
+						</dict>
 						<dict>
 							<key>captures</key>
 							<dict>

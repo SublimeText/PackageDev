@@ -35,11 +35,14 @@
             "beginCaptures": {
                 "1": { "name": "punctuation.keybinding.definition.key.sequence.start.sublimekeymap" }
             },
-            "end": "(?<!\\\\)(\")",
+            "end": "(\")",
             "endCaptures": {
                 "1": { "name": "punctuation.keybinding.definition.key.sequence.end.sublimekeymap" }
             },
             "patterns": [
+                {  "name": "constant.character.escape.sublimekeymap",
+                   "match": "\\\\."
+                },
                 {  "name": "keyword.control.other.sublimekeymap",
                    "match": "(?<=\\\")<(character)>(?=\")",
                    "captures": {
