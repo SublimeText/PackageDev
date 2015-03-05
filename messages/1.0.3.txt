@@ -1,5 +1,5 @@
-v1.0.3
-------
+v1.0.3 (2015-01-28)
+-------------------
 
 (This is mostly a bug fix release and this message won't be displayed in
 Package Control. A changelog has been added however.)
