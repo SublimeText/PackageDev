@@ -70,8 +70,6 @@ Other included resources for syntax definition development:
     the base scope name.
   * Includes are completed as per defined repository keys.
 
-To make best usage of the auto completions for scopes, ``{ characters": ".", "selector": "source.yaml-tmlanguage - comment" }`` should be added to the "auto_complete_triggers" setting.
-
 For a good example definition (as to why using YAML is way better than the plain Plist), see the
 syntax definition for YAML-tmLanguage files: `Sublime Text Syntax Def (YAML).YAML-tmLanguage`_
 
