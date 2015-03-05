@@ -34,12 +34,12 @@
 
       "booleanConstants": {
         "match": "true|false",
-        "name": "constant.numeric.boolean.jsongenericarrayelements"
+        "name": "constant.language.boolean.jsongenericarrayelements"
       },
 
       "null": {
         "match": "null",
-        "name": "constant.numeric.null.jsongenericarrayelements"
+        "name": "constant.language.null.jsongenericarrayelements"
       }
   },
 
