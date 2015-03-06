@@ -1,8 +1,5 @@
-v1.0.5 (2015-03-06)
+v1.0.6 (2015-03-06)
 -------------------
-
-(Due to my incompetence this message was never shown. 1.0.6 was released with
-no actual changes just to show this message.)
 
 * Few fixes for syntax definitions, e.g. \" escape sequence in key maps
 * Now bundles default settings for YAML syntax definitions (including
@@ -21,5 +18,6 @@ changelog. They are included below:
 * Stop the build if the user closed the "select target format" panel
 * Some minor bugfixes
 
-For changes to the sublime_lib (which are largely uninteresting), refer to the
-more verbose messages in the package, e.g. on github.
+For changes to the sublime_lib (which are largely uninteresting; we have other
+intentions for this module), refer to the more verbose messages in the package,
+e.g. on github.
