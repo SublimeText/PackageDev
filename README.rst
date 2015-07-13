@@ -5,8 +5,8 @@ AAAPackageDev
 Overview
 ========
 
-AAAPackageDev is a Sublime Text 2 and 3 plugin that helps create and edit syntax definitions,
-snippets, completions files, build systems and other Sublime Text extensions.
+AAAPackageDev is a Sublime Text 2 and 3 package that helps create and edit syntax definitions,
+snippets, completions files, build systems and other Sublime Text extension files.
 
 The general workflow looks like this:
 
@@ -14,7 +14,7 @@ The general workflow looks like this:
 - edit file (with specific snippets, completions, higlighting, build systems...)
 - save file
 
-AAAPackageDev ``new_*`` commands are typically accessible through the *Command Palette*
+AAAPackageDev commands are typically accessible through the *Command Palette*
 (``Ctrl+Shift+P``).
 
 
@@ -102,21 +102,7 @@ Currently supported options are:
 **Example** (YAML): ``# [PackageDev] target_format: plist, ext: tmLanguage``
 
 *Note*: The JSON parser can handle JavaScript-like ``//`` and `` /* */`` comments.
-
-
-Package Development
-===================
-
-Resources for package development are in a very early stage.
-
-Commands
-********
-
-``new_package``
-	Window command. Prompts for a name and creates a new package skeleton in ``Packages``.
-
-``delete_package``
-	Window command. Opens file browser at ``Packages``.
+For obvious reasons, comments are not preserved.
 
 
 .. Completions
