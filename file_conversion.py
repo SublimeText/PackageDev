@@ -5,7 +5,7 @@ import sublime
 
 from sublime_lib import WindowAndTextCommand
 from sublime_lib.path import file_path_tuple
-from sublime_lib.view import OutputPanel
+from sublime_lib.view import OutputPanel, get_text
 
 try:  # ST3
     from .fileconv import dumpers, loaders
@@ -243,15 +243,20 @@ class ConvertFileCommand(WindowAndTextCommand):
                         % ( source_format, target_format))
 
             # Finish
-            output.write("[Finished in %.3fs]" % (time.time() - start_time))
+            output.write_line("[Finished in %.3fs]" % (time.time() - start_time))
+            # We need to save the text if calling "rearrange_yaml_syntax_def"
+            # because `get_output_panel` resets its contents.
+            output_text = get_text(output.view)
 
-            if open_new_file or rearrange_yaml_syntax_def:
-                new_view = self.window.open_file(new_file_path)
+        # Continue with potential further steps
+        if open_new_file or rearrange_yaml_syntax_def:
+            new_view = self.window.open_file(new_file_path)
 
-                if rearrange_yaml_syntax_def:
-                    # For some reason, ST would still indicate the new buffer having "usaved changes"
-                    # even though there aren't any (calling "save" command here).
-                    new_view.run_command("rearrange_yaml_syntax_def", {"save": True})
+            if rearrange_yaml_syntax_def:
+                # For some reason, ST would still indicate the new buffer having "usaved changes"
+                # even though there aren't any (calling "save" command here).
+                new_view.run_command("rearrange_yaml_syntax_def",
+                                     {"save": True, "_output_text": output_text})
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)

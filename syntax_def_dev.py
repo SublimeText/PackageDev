@@ -233,7 +233,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
 
     def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True,
-            insert_newlines=True, save=False, **kwargs):
+            insert_newlines=True, save=False, _output_text=None, **kwargs):
         """Available parameters:
 
             sort (bool) = True
@@ -279,6 +279,10 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             save (bool) = False
                 Save the view after processing is done.
 
+            _output_text (str) = None
+                Text to be prepended to the output panel since it gets cleared
+                by `window.get_output_panel`.
+
             **kwargs
                 Forwarded to yaml.dump (if they are valid).
         """
@@ -309,6 +313,8 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
         with OutputPanel(self.view.window() or sublime.active_window(), "aaa_package_dev") as output:
             output.show()
+            if _output_text:
+                output.write_line(_output_text)  # With additional newline
 
             self.start_time = time.time()
 
