@@ -30,6 +30,5 @@
 
     { "caption": "z:AAAPackageDev: New Plugin", "command": "new_plugin" },
 
-    { "caption": "z:AAAPackageDev: New Package", "command": "new_package" },
     { "caption": "z:AAAPackageDev: Delete Package", "command": "delete_package" }
 ]
