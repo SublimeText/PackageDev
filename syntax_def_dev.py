@@ -300,95 +300,91 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             sort_order = self.default_order
         vp = get_viewport_coords(self.view)
 
-        output = OutputPanel(self.view.window() or sublime.active_window(), "aaa_package_dev")
-        output.show()
+        with OutputPanel(self.view.window() or sublime.active_window(), "aaa_package_dev") as output:
+            output.show()
 
-        self.start_time = time.time()
+            self.start_time = time.time()
 
-        # Init the Loader
-        loader = loaders.YAMLLoader(None, self.view, file_path=file_path, output=output)
+            # Init the Loader
+            loader = loaders.YAMLLoader(None, self.view, file_path=file_path, output=output)
 
-        data = None
-        try:
-            data = loader.load(**kwargs)
-        except:
-            output.write_line("Unexpected error occured while parsing, "
-                              "please see the console for details.")
-            raise
+            data = None
+            try:
+                data = loader.load(**kwargs)
+            except:
+                output.write_line("Unexpected error occured while parsing, "
+                                  "please see the console for details.")
+                raise
 
-        if not data:
-            output.write_line("No contents in file.")
-            return self.finish(output)
+            if not data:
+                output.write_line("No contents in file.")
+                return
 
-        # Dump
-        dumper = YAMLOrderedTextDumper(output=output)
-        if remove_single_line_maps:
-            kwargs["Dumper"] = YAMLLanguageDevDumper
+            # Dump
+            dumper = YAMLOrderedTextDumper(output=output)
+            if remove_single_line_maps:
+                kwargs["Dumper"] = YAMLLanguageDevDumper
 
-        try:
-            text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
-        except:
-            output.write_line("Unexpected error occured while dumping, "
-                              "please see the console for details.")
-            raise
+            try:
+                text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
+            except:
+                output.write_line("Unexpected error occured while dumping, "
+                                  "please see the console for details.")
+                raise
 
-        if not text:
-            output.write_line("Error re-dumping the data in file (no output).")
-            self.status("Error re-dumping the data (no output).")
-            return
+            if not text:
+                output.write_line("Error re-dumping the data in file (no output).")
+                self.status("Error re-dumping the data (no output).")
+                return
 
-        # Replace the whole buffer (with default options)
-        self.view.replace(
-            edit,
-            sublime.Region(0, self.view.size()),
-            "# [PackageDev] target_format: plist, ext: tmLanguage\n"
-            + text
-        )
-
-        # Insert the new lines using the syntax definition (which has hopefully been set)
-        if insert_newlines:
-            find = self.view.find_by_selector
-
-            def select(l, only_first=True, not_first=True):
-                # 'only_first' has priority
-                if not l:
-                    return l  # empty
-                elif only_first:
-                    return l[:1]
-                elif not_first:
-                    return l[1:]
-                return l
-
-            def filter_pattern_regs(reg):
-                # Only use those keys where the region starts at column 0 and begins with '-'
-                # because these are apparently the first keys of a 1-scope list
-                beg = reg.begin()
-                return self.view.rowcol(beg)[1] == 0 and self.view.substr(beg) == '-'
-
-            regs = (
-                select(find('meta.patterns - meta.repository-block'))
-                + select(find('meta.repository-block'))
-                + select(find('meta.repository-block meta.repository-key'), False)
-                + select(list(filter(filter_pattern_regs, find('meta'))), False)
+            # Replace the whole buffer (with default options)
+            self.view.replace(
+                edit,
+                sublime.Region(0, self.view.size()),
+                "# [PackageDev] target_format: plist, ext: tmLanguage\n"
+                + text
             )
 
-            # Iterate in reverse order to not clash the regions because we will be modifying the source
-            regs.sort()
-            regs.reverse()
-            for reg in regs:
-                self.view.insert(edit, reg.begin(), '\n')
+            # Insert the new lines using the syntax definition (which has hopefully been set)
+            if insert_newlines:
+                find = self.view.find_by_selector
 
-        if save:
-            self.view.run_command("save")
-            output.write_line("File saved")
+                def select(l, only_first=True, not_first=True):
+                    # 'only_first' has priority
+                    if not l:
+                        return l  # empty
+                    elif only_first:
+                        return l[:1]
+                    elif not_first:
+                        return l[1:]
+                    return l
 
-        # Finish
-        set_viewport(self.view, vp)
-        self.finish(output)
+                def filter_pattern_regs(reg):
+                    # Only use those keys where the region starts at column 0 and begins with '-'
+                    # because these are apparently the first keys of a 1-scope list
+                    beg = reg.begin()
+                    return self.view.rowcol(beg)[1] == 0 and self.view.substr(beg) == '-'
 
-    def finish(self, output):
-        output.write("[Finished in %.3fs]" % (time.time() - self.start_time))
-        output.finish()
+                regs = (
+                    select(find('meta.patterns - meta.repository-block'))
+                    + select(find('meta.repository-block'))
+                    + select(find('meta.repository-block meta.repository-key'), False)
+                    + select(list(filter(filter_pattern_regs, find('meta'))), False)
+                )
+
+                # Iterate in reverse order to not clash the regions because we will be modifying the source
+                regs.sort()
+                regs.reverse()
+                for reg in regs:
+                    self.view.insert(edit, reg.begin(), '\n')
+
+            if save:
+                self.view.run_command("save")
+                output.write_line("File saved")
+
+            # Finish
+            set_viewport(self.view, vp)
+            output.write("[Finished in %.3fs]" % (time.time() - self.start_time))
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
