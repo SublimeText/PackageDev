@@ -28,7 +28,5 @@
 
     { "caption": "z:AAAPackageDev: New Build System", "command": "new_build_system2" },
 
-    { "caption": "z:AAAPackageDev: New Plugin", "command": "new_plugin" },
-
-    { "caption": "z:AAAPackageDev: Delete Package", "command": "delete_package" }
+    { "caption": "z:AAAPackageDev: New Plugin", "command": "new_plugin" }
 ]
