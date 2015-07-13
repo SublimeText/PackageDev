@@ -146,7 +146,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:^ *|\G *| +)((#).*)</string>
+			<string>(?:^ *|\G *| +)((#).*\n?)</string>
 		</dict>
 		<key>comment-from-key</key>
 		<dict>

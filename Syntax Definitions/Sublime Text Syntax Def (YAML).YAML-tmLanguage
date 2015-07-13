@@ -56,7 +56,7 @@ repository:
 
 # control sequences
   comment:
-    match: (?:^ *|\G *| +)((#).*)
+    match: (?:^ *|\G *| +)((#).*\n?)
     captures:
       '1': {name: comment.line.number-sign.yaml-tmlanguage}
       '2': {name: punctuation.definition.comment.line.yaml-tmlanguage}
