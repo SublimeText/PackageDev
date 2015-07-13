@@ -210,10 +210,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         params = self.validate_params(kwargs)
 
         self.output.write_line("Dumping %s..." % self.name)
-        try:
-            return yaml.dump(data, **params)
-        except Exception as e:
-            self.output.write_line("Error dumping %s: %s" % (self.name, e))
+        return yaml.dump(data, **params)
 
 
 class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
@@ -313,11 +310,11 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
         data = None
         try:
-            data = loader.load()
-        except NotImplementedError as e:
-            # Use NotImplementedError to make the handler report the message as it pleases
-            output.write_line(str(e))
-            self.status(str(e), file_path)
+            data = loader.load(**kwargs)
+        except:
+            output.write_line("Unexpected error occured while parsing, "
+                              "please see the console for details.")
+            raise
 
         if not data:
             output.write_line("No contents in file.")
@@ -327,9 +324,17 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         dumper = YAMLOrderedTextDumper(output=output)
         if remove_single_line_maps:
             kwargs["Dumper"] = YAMLLanguageDevDumper
-        text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
+
+        try:
+            text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
+        except:
+            output.write_line("Unexpected error occured while dumping, "
+                              "please see the console for details.")
+            raise
+
         if not text:
-            self.status("Error re-dumping the data.")
+            output.write_line("Error re-dumping the data in file (no output).")
+            self.status("Error re-dumping the data (no output).")
             return
 
         # Replace the whole buffer (with default options)

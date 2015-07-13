@@ -234,15 +234,13 @@ class ConvertFileCommand(WindowAndTextCommand):
             # Now dump to new file
             dumper = dumpers.get[target_format](self.window, self.view, new_file_path, output=output)
             try:
-                success = dumper.dump(data, *args, **kwargs)
+                dumper.dump(data, *args, **kwargs)
             except:
                 output.write_line("Unexpected error occured while dumping, "
                                   "please see the console for details.")
                 raise
-            self.status("File conversion %ssuccessful. (%s -> %s)"
-                        % ("" if success else "un", source_format, target_format))
-            if not success:
-                return
+            self.status("File conversion successful. (%s -> %s)"
+                        % ( source_format, target_format))
 
             # Finish
             output.write("[Finished in %.3fs]" % (time.time() - start_time))

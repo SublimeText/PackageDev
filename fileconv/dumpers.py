@@ -173,12 +173,8 @@ class DumperProto(object):
         self.output.show()
         data = self.validate_data(data)
         params = self.validate_params(kwargs)
-        try:
-            self.write(data, params, *args, **kwargs)
-        except Exception as e:
-            self.output.write_line("Error writing %s: %s" % (self.name, e))
-        else:
-            return True
+
+        self.write(data, params, *args, **kwargs)
 
     def write(self, data, *args, **kwargs):
         """To be implemented."""
