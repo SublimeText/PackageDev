@@ -240,7 +240,7 @@ class ConvertFileCommand(WindowAndTextCommand):
                                   "please see the console for details.")
                 raise
             self.status("File conversion %ssuccessful. (%s -> %s)"
-                        % ("un" if success else "", source_format, target_format))
+                        % ("" if success else "un", source_format, target_format))
             if not success:
                 return
 
