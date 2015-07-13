@@ -253,8 +253,6 @@ class ConvertFileCommand(WindowAndTextCommand):
             new_view = self.window.open_file(new_file_path)
 
             if rearrange_yaml_syntax_def:
-                # For some reason, ST would still indicate the new buffer having "usaved changes"
-                # even though there aren't any (calling "save" command here).
                 new_view.run_command("rearrange_yaml_syntax_def",
                                      {"save": True, "_output_text": output_text})
 

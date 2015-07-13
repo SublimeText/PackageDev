@@ -360,6 +360,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
             # Insert the new lines using the syntax definition (which has hopefully been set)
             if insert_newlines:
+                output.write_line("Inserting newlines...")
                 find = self.view.find_by_selector
 
                 def select(l, only_first=True, not_first=True):
@@ -392,8 +393,9 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                     self.view.insert(edit, reg.begin(), '\n')
 
             if save:
-                self.view.run_command("save")
-                output.write_line("File saved")
+                output.write_line("Saving...")
+                # Otherwise the "dirty" indicator is not removed
+                sublime.set_timeout(lambda: self.view.run_command("save"), 20)
 
             # Finish
             set_viewport(self.view, vp)
