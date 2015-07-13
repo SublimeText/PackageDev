@@ -57,6 +57,23 @@ DATA = """
 
     meta
 
+    punctuation
+        definition
+            string
+                begin
+                end
+            sequence
+                begin
+                end
+            mapping
+                begin
+                end
+        separator
+            sequence
+            mapping
+                key-value
+                pair
+
     storage
         type
         modifier
@@ -91,7 +108,7 @@ class NodeList(list):
     """
     Methods:
         * find(name)
-        * fine_all(name)
+        * find_all(name)
         * to_completion()
     """
     def find(self, name):
@@ -110,10 +127,6 @@ class NodeList(list):
     def to_completion(self):
         # return zip(self, self)
         return [(n.name, n.name) for n in self]
-
-
-COMPILED_NODES = NodeList()
-COMPILED_HEADS = NodeList()
 
 
 class ScopeNode(object):
@@ -153,11 +166,15 @@ class ScopeNode(object):
     def __repr__(self):
         ret = self.name
         if self.children:
-            ret += " {%s}" % ' '.join(repr(child) for child in self.children)
+            ret += " {%s}" % ' '.join(map(repr, self.children))
         return ret
 
 
 #######################################
+
+# output values
+COMPILED_NODES = NodeList()
+COMPILED_HEADS = NodeList()
 
 # parse the DATA string
 lines = DATA.split("\n")
