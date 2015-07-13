@@ -674,7 +674,7 @@ comment
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!["'\[{])</string>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:)(?:(?= +#)| +(?!["'\[{]))</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -706,7 +706,7 @@ comment
 					<key>contentName</key>
 					<string>meta.value.yaml-tmlanguage</string>
 					<key>end</key>
-					<string>(?=, |,$| +[#{\['"]| *$| *})</string>
+					<string>(?=, |,$| +[#{\[]| *$| *})</string>
 					<key>name</key>
 					<string>meta.match.yaml-tmlanguage</string>
 					<key>patterns</key>

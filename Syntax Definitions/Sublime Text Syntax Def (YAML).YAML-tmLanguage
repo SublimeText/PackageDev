@@ -255,7 +255,7 @@ repository:
     # single-line (unquoted)
     - name: meta.match.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:) +(?!["'\[{])
+      begin: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)(match|begin|end)(\2))(:)(?:(?= +#)| +(?!["'\[{]))
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -263,7 +263,7 @@ repository:
         '4': {name: punctuation.definition.string.yaml-tmlanguage}
         '5': {name: keyword.control.definition.yaml-tmlanguage}
       # This regexp is complex due to the many possibilities to terminate a string.
-      end: (?=, |,$| +[#{\['"]| *$| *})
+      end: (?=, |,$| +[#{\[]| *$| *})
       patterns:
       - include: source.oniregexp
 
@@ -348,7 +348,7 @@ repository:
       # Note1: can not differentiate if within inline ({) or block and thus
       # the inline terminating sequences which are valid in blocks are ignored completely.
       # Currently only interesting for "comment: no # still no"
-      # Note2: Minimum indent is "  " if the coment key is not the first key in a list
+      # Note2: Minimum indent is "  " if the comment key is not the first key in a list
       # (e.g. "- name: something\n  comment: dd"). Easiest workaroung.
       end: ^(?! *$|\1\2  ) #|(?<=.)(?=, |,$| +#| *(?<![^\\]\\)})
 
