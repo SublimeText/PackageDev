@@ -148,12 +148,11 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
                 lines = value.splitlines()
                 value = lines[0] + '\n' + textwrap.dedent('\n'.join(lines[1:]))
 
-            # Use " to denote strings if the string contains ' but not ";
-            # but try to do this only when necessary as non-quoted strings are always better
-            elif ("'" in value and not '"' in value
-                  and (value[0] in "[]{#'}@"
-                       or any(s in value for s in (" '", ' #', ', ', ': ')))):
-                style = '"'
+            # Use ' to denote string if it contains illegal plain sequences
+            # since it has easier escape sequences
+            elif (value[0] in "[]{#\"'}@,"
+                  or any(s in value for s in (' #', ': '))):
+                style = "'"
 
         return super(YAMLLanguageDevDumper, self).represent_scalar(tag, value, style)
 
