@@ -433,10 +433,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
 
         loc = locations[0]
         # Do not bother if not in yaml-tmlanguage scope and within or at the end of a comment
-        if (
-            not view.match_selector(loc, "source.yaml-tmlanguage - comment")
-            or view.match_selector(loc - 1, "comment")
-        ):
+        if not view.match_selector(loc, "source.yaml-tmlanguage - comment"):
             return []
 
         def inhibit(ret):
