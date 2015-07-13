@@ -425,11 +425,14 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
 
         loc = locations[0]
         # Do not bother if not in yaml-tmlanguage scope and within or at the end of a comment
-        if (not view.match_selector(loc, "source.yaml-tmlanguage - comment")
-                or view.match_selector(loc - 1, "comment")):
+        if (
+            not view.match_selector(loc, "source.yaml-tmlanguage - comment")
+            or view.match_selector(loc - 1, "comment")
+        ):
             return []
 
-        inhibit = lambda ret: (ret, sublime.INHIBIT_WORD_COMPLETIONS)
+        def inhibit(ret):
+            return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
 
         # Extend numerics into `'123': {name: $0}`, as used in captures,
         # but only if they are not in a string scope
@@ -438,9 +441,11 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
             return inhibit([(word, "'%s': {name: $0}" % word)])
 
         # Provide a selection of naming convention from TextMate + the base scope appendix
-        if (view.match_selector(loc, "meta.name meta.value string")
-                or view.match_selector(loc - 1, "meta.name meta.value string")
-                or view.match_selector(loc - 2, "meta.name keyword.control.definition")):
+        if (
+            view.match_selector(loc, "meta.name meta.value string")
+            or view.match_selector(loc - 1, "meta.name meta.value string")
+            or view.match_selector(loc - 2, "meta.name keyword.control.definition")
+        ):
             reg = extract_selector(view, "meta.name meta.value string", loc)
             if reg:
                 # Tokenize the current selector (only to the cursor)
