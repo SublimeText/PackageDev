@@ -1,0 +1,17 @@
+v1.0.7 (2015-07-13)
+-------------------
+
+* Exceptions while parsing or dumping are not eaten anymore and can be seen in
+  the console. As a result, the "conversion (un-)successful" message, which
+  previously said the exact opposite of what actually happend, only shows up
+  for success. (#55)
+* Fixed small issues with YAML Syntax Def highlighting (#58, #46)
+* Added a few cleanups for YAML scalar detections in rearrange command. `(?x)`
+  patterns are now dedented and single-quoted scalars are preferred due to more
+  complex escape mechanisms in double-quoted scalars.
+* File is not marked as dirty anymore after converting&rearranging.
++ Added "punctuation" scopes to completions. Punctuation scopes don't have any
+  standards yet, so feel free to suggest different names on github.
+- Removed "New Package" command. It hasn't been working for three years anyway.
+  The "Delete Package" command has been removed as well, since it hasn't been
+  updated for ST3's .sublime-package workflow. (#4, #54)
