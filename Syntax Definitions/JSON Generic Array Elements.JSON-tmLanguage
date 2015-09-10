@@ -15,7 +15,7 @@
           "begin":"\"",
           "end": "\"",
           "patterns": [
-              { "match": "\\\\[\"tnr]",
+              { "match": "\\\\[\"tnr\\\\]",
                 "captures": {
                     "0": { "name": "constant.character.escape.jsongenericarrayelements" }
                 }
@@ -34,12 +34,12 @@
 
       "booleanConstants": {
         "match": "true|false",
-        "name": "constant.numeric.boolean.jsongenericarrayelements"
+        "name": "constant.language.boolean.jsongenericarrayelements"
       },
 
       "null": {
         "match": "null",
-        "name": "constant.numeric.null.jsongenericarrayelements"
+        "name": "constant.language.null.jsongenericarrayelements"
       }
   },
 

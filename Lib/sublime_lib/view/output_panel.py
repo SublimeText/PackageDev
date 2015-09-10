@@ -1,16 +1,27 @@
-from sublime import Region, Window, version
+from sublime import Region, Window
 
 from ._view import ViewSettings, unset_read_only, append, clear, get_text
+from .. import ST3
 
-if int(version()) > 3000:
+if ST3:
     basestring = str
 
 
 class OutputPanel(object):
-    """This class represents an output panel (which are used for e.g. build systems).
-    Please not that the panel's contents will be cleared on __init__.
+    """This class represents an output panel (useful for e.g. build systems).
+    Please note that the panel's contents will be cleared on __init__.
 
-    OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True)
+    Can be used as a context handler in `with` statement which will
+    automatically invoke the `finish()` method.
+
+    Example usage:
+
+        with OutputPanel(sublime.active_window(), "test") as output:
+            output.write_line("some testing here")
+
+
+    OutputPanel(window, panel_name, file_regex=None, line_regex=None, path=None,
+                read_only=True, auto_show=True)
         * window
             The window. This is usually `self.window` or
             `self.view.window()`, depending on the type of your command.
@@ -34,7 +45,7 @@ class OutputPanel(object):
 
             If `file_regex` doesn't match on the current line, but
             `line_regex` exists, and it does match on the current line,
-            then walk backwards through the buffer until  a line matching
+            then walk backwards through the buffer until a line matching
             file regex is found, and use these two matches
             to determine the file and line to go to; column is optional.
 
@@ -47,6 +58,10 @@ class OutputPanel(object):
             A boolean whether the output panel should be read only.
             You usually want this to be true.
             Can be modified with `self.view.set_read_only()` when needed.
+
+        * auto_show
+            Option if the panel should be shown when `finish()` is called and
+            text has been added.
 
     Useful attributes:
 
@@ -74,7 +89,7 @@ class OutputPanel(object):
         write(text)
             Will just write appending `text` to the output panel.
 
-        write_line(text)
+        write_line(text='')
             Same as write() but inserts a newline at the end.
 
         clear()
@@ -87,8 +102,11 @@ class OutputPanel(object):
         finish()
             Call this when you are done with updating the panel.
             Required if you want the next_result command (F4) to work.
+            If `auto_show` is true, will also show the panel if text was added.
     """
-    def __init__(self, window, panel_name, file_regex=None, line_regex=None, path=None, read_only=True):
+    def __init__(self, window, panel_name, file_regex=None,
+                 line_regex=None, path=None, read_only=True,
+                 auto_show=True):
         if not isinstance(window, Window):
             raise ValueError("window parameter is invalid")
         if not isinstance(panel_name, basestring):
@@ -101,6 +119,8 @@ class OutputPanel(object):
         self.settings = ViewSettings(self.view)
 
         self.set_path(path, file_regex, line_regex)
+
+        self.auto_show = auto_show
 
     def set_path(self, path=None, file_regex=None, line_regex=None):
         """Update the view's result_base_dir pattern.
@@ -125,21 +145,28 @@ class OutputPanel(object):
         if hasattr(self, 'line_regex'):
             self.settings.result_line_regex = self.line_regex
 
-        # Call get_output_panel again after assigning the above settings, so that "next_result" and
-        # "prev_result" work. However, it will also clear the view so read it before and re-write
-        # its contents afterwards.
+        # Call get_output_panel again after assigning the above settings, so
+        # that "next_result" and "prev_result" work. However, it will also clear
+        # the view so read it before and re-write its contents afterwards. Cache
+        # selection as well.
         contents = get_text(self.view)
+        sel = self.view.sel()
+        selections = list(sel)
         self.view = self.window.get_output_panel(self.panel_name)
+        sel.clear()
+        for reg in selections:  # sel.add_all requires a `RegionSet` in ST2
+            sel.add(reg)
         self.write(contents)
 
     def write(self, text):
         """Appends `text` to the output panel.
-        Alias for `sublime_lib.view.append(self.view, text)` + `with unset_read_only:`.
+        Alias for `sublime_lib.view.append(self.view, text)`
+        + `with unset_read_only:`.
         """
         with unset_read_only(self.view):
             append(self.view, text)
 
-    def write_line(self, text):
+    def write_line(self, text=''):
         """Appends `text` to the output panel and starts a new line.
         """
         self.write(text + "\n")
@@ -154,18 +181,32 @@ class OutputPanel(object):
     def show(self):
         """Makes the output panel visible.
         """
-        self.window.run_command("show_panel", {"panel": "output.%s" % self.panel_name})
+        self.window.run_command("show_panel",
+                                {"panel": "output.%s" % self.panel_name})
 
     def hide(self):
         """Makes the output panel invisible.
         """
-        self.window.run_command("hide_panel", {"panel": "output.%s" % self.panel_name})
+        self.window.run_command("hide_panel",
+                                {"panel": "output.%s" % self.panel_name})
 
     def finish(self):
         """Things that are required to use the output panel properly.
 
         Set the selection to the start, so that next_result will work as
-        expected.
+        expected. Also shows the panel if text has been added.
         """
+        self.set_path()
         self.view.sel().clear()
         self.view.sel().add(Region(0))
+        if self.auto_show:
+            if self.view.size():
+                self.show()
+            else:
+                self.hide()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.finish()

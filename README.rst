@@ -5,8 +5,8 @@ AAAPackageDev
 Overview
 ========
 
-AAAPackageDev is a Sublime Text 2 and 3 plugin that helps create and edit syntax definitions,
-snippets, completions files, build systems and other Sublime Text extensions.
+AAAPackageDev is a Sublime Text 2 and 3 package that helps create and edit syntax definitions,
+snippets, completions files, build systems and other Sublime Text extension files.
 
 The general workflow looks like this:
 
@@ -14,7 +14,7 @@ The general workflow looks like this:
 - edit file (with specific snippets, completions, higlighting, build systems...)
 - save file
 
-AAAPackageDev ``new_*`` commands are typically accessible through the *Command Palette*
+AAAPackageDev commands are typically accessible through the *Command Palette*
 (``Ctrl+Shift+P``).
 
 
@@ -38,11 +38,7 @@ Syntax Definition Development
 
 In AAAPackageDev, syntax definitions are written in YAML_ (previously JSON). Sublime Text uses
 Plist_ XML files with the ``.tmLanguage`` extensions, so they need to be converted before use if you
-want to modify an already existing. The conversion is done through the included build system
-``Convert to...``. You can then run the command ``Rearrange YAML Syntax Definition`` from the
-*Command Palette* to sort all lines reasonably and insert line breaks where they're useful.
-Alternatively you can run ``Convert to YAML and Rearrange Syntax Definition`` to do everything at
-once.
+want to modify an already existing syntax definition.
 
 .. _YAML: http://en.wikipedia.org/wiki/YAML
 .. _Plist: http://en.wikipedia.org/wiki/Property_list#Mac_OS_X
@@ -70,8 +66,6 @@ Other included resources for syntax definition development:
     the base scope name.
   * Includes are completed as per defined repository keys.
 
-To make best usage of the auto completions for scopes, ``{ characters": ".", "selector": "source.yaml-tmlanguage - comment" }`` should be added to the "auto_complete_triggers" setting.
-
 For a good example definition (as to why using YAML is way better than the plain Plist), see the
 syntax definition for YAML-tmLanguage files: `Sublime Text Syntax Def (YAML).YAML-tmLanguage`_
 
@@ -79,21 +73,48 @@ syntax definition for YAML-tmLanguage files: `Sublime Text Syntax Def (YAML).YAM
 .. _Sublime Text Syntax Def (YAML).YAML-tmLanguage: Syntax%20Definitions/Sublime%20Text%20Syntax%20Def%20(YAML).YAML-tmLanguage
 
 
+Editing Existing Syntax Definitions
+***********************************
+
+You can convert JSON or Plist files to YAML any time
+(using the ``Convert to...`` build system),
+but for convenience
+AAAPackageDev provides a migration command
+that takes care of all that,
+and more.
+
+**This is highly recommended!**
+Running ``Convert to YAML and Rearrange Syntax Definition``
+will convert the JSON or Plist syntax definition at hand
+into YAML and additioally prettify it.
+To ensure proper markup of the syntax definition,
+explicitly convert indentation to spaces
+using the ``Indentation: Convert to Spaces`` command
+before converting.
+
+You can also run the command ``Rearrange YAML Syntax Definition``
+from the *Command Palette* manually
+to sort all lines reasonably,
+turn strings into their block representation,
+remove redundant mapping symbols
+and insert line breaks where they're useful.
+
+
 "Convert to..." Build System
 ******************************
 
 The "Convert to..." build system can interchangably convert JSON, YAML and Plist files. The source
 format is automatically detected, as long as it's possible, and will then prompt you for the target
-file's format. While this is primarily used for syntax definition it can be used for any file.
+file's format. While this is primarily used for syntax definition *it can be used for any file*.
 
 It will also adjust the target file's extension, following a few rules:
 
-* ``I am json.json`` will be parsed into ``I am json.plist``.
-* ``I am json.JSON-propertyList`` will be parsed into ``I am json.propertyList``.
+* ``I am json.json`` is parsed into ``I am json.plist`` (or ``.yaml``).
+* ``I am json.JSON-propertyList`` is parsed into ``I am json.propertyList``.
 
 
 You can override both, the target format and the extension, by providing an options dict in one of the
-first three lines of a file. An options dict is indicated by a line comment with following
+first three lines of a file. An options dict is indicated by a line comment starting with
 ``[PackageDev]``. Everything to the end of the line commend (or ``-->`` for Plist) will then be
 treated as a YAML dict.
 
@@ -104,21 +125,7 @@ Currently supported options are:
 **Example** (YAML): ``# [PackageDev] target_format: plist, ext: tmLanguage``
 
 *Note*: The JSON parser can handle JavaScript-like ``//`` and `` /* */`` comments.
-
-
-Package Development
-===================
-
-Resources for package development are in a very early stage.
-
-Commands
-********
-
-``new_package``
-	Window command. Prompts for a name and creates a new package skeleton in ``Packages``.
-
-``delete_package``
-	Window command. Opens file browser at ``Packages``.
+For obvious reasons, comments are not preserved.
 
 
 .. Completions
@@ -210,3 +217,8 @@ Sublime Library
 AAAPackageDev includes ``sublime_lib``, a Python package with utilities for
 plugin developers. Once AAAPackageDev is installed, ``sublime_lib`` will be
 added to Python's PATH and importable from any other plugin.
+
+**Deprecated**:
+Do not use this library in production anymore
+because it will be removed in a future release
+and probably turned into a Package Control dependency instead.

@@ -1,0 +1,11 @@
+{
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true,
+    "use_spaces": true,
+    "auto_complete_triggers": [
+        {
+            "characters": ".",
+            "selector": "source.yaml-tmlanguage - comment"
+        }
+    ]
+}

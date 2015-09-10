@@ -1,3 +1,4 @@
+// [PackageDev] target_format: plist
 { "name": "Sublime Text Build System",
   "scopeName": "source.sublimebuild",
   "fileTypes": ["sublime-build"],
@@ -13,6 +14,7 @@
 
         "patterns": [
             { "include": "#cmd" },
+            { "include": "#shell_cmd" },
             { "include": "#env" },
             { "include": "#simpleOptions" },
             { "include": "#errorRegex" },
@@ -41,15 +43,30 @@
         "beginCaptures": {
             "1": { "name": "keyword.other.sublimebuild"}
         },
-        "end": "(?<=\\])",
+        "end": "(?=[\\],}])",
         "name": "meta.definition.command.sublimebuild",
         "patterns": [
+            { "include": "source.jsongenericarrayelements"
+            },
             { "include": "source.jsongenericarray"
             },
-            { "match": "\"([a-zA-Z0-9_]+)\"\\s*:",
-              "captures": {
-                  "1": { "name": "support.function.array.generic.key.sublimebuild" }
-              }
+            { "match": "\\S",
+              "name": "invalid.illegal.character.sublimebuild"
+            }
+        ]
+      },
+      "shell_cmd": {
+        "begin": "\"(shell_cmd)\"\\s*:",
+        "beginCaptures": {
+            "1": { "name": "keyword.other.sublimebuild"}
+        },
+        "end": "(?<=[\\],}])",
+        "name": "meta.definition.shell_command.sublimebuild",
+        "patterns": [
+            { "include": "source.jsongenericarrayelements"
+            },
+            { "match": "[^\\s,]",
+              "name": "invalid.illegal.character.sublimebuild"
             }
         ]
       },
@@ -61,13 +78,14 @@
         }
       },
       "variant": {
-        "begin": "\"(variant)\"\\s*:",
+        "begin": "\"(variants)\"\\s*:",
         "beginCaptures": {
           "1": { "name": "keyword.other.sublimebuild" }
         },
-        "end": "(?<=\\})",
+        "end": "\\]",
         "name": "meta.definition.variant.sublimebuild",
         "patterns": [
+          // TODO fix this
           { "include": "#cmd" },
           { "include": "#env" },
           { "include": "#path" },
@@ -115,7 +133,7 @@
         "match": "\"(shell)\":\\s*(true|false)",
         "captures": {
             "1": { "name": "keyword.other.shell.sublimebuild" },
-            "2": { "name": "constant.numeric.boolean.sublimebuild" }
+            "2": { "name": "constant.language.boolean.sublimebuild" }
         }
       },
       "simpleOptions": {

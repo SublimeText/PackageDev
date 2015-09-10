@@ -1,6 +1,8 @@
 import uuid
 import re
+import textwrap
 import time
+
 import yaml
 
 import sublime
@@ -140,12 +142,17 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
             if any(c in value for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029"):
                 style = '|'
 
-            # Use " to denote strings if the string contains ' but not ";
-            # but try to do this only when necessary as non-quoted strings are always better
-            elif ("'" in value and not '"' in value
-                  and (value[0] in "[]{#'}@"
-                       or any(s in value for s in (" '", ' #', ', ', ': ')))):
-                style = '"'
+            # Do some special replacements of leading tabs or spaces in (?x) patterns
+            if value.startswith("(?x)") and ('\n' in value or '\r' in value):
+                value = value.strip()
+                lines = value.splitlines()
+                value = lines[0] + '\n' + textwrap.dedent('\n'.join(lines[1:]))
+
+            # Use ' to denote string if it contains illegal plain sequences
+            # since it has easier escape sequences
+            elif (value[0] in "[]{#\"'}@,"
+                  or any(s in value for s in (' #', ': '))):
+                style = "'"
 
         return super(YAMLLanguageDevDumper, self).represent_scalar(tag, value, style)
 
@@ -210,10 +217,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         params = self.validate_params(kwargs)
 
         self.output.write_line("Dumping %s..." % self.name)
-        try:
-            return yaml.dump(data, **params)
-        except Exception as e:
-            self.output.write_line("Error dumping %s: %s" % (self.name, e))
+        return yaml.dump(data, **params)
 
 
 class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
@@ -229,7 +233,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
 
     def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True,
-            insert_newlines=True, save=False, **kwargs):
+            insert_newlines=True, save=False, _output_text=None, **kwargs):
         """Available parameters:
 
             sort (bool) = True
@@ -275,6 +279,10 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             save (bool) = False
                 Save the view after processing is done.
 
+            _output_text (str) = None
+                Text to be prepended to the output panel since it gets cleared
+                by `window.get_output_panel`.
+
             **kwargs
                 Forwarded to yaml.dump (if they are valid).
         """
@@ -303,87 +311,95 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             sort_order = self.default_order
         vp = get_viewport_coords(self.view)
 
-        output = OutputPanel(self.view.window() or sublime.active_window(), "aaa_package_dev")
-        output.show()
+        with OutputPanel(self.view.window() or sublime.active_window(), "aaa_package_dev") as output:
+            output.show()
+            if _output_text:
+                output.write_line(_output_text)  # With additional newline
 
-        self.start_time = time.time()
+            self.start_time = time.time()
 
-        # Init the Loader
-        loader = loaders.YAMLLoader(None, self.view, file_path=file_path, output=output)
+            # Init the Loader
+            loader = loaders.YAMLLoader(None, self.view, file_path=file_path, output=output)
 
-        data = None
-        try:
-            data = loader.load()
-        except NotImplementedError as e:
-            # Use NotImplementedError to make the handler report the message as it pleases
-            output.write_line(str(e))
-            self.status(str(e), file_path)
+            data = None
+            try:
+                data = loader.load(**kwargs)
+            except:
+                output.write_line("Unexpected error occured while parsing, "
+                                  "please see the console for details.")
+                raise
 
-        if not data:
-            output.write_line("No contents in file.")
-            return self.finish(output)
+            if not data:
+                output.write_line("No contents in file.")
+                return
 
-        # Dump
-        dumper = YAMLOrderedTextDumper(output=output)
-        if remove_single_line_maps:
-            kwargs["Dumper"] = YAMLLanguageDevDumper
-        text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
-        if not text:
-            self.status("Error re-dumping the data.")
-            return
+            # Dump
+            dumper = YAMLOrderedTextDumper(output=output)
+            if remove_single_line_maps:
+                kwargs["Dumper"] = YAMLLanguageDevDumper
 
-        # Replace the whole buffer (with default options)
-        self.view.replace(
-            edit,
-            sublime.Region(0, self.view.size()),
-            "# [PackageDev] target_format: plist, ext: tmLanguage\n"
-            + text
-        )
+            try:
+                text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
+            except:
+                output.write_line("Unexpected error occured while dumping, "
+                                  "please see the console for details.")
+                raise
 
-        # Insert the new lines using the syntax definition (which has hopefully been set)
-        if insert_newlines:
-            find = self.view.find_by_selector
+            if not text:
+                output.write_line("Error re-dumping the data in file (no output).")
+                self.status("Error re-dumping the data (no output).")
+                return
 
-            def select(l, only_first=True, not_first=True):
-                # 'only_first' has priority
-                if not l:
-                    return l  # empty
-                elif only_first:
-                    return l[:1]
-                elif not_first:
-                    return l[1:]
-                return l
-
-            def filter_pattern_regs(reg):
-                # Only use those keys where the region starts at column 0 and begins with '-'
-                # because these are apparently the first keys of a 1-scope list
-                beg = reg.begin()
-                return self.view.rowcol(beg)[1] == 0 and self.view.substr(beg) == '-'
-
-            regs = (
-                select(find('meta.patterns - meta.repository-block'))
-                + select(find('meta.repository-block'))
-                + select(find('meta.repository-block meta.repository-key'), False)
-                + select(list(filter(filter_pattern_regs, find('meta'))), False)
+            # Replace the whole buffer (with default options)
+            self.view.replace(
+                edit,
+                sublime.Region(0, self.view.size()),
+                "# [PackageDev] target_format: plist, ext: tmLanguage\n"
+                + text
             )
 
-            # Iterate in reverse order to not clash the regions because we will be modifying the source
-            regs.sort()
-            regs.reverse()
-            for reg in regs:
-                self.view.insert(edit, reg.begin(), '\n')
+            # Insert the new lines using the syntax definition (which has hopefully been set)
+            if insert_newlines:
+                output.write_line("Inserting newlines...")
+                find = self.view.find_by_selector
 
-        if save:
-            self.view.run_command("save")
-            output.write_line("File saved")
+                def select(l, only_first=True, not_first=True):
+                    # 'only_first' has priority
+                    if not l:
+                        return l  # empty
+                    elif only_first:
+                        return l[:1]
+                    elif not_first:
+                        return l[1:]
+                    return l
 
-        # Finish
-        set_viewport(self.view, vp)
-        self.finish(output)
+                def filter_pattern_regs(reg):
+                    # Only use those keys where the region starts at column 0 and begins with '-'
+                    # because these are apparently the first keys of a 1-scope list
+                    beg = reg.begin()
+                    return self.view.rowcol(beg)[1] == 0 and self.view.substr(beg) == '-'
 
-    def finish(self, output):
-        output.write("[Finished in %.3fs]" % (time.time() - self.start_time))
-        output.finish()
+                regs = (
+                    select(find('meta.patterns - meta.repository-block'))
+                    + select(find('meta.repository-block'))
+                    + select(find('meta.repository-block meta.repository-key'), False)
+                    + select(list(filter(filter_pattern_regs, find('meta'))), False)
+                )
+
+                # Iterate in reverse order to not clash the regions because we will be modifying the source
+                regs.sort()
+                regs.reverse()
+                for reg in regs:
+                    self.view.insert(edit, reg.begin(), '\n')
+
+            if save:
+                output.write_line("Saving...")
+                # Otherwise the "dirty" indicator is not removed
+                sublime.set_timeout(lambda: self.view.run_command("save"), 20)
+
+            # Finish
+            set_viewport(self.view, vp)
+            output.write("[Finished in %.3fs]" % (time.time() - self.start_time))
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)
@@ -417,11 +433,11 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
 
         loc = locations[0]
         # Do not bother if not in yaml-tmlanguage scope and within or at the end of a comment
-        if (not view.match_selector(loc, "source.yaml-tmlanguage - comment")
-                or view.match_selector(loc - 1, "comment")):
+        if not view.match_selector(loc, "source.yaml-tmlanguage - comment"):
             return []
 
-        inhibit = lambda ret: (ret, sublime.INHIBIT_WORD_COMPLETIONS)
+        def inhibit(ret):
+            return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
 
         # Extend numerics into `'123': {name: $0}`, as used in captures,
         # but only if they are not in a string scope
@@ -430,9 +446,11 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
             return inhibit([(word, "'%s': {name: $0}" % word)])
 
         # Provide a selection of naming convention from TextMate + the base scope appendix
-        if (view.match_selector(loc, "meta.name meta.value string")
-                or view.match_selector(loc - 1, "meta.name meta.value string")
-                or view.match_selector(loc - 2, "meta.name keyword.control.definition")):
+        if (
+            view.match_selector(loc, "meta.name meta.value string")
+            or view.match_selector(loc - 1, "meta.name meta.value string")
+            or view.match_selector(loc - 2, "meta.name keyword.control.definition")
+        ):
             reg = extract_selector(view, "meta.name meta.value string", loc)
             if reg:
                 # Tokenize the current selector (only to the cursor)

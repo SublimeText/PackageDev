@@ -1,0 +1,23 @@
+v1.0.6 (2015-03-06)
+-------------------
+
+* Few fixes for syntax definitions, e.g. \" escape sequence in key maps
+* Now bundles default settings for YAML syntax definitions (including
+  `auto_complete_triggers` and `tab_width`)
+
+
+A few bugfix releases have been published previously without showing the
+changelog. They are included below:
+
+* The build process is now aborted early if errors from the loader and dumper
+  are detected. Especially useful if you were using the "Convert ... and
+  rearrange YAML def" command and were working with an invalid source file.
+* Fixed escaped backslashes in sublime settings syntax
+~ File conversion now saves the file before building (and fails when saving
+  does)
+* Stop the build if the user closed the "select target format" panel
+* Some minor bugfixes
+
+For changes to the sublime_lib (which are largely uninteresting; we have other
+intentions for this module), refer to the more verbose messages in the package,
+e.g. on github.

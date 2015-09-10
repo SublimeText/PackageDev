@@ -1,0 +1,7 @@
+v1.0.3 (2015-01-28)
+-------------------
+
+(This is mostly a bug fix release and this message won't be displayed in
+Package Control. A changelog has been added however.)
+
+* Fixed OutputPanel for ST2 (broke convert to command)
