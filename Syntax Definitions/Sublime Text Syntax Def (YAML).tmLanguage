@@ -467,7 +467,7 @@ comment
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^( *)?(?:- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\3))(:) +([|&gt;])(?=, |,$| +#| *$)</string>
+					<string>^( *)?(?:- +)?((["']?)(author|bundleUUID|firstLineMatch|foldingStartMarker|foldingStopMarker|keyEquivalent)(\3))(:) +([|&gt;])(?=, |,$| +#| *$)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>2</key>
@@ -521,7 +521,7 @@ comment
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\2))(:) +(["'])</string>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(author|bundleUUID|firstLineMatch|foldingStartMarker|foldingStopMarker|keyEquivalent)(\2))(:) +(["'])</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>
@@ -585,7 +585,7 @@ comment
 				</dict>
 				<dict>
 					<key>begin</key>
-					<string>(?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\2))(:) +(?!["'])</string>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(author|bundleUUID|firstLineMatch|foldingStartMarker|foldingStopMarker|keyEquivalent)(\2))(:) +(?!["'])</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>1</key>

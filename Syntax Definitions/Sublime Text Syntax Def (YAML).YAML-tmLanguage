@@ -216,7 +216,7 @@ repository:
     # multi-line (block style)
     - name: meta.folding-marker.block.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: ^( *)?(?:- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\3))(:) +([|>])(?=, |,$| +#| *$)
+      begin: ^( *)?(?:- +)?((["']?)(author|bundleUUID|firstLineMatch|foldingStartMarker|foldingStopMarker|keyEquivalent)(\3))(:) +([|>])(?=, |,$| +#| *$)
       beginCaptures:
         '2': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '3': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -232,7 +232,7 @@ repository:
     # single-line (quoted)
     - name: meta.folding-marker.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: (?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\2))(:) +(["'])
+      begin: (?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(author|bundleUUID|firstLineMatch|foldingStartMarker|foldingStopMarker|keyEquivalent)(\2))(:) +(["'])
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -251,7 +251,7 @@ repository:
     # single-line (unquoted)
     - name: meta.folding-marker.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: (?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(foldingStartMarker|foldingStopMarker)(\2))(:) +(?!["'])
+      begin: (?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(author|bundleUUID|firstLineMatch|foldingStartMarker|foldingStopMarker|keyEquivalent)(\2))(:) +(?!["'])
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
