@@ -159,7 +159,7 @@ class DumperProto(object):
         """
         new_params = self.default_params.copy()
         new_params.update(params)
-        for key in new_params.keys():
+        for key in params.keys():
             if key not in self.allowed_params:
                 del new_params[key]
         return new_params
@@ -173,12 +173,8 @@ class DumperProto(object):
         self.output.show()
         data = self.validate_data(data)
         params = self.validate_params(kwargs)
-        try:
-            self.write(data, params, *args, **kwargs)
-        except Exception as e:
-            self.output.write_line("Error writing %s: %s" % (self.name, e))
-        else:
-            return True
+
+        self.write(data, params, *args, **kwargs)
 
     def write(self, data, *args, **kwargs):
         """To be implemented."""

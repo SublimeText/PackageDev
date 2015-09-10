@@ -1,0 +1,9 @@
+v1.0.4 (2015-02-08)
+-------------------
+
+(This is mostly a bug fix release and this message won't be displayed in
+Package Control. A changelog has been added however.)
+
+* The build process is now aborted early if errors from the loader and dumper
+  are detected. Especially useful if you were using the "Convert ... and
+  rearrange YAML def" command and were working with an invalid source file.

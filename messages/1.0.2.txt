@@ -1,0 +1,22 @@
+v1.0.2 (2015-01-23)
+-------------------
+
+(This is mostly a bug fix release and this message won't be displayed in
+Package Control. A changelog has been added however.)
+
+
+* Fixed escaped backslashes in sublime settings syntax
+~ File conversion now saves the file before building (and fails when saving
+  does)
+* Stop the build if the user closed the "select target format" panel
+* Some minor bugfixes
+
+
+== Changes to sublime_lib (interesting for developers) ==
+
++ Added `auto_show` parameter to `OutputPanel`'s `__init__`
++ Added `view.OutputPanel.append()`
++ `view.OutputPanel()` can now be used as a context manager and runs
+  `.finish()` on exit
++ Added `edit.Edit.append()` and made parameters for callback signatures
+  optional

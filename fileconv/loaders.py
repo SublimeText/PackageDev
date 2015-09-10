@@ -271,7 +271,8 @@ class LoaderProto(object):
         This function is called by the handler directly.
         """
         if not self.is_valid():
-            raise NotImplementedError("Not a %s file." % self.name)
+            self.output.write_line("Not a %s file." % self.name)
+            return
 
         self.output.write_line("Parsing %s... (%s)" % (self.name, self.file_path))
 
@@ -375,9 +376,9 @@ class PlistLoader(LoaderProto):
                                           e.lineno,
                                           e.offset)
                                        )
-            except BaseException as e:
-                # Whatever could happen here ...
-                self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            # except BaseException as e:
+            #     # Whatever could happen here ...
+            #     self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
             else:
                 return data
 
