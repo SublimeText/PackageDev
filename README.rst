@@ -25,12 +25,7 @@ Getting Started
    ``Install Package`` and then search for ``AAAPackageDev``.
 #. Access commands from **Tools | Packages | Package Development** or the *Command Palette*.
 
-Alternatively, download and install `AAAPackageDev`_ manually. (See `installation instructions`_ for
-``.sublime-package`` files.)
-
-.. _Package Control: https://sublime.wbond.net/installation
-.. _AAAPackageDev: https://bitbucket.org/guillermooo/aaapackagedev/downloads/AAAPackageDev.sublime-package
-.. _installation instructions: http://sublimetext.info/docs/en/extensibility/packages.html#installation-of-packages
+.. _Package Control: https://packagecontrol.io/installation
 
 
 Syntax Definition Development
