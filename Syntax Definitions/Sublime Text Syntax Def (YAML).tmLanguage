@@ -54,6 +54,18 @@
 		</dict>
 		<dict>
 			<key>include</key>
+			<string>#author</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#key-equivalent</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#other-markers</string>
+		</dict>
+		<dict>
+			<key>include</key>
 			<string>#patterns</string>
 		</dict>
 		<dict>
@@ -95,6 +107,56 @@
 	</array>
 	<key>repository</key>
 	<dict>
+		<key>author</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.yaml-tmlanguage</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.name.author.yaml-tmlanguage</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.yaml-tmlanguage</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.definition.yaml-tmlanguage</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>meta.value.yaml-tmlanguage string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.yaml-tmlanguage</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.yaml-tmlanguage</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?:,|\{ *|^)((["']?)(author)(\2))(:) +((["']?).*(\7))</string>
+			<key>name</key>
+			<string>meta.author.yaml-tmlanguage</string>
+		</dict>
 		<key>captures</key>
 		<dict>
 			<key>captures</key>
@@ -543,6 +605,56 @@ comment
 			<key>name</key>
 			<string>meta.include.yaml-tmlanguage</string>
 		</dict>
+		<key>key-equivalent</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.yaml-tmlanguage</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.other.name.key-equivalent.yaml-tmlanguage</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.yaml-tmlanguage</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.definition.yaml-tmlanguage</string>
+				</dict>
+				<key>6</key>
+				<dict>
+					<key>name</key>
+					<string>meta.value.yaml-tmlanguage string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.yaml-tmlanguage</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.string.yaml-tmlanguage</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(?:,|\{ *|^)((["']?)(keyEquivalent)(\2))(:) +((["']?).*(\7))</string>
+			<key>name</key>
+			<string>meta.key-equivalent.yaml-tmlanguage</string>
+		</dict>
 		<key>match</key>
 		<dict>
 			<key>patterns</key>
@@ -853,6 +965,175 @@ comment
 			<string>(?:, +|\{ *|^ *)((["'])(\d+)(\2))(:)</string>
 			<key>name</key>
 			<string>meta.number-key.yaml-tmlanguage</string>
+		</dict>
+		<key>other-markers</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>^( *)?(?:- +)?((["']?)(firstLineMatch|foldingStartMarker|foldingStopMarker)(\3))(:) +([|&gt;])(?=, |,$| +#| *$)</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.name.other-marker.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+						<key>7</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.block.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>meta.value.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>^(?! *$|\1 )</string>
+					<key>name</key>
+					<string>meta.other-marker.block.yaml-tmlanguage</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#comment</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>source.oniregexp</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(firstLineMatch|foldingStartMarker|foldingStopMarker)(\2))(:) +(["'])</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.name.other-marker.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+						<key>6</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>meta.value.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>\6(?!\6)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>name</key>
+					<string>meta.other-marker.yaml-tmlanguage</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>''</string>
+							<key>name</key>
+							<string>test</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>source.oniregexp</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>begin</key>
+					<string>(?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(firstLineMatch|foldingStartMarker|foldingStopMarker)(\2))(:) +(?!["'])</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.other.quoted-or-unquoted.yaml-tmlanguage</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.name.other-marker.yaml-tmlanguage</string>
+						</dict>
+						<key>4</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.yaml-tmlanguage</string>
+						</dict>
+						<key>5</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.definition.yaml-tmlanguage</string>
+						</dict>
+					</dict>
+					<key>contentName</key>
+					<string>meta.value.yaml-tmlanguage</string>
+					<key>end</key>
+					<string>(?=, |,$| +[#{\['"]| *$| *})</string>
+					<key>name</key>
+					<string>meta.other-marker.yaml-tmlanguage</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>source.oniregexp</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
 		</dict>
 		<key>patterns</key>
 		<dict>
@@ -1177,7 +1458,7 @@ comment
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>(?:,|\{ *|^)((["']?)(uuid)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))</string>
+			<string>(?:,|\{ *|^)((["']?)(uuid|bundleUUID)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))</string>
 			<key>name</key>
 			<string>meta.uuid.yaml-tmlanguage</string>
 		</dict>
