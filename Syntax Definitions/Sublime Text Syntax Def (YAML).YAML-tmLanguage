@@ -218,7 +218,7 @@ repository:
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
-      '3': {name: keyword.other.author.yaml-tmlanguage}
+      '3': {name: keyword.other.name.author.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
 
@@ -232,7 +232,7 @@ repository:
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
-      '3': {name: keyword.other.key-equivalent.yaml-tmlanguage}
+      '3': {name: keyword.other.name.key-equivalent.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
 
@@ -250,7 +250,7 @@ repository:
       beginCaptures:
         '2': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '3': {name: punctuation.definition.string.yaml-tmlanguage}
-        '4': {name: keyword.other.other-marker.yaml-tmlanguage}
+        '4': {name: keyword.other.name.other-marker.yaml-tmlanguage}
         '5': {name: punctuation.definition.string.yaml-tmlanguage}
         '6': {name: keyword.control.definition.yaml-tmlanguage}
         '7': {name: keyword.control.block.yaml-tmlanguage}
@@ -266,7 +266,7 @@ repository:
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
-        '3': {name: keyword.other.other-marker.yaml-tmlanguage}
+        '3': {name: keyword.other.name.other-marker.yaml-tmlanguage}
         '4': {name: punctuation.definition.string.yaml-tmlanguage}
         '5': {name: keyword.control.definition.yaml-tmlanguage}
         '6': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -285,7 +285,7 @@ repository:
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
-        '3': {name: keyword.other.other-marker.yaml-tmlanguage}
+        '3': {name: keyword.other.name.other-marker.yaml-tmlanguage}
         '4': {name: punctuation.definition.string.yaml-tmlanguage}
         '5': {name: keyword.control.definition.yaml-tmlanguage}
       end: (?=, |,$| +[#{\['"]| *$| *})
