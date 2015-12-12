@@ -27,8 +27,9 @@ patterns:
 - include: '#name-main'
 - include: '#scope-name'
 - include: '#file-types'
-- include: '#other-markers'
 - include: '#author'
+- include: '#key-equivalent'
+- include: '#other-markers'
 
 # child scope
 - include: '#patterns'
@@ -225,7 +226,21 @@ repository:
       '7': {name: punctuation.definition.string.yaml-tmlanguage}
       '8': {name: punctuation.definition.string.yaml-tmlanguage}
 
-# foldingStartMarker/foldingStopMarker
+  key-equivalent:
+    name: meta.key-equivalent.yaml-tmlanguage
+    match: (?:,|\{ *|^)((["']?)(keyEquivalent)(\2))(:) +((["']?)[-\w\. ]*(\7))
+    captures:
+      '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '2': {name: punctuation.definition.string.yaml-tmlanguage}
+      '3': {name: keyword.other.key-equivalent.yaml-tmlanguage}
+      '4': {name: punctuation.definition.string.yaml-tmlanguage}
+      '5': {name: keyword.control.definition.yaml-tmlanguage}
+
+      '6': {name: meta.value.yaml-tmlanguage string.other.quoted-or-unquoted.yaml-tmlanguage}
+      '7': {name: punctuation.definition.string.yaml-tmlanguage}
+      '8': {name: punctuation.definition.string.yaml-tmlanguage}
+
+  # firstLineMatch/foldingStartMarker/foldingStopMarker
   other-markers:
     patterns:
     # multi-line (block style)
