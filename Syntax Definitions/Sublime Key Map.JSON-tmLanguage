@@ -8,8 +8,8 @@
       { "include": "#lineComment" },
 
 
-      { "begin": "(^\\[$)",
-        "end": "(^\\]$)",
+      { "begin": "(^\\[)",
+        "end": "(^\\])",
 
         "patterns": [
           { "include": "#multiLineComment" },
