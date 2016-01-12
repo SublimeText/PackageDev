@@ -97,8 +97,11 @@
       },
       "string": {
         "begin" : "\"",
-        "end": "(?<!\\\\)\"",
+        "end": "\"",
         "patterns": [
+          { "match": "\\\\.",
+            "name": "constant.character.escape.sublimekeymap"
+          },
           { "include": "source.sublimesnippetraw" }
         ],
         "contentName": "string.double.quote.sublimekeymap"
