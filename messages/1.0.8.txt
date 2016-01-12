@@ -1,0 +1,10 @@
+v1.0.8 (2016-01-12)
+-------------------
+
+(This is mostly a minor bug fix release and this message won't be displayed in
+Package Control. A changelog has been added however.)
+
+* Fixed highlighting of string escape sequences in Key Maps (@MattDMo)
++ Added highlighting of keys "bundleUUID", "author", "keyEquivalent",
+  "foldingStartMarker", "foldingStopMarker" and "fistLineMatch" for YAML syntax
+  definitions (@MattDMo)
