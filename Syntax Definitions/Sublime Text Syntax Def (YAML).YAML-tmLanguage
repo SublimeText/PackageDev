@@ -27,7 +27,7 @@ patterns:
 - include: '#name-main'
 - include: '#scope-name'
 - include: '#file-types'
-- include: '#folding-markers'
+- include: '#other-markers'
 
 # child scope
 - include: '#patterns'
@@ -65,7 +65,7 @@ repository:
 # special keys (main scope)
   uuid:
     name: meta.uuid.yaml-tmlanguage
-    match: (?:,|\{ *|^)((["']?)(uuid)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))
+    match: (?:,|\{ *|^)((["']?)(uuid|bundleUUID)(\2))(:) +((["']?)(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})(\7))
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -211,16 +211,16 @@ repository:
       '8': {name: punctuation.definition.string.yaml-tmlanguage}
 
 # foldingStartMarker/foldingStopMarker
-  folding-markers:
+  other-markers:
     patterns:
     # multi-line (block style)
-    - name: meta.folding-marker.block.yaml-tmlanguage
+    - name: meta.other-marker.block.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
       begin: ^( *)?(?:- +)?((["']?)(firstLineMatch|foldingStartMarker|foldingStopMarker)(\3))(:) +([|>])(?=, |,$| +#| *$)
       beginCaptures:
         '2': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '3': {name: punctuation.definition.string.yaml-tmlanguage}
-        '4': {name: keyword.other.folding-marker.yaml-tmlanguage}
+        '4': {name: keyword.other.other-marker.yaml-tmlanguage}
         '5': {name: punctuation.definition.string.yaml-tmlanguage}
         '6': {name: keyword.control.definition.yaml-tmlanguage}
         '7': {name: keyword.control.block.yaml-tmlanguage}
@@ -230,13 +230,13 @@ repository:
       - include: source.oniregexp
 
     # single-line (quoted)
-    - name: meta.folding-marker.yaml-tmlanguage
+    - name: meta.other-marker.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
       begin: (?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(firstLineMatch|foldingStartMarker|foldingStopMarker)(\2))(:) +(["'])
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
-        '3': {name: keyword.other.folding-marker.yaml-tmlanguage}
+        '3': {name: keyword.other.other-marker.yaml-tmlanguage}
         '4': {name: punctuation.definition.string.yaml-tmlanguage}
         '5': {name: keyword.control.definition.yaml-tmlanguage}
         '6': {name: punctuation.definition.string.yaml-tmlanguage}
@@ -249,13 +249,13 @@ repository:
       - include: source.oniregexp
 
     # single-line (unquoted)
-    - name: meta.folding-marker.yaml-tmlanguage
+    - name: meta.other-marker.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
       begin: (?:, +|\{ *|^ {2,}|^ *- +)?((["']?)(firstLineMatch|foldingStartMarker|foldingStopMarker)(\2))(:) +(?!["'])
       beginCaptures:
         '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '2': {name: punctuation.definition.string.yaml-tmlanguage}
-        '3': {name: keyword.other.folding-marker.yaml-tmlanguage}
+        '3': {name: keyword.other.other-marker.yaml-tmlanguage}
         '4': {name: punctuation.definition.string.yaml-tmlanguage}
         '5': {name: keyword.control.definition.yaml-tmlanguage}
       end: (?=, |,$| +[#{\['"]| *$| *})
