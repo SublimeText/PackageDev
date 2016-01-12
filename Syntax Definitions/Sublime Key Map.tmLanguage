@@ -242,9 +242,15 @@
 			<key>contentName</key>
 			<string>string.double.quote.sublimekeymap</string>
 			<key>end</key>
-			<string>(?&lt;!\\)"</string>
+			<string>"</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>match</key>
+					<string>\\.</string>
+					<key>name</key>
+					<string>constant.character.escape.sublimekeymap</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>source.sublimesnippetraw</string>
