@@ -34,7 +34,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>"([a-z0-9_.*-]+)"\s*?:</string>
+			<string>"(?i)([a-z0-9_.*-]+)"\s*?:</string>
 		</dict>
 		<dict>
 			<key>include</key>
