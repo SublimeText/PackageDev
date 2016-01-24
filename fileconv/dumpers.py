@@ -397,7 +397,7 @@ for type_name in dir():
     try:
         t = globals()[type_name]
         if t.__bases__:
-            if issubclass(t, DumperProto) and not t is DumperProto:
+            if issubclass(t, DumperProto) and t is not DumperProto:
                 get[t.ext] = t
 
     except AttributeError:

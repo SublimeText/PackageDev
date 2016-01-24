@@ -9,7 +9,8 @@ else:
 
 PLUGIN_NAME = get_package_name()
 
-COMPLETIONS_SYNTAX_DEF = "Packages/%s/Syntax Definitions/Sublime Completions.tmLanguage" % PLUGIN_NAME
+COMPLETIONS_SYNTAX_DEF = ("Packages/%s/Syntax Definitions/Sublime Completions.tmLanguage"
+                          % PLUGIN_NAME)
 TPL = """{
     "scope": "source.${1:off}",
 

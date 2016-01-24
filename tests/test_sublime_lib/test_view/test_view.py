@@ -1,9 +1,4 @@
-import sys
-import os
-
 import mock
-
-import sublime
 
 import sublime_lib.view as su_lib_view
 
@@ -41,7 +36,7 @@ def test_has_file_ext():
     assert not su_lib_view.has_file_ext(view, ".")
 
     view.file_name.return_value = ''
-    assert not su_lib_view.has_file_ext(view, '')    
+    assert not su_lib_view.has_file_ext(view, '')
 
     view.file_name.return_value = 'foo'
     assert not su_lib_view.has_file_ext(view, '')

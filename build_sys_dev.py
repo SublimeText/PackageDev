@@ -9,7 +9,8 @@ else:
 
 PLUGIN_NAME = get_package_name()
 
-BUILD_SYSTEM_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Text Build System.tmLanguage" % PLUGIN_NAME
+BUILD_SYSTEM_SYNTAX = ("Packages/%s/Syntax Definitions/Sublime Text Build System.tmLanguage"
+                       % PLUGIN_NAME)
 
 
 # Adding "2" to avoid name clash with shipped command.

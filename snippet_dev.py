@@ -14,7 +14,8 @@ else:
 
 PLUGIN_NAME = get_package_name()
 
-RAW_SNIPPETS_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Snippet (Raw).tmLanguage" % PLUGIN_NAME
+RAW_SNIPPETS_SYNTAX = ("Packages/%s/Syntax Definitions/Sublime Snippet (Raw).tmLanguage"
+                       % PLUGIN_NAME)
 
 
 TPL = """<snippet>

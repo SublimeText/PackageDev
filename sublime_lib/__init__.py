@@ -235,7 +235,8 @@ class FileSettings(Settings):
         ``dir(FileSettings)``.
     """
     _name = ""
-    _settable_attributes = ('_s', '_name', '_none_erases')  # allow only setting of these attributes
+    # allow only setting of these attributes
+    _settable_attributes = ('_s', '_name', '_none_erases')
 
     def __init__(self, name, none_erases=False):
         settings = sublime.load_settings(name)

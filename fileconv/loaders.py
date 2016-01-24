@@ -39,7 +39,7 @@ re_js_comments_str = r"""
             |
             '(?:\\.|[^'\\])*'           # String literal
             |
-            (?:[^/\n"']|/[^/*\n"'])+    # Any code besides newlines or string literals (essentially no comments)
+            (?:[^/\n"']|/[^/*\n"'])+    # Any code besides newlines or string literals
             |
             \n                          # Newline
         )+                          # Repeat
@@ -55,7 +55,7 @@ def strip_js_comments(string):
     """Originally obtained from Stackoverflow this function strips JavaScript
     (and JSON) comments from a string while considering those encapsulated by strings.
 
-        Source: http://stackoverflow.com/questions/2136363/matching-one-line-javascript-comments-with-re
+    http://stackoverflow.com/questions/2136363/matching-one-line-javascript-comments-with-re
     """
     parts = re_js_comments.findall(string)
     # Stripping the whitespaces is, of course, optional, but the columns are fucked up anyway
@@ -182,7 +182,8 @@ class LoaderProto(object):
             output.set_path(path, self.file_regex)
             self.output = output
         else:
-            self.output = OutputPanel(self.window, self.output_panel_name, file_regex=self.file_regex, path=path)
+            self.output = OutputPanel(self.window, self.output_panel_name,
+                                      file_regex=self.file_regex, path=path)
 
     @classmethod
     def _pre_init_(cls):
@@ -363,7 +364,7 @@ class PlistLoader(LoaderProto):
             text = text[38:]
 
         # See https://github.com/SublimeText/AAAPackageDev/issues/34
-        if ST2 and isinstance(text, unicode):
+        if ST2 and isinstance(text, unicode):  # NOQA
             text = text.encode('utf-8')
 
         if use_plistlib:
@@ -433,7 +434,7 @@ for type_name in dir():
     try:
         t = globals()[type_name]
         if t.__bases__:
-            if issubclass(t, LoaderProto) and not t is LoaderProto:
+            if issubclass(t, LoaderProto) and t is not LoaderProto:
                 t._pre_init_()
                 get[t.ext] = t
 
