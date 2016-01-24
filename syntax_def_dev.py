@@ -212,7 +212,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         begin beginCaptures end endCaptures match captures include
         patterns repository""".split()
 
-    def is_visible(self):
+    def is_enabled(self):
         return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
 
     def run(self, edit,
