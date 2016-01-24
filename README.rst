@@ -1,11 +1,11 @@
-=============
-AAAPackageDev
-=============
+==========
+PackageDev
+==========
 
 Overview
 ========
 
-AAAPackageDev is a Sublime Text 2 and 3 package that helps create and edit syntax definitions,
+PackageDev is a Sublime Text 2 and 3 package that helps create and edit syntax definitions,
 snippets, completions files, build systems and other Sublime Text extension files.
 
 The general workflow looks like this:
@@ -14,7 +14,7 @@ The general workflow looks like this:
 - edit file (with specific snippets, completions, higlighting, build systems...)
 - save file
 
-AAAPackageDev commands are typically accessible through the *Command Palette*
+PackageDev commands are typically accessible through the *Command Palette*
 (``Ctrl+Shift+P``).
 
 
@@ -22,7 +22,7 @@ Getting Started
 ===============
 
 #. After installing `Package Control`_, use the *Command Palette* (``Ctrl+Shift+P``) to select
-   ``Install Package`` and then search for ``AAAPackageDev``.
+   ``Install Package`` and then search for ``PackageDev``.
 #. Access commands from **Tools | Packages | Package Development** or the *Command Palette*.
 
 .. _Package Control: https://packagecontrol.io/installation
@@ -31,7 +31,7 @@ Getting Started
 Syntax Definition Development
 =============================
 
-In AAAPackageDev, syntax definitions are written in YAML_ (previously JSON). Sublime Text uses
+In PackageDev, syntax definitions are written in YAML_ (previously JSON). Sublime Text uses
 Plist_ XML files with the ``.tmLanguage`` extensions, so they need to be converted before use if you
 want to modify an already existing syntax definition.
 
@@ -74,7 +74,7 @@ Editing Existing Syntax Definitions
 You can convert JSON or Plist files to YAML any time
 (using the ``Convert to...`` build system),
 but for convenience
-AAAPackageDev provides a migration command
+PackageDev provides a migration command
 that takes care of all that,
 and more.
 
@@ -148,12 +148,12 @@ Key Map Development
 Snippet Development
 ===================
 
-AAAPackageDev provides a means to edit snippets using snippets. These snippets
+PackageDev provides a means to edit snippets using snippets. These snippets
 are called *raw snippets*. You can use snippets and snippet-like syntax in many
 files, but if you want to create ``.sublime-snippet`` files, you need to convert
 raw snippets first. This converion is done with a command.
 
-Inside ``AAAPackageDev/Support`` you will find a ``.sublime-keymap`` file.
+Inside ``PackageDev/Support`` you will find a ``.sublime-keymap`` file.
 The key bindings in it are included for reference. If you want them to work,
 you need to copy the contents over to your personal ``.sublime-keymap`` file
 under ``Packages/User``.
@@ -186,10 +186,10 @@ Settings File Development
 * Snippets
 
 
-About Snippets in AAAPackageDev
-===============================
+About Snippets in PackageDev
+============================
 
-The ``AAAPackageDev/Snippets`` folder contains many snippets for all kinds of
+The ``PackageDev/Snippets`` folder contains many snippets for all kinds of
 development mentioned above. These snippets follow memorable rules to make their
 use easy.
 
@@ -209,8 +209,8 @@ too for consistency.
 Sublime Library
 ===============
 
-AAAPackageDev includes ``sublime_lib``, a Python package with utilities for
-plugin developers. Once AAAPackageDev is installed, ``sublime_lib`` will be
+PackageDev includes ``sublime_lib``, a Python package with utilities for
+plugin developers. Once PackageDev is installed, ``sublime_lib`` will be
 added to Python's PATH and importable from any other plugin.
 
 **Deprecated**:

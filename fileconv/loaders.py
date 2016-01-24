@@ -25,7 +25,7 @@ try:
 except ImportError:
     from . import plist_parser
     use_plistlib = False
-    print("[AAAPackageDev] 'xml.parsers.expat' module not available; "
+    print("[PackageDev] 'xml.parsers.expat' module not available; "
           "Falling back to bundled 'plist_parser'...")
 else:
     use_plistlib = True
@@ -105,7 +105,7 @@ class LoaderProto(object):
                 If this is specified it will be used as the output panel's
                 reference name.
 
-                Defaults to ``"aaa_package_dev"``.
+                Defaults to ``"package_dev"``.
 
             ext_regex (str; optional)
                 This regex will be used by get_ext_appendix() to determine the
@@ -166,7 +166,7 @@ class LoaderProto(object):
     comment = ""
     scope   = None
     file_regex = ""
-    output_panel_name = "aaa_package_dev"
+    output_panel_name = "package_dev"
 
     def __init__(self, window, view, file_path=None, output=None, *args, **kwargs):
         """Mirror the parameters to ``self``, do "init" stuff.

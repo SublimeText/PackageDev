@@ -28,7 +28,7 @@ class DumperProto(object):
             output_panel_name (str; optional)
                 If this is specified it will be used as the output panel's
                 reference name.
-                Defaults to ``"aaa_package_dev"``.
+                Defaults to ``"package_dev"``.
 
             default_params (dict; optional)
                 Just a dict of the default params for self.write().
@@ -72,7 +72,7 @@ class DumperProto(object):
     """
     name = ""
     ext  = ""
-    output_panel_name = "aaa_package_dev"
+    output_panel_name = "package_dev"
     default_params = {}
     allowed_params = ()
 

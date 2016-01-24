@@ -319,7 +319,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             sort_order = self.default_order
         vp = get_viewport_coords(self.view)
 
-        with OutputPanel(self.view.window() or sublime.active_window(), "aaa_package_dev") as output:
+        with OutputPanel(self.view.window() or sublime.active_window(), "package_dev") as output:
             output.show()
             if _output_text:
                 output.write_line(_output_text)  # With additional newline
