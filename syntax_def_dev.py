@@ -8,15 +8,18 @@ import yaml
 import sublime
 import sublime_plugin
 
+from sublime_lib import ST2
 from sublime_lib.path import root_at_packages, get_package_name
 from sublime_lib.view import OutputPanel, base_scope, get_viewport_coords, set_viewport, extract_selector
 
-try:  # ST2
+
+if ST2:
     from ordereddict import OrderedDict
     from fileconv import dumpers, loaders
     from scope_data import COMPILED_HEADS
     from ordereddict_yaml import OrderedDictSafeDumper
-except ImportError:  # ST3
+
+else:
     from collections import OrderedDict
     from .fileconv import dumpers, loaders
     from .scope_data import COMPILED_HEADS
@@ -70,7 +73,7 @@ patterns:
         $0
     </array>
 </dict>
-</plist>"""
+</plist>"""  # NOQA - silence line too long
 )
 
 

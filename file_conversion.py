@@ -3,13 +3,13 @@ import time
 
 import sublime
 
-from sublime_lib import WindowAndTextCommand
+from sublime_lib import ST3, WindowAndTextCommand
 from sublime_lib.path import file_path_tuple
 from sublime_lib.view import OutputPanel, get_text
 
-try:  # ST3
+if ST3:
     from .fileconv import dumpers, loaders
-except ValueError:  # ST2
+else:
     from fileconv import dumpers, loaders
 
 

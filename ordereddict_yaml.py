@@ -7,9 +7,11 @@ from yaml.loader import SafeLoader, Loader
 from yaml.dumper import SafeDumper
 from yaml.constructor import ConstructorError
 
-try:  # ST2
+from sublime_lib import ST2
+
+if ST2:
     from ordereddict import OrderedDict
-except ImportError:  # ST3
+else:
     from collections import OrderedDict
 
 
