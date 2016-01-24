@@ -1,10 +1,16 @@
+import sys
+
 import sublime_plugin
 
-from sublime_lib.path import root_at_packages, get_package_name
+if sys.version_info < (3,):
+    from sublime_lib.path import root_at_packages, get_package_name
+else:
+    from .sublime_lib.path import root_at_packages, get_package_name
 
 PLUGIN_NAME = get_package_name()
 
-BUILD_SYSTEM_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Text Build System.tmLanguage" % PLUGIN_NAME
+BUILD_SYSTEM_SYNTAX = ("Packages/%s/Syntax Definitions/Sublime Text Build System.tmLanguage"
+                       % PLUGIN_NAME)
 
 
 # Adding "2" to avoid name clash with shipped command.

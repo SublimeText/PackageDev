@@ -1,5 +1,6 @@
 import uuid
 import re
+import sys
 import textwrap
 import time
 
@@ -8,27 +9,38 @@ import yaml
 import sublime
 import sublime_plugin
 
-from sublime_lib.path import root_at_packages, get_package_name
-from sublime_lib.view import OutputPanel, base_scope, get_viewport_coords, set_viewport, extract_selector
-
-from ordereddict_yaml import OrderedDictSafeDumper
-
-try:  # ST2
+if sys.version_info < (3,):
     from ordereddict import OrderedDict
+
+    from sublime_lib.path import root_at_packages, get_package_name
+    from sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
+                                  extract_selector)
+
     from fileconv import dumpers, loaders
     from scope_data import COMPILED_HEADS
-except ImportError:  # ST3
+    from ordereddict_yaml import OrderedDictSafeDumper
+
+else:
     from collections import OrderedDict
+
+    from .sublime_lib.path import root_at_packages, get_package_name
+    from .sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
+                                   extract_selector)
+
     from .fileconv import dumpers, loaders
     from .scope_data import COMPILED_HEADS
+    from .ordereddict_yaml import OrderedDictSafeDumper
+
 
 PLUGIN_NAME = get_package_name()
 
 # Must be forward slashes (no os.path.join)!
-BASE_SYNTAX_LANGUAGE = "Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
+SYNTAX_LANGUAGE_TMPL = ("Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage"
+                        % PLUGIN_NAME)
+XML_SYNTAX_LANGUAGE = "Packages/XML/XML.tmLanguage"
 
-
-# Technically ST does not use uuids at all, but we'll just leave it in
+# Technically ST does not use uuids at all,
+# but we leave it in for TextMate compatability
 boilerplates = dict(
     json="""// [PackageDev] target_format: plist, ext: tmLanguage
     { "name": "${1:Syntax Name}",
@@ -70,66 +82,37 @@ patterns:
         $0
     </array>
 </dict>
-</plist>"""
+</plist>"""  # NOQA - silence line too long
 )
 
 
-# XXX: make this one command with args or something - 6 should definitely not be needed
-class NewSyntaxDefCommand(object):
-    """Creates a new syntax definition file for Sublime Text with some
-    boilerplate text.
-    """
-    typ = ""
-
-    def run(self):
-        target = self.window.new_file()
-        target.run_command('new_%s_syntax_def_to_buffer' % self.typ)
+def status(msg, console=False):
+    msg = "[%s] %s" % (PLUGIN_NAME, msg)
+    sublime.status_message(msg)
+    if console:
+        print(msg)
 
 
-class NewJsonSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand):
-    typ = "json"
+class NewSyntaxDefCommand(sublime_plugin.WindowCommand):
 
+    """Creates a new syntax definition file with some boilerplate text. """
 
-class NewYamlSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand):
-    typ = "yaml"
+    def is_enabled(self, fmt='yaml'):
+        return fmt in boilerplates
 
+    def run(self, fmt='yaml'):
+        view = self.window.new_file()
+        ext = "%stmLanguage" % ('%s-' % fmt.upper() if fmt != 'plist' else '')
 
-class NewPlistSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand):
-    typ = "plist"
-
-
-class NewSyntaxDefToBufferCommand(object):
-    """Inserts boilerplate text for syntax defs into current view.
-    """
-    typ = ""
-    lang = None
-
-    def is_enabled(self):
-        # Don't mess up a non-empty buffer.
-        return self.view.size() == 0
-
-    def run(self, edit):
-        ext = "%stmLanguage" % ('%s-' % self.typ.upper() if self.typ != 'plist' else '')
-
-        s = self.view.settings()
+        s = view.settings()
         s.set('default_dir', root_at_packages('User'))
         s.set('default_extension', ext)
-        s.set('syntax', self.lang or BASE_SYNTAX_LANGUAGE % self.typ.upper())
+        if fmt == 'plist':
+            view.set_syntax_file(XML_SYNTAX_LANGUAGE)
+        else:
+            view.set_syntax_file(SYNTAX_LANGUAGE_TMPL % fmt.upper())
 
-        self.view.run_command('insert_snippet', {'contents': boilerplates[self.typ] % uuid.uuid4()})
-
-
-class NewJsonSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
-    typ = "json"
-
-
-class NewYamlSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
-    typ = "yaml"
-
-
-class NewPlistSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
-    typ = "plist"
-    lang = "Packages/XML/XML.tmLanguage"
+        view.run_command('insert_snippet', {'contents': boilerplates[fmt] % uuid.uuid4()})
 
 
 ###############################################################################
@@ -229,11 +212,13 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         begin beginCaptures end endCaptures match captures include
         patterns repository""".split()
 
-    def is_visible(self):
+    def is_enabled(self):
         return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
 
-    def run(self, edit, sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True,
-            insert_newlines=True, save=False, _output_text=None, **kwargs):
+    def run(self, edit,
+            sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True,
+            insert_newlines=True, save=False,
+            _output_text=None, **kwargs):
         """Available parameters:
 
             sort (bool) = True
@@ -311,7 +296,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             sort_order = self.default_order
         vp = get_viewport_coords(self.view)
 
-        with OutputPanel(self.view.window() or sublime.active_window(), "aaa_package_dev") as output:
+        with OutputPanel(self.view.window() or sublime.active_window(), "package_dev") as output:
             output.show()
             if _output_text:
                 output.write_line(_output_text)  # With additional newline
@@ -347,7 +332,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
             if not text:
                 output.write_line("Error re-dumping the data in file (no output).")
-                self.status("Error re-dumping the data (no output).")
+                status("Error re-dumping the data (no output).", True)
                 return
 
             # Replace the whole buffer (with default options)
@@ -386,7 +371,8 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                     + select(list(filter(filter_pattern_regs, find('meta'))), False)
                 )
 
-                # Iterate in reverse order to not clash the regions because we will be modifying the source
+                # Iterate in reverse order to not clash the regions
+                # because we will be modifying the source
                 regs.sort()
                 regs.reverse()
                 for reg in regs:
@@ -400,10 +386,6 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             # Finish
             set_viewport(self.view, vp)
             output.write("[Finished in %.3fs]" % (time.time() - self.start_time))
-
-    def status(self, msg, file_path=None):
-        sublime.status_message(msg)
-        print("[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else ""))
 
 
 ###############################################################################
@@ -467,8 +449,8 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                     for i, token in enumerate(tokens):
                         node = nodes.find(token)
                         if not node:
-                            sublime.status_message("[PackageDev] Warning: `%s` not found in scope naming conventions"
-                                                   % '.'.join(tokens[:i + 1]))
+                            status("Warning: `%s` not found in scope naming conventions"
+                                   % '.'.join(tokens[:i + 1]))
                             break
                         nodes = node.children
                         if not nodes:
@@ -477,12 +459,12 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
                     if nodes and node:
                         return inhibit(nodes.to_completion())
                     else:
-                        sublime.status_message("[PackageDev] No nodes available in scope naming conventions after `%s`"
-                                               % '.'.join(tokens))
+                        status("No nodes available in scope naming conventions after `%s`"
+                               % '.'.join(tokens))
                         # Search for the base scope appendix/suffix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:
-                            sublime.status_message("[PackageDev] Warning: Could not find base scope")
+                            status("Warning: Could not find base scope")
                             return []
 
                         base_scope = view.substr(regs[0]).strip("\"'")
@@ -508,16 +490,25 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
             reg = extract_selector(view, "meta.include meta.value string", loc)
             include_text = view.substr(reg)
 
-            if not reg or (not include_text.startswith("'#") and not include_text.startswith('"#')):
+            if (
+                not reg
+                or (not include_text.startswith("'#")
+                    and not include_text.startswith('"#'))
+            ):
                 return []
 
-            variables = [view.substr(r) for r in view.find_by_selector("variable.other.repository-key")]
-            sublime.status_message("[PackageDev] Found %d local repository keys to be used in includes" % len(variables))
+            variables = [view.substr(r)
+                         for r in view.find_by_selector("variable.other.repository-key")]
+            status("Found %d local repository keys to be used in includes" % len(variables))
             return inhibit(zip(variables, variables))
 
-        # Do not bother if the syntax def already matched the current position, except in the main repository
+        # Do not bother if the syntax def already matched the current position,
+        # except in the main repository
         scope = view.scope_name(loc).strip()
-        if (view.match_selector(loc, "meta") and not scope.endswith("meta.repository-block.yaml-tmlanguage")):
+        if (
+            view.match_selector(loc, "meta")
+            and not scope.endswith("meta.repository-block.yaml-tmlanguage")
+        ):
             return []
 
         # Otherwise, use the default completions + generated uuid

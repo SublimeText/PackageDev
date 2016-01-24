@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 
 import json
 import yaml
@@ -7,9 +8,27 @@ import plistlib
 
 import sublime
 
-from sublime_lib import ST2
-from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
-from sublime_lib.path import file_path_tuple
+if sys.version_info < (3,):
+    from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
+    from sublime_lib.path import file_path_tuple
+    ST2 = True
+else:
+    from ..sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
+    from ..sublime_lib.path import file_path_tuple
+    ST2 = False
+
+
+# xml.parsers.expat is not available on certain Linux dists, use plist_parser then.
+# See https://github.com/SublimeText/AAAPackageDev/issues/19
+try:
+    from xml.parsers.expat import ExpatError, ErrorString
+except ImportError:
+    from . import plist_parser
+    use_plistlib = False
+    print("[PackageDev] 'xml.parsers.expat' module not available; "
+          "Falling back to bundled 'plist_parser'...")
+else:
+    use_plistlib = True
 
 ###############################################################################
 
@@ -20,7 +39,7 @@ re_js_comments_str = r"""
             |
             '(?:\\.|[^'\\])*'           # String literal
             |
-            (?:[^/\n"']|/[^/*\n"'])+    # Any code besides newlines or string literals (essentially no comments)
+            (?:[^/\n"']|/[^/*\n"'])+    # Any code besides newlines or string literals
             |
             \n                          # Newline
         )+                          # Repeat
@@ -36,7 +55,7 @@ def strip_js_comments(string):
     """Originally obtained from Stackoverflow this function strips JavaScript
     (and JSON) comments from a string while considering those encapsulated by strings.
 
-        Source: http://stackoverflow.com/questions/2136363/matching-one-line-javascript-comments-with-re
+    http://stackoverflow.com/questions/2136363/matching-one-line-javascript-comments-with-re
     """
     parts = re_js_comments.findall(string)
     # Stripping the whitespaces is, of course, optional, but the columns are fucked up anyway
@@ -86,7 +105,7 @@ class LoaderProto(object):
                 If this is specified it will be used as the output panel's
                 reference name.
 
-                Defaults to ``"aaa_package_dev"``.
+                Defaults to ``"package_dev"``.
 
             ext_regex (str; optional)
                 This regex will be used by get_ext_appendix() to determine the
@@ -147,7 +166,7 @@ class LoaderProto(object):
     comment = ""
     scope   = None
     file_regex = ""
-    output_panel_name = "aaa_package_dev"
+    output_panel_name = "package_dev"
 
     def __init__(self, window, view, file_path=None, output=None, *args, **kwargs):
         """Mirror the parameters to ``self``, do "init" stuff.
@@ -163,7 +182,8 @@ class LoaderProto(object):
             output.set_path(path, self.file_regex)
             self.output = output
         else:
-            self.output = OutputPanel(self.window, self.output_panel_name, file_regex=self.file_regex, path=path)
+            self.output = OutputPanel(self.window, self.output_panel_name,
+                                      file_regex=self.file_regex, path=path)
 
     @classmethod
     def _pre_init_(cls):
@@ -344,24 +364,10 @@ class PlistLoader(LoaderProto):
             text = text[38:]
 
         # See https://github.com/SublimeText/AAAPackageDev/issues/34
-        if ST2 and isinstance(text, unicode):
+        if ST2 and isinstance(text, unicode):  # NOQA
             text = text.encode('utf-8')
 
-        try:
-            from xml.parsers.expat import ExpatError, ErrorString
-        except ImportError:
-            # xml.parsers.expat is not available on certain Linux dists, use plist_parser then.
-            # See https://github.com/SublimeText/AAAPackageDev/issues/19
-            import plist_parser
-            print("[AAAPackageDev] Using plist_parser")
-
-            try:
-                data = plist_parser.parse_string(text)
-            except plist_parser.PropertyListParseError as e:
-                self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
-            else:
-                return data
-        else:
+        if use_plistlib:
             try:
                 # This will try `from xml.parsers.expat import ParserCreate`
                 # but since it is already tried above it should succeed.
@@ -379,6 +385,21 @@ class PlistLoader(LoaderProto):
             # except BaseException as e:
             #     # Whatever could happen here ...
             #     self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            else:
+                return data
+        else:
+            # falling back to plist_parser
+            from xml.sax._exceptions import SAXReaderNotAvailable
+            try:
+                data = plist_parser.parse_string(text)
+            except plist_parser.PropertyListParseError as e:
+                self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            except SAXReaderNotAvailable:
+                # https://github.com/SublimeText/AAAPackageDev/issues/48
+                self.output.write_line("Unable to parse Property List because of missing XML "
+                                       "parsers in your Python environment.\n"
+                                       "Please use Sublime Text 3 or reinstall Python 2.6 "
+                                       "on your system.")
             else:
                 return data
 
@@ -413,7 +434,7 @@ for type_name in dir():
     try:
         t = globals()[type_name]
         if t.__bases__:
-            if issubclass(t, LoaderProto) and not t is LoaderProto:
+            if issubclass(t, LoaderProto) and t is not LoaderProto:
                 t._pre_init_()
                 get[t.ext] = t
 

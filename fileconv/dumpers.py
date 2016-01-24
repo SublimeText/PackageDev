@@ -1,10 +1,14 @@
 import datetime
+import sys
 
 import json
 import yaml
 import plistlib
 
-from sublime_lib.view import OutputPanel
+if sys.version_info < (3,):
+    from sublime_lib.view import OutputPanel
+else:
+    from ..sublime_lib.view import OutputPanel
 
 
 class DumperProto(object):
@@ -24,7 +28,7 @@ class DumperProto(object):
             output_panel_name (str; optional)
                 If this is specified it will be used as the output panel's
                 reference name.
-                Defaults to ``"aaa_package_dev"``.
+                Defaults to ``"package_dev"``.
 
             default_params (dict; optional)
                 Just a dict of the default params for self.write().
@@ -68,7 +72,7 @@ class DumperProto(object):
     """
     name = ""
     ext  = ""
-    output_panel_name = "aaa_package_dev"
+    output_panel_name = "package_dev"
     default_params = {}
     allowed_params = ()
 
@@ -393,7 +397,7 @@ for type_name in dir():
     try:
         t = globals()[type_name]
         if t.__bases__:
-            if issubclass(t, DumperProto) and not t is DumperProto:
+            if issubclass(t, DumperProto) and t is not DumperProto:
                 get[t.ext] = t
 
     except AttributeError:

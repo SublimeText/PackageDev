@@ -1,11 +1,15 @@
+import sys
 import sublime_plugin
 
-from sublime_lib.path import root_at_packages, get_package_name
+if sys.version_info < (3,):
+    from sublime_lib.path import root_at_packages, get_package_name
+else:
+    from .sublime_lib.path import root_at_packages, get_package_name
 
 
 tpl = """[
-    { "caption": "${1:My Caption for the Comand Palette}", "command": "${2:my_command}" }$0
-]"""
+    { "caption": "${1:PackageName}: ${2:My Caption for the Command Palette}", "command": "${3:my_command}" }$0
+]""".replace("    ", "\t")  # NOQA
 
 PLUGIN_NAME = get_package_name()
 

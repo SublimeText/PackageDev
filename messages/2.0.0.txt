@@ -1,0 +1,40 @@
+v2.0.0 (2016-01-24)
+-------------------
+
+## The Big Changes
+
+* Renamed to just "PackageDev".
+  This mostly noticable in syntax definition paths
+  (you may need to re-set syntaxes for open files)
+  and the command palette.
+
+- Removed `sublime_lib` from the "official API".
+  You can ignore this if you don't know what it is.
+  To clarify, it is still there (internally) for the time begin,
+  but it is not exposed anymore.
+
+
+## The Small Changes
+
+- Removed "New * Syntax to Buffer" commands
+* Respect user's indentation settings when creating a new completions or
+  commands file
+* Added a notice for when Plists can not be parsed on ST2 and specific Linux
+  distros
+* A few completions changes
++ More entries in Main menu file
+
+And from previous update 1.0.8, which didn't show an update message:
+
+* Fixed highlighting of string escape sequences in Key Maps (@MattDMo)
++ Added highlighting of keys "bundleUUID", "author", "keyEquivalent",
+  "foldingStartMarker", "foldingStopMarker" and "fistLineMatch" for YAML syntax
+  definitions (@MattDMo)
+
+
+## For package developers that used `sublime_lib` (or are interested in it)
+
+We intend to make the functionality (with changes) available as a dependency
+for Package Control. If you would like to suggest features that the module
+should have, please raise your voice here:
+https://github.com/SublimeText/PackageDev/issues/70

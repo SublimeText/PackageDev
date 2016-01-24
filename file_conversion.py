@@ -1,16 +1,21 @@
 import os
+import sys
 import time
 
 import sublime
 
-from sublime_lib import WindowAndTextCommand
-from sublime_lib.path import file_path_tuple
-from sublime_lib.view import OutputPanel, get_text
+if sys.version_info < (3,):
+    from sublime_lib import WindowAndTextCommand
+    from sublime_lib.path import file_path_tuple
+    from sublime_lib.view import OutputPanel, get_text
 
-try:  # ST3
-    from .fileconv import dumpers, loaders
-except ValueError:  # ST2
     from fileconv import dumpers, loaders
+else:
+    from .sublime_lib import WindowAndTextCommand
+    from .sublime_lib.path import file_path_tuple
+    from .sublime_lib.view import OutputPanel, get_text
+
+    from .fileconv import dumpers, loaders
 
 
 # build command
@@ -50,55 +55,55 @@ class ConvertFileCommand(WindowAndTextCommand):
             open_new_file=False, rearrange_yaml_syntax_def=False, _output=None, *args, **kwargs):
         """Available parameters:
 
-            edit (sublime.Edit) = None
-                The edit parameter from TextCommand. Unused.
+        edit (sublime.Edit) = None
+            The edit parameter from TextCommand. Unused.
 
-            source_format (str) = None
-                The source format. Any of "yaml", "plist" or "json".
-                If `None`, attempt to automatically detect the format by extension, used syntax
-                highlight or (with plist) the actual contents.
+        source_format (str) = None
+            The source format. Any of "yaml", "plist" or "json".
+            If `None`, attempt to automatically detect the format by extension, used syntax
+            highlight or (with plist) the actual contents.
 
-            target_format (str) = None
-                The target format. Any of "yaml", "plist" or "json".
-                If `None`, attempt to find an option set in the file to parse.
-                If unable to find an option, ask the user directly with all available format options.
+        target_format (str) = None
+            The target format. Any of "yaml", "plist" or "json".
+            If `None`, attempt to find an option set in the file to parse.
+            If unable to find an option, ask the user directly with all available format options.
 
-            ext (str) = None
-                The extension of the file to convert to, without leading dot. If `None`, the extension
-                will be automatically determined by a special algorythm using "appendixes".
+        ext (str) = None
+            The extension of the file to convert to, without leading dot. If `None`, the extension
+            will be automatically determined by a special algorythm using "appendixes".
 
-                Here are a few examples:
-                    ".YAML-ppplist" yaml  -> plist ".ppplist"
-                    ".json"         json  -> yaml  ".yaml"
-                    ".tmplist"      plist -> json  ".JSON-tmplist"
-                    ".yaml"         json  -> plist ".JSON-yaml" (yes, doesn't make much sense)
+            Here are a few examples:
+                ".YAML-ppplist" yaml  -> plist ".ppplist"
+                ".json"         json  -> yaml  ".yaml"
+                ".tmplist"      plist -> json  ".JSON-tmplist"
+                ".yaml"         json  -> plist ".JSON-yaml" (yes, doesn't make much sense)
 
-            open_new_file (bool) = False
-                Open the (newly) created file in a new buffer.
+        open_new_file (bool) = False
+            Open the (newly) created file in a new buffer.
 
-            rearrange_yaml_syntax_def (bool) = False
-                Interesting for language definitions, will automatically run
-                "rearrange_yaml_syntax_def" command on it, if the target format is "yaml".
-                Overrides "open_new_file" parameter.
+        rearrange_yaml_syntax_def (bool) = False
+            Interesting for language definitions, will automatically run
+            "rearrange_yaml_syntax_def" command on it, if the target format is "yaml".
+            Overrides "open_new_file" parameter.
 
-            _output (OutputPanel) = None
-                For internal use only.
+        _output (OutputPanel) = None
+            For internal use only.
 
-            *args
-                Forwarded to pretty much every relevant call but does not have any effect.
-                You can't pass *args in commands anyway.
+        *args
+            Forwarded to pretty much every relevant call but does not have any effect.
+            You can't pass *args in commands anyway.
 
-            **kwargs
-                Will be forwarded to both the loading function and the dumping function, after stripping
-                unsopported entries. Only do this if you know what you're doing.
+        **kwargs
+            Will be forwarded to both the loading function and the dumping function, after
+            stripping unsupported entries. Only do this if you know what you're doing.
 
-                Functions in question:
-                    yaml.dump
-                    json.dump
-                    plist.writePlist (does not support any parameters)
+            Functions in question:
+                yaml.dump
+                json.dump
+                plist.writePlist (does not support any parameters)
 
-                A more detailed description of each supported parameter for the respective dumper can be
-                found in `fileconv/dumpers.py`.
+            A more detailed description of each supported parameter for the respective dumper can
+            be found in `fileconv/dumpers.py`.
         """
         # TODO: Ditch *args, can't be passed in commands anyway
 
@@ -119,10 +124,10 @@ class ConvertFileCommand(WindowAndTextCommand):
             return self.status("Target and source file format are identical. (%s)" % target_format)
 
         if source_format and source_format not in loaders.get:
-            return self.status("%s for '%s' not supported/implemented." % ("Loader", source_format))
+            return self.status("Loader for '%s' not supported/implemented." % source_format)
 
         if target_format and target_format not in dumpers.get:
-            return self.status("%s for '%s' not supported/implemented." % ("Dumper", target_format))
+            return self.status("Dumper for '%s' not supported/implemented." % target_format)
 
         # Now the actual "building" starts (collecting remaining parameters)
         with OutputPanel(self.window, "package_dev") as output:
@@ -140,7 +145,7 @@ class ConvertFileCommand(WindowAndTextCommand):
                 if not source_format:
                     return output.write_line("\nUnable to detect file type.")
                 elif target_format == source_format:
-                    return output.write_line("File already is %s." % loaders.get[source_format].name)
+                    return output.write_line("File already is %s." % Loader.name)
 
             # Load inline options
             Loader = loaders.get[source_format]
@@ -200,17 +205,20 @@ class ConvertFileCommand(WindowAndTextCommand):
                 target_format = opts['target_format']
                 # Validate the shit again, but this time print to output panel
                 if source_format is not None and target_format == source_format:
-                    return output.write_line("\nTarget and source file format are identical. (%s)" % target_format)
+                    return output.write_line("\nTarget and source file format are identical. (%s)"
+                                             % target_format)
 
                 if target_format not in dumpers.get:
-                    return output.write_line("\n%s for '%s' not supported/implemented." % ("Dumper", target_format))
+                    return output.write_line("\nDumper for '%s' not supported/implemented."
+                                             % target_format)
 
                 output.write_line(' %s\n' % dumpers.get[target_format].name)
 
             start_time = time.time()
 
             # Okay, THIS is where the building really starts
-            # Note: loader or dumper errors are not caught in order to receive a nice traceback in the console
+            # Note: loader or dumper errors are not caught
+            #       in order to receive a nice traceback in the console
             loader_ = Loader(self.window, self.view, output=output)
             try:
                 data = loader_.load(*args, **kwargs)
@@ -232,7 +240,8 @@ class ConvertFileCommand(WindowAndTextCommand):
                     return
 
             # Now dump to new file
-            dumper = dumpers.get[target_format](self.window, self.view, new_file_path, output=output)
+            dumper = dumpers.get[target_format](self.window, self.view, new_file_path,
+                                                output=output)
             try:
                 dumper.dump(data, *args, **kwargs)
             except:

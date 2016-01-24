@@ -7,7 +7,7 @@ reexpr = r"""
             |
             '(?:\\.|[^'\\])*'           # String literal
             |
-            (?:[^/\n"']|/[^/*\n"'])+    # Any code besides newlines or string literals (essentially no comments)
+            (?:[^/\n"']|/[^/*\n"'])+    # Any code besides newlines or string literals
             |
             \n                          # Newline
         )+                          # Repeat
@@ -18,7 +18,9 @@ reexpr = r"""
 """
 rx = re.compile(reexpr, re.VERBOSE + re.MULTILINE)
 
-# This regex matches with three different subgroups. One for code and two for comment contents. Below is a example of how to extract those.
+# This regex matches with three different subgroups.
+# One for code and two for comment contents.
+# Below is a example of how to extract those.
 
 code = r"""// this is a comment
 var x = 2 * 4 // and this is a comment too

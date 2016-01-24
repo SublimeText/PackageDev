@@ -1,28 +1,49 @@
 [
-    {
-        "id": "tools",
-        "children":
-        [
-            {
-                "id": "packages",
-                "caption": "Packages",
-                "children":
-                [
-                    {
-                        "caption": "Package Development",
-                        "id": "package_dev",
-                        "children":
-                        [
-                            { "caption": "New Syntax Definition", "command": "new_yaml_syntax_def" },
-                            { "caption": "New Syntax Definition to Buffer", "command": "new_yaml_syntax_def_to_buffer" },
-                            { "caption": "-" },
-                            { "caption": "New Raw Snippet…", "command": "new_raw_snippet" },
-                            { "caption": "New Raw Snippet from Snippet…", "command": "new_raw_snippet_from_snippet" },
-                            { "caption": "Generate Snippet from Raw Snippet", "command": "generate_snippet_from_raw_snippet" }
-                        ]
-                    }
-                ]
-            }
+  { "id": "tools",
+    "children": [
+      { "id": "packages",
+        "caption": "Packages",
+        "mnemonic": "P",
+        "children": [
+          { "id": "package_dev",
+            "caption": "Package Development",
+            "mnemonic": "P",
+            "children": [
+              { "caption": "New Syntax Definition",
+                "command": "new_syntax_def" },
+              { "caption": "Convert to YAML and Rearrange Syntax Definition",
+                "command": "convert_file",
+                "args": { "target_format": "yaml",
+                          "ext": "YAML-tmLanguage",
+                          "open_new_file": true,
+                          "rearrange_yaml_syntax_def": true }
+                },
+              { "caption": "Rearrange YAML Syntax Definition",
+                "command": "rearrange_yaml_syntax_def" },
+              { "caption": "-" },
+
+              { "caption": "New Raw Snippet…",
+                "command": "new_raw_snippet" },
+              { "caption": "New Raw Snippet from Snippet…",
+                "command": "new_raw_snippet_from_snippet" },
+              { "caption": "Generate Snippet from Raw Snippet",
+                "command": "generate_snippet_from_raw_snippet" },
+              { "caption": "-" },
+
+              { "caption": "New Settings File",
+                "command": "new_settings" },
+              { "caption": "New Completions File",
+                "command": "new_completions" },
+              { "caption": "New Commands File",
+                "command": "new_commands_file" },
+              { "caption": "New Build System",
+                "command": "new_build_system2" },
+              { "caption": "New Plugin",
+                "command": "new_plugin" }
+            ]
+          }
         ]
-    }
+      }
+    ]
+  }
 ]
