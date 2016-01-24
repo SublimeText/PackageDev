@@ -23,7 +23,5 @@
 
     { "caption": "PackageDev: New Commands File", "command": "new_commands_file" },
 
-    { "caption": "PackageDev: New Build System", "command": "new_build_system2" },
-
-    { "caption": "PackageDev: New Plugin", "command": "new_plugin" }
+    { "caption": "PackageDev: New Build System", "command": "new_build_system2" }
 ]
