@@ -11,7 +11,7 @@ TPL = """{
     "completions": [
         { "trigger": "${2:some_trigger}", "contents": "${3:Hint: Use f, ff and fff plus Tab inside here.}" }$0
     ]
-}"""
+}""".replace("    ", "\t")  # NOQA - line length
 
 
 class NewCompletionsCommand(sublime_plugin.WindowCommand):
