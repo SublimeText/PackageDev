@@ -382,10 +382,17 @@ class PlistLoader(LoaderProto):
                 return data
         else:
             # falling back to plist_parser
+            from xml.sax._exceptions import SAXReaderNotAvailable
             try:
                 data = plist_parser.parse_string(text)
             except plist_parser.PropertyListParseError as e:
                 self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            except SAXReaderNotAvailable:
+                # https://github.com/SublimeText/AAAPackageDev/issues/48
+                self.output.write_line("Unable to parse Property List because of missing XML "
+                                       "parsers in your Python environment.\n"
+                                       "Please use Sublime Text 3 or reinstall Python 2.6 "
+                                       "on your system.")
             else:
                 return data
 
