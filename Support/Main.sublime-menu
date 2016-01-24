@@ -6,19 +6,24 @@
             {
                 "id": "packages",
                 "caption": "Packages",
+                "mnemonic": "P",
                 "children":
                 [
                     {
-                        "caption": "Package Development",
                         "id": "package_dev",
+                        "caption": "Package Development",
+                        "mnemonic": "P",
                         "children":
                         [
-                            { "caption": "New Syntax Definition", "command": "new_yaml_syntax_def" },
-                            { "caption": "New Syntax Definition to Buffer", "command": "new_yaml_syntax_def_to_buffer" },
+                            { "caption": "New Syntax Definition",
+                              "command": "new_syntax_def" },
                             { "caption": "-" },
-                            { "caption": "New Raw Snippet…", "command": "new_raw_snippet" },
-                            { "caption": "New Raw Snippet from Snippet…", "command": "new_raw_snippet_from_snippet" },
-                            { "caption": "Generate Snippet from Raw Snippet", "command": "generate_snippet_from_raw_snippet" }
+                            { "caption": "New Raw Snippet…",
+                              "command": "new_raw_snippet" },
+                            { "caption": "New Raw Snippet from Snippet…",
+                              "command": "new_raw_snippet_from_snippet" },
+                            { "caption": "Generate Snippet from Raw Snippet",
+                              "command": "generate_snippet_from_raw_snippet" }
                         ]
                     }
                 ]

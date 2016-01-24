@@ -33,10 +33,12 @@ else:
 PLUGIN_NAME = get_package_name()
 
 # Must be forward slashes (no os.path.join)!
-BASE_SYNTAX_LANGUAGE = "Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage" % PLUGIN_NAME
+SYNTAX_LANGUAGE_TMPL = ("Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage"
+                        % PLUGIN_NAME)
+XML_SYNTAX_LANGUAGE = "Packages/XML/XML.tmLanguage"
 
-
-# Technically ST does not use uuids at all, but we'll just leave it in
+# Technically ST does not use uuids at all,
+# but we leave it in for TextMate compatability
 boilerplates = dict(
     json="""// [PackageDev] target_format: plist, ext: tmLanguage
     { "name": "${1:Syntax Name}",
@@ -82,62 +84,26 @@ patterns:
 )
 
 
-# XXX: make this one command with args or something - 6 should definitely not be needed
-class NewSyntaxDefCommand(object):
-    """Creates a new syntax definition file for Sublime Text with some
-    boilerplate text.
-    """
-    typ = ""
+class NewSyntaxDefCommand(sublime_plugin.WindowCommand):
 
-    def run(self):
-        target = self.window.new_file()
-        target.run_command('new_%s_syntax_def_to_buffer' % self.typ)
+    """Creates a new syntax definition file with some boilerplate text. """
 
+    def is_enabled(self, fmt='yaml'):
+        return fmt in boilerplates
 
-class NewJsonSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand):
-    typ = "json"
+    def run(self, fmt='yaml'):
+        view = self.window.new_file()
+        ext = "%stmLanguage" % ('%s-' % fmt.upper() if fmt != 'plist' else '')
 
-
-class NewYamlSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand):
-    typ = "yaml"
-
-
-class NewPlistSyntaxDefCommand(NewSyntaxDefCommand, sublime_plugin.WindowCommand):
-    typ = "plist"
-
-
-class NewSyntaxDefToBufferCommand(object):
-    """Inserts boilerplate text for syntax defs into current view.
-    """
-    typ = ""
-    lang = None
-
-    def is_enabled(self):
-        # Don't mess up a non-empty buffer.
-        return self.view.size() == 0
-
-    def run(self, edit):
-        ext = "%stmLanguage" % ('%s-' % self.typ.upper() if self.typ != 'plist' else '')
-
-        s = self.view.settings()
+        s = view.settings()
         s.set('default_dir', root_at_packages('User'))
         s.set('default_extension', ext)
-        s.set('syntax', self.lang or BASE_SYNTAX_LANGUAGE % self.typ.upper())
+        if fmt == 'plist':
+            view.set_syntax_file(XML_SYNTAX_LANGUAGE)
+        else:
+            view.set_syntax_file(SYNTAX_LANGUAGE_TMPL % fmt.upper())
 
-        self.view.run_command('insert_snippet', {'contents': boilerplates[self.typ] % uuid.uuid4()})
-
-
-class NewJsonSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
-    typ = "json"
-
-
-class NewYamlSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
-    typ = "yaml"
-
-
-class NewPlistSyntaxDefToBufferCommand(NewSyntaxDefToBufferCommand, sublime_plugin.TextCommand):
-    typ = "plist"
-    lang = "Packages/XML/XML.tmLanguage"
+        view.run_command('insert_snippet', {'contents': boilerplates[fmt] % uuid.uuid4()})
 
 
 ###############################################################################
