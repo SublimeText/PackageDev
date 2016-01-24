@@ -1,5 +1,6 @@
 # Defines (Safe)Loaders and a SafeDumper for YAML supporting ordered
 # dictionaries. Also adds a representer to the default Dumper.
+import sys
 
 import yaml
 
@@ -7,9 +8,7 @@ from yaml.loader import SafeLoader, Loader
 from yaml.dumper import SafeDumper
 from yaml.constructor import ConstructorError
 
-from sublime_lib import ST2
-
-if ST2:
+if sys.version_info < (3,):
     from ordereddict import OrderedDict
 else:
     from collections import OrderedDict

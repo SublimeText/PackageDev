@@ -1,6 +1,10 @@
+import sys
 import sublime_plugin
 
-from sublime_lib.path import root_at_packages, get_package_name
+if sys.version_info < (3,):
+    from sublime_lib.path import root_at_packages, get_package_name
+else:
+    from .sublime_lib.path import root_at_packages, get_package_name
 
 
 tpl = """[

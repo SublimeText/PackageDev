@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 
 import json
 import yaml
@@ -7,9 +8,14 @@ import plistlib
 
 import sublime
 
-from sublime_lib import ST2
-from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
-from sublime_lib.path import file_path_tuple
+if sys.version_info < (3,):
+    from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
+    from sublime_lib.path import file_path_tuple
+    ST2 = True
+else:
+    from ..sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
+    from ..sublime_lib.path import file_path_tuple
+    ST2 = False
 
 
 # xml.parsers.expat is not available on certain Linux dists, use plist_parser then.

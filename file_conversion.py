@@ -1,16 +1,21 @@
 import os
+import sys
 import time
 
 import sublime
 
-from sublime_lib import ST3, WindowAndTextCommand
-from sublime_lib.path import file_path_tuple
-from sublime_lib.view import OutputPanel, get_text
+if sys.version_info < (3,):
+    from sublime_lib import WindowAndTextCommand
+    from sublime_lib.path import file_path_tuple
+    from sublime_lib.view import OutputPanel, get_text
 
-if ST3:
-    from .fileconv import dumpers, loaders
-else:
     from fileconv import dumpers, loaders
+else:
+    from .sublime_lib import WindowAndTextCommand
+    from .sublime_lib.path import file_path_tuple
+    from .sublime_lib.view import OutputPanel, get_text
+
+    from .fileconv import dumpers, loaders
 
 
 # build command
