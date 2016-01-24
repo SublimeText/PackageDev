@@ -17,9 +17,11 @@ v2.0.0 (2016-01-24)
 ## The Small Changes
 
 - Removed "New * Syntax to Buffer" commands
-* Respect user's indentation settings when creating a new completions file
+* Respect user's indentation settings when creating a new completions or
+  commands file
 * Added a notice for when Plists can not be parsed on ST2 and specific Linux
   distros
+* A few completions changes
 
 And from previous update 1.0.8, which didn't show an update message:
 

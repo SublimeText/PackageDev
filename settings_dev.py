@@ -11,7 +11,7 @@ else:
 PLUGIN_NAME = get_package_name()
 
 SETTINGS_SYNTAX = "Packages/%s/Syntax Definitions/Sublime Settings.tmLanguage" % PLUGIN_NAME
-TPL = """{$0}"""
+TPL = """{\n\t$0\n}"""
 
 
 class NewSettingsCommand(sublime_plugin.WindowCommand):
