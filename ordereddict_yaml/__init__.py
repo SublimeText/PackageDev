@@ -8,6 +8,7 @@ from yaml.loader import SafeLoader, Loader
 from yaml.dumper import SafeDumper
 from yaml.constructor import ConstructorError
 
+
 if sys.version_info < (3,):
     from ordereddict import OrderedDict
 else:
