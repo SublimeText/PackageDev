@@ -24,5 +24,5 @@ class NewCompletionsCommand(sublime_plugin.WindowCommand):
     def run(self):
         v = self.window.new_file()
         v.run_command('insert_snippet', {"contents": TPL})
-        v.settings().set('syntax', COMPLETIONS_SYNTAX_DEF)
+        v.set_syntax_file(COMPLETIONS_SYNTAX_DEF)
         v.settings().set('default_dir', root_at_packages('User'))

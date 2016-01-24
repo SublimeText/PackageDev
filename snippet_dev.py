@@ -16,6 +16,7 @@ PLUGIN_NAME = get_package_name()
 
 RAW_SNIPPETS_SYNTAX = ("Packages/%s/Syntax Definitions/Sublime Snippet (Raw).tmLanguage"
                        % PLUGIN_NAME)
+XML_SYNTAX = "Packages/XML/XML.tmLanguage"
 
 
 TPL = """<snippet>
@@ -29,7 +30,7 @@ class NewRawSnippetCommand(sublime_plugin.WindowCommand):
     def run(self):
         v = self.window.new_file()
         v.settings().set('default_dir', root_at_packages('User'))
-        v.settings().set('syntax', RAW_SNIPPETS_SYNTAX)
+        v.set_syntax_file(RAW_SNIPPETS_SYNTAX)
         v.set_scratch(True)
 
 
@@ -41,7 +42,7 @@ class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
         content = get_text(self.view)
         clear(self.view)
         self.view.run_command('insert_snippet', {'contents': TPL})
-        self.view.settings().set('syntax', 'Packages/XML/XML.tmLanguage')
+        self.view.set_syntax_file(XML_SYNTAX)
         # Insert existing contents into CDATA section. We rely on the fact
         # that Sublime will place the first selection in the first field of
         # the newly inserted snippet.
@@ -57,7 +58,7 @@ class NewRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
         contents = ET.fromstring(snippet).findtext(".//content")
         v = self.view.window().new_file()
         v.insert(edit, 0, contents)
-        v.settings().set('syntax', RAW_SNIPPETS_SYNTAX)
+        v.set_syntax_file(RAW_SNIPPETS_SYNTAX)
 
 
 class CopyAndInsertRawSnippetCommand(sublime_plugin.TextCommand):
