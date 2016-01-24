@@ -11,6 +11,19 @@ from sublime_lib import ST2
 from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
 from sublime_lib.path import file_path_tuple
 
+
+# xml.parsers.expat is not available on certain Linux dists, use plist_parser then.
+# See https://github.com/SublimeText/AAAPackageDev/issues/19
+try:
+    from xml.parsers.expat import ExpatError, ErrorString
+except ImportError:
+    from . import plist_parser
+    use_plistlib = False
+    print("[AAAPackageDev] 'xml.parsers.expat' module not available; "
+          "Falling back to bundled 'plist_parser'...")
+else:
+    use_plistlib = True
+
 ###############################################################################
 
 re_js_comments_str = r"""
@@ -347,21 +360,7 @@ class PlistLoader(LoaderProto):
         if ST2 and isinstance(text, unicode):
             text = text.encode('utf-8')
 
-        try:
-            from xml.parsers.expat import ExpatError, ErrorString
-        except ImportError:
-            # xml.parsers.expat is not available on certain Linux dists, use plist_parser then.
-            # See https://github.com/SublimeText/AAAPackageDev/issues/19
-            import plist_parser
-            print("[AAAPackageDev] Using plist_parser")
-
-            try:
-                data = plist_parser.parse_string(text)
-            except plist_parser.PropertyListParseError as e:
-                self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
-            else:
-                return data
-        else:
+        if use_plistlib:
             try:
                 # This will try `from xml.parsers.expat import ParserCreate`
                 # but since it is already tried above it should succeed.
@@ -379,6 +378,14 @@ class PlistLoader(LoaderProto):
             # except BaseException as e:
             #     # Whatever could happen here ...
             #     self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            else:
+                return data
+        else:
+            # falling back to plist_parser
+            try:
+                data = plist_parser.parse_string(text)
+            except plist_parser.PropertyListParseError as e:
+                self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
             else:
                 return data
 
