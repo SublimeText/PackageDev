@@ -223,9 +223,9 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\b(?:true|false)\b</string>
+					<string>\b(?:true|false|null)\b</string>
 					<key>name</key>
-					<string>constant.numeric.boolean.sublimekeymap</string>
+					<string>constant.language.sublimekeymap</string>
 				</dict>
 				<dict>
 					<key>match</key>
