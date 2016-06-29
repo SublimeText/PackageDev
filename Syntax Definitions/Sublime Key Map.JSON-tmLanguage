@@ -117,8 +117,8 @@
       },
       "numericPrimitives": {
         "patterns": [
-          {  "name": "constant.numeric.boolean.sublimekeymap",
-             "match": "\\b(?:true|false)\\b"
+          {  "name": "constant.language.sublimekeymap",
+             "match": "\\b(?:true|false|null)\\b"
           },
           {  "name": "constant.numeric.sublimekeymap",
              "match": "\\d+(?:\\.\\d+)?"
