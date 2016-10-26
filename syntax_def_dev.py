@@ -310,7 +310,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             try:
                 data = loader.load(**kwargs)
             except:
-                output.write_line("Unexpected error occured while parsing, "
+                output.write_line("Unexpected error occurred while parsing, "
                                   "please see the console for details.")
                 raise
 
@@ -326,7 +326,7 @@ class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             try:
                 text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
             except:
-                output.write_line("Unexpected error occured while dumping, "
+                output.write_line("Unexpected error occurred while dumping, "
                                   "please see the console for details.")
                 raise
 
