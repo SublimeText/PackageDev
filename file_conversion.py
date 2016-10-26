@@ -223,7 +223,7 @@ class ConvertFileCommand(WindowAndTextCommand):
             try:
                 data = loader_.load(*args, **kwargs)
             except:
-                output.write_line("Unexpected error occured while parsing, "
+                output.write_line("Unexpected error occurred while parsing, "
                                   "please see the console for details.")
                 raise
             if not data:
@@ -245,7 +245,7 @@ class ConvertFileCommand(WindowAndTextCommand):
             try:
                 dumper.dump(data, *args, **kwargs)
             except:
-                output.write_line("Unexpected error occured while dumping, "
+                output.write_line("Unexpected error occurred while dumping, "
                                   "please see the console for details.")
                 raise
             self.status("File conversion successful. (%s -> %s)"
