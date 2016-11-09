@@ -46,6 +46,11 @@ variables:
     (?:regexp)
 #      ^^^^^^^ meta.expect-regexp source.regexp
 
+
+  x9: '{{im_a_variable}}'
+#      ^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
+#        ^^^^^^^^^^^^^ variable.other.sublime-syntax
+
   b1: | # comment
 # ^^ entity.name.constant.sublime-syntax
 #       ^^^^^^^^^ comment
