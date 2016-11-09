@@ -29,9 +29,8 @@
 # <- constant.character.escape
 #^^^ constant.character.escape
 
-\x{712fe672}
-# <- constant.character.escape
-#^^^^^^^^^^^ constant.character.escape
+ \x{712fe672}\x{9}
+#^^^^^^^^^^^^^^^^^ constant.character.escape
 
 \w\W\s\S\d\D\h\H \.
 # <- keyword.control.character-class
