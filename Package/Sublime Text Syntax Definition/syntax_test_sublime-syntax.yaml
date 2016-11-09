@@ -51,6 +51,8 @@ variables:
 #      ^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
 #        ^^^^^^^^^^^^^ variable.other.sublime-syntax
 
+# BLOCKS #
+
   b1: | # comment
 # ^^ entity.name.constant.sublime-syntax
 #       ^^^^^^^^^ comment
@@ -71,9 +73,21 @@ variables:
 #     ^ comment
 #
 # <- - source.regexp
-  b4: |
+  b5: |
     ^(?x)
 #        ^ source.regexp meta.ignored-whitespace
+
+  b6: |-
+      (?x)\b(
+          {{font_relative_lengths}}
+        | {{viewport_percentage_lengths}}
+        | {{absolute_lengths}}
+        | {{angle_units}}
+        | {{duration_units}}
+        | {{frequency_units}}
+        | {{resolution_units}} )\b
+#         ^^^^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
+#           ^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
 
 contexts:
 # <- meta.block.contexts - meta.block.variables

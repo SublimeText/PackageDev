@@ -477,12 +477,16 @@ contexts:
             - match: ^(?!\1|\s*$)
               pop: true
             - include: regexp_extended
+          with_prototype:
+            - include: regexp_variable
         - match: ^([ ]+)(?!$)
           set:
             - meta_scope: source.regexp.oniguruma
             - match: ^(?!\1|\s*$)
               pop: true
             - include: regexp
+          with_prototype:
+            - include: regexp_variable
         - match: ^(?=\S)  # the block is empty
           pop: true
         - include: comment
@@ -504,7 +508,7 @@ contexts:
 
   regexp_variable:
     - match: '(\{\{)([a-zA-Z_0-9]+)(\}\})'
-      scope: keyword.other.variable meta.variable.sublime-syntax
+      scope: meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
       captures:
         1: punctuation.definition.variable.begin.sublime-syntax
         2: variable.other.sublime-syntax
