@@ -421,6 +421,10 @@ contexts:
             - include: regexp_variable
             - match: "''"
               scope: constant.character.escape.yaml
+              push: regexp_quantifier_pop
+            - match: \\''
+              scope: constant.character.escape.regexp.yaml
+              push: regexp_quantifier_pop
             - match: "(?=')"
               pop: true
 
@@ -513,3 +517,10 @@ contexts:
         1: punctuation.definition.variable.begin.sublime-syntax
         2: variable.other.sublime-syntax
         3: punctuation.definition.variable.end.sublime-syntax
+      push: regexp_quantifier_pop
+
+  regexp_quantifier_pop:
+    - include: scope:source.regexp.oniguruma#quantifiers
+    - match: ''
+      pop: true
+

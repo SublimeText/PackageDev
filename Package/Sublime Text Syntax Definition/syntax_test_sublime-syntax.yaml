@@ -55,6 +55,15 @@ variables:
 #                          ^^^ constant.character.escape.regexp.yaml
 #                             ^ - invalid
 
+  x11: '(?=<<<\s*''?({{identifier}})''?\s*$)'
+#                ^^ constant.character.escape.yaml
+#                  ^ keyword.operator.quantifier.regexp
+#                                   ^^ constant.character.escape.yaml
+#                                     ^ keyword.operator.quantifier.regexp
+
+  x12: '-?{{nmstart}}{{nmchar}}*??'
+#                              ^^ keyword.operator.quantifier
+#                                ^ invalid.illegal.unexpected-quantifier
 # BLOCKS #
 
   b1: | # comment
