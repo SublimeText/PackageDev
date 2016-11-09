@@ -73,6 +73,11 @@ DATA = """
             mapping
                 key-value
                 pair
+        accessor
+            arrow
+            dot
+            double-colon
+            fat-arrow
 
     storage
         type
