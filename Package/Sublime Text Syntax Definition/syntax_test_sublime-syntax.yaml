@@ -147,3 +147,7 @@ contexts:
 
     - meta_include_prototype: false
 #                             ^^^^^ meta.expect-bool constant.language.boolean.yaml
+
+
+variables:
+#^^^^^^^^ keyword.control.flow.variables.sublime-syntax

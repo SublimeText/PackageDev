@@ -155,6 +155,7 @@ contexts:
     - include: context_content
     - match: ^(?=\S)
       pop: true
+    - include: scope:source.yaml
 
   context_definition:
     # (based on YAML.sublime-syntax#block-pair)
@@ -235,8 +236,6 @@ contexts:
       captures:
         1: keyword.control.flow.clear-scopes.sublime-syntax
         2: punctuation.separator.key-value
-
-    - include: scope:source.yaml
 
   expect_captures:
     - meta_content_scope: meta.expect-captures.yaml
