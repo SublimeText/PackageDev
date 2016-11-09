@@ -37,7 +37,7 @@ variables:
   x6: \g<element>
 
   x7: [a-w&&[^c-g]z] [abh-w d-]
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^ - source.regexp
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.expected-string.sublime-syntax
   x7_1:not a proper key-value
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - string - source.regexp - entity
 
