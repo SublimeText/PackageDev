@@ -394,6 +394,7 @@ contexts:
   expect_regexp:
     - meta_content_scope: meta.expect-regexp
     - include: comment
+
     # Not including the regexp syntax here because of the required double-escapes.
     # As such, double-quoting is discouraged.
     - match: '"'
@@ -499,6 +500,11 @@ contexts:
 
     - match: '{{block_key_lookahead_bol}}'
       pop: true
+
+    - match: '(?!{{ns_plain_first_plain_out}})[^''"\s-].*'
+      scope: invalid.illegal.expected-string.sublime-syntax
+      pop: true
+
     - match: (?=\S)
       pop: true
 

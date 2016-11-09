@@ -170,6 +170,17 @@ contexts:
 #       ^^^^^^^^^^ source.regexp
 #                ^ keyword.control.group.regexp
 
+      match: [this is a list]
+#            ^^^^^^^^^^^^^^^^ invalid.illegal.expected-string.sublime-syntax
+      match: '[this is a set]'
+#             ^^^^^^^^^^^^^^^ source.regexp
+      match: {{mapping}}
+#            ^^^^^^^^^^^ invalid.illegal.expected-string.sublime-syntax
+      match: '{{variable}}'
+#             ^^^^^^^^^^^^ source.regexp
+      match: # a comment
+#            ^^^^^^^^^^^ comment.line
+
     - scope: abc
 #     ^^^^^ storage.type.scope-name.sublime-syntax
     - meta_scope: abc
