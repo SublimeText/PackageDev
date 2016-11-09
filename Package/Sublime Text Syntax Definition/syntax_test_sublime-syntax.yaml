@@ -51,6 +51,10 @@ variables:
 #      ^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
 #        ^^^^^^^^^^^^^ variable.other.sublime-syntax
 
+  x10: '''{{identifier}}(?!\'')\b'
+#                          ^^^ constant.character.escape.regexp.yaml
+#                             ^ - invalid
+
 # BLOCKS #
 
   b1: | # comment
