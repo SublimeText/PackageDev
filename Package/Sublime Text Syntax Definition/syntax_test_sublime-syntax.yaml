@@ -66,6 +66,9 @@ variables:
 #     ^ comment
 #
 # <- - source.regexp
+  b4: |
+    ^(?x)
+#        ^ source.regexp meta.ignored-whitespace
 
 contexts:
 # <- meta.block.contexts - meta.block.variables

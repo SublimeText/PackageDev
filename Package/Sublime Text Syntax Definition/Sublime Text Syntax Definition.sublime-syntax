@@ -466,7 +466,9 @@ contexts:
         # we match a block scalar beginning with this separately.
         #
         # Another option would be to pop on empty lines.
-        - match: ^([ ]+)(\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
+        - match: ^([ ]+)(?=.*\(\?[ims]*x[ixms]*(?:-[ims]+)?\))
+        # This match is more accurate but doesn't match `match: ^(?x)`:
+        # - match: ^([ ]+)(\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
           captures:
             2: keyword.control.group.regex
             3: storage.modifier.mode.regexp
