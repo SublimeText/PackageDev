@@ -1,0 +1,472 @@
+# SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Syntax Definition/Oniguruma RegExp.sublime-syntax"
+
+
+###################
+## Anchors and escapes
+###################
+
+^foo \bbar$
+# <- keyword.control.anchors
+#    ^^ keyword.control.anchors
+#         ^ keyword.control.anchors
+
+\^foo \\bbar\$
+ # <- constant.character.escape
+#     ^^ constant.character.escape
+#            ^ constant.character.escape
+
+\xg
+# <- invalid.illegal.character.escape
+
+\010
+# <- constant.character.escape
+
+\1
+# <- keyword.other.backref-and-recursion
+#^ variable.other.backref-and-recursion.regexp
+
+\xab
+# <- constant.character.escape
+#^^^ constant.character.escape
+
+\x{712fe672}
+# <- constant.character.escape
+#^^^^^^^^^^^ constant.character.escape
+
+\w\W\s\S\d\D\h\H \.
+# <- keyword.control.character-class
+#^^^^^^^^^^^^^^^ keyword.control.character-class
+#                ^^ constant.character.escape - keyword.control.character-class
+
+\p{Print}\p{^Alpha}\P{C}\P{Katakana}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.control.character-class.property.regexp
+#  ^^^^^ support.type.property.regexp
+#            ^^^^^ support.type.property.regexp
+#                     ^ support.type.property.regexp
+#                          ^^^^^^^^ support.function.property.untested.regexp
+
+
+###################
+## Quantifiers
+###################
+
+\x00*
+# <- constant.character.escape
+#^^^ constant.character.escape
+#   ^ keyword.operator.quantifier
+
+(ab)+
+#   ^ keyword.operator.quantifier
+
+(ab)?
+#   ^ keyword.operator.quantifier
+
+(ab)*?
+#   ^^ keyword.operator.quantifier
+
+(ab)*+
+#   ^^ keyword.operator.quantifier
+
+(ab)+?
+#   ^^ keyword.operator.quantifier
+
+(ab)++
+#   ^^ keyword.operator.quantifier
+
+(?abc)
+#^ invalid.illegal.unexpected-quantifier.regexp - storage.modifier.mode.regexp
+# ^^^ meta.literal.regexp - storage.modifier.mode.regexp
+
+ .*?
+#^ keyword.other.any.regexp - meta.literal.regexp
+# ^^ keyword.operator.quantifier.regexp
+
+(?=.++\.??\|{2,3}|{2})
+#^^ constant.other.assertion.regexp
+#  ^ keyword.other.any.regexp - meta.literal.regexp
+#   ^^ keyword.operator.quantifier.regexp
+#     ^^ constant.character.escape.regexp
+#       ^^ keyword.operator.quantifier.regexp
+#         ^^ constant.character.escape.regexp
+#           ^^^^^ keyword.operator.quantifier.regexp
+#                 ^^^ invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
+
+\G{2}
+# ^^^ invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
+
+(?={2})
+#  ^^^ invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
+
+a{9}
+#^^^ keyword.operator.quantifier.regexp
+
+a{1,9}
+#^^^^^ keyword.operator.quantifier.regexp
+
+a{9,}
+#^^^^ keyword.operator.quantifier.regexp
+
+a{,9}
+#^^^^ keyword.operator.quantifier.regexp
+
+a{,}
+#^^^ - keyword.operator.quantifier.regexp
+
+a{}
+#^^ - keyword.operator.quantifier.regexp
+
+|{1,2}
+#^^^^^ invalid.illegal.unexpected-quantifier.regexp
+
+hello**
+#     ^ invalid.illegal.unexpected-quantifier.regexp
+#<- meta.literal.regexp
+#^^^^ meta.literal.regexp
+
+)
+# <- invalid.illegal.unmatched-brace.regexp
+
+hello++
+#    ^^ keyword.operator.quantifier.regexp - invalid.illegal.unexpected-quantifier.regexp
+
+(\w{2}?)
+#  ^^^^ keyword.operator.quantifier.regexp
+
+(\w{2}+)
+#     ^ invalid.illegal.unexpected-quantifier.regexp
+
+(\w{2}?+)
+#  ^^^^ keyword.operator.quantifier.regexp
+#      ^ invalid.illegal.unexpected-quantifier.regexp
+
+[\w{1}+]
+#  ^^^^ - invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
+
+
+###################
+## Sets
+###################
+
+ [b-c]
+#^^^^^ meta.set
+#^ keyword.control.set
+#    ^ keyword.control.set
+# ^^^ constant.other.range
+
+[\x00-\x0A]
+# <- keyword.control.set
+#         ^ keyword.control.set
+#^^^^^^^^^ constant.other.range
+#^^^^ constant.character.escape
+#     ^^^^ constant.character.escape
+
+[[a-z]&&[:ascii:]]
+#^^^^^ meta.set meta.set
+#     ^^ keyword.operator.intersection
+# ^^^ constant.other.range
+#        ^^^^^^^ constant.other.posix-class
+
+[^abc\w0-9]
+# <- keyword.control.set
+#^ keyword.control.set
+#    ^^ keyword.control.character-class
+
+[a-c-x]
+#^^^ constant.other.range
+#   ^^ - constant.other.range
+
+[]-]
+#  ^ keyword.control.set
+# ^ - constant.other.range
+
+[-a-n]
+#    ^ keyword.control.set
+#^ - constant.other.range
+# ^^^ constant.other.range
+
+[\-a]
+#^^^ - constant.other.range
+#   ^ keyword.control.set
+
+[a-z\-9]
+#   ^^^ - constant.other.range
+#      ^ keyword.control.set
+
+[\--z]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
+
+[a-\z]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
+
+[a-\-]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
+
+(?:a|b|c)
+#^^^^^^^^ meta.group
+# <- keyword.control.group
+#^^ constant.other.assertion
+#   ^ keyword.operator
+#       ^ keyword.control.group
+
+
+###################
+## Block comments
+###################
+
+(?#foobar)
+#^^^^^^^^^ meta.group comment.block.group
+# <- comment.block.group punctuation.definition.comment.begin
+#^^ punctuation.definition.comment.begin
+#        ^ punctuation.definition.comment.end
+
+( abc (?#foobar) )
+#     ^^^^^^^^^^ meta.group meta.group comment.block.group
+
+(?#
+
+this is a multi line comment
+where escape characters are ignored.\).
+#<- comment.block.group
+#                                   ^^ - constant.character.escape
+#                                    ^ punctuation.definition.comment.end.regexp
+#                                     ^ - comment.block.group.regexp
+
+
+###################
+## Group Modifiers & Extended Mode
+###################
+
+(?x)
+#^^ storage.modifier.mode.regexp
+#   ^ meta.ignored-whitespace
+
+# this is a comment
+#^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+# <- comment punctuation.definition.comment
+ (?-ix)
+# <- meta.ignored-whitespace
+# ^^^^ storage.modifier.mode.regexp
+
+# not a comment
+# <- - comment
+
+(
+    (?x)
+    # comment
+#   ^^^^^^^^^ comment
+   (?-x)
+) # no comment
+# <- keyword.control.group
+# ^ - comment
+
+(?sm-ixxs)
+#^^^^^^^^ storage.modifier.mode.regexp
+
+ (?i:hello)
+#^^^^^^^^^^ meta.group.regexp
+#^ keyword.control.group.regexp
+# ^^^ storage.modifier.mode.regexp
+#    ^ - storage.modifier.mode.regexp
+#         ^ keyword.control.group.regexp
+
+ (?i-s:hello)
+#^^^^^^^^^^^^ meta.group.regexp
+#^ keyword.control.group.regexp
+# ^^^^^ storage.modifier.mode.regexp
+#      ^ - storage.modifier.mode.regexp
+#           ^ keyword.control.group.regexp
+
+# not a comment
+^ - comment
+
+(?ix:
+#^^^^
+# comment
+#^^^^^^^^ comment.line.number-sign
+
+    (# also a comment)
+#    ^^^^^^^^^^^^^^^^^ comment
+    )
+
+ (?s-x: # not a comment)
+#       ^ - comment
+
+)
+# not a comment
+^ - comment
+
+(?x:[ ] )
+#    ^ - meta.ignored-whitespace.regexp
+#      ^ meta.ignored-whitespace.regexp
+
+###################
+## References
+###################
+
+(?<named_group>test)
+#^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#  ^^^^^^^^^^^ entity.name.capture-group.regexp
+#              ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
+
+ \g'named_group'
+#^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#   ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+
+ \g<named_group>
+#^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#   ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+
+(?x)(?<named_group>test)\g<named_group>(?-x)
+#   ^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#      ^^^^^^^^^^^ entity.name.capture-group.regexp
+#                  ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
+#                        ^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                          ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+
+\k'named_group+1'
+#^^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#  ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+#             ^^ constant.numeric.backref-level.regexp
+(?:\k'named_group+1'|\k<213-1>)
+#  ^^^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                ^^ constant.numeric.backref-level.regexp
+#                    ^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                          ^^ constant.numeric.backref-level.regexp
+
+###################
+## Assertions
+###################
+
+(?![a-z]+?)
+#^^ meta.group.regexp constant.other.assertion.regexp - meta.group.regexp meta.group.regexp
+#  ^^^^^ meta.set.regexp
+#  ^ keyword.control.set.regexp
+#      ^ keyword.control.set.regexp
+#   ^^^ constant.other.range.regexp
+#       ^^ keyword.operator.quantifier.regexp
+
+(?![abc].\g'1'(?m)$)[\g'1']
+#^^ constant.other.assertion.regexp
+#  ^ keyword.control.set.regexp
+#      ^ keyword.control.set.regexp
+#   ^^^ - meta.literal.regexp
+#       ^ keyword.other.any.regexp
+#        ^^^ keyword.other.backref-and-recursion.regexp
+#              ^^ meta.group.regexp meta.group.regexp storage.modifier.mode.regexp
+#                 ^ keyword.control.anchors.regexp
+#                    ^^ constant.character.escape.regexp
+#                    ^^^^^ - keyword.other.backref-and-recursion.regexp
+
+(?<=blah)
+#^^^ constant.other.assertion.regexp
+(?<!\w+\(\))
+#^^^ constant.other.assertion.regexp
+(?>\[\d+\])
+#^^ constant.other.assertion.regexp
+#  ^^ constant.character.escape.regexp - keyword.control.set.regexp
+#    ^^ keyword.control.character-class.regexp
+#      ^ keyword.operator.quantifier.regexp
+#       ^^ constant.character.escape.regexp - keyword.control.set.regexp
+
+
+###################
+## Lots of things
+###################
+
+(?x)
+(?<element> \g<stag> \g<content>* \g<etag> ){0}
+# <- meta.group.extended keyword.control.group
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#  ^^^^^^^ entity.name.capture-group.regexp
+#          ^ meta.ignored-whitespace.regexp
+#           ^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#              ^^^^ variable.other.backref-and-recursion.regexp
+#                   ^ meta.ignored-whitespace.regexp
+#                    ^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                       ^^^^^^^ variable.other.backref-and-recursion.regexp
+#                               ^ keyword.operator.quantifier.regexp
+#                                ^ meta.ignored-whitespace.regexp
+#                                 ^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                                    ^^^^ variable.other.backref-and-recursion.regexp
+#                                         ^ meta.ignored-whitespace.regexp
+#                                          ^ keyword.control.group
+#                                           ^^^ keyword.operator.quantifier.regexp
+#                                              ^ meta.ignored-whitespace.regexp
+(?<stag> < \g<name> \s* > ){0}
+# <- meta.group.extended keyword.control.group
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#^^^^^^^ keyword.other.named-capture-group.regexp
+#       ^ meta.ignored-whitespace.regexp
+#        ^ meta.literal.regexp
+#         ^ meta.ignored-whitespace.regexp
+#           ^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                  ^ meta.ignored-whitespace.regexp
+#                   ^^ keyword.control.character-class
+#                     ^ keyword.operator.quantifier
+#                      ^ meta.ignored-whitespace.regexp
+#                       ^ meta.literal.regexp
+#                        ^ meta.ignored-whitespace.regexp
+#                         ^ keyword.control.group
+#                          ^^^ keyword.operator.quantifier.regexp
+(?<name> [a-zA-Z_:]+ ){0}
+# <- meta.group.extended keyword.control.group
+#^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#^^^^^^^ keyword.other.named-capture-group.regexp
+#       ^ meta.ignored-whitespace.regexp
+#        ^^^^^^^^^^ meta.set
+#        ^ keyword.control.set
+#         ^^^^^^ constant.other.range
+#                 ^ keyword.control.set
+#                  ^ keyword.operator.quantifier
+#                   ^ meta.ignored-whitespace.regexp
+#                    ^ keyword.control.group
+#                     ^^^ keyword.operator.quantifier.regexp
+(?<content> [^<&]+ (\g<element> | [^<&]+)* ){0}
+# <- meta.group.extended keyword.control.group
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#           ^^^^^ meta.set
+#           ^^ keyword.control.set
+#                ^ keyword.operator.quantifier
+#                 ^ meta.ignored-whitespace.regexp
+#                  ^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended meta.group.extended
+#                  ^ keyword.control.group
+#                   ^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                              ^ meta.ignored-whitespace.regexp
+#                               ^ keyword.operator.alternation
+#                                ^ meta.ignored-whitespace.regexp
+#                                 ^^^^^ meta.set
+#                                      ^ keyword.operator.quantifier
+#                                       ^ keyword.control.group
+#                                        ^ keyword.operator.quantifier
+#                                         ^ meta.ignored-whitespace.regexp
+#                                          ^ keyword.control.group
+#                                           ^^^ keyword.operator.quantifier.regexp
+(?'etag' </ \k<name+1> > ){0}
+# <- meta.group.extended keyword.control.group
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#^^^^^^^ keyword.other.named-capture-group.regexp
+#       ^ meta.ignored-whitespace.regexp
+#        ^^ meta.literal.regexp
+#          ^ meta.ignored-whitespace.regexp
+#           ^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                  ^^ constant.numeric.backref-level
+#                     ^ meta.ignored-whitespace.regexp
+#                      ^ meta.literal.regexp
+#                       ^ meta.ignored-whitespace.regexp
+#                        ^ keyword.control.group
+#                         ^^^ keyword.operator.quantifier.regexp
+\g<element>
+#^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#   ^^^^^^ variable.other.backref-and-recursion.regexp
+(?-x)
+
+check if all scopes are cleared:
+# <- (meta.literal) | - meta
+
+# <- - meta

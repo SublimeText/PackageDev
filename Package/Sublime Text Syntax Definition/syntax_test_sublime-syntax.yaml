@@ -1,0 +1,146 @@
+# SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Syntax Definition/Sublime Text Syntax Definition.sublime-syntax"
+%YAML 1.2
+#^^^^ keyword.other.directive.yaml.yaml
+---
+name: foo
+scope: source.foo
+#^^^^ storage.type.scope-name.sublime-syntax
+file_extensions: [a, b]
+#                ^^^^^^ meta.flow-sequence.yaml
+#                 ^ string
+first_line_match: azx
+#^^^^^^^^^^^^^^^ keyword.other.first_line_match.sublime-syntax
+#                 ^^^ meta.expect-regexp source.regexp
+
+hidden: false
+#^^^^^ storage.modifier.hidden.sublime-syntax
+#       ^^^^^ meta.expect-bool constant.language.boolean.yaml
+
+variables:
+  x1: (?<element> \g<stag> \g<content>* \g<etag> ){0}
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.variables
+# ^^ entity.name.constant.sublime-syntax
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expect-regexp source.regexp
+  x2: '(?<stag> < \g<name> \s* > ){0}'
+# ^^ entity.name.constant.sublime-syntax
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expect-regexp
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
+#     ^ punctuation.definition.string.begin.yaml
+#                                    ^ punctuation.definition.string.end.yaml
+  x3: (?<name> [a-zA-Z_:]+ ){0}
+  x4: (?<content> [^<&]+ (\g<element> | [^<&]+)* ){0}
+  x5: "(?'etag' </ \\k<name+1> > ){0}"
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expect-regexp
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
+#     ^ punctuation.definition.string.begin.yaml
+#                                    ^ punctuation.definition.string.end.yaml
+  x6: \g<element>
+
+  x7: [a-w&&[^c-g]z] [abh-w d-]
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^ - source.regexp
+  x7_1:not a proper key-value
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - string - source.regexp - entity
+
+  x8: # line break with comments
+#     ^ comment
+    (?:regexp)
+#      ^^^^^^^ meta.expect-regexp source.regexp
+
+  b1: | # comment
+# ^^ entity.name.constant.sublime-syntax
+#       ^^^^^^^^^ comment
+  b2: >-
+    block regexp
+#   ^^^^^^^^^^^^ source.regexp
+  b3: >-
+    (?x:
+       regexp with inline-extended group)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
+#                                       ^ keyword.control.group.regexp
+#
+# <- - source.regexp
+  b4: |
+    (?x)
+    . #comment
+#   ^ keyword.other.any.regexp
+#     ^ comment
+#
+# <- - source.regexp
+
+contexts:
+# <- meta.block.contexts - meta.block.variables
+
+  main:
+# ^^^^ entity.name.context.sublime-syntax
+    - include: scope:source.json
+  context_name:
+# ^^^^^^^^^^^^ entity.name.context.sublime-syntax
+    - captures:
+        1: name
+  another_context_name:
+# ^ entity.name.context.sublime-syntax
+    - captures:
+  another_context_name:
+# ^ entity.name.context.sublime-syntax
+
+    # Context mangling (also includes)
+    - include: "Packages/JSON/JSON.sublime-syntax"
+    - include: Packages/JSON/JSON.sublime-syntax#comment
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
+#                                               ^ punctuation.separator.context-name.sublime-syntax - comment
+#                                                ^^^^^^^ variable.other.sublime-syntax
+      include: Packages/JSON/ #JSON.sublime-syntax#comment
+#                             ^^ comment
+    - include: scope:source.regexp.oniguruma#base-group-extended
+#                                           ^ punctuation.separator.context-name.sublime-syntax - comment
+#                                            ^^^^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
+    - push: [main, Packages/JSON/JSON.sublime-syntax#comment]
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.flow-sequence.yaml
+#            ^^^^ meta.include.sublime-syntax string
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
+      set: Packages/JSON/JSON.sublime-syntax#comment
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
+    - set: Packages/JSON/JSON.sublime-syntax XX#comment
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string - meta.include
+
+    - comment: this is a comment
+#              ^^^^^^^^^^^^^^^^^ comment.other.plain.sublime-syntax
+
+    - comment:
+        still a comment
+#       ^^^^^^^^^^^^^^^ comment.other.plain.sublime-syntax
+
+    - comment: "this is a \"comment"
+#              ^^^^^^^^^^^^^^^^^^^^^ comment.other.quoted.double.sublime-syntax
+#              ^ punctuation.definition.string.begin.yaml
+#                                  ^ punctuation.definition.string.end.yaml
+
+      comment: 'this is a ''comment'
+#              ^^^^^^^^^^^^^^^^^^^^^ comment.other.quoted.single.sublime-syntax
+#              ^ punctuation.definition.string.begin.yaml
+#                                  ^ punctuation.definition.string.end.yaml
+
+    - comment: |-
+        block comment
+#       ^^^^^^^^^^^^^^ comment.other.unquoted.block.sublime-syntax
+
+    - match: ^regexp$
+#     ^^^^^ keyword.other.match.sublime-syntax
+#            ^^^^^^^^ meta.expect-regexp source.regexp.oniguruma
+#            ^ keyword.control.anchors.regexp
+      match:
+        also
+        (?:regexp)
+#       ^^^^^^^^^^ source.regexp
+#                ^ keyword.control.group.regexp
+
+    - scope: abc
+#     ^^^^^ storage.type.scope-name.sublime-syntax
+    - meta_scope: abc
+#     ^^^^^^^^^^ storage.type.scope-name.meta.sublime-syntax
+    - meta_content_scope: abc
+#     ^^^^^^^^^^^^^^^^^^ storage.type.scope-name.meta.sublime-syntax
+
+    - meta_include_prototype: false
+#                             ^^^^^ meta.expect-bool constant.language.boolean.yaml

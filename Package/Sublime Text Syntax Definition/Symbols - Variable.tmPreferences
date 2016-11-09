@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.yaml.sublime-syntax entity.name.constant</string>
+    <key>settings</key>
+    <dict>
+        <key>showInSymbolList</key>
+        <integer>1</integer>
+        <key>symbolTransformation</key>
+        <string>
+            s/^/{{ /
+            s/$/ }}/
+        </string>
+        <key>showInIndexedSymbolList</key>
+        <integer>1</integer>
+    </dict>
+</dict>
+</plist>
