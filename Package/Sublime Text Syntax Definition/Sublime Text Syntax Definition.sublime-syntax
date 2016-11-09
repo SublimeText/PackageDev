@@ -503,7 +503,6 @@ contexts:
       pop: true
 
   regexp:
-    - meta_content_scope: source.regexp.oniguruma
     - include: scope:source.regexp.oniguruma
 
   regexp_extended:
