@@ -1,0 +1,10 @@
+language: python
+
+python:
+  - "3.3" # ST3, bure we're only running flake8 anyway
+
+install:
+  - pip install flake8==2.5.1
+
+script:
+  - flake8 -v .

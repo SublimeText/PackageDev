@@ -1,0 +1,4 @@
+v2.1.0 (2016-03-07)
+-------------------
+
++ Added syntax highlighting for `.sublime-mousemap` files (@r-stein)

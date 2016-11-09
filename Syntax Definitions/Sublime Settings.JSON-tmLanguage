@@ -9,7 +9,7 @@
       "begin": "/\\*",
       "end": "\\*/"
     },
-    {  "match": "\"([a-z0-9_.*-]+)\"\\s*?:",
+    {  "match": "(?i)\"([a-z0-9_.*-]+)\"\\s*?:",
        "captures": {
            "1": { "name": "keyword.other.name.sublime-settings" }
        }
