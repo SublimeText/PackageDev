@@ -240,12 +240,24 @@ contexts:
 
   character-class:
     - match: \\[wWsSdDhH]
-      scope: keyword.control.character-class.regexp
-    - match: \\[pP](?:\{\^?({{property_name}})\}|\{\^?([a-zA-Z_]+)\})
-      scope: keyword.control.character-class.property.regexp
+      scope: support.class.character-class.regexp
+      # support.class is a hack (ideally I'd use support.set or constant.language),
+      # but that looks bad in most default color schemes.
+    - match: |-
+        (?x)
+        \\ [pP]
+        (?:
+            (\{) \^? ({{property_name}}) (\})
+          | (\{) \^? ([a-zA-Z_]+) (\})
+        )
+      scope: keyword.other.character-class.property.regexp
       captures:
-        1: support.type.property.regexp
-        2: support.function.property.untested.regexp
+        1: punctuation.definition.property.begin.regexp
+        2: support.type.property.regexp
+        3: punctuation.definition.property.end.regexp
+        4: punctuation.definition.property.begin.regexp
+        5: support.function.property.untested.regexp
+        6: punctuation.definition.property.end.regexp
 
   special-escaped-char:
     - match: '{{known_char_escape}}'
