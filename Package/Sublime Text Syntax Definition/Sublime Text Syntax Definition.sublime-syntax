@@ -95,36 +95,36 @@ contexts:
     - match: (first_line_match)\s*(:)
       captures:
         1: keyword.other.first_line_match.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_regexp
 
     - match: (contexts)\s*(:)
       captures:
         1: keyword.control.flow.contexts.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: contexts_block
 
     - match: (variables)\s*(:)
       captures:
         1: keyword.control.flow.variables.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: variables_block
 
     - match: (scope)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_scope
 
     - match: (file_extensions)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml entity.name.tag.yaml
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
 
     - match: (hidden)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml storage.modifier.hidden.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_bool
 
     - include: comment
@@ -175,25 +175,25 @@ contexts:
     - match: (match)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml keyword.other.match.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_regexp
 
     - match: (captures)\s*(:)
       captures:
         1: keyword.control.flow.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_captures
 
     - match: (scope)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_scope
 
     - match: (include)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml entity.name.tag.yaml
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_include
 
     - match: (push|set)\s*(:)
@@ -206,36 +206,36 @@ contexts:
     - match: (with_prototype)\s*(:)
       captures:
         1: keyword.control.flow.push.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
 
     - match: (pop)\s*(:)
       captures:
         1: keyword.control.flow.pop.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_bool
 
     - match: (meta_(?:content_)?scope)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.scope-name.meta.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_scope
 
     - match: (meta_include_prototype)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml entity.name.tag.yaml
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_bool
 
     - match: (comment)\s*(:)
       captures:
         1: string.unquoted.plain.out.yaml entity.name.tag.yaml
-        3: punctuation.separator.key-value
+        3: punctuation.separator.key-value.yaml
       push: expect_comment
 
     - match: (clear_scopes)\s*(:)  # expects bool or number
       captures:
         1: keyword.control.flow.clear-scopes.sublime-syntax
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
 
   expect_captures:
     - meta_content_scope: meta.expect-captures.yaml
@@ -243,7 +243,7 @@ contexts:
     - match: (\d+)\s*(:)
       captures:
         1: constant.numeric.integer.yaml
-        2: punctuation.separator.key-value
+        2: punctuation.separator.key-value.yaml
       push: expect_scope
     - match: '{{non_numeric_block_key_lookahead_bol}}'
       pop: true
@@ -530,4 +530,3 @@ contexts:
     - include: scope:source.regexp.oniguruma#quantifiers
     - match: ''
       pop: true
-
