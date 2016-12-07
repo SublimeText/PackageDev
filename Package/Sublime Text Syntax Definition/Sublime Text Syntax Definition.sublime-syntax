@@ -299,8 +299,10 @@ contexts:
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
         # scope-based includes
-        - match: scope:(?=\w)
+        - match: scope(:)(?=\w)
           scope: support.type.include.sublime-syntax
+          captures:
+            1: punctuation.definition.scope-include.sublime-syntax
           set:
             - meta_content_scope: meta.include.sublime-syntax string.unquoted.plain.out.yaml
             - match: '{{_flow_scalar_end_plain_in}}'
