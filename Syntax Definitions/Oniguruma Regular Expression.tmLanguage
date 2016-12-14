@@ -9,7 +9,7 @@
 		<string>ore</string>
 	</array>
 	<key>name</key>
-	<string>Oniguruma Regular Expression</string>
+	<string>Oniguruma Regular Expression (old)</string>
 	<key>patterns</key>
 	<array>
 		<dict>

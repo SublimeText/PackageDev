@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
-name: Oniguruma Regular Expression
+name: Oniguruma Regular Expression (old)
 comment: 'Version 5.9.1 2007/09/05, Specification used: http://www.geocities.jp/kosako3/oniguruma/doc/RE.txt'
 scopeName: source.oniregexp
 fileTypes: [ore]
