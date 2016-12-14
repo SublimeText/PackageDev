@@ -167,6 +167,7 @@ hello++
 #^^^^^ meta.set meta.set
 #     ^^ keyword.operator.intersection
 # ^^^ constant.other.range
+# ^^^ - constant.other.range constant.other.range
 #        ^^^^^^^ constant.other.posix-class
 
 [^abc\w0-9]
