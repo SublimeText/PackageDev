@@ -243,8 +243,6 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         """When the selection changes, (re)move the highlight that shows where the current line's
         test assertions relate to."""
 
-        self.view.erase_regions('current_syntax_test')
-
         cursor = self.view.sel()[0]
         highlight_only_cursor = False
         if cursor.empty():
@@ -255,6 +253,7 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         lines, line = get_details_of_line_being_tested(self.view)
 
         if lines is None or not lines[0][1] or not lines[0][0]:
+            self.view.erase_regions('current_syntax_test')
             return
 
         col_start, col_end = lines[0][1]
