@@ -5,7 +5,7 @@ import re
 
 
 def get_syntax_test_tokens(view):
-    """Parse the first line of the given view, to get a tuple, 
+    """Parse the first line of the given view, to get a tuple,
     which will contain the start token for a syntax test, and the closing token too if present.
     If the file doesn't contain syntax tests, both elements of the tuple will be None."""
 
@@ -53,27 +53,32 @@ def get_details_of_test_assertion_line(view, pos):
         assertion = re.match(r'\s*(?:(<-)|(\^+))', line_text[starts_with_comment_token.end():])
         if assertion:
             if assertion.group(1):
-                assertion_colrange = (starts_with_comment_token.start(1), starts_with_comment_token.start(1))
+                assertion_colrange = (starts_with_comment_token.start(1),
+                                      starts_with_comment_token.start(1))
             elif assertion.group(2):
-                assertion_colrange = (starts_with_comment_token.end() + assertion.start(2), starts_with_comment_token.end() + assertion.end(2))
+                assertion_colrange = (starts_with_comment_token.end() + assertion.start(2),
+                                      starts_with_comment_token.end() + assertion.end(2))
 
     return (starts_with_comment_token, assertion_colrange, line_region)
 
 
 def is_syntax_test_line(view, pos, must_contain_assertion):
     """Determine whether the line at the given character position is a syntax test line.
-    It can optionally treat lines with comment markers but no assertion as a syntax test, useful for while the line is being written.
+    It can optionally treat lines with comment markers but no assertion as a syntax test,
+    useful for while the line is being written.
     """
 
-    starts_with_comment_token, assertion_colrange, line_region = get_details_of_test_assertion_line(view, pos)
+    starts_with_comment_token, assertion_cols, _ = get_details_of_test_assertion_line(view, pos)
     if starts_with_comment_token:
-        return not must_contain_assertion or assertion_colrange is not None
+        return not must_contain_assertion or assertion_cols is not None
     return False
 
 
 def get_details_of_line_being_tested(view):
-    """Given a view, work from the cursor upwards to find all syntax test lines that occur before the line being tested.
-    Return a tuple containing a list of assertion line details, along with the region of the line being tested."""
+    """Given a view, work from the cursor upwards to find all syntax test lines that occur
+    before the line that is being tested.
+    Return a tuple containing a list of assertion line details,
+    along with the region of the line being tested."""
 
     if not is_syntax_test_file(view):
         return (None, None)
@@ -129,7 +134,8 @@ class SyntaxTestEventListener(sublime_plugin.EventListener):
 
 
 class AlignSyntaxTest(sublime_plugin.TextCommand):
-    """Insert enough spaces so that the cursor will be immediately to the right of the previous line's last syntax test assertion."""
+    """Insert enough spaces so that the cursor will be immediately to the right of the
+    previous line's last syntax test assertion."""
 
     def run(self, edit):
         cursor = self.view.sel()[0]
@@ -140,7 +146,9 @@ class AlignSyntaxTest(sublime_plugin.TextCommand):
         # find the last test assertion column on the previous line
         line = get_details_of_test_assertion_line(self.view, line[2].begin() - 1)
         if line[2] is not None:
-            self.view.insert(edit, cursor.end(), ' ' * (line[1][1] - self.view.rowcol(cursor.begin())[1]))
+            self.view.insert(edit, cursor.end(), ' ' * (
+                line[1][1] - self.view.rowcol(cursor.begin())[1]
+            ))
         self.view.run_command('suggest_syntax_test')
 
 
@@ -165,7 +173,8 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
 
         lines, line = get_details_of_line_being_tested(view)
         end_token = get_syntax_test_tokens(view)[1]
-        if end_token is not None and view.sel()[0].end() == lines[0][2].end():  # don't duplicate the end token if it is on the line but not selected
+        # don't duplicate the end token if it is on the line but not selected
+        if end_token is not None and view.sel()[0].end() == lines[0][2].end():
             end_token = ' ' + end_token
         else:
             end_token = ''
@@ -199,13 +208,15 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
                     scopes.append(scope)
 
         # find the shared scopes
-        # TODO: more clever matching of partial scopes i.e. meta.function.python, meta.function.parameters.python == meta.function
+        # TODO: more clever matching of partial scopes
+        # i.e. meta.function.python, meta.function.parameters.python == meta.function
         shared_scopes = []
         for check_scope in scopes[0].split():
             if all(sublime.score_selector(scope, check_scope) > 0 for scope in scopes):
                 shared_scopes.append(check_scope)
 
-        # skip the first scope if it is the base scope (crude check by scanning the first scope at the beginning of the file)
+        # skip the first scope if it is the base scope
+        # (crude check by scanning the first scope at the beginning of the file)
         start_index = 0
         if shared_scopes[0] == view.scope_name(0).split()[0]:
             start_index = 1
@@ -218,9 +229,13 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
 
         view.insert(edit, insert_at, (char * length) + ' ' + scope + end_token)
 
-        # move the selection to cover the added scope name, so another ^ can easily be inserted to extend the test
+        # move the selection to cover the added scope name,
+        # so that the user can easily insert another ^ to extend the test
         view.sel().clear()
-        view.sel().add(sublime.Region(insert_at + length, insert_at + length + len(' ' + scope + end_token)))
+        view.sel().add(sublime.Region(
+            insert_at + length,
+            insert_at + length + len(' ' + scope + end_token)
+        ))
 
 
 class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
@@ -249,4 +264,10 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         elif col_end == col_start:
             col_end += 1
 
-        self.view.add_regions('current_syntax_test', [sublime.Region(line.begin() + col_start, line.begin() + col_end)], 'text', '', sublime.DRAW_NO_FILL)  # sublime.DRAW_NO_OUTLINE | sublime.DRAW_SOLID_UNDERLINE |  # removed "no outline"/"underline" because underlines aren't drawn on spaces https://github.com/SublimeTextIssues/Core/issues/137
+        self.view.add_regions('current_syntax_test', [
+            sublime.Region(line.begin() + col_start, line.begin() + col_end)
+            ], 'text', '', sublime.DRAW_NO_FILL)
+        # originally, this was `sublime.DRAW_NO_OUTLINE | sublime.DRAW_SOLID_UNDERLINE
+        # | sublime.DRAW_NO_FILL`
+        # but underlines aren't drawn on spaces
+        # see https://github.com/SublimeTextIssues/Core/issues/137
