@@ -102,37 +102,6 @@ def get_details_of_line_being_tested(view):
     else:
         return (lines, line[2])
 
-
-class SyntaxTestEventListener(sublime_plugin.EventListener):
-    """Event Listener for responding to keybinding contexts"""
-
-    def on_query_context(self, view, key, operator, operand, match_all):
-        # all contexts supported will have boolean results, so ignore regex operators
-        if operator not in (sublime.OP_EQUAL, sublime.OP_NOT_EQUAL):
-            return None
-
-        def current_line_is_a_syntax_test():
-            return is_syntax_test_line(view, view.sel()[0].begin(), False)
-
-        def line_above_is_a_syntax_test():
-            line = get_details_of_test_assertion_line(view, view.sel()[0].begin())
-            if line[0] is None:
-                return False
-            else:
-                return is_syntax_test_line(view, line[2].begin() - 1, True)
-
-        def file_contains_syntax_tests():
-            return is_syntax_test_file(view)
-
-        if key not in locals():
-            return None
-        else:
-            result = locals()[key]() == bool(operand)
-            if operator == sublime.OP_NOT_EQUAL:
-                result = not result
-            return result
-
-
 class AlignSyntaxTest(sublime_plugin.TextCommand):
     """Insert enough spaces so that the cursor will be immediately to the right of the
     previous line's last syntax test assertion."""
@@ -156,7 +125,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
     """Intelligently suggest where the syntax test assertions should be placed,
     based on the scopes on the line being tested, and where they change."""
 
-    def run(self, edit, **args):
+    def run(self, edit, character = '^'):
         """Available parameters:
         edit (sublime.Edit)
             The edit parameter from TextCommand.
@@ -165,8 +134,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
         """
 
         view = self.view
-        char = args.get('character', '^')
-        view.replace(edit, view.sel()[0], char)
+        view.replace(edit, view.sel()[0], character)
         insert_at = view.sel()[0].begin()
         if not is_syntax_test_file(view):
             return
@@ -227,7 +195,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
         if not view.sel()[0].empty():
             view.erase(edit, view.sel()[0])
 
-        view.insert(edit, insert_at, (char * length) + ' ' + scope + end_token)
+        view.insert(edit, insert_at, (character * length) + ' ' + scope + end_token)
 
         # move the selection to cover the added scope name,
         # so that the user can easily insert another ^ to extend the test
@@ -269,3 +237,34 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         # | sublime.DRAW_NO_FILL`
         # but underlines aren't drawn on spaces
         # see https://github.com/SublimeTextIssues/Core/issues/137
+
+    def on_query_context(self, key, operator, operand, match_all):
+        """Respond to relevant syntax test keybinding contexts"""
+
+        view = self.view
+        # all contexts supported will have boolean results, so ignore regex operators
+        if operator not in (sublime.OP_EQUAL, sublime.OP_NOT_EQUAL):
+            return None
+
+        def line_above_is_a_syntax_test():
+            line = get_details_of_test_assertion_line(view, view.sel()[0].begin())
+            if line[0] is None:
+                return False
+            else:
+                return is_syntax_test_line(view, line[2].begin() - 1, True)
+
+        keys = {
+            "line_above_is_a_syntax_test": line_above_is_a_syntax_test,
+            "current_line_is_a_syntax_test":
+                lambda: is_syntax_test_line(view, view.sel()[0].begin(), False),
+            "file_contains_syntax_tests":
+                lambda: is_syntax_test_file(view)
+        }
+
+        if key not in keys:
+            return None
+        else:
+            result = keys[key]() == bool(operand)
+            if operator == sublime.OP_NOT_EQUAL:
+                result = not result
+            return result
