@@ -43,7 +43,7 @@ def get_details_of_test_assertion_line(view, pos):
     if not is_syntax_test_file(view):
         return (None, None, None)
     tokens = get_syntax_test_tokens(view)
-    if tokens is None:
+    if tokens[0] is None:
         return (None, None, None)
     line_region = view.line(pos)
     line_text = view.substr(line_region)
@@ -264,9 +264,8 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         elif col_end == col_start:
             col_end += 1
 
-        self.view.add_regions('current_syntax_test', [
-            sublime.Region(line.begin() + col_start, line.begin() + col_end)
-            ], 'text', '', sublime.DRAW_NO_FILL)
+        region = sublime.Region(line.begin() + col_start, line.begin() + col_end)
+        self.view.add_regions('current_syntax_test', [region], 'text', '', sublime.DRAW_NO_FILL)
         # originally, this was `sublime.DRAW_NO_OUTLINE | sublime.DRAW_SOLID_UNDERLINE
         # | sublime.DRAW_NO_FILL`
         # but underlines aren't drawn on spaces
