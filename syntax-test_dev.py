@@ -102,6 +102,7 @@ def get_details_of_line_being_tested(view):
     else:
         return (lines, line[2])
 
+
 class AlignSyntaxTest(sublime_plugin.TextCommand):
     """Insert enough spaces so that the cursor will be immediately to the right of the
     previous line's last syntax test assertion."""
@@ -125,7 +126,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
     """Intelligently suggest where the syntax test assertions should be placed,
     based on the scopes on the line being tested, and where they change."""
 
-    def run(self, edit, character = '^'):
+    def run(self, edit, character='^'):
         """Available parameters:
         edit (sublime.Edit)
             The edit parameter from TextCommand.
