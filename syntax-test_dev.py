@@ -2,6 +2,10 @@ import sublime
 import sublime_plugin
 from os import path
 import re
+from collections import namedtuple
+AssertionLineDetails = namedtuple(
+    'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
+)
 
 
 def get_syntax_test_tokens(view):
@@ -35,16 +39,16 @@ def is_syntax_test_file(view):
 
 def get_details_of_test_assertion_line(view, pos):
     """Given a view and a character position, find:
-    - the region of the line (3rd item in tuple)
-    - the comment marker (1st item in tuple)
-    - the assertion characters (2nd item in tuple)
+    - the region of the line (3rd item in tuple aka `line_region`)
+    - the comment marker (1st item in tuple aka `comment_marker_match`)
+    - the assertion characters (2nd item in tuple aka `assertion_colrange`)
     """
 
     if not is_syntax_test_file(view):
-        return (None, None, None)
+        return AssertionLineDetails(None, None, None)
     tokens = get_syntax_test_tokens(view)
     if tokens[0] is None:
-        return (None, None, None)
+        return AssertionLineDetails(None, None, None)
     line_region = view.line(pos)
     line_text = view.substr(line_region)
     starts_with_comment_token = re.match(r'^\s*(' + re.escape(tokens[0]) + r')', line_text)
@@ -59,7 +63,7 @@ def get_details_of_test_assertion_line(view, pos):
                 assertion_colrange = (starts_with_comment_token.end() + assertion.start(2),
                                       starts_with_comment_token.end() + assertion.end(2))
 
-    return (starts_with_comment_token, assertion_colrange, line_region)
+    return AssertionLineDetails(starts_with_comment_token, assertion_colrange, line_region)
 
 
 def is_syntax_test_line(view, pos, must_contain_assertion):
@@ -68,9 +72,9 @@ def is_syntax_test_line(view, pos, must_contain_assertion):
     useful for while the line is being written.
     """
 
-    starts_with_comment_token, assertion_cols, _ = get_details_of_test_assertion_line(view, pos)
-    if starts_with_comment_token:
-        return not must_contain_assertion or assertion_cols is not None
+    details = get_details_of_test_assertion_line(view, pos)
+    if details.comment_marker_match:
+        return not must_contain_assertion or details.assertion_colrange is not None
     return False
 
 
@@ -87,20 +91,17 @@ def get_details_of_line_being_tested(view):
     pos = view.sel()[0].begin()
     first_line = True
     while pos >= 0:
-        line = get_details_of_test_assertion_line(view, pos)
-        pos = line[2].begin() - 1
-        if line[1]:
-            lines.append(line)
-        elif not first_line or not line[0]:
+        details = get_details_of_test_assertion_line(view, pos)
+        pos = details.line_region.begin() - 1
+        if details.assertion_colrange:
+            lines.append(details)
+        elif not first_line or not details.comment_marker_match:
             break
-        elif line[0]:
-            lines.append(line)
+        elif details.comment_marker_match:
+            lines.append(details)
         first_line = False
 
-    if len(lines) == 0:
-        return (None, line[2])
-    else:
-        return (lines, line[2])
+    return (lines, details.line_region)
 
 
 class AlignSyntaxTest(sublime_plugin.TextCommand):
@@ -109,15 +110,15 @@ class AlignSyntaxTest(sublime_plugin.TextCommand):
 
     def run(self, edit):
         cursor = self.view.sel()[0]
-        line = get_details_of_test_assertion_line(self.view, cursor.begin())
-        if not line[0]:
+        details = get_details_of_test_assertion_line(self.view, cursor.begin())
+        if not details.comment_marker_match:
             return
 
         # find the last test assertion column on the previous line
-        line = get_details_of_test_assertion_line(self.view, line[2].begin() - 1)
-        if line[2] is not None:
+        details = get_details_of_test_assertion_line(self.view, details.line_region.begin() - 1)
+        if details.line_region is not None:
             self.view.insert(edit, cursor.end(), ' ' * (
-                line[1][1] - self.view.rowcol(cursor.begin())[1]
+                details.assertion_colrange[1] - self.view.rowcol(cursor.begin())[1]
             ))
         self.view.run_command('suggest_syntax_test')
 
@@ -143,7 +144,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
         lines, line = get_details_of_line_being_tested(view)
         end_token = get_syntax_test_tokens(view)[1]
         # don't duplicate the end token if it is on the line but not selected
-        if end_token is not None and view.sel()[0].end() == lines[0][2].end():
+        if end_token is not None and view.sel()[0].end() == lines[0].line_region.end():
             end_token = ' ' + end_token
         else:
             end_token = ''
@@ -153,8 +154,9 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
         # find the following columns on the line to be tested where the scopes don't change
         test_at_start_of_comment = False
         col = view.rowcol(insert_at)[1]
-        if lines[0][1] is None or lines[0][1][0] == lines[0][1][1]:
-            col = lines[0][1][1]
+        assertion_colrange = lines[0].assertion_colrange or (-1, -1)
+        if assertion_colrange[0] == assertion_colrange[1]:
+            col = assertion_colrange[1]
             test_at_start_of_comment = True
             lines = lines[1:]
 
@@ -170,8 +172,9 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
                 break
 
         # find the unique scopes at each existing assertion position
-        if lines is not None and not test_at_start_of_comment:
-            for pos in range(line.begin() + lines[0][1][0], line.begin() + lines[0][1][1]):
+        if lines and not test_at_start_of_comment:
+            col_start, col_end = lines[0].assertion_colrange
+            for pos in range(line.begin() + col_start, line.begin() + col_end):
                 scope = view.scope_name(pos)
                 if scope not in scopes:
                     scopes.append(scope)
@@ -221,11 +224,11 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
 
         lines, line = get_details_of_line_being_tested(self.view)
 
-        if lines is None or not lines[0][1] or not lines[0][0]:
+        if not lines or not lines[0].assertion_colrange:
             self.view.erase_regions('current_syntax_test')
             return
 
-        col_start, col_end = lines[0][1]
+        col_start, col_end = lines[0].assertion_colrange
         if highlight_only_cursor:
             col_start = self.view.rowcol(cursor.begin())[1]
             col_end = self.view.rowcol(cursor.end())[1]
@@ -248,11 +251,11 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
             return None
 
         def line_above_is_a_syntax_test():
-            line = get_details_of_test_assertion_line(view, view.sel()[0].begin())
-            if line[0] is None:
-                return False
+            details = get_details_of_test_assertion_line(view, view.sel()[0].begin())
+            if details.comment_marker_match is None:
+                return False  # the current line doesn't start with a comment token
             else:
-                return is_syntax_test_line(view, line[2].begin() - 1, True)
+                return is_syntax_test_line(view, details.line_region.begin() - 1, True)
 
         keys = {
             "line_above_is_a_syntax_test": line_above_is_a_syntax_test,
