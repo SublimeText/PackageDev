@@ -1,0 +1,12 @@
+{
+    // what add_region styles to use for the highlighting of the line/positions being tested
+    // valid values are:
+    // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
+    // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
+    // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
+    "styles_for_syntax_test_highlight": ["DRAW_NO_FILL"],
+
+    // what scope to use to draw the add_region highlighting
+    // this affects what color it will be drawn as
+    "scope_for_syntax_test_highlight": "text"
+}

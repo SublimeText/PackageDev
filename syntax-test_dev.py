@@ -3,9 +3,6 @@ import sublime_plugin
 from os import path
 import re
 from collections import namedtuple
-AssertionLineDetails = namedtuple(
-    'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
-)
 
 
 def get_syntax_test_tokens(view):
@@ -44,6 +41,10 @@ def get_details_of_test_assertion_line(view, pos):
     - the assertion characters (2nd item in tuple aka `assertion_colrange`)
     """
 
+    AssertionLineDetails = namedtuple(
+        'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
+    )
+
     if not is_syntax_test_file(view):
         return AssertionLineDetails(None, None, None)
     tokens = get_syntax_test_tokens(view)
@@ -79,8 +80,8 @@ def is_syntax_test_line(view, pos, must_contain_assertion):
 
 
 def get_details_of_line_being_tested(view):
-    """Given a view, work from the cursor upwards to find all syntax test lines that occur
-    before the line that is being tested.
+    """Given a view, and starting from the cursor position, work upwards
+    to find all syntax test lines that occur before the line that is being tested.
     Return a tuple containing a list of assertion line details,
     along with the region of the line being tested."""
 
@@ -236,11 +237,30 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
             col_end += 1
 
         region = sublime.Region(line.begin() + col_start, line.begin() + col_end)
-        self.view.add_regions('current_syntax_test', [region], 'text', '', sublime.DRAW_NO_FILL)
-        # originally, this was `sublime.DRAW_NO_OUTLINE | sublime.DRAW_SOLID_UNDERLINE
-        # | sublime.DRAW_NO_FILL`
-        # but underlines aren't drawn on spaces
-        # see https://github.com/SublimeTextIssues/Core/issues/137
+
+        prefs = sublime.load_settings('PackageDev.sublime-settings')
+        scope = prefs.get('scope_for_syntax_test_highlight', 'text')
+        styles = prefs.get('styles_for_syntax_test_highlight', ['DRAW_NO_FILL'])
+        style_flags = 0
+        # # the following available add_region styles are taken from the API documentation:
+        # # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
+        # # unfortunately, the `sublime` module doesn't encapsulate them for easy reference
+        # for style in styles:
+        #     if style in [
+        #         'DRAW_EMPTY', 'HIDE_ON_MINIMAP', 'DRAW_EMPTY_AS_OVERWRITE', 'DRAW_NO_FILL',
+        #         'DRAW_NO_OUTLINE', 'DRAW_SOLID_UNDERLINE', 'DRAW_STIPPLED_UNDERLINE',
+        #         'DRAW_SQUIGGLY_UNDERLINE', 'HIDDEN', 'PERSISTENT'
+        #     ]:
+        #         style_flags |= getattr(sublime, style)
+        for style in styles:
+            # check the style matches the casing and naming used for constants in `sublime.py`
+            if re.match(r'[A-Z]+[A-Z_]+', style):
+                value = getattr(sublime, style)
+                # ensure the value is an integer
+                if isinstance(value, int):
+                    style_flags |= value
+
+        self.view.add_regions('current_syntax_test', [region], scope, '', style_flags)
 
     def on_query_context(self, key, operator, operand, match_all):
         """Respond to relevant syntax test keybinding contexts"""
