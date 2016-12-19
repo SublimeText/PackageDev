@@ -3,6 +3,9 @@ import sublime_plugin
 from os import path
 import re
 from collections import namedtuple
+AssertionLineDetails = namedtuple(
+    'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
+)
 
 
 def get_syntax_test_tokens(view):
@@ -40,10 +43,6 @@ def get_details_of_test_assertion_line(view, pos):
     - the comment marker (1st item in tuple aka `comment_marker_match`)
     - the assertion characters (2nd item in tuple aka `assertion_colrange`)
     """
-
-    AssertionLineDetails = namedtuple(
-        'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
-    )
 
     if not is_syntax_test_file(view):
         return AssertionLineDetails(None, None, None)
@@ -239,26 +238,20 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         region = sublime.Region(line.begin() + col_start, line.begin() + col_end)
 
         prefs = sublime.load_settings('PackageDev.sublime-settings')
-        scope = prefs.get('scope_for_syntax_test_highlight', 'text')
-        styles = prefs.get('styles_for_syntax_test_highlight', ['DRAW_NO_FILL'])
+        scope = prefs.get('syntax_test_highlight_scope', 'text')
+        styles = prefs.get('syntax_test_highlight_styles', ['DRAW_NO_FILL'])
         style_flags = 0
-        # # the following available add_region styles are taken from the API documentation:
-        # # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
-        # # unfortunately, the `sublime` module doesn't encapsulate them for easy reference
-        # for style in styles:
-        #     if style in [
-        #         'DRAW_EMPTY', 'HIDE_ON_MINIMAP', 'DRAW_EMPTY_AS_OVERWRITE', 'DRAW_NO_FILL',
-        #         'DRAW_NO_OUTLINE', 'DRAW_SOLID_UNDERLINE', 'DRAW_STIPPLED_UNDERLINE',
-        #         'DRAW_SQUIGGLY_UNDERLINE', 'HIDDEN', 'PERSISTENT'
-        #     ]:
-        #         style_flags |= getattr(sublime, style)
+        # the following available add_region styles are taken from the API documentation:
+        # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
+        # unfortunately, the `sublime` module doesn't encapsulate them for easy reference
+        # so we hardcode them here
         for style in styles:
-            # check the style matches the casing and naming used for constants in `sublime.py`
-            if re.match(r'[A-Z]+[A-Z_]+', style):
-                value = getattr(sublime, style)
-                # ensure the value is an integer
-                if isinstance(value, int):
-                    style_flags |= value
+            if style in [
+                'DRAW_EMPTY', 'HIDE_ON_MINIMAP', 'DRAW_EMPTY_AS_OVERWRITE', 'DRAW_NO_FILL',
+                'DRAW_NO_OUTLINE', 'DRAW_SOLID_UNDERLINE', 'DRAW_STIPPLED_UNDERLINE',
+                'DRAW_SQUIGGLY_UNDERLINE', 'HIDDEN', 'PERSISTENT'
+            ]:
+                style_flags |= getattr(sublime, style)
 
         self.view.add_regions('current_syntax_test', [region], scope, '', style_flags)
 

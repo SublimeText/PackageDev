@@ -4,9 +4,9 @@
     // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
     // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
     // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
-    "styles_for_syntax_test_highlight": ["DRAW_NO_FILL"],
+    "syntax_test_highlight_styles": ["DRAW_NO_FILL"],
 
     // what scope to use to draw the add_region highlighting
     // this affects what color it will be drawn as
-    "scope_for_syntax_test_highlight": "text"
+    "syntax_test_highlight_scope": "text"
 }
