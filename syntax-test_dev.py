@@ -11,7 +11,7 @@ AssertionLineDetails = namedtuple(
 def get_syntax_test_tokens(view):
     """Parse the first line of the given view, to get a tuple,
     which will contain the start token for a syntax test, and the closing token too if present.
-    If the file doesn't contain syntax tests, both elements of the tuple will be None."""
+    If the file doesn't contain syntax tests, both elements of the tuple will be `None`."""
 
     line = view.line(0)
     match = None
@@ -104,6 +104,34 @@ def get_details_of_line_being_tested(view):
     return (lines, details.line_region)
 
 
+def find_common_scopes(scopes):
+    """Given a list of scopes, find the (partial) scopes that are common to each."""
+
+    # skip the base scope i.e. `source.python`
+    check_scopes = scopes[0].split()[1:]
+
+    shared_scopes = []
+    # stop as soon as at least one shared scope was found
+    # or when there are no partial scopes left to check
+    while not shared_scopes and check_scopes:
+        for check_scope in check_scopes:
+            if all(sublime.score_selector(scope, check_scope) > 0 for scope in scopes):
+                shared_scopes.append(check_scope)
+
+        # if no matches were found
+        if not shared_scopes:
+            # split off the last partial scope from each scope to check
+            # i.e. `meta.function.parameters` becomes `meta.function`
+            # if the scope to check doesn't contain any sub-scopes i.e. `meta`,
+            # then drop it from the list of scopes to check
+            check_scopes = [
+                '.'.join(check_scope.split('.')[0:-1])
+                for check_scope in check_scopes if '.' in check_scope
+            ]
+
+    return ' '.join(shared_scopes)
+
+
 class AlignSyntaxTest(sublime_plugin.TextCommand):
     """Insert enough spaces so that the cursor will be immediately to the right of the
     previous line's last syntax test assertion."""
@@ -179,21 +207,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
                 if scope not in scopes:
                     scopes.append(scope)
 
-        # find the shared scopes
-        # TODO: more clever matching of partial scopes
-        # i.e. meta.function.python, meta.function.parameters.python == meta.function
-        shared_scopes = []
-        for check_scope in scopes[0].split():
-            if all(sublime.score_selector(scope, check_scope) > 0 for scope in scopes):
-                shared_scopes.append(check_scope)
-
-        # skip the first scope if it is the base scope
-        # (crude check by scanning the first scope at the beginning of the file)
-        start_index = 0
-        if shared_scopes[0] == view.scope_name(0).split()[0]:
-            start_index = 1
-
-        scope = ' '.join(shared_scopes[start_index:])
+        scope = find_common_scopes(scopes)
 
         # delete the existing selection
         if not view.sel()[0].empty():
