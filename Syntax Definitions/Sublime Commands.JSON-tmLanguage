@@ -5,6 +5,7 @@
   "fileTypes": ["sublime-commands"],
 
   "patterns": [
+      { "include": "#comment" },
       { "begin": "(\\[)",
         "beginCaptures": {
             "1": { "name": "punctuation.definition.collection.start.sublimecommands" }
@@ -15,6 +16,7 @@
         },
 
         "patterns": [
+            { "include": "#comment" },
             { "include": "#command" },
             { "include": "#args" },
             { "match": "(?<!\\}),",
@@ -74,6 +76,18 @@
             }
           },
           { "include": "#args" }
+        ]
+      },
+
+      "comment": {
+        "patterns": [
+          { "name": "comment.single.line.sublimecommands",
+            "match": "//.*"
+          },
+          { "name": "comment.block.sublimecommands",
+             "begin": "/\\*",
+             "end": "\\*/"
+          }
         ]
       }
   },
