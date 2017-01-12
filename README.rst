@@ -107,7 +107,7 @@ that takes care of all that,
 **This is highly recommended!**
 Running ``Convert to YAML and Rearrange Syntax Definition``
 will convert the JSON or Plist syntax definition at hand
-into YAML and additioally *prettify* it.
+into YAML and additionally *prettify* it.
 To ensure proper markup of the syntax definition,
 explicitly convert indentation to spaces
 using the ``Indentation: Convert to Spaces`` command
