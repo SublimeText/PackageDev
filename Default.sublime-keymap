@@ -2,7 +2,7 @@
     /* start of syntax_test_dev keys */
     { "keys": ["tab"], "command": "align_syntax_test", "context":
         [
-            { "key": "line_above_is_a_syntax_test", "operator": "equal", "operand": true },
+            //{ "key": "line_above_is_a_syntax_test", "operator": "equal", "operand": true },
             { "key": "current_line_is_a_syntax_test", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
             { "key": "following_text", "operator": "regex_match", "operand": "^$", "match_all": true },
