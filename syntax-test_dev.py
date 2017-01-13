@@ -144,10 +144,19 @@ class AlignSyntaxTest(sublime_plugin.TextCommand):
 
         # find the last test assertion column on the previous line
         details = get_details_of_test_assertion_line(self.view, details.line_region.begin() - 1)
-        if details.line_region is not None:
-            self.view.insert(edit, cursor.end(), ' ' * (
-                details.assertion_colrange[1] - self.view.rowcol(cursor.begin())[1]
-            ))
+        next_col = None
+        if details.assertion_colrange is None:
+            # the previous line wasn't a syntax test line, so instead
+            # find the first non-whitespace char on the line being tested above
+            for pos in range(details.line_region.begin(), details.line_region.end()):
+                if self.view.substr(pos).strip() != '':
+                    break
+            next_col = self.view.rowcol(pos)[1]
+        else:
+            next_col = details.assertion_colrange[1]
+        self.view.insert(edit, cursor.end(), ' ' * (
+            next_col - self.view.rowcol(cursor.begin())[1]
+        ))
         self.view.run_command('suggest_syntax_test')
 
 
