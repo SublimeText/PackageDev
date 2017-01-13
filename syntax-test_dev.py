@@ -17,7 +17,7 @@ def get_syntax_test_tokens(view):
     match = None
     if line.size() < 1000:  # no point checking longer lines as they are unlikely to match
         first_line = view.substr(line)
-        match = re.match(r'^(\S+)\s+SYNTAX TEST\s+"[^"]+"\s*(\S+)?$', first_line)
+        match = re.match(r'^(\s*\S+)\s+SYNTAX TEST\s+"[^"]+"\s*(\S+)?$', first_line)
     if match is None:
         return (None, None)
     else:
