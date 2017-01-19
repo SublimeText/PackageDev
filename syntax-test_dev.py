@@ -238,6 +238,8 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         """When the selection changes, (re)move the highlight that shows where the current line's
         test assertions relate to."""
 
+        if len(self.view.sel()) == 0:
+            return
         cursor = self.view.sel()[0]
         highlight_only_cursor = False
         if cursor.empty():
