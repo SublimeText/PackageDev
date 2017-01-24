@@ -435,11 +435,11 @@ repository:
 # dict keys
   captures:
     name: meta.captures.yaml-tmlanguage
-    match: (?:, +|\{ *|^ {2,}|^ *- +)((["']?)((?:(?:begin|end)C|c)aptures)(\2))(:)
+    match: (?:, +|\{ *|^ *|^ *- +)((["']?)((?:beginC|endC|c)aptures)(\2))(:)
     captures:
       '1': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
       '2': {name: punctuation.definition.string.yaml-tmlanguage}
-      '3': {name: entity.other.captures.yaml-tmlanguage}
+      '3': {name: support.type.captures.yaml-tmlanguage}
       '4': {name: punctuation.definition.string.yaml-tmlanguage}
       '5': {name: keyword.control.definition.yaml-tmlanguage}
 
