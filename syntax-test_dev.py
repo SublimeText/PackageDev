@@ -104,7 +104,7 @@ def get_details_of_line_being_tested(view):
     return (lines, details.line_region)
 
 
-def find_common_scopes(scopes):
+def find_common_scopes(scopes, skip_syntax_suffix):
     """Given a list of scopes, find the (partial) scopes that are common to each."""
 
     # skip the base scope i.e. `source.python`
@@ -114,9 +114,10 @@ def find_common_scopes(scopes):
     # stop as soon as at least one shared scope was found
     # or when there are no partial scopes left to check
     while not shared_scopes and check_scopes:
-        for check_scope in check_scopes:
-            if all(sublime.score_selector(scope, check_scope) > 0 for scope in scopes):
-                shared_scopes.append(check_scope)
+        if not skip_syntax_suffix:
+            for check_scope in check_scopes:
+                if all(sublime.score_selector(scope, check_scope) > 0 for scope in scopes):
+                    shared_scopes.append(check_scope)
 
         # if no matches were found
         if not shared_scopes:
@@ -128,6 +129,7 @@ def find_common_scopes(scopes):
                 '.'.join(check_scope.split('.')[0:-1])
                 for check_scope in check_scopes if '.' in check_scope
             ]
+            skip_syntax_suffix = False
 
     return ' '.join(shared_scopes)
 
@@ -216,7 +218,10 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
                 if scope not in scopes:
                     scopes.append(scope)
 
-        scope = find_common_scopes(scopes)
+        prefs = sublime.load_settings('PackageDev.sublime-settings')
+        suggest_suffix = prefs.get('syntax_test_suggest_scope_suffix', True)
+
+        scope = find_common_scopes(scopes, not suggest_suffix)
 
         # delete the existing selection
         if not view.sel()[0].empty():
