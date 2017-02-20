@@ -123,7 +123,7 @@
 						</dict>
 						<dict>
 							<key>match</key>
-							<string>(?&lt;!shift|ctrl|alt|super|\+)\+</string>
+							<string>(?&lt;!shift|ctrl|alt|super|option|\+)\+</string>
 							<key>name</key>
 							<string>invalid.illegal.key.sequence.sublimekeymap</string>
 						</dict>
@@ -142,7 +142,7 @@
 								</dict>
 							</dict>
 							<key>match</key>
-							<string>(shift|ctrl|alt|super)(\+)</string>
+							<string>(shift|ctrl|alt|super|option)(\+)</string>
 						</dict>
 						<dict>
 							<key>match</key>

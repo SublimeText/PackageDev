@@ -49,10 +49,10 @@
                        "1": { "name": "entity.other.attribute-name.key.captured.sublimekeymap" }
                    }
                 },
-                { "match": "(?<!shift|ctrl|alt|super|\\+)\\+",
+                { "match": "(?<!shift|ctrl|alt|super|option|\\+)\\+",
                   "name": "invalid.illegal.key.sequence.sublimekeymap"
                 },
-                { "match": "(shift|ctrl|alt|super)(\\+)",
+                { "match": "(shift|ctrl|alt|super|option)(\\+)",
                   "captures": {
                       "1": { "name": "support.function.modifier.key.sublimekeymap" },
                       "2": { "name": "keyword.modifier.key.connector.sublimekeymap" }
