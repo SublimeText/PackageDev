@@ -50,11 +50,20 @@ contexts:
         1: meta.tag.xml punctuation.definition.tag.begin.xml
         2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-trigger.sublime-snippet
         3: meta.tag.xml punctuation.definition.tag.end.xml
+    - match: '<(?!!--)(?!/?(?:snippet|tabTrigger|scope)\s*>)/?'
+      scope: punctuation.definition.tag.begin.xml
+      push:
+        - meta_scope: meta.tag.xml
+        - meta_content_scope: invalid.illegal.unknown-snippet-tag.sublime-snippet
+        - match: '>'
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: scope:text.xml#tag-stuff
     - include: scope:text.xml
-  
+
   snippet_content:
     - include: scope:source.sublimesnippetraw
-  
+
   inside_content:
     - match: '(</)(content)(>)'
       captures:

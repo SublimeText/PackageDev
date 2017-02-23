@@ -271,3 +271,12 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #                         ^^^^^ keyword.operator.with
 #                               ^^^^ string.unquoted.scope-segment
 #                                   ^^^ invalid.illegal
+<unknownTag>fgfg</unknownTag>
+#^^^^^^^^^^ invalid.illegal
+#          ^ - invalid.illegal
+#               ^^ - invalid.illegal
+#                 ^^^^^^^^^^ invalid.illegal
+# <- meta.tag
+#^^^^^^^^^^^ meta.tag
+#           ^^^^ - meta.tag
+#               ^^^^^^^^^^^^^ meta.tag
