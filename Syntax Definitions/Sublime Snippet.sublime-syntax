@@ -1,0 +1,65 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - sublime-snippet
+name: Sublime Text Snippet (XML)
+scope: text.xml.sublime-snippet
+contexts:
+  main:
+    - match: '(<)(content)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-content.sublime-snippet
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+      push:
+        - match: '<!\[CDATA\['
+          scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+          set:
+            - meta_content_scope: string.unquoted.cdata.xml
+            - match: '\]\]>'
+              scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+              set:
+                - match: '<!\[CDATA\['
+                  set:
+                    - meta_scope: invalid.illegal.multiple-cdata-not-allowed.sublime-snippet-content
+                    - match: '\]\]>'
+                      pop: true
+                - include: inside_content
+            - include: snippet_content
+        - match: '(?=\S)'
+          set: inside_content
+    - match: '(<)(scope)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-scope.sublime-snippet
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+      push: # CDATA not supported here
+        - meta_content_scope: meta.scope.sublime-snippet
+        - match: '<!\[CDATA\[|\]\]>'
+          scope: invalid.illegal.cdata-not-supported-here.sublime-snippet
+        - match: '(?=</scope>)'
+          pop: true
+        - include: scope:text.scope-selector
+      with_prototype:
+        - match: '\s*(&amp;)\s*'
+          captures:
+            1: keyword.operator.with.scope-selector
+    - match: '(<)(tabTrigger)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-trigger.sublime-snippet
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+    - include: scope:text.xml
+  
+  snippet_content:
+    - include: scope:source.sublimesnippetraw
+  
+  inside_content:
+    - match: '(</)(content)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+      pop: true
+    - include: snippet_content
