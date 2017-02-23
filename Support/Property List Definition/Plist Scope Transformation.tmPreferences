@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List</string>
+	<key>scope</key>
+	<string>text.xml.plist meta.toc-list.snippet-scope.plist</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string><![CDATA[
+		s/^/Scope: /; # prepend "Scope:" to the beginning of scopes
+		]]></string>
+	</dict>
+</dict>
+</plist>
