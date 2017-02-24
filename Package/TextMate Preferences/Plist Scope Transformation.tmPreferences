@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>text.xml.plist meta.toc-list.snippet-scope.plist</string>
+	<string>meta.toc-list.scope.textmateprefs</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

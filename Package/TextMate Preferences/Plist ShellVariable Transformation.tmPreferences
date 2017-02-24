@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>text.xml.plist meta.toc-list.shellVariable.name.plist</string>
+	<string>meta.toc-list.shellVariable.name.textmateprefs</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
