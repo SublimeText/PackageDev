@@ -1,0 +1,65 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+scope: source.sublimesnippetraw
+name: Sublime Text Snippet Content
+hidden: true
+contexts:
+  main:
+    - include: possible_caret
+
+  possible_caret:
+    - match: '\\\$'
+      scope: constant.character.escape.sublimesnippetraw
+    - match: '\$(?=\{|\w)'
+      scope: meta.text-substitution.sublimesnippetraw keyword.other.block.start.sublimesnippetraw
+      push: caret
+    - match: '\$'
+      scope: invalid.illegal.unescaped-dollar.sublimesnippetraw
+
+  caret:
+    - match: '(?:(\d+(?!\w))|(PARAM\d+|SELECTION|TM_CURRENT_LINE|TM_CURRENT_WORD|TM_FILENAME|TM_FILEPATH|TM_FULLNAME|TM_LINE_INDEX|TM_LINE_NUMBER|TM_SELECTED_TEXT|TM_SOFT_TABS|TM_TAB_SIZE)\b)'
+      comment: |
+        http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippet#environment-variables
+        note that USER_NAME is always blank in ST, so we don't highlight it here
+      captures:
+        1: constant.numeric.sublimesnippetraw
+        2: constant.language.sublimesnippetraw
+      pop: true
+    - match: '\{'
+      scope: keyword.other.block.begin.sublimesnippetraw
+      set: [inside_caret, caret]
+    - match: '\w+'
+      scope: meta.text-substitution.sublimesnippetraw constant.other.sublimesnippetraw
+      pop: true
+
+  inside_caret:
+    - meta_scope: meta.text-substitution.sublimesnippetraw
+    - match: '\}'
+      scope: keyword.other.block.end.sublimesnippetraw
+      pop: true
+    - include: possible_caret
+    - match: ':'
+      scope: keyword.operator.alternation.sublimesnippetraw
+      push:
+        - meta_content_scope: string.unquoted.text-substitution.sublimesnippetraw
+        - include: possible_caret
+        - match: '(?=\})'
+          pop: true
+    - match: '/'
+      scope: keyword.other.regex.start.sublimesnippetraw
+      push:
+        - match: '/'
+          scope: keyword.other.regex.mid.sublimesnippetraw
+          set:
+            - match: '/'
+              scope: keyword.other.regex.end.sublimesnippetraw
+              set:
+                - match: '[gims-]*' # x mode doesn't seem to work properly in snippets
+                  scope: constant.other.regex-modifier.sublimesnippetraw
+                - match: '(?=\})'
+                  pop: true
+                - match: '[^}]+'
+                  scope: invalid.illegal.unexpected-token.sublimesnippetraw
+            - include: scope:source.regexp-replacement
+        - include: scope:source.regexp#base-literal

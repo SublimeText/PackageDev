@@ -1,0 +1,51 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+scope: text.scope-selector
+hidden: true
+variables:
+  scope_segment: '\w+(?:[\w-]*\+*)' # \+* is for the non standard scope.c++ scopes
+contexts:
+  main:
+    - match: '\)'
+      scope: invalid.illegal.stray-bracket.scope-selector
+    - include: base
+  
+  base:
+    - match: '(?:^\s*)?({{scope_segment}})'
+      captures:
+        1: string.unquoted.scope-segment.scope-selector
+      push:
+        - match: '(\.)(\.+)?'
+          captures:
+            1: punctuation.separator.scope-segments.scope-selector
+            2: invalid.illegal.empty-scope-segment.scope-selector
+          pop: true
+        - match: '\s+\('
+          scope: invalid.illegal.operator-required-between-scope-and-group.scope-selector
+        - match: ''
+          pop: true
+    - match: '\s*(-)\s*'
+      captures:
+        1: keyword.operator.without.scope-selector
+    - match: '\s*(&)\s*'
+      captures:
+        1: keyword.operator.with.scope-selector
+    - match: '\s*([,|])\s*'
+      captures:
+        1: keyword.operator.or.scope-selector
+    - match: '\s*(\()\s*'
+      captures:
+        1: punctuation.section.group.begin.scope-selector
+      push:
+        - match: '\s*(\))'
+          captures:
+            1: punctuation.section.group.end.scope-selector
+          set:
+            - match: '(\s*{{scope_segment}}|\.)+'
+              scope: invalid.illegal.operator-required-after-group.scope-selector
+            - match: '\s*'
+              pop: true
+        - include: base
+    - match: ' '
+      scope: keyword.operator.right.scope-selector

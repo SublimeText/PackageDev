@@ -1,0 +1,184 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - tmPreferences
+  - tmTheme
+name: Property List (XML)
+scope: text.xml.plist
+contexts:
+  main:
+    - match: '(?=<key>scope</key>)'
+      push:
+        - match: '(?=<string>)'
+          set: scope_string
+        - include: scope:text.xml
+    - match: '(?=<key>settings</key>)'
+      push:
+        - match: '(?=<dict>)'
+          set: settings_dict
+        - include: scope:text.xml
+    - include: scope:text.xml
+
+  scope_string:
+    - match: '(<)(string)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+      set: scope
+
+  scope:
+    - meta_content_scope: meta.toc-list.snippet-scope.plist
+    - match: '<!\[CDATA\['
+      scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+      push:
+        - match: ']]>'
+          scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+          pop: true
+        - include: scope:text.scope-selector
+    - match: '(?=</string>)'
+      pop: true
+    - include: scope:text.xml#entity
+    - include: scope:text.xml#should-be-entity
+    - include: scope:text.scope-selector
+
+  settings_dict:
+    - match: '(<)(key)(>)(decreaseIndentPattern|batchDecreaseIndentPattern|increaseIndentPattern|batchIncreaseIndentPattern|disableIndentNextLinePattern|bracketIndentNextLinePattern|unIndentedLinePattern|cancelCompletion)(</)(key)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+        4: meta.toc-list.regex.plist
+        5: meta.tag.xml punctuation.definition.tag.begin.xml
+        6: meta.tag.xml entity.name.tag.localname.xml
+        7: meta.tag.xml punctuation.definition.tag.end.xml
+      push:
+        - match: '(?=<string>)'
+          set: regex_string
+        - include: scope:text.xml
+    - match: '(<)(key)(>)(shellVariables)(</)(key)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+        4: meta.toc-list.shellVariables.plist
+        5: meta.tag.xml punctuation.definition.tag.begin.xml
+        6: meta.tag.xml entity.name.tag.localname.xml
+        7: meta.tag.xml punctuation.definition.tag.end.xml
+      push:
+        - match: '(?=<key>name</key>)'
+          push:
+            - match: '(<)(string)(>)([^<]+)(</)(string)(>)'
+              captures:
+                1: meta.tag.xml punctuation.definition.tag.begin.xml
+                2: meta.tag.xml entity.name.tag.localname.xml
+                3: meta.tag.xml punctuation.definition.tag.end.xml
+                4: meta.toc-list.shellVariable.name.plist
+                5: meta.tag.xml punctuation.definition.tag.begin.xml
+                6: meta.tag.xml entity.name.tag.localname.xml
+                7: meta.tag.xml punctuation.definition.tag.end.xml
+              pop: true
+            - include: scope:text.xml
+        - match: '(?=</array>)'
+          pop: true
+        - include: scope:text.xml
+    - match: '(<)(key)(>)(symbolTransformation|symbolIndexTransformation)(</)(key)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+        4: meta.toc-list.key.plist
+        5: meta.tag.xml punctuation.definition.tag.begin.xml
+        6: meta.tag.xml entity.name.tag.localname.xml
+        7: meta.tag.xml punctuation.definition.tag.end.xml
+      push:
+        - match: '(?=<string>)'
+          set: transformation_string
+        - include: scope:text.xml
+    - match: '(<)(key)(>)([^<]+)(</)(key)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+        4: meta.toc-list.key.plist
+        5: meta.tag.xml punctuation.definition.tag.begin.xml
+        6: meta.tag.xml entity.name.tag.localname.xml
+        7: meta.tag.xml punctuation.definition.tag.end.xml
+    - match: '\d+(?=</(integer|real)>)'
+      scope: constant.numeric.plist
+    - match: '\d*\.\d+(?=</real>)'
+      scope: constant.numeric.plist
+    - match: '(?=</dict>)'
+      pop: true
+    - include: scope:text.xml
+
+  regex_string:
+    - match: '(<)(string)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+      set:
+        - match: ']]>'
+          scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+          pop: true
+        - match: '<!\[CDATA\['
+          scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+          push:
+            - meta_content_scope: meta.regex.plist
+            - include: scope:source.regexp
+          with_prototype:
+            - match: '(?=]]>)'
+              pop: true
+        - match: '(?=\S)'
+          set:
+            - meta_content_scope: meta.regex.plist
+            - include: scope:source.regexp
+          with_prototype:
+            - match: '(?=</string>)'
+              pop: true
+
+  transformation_string:
+    - match: '(<)(string)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+      set:
+        - match: ']]>'
+          scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+          pop: true
+        - match: '<!\[CDATA\['
+          scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+          push:
+            - meta_content_scope: meta.regex.transformation.plist
+            - include: transformation
+          with_prototype:
+            - match: '(?=]]>)'
+              pop: true
+        - match: '(?=\S)'
+          set:
+            - meta_content_scope: meta.regex.transformation.plist
+            - include: transformation
+          with_prototype:
+            - match: '(?=</string>)'
+              pop: true
+
+  transformation:
+    - match: 's/'
+      scope: punctuation.definition.substitute-what.plist
+      push:
+        - match: '/'
+          scope: punctuation.definition.substitute-with.plist
+          set:
+            - match: '(/)([gimsx-]*)(;)'
+              captures:
+                1: punctuation.definition.substitute-flags.plist
+                2: storage.modifier.mode.regexp.transformation.plist
+                3: punctuation.definition.substitution.end.plist
+              pop: true
+            - include: scope:source.regexp-replacement
+        - include: scope:source.regexp#base-literal
+    - include: scope:source.regexp#group-comment
+    - include: scope:source.regexp#extended-patterns

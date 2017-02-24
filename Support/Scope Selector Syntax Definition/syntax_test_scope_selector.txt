@@ -1,0 +1,277 @@
+# SYNTAX TEST "Packages/PackageDev/Syntax Definitions/Scope Selector.sublime-syntax"
+string.quoted.double
+#<- string.unquoted.scope-segment.scope-selector
+#^^^^^ string.unquoted.scope-segment.scope-selector
+#     ^ punctuation.separator.scope-segments.scope-selector - string
+#      ^^^^^^ string.unquoted.scope-segment.scope-selector - punctuation
+#            ^ punctuation.separator.scope-segments.scope-selector - string
+#             ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ string.quoted
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ punctuation.separator.scope-segments.scope-selector
+#       ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ string.quoted.
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ punctuation.separator.scope-segments.scope-selector
+#       ^^^^^^ string.unquoted.scope-segment.scope-selector
+#             ^ punctuation.separator.scope-segments.scope-selector
+
+
+ - quoted.double
+#^ keyword.operator.without.scope-selector
+# ^ - keyword - string
+#  ^^^^^^ string.unquoted.scope-segment.scope-selector
+#        ^ punctuation.separator.scope-segments.scope-selector
+#         ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ string - comment
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ - string - keyword
+#       ^ keyword.operator.without.scope-selector
+#        ^ - string - keyword
+#         ^^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ string, comment
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ keyword.operator.or.scope-selector
+#       ^ - string - keyword
+#        ^^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ string | comment
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ - string - keyword
+#       ^ keyword.operator.or.scope-selector
+#        ^ - string - keyword
+#         ^^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ string & - comment
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ - string - keyword
+#       ^ keyword.operator.with.scope-selector
+#        ^ - string - keyword
+#         ^ keyword.operator.without.scope-selector
+#          ^ - string - keyword
+#           ^^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ source string
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ keyword.operator.right.scope-selector
+#       ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ source & (string - comment) &
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ - string - keyword
+#       ^ keyword.operator.with.scope-selector
+#        ^ - string - keyword
+#         ^ punctuation.section.group.begin.scope-selector
+#          ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                ^ - string - keyword
+#                 ^ keyword.operator.without.scope-selector
+#                  ^ - string - keyword
+#                   ^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                          ^ punctuation.section.group.end.scope-selector
+#                           ^ - string - keyword
+#                            ^ keyword.operator.with.scope-selector
+
+ string & source
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ - string - keyword
+#       ^ keyword.operator.with.scope-selector
+#        ^ - string - keyword
+#         ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ source.python string.quoted.double.block.python punctuation.definition.string.begin.python
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ punctuation.separator.scope-segments.scope-selector
+#       ^^^^^^ string.unquoted.scope-segment.scope-selector
+#             ^ keyword.operator.right.scope-selector
+#              ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                    ^ punctuation.separator.scope-segments.scope-selector
+#                     ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                           ^ punctuation.separator.scope-segments.scope-selector
+#                            ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                  ^ punctuation.separator.scope-segments.scope-selector
+#                                   ^^^^^ string.unquoted.scope-segment.scope-selector
+#                                        ^ punctuation.separator.scope-segments.scope-selector
+#                                         ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                               ^ keyword.operator.right.scope-selector
+#                                                ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                           ^ punctuation.separator.scope-segments.scope-selector
+#                                                            ^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                      ^ punctuation.separator.scope-segments.scope-selector
+#                                                                       ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                             ^ punctuation.separator.scope-segments.scope-selector
+#                                                                              ^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                                   ^ punctuation.separator.scope-segments.scope-selector
+#                                                                                    ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ source & string & punctuation.definition.string.begin.python
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ - string - keyword
+#       ^ keyword.operator.with.scope-selector
+#        ^ - string - keyword
+#         ^^^^^^ string.unquoted.scope-segment.scope-selector
+#               ^ - string - keyword
+#                ^ keyword.operator.with.scope-selector
+#                 ^ - string - keyword
+#                  ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                             ^ punctuation.separator.scope-segments.scope-selector
+#                              ^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                        ^ punctuation.separator.scope-segments.scope-selector
+#                                         ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                               ^ punctuation.separator.scope-segments.scope-selector
+#                                                ^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                     ^ punctuation.separator.scope-segments.scope-selector
+#                                                      ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ string punctuation & source
+#^^^^^^ string.unquoted.scope-segment.scope-selector
+#      ^ keyword.operator.right.scope-selector
+#       ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#                  ^ - string - keyword
+#                   ^ keyword.operator.with.scope-selector
+#                    ^ - string - keyword
+#                     ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ invalid.illegal.stray-bracket
+#                ^^^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector - keyword
+
+ (punctuation string) test.example - foo bar
+#^ punctuation.section.group.begin.scope-selector
+# ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#            ^ keyword.operator.right.scope-selector
+#             ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                   ^ punctuation.section.group.end.scope-selector
+#                    ^^^^^^^^^^^^^ invalid.illegal.operator-required-after-group.scope-selector
+#                                 ^ - string - keyword - illegal
+#                                  ^ keyword.operator.without.scope-selector
+#                                   ^ - string - keyword - illegal
+#                                    ^^^ string.unquoted.scope-segment.scope-selector
+#                                       ^ keyword.operator.right.scope-selector
+#                                        ^^^ string.unquoted.scope-segment.scope-selector
+
+ (source&string)
+#^ punctuation.section.group.begin.scope-selector
+# ^^^^^^ string.unquoted.scope-segment.scope-selector
+#       ^ keyword.operator.with.scope-selector
+#        ^^^^^^ string.unquoted.scope-segment.scope-selector
+#              ^ punctuation.section.group.end.scope-selector
+
+ (punctuation|string)&source.python -comment
+#^ punctuation.section.group.begin.scope-selector
+# ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#            ^ keyword.operator.or.scope-selector
+#             ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                   ^ punctuation.section.group.end.scope-selector
+#                    ^ keyword.operator.with.scope-selector
+#                     ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                           ^ punctuation.separator.scope-segments.scope-selector
+#                            ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                  ^ - string - keyword
+#                                   ^ keyword.operator.without.scope-selector
+#                                    ^^^^^^^ string.unquoted.scope-segment.scope-selector
+
+ comment,string|source
+#^^^^^^^ string.unquoted.scope-segment.scope-selector
+#       ^ keyword.operator.or.scope-selector
+#        ^^^^^^ string.unquoted.scope-segment.scope-selector
+#              ^ keyword.operator.or.scope-selector
+#               ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+-comment
+#<- keyword.operator.without.scope-selector
+#^^^^^^^ string.unquoted.scope-segment.scope-selector
+
+( text )|source
+#<- punctuation.section.group.begin.scope-selector
+#^ - string - keyword
+# ^^^^ string.unquoted.scope-segment.scope-selector
+#     ^ - string - keyword
+#      ^ punctuation.section.group.end.scope-selector
+#       ^ keyword.operator.or.scope-selector
+#        ^^^^^^ string.unquoted.scope-segment.scope-selector
+
+(trailing space) 
+#<- punctuation.section.group.begin.scope-selector
+#^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#        ^ keyword.operator.right.scope-selector
+#         ^^^^^ string.unquoted.scope-segment.scope-selector
+#              ^ punctuation.section.group.end.scope-selector
+#               ^^ - string - keyword - illegal
+text (string)
+#^^^ string.unquoted.scope-segment.scope-selector
+#   ^^ invalid.illegal.operator-required-between-scope-and-group.scope-selector
+#     ^^^^^^ string.unquoted.scope-segment.scope-selector
+#           ^ invalid.illegal.stray-bracket.scope-selector
+
+text.html - (source & - source text.html)
+#^^^ string.unquoted.scope-segment.scope-selector
+#   ^ punctuation.separator.scope-segments.scope-selector
+#    ^^^^ string.unquoted.scope-segment.scope-selector
+#        ^ - string - keyword
+#         ^ keyword.operator.without.scope-selector
+#          ^ - string - keyword
+#           ^ punctuation.section.group.begin.scope-selector
+#            ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                  ^ - string - keyword
+#                   ^ keyword.operator.with.scope-selector
+#                    ^ - string - keyword
+#                     ^ keyword.operator.without.scope-selector
+#                      ^ - string - keyword
+#                       ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                             ^ keyword.operator.right.scope-selector
+#                              ^^^^ string.unquoted.scope-segment.scope-selector
+#                                  ^ punctuation.separator.scope-segments.scope-selector
+#                                   ^^^^ string.unquoted.scope-segment.scope-selector
+#                                       ^ punctuation.section.group.end.scope-selector
+
+source.php - source.php text.html
+#^^^^^ string.unquoted.scope-segment.scope-selector
+#     ^ punctuation.separator.scope-segments.scope-selector
+#      ^^^ string.unquoted.scope-segment.scope-selector
+#         ^ - string - keyword
+#          ^ keyword.operator.without.scope-selector
+#           ^ - string - keyword
+#            ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                  ^ punctuation.separator.scope-segments.scope-selector
+#                   ^^^ string.unquoted.scope-segment.scope-selector
+#                      ^ keyword.operator.right.scope-selector
+#                       ^^^^ string.unquoted.scope-segment.scope-selector
+#                           ^ punctuation.separator.scope-segments.scope-selector
+#                            ^^^^ string.unquoted.scope-segment.scope-selector
+
+embedding.php text.html - (source.php &amp; - source.php text.html)
+#^^^^^^^^ string.unquoted.scope-segment.scope-selector
+#        ^ punctuation.separator.scope-segments.scope-selector
+#         ^^^ string.unquoted.scope-segment.scope-selector
+#            ^ keyword.operator.right.scope-selector
+#             ^^^^ string.unquoted.scope-segment.scope-selector
+#                 ^ punctuation.separator.scope-segments.scope-selector
+#                  ^^^^ string.unquoted.scope-segment.scope-selector
+#                      ^ - string - keyword
+#                       ^ keyword.operator.without.scope-selector
+#                        ^ - string - keyword
+#                         ^ punctuation.section.group.begin.scope-selector
+#                          ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                ^ punctuation.separator.scope-segments.scope-selector
+#                                 ^^^ string.unquoted.scope-segment.scope-selector
+#                                    ^ - string - keyword
+#                                     ^ keyword.operator.with.scope-selector
+#                                          ^ - string - keyword
+#                                           ^ keyword.operator.without.scope-selector
+#                                            ^ - string - keyword
+#                                             ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                                   ^ punctuation.separator.scope-segments.scope-selector
+#                                                    ^^^ string.unquoted.scope-segment.scope-selector
+#                                                       ^ keyword.operator.right.scope-selector
+#                                                        ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                            ^ punctuation.separator.scope-segments.scope-selector
+#                                                             ^^^^ string.unquoted.scope-segment.scope-selector
+#                                                                 ^ punctuation.section.group.end.scope-selector
+
+source.c++
+# ^^^^ string.unquoted.scope-segment.scope-selector
+#     ^ punctuation.separator.scope-segments.scope-selector
+#      ^^^ string.unquoted.scope-segment.scope-selector
