@@ -301,19 +301,10 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         if operator not in (sublime.OP_EQUAL, sublime.OP_NOT_EQUAL):
             return None
 
-        def line_above_is_a_syntax_test():
-            details = get_details_of_test_assertion_line(view, view.sel()[0].begin())
-            if details.comment_marker_match is None:
-                return False  # the current line doesn't start with a comment token
-            else:
-                return is_syntax_test_line(view, details.line_region.begin() - 1, True)
-
         keys = {
-            "line_above_is_a_syntax_test": line_above_is_a_syntax_test,
             "current_line_is_a_syntax_test":
                 lambda: is_syntax_test_line(view, view.sel()[0].begin(), False),
-            "file_contains_syntax_tests":
-                lambda: is_syntax_test_file(view)
+            "file_contains_syntax_tests": lambda: is_syntax_test_file(view),
         }
 
         if key not in keys:
