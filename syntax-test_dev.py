@@ -301,9 +301,14 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         if operator not in (sublime.OP_EQUAL, sublime.OP_NOT_EQUAL):
             return None
 
+        def current_line_is_a_syntax_test():
+            results = (is_syntax_test_line(view, reg.begin(), False)
+                       for reg in view.sel())
+            aggregator = all if match_all else any
+            return aggregator(results)
+
         keys = {
-            "current_line_is_a_syntax_test":
-                lambda: is_syntax_test_line(view, view.sel()[0].begin(), False),
+            "current_line_is_a_syntax_test": current_line_is_a_syntax_test,
             "file_contains_syntax_tests": lambda: is_syntax_test_file(view),
         }
 
