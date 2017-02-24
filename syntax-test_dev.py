@@ -3,6 +3,8 @@ import sublime_plugin
 from os import path
 import re
 from collections import namedtuple
+
+
 AssertionLineDetails = namedtuple(
     'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
 )

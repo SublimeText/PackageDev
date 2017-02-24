@@ -41,6 +41,9 @@ bar = open( /* comment 3 */ file) // another comment
 """
 
 parts = rx.findall(code)
-print('*' * 80, '\nCode:\n\n',                  ''.join(x[0].strip(' ') for x in parts))
-print('*' * 80, '\nMulti line comments:\n\n', '\n'.join(x[1] for x in parts if x[1].strip()))
-print('*' * 80, '\nOne line comments:\n\n',   '\n'.join(x[2] for x in parts if x[2].strip()))
+print('*' * 80, '\nCode:\n\n',
+      ''.join(x[0].strip(' ') for x in parts))
+print('*' * 80, '\nMulti line comments:\n\n',
+      '\n'.join(x[1] for x in parts if x[1].strip()))
+print('*' * 80, '\nOne line comments:\n\n',
+      '\n'.join(x[2] for x in parts if x[2].strip()))

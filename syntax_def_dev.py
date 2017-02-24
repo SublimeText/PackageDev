@@ -399,7 +399,7 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
 
         completions = [
             ("include\tinclude: '#...'", "include: '#$0'"),
-            ('include\tinclude: $self',  "include: \$self")
+            ("include\tinclude: $self", "include: \$self"),
         ]
         for ex in ((("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys),
                    (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),

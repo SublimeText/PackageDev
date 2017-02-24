@@ -75,6 +75,7 @@ def add_ordereddict_constructor(cls):
         cls.construct_yaml_map
     )
 
+
 add_ordereddict_constructor(OrderedDictLoader)
 add_ordereddict_constructor(OrderedDictSafeLoader)
 
@@ -87,6 +88,7 @@ class OrderedDictSafeDumper(SafeDumper):
     def represent_ordereddict(self, data):
         # Bypass the sorting in represent_mapping
         return self.represent_mapping(u'tag:yaml.org,2002:map', list(data.items()))
+
 
 OrderedDictSafeDumper.add_representer(
     OrderedDict,

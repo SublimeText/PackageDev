@@ -87,8 +87,8 @@ class EditStep:
             return run_callback(self.args[0], view, edit)
 
         funcs = {
-            'insert':  view.insert,
-            'erase':   view.erase,
+            'insert':  view.insert,  # noqa: E241
+            'erase':   view.erase,   # noqa: E241
             'replace': view.replace,
         }
         func = funcs.get(self.cmd)

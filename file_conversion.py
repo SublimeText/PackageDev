@@ -249,7 +249,7 @@ class ConvertFileCommand(WindowAndTextCommand):
                                   "please see the console for details.")
                 raise
             self.status("File conversion successful. (%s -> %s)"
-                        % ( source_format, target_format))
+                        % (source_format, target_format))
 
             # Finish
             output.write_line("[Finished in %.3fs]" % (time.time() - start_time))
