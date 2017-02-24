@@ -13,7 +13,8 @@ AssertionLineDetails = namedtuple(
 def get_syntax_test_tokens(view):
     """Parse the first line of the given view, to get a tuple,
     which will contain the start token for a syntax test, and the closing token too if present.
-    If the file doesn't contain syntax tests, both elements of the tuple will be `None`."""
+    If the file doesn't contain syntax tests, both elements of the tuple will be `None`.
+    """
 
     line = view.line(0)
     match = None
@@ -29,7 +30,8 @@ def get_syntax_test_tokens(view):
 def is_syntax_test_file(view):
     """Determine if the given view is a syntax test file or not.
     If the file has a name, check whether it begins with 'syntax_test_'.
-    If it doesn't have a name / hasn't been saved yet, check the first line of the file."""
+    If it doesn't have a name / hasn't been saved yet, check the first line of the file.
+    """
 
     name = view.file_name()
     if name is not None:
@@ -84,7 +86,8 @@ def get_details_of_line_being_tested(view):
     """Given a view, and starting from the cursor position, work upwards
     to find all syntax test lines that occur before the line that is being tested.
     Return a tuple containing a list of assertion line details,
-    along with the region of the line being tested."""
+    along with the region of the line being tested.
+    """
 
     if not is_syntax_test_file(view):
         return (None, None)
@@ -138,7 +141,8 @@ def find_common_scopes(scopes, skip_syntax_suffix):
 
 class AlignSyntaxTest(sublime_plugin.TextCommand):
     """Insert enough spaces so that the cursor will be immediately to the right of the
-    previous line's last syntax test assertion."""
+    previous line's last syntax test assertion.
+    """
 
     def run(self, edit):
         cursor = self.view.sel()[0]
@@ -166,7 +170,8 @@ class AlignSyntaxTest(sublime_plugin.TextCommand):
 
 class SuggestSyntaxTest(sublime_plugin.TextCommand):
     """Intelligently suggest where the syntax test assertions should be placed,
-    based on the scopes on the line being tested, and where they change."""
+    based on the scopes on the line being tested, and where they change.
+    """
 
     def run(self, edit, character='^'):
         """Available parameters:
@@ -243,7 +248,8 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
 class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
     def on_selection_modified_async(self):
         """When the selection changes, (re)move the highlight that shows where the current line's
-        test assertions relate to."""
+        test assertions relate to.
+        """
 
         if len(self.view.sel()) == 0:
             return
