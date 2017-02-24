@@ -1,4 +1,22 @@
 [
+    /* start of snippet_dev keys */
+	{
+		"keys": ["ctrl+s"], "command": "generate_snippet_from_raw_snippet",
+		"context":
+		[
+			{ "key": "selector", "operator": "equal", "operand": "source.sublimesnippetraw" }
+		]
+	},
+
+	{
+		"keys": ["ctrl+shift+s"], "command": "copy_and_instert_raw_snippet",
+		"context":
+		[
+			{ "key": "selector", "operator": "equal", "operand": "source.sublimesnippetraw" }
+		]
+	},
+    /* end of snippet_dev keys */
+
     /* start of syntax_test_dev keys */
     { "keys": ["tab"], "command": "align_syntax_test", "context":
         [
