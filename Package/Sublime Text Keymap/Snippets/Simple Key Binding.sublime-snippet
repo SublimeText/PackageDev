@@ -1,8 +1,8 @@
 <snippet>
 	<content><![CDATA[{
 	"keys": ["${1:ctrl+shift+h}"],
-	"command": "${2:foo_bar}"$0
-}]]></content>
-	<scope>source.sublimekeymap</scope>
+	"command": "${2:foo_bar}",$0
+},]]></content>
+	<scope>source.json.sublimekeymap meta.structure.array.json - meta.structure.dictionary.json</scope>
 	<tabTrigger>k</tabTrigger>
 </snippet>

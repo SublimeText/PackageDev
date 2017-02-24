@@ -1,8 +1,8 @@
 <snippet>
 	<content><![CDATA["context":
 [
-	{ "key": "$1", "operator": "$2", "operand": "$3" }$0
-]]]></content>
-	<scope>source.sublimekeymap</scope>
+	{ "key": "$1", "operator": "$2", "operand": "$3" },$0
+],]]></content>
+	<scope>source.json.sublimekeymap meta.keybinding.collection.sublimekeymap meta.structure.dictionary.json - meta.keybinding-context-collection.sublimekeymap - string - comment - meta.keybinding-context.sublimekeymap</scope>
 	<tabTrigger>ctx</tabTrigger>
 </snippet>

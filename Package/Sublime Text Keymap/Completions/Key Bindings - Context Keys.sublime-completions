@@ -1,0 +1,24 @@
+{
+	"scope": "meta.context.key-value.key.unknown.sublimekeymap",
+
+	"completions": [
+		"num_selections",
+		"auto_complete_visible",
+		"selection_empty",
+		"preceding_text",
+		"following_text",
+		"has_prev_field",
+		"has_next_field",
+		"panel_visible",
+		"overlay_visible",
+		"setting.",
+		"popup_visible",
+		"last_command",
+		"text",
+		"indented_block",
+		"panel",
+		"panel_has_focus",
+		"selector",
+		"eol_selector",
+	]
+}
