@@ -1,0 +1,34 @@
+[
+    /* start of syntax_test_dev keys */
+    { "keys": ["tab"], "command": "align_syntax_test", "context":
+        [
+            //{ "key": "line_above_is_a_syntax_test", "operator": "equal", "operand": true },
+            { "key": "current_line_is_a_syntax_test", "operator": "equal", "operand": true },
+            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+            { "key": "following_text", "operator": "regex_match", "operand": "^$", "match_all": true },
+            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\^$", "match_all": true },
+        ]
+    },
+     { "keys": ["^"], "command": "suggest_syntax_test", "context":
+        [
+            { "key": "current_line_is_a_syntax_test", "operator": "equal", "operand": true },
+            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^$", "match_all": true },
+        ]
+    },
+    { "keys": ["^"], "command": "suggest_syntax_test", "context":
+        [
+            { "key": "current_line_is_a_syntax_test", "operator": "equal", "operand": true },
+            { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true },
+        ]
+    },
+    { "keys": ["-"], "command": "suggest_syntax_test", "args": { "character": "-" }, "context":
+        [
+            { "key": "current_line_is_a_syntax_test", "operator": "equal", "operand": true },
+            { "key": "selector", "operator": "equal", "operand": "comment", "match_all": true },
+            { "key": "following_text", "operator": "regex_match", "operand": "^$", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "<$", "match_all": true },
+        ]
+    },
+    /* end of syntax_test_dev keys */
+]

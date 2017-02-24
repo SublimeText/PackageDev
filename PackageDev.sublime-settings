@@ -1,0 +1,17 @@
+{
+    // what add_region styles to use for the highlighting of the line/positions being tested
+    // valid values are:
+    // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
+    // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
+    // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
+    "syntax_test_highlight_styles": ["DRAW_NO_FILL"],
+
+    // what scope to use to draw the add_region highlighting
+    // this affects what color it will be drawn as
+    "syntax_test_highlight_scope": "text",
+
+    // whether or not to keep the scope suffix in the suggested test scopes
+    // i.e. if the base scope is text.html.markdown
+    // then suggest meta.example.markdown (true) vs meta.example (false)
+    "syntax_test_suggest_scope_suffix": true,
+}
