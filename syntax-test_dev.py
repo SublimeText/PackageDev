@@ -20,11 +20,11 @@ def get_syntax_test_tokens(view):
     match = None
     if line.size() < 1000:  # no point checking longer lines as they are unlikely to match
         first_line = view.substr(line)
-        match = re.match(r'^(\s*\S+)\s+SYNTAX TEST\s+"[^"]+"\s*(\S+)?$', first_line)
+        match = re.match(r'^(\s*\S+)\s+SYNTAX TEST\s+"([^"]+)"\s*(\S+)?$', first_line)
     if match is None:
-        return (None, None)
+        return (None, None, None)
     else:
-        return (match.group(1), match.group(2))
+        return (match.group(1), match.group(3), match.group(2))
 
 
 def is_syntax_test_file(view):
@@ -319,3 +319,12 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
             if operator == sublime.OP_NOT_EQUAL:
                 result = not result
             return result
+
+
+class SyntaxTestLoadedEventListener(sublime_plugin.EventListener):
+    """When a file is loaded, if it is a syntax test file, assign the correct syntax."""
+    def on_load_async(self, view):
+        syntax_test_file_details = get_syntax_test_tokens(view)
+        if syntax_test_file_details[2] is not None:
+            if view.settings().get('syntax', None) != syntax_test_file_details[2]:
+                view.assign_syntax(syntax_test_file_details[2])
