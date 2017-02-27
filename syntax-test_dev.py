@@ -8,6 +8,9 @@ from collections import namedtuple
 AssertionLineDetails = namedtuple(
     'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
 )
+SyntaxTestHeader = namedtuple(
+    'SyntaxTestHeader', ['comment_start', 'comment_end', 'syntax_file']
+)
 
 
 def get_syntax_test_tokens(view):
@@ -20,11 +23,14 @@ def get_syntax_test_tokens(view):
     match = None
     if line.size() < 1000:  # no point checking longer lines as they are unlikely to match
         first_line = view.substr(line)
-        match = re.match(r'^(\s*\S+)\s+SYNTAX TEST\s+"([^"]+)"\s*(\S+)?$', first_line)
+        match = re.match(r'^(?P<comment_start>\s*\S+)'
+                         r'\s+SYNTAX TEST\s+'
+                         r'"(?P<syntax_file>[^"]+)"'
+                         r'\s*(?P<comment_end>\S+)?$', first_line)
     if match is None:
-        return (None, None, None)
+        return None
     else:
-        return (match.group(1), match.group(3), match.group(2))
+        return SyntaxTestHeader(**match.groupdict())
 
 
 def is_syntax_test_file(view):
@@ -38,7 +44,8 @@ def is_syntax_test_file(view):
         name = path.basename(name)
         return name.startswith('syntax_test_')
     else:
-        return get_syntax_test_tokens(view)[0] is not None
+        header = get_syntax_test_tokens(view)
+        return header is not None and header.comment_start is not None
 
 
 def get_details_of_test_assertion_line(view, pos):
@@ -48,26 +55,24 @@ def get_details_of_test_assertion_line(view, pos):
     - the assertion characters (2nd item in tuple aka `assertion_colrange`)
     """
 
-    if not is_syntax_test_file(view):
-        return AssertionLineDetails(None, None, None)
-    tokens = get_syntax_test_tokens(view)
-    if tokens[0] is None:
+    tokens = get_syntax_test_tokens(view) if is_syntax_test_file(view) else None
+    if tokens is None:
         return AssertionLineDetails(None, None, None)
     line_region = view.line(pos)
     line_text = view.substr(line_region)
-    starts_with_comment_token = re.match(r'^\s*(' + re.escape(tokens[0]) + r')', line_text)
+    test_start_token = re.match(r'^\s*(' + re.escape(tokens.comment_start) + r')', line_text)
     assertion_colrange = None
-    if starts_with_comment_token:
-        assertion = re.match(r'\s*(?:(<-)|(\^+))', line_text[starts_with_comment_token.end():])
+    if test_start_token:
+        assertion = re.match(r'\s*(?:(<-)|(\^+))', line_text[test_start_token.end():])
         if assertion:
             if assertion.group(1):
-                assertion_colrange = (starts_with_comment_token.start(1),
-                                      starts_with_comment_token.start(1))
+                assertion_colrange = (test_start_token.start(1),
+                                      test_start_token.start(1))
             elif assertion.group(2):
-                assertion_colrange = (starts_with_comment_token.end() + assertion.start(2),
-                                      starts_with_comment_token.end() + assertion.end(2))
+                assertion_colrange = (test_start_token.end() + assertion.start(2),
+                                      test_start_token.end() + assertion.end(2))
 
-    return AssertionLineDetails(starts_with_comment_token, assertion_colrange, line_region)
+    return AssertionLineDetails(test_start_token, assertion_colrange, line_region)
 
 
 def is_syntax_test_line(view, pos, must_contain_assertion):
@@ -188,7 +193,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
             return
 
         lines, line = get_details_of_line_being_tested(view)
-        end_token = get_syntax_test_tokens(view)[1]
+        end_token = get_syntax_test_tokens(view).comment_end
         # don't duplicate the end token if it is on the line but not selected
         if end_token is not None and view.sel()[0].end() == lines[0].line_region.end():
             end_token = ' ' + end_token
@@ -325,6 +330,6 @@ class SyntaxTestLoadedEventListener(sublime_plugin.EventListener):
     """When a file is loaded, if it is a syntax test file, assign the correct syntax."""
     def on_load_async(self, view):
         syntax_test_file_details = get_syntax_test_tokens(view)
-        if syntax_test_file_details[2] is not None:
+        if syntax_test_file_details is not None and syntax_test_file_details[2] is not None:
             if view.settings().get('syntax', None) != syntax_test_file_details[2]:
                 view.assign_syntax(syntax_test_file_details[2])
