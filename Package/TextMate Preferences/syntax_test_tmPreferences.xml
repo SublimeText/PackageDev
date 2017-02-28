@@ -83,6 +83,11 @@
 <!--                                                     ^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
         <key>indentNextLinePattern</key>
 <!--         ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist - meta.toc-list.regex.textmateprefs -->
+<!--                              ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml meta.close-unknown-dict-key-tag.textmateprefs punctuation.definition.tag.begin.xml -->
+        <string>not a real key</string>
+<!--            ^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist - meta.regex.textmateprefs -->
+        <key></key>
+<!--         ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml meta.close-unknown-dict-key-tag.textmateprefs punctuation.definition.tag.begin.xml -->
         <string>not a real key</string>
 <!--            ^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist - meta.regex.textmateprefs -->
 

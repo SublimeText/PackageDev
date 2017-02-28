@@ -158,8 +158,20 @@ contexts:
       push: [any-known-element, inside-dict-key]
     - include: scope:text.xml.plist#whitespace-or-tag
   inside-dict-key:
-    - meta_content_scope: meta.inside-dict-key.plist
-    - include: scope:text.xml.plist#pop-tag-no-children
+    - meta_content_scope: meta.inside-dict-key.plist meta.dict-key-unknown.textmateprefs
+    #- include: scope:text.xml.plist#pop-tag-no-children
+    - match: '(<)(/)(\2)\s*(>)'
+      scope: meta.tag.xml
+      captures:
+        1: meta.close-unknown-dict-key-tag.textmateprefs punctuation.definition.tag.begin.xml
+        2: punctuation.definition.tag.begin.xml
+        3: entity.name.tag.localname.xml
+        4: punctuation.definition.tag.end.xml
+      pop: true
+    - match: '<(?!!)'
+      scope: punctuation.definition.tag.begin.xml
+      push: scope:text.xml.plist#unknown-tag
+    - include: scope:text.xml
 
   expect-scope-string:
     - match: '(<)(string)\s*(>)'
