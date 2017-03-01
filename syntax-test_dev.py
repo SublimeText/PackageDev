@@ -234,11 +234,10 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
 
         for pos in range(line.begin() + col, line.end() + 1):
             scope = view.scope_name(pos)
-            if len(scopes) > 0:
-                if scope != scopes[0]:
-                    break
-            else:
+            if len(scopes) == 0:
                 scopes.append(scope)
+            elif scope != scopes[0]:
+                break
             length += 1
             if test_at_start_of_comment:
                 break
