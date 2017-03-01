@@ -115,19 +115,40 @@ def get_details_of_line_being_tested(view):
 
 
 def find_common_scopes(scopes, skip_syntax_suffix):
-    """Given a list of scopes, find the (partial) scopes that are common to each."""
+    """Given a list of scopes, find the (partial) scopes that are common to each.
+    Here, each element in "scopes" represents all the scopes at another character position.
+
+    Example of unique scopes for the following Python code and test positions:
+    def function():
+    ^^^^^^^^^^^^^^
+    [
+      'source.python meta.function.python storage.type.function.python',
+      'source.python meta.function.python',
+      'source.python meta.function.python entity.name.function.python',
+      'source.python meta.function.parameters.python punctuation.section.parameters.begin.python'
+    ]
+    The common scope for these, ignoring the base scope, will be 'meta.function'
+    """
+
+    # we will use the scopes from index 0 and test against the scopes from the further indexes
+    # as any scopes that doesn't appear in this index aren't worth checking, they can't be common
 
     # skip the base scope i.e. `source.python`
     check_scopes = scopes[0].split()[1:]
 
-    shared_scopes = []
+    shared_scopes = ''
     # stop as soon as at least one shared scope was found
     # or when there are no partial scopes left to check
     while not shared_scopes and check_scopes:
         if not skip_syntax_suffix:
             for check_scope in check_scopes:
-                if all(sublime.score_selector(scope, check_scope) > 0 for scope in scopes):
-                    shared_scopes.append(check_scope)
+                # check that the scope matches when combined with the shared scopes that have
+                # already been discovered, because order matters (a space in a scope selector
+                # is an operator, meaning the next scope must appear somewhere to the right
+                # of the one before), and some scopes may appear more than once
+                compare_with = shared_scopes + check_scope
+                if all(sublime.score_selector(scope, compare_with) > 0 for scope in scopes):
+                    shared_scopes += check_scope + ' '
 
         # if no matches were found
         if not shared_scopes:
@@ -141,7 +162,7 @@ def find_common_scopes(scopes, skip_syntax_suffix):
             ]
             skip_syntax_suffix = False
 
-    return ' '.join(shared_scopes)
+    return shared_scopes.strip()
 
 
 class AlignSyntaxTest(sublime_plugin.TextCommand):
