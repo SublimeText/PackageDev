@@ -14,9 +14,9 @@ SyntaxTestHeader = namedtuple(
 
 
 def get_syntax_test_tokens(view):
-    """Parse the first line of the given view, to get a tuple,
-    which will contain the start token for a syntax test, and the closing token too if present.
-    If the file doesn't contain syntax tests, both elements of the tuple will be `None`.
+    """Parse the first line of the given view into a SyntaxTestHeader.
+
+    Returns `None` if the file doesn't contain syntax tests.
     """
 
     line = view.line(0)
@@ -27,36 +27,32 @@ def get_syntax_test_tokens(view):
                          r'\s+SYNTAX TEST\s+'
                          r'"(?P<syntax_file>[^"]+)"'
                          r'\s*(?P<comment_end>\S+)?$', first_line)
-    if match is None:
+    if not match:
         return None
     else:
         return SyntaxTestHeader(**match.groupdict())
 
 
 def is_syntax_test_file(view):
-    """Determine if the given view is a syntax test file or not.
-    If the file has a name, check whether it begins with 'syntax_test_'.
-    If it doesn't have a name / hasn't been saved yet, check the first line of the file.
-    """
+    """Determine if the given view is a syntax test file or not."""
 
     name = view.file_name()
-    if name is not None:
+    if not name:
         name = path.basename(name)
         return name.startswith('syntax_test_')
     else:
         header = get_syntax_test_tokens(view)
-        return header is not None and header.comment_start is not None
+        return header and header.comment_start
 
 
 def get_details_of_test_assertion_line(view, pos):
-    """Given a view and a character position, find:
-    - the region of the line (3rd item in tuple aka `line_region`)
-    - the comment marker (1st item in tuple aka `comment_marker_match`)
-    - the assertion characters (2nd item in tuple aka `assertion_colrange`)
+    """Parse details of a test assertion at a given position in a view.
+
+    Always returns a AssertionLineDetails instance, whose fields may be `None`.
     """
 
     tokens = get_syntax_test_tokens(view) if is_syntax_test_file(view) else None
-    if tokens is None:
+    if not tokens:
         return AssertionLineDetails(None, None, None)
     line_region = view.line(pos)
     line_text = view.substr(line_region)
@@ -77,6 +73,7 @@ def get_details_of_test_assertion_line(view, pos):
 
 def is_syntax_test_line(view, pos, must_contain_assertion):
     """Determine whether the line at the given character position is a syntax test line.
+
     It can optionally treat lines with comment markers but no assertion as a syntax test,
     useful for while the line is being written.
     """
@@ -115,10 +112,10 @@ def get_details_of_line_being_tested(view):
 
 
 def find_common_scopes(scopes, skip_syntax_suffix):
-    """Given a list of scopes, find the (partial) scopes that are common to each.
-    Here, each element in "scopes" represents all the scopes at another character position.
+    """Find the (partial) scopes that are common for a list of scopes.
 
-    Example of unique scopes for the following Python code and test positions:
+    Example of unique scopes for the following Python code (and test positions):
+
     def function():
     ^^^^^^^^^^^^^^
     [
@@ -127,6 +124,7 @@ def find_common_scopes(scopes, skip_syntax_suffix):
       'source.python meta.function.python entity.name.function.python',
       'source.python meta.function.parameters.python punctuation.section.parameters.begin.python'
     ]
+
     The common scope for these, ignoring the base scope, will be 'meta.function'
     """
 
@@ -165,10 +163,9 @@ def find_common_scopes(scopes, skip_syntax_suffix):
     return shared_scopes.strip()
 
 
-class AlignSyntaxTest(sublime_plugin.TextCommand):
-    """Insert enough spaces so that the cursor will be immediately to the right of the
-    previous line's last syntax test assertion.
-    """
+class AlignSyntaxTestCommand(sublime_plugin.TextCommand):
+
+    """Align the cursor with spaces to be to the right of the previous line's assertion."""
 
     def run(self, edit):
         cursor = self.view.sel()[0]
@@ -179,7 +176,7 @@ class AlignSyntaxTest(sublime_plugin.TextCommand):
         # find the last test assertion column on the previous line
         details = get_details_of_test_assertion_line(self.view, details.line_region.begin() - 1)
         next_col = None
-        if details.assertion_colrange is None:
+        if not details.assertion_colrange:
             # the previous line wasn't a syntax test line, so instead
             # find the first non-whitespace char on the line being tested above
             for pos in range(details.line_region.begin(), details.line_region.end()):
@@ -188,15 +185,15 @@ class AlignSyntaxTest(sublime_plugin.TextCommand):
             next_col = self.view.rowcol(pos)[1]
         else:
             next_col = details.assertion_colrange[1]
-        self.view.insert(edit, cursor.end(), ' ' * (
-            next_col - self.view.rowcol(cursor.begin())[1]
-        ))
+        col_diff = next_col - self.view.rowcol(cursor.begin())[1]
+        self.view.insert(edit, cursor.end(), " " * col_diff)
         self.view.run_command('suggest_syntax_test')
 
 
-class SuggestSyntaxTest(sublime_plugin.TextCommand):
-    """Intelligently suggest where the syntax test assertions should be placed,
-    based on the scopes on the line being tested, and where they change.
+class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
+    """Intelligently suggest where the syntax test assertions should be placed.
+
+    This is based on the scopes of the line being tested, and where they change.
     """
 
     def run(self, edit, character='^'):
@@ -216,7 +213,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
         lines, line = get_details_of_line_being_tested(view)
         end_token = get_syntax_test_tokens(view).comment_end
         # don't duplicate the end token if it is on the line but not selected
-        if end_token is not None and view.sel()[0].end() == lines[0].line_region.end():
+        if end_token and view.sel()[0].end() == lines[0].line_region.end():
             end_token = ' ' + end_token
         else:
             end_token = ''
@@ -272,9 +269,7 @@ class SuggestSyntaxTest(sublime_plugin.TextCommand):
 
 class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
     def on_selection_modified_async(self):
-        """When the selection changes, (re)move the highlight that shows where the current line's
-        test assertions relate to.
-        """
+        """Update highlighting of what the current line's test assertions point at."""
 
         if len(self.view.sel()) == 0:
             return
@@ -319,7 +314,7 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         self.view.add_regions('current_syntax_test', [region], scope, '', style_flags)
 
     def on_query_context(self, key, operator, operand, match_all):
-        """Respond to relevant syntax test keybinding contexts"""
+        """Respond to relevant syntax test keybinding contexts."""
 
         view = self.view
         # all contexts supported will have boolean results, so ignore regex operators
@@ -346,10 +341,12 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
             return result
 
 
-class SyntaxTestLoadedEventListener(sublime_plugin.EventListener):
-    """When a file is loaded, if it is a syntax test file, assign the correct syntax."""
+class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
+
+    """Assign target syntax highlighting to a syntax test file."""
+
     def on_load_async(self, view):
-        syntax_test_file_details = get_syntax_test_tokens(view)
-        if syntax_test_file_details is not None and syntax_test_file_details[2] is not None:
-            if view.settings().get('syntax', None) != syntax_test_file_details[2]:
-                view.assign_syntax(syntax_test_file_details[2])
+        test_header = get_syntax_test_tokens(view)
+        if test_header and test_header.syntax_file:
+            if view.settings().get('syntax', None) != test_header.syntax_file:
+                view.assign_syntax(test_header.syntax_file)
