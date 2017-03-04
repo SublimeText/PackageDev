@@ -1,0 +1,97 @@
+<!-- SYNTAX TEST "Packages/PackageDev/Package/TextMate Preferences/Property List.sublime-syntax" -->
+<!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
+     <plist version="1.0">
+<!--  ^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
+     <dict>
+<!-- <- meta.inside-plist.plist -->
+<!--  ^^^^ meta.tag.xml entity.name.tag.localname.xml -->
+        <key>name</key>
+<!-- <- meta.inside-plist.plist meta.inside-dict.plist -->
+<!--     ^^^ meta.tag.xml entity.name.tag.localname.xml -->
+<!--         ^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist -->
+<!--             ^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml punctuation.definition.tag.begin.xml - meta.inside-dict-key.plist -->
+<!--               ^^^ meta.tag.xml entity.name.tag.localname.xml -->
+        <string>Test file</string>
+<!--     ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
+<!--            ^^^^^^^^^ meta.inside-string.plist -->
+<!--                       ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
+        <key>Test</key>
+<!--     ^^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
+<!--         ^^^^ meta.inside-dict-key.plist -->
+<!--                  ^ meta.tag.xml punctuation.definition.tag.end.xml -->
+        <true />
+<!--    ^^^^^^^^ meta.tag.xml -->
+<!--    ^ punctuation.definition.tag.begin.xml -->
+<!--     ^^^^ entity.name.tag.localname.xml constant.language.boolean.plist -->
+<!--          ^^ meta.tag.xml punctuation.definition.tag.end.xml -->
+        <key>abc</key><string>&amp; & hello <key></key></string>
+<!--                          ^^^^^ meta.inside-string.plist constant.character.entity.xml -->
+<!--                                ^ invalid.illegal.bad-ampersand.xml -->
+<!--                                         ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                                              ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                                                     ^ - invalid.illegal.unknown-or-unexpected-tag.plist -->
+        <key>abc</key><string><![CDATA[&amp; & hello <key></key></string>]]>test&amp;<![CDATA[cool]]></string>
+<!--                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-string.plist -->
+<!--                          ^^^^^^^^^ string.unquoted.cdata.xml punctuation.definition.string.begin.xml -->
+<!--                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml -->
+<!--                                                                     ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
+<!--                                                                        ^^^^^^^^^ - string.unquoted.cdata.xml -->
+<!--                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character.entity.xml - invalid.illegal - meta.tag - punctuation -->
+<!--                                                                            ^ punctuation.definition.constant.xml -->
+<!--                                                                                ^ punctuation.definition.constant.xml -->
+<!--                                                                                 ^^^^^^^^^ string.unquoted.cdata.xml punctuation.definition.string.begin.xml -->
+<!--                                                                                              ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
+<!--                                                                                                 ^^^^^^^^^ meta.tag.xml - invalid -->
+        <string>test</string>
+<!--    ^ punctuation.definition.tag.begin.xml -->
+<!--     ^^^^^^  invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--           ^ punctuation.definition.tag.end.xml -->
+<!--            ^^^^ invalid.illegal.unexpected-text.plist -->
+<!--                ^ punctuation.definition.tag.begin.xml -->
+<!--                 ^^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                        ^ punctuation.definition.tag.end.xml -->
+        <key></key><integer>
+<!--                ^^^^^^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
+            123 456
+<!--        ^^^ meta.inside-integer.plist constant.numeric.plist -->
+<!--            ^^^ meta.inside-integer.plist invalid.illegal.unexpected-text.plist -->
+        </integer>
+<!--      ^^^^^^^ meta.tag - invalid -->
+        <key>array</array>
+<!--               ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+        </key><array />
+<!--    ^^^^^^^^^^^^^^^ meta.tag.xml -->
+<!--           ^^^^^ entity.name.tag.localname.xml - invalid -->
+<!--                 ^^ punctuation.definition.tag.end.xml -->
+        <key>!@#</key>
+        <array>
+<!--     ^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
+            <key></key>
+<!--         ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+            <real>12.6</real>
+<!--              ^^^^ meta.inside-real.plist constant.numeric.plist -->
+            <dict> </dict>
+<!--              ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-array.plist meta.inside-dict.plist -->
+            <!-- test -->
+<!--        ^^^^ comment.block.xml punctuation.definition.comment.begin.xml -->
+            <false/>
+<!--         ^^^^^ constant.language.boolean.plist -->
+            <data>TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlz
+IHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2Yg
+dGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGlu
+dWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRo
+ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=</data>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-data.plist - invalid -->
+            <date>2007-04-05T14:30Z</date>
+<!--              ^^^^^^^^^^^^^^^^^ meta.inside-date.plist - invalid -->
+            <date>22007-04-05T12:30-02:00</date>
+<!--              ^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-date.plist - invalid -->
+        </array>
+    </dict>
+<!--  ^^^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->
+</plist>
+<!-- ^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->
+test
+<!-- <- invalid.illegal.unexpected-text.plist -->
+<!-- comment -->
+<!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
