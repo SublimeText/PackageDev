@@ -9,11 +9,11 @@
 <!-- <- meta.inside-plist.plist meta.inside-dict.plist -->
 <!--     ^^^ meta.tag.xml entity.name.tag.localname.xml -->
 <!--         ^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist -->
-<!--             ^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml punctuation.definition.tag.begin.xml - meta.inside-dict-key.plist -->
+<!--             ^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml punctuation.definition.tag.begin.xml - meta.inside-value.dict-key.plist -->
 <!--               ^^^ meta.tag.xml entity.name.tag.localname.xml -->
         <string>Test file</string>
 <!--     ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
-<!--            ^^^^^^^^^ meta.inside-string.plist -->
+<!--            ^^^^^^^^^ meta.inside-value.string.plist -->
 <!--                       ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
         <key>Test</key>
 <!--     ^^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
@@ -25,13 +25,13 @@
 <!--     ^^^^ entity.name.tag.localname.xml constant.language.boolean.plist -->
 <!--          ^^ meta.tag.xml punctuation.definition.tag.end.xml -->
         <key>abc</key><string>&amp; & hello <key></key></string>
-<!--                          ^^^^^ meta.inside-string.plist constant.character.entity.xml -->
+<!--                          ^^^^^ meta.inside-value.string.plist constant.character.entity.xml -->
 <!--                                ^ invalid.illegal.bad-ampersand.xml -->
 <!--                                         ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
 <!--                                              ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
 <!--                                                     ^ - invalid.illegal.unknown-or-unexpected-tag.plist -->
         <key>abc</key><string><![CDATA[&amp; & hello <key></key></string>]]>test&amp;<![CDATA[cool]]></string>
-<!--                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-string.plist -->
+<!--                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
 <!--                          ^^^^^^^^^ string.unquoted.cdata.xml punctuation.definition.string.begin.xml -->
 <!--                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml -->
 <!--                                                                     ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
@@ -53,8 +53,8 @@
         <key></key><integer>
 <!--                ^^^^^^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
             123 456
-<!--        ^^^ meta.inside-integer.plist constant.numeric.plist -->
-<!--            ^^^ meta.inside-integer.plist invalid.illegal.unexpected-text.plist -->
+<!--        ^^^ meta.inside-value.integer.plist constant.numeric.plist -->
+<!--            ^^^ meta.inside-value.integer.plist invalid.illegal.unexpected-text.plist -->
         </integer>
 <!--      ^^^^^^^ meta.tag - invalid -->
         <key>array</array>
@@ -69,7 +69,7 @@
             <key></key>
 <!--         ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
             <real>12.6</real>
-<!--              ^^^^ meta.inside-real.plist constant.numeric.plist -->
+<!--              ^^^^ meta.inside-value.real.plist constant.numeric.plist -->
             <dict> </dict>
 <!--              ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-array.plist meta.inside-dict.plist -->
             <!-- test -->
@@ -81,11 +81,11 @@ IHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2Yg
 dGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGlu
 dWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRo
 ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=</data>
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-data.plist - invalid -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.data.plist - invalid -->
             <date>2007-04-05T14:30Z</date>
-<!--              ^^^^^^^^^^^^^^^^^ meta.inside-date.plist - invalid -->
+<!--              ^^^^^^^^^^^^^^^^^ meta.inside-value.date.plist - invalid -->
             <date>22007-04-05T12:30-02:00</date>
-<!--              ^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-date.plist - invalid -->
+<!--              ^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.date.plist - invalid -->
         </array>
     </dict>
 <!--  ^^^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->

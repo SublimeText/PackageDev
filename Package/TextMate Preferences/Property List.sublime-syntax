@@ -54,7 +54,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-integer.plist
+        - meta_content_scope: meta.inside-value.integer.plist
         - match: '[^\s\d<]+'
           scope: invalid.illegal.expected-integer.plist
         - match: '\d+'
@@ -72,7 +72,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-real.plist
+        - meta_content_scope: meta.inside-value.real.plist
         - match: '[^\s\d<]+'
           scope: invalid.illegal.expected-number.plist
         - match: '\d*\.\d+'
@@ -99,7 +99,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-string.plist
+        - meta_content_scope: meta.inside-value.string.plist
         - include: pop-tag-no-children
   date:
     - match: '(<)(date)\s*(>)'
@@ -109,7 +109,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-date.plist
+        - meta_content_scope: meta.inside-value.date.plist
         - include: pop-tag-no-children # TODO: ISO 8601 format date i.e. "2007-04-05T14:30Z" or "2007-04-05T12:30-02:00"
   data:
     - match: '(<)(data)\s*(>)'
@@ -119,7 +119,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-data.plist
+        - meta_content_scope: meta.inside-value.data.plist
         - include: pop-tag-no-children # TODO: expect base-64 only
   empty-array:
     - match: '(<)(array)\s*(/>)'
