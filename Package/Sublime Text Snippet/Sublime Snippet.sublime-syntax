@@ -42,6 +42,8 @@ contexts:
         - include: comments
         - match: '<!\[CDATA\[|\]\]>'
           scope: invalid.illegal.cdata-not-supported-here.sublime-snippet
+        - match: '\n'
+          scope: invalid.illegal.newline-not-supported-here.sublime-snippet
         - match: '(?=</scope>)'
           pop: true
         - include: scope:text.scope-selector

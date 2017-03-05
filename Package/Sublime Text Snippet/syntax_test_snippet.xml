@@ -278,6 +278,9 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #                         ^^^^^ keyword.operator.with
 #                               ^^^^ string.unquoted.scope-segment
 #                                   ^^^ invalid.illegal
+<scope>text.html &amp; test
+#                          ^ invalid.illegal.newline-not-supported-here.sublime-snippet
+</scope>
 <unknownTag>fgfg</unknownTag>
 #^^^^^^^^^^ invalid.illegal
 #          ^ - invalid.illegal
