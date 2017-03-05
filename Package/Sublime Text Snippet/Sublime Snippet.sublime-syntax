@@ -60,7 +60,7 @@ contexts:
       scope: punctuation.definition.tag.begin.xml
       push:
         - meta_scope: meta.tag.xml
-        - meta_content_scope: invalid.illegal.unknown-snippet-tag.sublime-snippet
+        - meta_content_scope: invalid.deprecated.unknown-snippet-tag.sublime-snippet
         - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true

@@ -282,10 +282,10 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #                          ^ invalid.illegal.newline-not-supported-here.sublime-snippet
 </scope>
 <unknownTag>fgfg</unknownTag>
-#^^^^^^^^^^ invalid.illegal
-#          ^ - invalid.illegal
-#               ^^ - invalid.illegal
-#                 ^^^^^^^^^^ invalid.illegal
+#^^^^^^^^^^ invalid.deprecated.unknown-snippet-tag.sublime-snippet
+#          ^ - invalid
+#               ^^ - invalid
+#                 ^^^^^^^^^^ invalid.deprecated.unknown-snippet-tag.sublime-snippet
 # <- meta.tag
 #^^^^^^^^^^^ meta.tag
 #           ^^^^ - meta.tag
