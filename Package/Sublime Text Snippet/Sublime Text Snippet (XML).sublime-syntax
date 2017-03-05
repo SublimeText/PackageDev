@@ -5,6 +5,7 @@ file_extensions:
   - sublime-snippet
 name: Sublime Text Snippet (XML)
 scope: text.xml.sublime-snippet
+first_line_match: '<snippet>'
 contexts:
   main:
     - include: comments
