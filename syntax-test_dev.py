@@ -37,7 +37,7 @@ def is_syntax_test_file(view):
     """Determine if the given view is a syntax test file or not."""
 
     name = view.file_name()
-    if not name:
+    if name:
         name = path.basename(name)
         return name.startswith('syntax_test_')
     else:
