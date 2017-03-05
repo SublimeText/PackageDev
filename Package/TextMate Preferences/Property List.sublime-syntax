@@ -188,7 +188,7 @@ contexts:
       scope: punctuation.definition.tag.begin.xml
       push: unknown-tag
     - match: '\s+'
-    - match: '[^<]+'
+    - match: '[^\s<]+'
       scope: invalid.illegal.unexpected-text.plist
     - include: scope:text.xml
   end-of-array:

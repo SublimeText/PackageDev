@@ -93,5 +93,6 @@ ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=</data>
 <!-- ^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->
 test
 <!-- <- invalid.illegal.unexpected-text.plist -->
+<!--^ - invalid -->
 <!-- comment -->
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
