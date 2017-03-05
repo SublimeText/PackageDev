@@ -241,6 +241,7 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 
 <content>
     <![CDATA[ example ${1} ]]>
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml - string.unquoted.cdata.xml string.unquoted.cdata.xml
 #                     ^^ keyword.other.block
 #                       ^ constant.numeric
 #                        ^ keyword.other.block
