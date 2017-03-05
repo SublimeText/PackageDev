@@ -5,7 +5,9 @@ file_extensions:
   - tmPreferences
 name: TextMate Preferences (PList/XML)
 scope: text.xml.plist.textmateprefs
+
 contexts:
+
   main:
     - include: scope:text.xml.plist#xml-declarations
     - match: '(<)(plist)\s*(?:(version)\s*(=)\s*(")(1.0)("))\s*(>)'
@@ -33,6 +35,7 @@ contexts:
             - include: any-known-element
         - include: scope:text.xml
     - include: scope:text.xml.plist#whitespace-or-tag
+
   any-known-element:
     - include: scope:text.xml.plist#number
     - include: scope:text.xml.plist#boolean
@@ -54,6 +57,7 @@ contexts:
         3: punctuation.definition.tag.end.xml
       set: end-of-array
     - include: scope:text.xml.plist#whitespace-or-tag
+
   dict-key:
     - meta_content_scope: meta.inside-dict.plist
     - match: '(</)(dict)\s*(>)'
@@ -76,6 +80,7 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push: expect-scope-string
+
     - match: '((<)(key)\s*(>))(\s*(?:decreaseIndentPattern|batchDecreaseIndentPattern|increaseIndentPattern|batchIncreaseIndentPattern|disableIndentNextLinePattern|bracketIndentNextLinePattern|unIndentedLinePattern|cancelCompletion)\s*)((</)(key)\s*(>))'
       captures:
         1: meta.tag.xml
@@ -88,6 +93,7 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push: expect-regex-string
+
     - match: '((<)(key)\s*(>))(\s*(?:symbolTransformation|symbolIndexTransformation)\s*)((</)(key)\s*(>))'
       captures:
         1: meta.tag.xml
@@ -100,6 +106,7 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push: expect-transformation-string
+
     - match: '((<)(key)\s*(>))(\s*(?:shellVariables)\s*)((</)(key)\s*(>))'
       captures:
         1: meta.tag.xml
@@ -112,6 +119,7 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push: shell-variables
+
     - match: '((<)(key)\s*(>))(\s*(?:showInSymbolList|showInIndexedSymbolList)\s*)((</)(key)\s*(>))'
       captures:
         1: meta.tag.xml
@@ -124,6 +132,7 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push: expect-integer # yes, integer - for some reason, booleans don't work here
+
     - match: '((<)(key)\s*(>))(\s*(?:indentParens|indentSquareBrackets|preserveIndent)\s*)((</)(key)\s*(>))'
       captures:
         1: meta.tag.xml
@@ -136,6 +145,7 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push: expect-boolean
+
     - match: '((<)(key)\s*(>))(\s*icon\s*)((</)(key)\s*(>))'
       captures:
         1: meta.tag.xml
@@ -157,6 +167,7 @@ contexts:
         3: punctuation.definition.tag.end.xml
       push: [any-known-element, inside-dict-key]
     - include: scope:text.xml.plist#whitespace-or-tag
+
   inside-dict-key:
     - meta_content_scope: meta.inside-dict-key.plist meta.dict-key-unknown.textmateprefs
     #- include: scope:text.xml.plist#pop-tag-no-children
@@ -212,6 +223,7 @@ contexts:
               captures:
                 1: invalid.illegal.bad-ampersand.xml
     - include: scope:text.xml.plist#whitespace-or-tag
+
   expect-regex-string:
     - match: '(<)(string)\s*(>)'
       scope: meta.tag.xml
@@ -244,6 +256,7 @@ contexts:
           with_prototype:
             - include: until-end-of-string
     - include: scope:text.xml.plist#whitespace-or-tag
+
   expect-transformation-string:
     - match: '(<)(string)\s*(>)'
       scope: meta.tag.xml
@@ -276,6 +289,7 @@ contexts:
           with_prototype:
             - include: until-end-of-string
     - include: scope:text.xml.plist#whitespace-or-tag
+
   transformation:
     - meta_content_scope: meta.regex.transformation.textmateprefs
     - match: 's/'
@@ -294,9 +308,11 @@ contexts:
         - include: scope:source.regexp#base-literal
     - include: scope:source.regexp#group-comment
     - include: scope:source.regexp#extended-patterns
+
   regex-pattern:
     - meta_content_scope: meta.regex.textmateprefs
     - include: scope:source.regexp
+
   shell-variables:
     - match: '(<)(array)\s*(>)'
       scope: meta.tag.xml
@@ -306,6 +322,7 @@ contexts:
         3: punctuation.definition.tag.end.xml
       set: end-of-shell-variables-array
     - include: scope:text.xml.plist#whitespace-or-tag
+
   end-of-shell-variables-array:
     - meta_content_scope: meta.inside-array.plist
     - match: '(</)(array)\s*(>)'
@@ -320,6 +337,7 @@ contexts:
         - match: '(?=</array\s*>)'
           pop: true
         - include: expect-shell-variable-dict
+
   expect-shell-variable-dict:
     - match: '(<)(dict)\s*(>)'
       scope: meta.tag.xml
@@ -328,6 +346,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set: dict-key-shell-variable
+
   dict-key-shell-variable:
     - meta_content_scope: meta.inside-dict.shellVariables.textmateprefs
     - match: '(</)(dict)\s*(>)'
@@ -377,9 +396,11 @@ contexts:
         9: punctuation.definition.tag.end.xml
       push: expect-string
     - include: scope:text.xml.plist#whitespace-or-tag
+
   expect-boolean:
     - include: scope:text.xml.plist#boolean
     - include: scope:text.xml.plist#whitespace-or-tag
+
   expect-integer:
     - include: scope:text.xml.plist#number
     - match: '((<)(string)\s*(>))(\s*([01])\s*)((</)(string)\s*(>))'
@@ -396,9 +417,11 @@ contexts:
         10: punctuation.definition.tag.end.xml
       pop: true
     - include: scope:text.xml.plist#whitespace-or-tag
+
   expect-string:
     - include: scope:text.xml.plist#string
     - include: scope:text.xml.plist#whitespace-or-tag
+
   until-end-of-string:
     - match: '(?=</string\s*>|<!\[CDATA\[)'
       pop: true
@@ -411,6 +434,7 @@ contexts:
     - match: '\(\?([<>])'
       captures:
         1: invalid.illegal.missing-entity.xml
+
   end-of-array:
     - meta_content_scope: meta.inside-array.plist
     - match: '(</)(array)\s*(>)'
