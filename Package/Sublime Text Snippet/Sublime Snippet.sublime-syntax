@@ -7,12 +7,14 @@ name: Sublime Text Snippet (XML)
 scope: text.xml.sublime-snippet
 contexts:
   main:
+    - include: comments
     - match: '(<)(content)(>)'
       captures:
         1: meta.tag.xml punctuation.definition.tag.begin.xml
         2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-content.sublime-snippet
         3: meta.tag.xml punctuation.definition.tag.end.xml
       push:
+        - include: comments
         - match: '<!\[CDATA\['
           scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
           set:
@@ -20,6 +22,7 @@ contexts:
             - match: '\]\]>'
               scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
               set:
+                - include: comments
                 - match: '<!\[CDATA\['
                   set:
                     - meta_scope: invalid.illegal.multiple-cdata-not-allowed.sublime-snippet-content
@@ -36,6 +39,7 @@ contexts:
         3: meta.tag.xml punctuation.definition.tag.end.xml
       push: # CDATA not supported here
         - meta_content_scope: meta.scope.sublime-snippet
+        - include: comments
         - match: '<!\[CDATA\[|\]\]>'
           scope: invalid.illegal.cdata-not-supported-here.sublime-snippet
         - match: '(?=</scope>)'
@@ -50,7 +54,7 @@ contexts:
         1: meta.tag.xml punctuation.definition.tag.begin.xml
         2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-trigger.sublime-snippet
         3: meta.tag.xml punctuation.definition.tag.end.xml
-    - match: '<(?!!--)(?!/?(?:snippet|tabTrigger|scope)\s*>)/?'
+    - match: '<(?!/?(?:snippet|tabTrigger|scope)\s*>)/?'
       scope: punctuation.definition.tag.begin.xml
       push:
         - meta_scope: meta.tag.xml
@@ -72,3 +76,13 @@ contexts:
         3: meta.tag.xml punctuation.definition.tag.end.xml
       pop: true
     - include: snippet_content
+
+  comments:
+    # this is simplified; actual xml comments are more complicated
+    - match: '<!--'
+      scope: punctuation.definition.comment.begin.xml
+      push:
+        - meta_scope: comment.block.xml
+        - match: '-->'
+          scope: punctuation.definition.comment.end.xml
+          pop: true

@@ -1,12 +1,17 @@
-# SYNTAX TEST "Packages/PackageDev/Syntax Definitions/Sublime Snippet.sublime-syntax"
+# SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Snippet/Sublime Snippet.sublime-syntax"
+<!-- comment -->
+#^^^^^^^^^^^^^^^ comment.block.xml
+#^^^ punctuation.definition.comment.begin.xml
+#            ^^^ punctuation.definition.comment.end.xml
 <snippet>
-    <content><![CDATA[
+    <content><!-- comment --><![CDATA[
 #   ^^^^^^^^^ meta.tag
 #    ^^^^^^^ entity.name.tag.localname meta.toc-list.snippet-content
 #   ^ punctuation.definition.tag.begin
 #           ^ punctuation.definition.tag.end
-#            ^^^^^^^^^^ string.unquoted.cdata - meta.tag
-#            ^^^^^^^^^ punctuation.definition.string.begin
+#            ^^^^^^^^^^^^^^^^ comment.block.xml
+#                            ^^^^^^^^^^ string.unquoted.cdata - meta.tag
+#                            ^^^^^^^^^ punctuation.definition.string.begin
 
       Original: ${1:Hey, Joe!}
 #               ^^^^^^^^^^^^^^ meta.text-substitution
@@ -207,9 +212,11 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #   ^^^^^^^^^^^^ meta.tag
 #    ^^^^^^^^^^ meta.toc-list.snippet-trigger
     <!-- Optional: Scope the tab trigger will be active in -->
-    <scope>text</scope>
+    <scope>text <!-- c --></scope>
 #    ^^^^^ meta.toc-list.snippet-scope
+#          ^^^^^^^^^^^^^^^ meta.scope.sublime-snippet
 #          ^^^^ string.unquoted.scope-segment
+#               ^^^^^^^^^^ meta.scope.sublime-snippet comment.block.xml
 </snippet>
 
 <!-- NOTE: multiple payloads inside a sublime-snippet file are not supported
