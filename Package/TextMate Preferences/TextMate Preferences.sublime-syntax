@@ -192,7 +192,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-string.plist meta.toc-list.scope.textmateprefs
+        - meta_content_scope: meta.inside-value.string.plist meta.toc-list.scope.textmateprefs
         - match: '<!\[CDATA\['
           scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
           push:
@@ -232,7 +232,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-string.plist
+        - meta_content_scope: meta.inside-value.string.plist
         - match: '(</)(string)\s*(>)'
           scope: meta.tag.xml
           captures:
@@ -265,7 +265,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-string.plist
+        - meta_content_scope: meta.inside-value.string.plist
         - match: '(</)(string)\s*(>)'
           scope: meta.tag.xml
           captures:
@@ -375,7 +375,7 @@ contexts:
             2: punctuation.definition.tag.begin.xml
             3: entity.name.tag.localname.xml
             4: punctuation.definition.tag.end.xml
-            5: meta.inside-string.plist
+            5: meta.inside-value.string.plist
             6: meta.toc-list.shellVariable.name.textmateprefs
             7: meta.tag.xml
             8: punctuation.definition.tag.begin.xml

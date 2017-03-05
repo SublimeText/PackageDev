@@ -15,7 +15,7 @@
 <!--    ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml punctuation.definition.tag.begin.xml -->
 <!--     ^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
 <!--           ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml punctuation.definition.tag.end.xml -->
-<!--            ^^^^^^^^^^ meta.inside-string.plist meta.toc-list.scope.textmateprefs -->
+<!--            ^^^^^^^^^^ meta.inside-value.string.plist meta.toc-list.scope.textmateprefs -->
 <!--            ^^^^^^ string.unquoted.scope-segment.scope-selector -->
 <!--                         ^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
         <key>scope</key><!-- comment -->
@@ -40,7 +40,7 @@
                 <dict>
                     <key>name</key>
                     <string>TM_COMMENT_START</string>
-<!--                        ^^^^^^^^^^^^^^^^ meta.inside-string.plist meta.toc-list.shellVariable.name.textmateprefs -->
+<!--                        ^^^^^^^^^^^^^^^^ meta.inside-value.string.plist meta.toc-list.shellVariable.name.textmateprefs -->
                     <key>value</key>
                     <string>TEST </string>
                 </dict>
@@ -54,7 +54,7 @@
         <key>decreaseIndentPattern</key>
 <!--         ^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict-key.plist meta.toc-list.regex.textmateprefs -->
         <string>^\s*(?i:end|else|elseif|loop|wend|next)(\s|$)</string>
-<!--            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist meta.regex.textmateprefs -->
+<!--            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.textmateprefs -->
 <!--            ^ keyword.control.anchors.regexp -->
 <!--                                                           ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
         <key>increaseIndentPattern</key>
@@ -68,7 +68,7 @@
         <key>increaseIndentPattern</key>
 <!--         ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist meta.toc-list.regex.textmateprefs -->
         <string><![CDATA[example containing <bad> & characters. (?<=doh)]]></string>
-<!--                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist meta.regex.textmateprefs - invalid -->
+<!--                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.textmateprefs - invalid -->
 <!--            ^^^^^^^^^ string.unquoted.cdata.xml punctuation.definition.string.begin.xml - meta.regex.textmateprefs -->
 <!--                                                                    ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml - meta.regex.textmateprefs -->
 <!--                                                             ^^^ constant.other.assertion.regexp -->
@@ -76,9 +76,9 @@
         <string><![CDATA[(?x)
             (?=wow) # this is a comment
 <!--         ^^ constant.other.assertion.regexp -->
-<!--                ^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist meta.regex.textmateprefs comment.line.number-sign.regexp -->
+<!--                ^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.textmateprefs comment.line.number-sign.regexp -->
         ]]></string>
-<!--    ^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
+<!--    ^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
 <!--         ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
         <key>disableIndentNextLinePattern</key><string></string>
 <!--         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist meta.toc-list.regex.textmateprefs -->
@@ -87,17 +87,17 @@
 <!--         ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist - meta.toc-list.regex.textmateprefs -->
 <!--                              ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml meta.close-unknown-dict-key-tag.textmateprefs punctuation.definition.tag.begin.xml -->
         <string>not a real key</string>
-<!--            ^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist - meta.regex.textmateprefs -->
+<!--            ^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist - meta.regex.textmateprefs -->
         <key></key>
 <!--         ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml meta.close-unknown-dict-key-tag.textmateprefs punctuation.definition.tag.begin.xml -->
         <string>not a real key</string>
-<!--            ^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist - meta.regex.textmateprefs -->
+<!--            ^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist - meta.regex.textmateprefs -->
 
         <key>showInSymbolList</key>
 <!--         ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist meta.toc-list.setting.textmateprefs -->
         <integer>1</integer>text
-<!--             ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-integer.plist constant.numeric.plist -->
-<!--                        ^^^^^ meta.inside-plist.plist meta.inside-dict.plist invalid.illegal.unexpected-text.plist -->
+<!--             ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.integer.plist constant.numeric.plist -->
+<!--                        ^^^^ meta.inside-plist.plist meta.inside-dict.plist invalid.illegal.unexpected-text.plist -->
         <key>showInIndexedSymbolList</key>
 <!--         ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist meta.toc-list.setting.textmateprefs -->
         text<string>0</string>
@@ -108,7 +108,7 @@
 <!--         ^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist meta.toc-list.regex-transform.textmateprefs -->
         <string><![CDATA[
             s/(\[[^\]]*\])|\b_\b\s*|\(.*|(\s{2,})/$1(?2 )/g; (?# this is a regex transformation
-<!--        ^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-string.plist meta.regex.transformation.textmateprefs punctuation.definition.substitute-what.textmateprefs -->
+<!--        ^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.transformation.textmateprefs punctuation.definition.substitute-what.textmateprefs -->
 <!--                                             ^ punctuation.definition.substitute-with.textmateprefs -->
 <!--                                                 ^^ keyword.other.backref-and-recursion.conditional.regexp-replacement -->
 <!--                                                     ^ punctuation.definition.substitute-flags.textmateprefs -->
