@@ -282,6 +282,14 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 <scope>text.html &amp; test
 #                          ^ invalid.illegal.newline-not-supported-here.sublime-snippet
 </scope>
+
+<tabTrigger> </tabTrigger>
+#^^^^^^^^^^ meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-trigger.sublime-snippet
+
+<description> </description>
+#^^^^^^^^^^^ meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-description.sublime-snippet
+
+
 <unknownTag>fgfg</unknownTag>
 #^^^^^^^^^^ invalid.deprecated.unknown-snippet-tag.sublime-snippet
 #          ^ - invalid

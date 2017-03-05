@@ -60,7 +60,13 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml meta.toc-list.snippet-trigger.sublime-snippet
         3: punctuation.definition.tag.end.xml
-    - match: '<(?!/?(?:snippet|tabTrigger|scope)\s*>)/?'
+    - match: '(<)(description)(>)'
+      scope: meta.tag.xml
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml meta.toc-list.snippet-description.sublime-snippet
+        3: punctuation.definition.tag.end.xml
+    - match: '<(?!/?(?:snippet|tabTrigger|scope|description)\s*>)/?'
       scope: punctuation.definition.tag.begin.xml
       push:
         - meta_scope: meta.tag.xml
