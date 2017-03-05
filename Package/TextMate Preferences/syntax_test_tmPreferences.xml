@@ -4,11 +4,13 @@
 <!--  ^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
      <dict>
 <!-- <- meta.inside-plist.plist -->
+<!--       ^ meta.inside-plist.plist meta.inside-dict.plist -->
         <key>scope</key>
-<!--     ^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
-<!--         ^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml -->
-<!--              ^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist punctuation.definition.tag.begin.xml -->
-<!--                ^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.tag.localname.xml -->
+<!--    ^^^^^ meta.tag.xml -->
+<!--     ^^^ entity.name.tag.localname.xml -->
+<!--         ^^^^^ meta.inside-dict-key.plist -->
+<!--              ^^ punctuation.definition.tag.begin.xml -->
+<!--                ^^^ entity.name.tag.localname.xml -->
         <string>source.test</string>
 <!--    ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml punctuation.definition.tag.begin.xml -->
 <!--     ^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
@@ -44,7 +46,7 @@
                 </dict>
             </array>
         </dict>
-        
+
         <key>preserveIndent</key>
 <!--         ^^^^^^^^^^^^^^ meta.inside-dict-key.plist meta.toc-list.setting.textmateprefs -->
         <false />
