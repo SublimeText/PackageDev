@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/PackageDev/Syntax Definitions/Scope Selector.sublime-syntax"
+# SYNTAX TEST "Packages/PackageDev/Package/Scope Selector.sublime-syntax"
 string.quoted.double
 #<- string.unquoted.scope-segment.scope-selector
 #^^^^^ string.unquoted.scope-segment.scope-selector
@@ -193,7 +193,7 @@ string.quoted.double
 #       ^ keyword.operator.or.scope-selector
 #        ^^^^^^ string.unquoted.scope-segment.scope-selector
 
-(trailing space) 
+(trailing space)
 #<- punctuation.section.group.begin.scope-selector
 #^^^^^^^^ string.unquoted.scope-segment.scope-selector
 #        ^ keyword.operator.right.scope-selector
