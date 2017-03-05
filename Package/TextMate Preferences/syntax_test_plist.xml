@@ -2,6 +2,10 @@
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
      <plist version="1.0">
 <!--  ^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
+
+<!-- comment -->
+<!-- ^^^^^^^ meta.inside-plist.plist comment.block.xml -->
+
      <dict>
 <!-- <- meta.inside-plist.plist -->
 <!--  ^^^^ meta.tag.xml entity.name.tag.localname.xml -->

@@ -31,10 +31,9 @@ contexts:
             2: entity.name.tag.localname.xml
             3: punctuation.definition.tag.end.xml
           set: whitespace-or-tag
-        - match: '(?=\S)(?!<!--)'
-          push:
-            - include: any-known-element
-        - include: scope:text.xml
+        - include: comments
+        - match: '(?=\S)'
+          push: any-known-element
     - include: whitespace-or-tag
 
   xml-declarations:
@@ -43,6 +42,16 @@ contexts:
         - match: $
           pop: true
         - include: scope:text.xml
+
+  comments:
+    # this is simplified; actual xml comments are more complicated
+    - match: '<!--'
+      scope: punctuation.definition.comment.begin.xml
+      push:
+        - meta_scope: comment.block.xml
+        - match: '-->'
+          scope: punctuation.definition.comment.end.xml
+          pop: true
 
   unknown-tag:
     - meta_scope: meta.tag.xml
@@ -141,6 +150,7 @@ contexts:
       pop: true
 
   any-known-element:
+    # this context pops after the first matched element
     - include: number
     - include: boolean
     - include: string
@@ -199,16 +209,17 @@ contexts:
     - include: pop-tag-no-children
 
   whitespace-or-tag:
-    - match: '(?!<!--)<'
+    - include: comments
+    - match: '<'
       scope: punctuation.definition.tag.begin.xml
       push: unknown-tag
     - match: '\s+'
     - match: '[^\s<]+'
       scope: invalid.illegal.unexpected-text.plist
-    - include: scope:text.xml
 
   end-of-array:
     - meta_content_scope: meta.inside-array.plist
+    - include: comments
     - match: '(</)(array)\s*(>)'
       scope: meta.tag.xml
       captures:
@@ -216,8 +227,5 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       pop: true
-    - match: ''
-      push:
-        - match: '(?=</array\s*>)'
-          pop: true
-        - include: any-known-element
+    - match: '(?=\S)'
+      push: any-known-element
