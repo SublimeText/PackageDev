@@ -6,7 +6,9 @@ file_extensions:
   - stTheme
 name: Property List (XML)
 scope: text.xml.plist
+
 contexts:
+
   main:
     - include: xml-declarations
     - match: '(<)(plist)\s*(?:(version)\s*(=)\s*(")(1.0)("))\s*(>)'
@@ -34,18 +36,21 @@ contexts:
             - include: any-known-element
         - include: scope:text.xml
     - include: whitespace-or-tag
+
   xml-declarations:
     - match: '^(?=<\?|<!)'
       push:
         - match: $
           pop: true
         - include: scope:text.xml
+
   unknown-tag:
     - meta_scope: meta.tag.xml
     - meta_content_scope: invalid.illegal.unknown-or-unexpected-tag.plist
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       pop: true
+
   number:
     - match: '(<)(integer)\s*(>)'
       scope: meta.tag.xml
@@ -83,6 +88,7 @@ contexts:
             - match: '(?=<)'
               pop: true
         - include: pop-tag-no-children
+
   boolean:
     - match: '(<)(true|false)\s*(/>)'
       scope: meta.tag.xml
@@ -91,6 +97,7 @@ contexts:
         2: entity.name.tag.localname.xml constant.language.boolean.plist
         3: punctuation.definition.tag.end.xml
       pop: true
+
   string:
     - match: '(<)(string)\s*(>)'
       scope: meta.tag.xml
@@ -101,6 +108,7 @@ contexts:
       set:
         - meta_content_scope: meta.inside-value.string.plist
         - include: pop-tag-no-children
+
   date:
     - match: '(<)(date)\s*(>)'
       scope: meta.tag.xml
@@ -111,6 +119,7 @@ contexts:
       set:
         - meta_content_scope: meta.inside-value.date.plist
         - include: pop-tag-no-children # TODO: ISO 8601 format date i.e. "2007-04-05T14:30Z" or "2007-04-05T12:30-02:00"
+
   data:
     - match: '(<)(data)\s*(>)'
       scope: meta.tag.xml
@@ -121,6 +130,7 @@ contexts:
       set:
         - meta_content_scope: meta.inside-value.data.plist
         - include: pop-tag-no-children # TODO: expect base-64 only
+
   empty-array:
     - match: '(<)(array)\s*(/>)'
       scope: meta.tag.xml
@@ -129,6 +139,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       pop: true
+
   any-known-element:
     - include: number
     - include: boolean
@@ -151,6 +162,7 @@ contexts:
         3: punctuation.definition.tag.end.xml
       set: end-of-array
     - include: whitespace-or-tag
+
   pop-tag-no-children:
     - match: '(</)(\2)\s*(>)'
       scope: meta.tag.xml
@@ -163,6 +175,7 @@ contexts:
       scope: punctuation.definition.tag.begin.xml
       push: unknown-tag
     - include: scope:text.xml
+
   dict-key:
     - meta_content_scope: meta.inside-dict.plist
     - match: '(</)(dict)\s*(>)'
@@ -180,9 +193,11 @@ contexts:
         3: punctuation.definition.tag.end.xml
       push: [any-known-element, inside-dict-key]
     - include: whitespace-or-tag
+
   inside-dict-key:
     - meta_content_scope: meta.inside-dict-key.plist
     - include: pop-tag-no-children
+
   whitespace-or-tag:
     - match: '(?!<!--)<'
       scope: punctuation.definition.tag.begin.xml
@@ -191,6 +206,7 @@ contexts:
     - match: '[^\s<]+'
       scope: invalid.illegal.unexpected-text.plist
     - include: scope:text.xml
+
   end-of-array:
     - meta_content_scope: meta.inside-array.plist
     - match: '(</)(array)\s*(>)'
