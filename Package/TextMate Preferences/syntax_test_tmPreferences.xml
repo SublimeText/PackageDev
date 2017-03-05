@@ -2,6 +2,7 @@
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
      <plist version="1.0">
 <!--  ^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
+<!--                ^^^^^ string.quoted.double.xml -->
      <dict>
 <!-- <- meta.inside-plist.plist -->
 <!--       ^ meta.inside-plist.plist meta.inside-dict.plist -->

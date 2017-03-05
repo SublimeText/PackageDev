@@ -10,16 +10,16 @@ contexts:
 
   main:
     - include: scope:text.xml.plist#xml-declarations
-    - match: '(<)(plist)\s*(?:(version)\s*(=)\s*(")(1.0)("))\s*(>)'
+    - match: '(<)(plist)\s*(?:(version)\s*(=)\s*((")1.0(")))\s*(>)'
       scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin
         2: entity.name.tag.localname.xml
         3: entity.other.attribute-name.localname.xml
         4: punctuation.separator.key-value.xml
-        5: string.quoted.double.xml punctuation.definition.string.begin.xml
-        6: string.quoted.double.xml
-        7: string.quoted.double.xml punctuation.definition.string.end.xml
+        5: string.quoted.double.xml
+        6: punctuation.definition.string.begin.xml
+        7: punctuation.definition.string.end.xml
         8: punctuation.definition.tag.end
       push:
         - meta_content_scope: meta.inside-plist.plist
