@@ -1,7 +1,11 @@
 <!-- SYNTAX TEST "Packages/PackageDev/Package/TextMate Preferences/Property List.sublime-syntax" -->
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
      <plist version="1.0">
-<!--  ^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^ meta.tag.xml -->
+<!--  ^^^^^ entity.name.tag.localname.xml -->
+<!--        ^^^^^^^ entity.other.attribute-name.localname.xml -->
+<!--               ^ punctuation.separator.key-value.xml -->
+<!--                ^^^^^ meta.tag.xml string.quoted.double.xml -->
 
 <!-- comment -->
 <!-- ^^^^^^^ meta.inside-plist.plist comment.block.xml -->
