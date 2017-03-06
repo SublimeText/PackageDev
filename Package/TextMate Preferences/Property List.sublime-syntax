@@ -1,6 +1,17 @@
 %YAML 1.2
+# There are multiple represenations of a Property List,
+# but here we only care about the XML one.
+#
+# XML Property Lists are XML files with the following DTD:
+# https://www.apple.com/DTDs/PropertyList-1.0.dtd
+#
+# Notably:
+#
+# - besides <plist>, no tag expects an attribute
+# - all data elements do not expect child elements
+# - <dict> expects <key>-'data' *pairs*
+# - <true /> and <false /> must be empty
 ---
-# See http://www.sublimetext.com/docs/3/syntax.html
 file_extensions:
   - tmTheme
   - stTheme
