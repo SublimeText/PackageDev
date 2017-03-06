@@ -23,6 +23,7 @@ contexts:
         8: punctuation.definition.tag.end
       push:
         - meta_content_scope: meta.inside-plist.plist
+        - include: comments
         - match: '(</)(plist)\s*(>)'
           scope: meta.tag.xml
           captures:
@@ -30,11 +31,20 @@ contexts:
             2: entity.name.tag.localname.xml
             3: punctuation.definition.tag.end.xml
           set: scope:text.xml.plist#whitespace-or-tag
-        - match: '(?=\S)(?!<!--)'
-          push:
-            - include: any-known-element
-        - include: scope:text.xml
+        - match: '(<)(dict)\s*(>)'
+          scope: meta.tag.xml
+          captures:
+            1: punctuation.definition.tag.begin.xml
+            2: entity.name.tag.localname.xml
+            3: punctuation.definition.tag.end.xml
+          push: inside-outer-dict
+        # we only expect a dict
+        - match: '\S+'
+          scope: invalid.illegal.expected-dict.textmateprefs
     - include: scope:text.xml.plist#whitespace-or-tag
+
+  comments:
+    - include: scope:text.xml.plist#comments
 
   any-known-element:
     - include: scope:text.xml.plist#number
@@ -48,7 +58,7 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
-      set: dict-key
+      set: inside-any-dict
     - match: '(<)(array)\s*(>)'
       scope: meta.tag.xml
       captures:
@@ -58,8 +68,8 @@ contexts:
       set: end-of-array
     - include: scope:text.xml.plist#whitespace-or-tag
 
-  dict-key:
-    - meta_content_scope: meta.inside-dict.plist
+  dict-end:
+    - include: comments
     - match: '(</)(dict)\s*(>)'
       scope: meta.tag.xml
       captures:
@@ -68,96 +78,84 @@ contexts:
         3: punctuation.definition.tag.end.xml
       pop: true
 
-    - match: '((<)(key)\s*(>))(\s*scope\s*)((</)(key)\s*(>))'
+  key-end:
+    - include: comments
+    - match: '(</)(key)\s*(>)'
+      scope: meta.tag.xml
       captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: expect-scope-string
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      pop: true
 
-    - match: '((<)(key)\s*(>))(\s*(?:decreaseIndentPattern|batchDecreaseIndentPattern|increaseIndentPattern|batchIncreaseIndentPattern|disableIndentNextLinePattern|bracketIndentNextLinePattern|unIndentedLinePattern|cancelCompletion)\s*)((</)(key)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist meta.toc-list.regex.textmateprefs
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: expect-regex-string
+  inside-outer-dict:
+    - meta_content_scope: meta.inside-dict.plist
+    - include: dict-end
 
-    - match: '((<)(key)\s*(>))(\s*(?:symbolTransformation|symbolIndexTransformation)\s*)((</)(key)\s*(>))'
+    - match: '(<)(key)\s*(>)'
+      scope: meta.tag.xml
       captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist meta.toc-list.regex-transform.textmateprefs
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: expect-transformation-string
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      push:
+        - meta_content_scope: meta.inside-dict-key.plist
+        - include: key-end
+        - match: 'scope(?=\s*<)'
+          set: [expect-scope-string, key-end]
+        - match: 'name(?=\s*<)'
+          set: [expect-string, key-end]
+        - match: 'settings(?=\s*<)'
+          set: [settings, key-end]
+        - match: 'uuid(?=\s*<)'
+          set: [expect-string, key-end] # TODO validate uuid
 
-    - match: '((<)(key)\s*(>))(\s*(?:shellVariables)\s*)((</)(key)\s*(>))'
+  settings:
+    - match: '(<)(dict)\s*(>)'
+      scope: meta.tag.xml
       captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist meta.toc-list.shellVariables.textmateprefs
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: shell-variables
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      set: inside-settings-dict
+    - include: scope:text.xml.plist#whitespace-or-tag
 
-    - match: '((<)(key)\s*(>))(\s*(?:showInSymbolList|showInIndexedSymbolList)\s*)((</)(key)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist meta.toc-list.setting.textmateprefs
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: expect-integer # yes, integer - for some reason, booleans don't work here
+  inside-settings-dict:
+    - meta_content_scope: meta.inside-dict.settings.textmateprefs
+    - include: dict-end
 
-    - match: '((<)(key)\s*(>))(\s*(?:indentParens|indentSquareBrackets|preserveIndent)\s*)((</)(key)\s*(>))'
+    - match: '(<)(key)\s*(>)'
+      scope: meta.tag.xml
       captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist meta.toc-list.setting.textmateprefs
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: expect-boolean
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      push:
+        - meta_content_scope: meta.inside-dict-key.plist
+        - include: inside-dict-key
+        - match: 'shellVariables(?=\s*<)'
+          set: [shell-variables, key-end]
+        - match: '(?:decreaseIndentPattern|batchDecreaseIndentPattern|increaseIndentPattern|batchIncreaseIndentPattern|disableIndentNextLinePattern|bracketIndentNextLinePattern|unIndentedLinePattern|cancelCompletion)(?=\s*<)'
+          scope: meta.toc-list.regex.textmateprefs
+          set: [expect-regex-string, key-end]
+        - match: '(?:symbolTransformation|symbolIndexTransformation)(?=\s*<)'
+          scope: meta.toc-list.regex-transform.textmateprefs
+          set: [expect-transformation-string, key-end]
+        - match: '(?:showInSymbolList|showInIndexedSymbolList)(?=\s*<)'
+          scope: meta.toc-list.setting.textmateprefs
+          set: [expect-integer, key-end] # yes, integer - for some reason, booleans don't work here
+        - match: '(?:indentParens|indentSquareBrackets|preserveIndent)(?=\s*<)'
+          scope: meta.toc-list.setting.textmateprefs
+          set: [expect-boolean, key-end]
+        - match: 'icon(?=\s*<)'
+          scope: meta.toc-list.setting.textmateprefs
+          set: [expect-string, key-end]
 
-    - match: '((<)(key)\s*(>))(\s*icon\s*)((</)(key)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist meta.toc-list.setting.textmateprefs
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: expect-string
+    - include: inside-any-dict
+
+  inside-any-dict:
+    - meta_content_scope: meta.inside-dict.plist
+    - include: dict-end
 
     - match: '(<)(key)\s*(>)'
       scope: meta.tag.xml
@@ -170,19 +168,18 @@ contexts:
 
   inside-dict-key:
     - meta_content_scope: meta.inside-dict-key.plist meta.dict-key-unknown.textmateprefs
-    #- include: scope:text.xml.plist#pop-tag-no-children
-    - match: '(<)(/)(\2)\s*(>)'
+    - include: comments
+    - match: '(<)(/)(key)\s*(>)'
       scope: meta.tag.xml
       captures:
         1: meta.close-unknown-dict-key-tag.textmateprefs punctuation.definition.tag.begin.xml
         2: punctuation.definition.tag.begin.xml
         3: entity.name.tag.localname.xml
         4: punctuation.definition.tag.end.xml
-      pop: true
-    - match: '<(?!!)'
+      set: any-known-element
+    - match: '<'
       scope: punctuation.definition.tag.begin.xml
       push: scope:text.xml.plist#unknown-tag
-    - include: scope:text.xml
 
   expect-scope-string:
     - match: '(<)(string)\s*(>)'
@@ -314,6 +311,7 @@ contexts:
     - include: scope:source.regexp
 
   shell-variables:
+    - include: comments
     - match: '(<)(array)\s*(>)'
       scope: meta.tag.xml
       captures:
@@ -339,23 +337,18 @@ contexts:
         - include: expect-shell-variable-dict
 
   expect-shell-variable-dict:
+    - include: comments
     - match: '(<)(dict)\s*(>)'
       scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
-      set: dict-key-shell-variable
+      set: inside-shell-variables-dict
 
-  dict-key-shell-variable:
+  inside-shell-variables-dict:
     - meta_content_scope: meta.inside-dict.shellVariables.textmateprefs
-    - match: '(</)(dict)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: true
+    - include: dict-end
 
     - match: '((<)(key)\s*(>))(\s*name\s*)((</)(key)\s*(>))'
       captures:
@@ -395,7 +388,6 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push: expect-string
-    - include: scope:text.xml.plist#whitespace-or-tag
 
   expect-boolean:
     - include: scope:text.xml.plist#boolean
