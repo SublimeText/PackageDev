@@ -60,9 +60,9 @@
 <!--                        ^ punctuation.definition.tag.end.xml -->
         <key></key><integer>
 <!--                ^^^^^^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
-            123 456
-<!--        ^^^ meta.inside-value.integer.plist constant.numeric.plist -->
-<!--            ^^^ meta.inside-value.integer.plist invalid.illegal.unexpected-text.plist -->
+            +123 456
+<!--        ^^^^ meta.inside-value.integer.plist constant.numeric.plist -->
+<!--             ^^^ meta.inside-value.integer.plist invalid.illegal.unexpected-text.plist -->
         </integer>
 <!--      ^^^^^^^ meta.tag - invalid -->
         <key>array</array>
@@ -76,8 +76,9 @@
 <!--     ^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
             <key></key>
 <!--         ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
-            <real>12.6</real>
-<!--              ^^^^ meta.inside-value.real.plist constant.numeric.plist -->
+            <real>12.6E+3 123</real>
+<!--              ^^^^^^^ meta.inside-value.real.plist constant.numeric.plist -->
+<!--                      ^^^ invalid.illegal.unexpected-text.plist-->
             <dict> </dict>
 <!--              ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-array.plist meta.inside-dict.plist -->
             <!-- test -->

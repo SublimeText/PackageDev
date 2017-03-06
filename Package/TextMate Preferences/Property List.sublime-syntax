@@ -82,15 +82,15 @@ contexts:
         3: punctuation.definition.tag.end.xml
       set:
         - meta_content_scope: meta.inside-value.integer.plist
-        - match: '[^\s\d<]+'
-          scope: invalid.illegal.expected-integer.plist
-        - match: '\d+'
+        - match: '[+-]?\d+'
           scope: constant.numeric.plist
           push:
             - match: '[^\s<]+'
               scope: invalid.illegal.unexpected-text.plist
             - match: '(?=<)'
               pop: true
+        - match: '[^\s<]+'
+          scope: invalid.illegal.expected-integer.plist
         - include: pop-tag-no-children
     - match: '(<)(real)\s*(>)'
       scope: meta.tag.xml
@@ -100,15 +100,15 @@ contexts:
         3: punctuation.definition.tag.end.xml
       set:
         - meta_content_scope: meta.inside-value.real.plist
-        - match: '[^\s\d<]+'
-          scope: invalid.illegal.expected-number.plist
-        - match: '\d*\.\d+'
+        - match: '[+-]?\d+(\.\d*)?(E[+-]\d+)?'
           scope: constant.numeric.plist
           push:
             - match: '[^\s<]+'
               scope: invalid.illegal.unexpected-text.plist
             - match: '(?=<)'
               pop: true
+        - match: '[^\s<]+'
+          scope: invalid.illegal.expected-number.plist
         - include: pop-tag-no-children
 
   boolean:
