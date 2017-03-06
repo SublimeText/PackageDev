@@ -102,12 +102,16 @@ contexts:
         - meta_content_scope: meta.inside-dict-key.plist
         - include: key-end
         - match: 'scope(?=\s*<)'
+          scope: keyword.other.scope.textmateprefs
           set: [expect-scope-string, key-end]
         - match: 'name(?=\s*<)'
+          scope: keyword.other.name.textmateprefs
           set: [expect-string, key-end]
         - match: 'settings(?=\s*<)'
+          scope: keyword.other.settings.textmateprefs
           set: [settings, key-end]
         - match: 'uuid(?=\s*<)'
+          scope: keyword.other.uuid.textmateprefs
           set: [expect-string, key-end] # TODO validate uuid
 
   settings:
@@ -134,21 +138,22 @@ contexts:
         - meta_content_scope: meta.inside-dict-key.plist
         - include: inside-dict-key
         - match: 'shellVariables(?=\s*<)'
+          scope: keyword.other.shellVariables.textmateprefs
           set: [shell-variables, key-end]
         - match: '(?:decreaseIndentPattern|batchDecreaseIndentPattern|increaseIndentPattern|batchIncreaseIndentPattern|disableIndentNextLinePattern|bracketIndentNextLinePattern|unIndentedLinePattern|cancelCompletion)(?=\s*<)'
-          scope: meta.toc-list.regex.textmateprefs
+          scope: entity.name.setting.regex.textmateprefs
           set: [expect-regex-string, key-end]
         - match: '(?:symbolTransformation|symbolIndexTransformation)(?=\s*<)'
-          scope: meta.toc-list.regex-transform.textmateprefs
+          scope: entity.name.setting.regex-transform.textmateprefs
           set: [expect-transformation-string, key-end]
         - match: '(?:showInSymbolList|showInIndexedSymbolList)(?=\s*<)'
-          scope: meta.toc-list.setting.textmateprefs
+          scope: entity.name.setting.textmateprefs
           set: [expect-integer, key-end] # yes, integer - for some reason, booleans don't work here
         - match: '(?:indentParens|indentSquareBrackets|preserveIndent)(?=\s*<)'
-          scope: meta.toc-list.setting.textmateprefs
+          scope: entity.name.setting.textmateprefs
           set: [expect-boolean, key-end]
         - match: 'icon(?=\s*<)'
-          scope: meta.toc-list.setting.textmateprefs
+          scope: entity.name.setting.textmateprefs
           set: [expect-string, key-end]
 
     - include: inside-any-dict
@@ -369,7 +374,7 @@ contexts:
             3: entity.name.tag.localname.xml
             4: punctuation.definition.tag.end.xml
             5: meta.inside-value.string.plist
-            6: meta.toc-list.shellVariable.name.textmateprefs
+            6: entity.name.shellVariable.textmateprefs
             7: meta.tag.xml
             8: punctuation.definition.tag.begin.xml
             9: entity.name.tag.localname.xml
