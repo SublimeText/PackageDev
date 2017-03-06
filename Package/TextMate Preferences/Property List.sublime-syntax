@@ -18,7 +18,7 @@ file_extensions:
   - tmLanguage
 name: Property List (XML)
 scope: text.xml.plist
-first_line_match: ^\s*<!DOCTYPE plist
+# first_line_match: ^\s*<!DOCTYPE plist|^\s*<plist version="1\.0">
 
 contexts:
 
