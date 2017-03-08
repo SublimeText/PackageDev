@@ -27,7 +27,8 @@
 //                                        ^ punctuation.separator.array.json - meta.structure.dictionary
 
     {
-        "keys": ["ctrl+a"], "command": "test_command",
+        "keys": ["ctrl+a"], "command": "test_command2",
+//                                      ^^^^^^^^^^^^^ meta.command-name.sublimekeymap - invalid
         "context":
         [
             { "key": "selector", "operand": "source.json.sublimekeymap" }

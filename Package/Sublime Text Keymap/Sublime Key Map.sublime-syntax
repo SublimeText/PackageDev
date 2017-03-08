@@ -235,7 +235,7 @@ contexts:
         3: meta.structure.dictionary.value.json string.quoted.double.json punctuation.definition.string.end.json meta.command-name.sublimekeymap
         4: punctuation.separator.dictionary.pair.json
       set: support-keys-or-snippet-args
-    - match: (\")([a-z_]+)(\")
+    - match: (\")([a-z_\d]+)(\")
       captures:
         1: meta.structure.dictionary.value.json string.quoted.double.json punctuation.definition.string.begin.json meta.command-name.sublimekeymap
         2: meta.structure.dictionary.value.json string.quoted.double.json support.constant.command-name.sublimekeymap meta.command-name.sublimekeymap
