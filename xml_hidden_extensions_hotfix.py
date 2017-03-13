@@ -16,7 +16,7 @@ MODIFIED_VALUE = ["rss", "vcproj", "tmLanguage", "tmTheme", "tmSnippet", "dae"]
 
 # Encode ST build and date of last change (of this file) into the bootstrap value.
 # I'm not sure what exactly I'm gonna do with it, so just include info I might find useful later.
-BOOTRSTAP_VALUE = [3126, 2017, 3, 13]
+BOOTSTRAP_VALUE = [3126, 2017, 3, 13]
 
 
 def plugin_loaded():
@@ -24,7 +24,7 @@ def plugin_loaded():
 
     if settings.get('hidden_extensions') == DEFAULT_VALUE:
         settings.set('hidden_extensions', MODIFIED_VALUE)
-        settings.set('package_dev.bootstrapped', BOOTRSTAP_VALUE)
+        settings.set('package_dev.bootstrapped', BOOTSTRAP_VALUE)
         sublime.save_settings("XML.sublime-settings")
 
         print("[PackageDev] Bootstrapped XML's `hidden_extensions` setting")
