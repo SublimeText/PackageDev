@@ -1,9 +1,8 @@
 %YAML 1.2
 ---
-# See http://www.sublimetext.com/docs/3/syntax.html
+name: TextMate Preferences (PList / XML)
 file_extensions:
   - tmPreferences
-name: TextMate Preferences (PList/XML)
 scope: text.xml.plist.textmateprefs
 
 contexts:

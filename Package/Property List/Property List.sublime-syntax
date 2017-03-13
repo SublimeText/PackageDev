@@ -12,12 +12,12 @@
 # - <dict> expects <key>-'data' *pairs*
 # - <true /> and <false /> must be empty
 ---
+name: Property List (XML)
+scope: text.xml.plist
 file_extensions:
   - tmTheme
   - stTheme
   - tmLanguage
-name: Property List (XML)
-scope: text.xml.plist
 # first_line_match: ^\s*<!DOCTYPE plist|^\s*<plist version="1\.0">
 
 contexts:

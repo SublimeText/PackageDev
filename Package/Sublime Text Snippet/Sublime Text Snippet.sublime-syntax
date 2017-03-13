@@ -1,11 +1,11 @@
 %YAML 1.2
 ---
-# See http://www.sublimetext.com/docs/3/syntax.html
-file_extensions:
-  - sublime-snippet
 name: Sublime Text Snippet (XML)
 scope: text.xml.sublime-snippet
+file_extensions:
+  - sublime-snippet
 first_line_match: '<snippet>'
+
 contexts:
   main:
     - include: comments

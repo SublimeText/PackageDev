@@ -1,9 +1,7 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
-name: Sublime Text Syntax Definition
+name: Sublime Text Syntax Definition (YAML)
 scope: source.yaml.sublime-syntax
-
 file_extensions:
   - sublime-syntax
 

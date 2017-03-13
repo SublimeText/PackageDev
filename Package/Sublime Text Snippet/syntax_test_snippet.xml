@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Snippet/Sublime Text Snippet (XML).sublime-syntax"
+# SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Snippet/Sublime Text Snippet.sublime-syntax"
 <!-- comment -->
 #^^^^^^^^^^^^^^^ comment.block.xml
 #^^^ punctuation.definition.comment.begin.xml
