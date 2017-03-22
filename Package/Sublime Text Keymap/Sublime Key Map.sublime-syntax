@@ -411,6 +411,8 @@ contexts:
                           pop: true
                         - match: '[^/}ft\s]+'
                           scope: invalid.illegal.expected-boolean.sublimekeymap
+                        - match: \S
+                          scope: invalid.illegal.expected-boolean.sublimekeymap
                     - include: expect-colon
                 - match: (")(key)(")\s*
                   captures:
