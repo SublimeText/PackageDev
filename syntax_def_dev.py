@@ -125,11 +125,11 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
             if any(c in value for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029"):
                 style = '|'
 
-            # Do some special replacements of leading tabs or spaces in (?x) patterns
-            if value.startswith("(?x)") and ('\n' in value or '\r' in value):
-                value = value.strip()
-                lines = value.splitlines()
-                value = lines[0] + '\n' + textwrap.dedent('\n'.join(lines[1:]))
+                # Do some special replacements of leading tabs or spaces in (?x) patterns
+                if value.startswith("(?x)"):
+                    value = value.strip()
+                    lines = value.splitlines()
+                    value = lines[0] + '\n' + textwrap.dedent('\n'.join(lines[1:]))
 
             # Use ' to denote string if it contains illegal plain sequences
             # since it has easier escape sequences
