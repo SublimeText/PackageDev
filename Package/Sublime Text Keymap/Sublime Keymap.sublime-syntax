@@ -534,13 +534,12 @@ contexts:
       scope: invalid.illegal.expected-array.sublimekeymap
 
   support-keys:
-    - meta_content_scope: meta.structure.dictionary.json
     - match: \"
       scope: punctuation.definition.string.begin.json
-      push: [expect-colon-value, support-key]
+      push: [expect-colon-value, inside-support-key]
     - include: comments
 
-  support-key:
+  inside-support-key:
     - meta_scope: meta.structure.dictionary.key.json string.quoted.double.json
     - meta_content_scope: support.function.sublimekeymap
     - match: \"
