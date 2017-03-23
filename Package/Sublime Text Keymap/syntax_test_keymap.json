@@ -81,7 +81,7 @@
     }
 
     {
-//  ^^ invalid.illegal.expected-comma.inside-array.json
+//  ^ invalid.illegal.expected-comma.inside-array.json
     ,{
         "keys": ["ctrl+i"],
         "command": "insert_snippet",
@@ -102,12 +102,14 @@
 //                                ^ keyword.other.block.start.sublimesnippetraw
 //                               ^^^^ string.quoted.double.json - meta.structure.dictionary.key.json
 //                                  ^ punctuation.definition.snippet.end.sublimekeymap
-     ,"context": [
-//     ^^^^^^^ meta.main-key.sublimekeymap
+        ,"context": [
+//      ^ punctuation.separator.dictionary.pair.json
+//        ^^^^^^^ meta.main-key.sublimekeymap
             { "key": "", "operator": "", "operand": "" },
 //                   ^^ meta.context.key-value.key.unknown.sublimekeymap
         ], "command": "test", "args": { "contents": "$1" }
-//          ^^^^^^^ meta.main-key.sublimekeymap
+//       ^ punctuation.separator.dictionary.pair.json
+//          ^^^^^^^ meta.main-key.sublimekeymap - meta.snippet-args
 //                                                   ^^ string - meta.snippet
     }
 //  ^ punctuation.definition.dictionary.end.json - meta.structure.dictionary.value.json
@@ -124,7 +126,9 @@
 //                                                      ^ punctuation.separator.array.json
 //                                                        ^^^ string.quoted.double.json
 //                                                                       ^ invalid.illegal.expected-string-or-end-of-array.sublime-keymap
+//                                                                        ^ punctuation.separator.array.json
 //                                                                           ^^^ string.quoted.double.json entity.other.attribute-name.key.named.sublimekeymap
+//                                                                               ^ punctuation.separator.array.json
 //                                                                                  ^^^ string.quoted.double.json invalid.illegal.key.sublimekeymap
 //                                                                                      ^ punctuation.definition.array.end.json
 
