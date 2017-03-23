@@ -127,7 +127,7 @@ contexts:
                       captures:
                         1: string.key.literal.sublimekeymap
                     - match: 'f(?:2[1-9]|[3-9]\d+|\d{3,})|\s{2,}'
-                      scope: invalid.illegal.key.sublimekeymap
+                      scope: invalid.deprecated.key.sublimekeymap
                     - match: |-
                         (?x) \b(
                            up|down|right|left
@@ -140,10 +140,12 @@ contexts:
                           |f(20|1[0-9]|[1-9])
                         )\b
                       scope: entity.other.attribute-name.key.named.sublimekeymap
-                    - match: "[A-Za-z0-9,;.:_=+-]{2,}"
-                      scope: invalid.illegal.key.sublimekeymap
+                    - match: \p{Upper}
+                      scope: invalid.deprecated.key.upper-case.sublimekeymap
                     - match: .
                       scope: string.key.literal.sublimekeymap
+                    - match: '[^"]{2,}'
+                      scope: invalid.depcreated.key.sublimekeymap
         - include: comments
         - match: '\S'
           scope: invalid.illegal.expected-string-or-end-of-array.sublime-keymap

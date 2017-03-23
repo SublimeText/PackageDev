@@ -120,7 +120,7 @@
     }
 //  ^ punctuation.definition.dictionary.end.json - meta.structure.dictionary.value.json
 
-    , {"keyz": ["test"], "command": "blah", "keys": ["a", "b"], "keys": [a, "f20", "f21"]}
+    , {"keyz": ["test"], "command": "blah", "keys": ["a", "b"], "keys": [a, "f20", "f21", "F"]}
 //     ^^^^^^ meta.structure.dictionary.key.json string.quoted.double.json - meta.main-key.sublimekeymap - keyword
 //      ^^^^ support.function.sublimekeymap
 //     ^ punctuation.definition.string.begin.json
@@ -137,8 +137,9 @@
 //                                                                        ^ punctuation.separator.array.json
 //                                                                           ^^^ string.quoted.double.json entity.other.attribute-name.key.named.sublimekeymap
 //                                                                               ^ punctuation.separator.array.json
-//                                                                                  ^^^ string.quoted.double.json invalid.illegal.key.sublimekeymap
-//                                                                                      ^ punctuation.definition.array.end.json
+//                                                                                  ^^^ string.quoted.double.json invalid.deprecated.key.sublimekeymap
+//                                                                                         ^ invalid.deprecated.key.upper-case.sublimekeymap
+//                                                                                           ^ punctuation.definition.array.end.json
 
 , { "keys": ["\"", " ", "space"], "command": "insert_snippet", "args": {"contents": "\"$0\""} },
 //           ^^^^ string.quoted.double.json
@@ -156,7 +157,7 @@
 //                                                                                         ^ punctuation.definition.string.end.json punctuation.definition.snippet.end.sublimekeymap
 
     { "keys": ["alt+o", "  "], "command": "switch_file", "args": {"extensions": ["cpp", "cxx", "cc", "c", "hpp", "hxx", "hh", "h", "ipp", "inl", "m", "mm"]} },
-//                       ^^ string.quoted.double.json invalid.illegal.key.sublimekeymap
+//                       ^^ string.quoted.double.json invalid.deprecated.key.sublimekeymap
 //                                                                           ^ punctuation.definition.string.end.json - support.function.sublimekeymap
 //                                                                              ^ punctuation.definition.array.begin.json
 //                                                                               ^^^^^ string.quoted.double.json - support.function - meta.structure.dictionary.key.json - keyword
