@@ -37,8 +37,11 @@
     },
 
     "jsonEscapeSequences": {
-      "match": "\\\\[bfntr\"\/]",
-      "name": "entity.other.attribute-name.escape.sequence.json.escapedregexp"
+      "match": "(\\\\[bfntr\"\/])|(\\\\.)",
+      "captures": {
+          "1": { "name": "entity.other.attribute-name.escape.sequence.json.escapedregexp" },
+          "2": { "name": "invalid.illegal.unrecognized-string-escape.json.escapedregexp" }
+      }
     },
 
     "quantifiers": {

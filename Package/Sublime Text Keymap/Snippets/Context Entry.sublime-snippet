@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[{ "key": "$1", "operator": "$2", "operand": "$3" }$0]]></content>
-	<scope>source.sublimekeymap</scope>
-	<tabTrigger>c</tabTrigger>	
+	<content><![CDATA[{ "key": "$1", "operator": "$2", "operand": "$3" },$0]]></content>
+	<scope>source.json.sublimekeymap meta.keybinding-context-collection.sublimekeymap - string - comment - meta.keybinding-context.sublimekeymap</scope>
+	<tabTrigger>c</tabTrigger>
 </snippet>
