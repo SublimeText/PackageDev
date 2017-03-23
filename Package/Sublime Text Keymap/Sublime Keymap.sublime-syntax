@@ -103,11 +103,12 @@ contexts:
             5: punctuation.keybinding.definition.key.sequence.end.sublimekeymap
           push: in-array-expect-comma
         - match: \"
-          scope: string.quoted.double.json punctuation.keybinding.definition.key.sequence.start.sublimekeymap
+          scope: punctuation.definition.string.begin.json punctuation.keybinding.definition.key.sequence.start.sublimekeymap
           push:
+            - meta_scope: string.quoted.double.json
             - meta_content_scope: meta.key.sequence.sublimekeymap
             - match: \"
-              scope: string.quoted.double.json punctuation.keybinding.definition.key.sequence.end.sublimekeymap
+              scope: punctuation.definition.string.end.json punctuation.keybinding.definition.key.sequence.end.sublimekeymap
               set: in-array-expect-comma
             - match: ''
               push: # match modifier keys first
