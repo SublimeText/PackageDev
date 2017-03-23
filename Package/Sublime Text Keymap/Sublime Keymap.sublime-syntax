@@ -1,10 +1,11 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
-name: Sublime Text Keymap
+name: Sublime Text Keymap (JSON)
 file_extensions:
   - sublime-keymap
 scope: source.json.sublimekeymap
+
 contexts:
   main:
     - include: comments

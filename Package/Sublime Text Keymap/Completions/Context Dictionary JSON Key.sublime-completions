@@ -2,9 +2,9 @@
 	"scope": "meta.unknown-context-key.sublimekeymap",
 
 	"completions": [
-			"key",
-			"operator",
-			"operand",
-			"match_all"
+		"key",
+		"operator",
+		"operand",
+		"match_all"
 	]
 }

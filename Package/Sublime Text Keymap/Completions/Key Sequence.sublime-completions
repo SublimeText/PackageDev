@@ -1,5 +1,5 @@
 {
-	"scope": "source.json.sublimekeymap string.quoted.double.json & (punctuation.keybinding.definition.key.sequence.end.sublimekeymap, meta.key.sequence.sublimekeymap)",
+	"scope": source.json.sublimekeymap string.quoted.double.json & (punctuation.keybinding.definition.key.sequence.end.sublimekeymap, meta.key.sequence.sublimekeymap)",
 
 	"completions": [
 		"super+",
