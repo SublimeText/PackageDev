@@ -45,15 +45,16 @@
 //                 ^ - string.quoted.double.json - meta.structure.dictionary.key.json - meta.structure.dictionary.value.json meta.structure.dictionary.value.json
 //                    ^^^^^^^^ storage.type.context.key-value.sublimekeymap
 //                   ^^^^^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json
-//                                ^^^^^^^ support.function.context.sublimekeymap
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.keybinding-context.selector.sublimekeymap
 //                               ^^^^^^^^^ meta.structure.dictionary.key.json string.quoted.double.json
+//                                ^^^^^^^ support.function.context.sublimekeymap
 //                                        ^ - string.quoted.double.json - meta.structure.dictionary.key.json
-//                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json - string.quoted.double.json string.quoted.double.json
-//                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope-selector.sublimekeymap
-//                                          ^ punctuation.definition.string.begin.json meta.context.key-value.operand.selector.sublimekeymap punctuation.definition.scope-selector.begin.sublimekeymap
+//                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary.value.json meta.context.key-value.operand.selector.sublimekeymap string.quoted.double.json - string.quoted.double.json string.quoted.double.json
+//                                           ^^^^^^^^^^^^^^^^^^^^^^^^^ text.scope-selector.json-string
+//                                          ^ punctuation.definition.string.begin.json
 //                                                 ^ punctuation.separator.scope-segments.scope-selector
 //                                                      ^ punctuation.separator.scope-segments.scope-selector
-//                                                                    ^ punctuation.definition.string.end.json meta.context.key-value.operand.selector.sublimekeymap punctuation.definition.scope-selector.end.sublimekeymap
+//                                                                    ^ punctuation.definition.string.end.json
 //                                                                     ^ - meta.scope-selector.sublimekeymap
 //                                                                      ^ punctuation.definition.dictionary.end.json
         ]
@@ -77,12 +78,12 @@
 //                                                     ^^^^^^^ support.function.context.sublimekeymap
 //                                                    ^^^^^^^^^ string.quoted.double.json
 //                                                             ^ - string.quoted.double.json
-//                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope-selector.sublimekeymap
-//                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json meta.context.key-value.operand.selector.sublimekeymap
-//                                                               ^ punctuation.definition.string.begin.json punctuation.definition.scope-selector.begin.sublimekeymap
+//                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.context.key-value.operand.selector.sublimekeymap string.quoted.double.json
+//                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^ text.scope-selector.json-string
+//                                                               ^ punctuation.definition.string.begin.json
 //                                                                      ^ punctuation.separator.scope-segments.scope-selector
 //                                                                           ^ punctuation.separator.scope-segments.scope-selector
-//                                                                                         ^ punctuation.definition.string.end.json punctuation.definition.scope-selector.end.sublimekeymap
+//                                                                                         ^ punctuation.definition.string.end.json
         ]
     }
 
@@ -133,8 +134,7 @@
 //                                                   ^^^ string.quoted.double.json
 //                                                      ^ punctuation.separator.array.json
 //                                                        ^^^ string.quoted.double.json
-//                                                                       ^ invalid.illegal.expected-string-or-end-of-array.sublime-keymap
-//                                                                        ^ punctuation.separator.array.json
+//                                                                       ^^ invalid.illegal.expected-string-or-end-of-array.sublime-keymap
 //                                                                           ^^^ string.quoted.double.json entity.other.attribute-name.key.named.sublimekeymap
 //                                                                               ^ punctuation.separator.array.json
 //                                                                                  ^^^ string.quoted.double.json invalid.deprecated.key.sublimekeymap
@@ -175,21 +175,24 @@
 //                                                                                                  ^ punctuation.separator.dictionary.pair.json
 //                                                                                                    ^ punctuation.definition.dictionary.end.json
     , // but only one
-//  ^ invalid.illegal.unexpected-token.sublimekeymap
+//  ^ invalid.illegal.expected-dictionary-key.sublimekeymap
         "context":
 //      ^^^^^^^^^ meta.structure.dictionary.key.json meta.main-key.sublimekeymap string.quoted.double.json - meta.structure.dictionary.value.json
         [
             { "key": "setting.tab_completion", "operator": "equal", "operand": true },
-//            ^^^^^ meta.structure.dictionary.key.json string.quoted.double.json meta.context-key.sublimekeymap
-//                    ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json storage.type.context.key-value.sublimekeymap - meta.structure.dictionary.key.json
-//                                             ^^^^^^^^^^ meta.structure.dictionary.key.json string.quoted.double.json meta.context-key.sublimekeymap
+//            ^^^^^ meta.structure.dictionary.key.json meta.context-key.sublimekeymap string.quoted.double.json
+//                    ^^^^^^^ storage.type.context.key-value.sublimekeymap
+//                           ^ punctuation.separator.setting-value.sublimekeymap - storage
+//                            ^^^^^^^^^^^^^^ variable.other.setting.sublimekeymap
+//                                             ^^^^^^^^^^ meta.structure.dictionary.key.json meta.context-key.sublimekeymap string.quoted.double.json
 //                                                          ^^^^^ string.quoted.double.json keyword.operator.context.key-value.sublimekeymap - meta.structure.dictionary.key.json
 //                                                         ^^^^^^^ meta.context.key-value.operator.equality.sublimekeymap
             { "key": "preceding_text", "operator": "not_regex_match", "operand": ".*\\b[0-9]+$", "match_all": true },
 //                    ^^^^^^^^^^^^^^ string.quoted.double.json storage.type.context.key-value.sublimekeymap
-//                                                 ^^^^^^^^^^^^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json meta.context.key-value.operator.regex.sublimekeymap - meta.structure.dictionary.key.json
+//                                                 ^^^^^^^^^^^^^^^^^ meta.structure.dictionary.value.json meta.context.key-value.operator.regex.sublimekeymap string.quoted.double.json - meta.structure.dictionary.key.json
 //                                                  ^^^^^^^^^^^^^^^ keyword.operator.context.key-value.sublimekeymap
-//                                                                               ^^^^^^^^^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json meta.context.key-value.operand.regex.sublimekeymap
+//                                                                               ^^^^^^^^^^^^^^ meta.structure.dictionary.value.json meta.context.key-value.operand.regex.sublimekeymap string.quoted.double.json
+//                                                                                ^^^^^^^^^^^^ source.regexp.json-string
 //                                                                                ^ keyword
 //                                                                                  ^^^ entity.other.attribute-name.anchor
             { "key": "preceding_text", "operator": "equal" }, // trailing commas before closing array punctuation are allowed
@@ -218,8 +221,8 @@
 //                                                                                                ^^ invalid.illegal.unrecognized-string-escape.json.escapedregexp
 //                                                                                                  ^^^ keyword.other.character-class.escapedregexp
             { "key": "following_text", "operator": "regex_match", "operand": "\\s*\\|.*$" /*test*/, /*test*/ "match_all":/*false*/ true },
-//                                                                          ^ - string - meta.context.key-value
-//                                                                           ^^^^^^^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json meta.context.key-value.operand.regex.sublimekeymap
+//                                                                          ^ - string
+//                                                                           ^^^^^^^^^^^^ meta.structure.dictionary.value.json meta.context.key-value.operand.regex.sublimekeymap string.quoted.double.json
 //                                                                                       ^^^^^^^^^^^^^^^^^^^^ - meta.context-key.sublimekeymap
 //                                                                                        ^^^^^^^^ comment.block
 //                                                                                                ^ punctuation.separator.dictionary.pair.json
@@ -231,25 +234,28 @@
 //                                                                                                                                 ^^^^ meta.structure.dictionary.value.json constant.language.json
 //                                                                                                                                      ^ punctuation.definition.dictionary.end.json - meta.context.key-value.match-all.sublimekeymap
             { "key": "settingabc" }, { "key": "", "operator": " " },
-//            ^^^^^ string.quoted.double.json meta.context-key.sublimekeymap
-//                   ^^^^^^^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json meta.context.key-value.key.unknown.sublimekeymap - storage.type.context.key-value.sublimekeymap
+//            ^^^^^ meta.context-key.sublimekeymap string.quoted.double.json
+//                   ^^^^^^^^^^^^ meta.structure.dictionary.value.json meta.context.key-value.key.unknown.sublimekeymap string.quoted.double.json - storage.type.context.key-value.sublimekeymap
 //                   ^ punctuation.definition.string.begin.json
 //                              ^ punctuation.definition.string.end.json
 //                                          ^ - meta.punctuation.separator.dictionary.key-value.json
 //                                           ^ - meta.context.key-value.key.unknown.sublimekeymap
-//                                            ^^ meta.structure.dictionary.value.json string.quoted.double.json meta.context.key-value.key.unknown.sublimekeymap
+//                                            ^^ meta.structure.dictionary.value.json meta.context.key-value.key.unknown.sublimekeymap string.quoted.double.json
 //                                            ^ punctuation.definition.string.begin.json
 //                                             ^ punctuation.definition.string.end.json
 //                                              ^ - meta.context.key-value.key.unknown.sublimekeymap
-//                                                 ^^^^^^^^ string.quoted.double.json support.function.context.sublimekeymap meta.context-key.sublimekeymap
+//                                                 ^^^^^^^^ meta.context-key.sublimekeymap string.quoted.double.json support.function.context.sublimekeymap
 //                                                           ^ - punctuation.separator.dictionary.key-value.json
-//                                                            ^^^ meta.structure.dictionary.value.json string.quoted.double.json meta.context.key-value.operator.unknown.sublimekeymap
+//                                                            ^^^ meta.structure.dictionary.value.json meta.context.key-value.operator.unknown.sublimekeymap string.quoted.double.json
 //                                                            ^ punctuation.definition.string.begin.json
 //                                                              ^ punctuation.definition.string.end.json
             { "key": "setting.abc.def_ghi" },
-//                    ^^^^^^^^^^^^^^^^^^^ string.quoted.double.json storage.type.context.key-value.sublimekeymap
+//                   ^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
+//                    ^^^^^^^ storage.type.context.key-value.sublimekeymap
+//                           ^ punctuation.separator.setting-value.sublimekeymap - storage
+//                            ^^^^^^^^^^^ variable.other.setting.sublimekeymap
             { "blah": "unknown" rub },rubbish, "rubbish": 123
-//            ^^^^^^ string.quoted.double.json meta.unknown-context-key.sublimekeymap
+//            ^^^^^^ meta.unknown-context-key.sublimekeymap string.quoted.double.json
 //            ^ punctuation.definition.string.begin.json
 //                 ^ punctuation.definition.string.end.json
 //                    ^^^^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json - meta.context.key-value
