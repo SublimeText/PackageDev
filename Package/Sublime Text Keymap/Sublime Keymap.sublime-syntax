@@ -122,7 +122,7 @@ contexts:
                     - meta_content_scope: string.quoted.double.json
                     - match: (?=")
                       pop: true
-                    - match: \\(")
+                    - match: \\("|\\)
                       scope: constant.character.escape.json
                       captures:
                         1: string.key.literal.sublime-keymap

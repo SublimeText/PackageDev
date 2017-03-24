@@ -141,6 +141,10 @@
 //                                                                                         ^ invalid.deprecated.key.upper-case.sublime-keymap
 //                                                                                           ^ punctuation.definition.array.end.json
 
+    , { "keys": ["shift+alt+\\"] },
+//                          ^^constant.character.escape.json
+//                           ^ string.key.literal.sublime-keymap
+
 , { "keys": ["\"", " ", "space"], "command": "insert_snippet", "args": {"contents": "\"$0\""} },
 //           ^^^^ string.quoted.double.json
 //            ^ constant.character.escape.json
