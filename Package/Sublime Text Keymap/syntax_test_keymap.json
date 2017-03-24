@@ -165,7 +165,7 @@
 //                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary.value.json meta.structure.array.json
 //                                                                                                                                                         ^ punctuation.definition.dictionary.end.json
 
-    { "keys": ["tab"], "command": "insert_best_completion", "args": {"default": "\t", "exact": false, }, // trailing commas before closing dictionary punctuation / between dictionary keys are allowed
+    { "keys": ["tab"], "command": "insert_best_completion", "args": {"default": "\t", "exact": false,, }, // trailing commas before closing dictionary punctuation / between dictionary keys are allowed
 //  ^ punctuation.definition.dictionary.begin.json punctuation.definition.keybinding.begin.sublime-keymap
 //                                                                    ^^^^^^^ string.quoted.double.json support.function.sublime-keymap
 //                                                                               ^^ string.quoted.double.json constant.character.escape.json
@@ -173,7 +173,8 @@
 //                                                                                     ^^^^^ string.quoted.double.json support.function.sublime-keymap
 //                                                                                             ^^^^^ constant.language.json
 //                                                                                                  ^ punctuation.separator.dictionary.pair.json
-//                                                                                                    ^ punctuation.definition.dictionary.end.json
+//                                                                                                   ^ invalid.illegal.expected-dictionary-key.json
+//                                                                                                     ^ punctuation.definition.dictionary.end.json
     , // but only one
 //  ^ invalid.illegal.expected-dictionary-key.sublime-keymap
         "context":

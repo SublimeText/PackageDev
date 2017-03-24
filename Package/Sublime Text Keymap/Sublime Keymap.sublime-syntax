@@ -499,6 +499,8 @@ contexts:
           scope: punctuation.definition.dictionary.end.json
           pop: true
         - include: support-keys
+        - match: \S
+          scope: invalid.illegal.expected-dictionary-key.json
 
   array:
     - match: \[
