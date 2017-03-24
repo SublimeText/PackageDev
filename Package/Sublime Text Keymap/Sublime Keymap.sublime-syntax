@@ -591,6 +591,7 @@ contexts:
       scope: invalid.illegal.expected-comment-or-eof.sublime-keymap
 
   expect-colon:
+    - include: comments
     - match: ':'
       scope: punctuation.separator.dictionary.key-value.json
       pop: true

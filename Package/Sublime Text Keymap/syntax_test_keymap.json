@@ -33,10 +33,15 @@
 //                                        ^ punctuation.separator.array.json - meta.structure.dictionary
 
     {
-        "keys": ["ctrl+a"], "command": "test_command2",
-//                                      ^^^^^^^^^^^^^ meta.command-name.sublime-keymap - invalid
+        "keys"
+        :
+        ["ctrl+a"], "command": "test_command2",
+//        ^^^^ support.function.modifier.key.sublime-keymap
+//                              ^^^^^^^^^^^^^ meta.command-name.sublime-keymap - invalid
         "context":
         [
+            // context entries with a 'selector' key have their operand highlighted,
+            // as long as the key comes before the operand
             { "key": "selector", "operand": "source.json.sublime" }
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.keybinding-context-collection.sublime-keymap meta.structure.dictionary.json meta.keybinding-context.sublime-keymap
 //                                                                 ^ - meta.keybinding-context.sublime-keymap
@@ -84,12 +89,31 @@
 //                                                                      ^ punctuation.separator.scope-segments.scope-selector
 //                                                                           ^ punctuation.separator.scope-segments.scope-selector
 //                                                                                   ^ punctuation.definition.string.end.json
+            {},
+//          ^^ invalid.illegal.expected-comma.inside-array.json
+//            ^ punctuation.separator.array.json
+
+            // can also be in a different order and split over multiple lines
+            { "operator"
+//            ^^^^^^^^^^ meta.context-key.sublime-keymap
+                :
+//              ^ punctuation.separator.dictionary.key-value.json
+                "equal",
+//               ^^^^^ keyword.operator.context.key-value.sublime-keymap
+              "key": "selector",
+//            ^^^^ meta.context-key.sublime-keymap
+//                    ^^^^^^^^ storage.type.context.key-value.sublime-keymap
+              "operand": "source.json.sublime" }
+//            ^^^^^^^^^ meta.context-key.sublime-keymap
+//                        ^^^^^^^^^^^^^^^^^^^ source.scope-selector.embedded.json-string
         ]
     }
 
     {
 //  ^ invalid.illegal.expected-comma.inside-array.json
     ,{
+        // the "contents" arg for the 'insert_snippet' command will have snippet syntax applied,
+        // as long as the command is specified before the args
         "keys": ["ctrl+i"],
         "command": "insert_snippet",
 //                 ^^^^^^^^^^^^^^^^ meta.command-name.sublime-keymap
