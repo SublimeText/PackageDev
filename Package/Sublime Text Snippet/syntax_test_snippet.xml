@@ -6,7 +6,7 @@
 <snippet>
     <content><!-- comment --><![CDATA[
 #   ^^^^^^^^^ meta.tag
-#    ^^^^^^^ entity.name.tag.localname meta.toc-list.snippet-content
+#    ^^^^^^^ entity.name.tag.localname meta.toc-list.content
 #   ^ punctuation.definition.tag.begin
 #           ^ punctuation.definition.tag.end
 #            ^^^^^^^^^^^^^^^^ comment.block.xml
@@ -168,7 +168,7 @@ stray brackets:
 #  ^ constant
 #     ^^^^^^^^^^^^^^^^ constant.language
 #   ^^ - constant
-#                     ^^ constant.character.escape.sublimesnippetraw
+#                     ^^ constant.character.escape.snippet
 #                       ^ - constant
 
 ${My_Own_Constant}
@@ -211,16 +211,16 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment
     <tabTrigger>test-snippet</tabTrigger>
 #   ^^^^^^^^^^^^ meta.tag
-#    ^^^^^^^^^^ meta.toc-list.snippet-trigger
+#    ^^^^^^^^^^ meta.toc-list.trigger
     <!-- Optional: Scope the tab trigger will be active in -->
     <scope>text <!-- c --></scope>
-#    ^^^^^ meta.toc-list.snippet-scope
+#    ^^^^^ meta.toc-list.scope
 #          ^^^^^^^^^^^^^^^ meta.scope.sublime-snippet
 #          ^^^^ string.unquoted.scope-segment
 #               ^^^^^^^^^^ meta.scope.sublime-snippet comment.block.xml
 </snippet>
 
-<!-- NOTE: multiple payloads inside a sublime-snippet file are not supported
+<!-- NOTE: multiple payloads inside a snippet file are not supported
            but they are in this test file to avoid the need for using multiple
            test files, and to test the interactions between different scenarios
 -->
@@ -270,7 +270,7 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #      ^^^^ string.unquoted.scope-segment
 #          ^ punctuation.separator.scope-segments
 #           ^^^^ string.unquoted.scope-segment
-#                ^^^^^ keyword.operator.with
+#                ^^^^^ keyword.operator.with.scope-selector
 #                      ^^^^ string.unquoted.scope-segment
 <scope><![CDATA[text.html &amp; test]]></scope>
 #      ^^^^^^^^^ invalid.illegal
@@ -285,10 +285,10 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 </scope>
 
 <tabTrigger> </tabTrigger>
-#^^^^^^^^^^ meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-trigger.sublime-snippet
+#^^^^^^^^^^ meta.tag.xml entity.name.tag.localname.xml meta.toc-list.trigger.sublime-snippet
 
 <description> </description>
-#^^^^^^^^^^^ meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-description.sublime-snippet
+#^^^^^^^^^^^ meta.tag.xml entity.name.tag.localname.xml meta.toc-list.description.sublime-snippet
 
 
 <unknownTag>fgfg</unknownTag>

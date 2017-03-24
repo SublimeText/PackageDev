@@ -3,7 +3,7 @@
 name: TextMate Preferences (PList / XML)
 file_extensions:
   - tmPreferences
-scope: text.xml.plist.textmateprefs
+scope: text.xml.plist.textmate.preferences
 
 contexts:
 
@@ -39,7 +39,7 @@ contexts:
           push: inside-outer-dict
         # we only expect a dict
         - match: '\S+'
-          scope: invalid.illegal.expected-dict.textmateprefs
+          scope: invalid.illegal.expected-dict.tmPreferences
     - include: scope:text.xml.plist#whitespace-or-tag
 
   comments:
@@ -101,16 +101,16 @@ contexts:
         - meta_content_scope: meta.inside-dict-key.plist
         - include: key-end
         - match: 'scope(?=\s*<)'
-          scope: keyword.other.scope.textmateprefs
+          scope: keyword.other.scope.tmPreferences
           set: [expect-scope-string, key-end]
         - match: 'name(?=\s*<)'
-          scope: keyword.other.name.textmateprefs
+          scope: keyword.other.name.tmPreferences
           set: [expect-string, key-end]
         - match: 'settings(?=\s*<)'
-          scope: keyword.other.settings.textmateprefs
+          scope: keyword.other.settings.tmPreferences
           set: [settings, key-end]
         - match: 'uuid(?=\s*<)'
-          scope: keyword.other.uuid.textmateprefs
+          scope: keyword.other.uuid.tmPreferences
           set: [expect-string, key-end] # TODO validate uuid
 
   settings:
@@ -124,7 +124,7 @@ contexts:
     - include: scope:text.xml.plist#whitespace-or-tag
 
   inside-settings-dict:
-    - meta_content_scope: meta.inside-dict.settings.textmateprefs
+    - meta_content_scope: meta.inside-dict.settings.tmPreferences
     - include: dict-end
 
     - match: '(<)(key)\s*(>)'
@@ -137,22 +137,22 @@ contexts:
         - meta_content_scope: meta.inside-dict-key.plist
         - include: inside-dict-key
         - match: 'shellVariables(?=\s*<)'
-          scope: keyword.other.shellVariables.textmateprefs
+          scope: keyword.other.shellVariables.tmPreferences
           set: [shell-variables, key-end]
         - match: '(?:decreaseIndentPattern|batchDecreaseIndentPattern|increaseIndentPattern|batchIncreaseIndentPattern|disableIndentNextLinePattern|bracketIndentNextLinePattern|unIndentedLinePattern|cancelCompletion)(?=\s*<)'
-          scope: entity.name.setting.regex.textmateprefs
+          scope: entity.name.setting.regex.tmPreferences
           set: [expect-regex-string, key-end]
         - match: '(?:symbolTransformation|symbolIndexTransformation)(?=\s*<)'
-          scope: entity.name.setting.regex-transform.textmateprefs
+          scope: entity.name.setting.regex-transform.tmPreferences
           set: [expect-transformation-string, key-end]
         - match: '(?:showInSymbolList|showInIndexedSymbolList)(?=\s*<)'
-          scope: entity.name.setting.textmateprefs
+          scope: entity.name.setting.tmPreferences
           set: [expect-integer, key-end] # yes, integer - for some reason, booleans don't work here
         - match: '(?:indentParens|indentSquareBrackets|preserveIndent)(?=\s*<)'
-          scope: entity.name.setting.textmateprefs
+          scope: entity.name.setting.tmPreferences
           set: [expect-boolean, key-end]
         - match: 'icon(?=\s*<)'
-          scope: entity.name.setting.textmateprefs
+          scope: entity.name.setting.tmPreferences
           set: [expect-string, key-end]
 
     - include: inside-any-dict
@@ -171,12 +171,12 @@ contexts:
     - include: scope:text.xml.plist#whitespace-or-tag
 
   inside-dict-key:
-    - meta_content_scope: meta.inside-dict-key.plist meta.dict-key-unknown.textmateprefs
+    - meta_content_scope: meta.inside-dict-key.plist meta.dict-key-unknown.tmPreferences
     - include: comments
     - match: '(<)(/)(key)\s*(>)'
       scope: meta.tag.xml
       captures:
-        1: meta.close-unknown-dict-key-tag.textmateprefs punctuation.definition.tag.begin.xml
+        1: meta.close-unknown-dict-key-tag.tmPreferences punctuation.definition.tag.begin.xml
         2: punctuation.definition.tag.begin.xml
         3: entity.name.tag.localname.xml
         4: punctuation.definition.tag.end.xml
@@ -193,14 +193,14 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-value.string.plist meta.toc-list.scope.textmateprefs
+        - meta_content_scope: meta.inside-value.string.plist meta.toc-list.scope.tmPreferences
         - match: '<!\[CDATA\['
           scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
           push:
             - match: ']]>'
               scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
               pop: true
-            - include: scope:text.scope-selector
+            - include: scope:source.scope-selector
         - match: '(</)(string)\s*(>)'
           scope: meta.tag.xml
           captures:
@@ -210,7 +210,7 @@ contexts:
           pop: true
         - match: '(?=\S)'
           push:
-            - include: scope:text.scope-selector
+            - include: scope:source.scope-selector
           with_prototype:
             - match: '(?=</string\s*>|<!\[CDATA\[)'
               pop: true
@@ -292,18 +292,18 @@ contexts:
     - include: scope:text.xml.plist#whitespace-or-tag
 
   transformation:
-    - meta_content_scope: meta.regex.transformation.textmateprefs
+    - meta_content_scope: meta.regex.transformation.tmPreferences
     - match: 's/'
-      scope: punctuation.definition.substitute-what.textmateprefs
+      scope: punctuation.definition.substitute-what.tmPreferences
       push:
         - match: '/'
-          scope: punctuation.definition.substitute-with.textmateprefs
+          scope: punctuation.definition.substitute-with.tmPreferences
           set:
             - match: '(/)([gimsx-]*)(;|$)'
               captures:
-                1: punctuation.definition.substitute-flags.textmateprefs
-                2: storage.modifier.mode.regexp.transformation.textmateprefs
-                3: punctuation.definition.substitution.end.textmateprefs
+                1: punctuation.definition.substitute-flags.tmPreferences
+                2: storage.modifier.mode.regexp.transformation.tmPreferences
+                3: punctuation.definition.substitution.end.tmPreferences
               pop: true
             - include: scope:source.regexp-replacement
         - include: scope:source.regexp#base-literal
@@ -311,7 +311,7 @@ contexts:
     - include: scope:source.regexp#extended-patterns
 
   regex-pattern:
-    - meta_content_scope: meta.regex.textmateprefs
+    - meta_content_scope: meta.regex.tmPreferences
     - include: scope:source.regexp
 
   shell-variables:
@@ -351,7 +351,7 @@ contexts:
       set: inside-shell-variables-dict
 
   inside-shell-variables-dict:
-    - meta_content_scope: meta.inside-dict.shellVariables.textmateprefs
+    - meta_content_scope: meta.inside-dict.shellVariables.tmPreferences
     - include: dict-end
 
     - match: '((<)(key)\s*(>))(\s*name\s*)((</)(key)\s*(>))'
@@ -373,7 +373,7 @@ contexts:
             3: entity.name.tag.localname.xml
             4: punctuation.definition.tag.end.xml
             5: meta.inside-value.string.plist
-            6: entity.name.shellVariable.textmateprefs
+            6: entity.name.shellVariable.tmPreferences
             7: meta.tag.xml
             8: punctuation.definition.tag.begin.xml
             9: entity.name.tag.localname.xml
@@ -406,7 +406,7 @@ contexts:
         3: entity.name.tag.localname.xml
         4: punctuation.definition.tag.end.xml
         5: meta.inside-dict-key.plist
-        6: constant.numeric.textmateprefs
+        6: constant.numeric.tmPreferences
         7: meta.tag.xml
         8: punctuation.definition.tag.begin.xml
         9: entity.name.tag.localname.xml

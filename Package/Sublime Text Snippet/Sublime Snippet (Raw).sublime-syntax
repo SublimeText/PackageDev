@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # See http://www.sublimetext.com/docs/3/syntax.html
-scope: source.sublimesnippetraw
+scope: source.sublime.snippet
 name: Sublime Text Snippet Content
 hidden: true
 contexts:
@@ -10,12 +10,12 @@ contexts:
 
   possible_caret:
     - match: '\\[$}]'
-      scope: constant.character.escape.sublimesnippetraw
+      scope: constant.character.escape.snippet
     - match: '\$(?=\{|\w)'
-      scope: meta.text-substitution.sublimesnippetraw keyword.other.block.start.sublimesnippetraw
+      scope: meta.text-substitution.snippet keyword.other.block.start.snippet
       push: caret
     - match: '\$'
-      scope: invalid.illegal.unescaped-dollar.sublimesnippetraw
+      scope: invalid.illegal.unescaped-dollar.snippet
 
   caret:
     - match: '(?:(\d+(?!\w))|(PARAM\d+|SELECTION|TM_CURRENT_LINE|TM_CURRENT_WORD|TM_FILENAME|TM_FILEPATH|TM_FULLNAME|TM_LINE_INDEX|TM_LINE_NUMBER|TM_SELECTED_TEXT|TM_SOFT_TABS|TM_TAB_SIZE)\b)'
@@ -23,43 +23,43 @@ contexts:
         http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippet#environment-variables
         note that USER_NAME is always blank in ST, so we don't highlight it here
       captures:
-        1: constant.numeric.sublimesnippetraw
-        2: constant.language.sublimesnippetraw
+        1: constant.numeric.snippet
+        2: constant.language.snippet
       pop: true
     - match: '\{'
-      scope: keyword.other.block.begin.sublimesnippetraw
+      scope: keyword.other.block.begin.snippet
       set: [inside_caret, caret]
     - match: '\w+'
-      scope: meta.text-substitution.sublimesnippetraw constant.other.sublimesnippetraw
+      scope: meta.text-substitution.snippet constant.other.snippet
       pop: true
 
   inside_caret:
-    - meta_scope: meta.text-substitution.sublimesnippetraw
+    - meta_scope: meta.text-substitution.snippet
     - match: '\}'
-      scope: keyword.other.block.end.sublimesnippetraw
+      scope: keyword.other.block.end.snippet
       pop: true
     - include: possible_caret
     - match: ':'
-      scope: keyword.operator.alternation.sublimesnippetraw
+      scope: keyword.operator.alternation.snippet
       push:
-        - meta_content_scope: string.unquoted.text-substitution.sublimesnippetraw
+        - meta_content_scope: string.unquoted.text-substitution.snippet
         - include: possible_caret
         - match: '(?=\})'
           pop: true
     - match: '/'
-      scope: keyword.other.regex.start.sublimesnippetraw
+      scope: keyword.other.regex.start.snippet
       push:
         - match: '/'
-          scope: keyword.other.regex.mid.sublimesnippetraw
+          scope: keyword.other.regex.mid.snippet
           set:
             - match: '/'
-              scope: keyword.other.regex.end.sublimesnippetraw
+              scope: keyword.other.regex.end.snippet
               set:
                 - match: '[gims-]*' # x mode doesn't seem to work properly in snippets
-                  scope: constant.other.regex-modifier.sublimesnippetraw
+                  scope: constant.other.regex-modifier.snippet
                 - match: '(?=\})'
                   pop: true
                 - match: '[^}]+'
-                  scope: invalid.illegal.unexpected-token.sublimesnippetraw
+                  scope: invalid.illegal.unexpected-token.snippet
             - include: scope:source.regexp-replacement
         - include: scope:source.regexp#base-literal

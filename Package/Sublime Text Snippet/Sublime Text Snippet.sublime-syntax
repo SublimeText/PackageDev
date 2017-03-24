@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 name: Sublime Text Snippet (XML)
-scope: text.xml.sublime-snippet
+scope: text.xml.sublime.snippet
 file_extensions:
   - sublime-snippet
 first_line_match: '<snippet>'
@@ -13,7 +13,7 @@ contexts:
       scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml meta.toc-list.snippet-content.sublime-snippet
+        2: entity.name.tag.localname.xml meta.toc-list.content.sublime-snippet
         3: punctuation.definition.tag.end.xml
       push:
         - include: comments
@@ -27,7 +27,7 @@ contexts:
                 - include: comments
                 - match: '<!\[CDATA\['
                   set:
-                    - meta_scope: invalid.illegal.multiple-cdata-not-allowed.sublime-snippet-content
+                    - meta_scope: invalid.illegal.multiple-cdata-not-allowed.sublime-snippet
                     - match: '\]\]>'
                       pop: true
                 - include: inside_content
@@ -38,7 +38,7 @@ contexts:
       scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml meta.toc-list.snippet-scope.sublime-snippet
+        2: entity.name.tag.localname.xml meta.toc-list.scope.sublime-snippet
         3: punctuation.definition.tag.end.xml
       push: # CDATA not supported here
         - meta_content_scope: meta.scope.sublime-snippet
@@ -49,7 +49,7 @@ contexts:
           scope: invalid.illegal.newline-not-supported-here.sublime-snippet
         - match: '(?=</scope>)'
           pop: true
-        - include: scope:text.scope-selector
+        - include: scope:source.scope-selector
       with_prototype:
         - match: '\s*(&amp;)\s*'
           captures:
@@ -58,13 +58,13 @@ contexts:
       scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml meta.toc-list.snippet-trigger.sublime-snippet
+        2: entity.name.tag.localname.xml meta.toc-list.trigger.sublime-snippet
         3: punctuation.definition.tag.end.xml
     - match: '(<)(description)(>)'
       scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml meta.toc-list.snippet-description.sublime-snippet
+        2: entity.name.tag.localname.xml meta.toc-list.description.sublime-snippet
         3: punctuation.definition.tag.end.xml
     - match: '<(?!/?(?:snippet|tabTrigger|scope|description)\s*>)/?'
       scope: punctuation.definition.tag.begin.xml
@@ -78,7 +78,7 @@ contexts:
     - include: scope:text.xml
 
   snippet_content:
-    - include: scope:source.sublimesnippetraw
+    - include: scope:source.sublime.snippet
 
   inside_content:
     - match: '(</)(content)(>)'

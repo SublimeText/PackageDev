@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>scope</key>
-    <string>source.yaml.sublime-syntax entity.name.constant</string>
+    <string>source.yaml.sublime.syntax entity.name.constant</string>
     <key>settings</key>
     <dict>
         <key>showInSymbolList</key>

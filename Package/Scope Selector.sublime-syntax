@@ -1,16 +1,18 @@
 %YAML 1.2
 ---
 # See http://www.sublimetext.com/docs/3/syntax.html
-scope: text.scope-selector
+scope: source.scope-selector
 hidden: true
+
 variables:
   scope_segment: '\w+(?:[\w-]*\+*)' # \+* is for the non standard scope.c++ scopes
+
 contexts:
   main:
     - match: '\)'
       scope: invalid.illegal.stray-bracket.scope-selector
     - include: base
-  
+
   base:
     - match: '(?:^\s*)?({{scope_segment}})'
       captures:
