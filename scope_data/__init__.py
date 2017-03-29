@@ -124,7 +124,7 @@ DATA = """
 """
 
 
-class NodeList(list):
+class NodeSet(set):
     """
     Methods:
         * find(name)
@@ -138,10 +138,10 @@ class NodeList(list):
         return None
 
     def find_all(self, name):
-        res = NodeList()
+        res = NodeSet()
         for node in self:
             if node == name:
-                res.append(node)
+                res.add(node)
         return res
 
     def to_completion(self):
@@ -164,11 +164,14 @@ class ScopeNode(object):
     def __init__(self, name, parent=None, children=None):
         self.name = name
         self.parent = parent
-        self.children = children or NodeList()
+        self.children = children or NodeSet()
         self.level = parent and parent.level + 1 or 1
 
+    def __hash__(self):
+        return hash(str(self))
+
     def add_child(self, child):
-        self.children.append(child)
+        self.children.add(child)
 
     def tree(self):
         if self.parent:
@@ -179,6 +182,10 @@ class ScopeNode(object):
     def __eq__(self, other):
         if isinstance(other, basestring):
             return str(self) == other
+        elif isinstance(other, ScopeNode):
+            return (self.name == other.name
+                    and self.parent == other.parent
+                    and self.children == other.children)
 
     def __str__(self):
         return self.name
@@ -193,8 +200,8 @@ class ScopeNode(object):
 #######################################
 
 # output values
-COMPILED_NODES = NodeList()
-COMPILED_HEADS = NodeList()
+COMPILED_NODES = NodeSet()
+COMPILED_HEADS = NodeSet()
 
 # parse the DATA string
 lines = DATA.split("\n")
@@ -227,6 +234,6 @@ for line in lines:
     if parent:
         parent.add_child(node)
     else:
-        COMPILED_HEADS.append(node)
+        COMPILED_HEADS.add(node)
 
-    COMPILED_NODES.append(node)
+    COMPILED_NODES.add(node)
