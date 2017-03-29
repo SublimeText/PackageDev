@@ -233,6 +233,8 @@
 //                                                                                ^^^^^^^^^^^^ source.regexp.embedded.json-string
 //                                                                                ^ keyword
 //                                                                                  ^^^ entity.other.attribute-name.anchor.escapedregexp
+            { key }, // be less strict about invalid keys because of completions
+//            ^^^ - invalid
             { "key": "preceding_text", "operator": "equal" }, // trailing commas before closing array punctuation are allowed
         ,]                                                    // but only one
 //      ^ invalid.illegal.expected-mapping-or-end-of-sequence.sublime-keymap - punctuation.separator.sequence.json

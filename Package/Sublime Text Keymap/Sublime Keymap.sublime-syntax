@@ -318,7 +318,7 @@ contexts:
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
           set: [in-dictionary-expect-comma, expect-colon-value]
-    - match: \S
+    - match: '[^\s\w]'
       scope: invalid.illegal.expected-key.json
 
   context-entry-contents-regex:
