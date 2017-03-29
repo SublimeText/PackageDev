@@ -51,7 +51,7 @@
 <!--                  ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict.settings.tmPreferences meta.inside-array.plist meta.inside-dict.shellVariables -->
                     <key>name</key>
                     <string>TM_COMMENT_START</string>
-<!--                        ^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.shellVariable.tmPreferences support.type.shellVariable.tmPreferences -->
+<!--                        ^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.constant.shellVariable.tmPreferences support.type.shellVariable.tmPreferences -->
                     <key>value</key>
                     <string>TEST </string>
                 </dict>
@@ -59,7 +59,7 @@
 <!--                  ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict.settings.tmPreferences meta.inside-array.plist meta.inside-dict.shellVariables -->
                     <key>name</key>
                     <string>TM_COMMENT_START_2</string>
-<!--                        ^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.shellVariable.tmPreferences support.type.shellVariable.tmPreferences -->
+<!--                        ^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.constant.shellVariable.tmPreferences support.type.shellVariable.tmPreferences -->
                     <key>value</key>
                     <string># blah </string>
                 </dict>
@@ -67,7 +67,7 @@
 <!--                  ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict.settings.tmPreferences meta.inside-array.plist meta.inside-dict.shellVariables -->
                     <key>name</key>
                     <string>TM_COMMENT_START_</string>
-<!--                        ^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.shellVariable.tmPreferences - support -->
+<!--                        ^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.constant.shellVariable.tmPreferences - support -->
                     <key>value</key>
                     <string># blah </string>
                 </dict>
@@ -75,7 +75,7 @@
 <!--                  ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict.settings.tmPreferences meta.inside-array.plist meta.inside-dict.shellVariables -->
                     <key>name</key>
                     <string>TM_COMMENT_DISABLE_INDENT_2</string>
-<!--                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.shellVariable.tmPreferences support.type.shellVariable.tmPreferences -->
+<!--                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.constant.shellVariable.tmPreferences support.type.shellVariable.tmPreferences -->
                     <key>value</key>
                     <string>yes</string>
                 </dict>
@@ -83,7 +83,7 @@
 <!--                  ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict.settings.tmPreferences meta.inside-array.plist meta.inside-dict.shellVariables -->
                     <key>name</key>
                     <string>test</string>
-<!--                        ^^^^ meta.inside-value.string.plist entity.name.shellVariable.tmPreferences - support -->
+<!--                        ^^^^ meta.inside-value.string.plist entity.name.constant.shellVariable.tmPreferences - support -->
                     <key>value</key>
                     <string>test value &amp;</string>
                 </dict>
@@ -106,24 +106,24 @@
             </array>
 
             <key>preserveIndent</key>
-<!--             ^^^^^^^^^^^^^^ meta.inside-dict-key.plist entity.name.setting.tmPreferences -->
+<!--             ^^^^^^^^^^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
             <false />
 <!--         ^^^^^ entity.name.tag.localname.xml constant.language.boolean.plist -->
             <key>decreaseIndentPattern</key>
-<!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict-key.plist entity.name.setting.regex.tmPreferences -->
+<!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.regex.tmPreferences -->
             <string>^\s*(?i:end|else|elseif|loop|wend|next)(\s|$)</string>
 <!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.tmPreferences -->
 <!--                ^ keyword.control.anchors.regexp -->
 <!--                                                               ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
             <key>increaseIndentPattern</key>
-<!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.setting.regex.tmPreferences -->
+<!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.regex.tmPreferences -->
             <string>example containing <bad & characters. (?<=doh)</string>
 <!--                                   ^ invalid.illegal.missing-entity.xml -->
 <!--                                        ^ invalid.illegal.bad-ampersand.xml -->
 <!--                                                    ^ keyword.other.any.regexp -->
 <!--                                                        ^ invalid.illegal.missing-entity.xml -->
             <key>increaseIndentPattern</key>
-<!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.setting.regex.tmPreferences -->
+<!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.regex.tmPreferences -->
             <string><![CDATA[example containing <bad> & characters. (?<=doh)]]></string>
 <!--                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.tmPreferences - invalid -->
 <!--                ^^^^^^^^^ string.unquoted.cdata.xml punctuation.definition.string.begin.xml - meta.regex.tmPreferences -->
@@ -138,7 +138,7 @@
 <!--        ^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
 <!--             ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
             <key>disableIndentNextLinePattern</key><string></string>
-<!--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.setting.regex.tmPreferences -->
+<!--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.regex.tmPreferences -->
 <!--                                                         ^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
             <key>indentNextLinePattern</key>
 <!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist - entity.name -->
@@ -151,18 +151,18 @@
 <!--                ^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist - meta.regex.tmPreferences -->
 
             <key>showInSymbolList</key>
-<!--             ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.setting.tmPreferences -->
+<!--             ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
             <integer>1</integer>text
 <!--                 ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.integer.plist constant.numeric.plist -->
 <!--                            ^^^^ meta.inside-plist.plist meta.inside-dict.plist invalid.illegal.unexpected-text.plist -->
             <key>showInIndexedSymbolList</key>
-<!--             ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.setting.tmPreferences -->
+<!--             ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
             text<string>0</string>
 <!--        ^^^^ meta.inside-plist.plist meta.inside-dict.plist invalid.illegal.unexpected-text.plist -->
 <!--             ^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml entity.name.tag.localname.xml -->
 <!--                    ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist constant.numeric.tmPreferences -->
             <key>symbolTransformation</key>
-<!--             ^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.setting.regex-transform.tmPreferences -->
+<!--             ^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.regex-transform.tmPreferences -->
             <string><![CDATA[
                 s/(\[[^\]]*\])|\b_\b\s*|\(.*|(\s{2,})/$1(?2 )/g; (?# this is a regex transformation
 <!--            ^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.transformation.tmPreferences punctuation.definition.substitute-what.tmPreferences -->

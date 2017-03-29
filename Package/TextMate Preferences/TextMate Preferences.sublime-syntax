@@ -140,16 +140,16 @@ contexts:
           scope: keyword.other.shellVariables.tmPreferences
           set: [shell-variables, key-end]
         - match: '(?:decreaseIndentPattern|batchDecreaseIndentPattern|increaseIndentPattern|batchIncreaseIndentPattern|disableIndentNextLinePattern|bracketIndentNextLinePattern|unIndentedLinePattern|cancelCompletion)(?=\s*<)'
-          scope: entity.name.setting.regex.tmPreferences
+          scope: entity.name.constant.setting.regex.tmPreferences
           set: [expect-regex-string, key-end]
         - match: '(?:symbolTransformation|symbolIndexTransformation)(?=\s*<)'
-          scope: entity.name.setting.regex-transform.tmPreferences
+          scope: entity.name.constant.setting.regex-transform.tmPreferences
           set: [expect-transformation-string, key-end]
         - match: '(?:showInSymbolList|showInIndexedSymbolList)(?=\s*<)'
-          scope: entity.name.setting.tmPreferences
+          scope: entity.name.constant.setting.tmPreferences
           set: [expect-integer, key-end] # yes, integer - for some reason, booleans don't work here
         - match: '(?:indentParens|indentSquareBrackets|preserveIndent)(?=\s*<)'
-          scope: entity.name.setting.tmPreferences
+          scope: entity.name.constant.setting.tmPreferences
           set: [expect-boolean, key-end]
         - match: 'icon(?=\s*<)'
           scope: entity.name.setting.tmPreferences
@@ -374,7 +374,7 @@ contexts:
             3: entity.name.tag.localname.xml
             4: punctuation.definition.tag.end.xml
             5: meta.inside-value.string.plist
-            6: entity.name.shellVariable.tmPreferences
+            6: entity.name.constant.shellVariable.tmPreferences
             7: support.type.shellVariable.tmPreferences
             8: meta.tag.xml
             9: punctuation.definition.tag.begin.xml
