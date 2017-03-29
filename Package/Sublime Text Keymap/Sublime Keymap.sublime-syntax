@@ -90,7 +90,7 @@ contexts:
       pop: true
     - include: support-keys
     - include: comments
-    - match: \S
+    - match: '[^\s\w]' # \S
       scope: invalid.illegal.expected-dictionary-key.sublime-keymap
 
   expect-keys-array:

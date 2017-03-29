@@ -207,8 +207,10 @@
 //                                                                                                  ^ punctuation.separator.dictionary.pair.json
 //                                                                                                   ^ invalid.illegal.expected-dictionary-key.json
 //                                                                                                     ^ punctuation.definition.dictionary.end.json
-    , // but only one
+
+    , context // but only one; and just don't match bare characters
 //  ^ invalid.illegal.expected-dictionary-key.sublime-keymap
+//    ^^^^^^^ - invalid
         "context":
 //      ^^^^^^^^^ meta.structure.dictionary.key.json meta.main-key.sublime-keymap string.quoted.double.json - meta.structure.dictionary.value.json
         [

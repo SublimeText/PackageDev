@@ -1,0 +1,9 @@
+{
+    "scope": "source.json.sublime.keymap meta.structure.dictionary - meta.structure.dictionary meta",
+    "completions": [
+        {"trigger": "keys\tkey", "contents": "\"keys\": [$0]"},
+        {"trigger": "command\tkey", "contents": "\"command\": \"$1\""},
+        {"trigger": "args\tkey", "contents": "\"args\": {$0}"},
+        {"trigger": "context\tkey", "contents": "\"context\": {$0}"},
+    ]
+}
