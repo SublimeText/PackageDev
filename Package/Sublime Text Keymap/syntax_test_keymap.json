@@ -35,9 +35,13 @@
     {
         "keys"
         :
-        ["ctrl+a"], "command": "test_command2",
+        ["ctrl+a", "enter"], "command": "test_command2",
+//        ^^^^^^ meta.key-chord.sublime-keymap
 //        ^^^^ support.function.modifier.key.sublime-keymap
-//                              ^^^^^^^^^^^^^ meta.command-name.sublime-keymap - invalid
+//            ^ keyword.operator.modifier.connector.sublime-keymap
+//             ^ string.key.literal.sublime-keymap
+//                  ^^^^^ entity.other.attribute-name.key.named.sublime-keymap
+//                                       ^^^^^^^^^^^^^ meta.command-name.sublime-keymap support.constant.command-name.sublime-keymap
         "context":
         [
             // context entries with a 'selector' key have their operand highlighted,
