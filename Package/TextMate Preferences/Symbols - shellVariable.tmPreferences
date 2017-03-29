@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>entity.name.shellVariable.tmPreferences</string>
+	<string>entity.name.shellVariable.tmPreferences, support.type.shellVariable.tmPreferences</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
