@@ -98,6 +98,7 @@ contexts:
       scope: punctuation.section.sequence.begin.json
       set:
         - meta_scope: meta.value.json meta.sequence.json
+        - meta_content_scope: meta.key-chords.sublime-keymap
         - match: \]
           scope: punctuation.section.sequence.end.json
           pop: true
