@@ -80,7 +80,9 @@
             {  "name": "invalid.illegal.unescaped.characters.sublimecompletions",
                "match": "\\$(?!\\{|[0-9A-Za-z])"
             },
-            { "include": "source.sublimesnippetraw" },
+            // Snippet syntax has been migrated to .sublime-syntax,
+            // which cannot be included from tmLanguage files
+            // { "include": "source.sublimesnippetraw" },
             { "comment": "Match everything else to mark as string",
               "name": "string.snippet.sublimecompletions",
               "match": "."}
