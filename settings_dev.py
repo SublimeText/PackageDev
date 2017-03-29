@@ -1,11 +1,6 @@
-import sys
-
 import sublime_plugin
 
-if sys.version_info < (3,):
-    from sublime_lib.path import root_at_packages, get_package_name
-else:
-    from .sublime_lib.path import root_at_packages, get_package_name
+from .sublime_lib.path import root_at_packages, get_package_name
 
 
 PLUGIN_NAME = get_package_name()

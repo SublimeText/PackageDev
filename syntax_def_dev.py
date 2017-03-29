@@ -1,6 +1,6 @@
+from collections import OrderedDict
 import uuid
 import re
-import sys
 import textwrap
 import time
 
@@ -9,27 +9,14 @@ import yaml
 import sublime
 import sublime_plugin
 
-if sys.version_info < (3,):
-    from ordereddict import OrderedDict
 
-    from sublime_lib.path import root_at_packages, get_package_name
-    from sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
-                                  extract_selector)
+from .sublime_lib.path import root_at_packages, get_package_name
+from .sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
+                               extract_selector)
 
-    from fileconv import dumpers, loaders
-    from scope_data import COMPILED_HEADS
-    from ordereddict_yaml import OrderedDictSafeDumper
-
-else:
-    from collections import OrderedDict
-
-    from .sublime_lib.path import root_at_packages, get_package_name
-    from .sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
-                                   extract_selector)
-
-    from .fileconv import dumpers, loaders
-    from .scope_data import COMPILED_HEADS
-    from .ordereddict_yaml import OrderedDictSafeDumper
+from .fileconv import dumpers, loaders
+from .scope_data import COMPILED_HEADS
+from .ordereddict_yaml import OrderedDictSafeDumper
 
 
 PLUGIN_NAME = get_package_name()
