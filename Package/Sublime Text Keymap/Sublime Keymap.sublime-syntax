@@ -118,14 +118,12 @@ contexts:
               set: in-array-expect-comma
             - match: ''
               push: # match modifier keys first
-                - meta_content_scope: string.quoted.double.json
                 - match: (shift|ctrl|alt|super|command|option|primary)(\+)
                   captures:
                     1: support.function.modifier.key.sublime-keymap
                     2: keyword.modifier.key.connector.sublime-keymap
                 - match: '' # then proceed to other keys
                   set:
-                    - meta_content_scope: string.quoted.double.json
                     - match: (?=")
                       pop: true
                     - match: \\("|\\)
