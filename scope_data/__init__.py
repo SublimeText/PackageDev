@@ -26,9 +26,11 @@ DATA = """
     entity
         name
             function
+            class
             type
             tag
             section
+            constant
         other
             inherited-class
             attribute-name
@@ -56,12 +58,23 @@ DATA = """
         other
 
     meta
+        key
+        value
+        function
+        function-call
+        class
+        sequence
+        mapping
 
     punctuation
         definition
             string
                 begin
                 end
+            comment
+                begin
+                end
+        section
             sequence
                 begin
                 end
@@ -78,6 +91,8 @@ DATA = """
             dot
             double-colon
             fat-arrow
+            colon
+            backslash
 
     storage
         type
