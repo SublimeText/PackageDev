@@ -16,7 +16,7 @@
 //            ^^^^^^ meta.value.json meta.sequence.json - meta.value.json meta.value.json
 //             ^^^^ string.quoted.double.json
 //             ^ punctuation.definition.string.begin.json
-//              ^^ entity.other.attribute-name.key.named.sublime-keymap
+//              ^^ support.constant.key.named.sublime-keymap
 //                ^ punctuation.definition.string.end.json
 //                  ^ punctuation.separator.mapping.pair.json - meta.value.json
 //                    ^^^^^^^^^ meta.key.json meta.main-key.sublime-keymap string.quoted.double.json
@@ -39,8 +39,8 @@
 //        ^^^^^^ meta.key-chord.sublime-keymap
 //        ^^^^ support.function.modifier.key.sublime-keymap
 //            ^ keyword.operator.modifier.connector.sublime-keymap
-//             ^ string.key.literal.sublime-keymap
-//                  ^^^^^ entity.other.attribute-name.key.named.sublime-keymap
+//             ^ constant.character.key.literal.sublime-keymap
+//                  ^^^^^ support.constant.key.named.sublime-keymap
 //                                       ^^^^^^^^^^^^^ meta.command-name.sublime-keymap support.constant.command-name.sublime-keymap
         "context":
         [
@@ -167,21 +167,22 @@
 //                                                      ^ punctuation.separator.sequence.json
 //                                                        ^^^ string.quoted.double.json
 //                                                                       ^^ invalid.illegal.expected-string-or-end-of-sequence.sublime-keymap
-//                                                                           ^^^ string.quoted.double.json entity.other.attribute-name.key.named.sublime-keymap
+//                                                                           ^^^ string.quoted.double.json support.constant.key.named.sublime-keymap
 //                                                                               ^ punctuation.separator.sequence.json
 //                                                                                  ^^^ string.quoted.double.json invalid.deprecated.key.sublime-keymap
 //                                                                                         ^ invalid.deprecated.key.upper-case.sublime-keymap
 //                                                                                           ^ punctuation.section.sequence.end.json
 
-    , { "keys": ["shift+alt+\\"] },
+    , { "keys": ["shift+alt+\\", "ab"] },
 //                          ^^constant.character.escape.json
-//                           ^ string.key.literal.sublime-keymap
+//                           ^ constant.character.key.literal.sublime-keymap
+//                                ^^ invalid.deprecated.key.sublime-keymap
 
 , { "keys": ["\"", " ", "space"], "command": "insert_snippet", "args": {"contents": "\"$0\""} },
 //           ^^^^ string.quoted.double.json
 //            ^ constant.character.escape.json
-//                  ^ string.quoted.double.json string.key.literal.sublime-keymap - invalid.illegal.key.sublime-keymap
-//                       ^^^^^ string.quoted.double.json entity.other.attribute-name.key.named.sublime-keymap
+//                  ^ string.quoted.double.json constant.character.key.literal.sublime-keymap - invalid
+//                       ^^^^^ string.quoted.double.json support.constant.key.named.sublime-keymap
 //                                                             ^^^^^^ meta.key.json string.quoted.double.json meta.main-key.sublime-keymap
 //                                                                                 ^ - string
 //                                                                                  ^^^^^^^^ meta.value string.quoted.double.json
@@ -233,7 +234,7 @@
 //                                                                               ^^^^^^^^^^^^^^ meta.value.json meta.context.key-value.operand.regex.sublime-keymap string.quoted.double.json
 //                                                                                ^^^^^^^^^^^^ source.regexp.embedded.json-string
 //                                                                                ^ keyword
-//                                                                                  ^^^ entity.other.attribute-name.anchor
+//                                                                                  ^^^ entity.other.attribute-name.anchor.escapedregexp
             { "key": "preceding_text", "operator": "equal" }, // trailing commas before closing array punctuation are allowed
         ,]                                                    // but only one
 //      ^ invalid.illegal.expected-mapping-or-end-of-sequence.sublime-keymap - punctuation.separator.sequence.json
@@ -242,7 +243,7 @@
 //  ^ punctuation.section.mapping.end.json punctuation.section.keybinding.end.sublime-keymap
 
     { "keys": ["<character>"], "command": "text_and_align_table", "context":
-//               ^^^^^^^^^ string.quoted.double.json entity.other.attribute-name.key.captured.sublime-keymap
+//              ^^^^^^^^^^^ string.quoted.double.json support.constant.key.captured.sublime-keymap
 //                                                                 ^^^^^^^ string.quoted.double.json keyword.other.main.sublime-keymap
 // this is a comment
 // ^^^^^^^^^^^^^^^^^^ comment.line.double-slash

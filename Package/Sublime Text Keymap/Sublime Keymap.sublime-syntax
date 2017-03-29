@@ -101,12 +101,12 @@ contexts:
         - match: \]
           scope: punctuation.section.sequence.end.json
           pop: true
-        - match: (")(<)(character)(>)(")
+        - match: (")(<character>)(")
           scope: string.quoted.double.json
           captures:
             1: punctuation.definition.string.start.json
-            3: entity.other.attribute-name.key.captured.sublime-keymap
-            5: punctuation.definition.string.end.json
+            2: support.constant.key.captured.sublime-keymap
+            3: punctuation.definition.string.end.json
           push: in-array-expect-comma
         - match: \"
           scope: punctuation.definition.string.begin.json
@@ -129,7 +129,7 @@ contexts:
                     - match: \\("|\\)
                       scope: constant.character.escape.json
                       captures:
-                        1: string.key.literal.sublime-keymap
+                        1: constant.character.key.literal.sublime-keymap
                     - match: 'f(?:2[1-9]|[3-9]\d+|\d{3,})|\s{2,}'
                       scope: invalid.deprecated.key.sublime-keymap
                     - match: |-
@@ -143,13 +143,13 @@ contexts:
                           |forward_slash|backquote|plus|equals|minus
                           |f(20|1[0-9]|[1-9])
                         )\b
-                      scope: entity.other.attribute-name.key.named.sublime-keymap
+                      scope: support.constant.key.named.sublime-keymap
                     - match: \p{Upper}
                       scope: invalid.deprecated.key.upper-case.sublime-keymap
-                    - match: .
-                      scope: string.key.literal.sublime-keymap
                     - match: '[^"]{2,}'
-                      scope: invalid.depcreated.key.sublime-keymap
+                      scope: invalid.deprecated.key.sublime-keymap
+                    - match: .
+                      scope: constant.character.key.literal.sublime-keymap
         - include: comments
         - match: \S
           scope: invalid.illegal.expected-string-or-end-of-sequence.sublime-keymap
