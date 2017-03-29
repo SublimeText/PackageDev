@@ -1,24 +1,9 @@
 {
-	"scope": "meta.context.key-value.key.unknown.sublimekeymap",
-
-	"completions": [
-		"num_selections",
-		"auto_complete_visible",
-		"selection_empty",
-		"preceding_text",
-		"following_text",
-		"has_prev_field",
-		"has_next_field",
-		"panel_visible",
-		"overlay_visible",
-		"setting.",
-		"popup_visible",
-		"last_command",
-		"text",
-		"indented_block",
-		"panel",
-		"panel_has_focus",
-		"selector",
-		"eol_selector",
-	]
+    "scope": "meta.keybinding-context.sublime-keymap - meta.keybinding-context meta - comment",
+    "completions": [
+        {"trigger": "key\tkey", "contents": "\"key\": \"$1\""},
+        {"trigger": "operator\tkey", "contents": "\"operator\": \"$1\""},
+        {"trigger": "operand\tkey", "contents": "\"operand\": \"$1\""},
+        {"trigger": "match_all\tkey", "contents": "\"match_all\": ${1:true}"},
+    ]
 }

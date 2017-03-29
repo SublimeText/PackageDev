@@ -1,0 +1,10 @@
+{
+	"scope": "meta.unknown-context-key.sublime-keymap",
+
+	"completions": [
+		{ "trigger": "key\tkey", "contents": "key" },
+		{ "trigger": "operator\tkey", "contents": "operator" },
+		{ "trigger": "operand\tkey", "contents": "operand" },
+		{ "trigger": "match_all\tkey", "contents": "match_all" }
+	]
+}

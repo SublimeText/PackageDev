@@ -1,0 +1,24 @@
+{
+	"scope": "meta.context.key-value.key.unknown.sublime-keymap",
+
+	"completions": [
+		{"trigger": "num_selections\tvalue", "contents": "num_selections" },
+		{"trigger": "auto_complete_visible\tvalue", "contents": "auto_complete_visible" },
+		{"trigger": "selection_empty\tvalue", "contents": "selection_empty" },
+		{"trigger": "preceding_text\tvalue", "contents": "preceding_text" },
+		{"trigger": "following_text\tvalue", "contents": "following_text" },
+		{"trigger": "has_prev_field\tvalue", "contents": "has_prev_field" },
+		{"trigger": "has_next_field\tvalue", "contents": "has_next_field" },
+		{"trigger": "panel_visible\tvalue", "contents": "panel_visible" },
+		{"trigger": "overlay_visible\tvalue", "contents": "overlay_visible" },
+		{"trigger": "setting.\tvalue", "contents": "setting." },
+		{"trigger": "popup_visible\tvalue", "contents": "popup_visible" },
+		{"trigger": "last_command\tvalue", "contents": "last_command" },
+		{"trigger": "text\tvalue", "contents": "text" },
+		{"trigger": "indented_block\tvalue", "contents": "indented_block" },
+		{"trigger": "panel\tvalue", "contents": "panel" },
+		{"trigger": "panel_has_focus\tvalue", "contents": "panel_has_focus" },
+		{"trigger": "selector\tvalue", "contents": "selector" },
+		{"trigger": "eol_selector\tvalue", "contents": "eol_selector" },
+	]
+}

@@ -1,12 +1,12 @@
 {
-	"scope": "meta.context.key-value.operator.unknown.sublimekeymap",
+	"scope": "meta.context.key-value.operator.unknown.sublime-keymap",
 
 	"completions": [
-		"equal",
-		"not_equal",
-		"regex_match",
-		"not_regex_match",
-		"regex_contains",
-		"not_regex_contains"
+		{"trigger": "equal\tvalue", "contents": "equal" },
+		{"trigger": "not_equal\tvalue", "contents": "not_equal" },
+		{"trigger": "regex_match\tvalue", "contents": "regex_match" },
+		{"trigger": "not_regex_match\tvalue", "contents": "not_regex_match" },
+		{"trigger": "regex_contains\tvalue", "contents": "regex_contains" },
+		{"trigger": "not_regex_contains\tvalue", "contents": "not_regex_contains" }
 	]
 }

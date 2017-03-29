@@ -1,0 +1,8 @@
+{
+	"scope": "meta.context.key-value.match-all.sublime-keymap - comment",
+
+	"completions": [
+		{"trigger": "true\tvalue", "contents": "true" },
+		{"trigger": "false\tvalue", "contents": "false" }
+	]
+}
