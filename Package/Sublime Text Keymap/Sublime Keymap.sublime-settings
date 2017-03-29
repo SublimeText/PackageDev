@@ -1,3 +1,4 @@
 {
-	"extensions": ["sublime-keymap"]
+	"extensions": ["sublime-keymap"],
+    "auto_complete_selector": "- comment - string | meta.context.key-value string - meta.context.key-value.operand | meta.key-chords string | meta.main-key | meta.context-key",
 }
