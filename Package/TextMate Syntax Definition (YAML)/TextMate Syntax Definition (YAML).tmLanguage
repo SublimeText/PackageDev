@@ -7,7 +7,7 @@
 		<string>YAML-tmLanguage</string>
 	</array>
 	<key>name</key>
-	<string>Sublime Text Syntax Def (YAML)</string>
+	<string>TextMate Syntax Definition (YAML)</string>
 	<key>patterns</key>
 	<array>
 		<dict>

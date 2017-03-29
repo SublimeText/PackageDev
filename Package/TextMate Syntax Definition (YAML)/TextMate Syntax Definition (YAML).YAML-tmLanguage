@@ -1,6 +1,6 @@
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
-name: Sublime Text Syntax Def (YAML)
+name: TextMate Syntax Definition (YAML)
 fileTypes: [YAML-tmLanguage]
 scopeName: source.yaml-tmlanguage
 uuid: 112dad9d-558e-4ab2-a4cc-c5f1ffa80ee6

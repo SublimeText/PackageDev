@@ -1,5 +1,5 @@
 // [PackageDev] target_format: plist
-{ "name": "Sublime Text Syntax Def (JSON)",
+{ "name": "TextMate Syntax Definition (JSON)",
 
   "scopeName": "source.json-tmlanguage",
 
