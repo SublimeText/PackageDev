@@ -55,6 +55,21 @@
                     <key>value</key>
                     <string>TEST </string>
                 </dict>
+                fg
+<!--            ^^ invalid.illegal.unexpected-text.plist -->
+                <string></string>
+<!--             ^^^^^^ invalid -->
+                <dict>
+                    <string>fg</string>
+<!--                 ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+                    <test>fg</test>
+<!--                 ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+                    <key>example</key>
+<!--                     ^^^^^^^ invalid.deprecated.expected-name-or-value.tmPreferences -->
+                    <string>&amp;</string>
+<!--                 ^^^^^^ - invalid -->
+<!--                        ^^^^^ constant.character.entity.xml -->
+                </dict>
             </array>
 
             <key>preserveIndent</key>
@@ -69,12 +84,11 @@
 <!--                                                               ^^^^^^ meta.tag.xml entity.name.tag.localname.xml -->
             <key>increaseIndentPattern</key>
 <!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.setting.regex.tmPreferences -->
-            <string>example containing <bad> & characters. (?<=doh)</string>
+            <string>example containing <bad & characters. (?<=doh)</string>
 <!--                                   ^ invalid.illegal.missing-entity.xml -->
-<!--                                       ^ invalid.illegal.missing-entity.xml -->
-<!--                                         ^ invalid.illegal.bad-ampersand.xml -->
-<!--                                                     ^ keyword.other.any.regexp -->
-<!--                                                         ^ invalid.illegal.missing-entity.xml -->
+<!--                                        ^ invalid.illegal.bad-ampersand.xml -->
+<!--                                                    ^ keyword.other.any.regexp -->
+<!--                                                        ^ invalid.illegal.missing-entity.xml -->
             <key>increaseIndentPattern</key>
 <!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.setting.regex.tmPreferences -->
             <string><![CDATA[example containing <bad> & characters. (?<=doh)]]></string>
