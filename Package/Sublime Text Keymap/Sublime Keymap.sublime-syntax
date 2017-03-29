@@ -32,6 +32,9 @@ contexts:
     - match: ','
       scope: punctuation.separator.array.json
       pop: true
+    - match: \s*(?=[{"\d\[]|true|false|null)
+      scope: invalid.illegal.expected-comma.inside-array.json
+      pop: true
     - match: \S
       scope: invalid.illegal.expected-comma.inside-array.json
 
@@ -41,6 +44,9 @@ contexts:
     - include: comments
     - match: ','
       scope: punctuation.separator.dictionary.pair.json
+      pop: true
+    - match: \s*(?=")
+      scope: invalid.illegal.expected-comma.inside-dictionary.json
       pop: true
     - match: \S
       scope: invalid.illegal.expected-comma.inside-dictionary.json

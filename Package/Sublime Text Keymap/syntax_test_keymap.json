@@ -89,8 +89,11 @@
 //                                                                      ^ punctuation.separator.scope-segments.scope-selector
 //                                                                           ^ punctuation.separator.scope-segments.scope-selector
 //                                                                                   ^ punctuation.definition.string.end.json
+
+// Complain about missing commas but don't be too obsessed with it
             {},
-//          ^^ invalid.illegal.expected-comma.inside-array.json
+//^^^^^^^^^^ invalid.illegal.expected-comma.inside-array.json
+//          ^^ - invalid
 //            ^ punctuation.separator.array.json
 
             // can also be in a different order and split over multiple lines
@@ -110,7 +113,8 @@
     }
 
     {
-//  ^ invalid.illegal.expected-comma.inside-array.json
+//^^ invalid.illegal.expected-comma.inside-array.json
+//  ^ - invalid
     ,{
         // the "contents" arg for the 'insert_snippet' command will have snippet syntax applied,
         // as long as the command is specified before the args
