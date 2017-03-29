@@ -43,8 +43,9 @@ XML_SYNTAX_LANGUAGE = "Packages/XML/XML.tmLanguage"
 # Technically ST does not use uuids at all,
 # but we leave it in for TextMate compatability
 boilerplates = dict(
-    json="""// [PackageDev] target_format: plist, ext: tmLanguage
-    { "name": "${1:Syntax Name}",
+    json="""\
+// [PackageDev] target_format: plist, ext: tmLanguage
+{ "name": "${1:Syntax Name}",
   "scopeName": "source.${2:syntax_name}",
   "fileTypes": ["$3"],
   "uuid": "%s",
@@ -53,7 +54,8 @@ boilerplates = dict(
     $0
   ]
 }""",
-    yaml="""# [PackageDev] target_format: plist, ext: tmLanguage
+    yaml="""\
+# [PackageDev] target_format: plist, ext: tmLanguage
 ---
 name: ${1:Syntax Name}
 scopeName: source.${2:syntax_name}
@@ -63,7 +65,8 @@ uuid: %s
 patterns:
 - $0
 ...""",
-    plist="""<?xml version="1.0" encoding="UTF-8"?>
+    plist="""\
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
