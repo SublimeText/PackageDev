@@ -1,0 +1,47 @@
+v3.0.0-alpha.5 (2017-03-29)
+---------------------------
+
+Welcome to the PackageDev pre-release channel (currently in alpha)!
+
+Following the addition of syntax highlighting for sublime-syntax files in the
+past releases, this release brings a couple new features.
+
+Big shout-out to @kingkeith, who did the initial work for these.
+
++ Entirely new syntax definitions for:
+  
+  * sublime-snippets
+  * tmPreferences
+  * Property Lists in general (relevant for tmTheme)
+  * sublime-keymap
+
+  Especially keymaps have a very detailed highlighting now with better
+  completions, highlighting of scope selectors and snippet contents to the
+  `insert_snippet` command.
+
++ Auto-completions for syntax tests.
+
+  Hitting `tab` on a syntax test line (usually indicated by a comment line)
+  will automatically add a test for the first character that was not tested in
+  a previous test line. Inserting `<-` will test the first character of the
+  line.
+  
+  Inserting `^` on an otherwise empty test line will automatically insert a
+  test for the character at the indicated position. Inserting more `^`  will
+  extend the test to the following characters and automatically compute the
+  common scopes for these.
+  
+  Additionally, the characters that are tested with the current test line are
+  highlighted by an outline (configurable).
+
+* All syntax definitions have been moved or renamed within the Package. As a
+  result, you will most likely notice error messages from Sublime Text
+  reporting missing files. Just close and re-open files that this package
+  provides syntax highlighting for.
+  
+* Other minor changes (there are many commits in this release).
+
+---
+
+Please test the package thoroughly and report issues at the issue tracker.
+https://github.com/SublimeText/PackageDev/issues
