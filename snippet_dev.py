@@ -21,11 +21,12 @@ SNIPPETS_SYNTAX = ("Packages/%s/Package/Sublime Text Snippet/Sublime Text Snippe
                    % PLUGIN_NAME)
 
 
-TPL = """<snippet>
+SNIPPET_TEMPLATE = """<snippet>
     <content><![CDATA[$1]]></content>
     <tabTrigger>${2:tab_trigger}</tabTrigger>
     <scope>${3:source.name}</scope>
-</snippet>"""
+    <!-- <description></description> -->
+</snippet>""".replace("    ", "\t")  # always use tabs in snippets
 
 
 class NewRawSnippetCommand(sublime_plugin.WindowCommand):
@@ -43,12 +44,13 @@ class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         content = get_text(self.view)
         clear(self.view)
-        self.view.run_command('insert_snippet', {'contents': TPL})
+        self.view.run_command('insert_snippet', {'contents': SNIPPET_TEMPLATE})
         self.view.set_syntax_file(SNIPPETS_SYNTAX)
         # Insert existing contents into CDATA section. We rely on the fact
         # that Sublime will place the first selection in the first field of
         # the newly inserted snippet.
         self.view.insert(edit, self.view.sel()[0].begin(), content)
+        self.view.run_command("next_field")
 
 
 class NewRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
