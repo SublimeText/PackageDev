@@ -184,7 +184,6 @@ contexts:
           scope: meta.key.json string.quoted.double.json
           captures:
             1: punctuation.definition.string.begin.json
-            2: support.function.sublime-keymap
             3: punctuation.definition.string.end.json
           push: [in-dictionary-expect-comma, expect-snippet-string, expect-colon]
         - include: support-keys
@@ -576,7 +575,6 @@ contexts:
 
   inside-support-key:
     - meta_scope: meta.key.json string.quoted.double.json
-    - meta_content_scope: support.function.sublime-keymap
     - match: \"
       scope: punctuation.definition.string.end.json
       pop: true

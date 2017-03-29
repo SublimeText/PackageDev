@@ -128,7 +128,7 @@
 //                  ^^^^^^^^^^^^^^ string.quoted.double.json support.constant.command-name.sublime-keymap - meta.key
         "args": {
             "name": "Packages/XML/Snippets/long-tag.sublime-snippet"
-//           ^^^^ meta.key.json string.quoted.double.json support.function.sublime-keymap
+//           ^^^^ meta.key.json string.quoted.double.json
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.value.json string.quoted.double.json
         }, "args": { "contents": "$1" }
 //      ^ meta.value.json punctuation.section.mapping.end.json
@@ -137,7 +137,6 @@
 //                 ^^^^^^^^^^^^^^^^^^^^ meta.value.json
 //                                     ^ - meta.value.json
 //                   ^^^^^^^^^^ meta.key.json string.quoted.double.json
-//                    ^^^^^^^^ support.function.sublime-keymap
 //                                ^ keyword.other.block.start.snippet
 //                               ^^^^ string.quoted.double.json - meta.key
 //                                  ^ punctuation.definition.snippet.end.sublime-keymap
@@ -155,7 +154,6 @@
 
     , {"keyz": ["test"], "command": "blah", "keys": ["a", "b"], "keys": [a, "f20", "f21", "F"]}
 //     ^^^^^^ meta.key.json string.quoted.double.json - meta.main-key.sublime-keymap - keyword
-//      ^^^^ support.function.sublime-keymap
 //     ^ punctuation.definition.string.begin.json
 //          ^ punctuation.definition.string.end.json
 //               ^^^^ string.quoted.double.json
@@ -204,10 +202,10 @@
 
     { "keys": ["tab"], "command": "insert_best_completion", "args": {"default": "\t", "exact": false,, }, // trailing commas before closing dictionary punctuation / between dictionary keys are allowed
 //  ^ punctuation.section.mapping.begin.json punctuation.section.keybinding.begin.sublime-keymap
-//                                                                    ^^^^^^^ string.quoted.double.json support.function.sublime-keymap
+//                                                                    ^^^^^^^ string.quoted.double.json
 //                                                                               ^^ string.quoted.double.json constant.character.escape.json
 //                                                                                  ^ punctuation.separator.mapping.pair.json
-//                                                                                     ^^^^^ string.quoted.double.json support.function.sublime-keymap
+//                                                                                     ^^^^^ string.quoted.double.json
 //                                                                                             ^^^^^ constant.language.json
 //                                                                                                  ^ punctuation.separator.mapping.pair.json
 //                                                                                                   ^ invalid.illegal.expected-key.json
