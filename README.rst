@@ -2,6 +2,22 @@
 PackageDev
 ==========
 
+PackageDev is currently undergoing many of changes
+in preparation for its third major version, 3.0.0.
+This new release
+will be for Sublime Text 3 (builds 3092 or older) only.
+You can test it by adding the following
+to your *Preferences: Package Control - User* settings file:
+
+.. code-block:: json
+
+    "install_prereleases": ["PackageDev"],
+
+The old (current) version will remain installable
+for older Sublime Text versions
+but is not supported anymore.
+
+
 Overview
 ========
 
