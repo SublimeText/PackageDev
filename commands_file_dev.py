@@ -13,7 +13,7 @@ tpl = """[
 
 PLUGIN_NAME = get_package_name()
 
-SYNTAX_DEF = "Packages/%s/Syntax Definitions/Sublime Commands.tmLanguage" % PLUGIN_NAME
+SYNTAX_DEF = "Packages/%s/Package/Sublime Text Commands/Sublime Commands.tmLanguage" % PLUGIN_NAME
 
 
 class NewCommandsFileCommand(sublime_plugin.WindowCommand):

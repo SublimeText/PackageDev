@@ -35,7 +35,8 @@ else:
 PLUGIN_NAME = get_package_name()
 
 # Must be forward slashes (no os.path.join)!
-SYNTAX_LANGUAGE_TMPL = ("Packages/%s/Syntax Definitions/Sublime Text Syntax Def (%%s).tmLanguage"
+SYNTAX_LANGUAGE_TMPL = ("Packages/%s/Package/TextMate Syntax Definition (%%s)/"
+                        "TextMate Syntax Definition (%%s).tmLanguage"
                         % PLUGIN_NAME)
 XML_SYNTAX_LANGUAGE = "Packages/XML/XML.tmLanguage"
 
@@ -110,7 +111,7 @@ class NewSyntaxDefCommand(sublime_plugin.WindowCommand):
         if fmt == 'plist':
             view.set_syntax_file(XML_SYNTAX_LANGUAGE)
         else:
-            view.set_syntax_file(SYNTAX_LANGUAGE_TMPL % fmt.upper())
+            view.set_syntax_file(SYNTAX_LANGUAGE_TMPL % (fmt.upper(), fmt.upper()))
 
         view.run_command('insert_snippet', {'contents': boilerplates[fmt] % uuid.uuid4()})
 
