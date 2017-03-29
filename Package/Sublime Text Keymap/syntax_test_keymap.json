@@ -153,7 +153,7 @@
 //  ^ punctuation.section.mapping.end.json - meta.value.json
 
     , {"keyz": ["test"], "command": "blah", "keys": ["a", "b"], "keys": [a, "f20", "f21", "F"]}
-//     ^^^^^^ meta.key.json string.quoted.double.json - meta.main-key.sublime-keymap - keyword
+//     ^^^^^^ meta.key.json meta.unknown-main-key.sublime-keymap string.quoted.double.json - meta.main-key.sublime-keymap - keyword
 //     ^ punctuation.definition.string.begin.json
 //          ^ punctuation.definition.string.end.json
 //               ^^^^ string.quoted.double.json

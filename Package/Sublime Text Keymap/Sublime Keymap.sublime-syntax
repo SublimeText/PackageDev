@@ -88,7 +88,18 @@ contexts:
     - match: \}
       scope: punctuation.section.mapping.end.json punctuation.section.keybinding.end.sublime-keymap
       pop: true
-    - include: support-keys
+    # unknown main key
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      push:
+        - meta_scope: meta.key.json meta.unknown-main-key.sublime-keymap string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [in-dictionary-expect-comma, expect-colon-value]
+        - include: string-escape
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          set: [in-dictionary-expect-comma, expect-colon-value]
     - include: comments
     - match: '[^\s\w]' # \S
       scope: invalid.illegal.expected-key.sublime-keymap
