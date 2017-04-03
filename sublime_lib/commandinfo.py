@@ -51,7 +51,7 @@ def get_builtin_command_meta_data():
     for res_path in res_paths:
         try:
             res_raw = sublime.load_resource(res_path)
-            res_content = yaml.dump(res_raw)
+            res_content = yaml.load(res_raw)
             result.update(res_content)
         except (OSError, ValueError):
             print("Error loading resource: ", res_path)
