@@ -171,14 +171,19 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
 class SublimeTextCommandArgsCompletionListener(
         sublime_plugin.EventListener):
     _default_args = [("args\tArguments", '"args": {\n\t"$1": "$2"$0\n},')]
-    _st_insert_arg_scope = " ".join([
-        "source.json.sublime meta.sequence.json meta.mapping.json",
-        "- string",
-        "- comment",
-        "- meta.value.json",
-        "- meta.mapping.json meta.mapping.json",
-        "- meta.sequence.json meta.sequence.json",
-    ])
+    _st_insert_arg_scope = (
+        "("
+        "(source.json.sublime.completions, source.json.sublime.keymap, "
+        " source.json.sublime.macro, source.json.sublime.mousemap)"
+        " & "
+        "meta.sequence.json meta.mapping.json"
+        ")"
+        "- string "
+        "- comment "
+        "- meta.value.json "
+        "- meta.mapping.json meta.mapping.json "
+        "- meta.sequence.json meta.sequence.json "
+    )
     _RE_COMMAND_SEARCH = re.compile(r'\"command\"\s*\:\s*\"(\w+)\"')
 
     def on_query_completions(self, view, prefix, locations):
