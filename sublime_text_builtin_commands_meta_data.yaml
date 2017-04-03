@@ -285,12 +285,9 @@ select_lines:
   doc_string: TODO
 set_layout:
   args:
-  - - cols
-    - [0.0, 1.0]
-  - - rows
-    - [0.0, 1.0]
-  - - cells
-    - - [0, 0, 1, 1]
+  - [cols, [0.0, 1.0]]
+  - [rows,  [0.0, 1.0]]
+  - [cells, [[0, 0, 1, 1]]]
   command_type: window
   doc_string: TODO
 show_overlay:
