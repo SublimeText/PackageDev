@@ -29,7 +29,7 @@ clear_bookmarks:
 clear_fields:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: TODO
 close_file:
   args: []
   command_type: window
@@ -50,7 +50,7 @@ expand_selection:
 find_all_under:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: Seach and select all text matches, which are the same as the text selected text or the word under the caret.
 find_next:
   args: []
   command_type: text
@@ -62,20 +62,20 @@ find_prev:
 find_under:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: TODO
 find_under_expand:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: Seach and select the next text match, which is the same as the text selected text or the word under the caret.
 find_under_prev:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: TODO
 focus_group:
   args:
   - [group, 0]
   command_type: window
-  doc_string: ''
+  doc_string: Set the focus to a view in an other group.
 hide_auto_complete:
   args: []
   command_type: view
@@ -83,11 +83,11 @@ hide_auto_complete:
 hide_overlay:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: TODO
 hide_panel:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: TODO
 indent:
   args: []
   command_type: text
@@ -106,7 +106,7 @@ insert_snippet:
 join_lines:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: Join the current line with the following line.
 left_delete:
   args: []
   command_type: text
@@ -152,15 +152,15 @@ next_misspelling:
 next_result:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: TODO
 next_view:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: Set the focus to the next view tab bar.
 next_view_in_stack:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: Set the focus to the next view in the stack of recent edited view.
 open_dir:
   args:
   - [dir]
@@ -201,15 +201,15 @@ prev_misspelling:
 prev_result:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: TODO
 prev_view:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: Set the focus to the previous view tab bar.
 prev_view_in_stack:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: Set the focus to the previous view in the stack of recent edited view.
 prompt_open_file:
   args: []
   command_type: window
@@ -223,20 +223,20 @@ prompt_save_as:
 prompt_select_project:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: TODO
 redo:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: Redo the last undo.
 redo_or_repeat:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: Redo the last undo or repeat the last action if there is no undo to revert.
 reindent:
   args:
   - [single_line, false]
   command_type: text
-  doc_string: ''
+  doc_string: TODO
 right_delete:
   args: []
   command_type: text
@@ -244,12 +244,12 @@ right_delete:
 run_macro:
   args: []
   command_type: TODO
-  doc_string: ''
+  doc_string: Run the last recorded macro.
 run_macro_file:
   args:
   - [file]
   command_type: view
-  doc_string: ''
+  doc_string: Run a macro saved in a macro file.
 save:
   args:
   - [encoding]
@@ -282,7 +282,7 @@ select_lines:
   args:
   - [forward, true]
   command_type: text
-  doc_string: ''
+  doc_string: TODO
 set_layout:
   args:
   - - cols
@@ -292,7 +292,7 @@ set_layout:
   - - cells
     - - [0, 0, 1, 1]
   command_type: window
-  doc_string: ''
+  doc_string: TODO
 show_overlay:
   args:
   - [overlay, goto|command_palette]
@@ -300,13 +300,13 @@ show_overlay:
   - [show_files]
   # TODO
   command_type: window
-  doc_string: ''
+  doc_string: TODO
 show_panel:
   args:
   - [panel]
   - [reverse, false]
   command_type: window
-  doc_string: ''
+  doc_string: TODO
 single_selection:
   args: []
   command_type: text
@@ -322,11 +322,11 @@ slurp_replace_string:
 soft_redo:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: Redo the last move or action, which has been undone.
 soft_undo:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: Undo the last move or action.
 split_selection_into_lines:
   args: []
   command_type: text
@@ -338,7 +338,7 @@ toggle_bookmark:
 toggle_full_screen:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: Toggle whether the current Sublime Text window is in full screen mode.
 toggle_overwrite:
   args: []
   command_type: view
@@ -346,7 +346,7 @@ toggle_overwrite:
 toggle_record_macro:
   args: []
   command_type: TODO
-  doc_string: ''
+  doc_string: TODO
 toggle_setting:
   args:
   - [setting]
@@ -355,11 +355,11 @@ toggle_setting:
 toggle_side_bar:
   args: []
   command_type: window
-  doc_string: ''
+  doc_string: Toggle the visibility of the side bar.
 undo:
   args: []
   command_type: text
-  doc_string: ''
+  doc_string: Undo the last action.
 unindent:
   args: []
   command_type: text
