@@ -1,0 +1,366 @@
+append:
+  args:
+  - [characters]
+  - [force, false]
+  - [scroll_to_end, false]
+  command_type: text
+  doc_string: Append the given text to the end of the document.
+auto_complete:
+  args:
+  - [api_completions_only, false]
+  - [disable_auto_insert, false]
+  - [next_completion_if_showing, false]
+  - [auto_complete_commit_on_tab, true]
+  command_type: text
+  doc_string: Show the auto-completion pop-up.
+build:
+  args:
+  - [select, false] # TODO
+  command_type: window
+  doc_string: Execute the relevant build system.
+cancel_build:
+  args: [] # TODO
+  command_type: window
+  doc_string: Cancel the current build.
+clear_bookmarks:
+  args: []
+  command_type: text
+  doc_string: Remove all bookmarks in the current document.
+clear_fields:
+  args: []
+  command_type: text
+  doc_string: ''
+close_file:
+  args: []
+  command_type: window
+  doc_string: Close the active file.
+copy:
+  args: []
+  command_type: text
+  doc_string: Copy the selected text to the clipboard.
+cut:
+  args: []
+  command_type: text
+  doc_string: Cut the selected text to the clipboard.
+expand_selection:
+  args:
+  - [to, line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets]
+  command_type: text
+  doc_string: Expand the current text caret selection(s) to the specified location.
+find_all_under:
+  args: []
+  command_type: text
+  doc_string: ''
+find_next:
+  args: []
+  command_type: text
+  doc_string: Jump to the next occurrence of the text or pattern in the find buffer.
+find_prev:
+  args: []
+  command_type: text
+  doc_string: Jump to the previous occurrence of the text or pattern in the find buffer.
+find_under:
+  args: []
+  command_type: text
+  doc_string: ''
+find_under_expand:
+  args: []
+  command_type: text
+  doc_string: ''
+find_under_prev:
+  args: []
+  command_type: text
+  doc_string: ''
+focus_group:
+  args:
+  - [group, 0]
+  command_type: window
+  doc_string: ''
+hide_auto_complete:
+  args: []
+  command_type: view
+  doc_string: Hide the auto-completion pop-up.
+hide_overlay:
+  args: []
+  command_type: window
+  doc_string: ''
+hide_panel:
+  args: []
+  command_type: window
+  doc_string: ''
+indent:
+  args: []
+  command_type: text
+  doc_string: Increase the indentation level of the text selection(s).
+insert:
+  args:
+  - [characters]
+  command_type: text
+  doc_string: Insert the specified text into the document at the text caret location(s).
+insert_snippet:
+  args:
+  - [contents]
+  command_type: text
+  doc_string: Insert the specified snippet content into the document at the text caret
+    location(s).
+join_lines:
+  args: []
+  command_type: text
+  doc_string: ''
+left_delete:
+  args: []
+  command_type: text
+  doc_string: Delete the character to the left of the text selection caret(s).
+move:
+  args:
+  - [forward, true]
+  - [lines, false]
+  - [by, chars|pages|lines|characters|words|word_ends|subwords|subword_ends|stops]
+  - [extend, false]
+  command_type: text
+  doc_string: Move the selection caret(s) by the specified units.
+move_to:
+  args:
+  - [to, eol|bol|eof|bof|brackets]
+  command_type: text
+  doc_string: Move the selection caret(s) to the specified relative location.
+move_to_group:
+  args:
+  - [group, 0]
+  command_type: window
+  doc_string: Move the active tab to the specified layout group.
+new_file:
+  args: []
+  command_type: window
+  doc_string: Create a new empty tab in the active window.
+new_window:
+  args: []
+  command_type: application
+  doc_string: Open a new ST window.
+next_bookmark:
+  args: []
+  command_type: text
+  doc_string: Navigate to the next bookmark in the document.
+next_field:
+  args: []
+  command_type: text
+  doc_string: Navigate to the next field in the snippet.
+next_misspelling:
+  args: []
+  command_type: text
+  doc_string: Navigate to the next misspelling in the document.
+next_result:
+  args: []
+  command_type: window
+  doc_string: ''
+next_view:
+  args: []
+  command_type: window
+  doc_string: ''
+next_view_in_stack:
+  args: []
+  command_type: window
+  doc_string: ''
+open_dir:
+  args:
+  - [dir]
+  - [file]
+  command_type: window
+  doc_string: Open the specified dir in the default File Manager application, optionally
+    highlighting the specified file.
+open_file:
+  args:
+  - [file]
+  - [contents]
+  command_type: window
+  doc_string: Open the specified file, and if it doesn't exist, prefill the default
+    contents.
+paste:
+  args: []
+  command_type: text
+  doc_string: Paste the text on the clipboard at the text selection location(s), replacing
+    the selected text.
+paste_and_indent:
+  args: []
+  command_type: text
+  doc_string: Paste the text on the clipboard at the text selection location(s), replacing
+    the selected text, and making the base indentation level match that of the target
+    location(s).
+prev_bookmark:
+  args: []
+  command_type: text
+  doc_string: Navigate to the previous bookmark in the document.
+prev_field:
+  args: []
+  command_type: text
+  doc_string: Navigate to the previous field in the snippet.
+prev_misspelling:
+  args: []
+  command_type: text
+  doc_string: Navigate to the previous misspelling in the document.
+prev_result:
+  args: []
+  command_type: window
+  doc_string: ''
+prev_view:
+  args: []
+  command_type: window
+  doc_string: ''
+prev_view_in_stack:
+  args: []
+  command_type: window
+  doc_string: ''
+prompt_open_file:
+  args: []
+  command_type: window
+  doc_string: Show the OS' native open dialog, so the user can choose what file they
+    want to open.
+prompt_save_as:
+  args: []
+  command_type: window
+  doc_string: Show the OS' native save as dialog, so the user can choose the path
+    where they want the file to be saved.
+prompt_select_project:
+  args: []
+  command_type: window
+  doc_string: ''
+redo:
+  args: []
+  command_type: text
+  doc_string: ''
+redo_or_repeat:
+  args: []
+  command_type: text
+  doc_string: ''
+reindent:
+  args:
+  - [single_line, false]
+  command_type: text
+  doc_string: ''
+right_delete:
+  args: []
+  command_type: text
+  doc_string: Delete the character to the right of the text selection caret(s).
+run_macro:
+  args: []
+  command_type: TODO
+  doc_string: ''
+run_macro_file:
+  args:
+  - [file]
+  command_type: view
+  doc_string: ''
+save:
+  args:
+  - [encoding]
+  command_type: view
+  doc_string: Save the active document.
+save_all:
+  args: []
+  command_type: window
+  doc_string: Save all the open documents in the active window.
+scroll_lines:
+  args:
+  - [amount, 1.0]
+  command_type: view
+  doc_string: Scroll the active view by the specified number of lines. A negative
+    number means to scroll in an upwards direction.
+select_all:
+  args: []
+  command_type: text
+  doc_string: Select the entire contents of the document.
+select_all_bookmarks:
+  args: []
+  command_type: text
+  doc_string: Select all the bookmarks in the current document.
+select_bookmark:
+  args:
+  - [index]
+  command_type: text
+  doc_string: Select a specific bookmark (by index) in the current document.
+select_lines:
+  args:
+  - [forward, true]
+  command_type: text
+  doc_string: ''
+set_layout:
+  args:
+  - - cols
+    - [0.0, 1.0]
+  - - rows
+    - [0.0, 1.0]
+  - - cells
+    - - [0, 0, 1, 1]
+  command_type: window
+  doc_string: ''
+show_overlay:
+  args:
+  - [overlay, goto|command_palette]
+  - [text]
+  - [show_files]
+  # TODO
+  command_type: window
+  doc_string: ''
+show_panel:
+  args:
+  - [panel]
+  - [reverse, false]
+  command_type: window
+  doc_string: ''
+single_selection:
+  args: []
+  command_type: text
+  doc_string: Switch to only the first selection.
+slurp_find_string:
+  args: []
+  command_type: window
+  doc_string: Use the current selection as the find string.
+slurp_replace_string:
+  args: []
+  command_type: window
+  doc_string: Use the current selection as the replacement string.
+soft_redo:
+  args: []
+  command_type: text
+  doc_string: ''
+soft_undo:
+  args: []
+  command_type: text
+  doc_string: ''
+split_selection_into_lines:
+  args: []
+  command_type: text
+  doc_string: Split each selection into individual lines.
+toggle_bookmark:
+  args: []
+  command_type: text
+  doc_string: For each selection, toggle it's bookmarked state.
+toggle_full_screen:
+  args: []
+  command_type: window
+  doc_string: ''
+toggle_overwrite:
+  args: []
+  command_type: view
+  doc_string: Toggle whether the caret is in insert mode or overwrite mode.
+toggle_record_macro:
+  args: []
+  command_type: TODO
+  doc_string: ''
+toggle_setting:
+  args:
+  - [setting]
+  command_type: text
+  doc_string: Toggle the specified boolean setting.
+toggle_side_bar:
+  args: []
+  command_type: window
+  doc_string: ''
+undo:
+  args: []
+  command_type: text
+  doc_string: ''
+unindent:
+  args: []
+  command_type: text
+  doc_string: Unindent the selection by one level.

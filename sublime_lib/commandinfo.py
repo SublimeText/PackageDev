@@ -1,4 +1,5 @@
 import inspect
+import yaml
 
 import sublime
 import sublime_plugin
@@ -16,8 +17,9 @@ def get_command_name(command_class):
     Returns (str)
         The name of the command.
     """
-    # default name() method
-    # TODO how to directly class command_class.name()
+    # Copy of the default name() method
+    # Don't initialize the class and call the method there, because
+    # nobody overwrites the method anyway.
     clsname = command_class.__name__
     name = clsname[0].lower()
     last_upper = False
@@ -44,12 +46,12 @@ def get_builtin_command_meta_data():
         return get_builtin_command_meta_data.result
 
     res_paths = sublime.find_resources(
-        "sublime_text_builtin_commands_meta_data.json")
+        "sublime_text_builtin_commands_meta_data.yaml")
     result = {}
     for res_path in res_paths:
         try:
             res_raw = sublime.load_resource(res_path)
-            res_content = sublime.decode_value(res_raw)
+            res_content = yaml.dump(res_raw)
             result.update(res_content)
         except (OSError, ValueError):
             print("Error loading resource: ", res_path)
