@@ -1,0 +1,394 @@
+{
+    "append": {
+        "args": [
+            ["characters"],
+            ["force", false],
+            ["scroll_to_end", false],
+        ],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "auto_complete": {
+        "args": [
+             ["api_completions_only", false],
+             ["disable_auto_insert", false],
+             ["next_completion_if_showing", false],
+             ["auto_complete_commit_on_tab", true],
+        ],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "build": {
+        "args": [["select", false]/*TODO...*/],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "cancel_build": {
+        "args": [/*TODO*/],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "clear_fields": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "close_file": {
+        "args": [],
+        "doc_string": "Close the active file.",
+        "command_type": "window",
+    },
+    "copy": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "cut": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "expand_selection": {
+        "args": [["to", "line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets"]],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "find_all_under": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "find_next": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "find_prev": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "find_under": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "find_under_expand": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "find_under_prev": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "focus_group": {
+        "args": [["group", 0]],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "hide_auto_complete": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "TODO",
+    },
+    "hide_overlay": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "hide_panel": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "indent": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "insert": {
+        "args": [["characters"]],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "insert_snippet": {
+        "args": [["contents"]],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "join_lines": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "left_delete": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "move": {
+        "args": [
+            ["forward", true],
+            ["lines", false],
+            ["by", "chars|pages|lines|characters|words|word_ends|subwords|subword_ends|stops"],
+            ["extend", false],
+        ],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "move_to": {
+        "args": [["to", "eol|bol|eof|bof|brackets"]],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "move_to_group": {
+        "args": [["group", 0]],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "new_file": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "new_window": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "app",
+    },
+    "next_field": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "next_misspelling": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "next_result": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "next_view": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "next_view_in_stack": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "open_dir": {
+        "args": [
+            ["dir"],
+            ["file"],
+        ],
+        "doc_string": "Open the specified dir in the default File Manager application, optionally highlighting the specified file.",
+        "command_type": "window",
+    },
+    "open_file": {
+        "args": [
+            ["file"],
+            ["contents"],
+        ],
+        "doc_string": "Open the specified file, and if it doesn't exist, prefill the default contents.",
+        "command_type": "window",
+    },
+    "paste": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "paste_and_indent": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "prev_field": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "prev_misspelling": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "prev_result": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "prev_view": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "prev_view_in_stack": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "prompt_open_file": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "prompt_save_as": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "prompt_select_project": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "redo": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "redo_or_repeat": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "reindent": {
+        "args": [["single_line", false]],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "right_delete": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "run_macro": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "TODO",
+    },
+    "run_macro_file": {
+        "args": [["file"]],
+        "doc_string": "",
+        "command_type": "view",
+    },
+    "save": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "view", // NOTE: works as both a window command and a view command
+    },
+    "scroll_lines": {
+        "args": [["amount", 1.0]],
+        "doc_string": "",
+        "command_type": "view",
+    },
+    "select_all": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "select_lines": {
+        "args": [["forward", true]],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "set_layout": {
+        "args": [
+            ["cols", [0.0, 1.0]],
+            ["rows", [0.0, 1.0]],
+            ["cells", [[0, 0, 1, 1]]]
+        ],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "show_overlay": {
+        "args": [
+            ["overlay", "goto|command_palette"],
+            ["text"],
+            ["show_files"]
+            // TODO...
+        ],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "show_panel": {
+        "args": [
+            ["panel"],
+            ["reverse", false]
+        ],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "single_selection": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "slurp_find_string": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "slurp_replace_string": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "soft_redo": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "soft_undo": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "split_selection_into_lines": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "toggle_full_screen": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "toggle_overwrite": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "app",
+    },
+    "toggle_record_macro": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "TODO",
+    },
+    "toggle_side_bar": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "window",
+    },
+    "toggle_setting": {
+        "args": [["setting"]],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "undo": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+    "unindent": {
+        "args": [],
+        "doc_string": "",
+        "command_type": "text",
+    },
+}
