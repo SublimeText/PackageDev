@@ -96,6 +96,8 @@ class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
 
 class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
 
+    # match run_command in backwards
+    # (trick to use re.match on the content before the caret)
     _RE_LINE_BEFORE = re.compile(
         r"\w*(?:\'|\")"
         r"\s*\(dnammoc_nur\."
