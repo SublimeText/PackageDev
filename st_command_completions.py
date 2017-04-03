@@ -153,7 +153,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
         if "view" in caller_var or caller_var == "v":
             command_type = "text"
         elif caller_var == "sublime":
-            command_type = "app"
+            command_type = "application"
         else:
             command_type = ""
 

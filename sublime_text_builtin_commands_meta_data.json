@@ -156,7 +156,7 @@
     "new_window": {
         "args": [],
         "doc_string": "",
-        "command_type": "app",
+        "command_type": "application",
     },
     "next_field": {
         "args": [],
@@ -364,7 +364,7 @@
     "toggle_overwrite": {
         "args": [],
         "doc_string": "",
-        "command_type": "app",
+        "command_type": "application",
     },
     "toggle_record_macro": {
         "args": [],
