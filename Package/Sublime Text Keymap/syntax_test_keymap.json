@@ -159,6 +159,7 @@
 //               ^^^^ string.quoted.double.json
 //                    ^ punctuation.section.sequence.end.json
 //                     ^ punctuation.separator.mapping.pair.json
+//                      ^ - invalid
 //                        ^^^^^^^ string.quoted.double.json keyword.other.main.sublime-keymap
 //                                           ^^^^ string.quoted.double.json keyword.other.main.sublime-keymap
 //                                                   ^^^ string.quoted.double.json

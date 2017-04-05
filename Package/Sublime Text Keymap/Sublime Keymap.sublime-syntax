@@ -70,7 +70,7 @@ contexts:
       # if the command is "insert_snippet",
       # so we do not push 'in-dictionary-expect-comma' here.
       push: [expect-command-name, expect-colon]
-      # push: [in-dictionary-expect-comma, expect-command-name, expect-colon-value]
+      # push: [in-dictionary-expect-comma, expect-command-name, expect-colon]
     - match: (")(args)(")
       scope: meta.mapping.key.json meta.main-key.sublime-keymap string.quoted.double.json
       captures:
@@ -582,7 +582,7 @@ contexts:
   support-keys:
     - match: \"
       scope: punctuation.definition.string.begin.json
-      push: [expect-colon-value, inside-support-key]
+      push: [in-dictionary-expect-comma, expect-colon-value, inside-support-key]
     - include: comments
 
   inside-support-key:
@@ -618,14 +618,15 @@ contexts:
       scope: punctuation.separator.mapping.key-value.json
       set:
         - match: (?=\[)
-          set: [in-dictionary-expect-comma, dictionary-value-meta-scope, array]
+          set: [dictionary-value-meta-scope, array]
         - match: (?=\{)
-          set: [in-dictionary-expect-comma, dictionary-value-meta-scope, dictionary]
+          set: [dictionary-value-meta-scope, dictionary]
         - match: (?=\S)
           set:
             - meta_content_scope: meta.mapping.value.json
             - include: value
-            - include: in-dictionary-expect-comma
+            - match: ''
+              pop: true
     - include: comments
     - match: '(?=[,}])'
       pop: true
