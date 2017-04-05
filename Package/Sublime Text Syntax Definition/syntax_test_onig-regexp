@@ -471,6 +471,6 @@ where escape characters are ignored.\).
 (?-x)
 
 check if all scopes are cleared:
-# <- (meta.literal) | - meta
+# <- meta.literal - meta meta
 
 # <- - meta
