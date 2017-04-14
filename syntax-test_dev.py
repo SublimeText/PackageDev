@@ -293,7 +293,10 @@ class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
         elif col_end == col_start:
             col_end += 1
 
-        region = sublime.Region(line.begin() + col_start, line.begin() + col_end)
+        # if the tests extend past the newline character, stop highlighting at the \n
+        # as this is what these tests will assert against
+        pos_end = min(line.begin() + col_end, line.end() + 1)
+        region = sublime.Region(line.begin() + col_start, pos_end)
 
         prefs = sublime.load_settings('PackageDev.sublime-settings')
         scope = prefs.get('syntax_test_highlight_scope', 'text')
