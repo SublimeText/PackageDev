@@ -516,7 +516,6 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
         return syntax == 'Packages/PackageDev/Package/Sublime Text Syntax Definition/Sublime Text Syntax Definition.sublime-syntax'
 
     def on_selection_modified(self):
-        self.view.erase_regions('captures')
         self.view.add_regions('captures', list(self.get_regex_regions()), 'comment')
 
     def get_regex_regions(self):
