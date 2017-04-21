@@ -121,6 +121,7 @@ move:
   doc_string: Move the selection caret(s) by the specified units.
 move_to:
   args:
+  - [extend, false]
   - [to, eol|bol|eof|bof|brackets]
   command_type: text
   doc_string: Move the selection caret(s) to the specified relative location.
