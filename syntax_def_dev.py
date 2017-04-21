@@ -509,11 +509,15 @@ class SyntaxDefCompletions(sublime_plugin.EventListener):
 
         return inhibit(self.base_completions + completions)
 
+
 class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
     @classmethod
     def is_applicable(cls, settings):
         syntax = settings.get('syntax')
-        return syntax == 'Packages/PackageDev/Package/Sublime Text Syntax Definition/Sublime Text Syntax Definition.sublime-syntax'
+        return syntax == (
+            'Packages/PackageDev/Package/Sublime Text Syntax Definition' +
+            '/Sublime Text Syntax Definition.sublime-syntax'
+        )
 
     def on_selection_modified(self):
         self.view.add_regions('captures', list(self.get_regex_regions()), 'comment')
@@ -522,14 +526,18 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
         locations = [
             region.begin()
             for selection in self.view.sel()
-            if self.view.match_selector(selection.begin(), 'source.yaml.sublime.syntax meta.expect-captures.yaml')
+            if self.view.match_selector(
+                selection.begin(),
+                'source.yaml.sublime.syntax meta.expect-captures.yaml'
+            )
             for region in self.view.split_by_newlines(selection)
         ]
 
         for loc in locations:
             # Find the line number.
             match = re.search(r'(\d+):', self.view.substr(self.view.line(loc)))
-            if not match: continue
+            if not match:
+                continue
             n = int(match.group(1))
 
             # Find the associated regexp. Assume it's the preceding one.
@@ -539,7 +547,8 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
                     for region in self.view.find_by_selector('source.regexp.oniguruma')
                     if region.end() < loc
                 ][-1]
-            except IndexError: continue
+            except IndexError:
+                continue
 
             if n == 0:
                 yield regexp_region
@@ -560,7 +569,7 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
             start = None
             count = 0
             for p, i in parens:
-                if p == '(': # Not (?
+                if p == '(':  # Not (?
                     count += 1
                     if count == n:
                         start = i
@@ -570,11 +579,11 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
             end   = None
             depth = 0
             for p, i in parens:
-                if p in { '(', '(?' }:
+                if p in {'(', '(?'}:
                     depth += 1
                 else:
                     if depth == 0:
-                        end = i+1
+                        end = i + 1
                         break
                     else:
                         depth -= 1
