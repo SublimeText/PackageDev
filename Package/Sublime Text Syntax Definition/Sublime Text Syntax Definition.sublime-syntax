@@ -542,4 +542,4 @@ contexts:
       pop: true
 
   yaml-tags-anchors:
-    - include: !foo Packages/YAML/YAML.sublime-syntax#property
+    - include: Packages/YAML/YAML.sublime-syntax#property
