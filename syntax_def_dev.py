@@ -520,7 +520,29 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
         )
 
     def on_selection_modified(self):
-        self.view.add_regions('captures', list(self.get_regex_regions()), 'comment')
+        prefs = sublime.load_settings('PackageDev.sublime-settings')
+        scope = prefs.get('syntax_captures_highlight_scope', 'text')
+        styles = prefs.get('syntax_captures_highlight_styles', ['DRAW_NO_FILL'])
+
+        style_flags = 0
+        # the following available add_region styles are taken from the API documentation:
+        # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
+        # unfortunately, the `sublime` module doesn't encapsulate them for easy reference
+        # so we hardcode them here
+        for style in styles:
+            if style in [
+                'DRAW_EMPTY', 'HIDE_ON_MINIMAP', 'DRAW_EMPTY_AS_OVERWRITE', 'DRAW_NO_FILL',
+                'DRAW_NO_OUTLINE', 'DRAW_SOLID_UNDERLINE', 'DRAW_STIPPLED_UNDERLINE',
+                'DRAW_SQUIGGLY_UNDERLINE', 'HIDDEN', 'PERSISTENT'
+            ]:
+                style_flags |= getattr(sublime, style)
+
+        self.view.add_regions(
+            key='captures',
+            regions=list(self.get_regex_regions()),
+            scope=scope,
+            flags=style_flags,
+        )
 
     def get_regex_regions(self):
         locations = [
