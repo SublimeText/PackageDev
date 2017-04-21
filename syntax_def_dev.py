@@ -579,5 +579,5 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
                     else:
                         depth -= 1
 
-            if end != None:
+            if end is not None:
                 yield sublime.Region(start, end)
