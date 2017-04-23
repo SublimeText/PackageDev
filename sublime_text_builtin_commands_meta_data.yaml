@@ -29,11 +29,15 @@ clear_bookmarks:
 clear_fields:
   args: []
   command_type: text
-  doc_string: TODO
+  doc_string: Clear the fields of the current snippet.
 close_file:
   args: []
   command_type: window
   doc_string: Close the active file.
+context_menu:
+  args: []
+  command_type: window
+  doc_string: Show the context menu.
 copy:
   args: []
   command_type: text
@@ -83,11 +87,11 @@ hide_auto_complete:
 hide_overlay:
   args: []
   command_type: window
-  doc_string: TODO
+  doc_string: Hide the current visible overlay.
 hide_panel:
   args: []
   command_type: window
-  doc_string: TODO
+  doc_string: Hide the current visible panel.
 indent:
   args: []
   command_type: text
@@ -153,7 +157,7 @@ next_misspelling:
 next_result:
   args: []
   command_type: window
-  doc_string: TODO
+  doc_string: Jump to the next build result.
 next_view:
   args: []
   command_type: window
@@ -202,7 +206,7 @@ prev_misspelling:
 prev_result:
   args: []
   command_type: window
-  doc_string: TODO
+  doc_string: Jump to the previous build result.
 prev_view:
   args: []
   command_type: window
@@ -216,15 +220,16 @@ prompt_open_file:
   command_type: window
   doc_string: Show the OS' native open dialog, so the user can choose what file they
     want to open.
+prompt_open_folder:
+  args: []
+  command_type: window
+  doc_string: Show the OS' native open dialog, so the user can choose what folder they
+    want to open.
 prompt_save_as:
   args: []
   command_type: window
   doc_string: Show the OS' native save as dialog, so the user can choose the path
     where they want the file to be saved.
-prompt_select_project:
-  args: []
-  command_type: window
-  doc_string: TODO
 redo:
   args: []
   command_type: text
@@ -237,7 +242,7 @@ reindent:
   args:
   - [single_line, false]
   command_type: text
-  doc_string: TODO
+  doc_string: Reindent the lines.
 right_delete:
   args: []
   command_type: text
@@ -283,14 +288,18 @@ select_lines:
   args:
   - [forward, true]
   command_type: text
-  doc_string: TODO
+  doc_string: Select the current or next line, if the full current line is selected.
 set_layout:
   args:
   - [cols, [0.0, 1.0]]
   - [rows,  [0.0, 1.0]]
   - [cells, [[0, 0, 1, 1]]]
   command_type: window
-  doc_string: TODO
+  doc_string: Set the layout of the window.
+set_file_type:
+  args: ["syntax", "Packages/Foo/Bar.sublime-syntax"]
+  command_type: view
+  doc_string: Set the syntax file for the view.
 show_overlay:
   args:
   - [overlay, goto|command_palette]
@@ -298,13 +307,13 @@ show_overlay:
   - [show_files]
   # TODO
   command_type: window
-  doc_string: TODO
+  doc_string: Show the overlay from the argument.
 show_panel:
   args:
   - [panel]
   - [reverse, false]
   command_type: window
-  doc_string: TODO
+  doc_string: Show the panel from the argument.
 single_selection:
   args: []
   command_type: text
@@ -344,7 +353,7 @@ toggle_overwrite:
 toggle_record_macro:
   args: []
   command_type: TODO
-  doc_string: TODO
+  doc_string: Start or stop to record a macro.
 toggle_setting:
   args:
   - [setting]
