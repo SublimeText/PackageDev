@@ -15,11 +15,12 @@ auto_complete:
   doc_string: Show the auto-completion pop-up.
 build:
   args:
-  - [select, false] # TODO
+  - [select, false]
+  - [variant, ""]
   command_type: window
   doc_string: Execute the relevant build system.
 cancel_build:
-  args: [] # TODO
+  args: []
   command_type: window
   doc_string: Cancel the current build.
 clear_bookmarks:
@@ -66,15 +67,19 @@ find_prev:
 find_under:
   args: []
   command_type: text
-  doc_string: TODO
+  doc_string: Finds the next occurrence of the current selection or the current word.
 find_under_expand:
   args: []
   command_type: text
-  doc_string: Seach and select the next text match, which is the same as the text selected text or the word under the caret.
+  doc_string: Adds a new selection based on the current selection or expands the selection to the current word.
+find_under_expand_skip:
+  args: []
+  command_type: text
+  doc_string: Adds a new selection based on the current selection or expands the selection to the current word while removing the current selection.
 find_under_prev:
   args: []
   command_type: text
-  doc_string: TODO
+  doc_string: Finds the previous occurrence of the current selection or the current word.
 focus_group:
   args:
   - [group, 0]
@@ -249,7 +254,7 @@ right_delete:
   doc_string: Delete the character to the right of the text selection caret(s).
 run_macro:
   args: []
-  command_type: TODO
+  command_type: text
   doc_string: Run the last recorded macro.
 run_macro_file:
   args:
@@ -305,7 +310,6 @@ show_overlay:
   - [overlay, goto|command_palette]
   - [text]
   - [show_files]
-  # TODO
   command_type: window
   doc_string: Show the overlay from the argument.
 show_panel:
@@ -352,7 +356,7 @@ toggle_overwrite:
   doc_string: Toggle whether the caret is in insert mode or overwrite mode.
 toggle_record_macro:
   args: []
-  command_type: TODO
+  command_type: text
   doc_string: Start or stop to record a macro.
 toggle_setting:
   args:
