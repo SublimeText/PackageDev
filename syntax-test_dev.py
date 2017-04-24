@@ -33,82 +33,169 @@ def get_syntax_test_tokens(view):
         return SyntaxTestHeader(**match.groupdict())
 
 
-def is_syntax_test_file(view):
-    """Determine if the given view is a syntax test file or not."""
+class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
+    header = None
 
-    name = view.file_name()
-    if name:
-        name = path.basename(name)
-        return name.startswith('syntax_test_')
-    else:
-        header = get_syntax_test_tokens(view)
-        return header and header.comment_start
+    def __init__(self, view):
+        super().__init__(view)
+        self.on_modified_async()
+        self.on_selection_modified_async()
 
+    def on_modified_async(self):
+        """If the view has a filename, and that file name starts with
+        the syntax test file prefix, or the view has no filename yet,
+        read the first line to determine the syntax test header.
+        """
 
-def get_details_of_test_assertion_line(view, pos):
-    """Parse details of a test assertion at a given position in a view.
+        name = self.view.file_name()
+        if name:
+            name = path.basename(name)
+            if not name.startswith('syntax_test_'):
+                self.header = None
+                return
+        self.header = get_syntax_test_tokens(self.view)
+        # if there is no comment start token, clear the header
+        if self.header and not self.header.comment_start:
+            self.header = None
 
-    Always returns a AssertionLineDetails instance, whose fields may be `None`.
-    """
+    def get_details_of_test_assertion_line(self, pos):
+        """Parse details of a test assertion at a given position in the view.
 
-    tokens = get_syntax_test_tokens(view) if is_syntax_test_file(view) else None
-    if not tokens:
-        return AssertionLineDetails(None, None, None)
-    line_region = view.line(pos)
-    line_text = view.substr(line_region)
-    test_start_token = re.match(r'^\s*(' + re.escape(tokens.comment_start) + r')', line_text)
-    assertion_colrange = None
-    if test_start_token:
-        assertion = re.match(r'\s*(?:(<-)|(\^+))', line_text[test_start_token.end():])
-        if assertion:
-            if assertion.group(1):
-                assertion_colrange = (test_start_token.start(1),
-                                      test_start_token.start(1))
-            elif assertion.group(2):
-                assertion_colrange = (test_start_token.end() + assertion.start(2),
-                                      test_start_token.end() + assertion.end(2))
+        Always returns a AssertionLineDetails instance, whose fields may be `None`.
+        """
 
-    return AssertionLineDetails(test_start_token, assertion_colrange, line_region)
+        tokens = self.header
+        if not tokens:
+            return AssertionLineDetails(None, None, None)
+        line_region = self.view.line(pos)
+        line_text = self.view.substr(line_region)
+        test_start_token = re.match(r'^\s*(' + re.escape(tokens.comment_start) + r')', line_text)
+        assertion_colrange = None
+        if test_start_token:
+            assertion = re.match(r'\s*(?:(<-)|(\^+))', line_text[test_start_token.end():])
+            if assertion:
+                if assertion.group(1):
+                    assertion_colrange = (test_start_token.start(1),
+                                          test_start_token.start(1))
+                elif assertion.group(2):
+                    assertion_colrange = (test_start_token.end() + assertion.start(2),
+                                          test_start_token.end() + assertion.end(2))
 
+        return AssertionLineDetails(test_start_token, assertion_colrange, line_region)
 
-def is_syntax_test_line(view, pos, must_contain_assertion):
-    """Determine whether the line at the given character position is a syntax test line.
+    def is_syntax_test_line(self, pos, must_contain_assertion):
+        """Determine whether the line at the given character position is a syntax test line.
 
-    It can optionally treat lines with comment markers but no assertion as a syntax test,
-    useful for while the line is being written.
-    """
+        It can optionally treat lines with comment markers but no assertion as a syntax test,
+        useful for while the line is being written.
+        """
 
-    details = get_details_of_test_assertion_line(view, pos)
-    if details.comment_marker_match:
-        return not must_contain_assertion or details.assertion_colrange is not None
-    return False
+        details = self.get_details_of_test_assertion_line(pos)
+        if details.comment_marker_match:
+            return not must_contain_assertion or details.assertion_colrange is not None
+        return False
 
+    def get_details_of_line_being_tested(self):
+        """Starting from the cursor position, work upwards to find all syntax
+         test lines that occur before the line that is being tested.
+        Return a tuple containing a list of assertion line details,
+        along with the region of the line being tested.
+        """
 
-def get_details_of_line_being_tested(view):
-    """Given a view, and starting from the cursor position, work upwards
-    to find all syntax test lines that occur before the line that is being tested.
-    Return a tuple containing a list of assertion line details,
-    along with the region of the line being tested.
-    """
+        if not self.header:
+            return (None, None)
 
-    if not is_syntax_test_file(view):
-        return (None, None)
+        lines = []
+        pos = self.view.sel()[0].begin()
+        first_line = True
+        while pos >= 0:
+            details = self.get_details_of_test_assertion_line(pos)
+            pos = details.line_region.begin() - 1
+            if details.assertion_colrange:
+                lines.append(details)
+            elif not first_line or not details.comment_marker_match:
+                break
+            elif details.comment_marker_match:
+                lines.append(details)
+            first_line = False
 
-    lines = []
-    pos = view.sel()[0].begin()
-    first_line = True
-    while pos >= 0:
-        details = get_details_of_test_assertion_line(view, pos)
-        pos = details.line_region.begin() - 1
-        if details.assertion_colrange:
-            lines.append(details)
-        elif not first_line or not details.comment_marker_match:
-            break
-        elif details.comment_marker_match:
-            lines.append(details)
-        first_line = False
+        return (lines, details.line_region)
 
-    return (lines, details.line_region)
+    def on_selection_modified_async(self):
+        """Update highlighting of what the current line's test assertions point at."""
+
+        if len(self.view.sel()) == 0:
+            return
+
+        lines, line = self.get_details_of_line_being_tested()
+
+        if not lines or not lines[0].assertion_colrange:
+            self.view.erase_regions('current_syntax_test')
+            return
+
+        cursor = self.view.sel()[0]
+        highlight_only_cursor = False
+        if cursor.empty():
+            cursor = sublime.Region(cursor.begin(), cursor.end() + 1)
+        else:
+            highlight_only_cursor = re.match(r'^\^+$', self.view.substr(cursor)) is not None
+
+        col_start, col_end = lines[0].assertion_colrange
+        if highlight_only_cursor:
+            col_start = self.view.rowcol(cursor.begin())[1]
+            col_end = self.view.rowcol(cursor.end())[1]
+        elif col_end == col_start:
+            col_end += 1
+
+        # if the tests extend past the newline character, stop highlighting at the \n
+        # as this is what these tests will assert against
+        pos_end = min(line.begin() + col_end, line.end() + 1)
+        region = sublime.Region(line.begin() + col_start, pos_end)
+
+        prefs = sublime.load_settings('PackageDev.sublime-settings')
+        scope = prefs.get('syntax_test_highlight_scope', 'text')
+        styles = prefs.get('syntax_test_highlight_styles', ['DRAW_NO_FILL'])
+        style_flags = 0
+        # the following available add_region styles are taken from the API documentation:
+        # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
+        # unfortunately, the `sublime` module doesn't encapsulate them for easy reference
+        # so we hardcode them here
+        for style in styles:
+            if style in [
+                'DRAW_EMPTY', 'HIDE_ON_MINIMAP', 'DRAW_EMPTY_AS_OVERWRITE', 'DRAW_NO_FILL',
+                'DRAW_NO_OUTLINE', 'DRAW_SOLID_UNDERLINE', 'DRAW_STIPPLED_UNDERLINE',
+                'DRAW_SQUIGGLY_UNDERLINE', 'HIDDEN', 'PERSISTENT'
+            ]:
+                style_flags |= getattr(sublime, style)
+
+        self.view.add_regions('current_syntax_test', [region], scope, '', style_flags)
+
+    def on_query_context(self, key, operator, operand, match_all):
+        """Respond to relevant syntax test keybinding contexts."""
+
+        view = self.view
+        # all contexts supported will have boolean results, so ignore regex operators
+        if operator not in (sublime.OP_EQUAL, sublime.OP_NOT_EQUAL):
+            return None
+
+        def current_line_is_a_syntax_test():
+            results = (self.is_syntax_test_line(reg.begin(), False)
+                       for reg in view.sel())
+            aggregator = all if match_all else any
+            return aggregator(results)
+
+        keys = {
+            "current_line_is_a_syntax_test": current_line_is_a_syntax_test,
+            "file_contains_syntax_tests": lambda: self.header,
+        }
+
+        if key not in keys:
+            return None
+        else:
+            result = keys[key]() == bool(operand)
+            if operator == sublime.OP_NOT_EQUAL:
+                result = not result
+            return result
 
 
 def find_common_scopes(scopes, skip_syntax_suffix):
@@ -168,26 +255,30 @@ class AlignSyntaxTestCommand(sublime_plugin.TextCommand):
     """Align the cursor with spaces to be to the right of the previous line's assertion."""
 
     def run(self, edit):
-        cursor = self.view.sel()[0]
-        details = get_details_of_test_assertion_line(self.view, cursor.begin())
+        view = self.view
+        cursor = view.sel()[0]
+
+        listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
+
+        details = listener.get_details_of_test_assertion_line(cursor.begin())
         if not details.comment_marker_match:
             return
 
         # find the last test assertion column on the previous line
-        details = get_details_of_test_assertion_line(self.view, details.line_region.begin() - 1)
+        details = listener.get_details_of_test_assertion_line(details.line_region.begin() - 1)
         next_col = None
         if not details.assertion_colrange:
             # the previous line wasn't a syntax test line, so instead
             # find the first non-whitespace char on the line being tested above
             for pos in range(details.line_region.begin(), details.line_region.end()):
-                if self.view.substr(pos).strip() != '':
+                if view.substr(pos).strip() != '':
                     break
-            next_col = self.view.rowcol(pos)[1]
+            next_col = view.rowcol(pos)[1]
         else:
             next_col = details.assertion_colrange[1]
-        col_diff = next_col - self.view.rowcol(cursor.begin())[1]
-        self.view.insert(edit, cursor.end(), " " * col_diff)
-        self.view.run_command('suggest_syntax_test')
+        col_diff = next_col - view.rowcol(cursor.begin())[1]
+        view.insert(edit, cursor.end(), " " * col_diff)
+        view.run_command('suggest_syntax_test')
 
 
 class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
@@ -207,11 +298,13 @@ class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         view = self.view
         view.replace(edit, view.sel()[0], character)
         insert_at = view.sel()[0].begin()
-        if not is_syntax_test_file(view):
+
+        listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
+        if not listener.header:
             return
 
-        lines, line = get_details_of_line_being_tested(view)
-        end_token = get_syntax_test_tokens(view).comment_end
+        lines, line = listener.get_details_of_line_being_tested()
+        end_token = listener.header.comment_end
         # don't duplicate the end token if it is on the line but not selected
         if end_token and view.sel()[0].end() == lines[0].line_region.end():
             end_token = ' ' + end_token
@@ -256,7 +349,7 @@ class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         if not view.sel()[0].empty():
             view.erase(edit, view.sel()[0])
 
-        view.insert(edit, insert_at, (character * length) + ' ' + scope + end_token)
+        view.insert(edit, insert_at, (character * max(1, length)) + ' ' + scope + end_token)
 
         # move the selection to cover the added scope name,
         # so that the user can easily insert another ^ to extend the test
@@ -265,83 +358,6 @@ class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             insert_at + length,
             insert_at + length + len(' ' + scope + end_token)
         ))
-
-
-class HighlightTestViewEventListener(sublime_plugin.ViewEventListener):
-    def on_selection_modified_async(self):
-        """Update highlighting of what the current line's test assertions point at."""
-
-        if len(self.view.sel()) == 0:
-            return
-        cursor = self.view.sel()[0]
-        highlight_only_cursor = False
-        if cursor.empty():
-            cursor = sublime.Region(cursor.begin(), cursor.end() + 1)
-        else:
-            highlight_only_cursor = re.match(r'^\^+$', self.view.substr(cursor)) is not None
-
-        lines, line = get_details_of_line_being_tested(self.view)
-
-        if not lines or not lines[0].assertion_colrange:
-            self.view.erase_regions('current_syntax_test')
-            return
-
-        col_start, col_end = lines[0].assertion_colrange
-        if highlight_only_cursor:
-            col_start = self.view.rowcol(cursor.begin())[1]
-            col_end = self.view.rowcol(cursor.end())[1]
-        elif col_end == col_start:
-            col_end += 1
-
-        # if the tests extend past the newline character, stop highlighting at the \n
-        # as this is what these tests will assert against
-        pos_end = min(line.begin() + col_end, line.end() + 1)
-        region = sublime.Region(line.begin() + col_start, pos_end)
-
-        prefs = sublime.load_settings('PackageDev.sublime-settings')
-        scope = prefs.get('syntax_test_highlight_scope', 'text')
-        styles = prefs.get('syntax_test_highlight_styles', ['DRAW_NO_FILL'])
-        style_flags = 0
-        # the following available add_region styles are taken from the API documentation:
-        # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
-        # unfortunately, the `sublime` module doesn't encapsulate them for easy reference
-        # so we hardcode them here
-        for style in styles:
-            if style in [
-                'DRAW_EMPTY', 'HIDE_ON_MINIMAP', 'DRAW_EMPTY_AS_OVERWRITE', 'DRAW_NO_FILL',
-                'DRAW_NO_OUTLINE', 'DRAW_SOLID_UNDERLINE', 'DRAW_STIPPLED_UNDERLINE',
-                'DRAW_SQUIGGLY_UNDERLINE', 'HIDDEN', 'PERSISTENT'
-            ]:
-                style_flags |= getattr(sublime, style)
-
-        self.view.add_regions('current_syntax_test', [region], scope, '', style_flags)
-
-    def on_query_context(self, key, operator, operand, match_all):
-        """Respond to relevant syntax test keybinding contexts."""
-
-        view = self.view
-        # all contexts supported will have boolean results, so ignore regex operators
-        if operator not in (sublime.OP_EQUAL, sublime.OP_NOT_EQUAL):
-            return None
-
-        def current_line_is_a_syntax_test():
-            results = (is_syntax_test_line(view, reg.begin(), False)
-                       for reg in view.sel())
-            aggregator = all if match_all else any
-            return aggregator(results)
-
-        keys = {
-            "current_line_is_a_syntax_test": current_line_is_a_syntax_test,
-            "file_contains_syntax_tests": lambda: is_syntax_test_file(view),
-        }
-
-        if key not in keys:
-            return None
-        else:
-            result = keys[key]() == bool(operand)
-            if operator == sublime.OP_NOT_EQUAL:
-                result = not result
-            return result
 
 
 class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
