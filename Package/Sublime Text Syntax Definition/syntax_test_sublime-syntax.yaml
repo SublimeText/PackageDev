@@ -196,3 +196,22 @@ contexts:
 
 variables:
 #^^^^^^^^ keyword.control.flow.variables.sublime-syntax
+
+contexts: !mytag
+#^^^^^^^ keyword.control.flow.contexts.sublime-syntax
+#         ^^^^^^ storage.type.tag-handle.yaml
+  main: !mytag
+# ^^^^ entity.name.context.sublime-syntax
+#       ^^^^^^ storage.type.tag-handle.yaml
+    - match: !mytag abc+
+#     ^^^^^ keyword.other.match.sublime-syntax
+#            ^^^^^^ storage.type.tag-handle.yaml
+#                   ^^^^ source.regexp.oniguruma
+      push: !mytag scope
+#     ^^^^ keyword.control.flow.push.sublime-syntax
+#           ^^^^^^ storage.type.tag-handle.yaml
+#                  ^^^^^ variable.other.sublime-syntax
+      pop: !mytag true
+#     ^^^ keyword.control.flow.pop.sublime-syntax
+#          ^^^^^^ storage.type.tag-handle.yaml
+#                 ^^^^ constant.language.boolean.yaml
