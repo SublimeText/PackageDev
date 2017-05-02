@@ -367,7 +367,7 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push:
-        - match: '((<)(string)\s*(>))(\s*((TM_COMMENT_(?:START|END|MODE|DISABLE_INDENT)(?:_[2-9])?)|(?:[^<]+))\s*)((</)(string)\s*(>))'
+        - match: '((<)(string)\s*(>))(\s*((TM_COMMENT_(?:START|END|DISABLE_INDENT)(?:_[2-9])?)|(?:[^<]+))\s*)((</)(string)\s*(>))'
           captures:
             1: meta.tag.xml
             2: punctuation.definition.tag.begin.xml
