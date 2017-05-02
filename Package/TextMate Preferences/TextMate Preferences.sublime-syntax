@@ -306,13 +306,13 @@ contexts:
                 3: punctuation.definition.substitution.end.tmPreferences
               pop: true
             - include: scope:source.regexp-replacement
-        - include: scope:source.regexp#base-literal
-    - include: scope:source.regexp#group-comment
-    - include: scope:source.regexp#extended-patterns
+        - include: scope:source.regexp.oniguruma#base-literal
+    - include: scope:source.regexp.oniguruma#group-comment
+    - include: scope:source.regexp.oniguruma#extended-patterns
 
   regex-pattern:
     - meta_content_scope: meta.regex.tmPreferences
-    - include: scope:source.regexp
+    - include: scope:source.regexp.oniguruma
 
   shell-variables:
     - include: comments
