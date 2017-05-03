@@ -177,11 +177,15 @@ contexts:
     - match: '\?(?:[ixms]*-)?[ims]+:'
       scope: storage.modifier.mode.regexp
       set: [group-body-extended, unexpected-quantifier-pop]
-    - match: \?<(\w+)>|\?'(\w+)'
+    - match: \?(<)(\w+)(>)|\?(')(\w+)(')
       scope: keyword.other.named-capture-group.regexp
       captures:
-        1: entity.name.capture-group.regexp
+        1: punctuation.definition.capture-group-name.begin.regexp
         2: entity.name.capture-group.regexp
+        3: punctuation.definition.capture-group-name.end.regexp
+        4: punctuation.definition.capture-group-name.begin.regexp
+        5: entity.name.capture-group.regexp
+        6: punctuation.definition.capture-group-name.end.regexp
     - include: group-start-common
     - match: ''
       set: [group-body-extended, unexpected-quantifier-pop]
@@ -276,19 +280,27 @@ contexts:
     - match: '\\[QEK]'
       scope: keyword.control.regexp
       push: unexpected-quantifier-pop
-    - match: \\[kg](?:<(\w+|-?\d+)>|'(\w+|-?\d+)')
+    - match: \\[kg](?:(<)(\w+|-?\d+)(>)|(')(\w+|-?\d+)('))
       scope: keyword.other.backref-and-recursion.regexp
       captures:
-        1: variable.other.backref-and-recursion.regexp
+        1: punctuation.definition.backref.begin.regexp
         2: variable.other.backref-and-recursion.regexp
+        3: punctuation.definition.backref.end.regexp
+        4: punctuation.definition.backref.begin.regexp
+        5: variable.other.backref-and-recursion.regexp
+        6: punctuation.definition.backref.end.regexp
     # back-reference with recursion level
-    - match: \\k(?:<(\w+)([+-]\d+)>|'(\w+)([+-]\d+)')
+    - match: \\k(?:(<)(\w+)([+-]\d+)(>)|(')(\w+)([+-]\d+)('))
       scope: keyword.other.backref-and-recursion.regexp
       captures:
-        1: variable.other.backref-and-recursion.regexp
-        2: constant.numeric.backref-level.regexp
-        3: variable.other.backref-and-recursion.regexp
-        4: constant.numeric.backref-level.regexp
+        1: punctuation.definition.backref.begin.regexp
+        2: variable.other.backref-and-recursion.regexp
+        3: constant.numeric.backref-level.regexp
+        4: punctuation.definition.backref.end.regexp
+        5: punctuation.definition.backref.begin.regexp
+        6: variable.other.backref-and-recursion.regexp
+        7: constant.numeric.backref-level.regexp
+        8: punctuation.definition.backref.end.regexp
     - match: \\([1-9]\d*)
       scope: keyword.other.backref-and-recursion.regexp
       captures:
