@@ -1,0 +1,152 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Sublime Text Mousemap (JSON)
+file_extensions:
+  - sublime-mousemap
+scope: source.json.sublime.mousemap
+contexts:
+  main:
+    - include: comments
+    - match: \[
+      scope: meta.sequence.json punctuation.section.sequence.begin.json
+      push:
+        - meta_content_scope: meta.sequence.json meta.mousebinding.collection.sublime-mousemap
+        - match: \]
+          scope: meta.sequence.json punctuation.section.sequence.end.json
+          set: only-comments
+        - match: \{
+          scope: punctuation.section.mapping.begin.json punctuation.definition.mousebinding.begin.sublime-mousemap
+          push: [in-array-expect-comma, main-keys]
+        - include: comments
+        - match: '[^,\s]'
+          scope: invalid.illegal.expected-mapping.sublime-mousemap
+    - match: \S
+      scope: invalid.illegal.expected-sequence.sublime-mousemap
+
+  main-keys:
+    - meta_scope: meta.mapping.json
+    - match: (")(button)(")
+      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      push: [expect-button-name, expect-colon]
+    - match: (")(modifiers)(")
+      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      push: [expect-modifiers-array, expect-colon]
+    - match: (")((?:press_)?command)(")
+      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      push: [expect-command-name, expect-colon]
+    - match: (")((?:press_)?args)(")
+      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      push: [in-dictionary-expect-comma, expect-dictionary-value, expect-colon]
+    - match: (")(count)(")
+      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      push: [expect-count-integer-value, expect-colon]
+    - match: \}
+      scope: punctuation.section.mapping.end.json punctuation.section.keybinding.end.sublime-mousemap
+      pop: true
+    - include: comments
+    - match: '[^\s\w]'
+      scope: invalid.illegal.expected-key.sublime-mousemap
+
+  # TODO invalidate other buttons?
+  expect-button-name:
+    - match: (\")(?:(button[1-5]|scroll_(?:down|up)))(\")
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: support.constant.button.named.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      set: in-dictionary-expect-comma
+    - match: \" # probably illegal button name
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: meta.value.json string.quoted.double.json meta.button-name.sublime-mousemap
+        - meta_content_scope: invalid.illegal.invalid-button.sublime-mousemap
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: in-dictionary-expect-comma
+        - include: string-escape
+    - match: '[^\s"]+'
+      scope: invalid.illegal.expected-string.sublime-mousemap
+
+  expect-modifiers-array:
+    - match: \[
+      scope: meta.modifiers.sublime-mousemap punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.value.json meta.sequence.json
+        - meta_content_scope: meta.modifiers.sublime-mousemap
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          set: in-dictionary-expect-comma
+        - match: (\")(?:(shift|ctrl|alt|super|button[1-5]))(\")
+          captures:
+            1: punctuation.definition.string.begin.json
+            2: support.function.modifier.key.sublime-mousemap
+            3: punctuation.definition.string.end.json
+          push:
+            - include: comments
+            - match: ","
+              pop: true
+            - match: (?=\])
+              pop: true
+            - match: \S
+              captures:
+                0: invalid.illegal.expected-comma.sublime-mousemap
+              pop: true
+        - include: comments
+        - match: '[^\s\]\{\/]+'
+          scope: invalid.illegal.key.sequence.sublime-mousemap
+    - match: \S
+      captures:
+        0: invalid.illegal.expected-number.sublime-mousemap
+      set: in-dictionary-expect-comma
+
+  expect-command-name:
+    - include: scope:source.json.sublime.keymap#expect-command-name
+
+  expect-count-integer-value:
+    - match: \d+
+      captures:
+        0: meta.value.json constant.numeric.json
+      set: in-dictionary-expect-comma
+    - match: \S
+      captures:
+        0: invalid.illegal.expected-number.sublime-mousemap
+      set: in-dictionary-expect-comma
+
+  comments:
+    - include: scope:source.json.sublime.keymap#comments
+
+  only-comments:
+    - include: scope:source.json.sublime.keymap#only-comments
+
+  expect-colon:
+    - include: scope:source.json.sublime.keymap#expect-colon
+
+  in-array-expect-comma:
+    - include: scope:source.json.sublime.keymap#in-array-expect-comma
+
+  in-dictionary-expect-comma:
+    - include: scope:source.json.sublime.keymap#in-dictionary-expect-comma
+
+  expect-dictionary-value:
+    - include: scope:source.json.sublime.keymap#expect-dictionary-value
