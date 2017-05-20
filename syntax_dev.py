@@ -199,8 +199,6 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
 
         # Scope name completions based on our scope_data database
         elif verify_scope("meta.expect-scope, meta.scope", -1):
-            # Collect scope completions
-
             # Determine entire prefix
             prefixes = set()
             for point in locations:
@@ -218,6 +216,7 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
                 # No work to be done here, just return the heads
                 return COMPILED_HEADS.to_completion()
 
+            base_scope_completion = self._complete_base_scope(tokens[-1])
             # Browse the nodes and their children
             nodes = COMPILED_HEADS
             for i, token in enumerate(tokens[:-1]):
@@ -231,11 +230,12 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
                            % '.'.join(tokens[:-1]))
                     break
             else:
-                return nodes.to_completion()
+                # Offer to complete from conventions or base scope
+                return nodes.to_completion() + base_scope_completion
 
             # Since we don't have anything to offer,
-            # search for the base scope appendix/suffix and suggest it instead
-            return self._complete_base_scope(tokens[-1])
+            # just complete the base scope appendix/suffix
+            return base_scope_completion
 
         # Auto-completion for include values using the 'contexts' keys
         elif verify_scope("meta.expect-include-list"):
