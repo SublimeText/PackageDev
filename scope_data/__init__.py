@@ -1,4 +1,3 @@
-# https://manual.macromates.com/en/language_grammars#naming_conventions
 import sys
 
 if sys.version_info[0] > 2:
@@ -6,6 +5,8 @@ if sys.version_info[0] > 2:
 
 __all__ = ["COMPILED_NODES", "COMPILED_HEADS"]
 
+# https://www.sublimetext.com/docs/3/scope_naming.html
+# https://manual.macromates.com/en/language_grammars#naming_conventions
 DATA = """
     comment
         line
@@ -18,19 +19,35 @@ DATA = """
 
     constant
         numeric
+            integer
+            float
+            hex
+            octal
+            complex
         character
             escape
         language
         other
+            placeholder
 
     entity
         name
-            function
             class
+                forward-decl
+            struct
+            enum
+            union
+            trait
+            interface
             type
-            tag
-            section
+            function
+                constructor
+                destructor
+            namespace
             constant
+            label
+            section
+            tag
         other
             inherited-class
             attribute-name
@@ -41,30 +58,62 @@ DATA = """
 
     keyword
         control
+            conditional
+            import
         operator
+            assignment
+            arithmetic
+            bitwise
+            logical
+            word
         other
 
     markup
-        underline
-            link
-        bold
         heading
-        italic
         list
             numbered
             unnumbered
+        bold
+        italic
+        underline
+            link
+        inserted
+        deleted
         quote
         raw
+            inline
+            block
         other
 
     meta
-        key
-        value
-        function
-        function-call
         class
+        struct
+        enum
+        union
+        trait
+        interface
+        type
+        function
+            parameters
+            return-type
+        namespace
+        preprocessor
+        path
+        function-call
+        block
+        braces
+        group
+        parens
+        brackets
+        generic
+        tag
+        paragraph
+        toc-list
         sequence
         mapping
+            key
+            value
+        annotation
 
     punctuation
         definition
@@ -74,7 +123,26 @@ DATA = """
             comment
                 begin
                 end
+            keyword
+            generic
+                begin
+                end
         section
+            block
+                begin
+                end
+            braces
+                begin
+                end
+            group
+                begin
+                end
+            parens
+                begin
+                end
+            brackets
+                begin
+                end
             sequence
                 begin
                 end
@@ -86,6 +154,8 @@ DATA = """
             mapping
                 key-value
                 pair
+            decimal
+        terminator
         accessor
             arrow
             dot
@@ -105,22 +175,26 @@ DATA = """
             triple
             other
         unquoted
-        interpolated
         regexp
+        interpolated
         other
 
     support
-        function
-        class
-        type
         constant
-        variable
+        function
+        module
+        type
+        class
         other
 
     variable
-        parameter
         language
+        parameter
+        function
+        annotation
         other
+            constant
+            member
 """
 
 
