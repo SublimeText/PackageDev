@@ -296,6 +296,7 @@ contexts:
     - match: 's/'
       scope: punctuation.definition.substitute-what.tmPreferences
       push:
+        - meta_content_scope: source.regexp.oniguruma
         - match: '/'
           scope: punctuation.definition.substitute-with.tmPreferences
           set:
@@ -311,7 +312,7 @@ contexts:
     - include: scope:source.regexp.oniguruma#extended-patterns
 
   regex-pattern:
-    - meta_content_scope: meta.regex.tmPreferences
+    - meta_content_scope: meta.regex.tmPreferences source.regexp.oniguruma
     - include: scope:source.regexp.oniguruma
 
   shell-variables:

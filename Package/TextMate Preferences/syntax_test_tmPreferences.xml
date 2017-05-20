@@ -167,6 +167,7 @@
 <!--             ^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.regex-transform.tmPreferences -->
             <string><![CDATA[
                 s/(\[[^\]]*\])|\b_\b\s*|\(.*|(\s{2,})/$1(?2 )/g; (?# this is a regex transformation
+<!--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.regex.transformation.tmPreferences source.regexp.oniguruma -->
 <!--            ^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.transformation.tmPreferences punctuation.definition.substitute-what.tmPreferences -->
 <!--                                                 ^ punctuation.definition.substitute-with.tmPreferences -->
 <!--                                                     ^^ keyword.other.backref-and-recursion.conditional.regexp-replacement -->
