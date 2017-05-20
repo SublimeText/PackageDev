@@ -1,0 +1,20 @@
+v3.0.0-alpha.6 (2017-05-20)
+---------------------------
+
+The latest alpha release brings you:
+
++ (Auto-)completions for syntax development
+
+  * Scope names are completed according to ST scope naming guidelines
+  * Context names are completed for include/push/set keys
+  * All currently available keys have completions as well
+
++ Highlighting of the regexp capture group that the current "captures" scope line targets
+  (@Thom1729)
+
+* Other minor changes
+
+---
+
+Please test the package thoroughly and report issues at the issue tracker.
+https://github.com/SublimeText/PackageDev/issues
