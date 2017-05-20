@@ -6,6 +6,8 @@ import sublime
 import sublime_plugin
 
 from .sublime_lib.path import get_package_name
+from .sublime_lib.view import extract_selector
+from .scope_data import COMPILED_HEADS
 
 
 PLUGIN_NAME = get_package_name()
@@ -15,6 +17,13 @@ SYNTAX_DEF_PATH = (
     "Packages/{}/Package/Sublime Text Syntax Definition/{}"
     .format(PLUGIN_NAME, SYNTAX_DEF_FILENAME)
 )
+
+
+def status(msg, console=False):
+    msg = "[%s] %s" % (PLUGIN_NAME, msg)
+    sublime.status_message(msg)
+    if console:
+        print(msg)
 
 
 class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
@@ -116,3 +125,155 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
 
             if end is not None:
                 yield sublime.Region(start, end)
+
+
+def _inhibit_word_completions(func):
+    """Decorator that inhibits ST's word completions if non-None value is returned."""
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        ret = func(*args, **kwargs)
+        if ret is not None:
+            return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
+
+    return wrapper
+
+
+def _build_completions(base_keys=(), dict_keys=(), list_keys=()):
+    generator = itertools.chain(
+        (("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys),
+        (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),
+        (("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)
+    )
+    return tuple(sorted(generator))
+
+
+class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
+
+    base_completions_root = _build_completions(
+        base_keys=('scope', 'name'),
+        dict_keys=('variables', 'contexts'),
+        list_keys=('file_extensions',),
+    )
+
+    base_completions_contexts = _build_completions(
+        base_keys=('scope', 'match', 'include', 'push', 'pop',
+                   'meta_scope', 'meta_content_scope', 'clear_scopes'),
+        dict_keys=('captures',),
+    )
+
+    @classmethod
+    def is_applicable(cls, settings):
+        return settings.get('syntax') == SYNTAX_DEF_PATH
+
+    def _line_prefix(self, point):
+        _, col = self.view.rowcol(point)
+        line = self.view.substr(self.view.line(point))
+        return line[:col]
+
+    def _complete_base_scope(self, last_token):
+        regions = self.view.find_by_selector("meta.scope string - meta.block")
+        if len(regions) != 1:
+            status("Warning: Could not determine base scope uniquely", console=True)
+            return None
+
+        base_scope = self.view.substr(regions[0])
+        *_, base_suffix = base_scope.rpartition(".")
+        # Only useful when the base scope suffix is not already the last one
+        # In this case it is even useful to inhibit other completions completely
+        if last_token == base_suffix:
+            return []
+
+        return [(base_suffix + "\tbase suffix", base_suffix)]
+
+    @_inhibit_word_completions
+    def on_query_completions(self, prefix, locations):
+
+        def verify_scope(selector, offset=0):
+            """Verify scope for each location."""
+            return all(self.view.match_selector(point + offset, selector)
+                       for point in locations)
+
+        # None of our business
+        if not verify_scope("- comment - source.regexp"):
+            return None
+
+        # Scope name completions based on our scope_data database
+        elif verify_scope("meta.expect-scope, meta.scope", -1):
+            # Collect scope completions
+
+            # Determine entire prefix
+            prefixes = set()
+            for point in locations:
+                *_, real_prefix = self._line_prefix(point).rpartition(" ")
+                prefixes.add(real_prefix)
+
+            if len(prefixes) > 1:
+                return None
+            else:
+                real_prefix = next(iter(prefixes))
+
+            # Tokenize the current selector
+            tokens = real_prefix.split(".")
+            if len(tokens) <= 1:
+                # No work to be done here, just return the heads
+                return COMPILED_HEADS.to_completion()
+
+            # Browse the nodes and their children
+            nodes = COMPILED_HEADS
+            for i, token in enumerate(tokens[:-1]):
+                node = nodes.find(token)
+                if not node:
+                    status("`%s` not found in scope naming conventions" % '.'.join(tokens[:i + 1]))
+                    break
+                nodes = node.children
+                if not nodes:
+                    status("No nodes available in scope naming conventions after `%s`"
+                           % '.'.join(tokens[:-1]))
+                    break
+            else:
+                return nodes.to_completion()
+
+            # Since we don't have anything to offer,
+            # search for the base scope appendix/suffix and suggest it instead
+            return self._complete_base_scope(tokens[-1])
+
+        # Auto-completion for include values using the 'contexts' keys
+        elif verify_scope("meta.expect-include-list"):
+            # Verify that we're not looking for an external include
+            for point in locations:
+                line_prefix = self._line_prefix(point)
+                real_prefix = re.search(r"[^,\[ ]*$", line_prefix).group(0)
+                if real_prefix.startswith("scope:") or "/" in real_prefix:
+                    return []  # Don't show any completions here
+                elif real_prefix != prefix:
+                    print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
+                    return []
+
+            context_names = [self.view.substr(r)
+                             for r in self.view.find_by_selector("entity.name.context")]
+
+            return [(ctx + "\tcontext", ctx) for ctx in context_names]
+
+        # Standard completions for unmatched regions
+        else:
+            prefixes = set()
+            for point in locations:
+                line_prefix = self._line_prefix(point)
+                real_prefix = re.sub(r"^ +", " ", line_prefix)  # collapse leading whitespace
+                prefixes.add(real_prefix)
+
+            if len(prefixes) != 1:
+                return None
+            else:
+                real_prefix = next(iter(prefixes))
+
+            # (Supposedly) all keys start their own line
+            match = re.match(r"^(\s*)[\w-]+$", real_prefix)
+            if not match:
+                return None
+            elif not match.group(1):
+                return self.base_completions_root
+            elif verify_scope("meta.block.contexts"):
+                return self.base_completions_contexts
+            else:
+                return None
