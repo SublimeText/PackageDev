@@ -318,28 +318,42 @@ where escape characters are ignored.\).
  \g'named_group'
 #^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #   ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+#  ^ punctuation.definition.backref.begin.regexp
+#              ^ punctuation.definition.backref.end.regexp
 
  \g<named_group>
 #^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #   ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+#  ^ punctuation.definition.backref.begin.regexp
+#              ^ punctuation.definition.backref.end.regexp
 
 (?x)(?<named_group>test)\g<named_group>(?-x)
 #   ^^^^^^^^^^^^^^^^^^^^ meta.group.extended
 #    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
 #      ^^^^^^^^^^^ entity.name.capture-group.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#                 ^ punctuation.definition.capture-group-name.end.regexp
 #                  ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
 #                        ^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                          ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
+#                         ^ punctuation.definition.backref.begin.regexp
+#                                     ^ punctuation.definition.backref.end.regexp
 
 \k'named_group+1'
 #^^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #  ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 #             ^^ constant.numeric.backref-level.regexp
+# ^ punctuation.definition.backref.begin.regexp
+#               ^ punctuation.definition.backref.end.regexp
 (?:\k'named_group+1'|\k<213-1>)
 #  ^^^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                ^^ constant.numeric.backref-level.regexp
+#    ^ punctuation.definition.backref.begin.regexp
+#                  ^ punctuation.definition.backref.end.regexp
 #                    ^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                          ^^ constant.numeric.backref-level.regexp
+#                      ^ punctuation.definition.backref.begin.regexp
+#                            ^ punctuation.definition.backref.end.regexp
 
 ###################
 ## Assertions
@@ -359,7 +373,10 @@ where escape characters are ignored.\).
 #      ^ keyword.control.set.regexp
 #   ^^^ - meta.literal.regexp
 #       ^ keyword.other.any.regexp
-#        ^^^ keyword.other.backref-and-recursion.regexp
+#        ^^^^^ keyword.other.backref-and-recursion.regexp
+#          ^ punctuation.definition.backref.begin.regexp
+#           ^ variable.other.backref-and-recursion.regexp
+#            ^ punctuation.definition.backref.end.regexp
 #              ^^ meta.group.regexp meta.group.regexp storage.modifier.mode.regexp
 #                 ^ keyword.control.anchors.regexp
 #                    ^^ constant.character.escape.regexp
