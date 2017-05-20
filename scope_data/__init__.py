@@ -220,7 +220,7 @@ class NodeSet(set):
 
     def to_completion(self):
         # return zip(self, self)
-        return [(n.name, n.name) for n in self]
+        return list(sorted((n.name + "\tconvention", n.name) for n in self))
 
 
 class ScopeNode(object):
