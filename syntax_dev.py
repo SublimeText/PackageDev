@@ -6,7 +6,6 @@ import sublime
 import sublime_plugin
 
 from .sublime_lib.path import get_package_name
-from .sublime_lib.view import extract_selector
 from .scope_data import COMPILED_HEADS
 
 
@@ -247,7 +246,7 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
                 if real_prefix.startswith("scope:") or "/" in real_prefix:
                     return []  # Don't show any completions here
                 elif real_prefix != prefix:
-                    print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
+                    # print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
                     return []
 
             context_names = [self.view.substr(r)
