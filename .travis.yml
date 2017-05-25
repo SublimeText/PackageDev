@@ -1,3 +1,4 @@
+sudo: false
 language: python
 
 python:
@@ -7,4 +8,4 @@ install:
   - pip install flake8==3.3.0
 
 script:
-  - flake8 -v .
+  - flake8 .
