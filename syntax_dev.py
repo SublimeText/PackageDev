@@ -258,8 +258,9 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
         else:
             prefixes = set()
             for point in locations:
+                # Ensure that we are completing a key name everywhere
                 line_prefix = self._line_prefix(point)
-                real_prefix = re.sub(r"^ +", " ", line_prefix)  # collapse leading whitespace
+                real_prefix = re.sub(r"^ +(- +)?", " ", line_prefix)  # collapse leading whitespace
                 prefixes.add(real_prefix)
 
             if len(prefixes) != 1:
