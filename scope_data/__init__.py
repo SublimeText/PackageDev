@@ -114,6 +114,7 @@ DATA = """
             key
             value
         annotation
+        set
 
     punctuation
         definition
@@ -125,6 +126,9 @@ DATA = """
                 end
             keyword
             generic
+                begin
+                end
+            placeholder
                 begin
                 end
         section
@@ -147,6 +151,9 @@ DATA = """
                 begin
                 end
             mapping
+                begin
+                end
+            set
                 begin
                 end
         separator
