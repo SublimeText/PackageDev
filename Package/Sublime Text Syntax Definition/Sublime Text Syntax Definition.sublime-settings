@@ -8,7 +8,7 @@
             "selector": "source.yaml.sublime.syntax - comment - meta.expect-regexp - meta.expect-include-lìst"
         }
     ],
-    "auto_complete_selector": "source - comment - source.regexp",
+    "auto_complete_selector": "source - comment - (source.regexp - keyword.other.variable)",
     "tab_size": 2,
     "translate_tabs_to_spaces": true,
     "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?" // default without '-'

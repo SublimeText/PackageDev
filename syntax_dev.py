@@ -194,7 +194,7 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
                        for point in locations)
 
         # None of our business
-        if not verify_scope("- comment - source.regexp"):
+        if not verify_scope("- comment - (source.regexp - keyword.other.variable)"):
             return None
 
         # Scope name completions based on our scope_data database
@@ -253,6 +253,13 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
                              for r in self.view.find_by_selector("entity.name.context")]
 
             return [(ctx + "\tcontext", ctx) for ctx in context_names]
+
+        # Auto-completion for variables in match patterns using 'variables' keys
+        elif verify_scope("keyword.other.variable"):
+            variable_names = [self.view.substr(r)
+                              for r in self.view.find_by_selector("entity.name.constant")]
+
+            return [(var + "\tvariable", var) for var in variable_names]
 
         # Standard completions for unmatched regions
         else:
