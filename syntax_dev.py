@@ -268,7 +268,7 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
                 real_prefix = next(iter(prefixes))
 
             # (Supposedly) all keys start their own line
-            match = re.match(r"^(\s*)[\w-]+$", real_prefix)
+            match = re.match(r"^(\s*)[\w-]*$", real_prefix)
             if not match:
                 return None
             elif not match.group(1):
