@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>(source.regexp, source.yaml.sublime.syntax meta.expect-regexp) - comment</string>
+	<key>settings</key>
+	<dict>
+		<key>comment</key>
+		<string>
+			Indent any unclosed groups - open  parens that don't have a corresponding closing paren on the same line.
+			Unindent any closed groups - close parens that don't have a corresponding opening paren on the same line.
+			Also apply to the `expect-regexp` meta scope, because otherwise a line like `- match: (?=\))` in a `.sublime-syntax` file would not have these rules applied to it because the `source.regexp` scope (correctly) doesn't cover the newline.
+			Parens inside comments (whether YAML or Regex) are ignored.
+		</string>
+		<key>indentParens</key>
+		<false/>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			(?<not_paren>
+			    (?:
+			        [^\\()]++              # anything that isn't a slash or a paren
+			    |   \\(?>                  # this is the "known_char_escape" variable from the syntax definition
+			            [tnrfae]
+			        |   [0-7]{3}
+			        |   x \h\h
+			        |   x \{ \h{1,8} \}
+			        |   c \d+
+			        |   C- \d+
+			        |   M- \d+
+			        |   M-\\C- \d+
+			        )
+			    |   \\.                    # a single escape character
+			    )*+
+			)
+			(?<balanced_paren>
+			    \(                         # an open paren
+			    \g<not_paren>              # followed by anything that's not a group-related paren
+			    \g<balanced_paren>*+       # followed by any number of nested parens
+			    \)                         # a closing paren
+			)*+
+			\g<not_paren>                  # followed by anything that's not a group-related paren
+			\(                             # followed by an unbalanced open paren
+		]]></string>
+		<key>decreaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			(?<not_paren>
+			    (?:
+			        [^\\()]++              # anything that isn't a slash or a paren
+			    |   \\(?>                  # this is the "known_char_escape" variable from the syntax definition
+			            [tnrfae]
+			        |   [0-7]{3}
+			        |   x \h\h
+			        |   x \{ \h{1,8} \}
+			        |   c \d+
+			        |   C- \d+
+			        |   M- \d+
+			        |   M-\\C- \d+
+			        )
+			    |   \\.                    # a single escape character
+			    )*+
+			)
+			(?<balanced_paren>
+			    \(                         # an open paren
+			    \g<not_paren>              # followed by anything that's not a group-related paren
+			    \g<balanced_paren>*+       # followed by any number of nested parens
+			    \)                         # a closing paren
+			)*+
+			\g<not_paren>                  # followed by anything that's not a group-related paren
+			\)                             # followed by an unbalanced close paren
+		]]></string>
+	</dict>
+</dict>
+</plist>
