@@ -16,7 +16,7 @@
 		<key>indentParens</key>
 		<false/>
 		<key>increaseIndentPattern</key>
-		<string><![CDATA[(?x)
+		<string><![CDATA[(?x)^
 			(?<not_paren>
 			    (?:
 			        [^\\()]++              # anything that isn't a slash or a paren
@@ -33,17 +33,18 @@
 			    |   \\.                    # a single escape character
 			    )*+
 			)
-			(?<balanced_paren>
+			(?<balanced_paren>(?:
 			    \(                         # an open paren
 			    \g<not_paren>              # followed by anything that's not a group-related paren
-			    \g<balanced_paren>*+       # followed by any number of nested parens
+			    \g<balanced_paren>         # followed by any number of nested parens
+			    \g<not_paren>              # followed by anything that's not a group-related paren
 			    \)                         # a closing paren
-			)*+
+			)*+)
 			\g<not_paren>                  # followed by anything that's not a group-related paren
 			\(                             # followed by an unbalanced open paren
 		]]></string>
 		<key>decreaseIndentPattern</key>
-		<string><![CDATA[(?x)
+		<string><![CDATA[(?x)^
 			(?<not_paren>
 			    (?:
 			        [^\\()]++              # anything that isn't a slash or a paren
@@ -60,12 +61,13 @@
 			    |   \\.                    # a single escape character
 			    )*+
 			)
-			(?<balanced_paren>
+			(?<balanced_paren>(?:
 			    \(                         # an open paren
 			    \g<not_paren>              # followed by anything that's not a group-related paren
-			    \g<balanced_paren>*+       # followed by any number of nested parens
+			    \g<balanced_paren>         # followed by any number of nested parens
+			    \g<not_paren>              # followed by anything that's not a group-related paren
 			    \)                         # a closing paren
-			)*+
+			)*+)
 			\g<not_paren>                  # followed by anything that's not a group-related paren
 			\)                             # followed by an unbalanced close paren
 		]]></string>
