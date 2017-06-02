@@ -156,7 +156,7 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
 
     base_completions_contexts = _build_completions(
         base_keys=('scope', 'match', 'include', 'push',  # 'pop',
-                   'meta_scope', 'meta_content_scope', 'clear_scopes'),
+                   'meta_scope', 'meta_content_scope', 'meta_include_prototype', 'clear_scopes'),
         dict_keys=('captures',),
     )
     base_completions_contexts += (("pop\tpop: true", "pop: true"),)
