@@ -2,9 +2,11 @@
 // <- source.json.sublime.settings
 
 // comment
-// <- comment.line.double-slash.js punctuation.definition.comment.json
+// <- comment.line
+
 s
 // <- invalid.illegal.expected-mapping.sublime-settings
+
 { // comment
 // <- meta.mapping.json punctuation.section.mapping.begin.json
 // ^ meta.mapping.json comment.line.double-slash.js punctuation.definition.comment.json
@@ -47,3 +49,7 @@ s
     ,  // but not two consecutive commas
 //  ^ invalid.illegal.expected-key.json
 }
+
+not-a-comment // but this is
+// <- invalid.illegal.only-comments-allowed.sublime-settings
+//            ^^ comment.line

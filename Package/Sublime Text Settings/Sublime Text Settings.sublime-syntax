@@ -16,7 +16,9 @@ contexts:
         - include: JSON.sublime-syntax#comments
         - match: '\}'
           scope: punctuation.section.mapping.end.json
-          pop: true
+          set:
+            - match: \S
+              scope: invalid.illegal.only-comments-allowed.sublime-settings
         - match: '"'
           scope: punctuation.definition.string.begin.json
           push: [post-key, inside-key]
