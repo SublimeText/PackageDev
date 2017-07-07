@@ -125,7 +125,12 @@ contexts:
 #              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
 #                                               ^ punctuation.separator.context-name.sublime-syntax - comment
 #                                                ^^^^^^^ variable.other.sublime-syntax
-      include: Packages/JSON/ #JSON.sublime-syntax#comment
+    - include: JSON.sublime-syntax#comments
+#              ^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
+#                                 ^ punctuation.separator.context-name.sublime-syntax
+#                                  ^^^^^^^ variable.other.sublime-syntax
+
+    - include: Packages/JSON/ #JSON.sublime-syntax#comment
 #                             ^^ comment
     - include: scope:source.regexp.oniguruma#base-group-extended
 #              ^^^^^^ support.type.include.sublime-syntax

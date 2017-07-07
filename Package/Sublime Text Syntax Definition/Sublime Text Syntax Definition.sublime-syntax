@@ -317,7 +317,7 @@ contexts:
               scope: punctuation.separator.context-name.sublime-syntax
               set: expect_include
         # absolute includes
-        - match: Packages/((?!\s#|:\s).)+\.sublime-syntax(?=\s*(#|$))
+        - match: \w((?!\s#|:\s).)+\.sublime-syntax(?=\s*(#|$))
           scope: support.module.file-path.sublime-syntax
           set:
             - match: '{{_flow_scalar_end_plain_in}}'
