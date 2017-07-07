@@ -5,15 +5,13 @@
 	<key>name</key>
 	<string>Symbol List - Sublime Text Settings</string>
 	<key>scope</key>
-	<string><![CDATA[meta.structure.dictionary.key.json | keyword.other.name.sublime-settings]]></string>
+	<string><![CDATA[entity.name.other.key.sublime-settings]]></string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>showInIndexedSymbolList</key>
 		<integer>0</integer>
-		<key>symbolTransformation</key>
-		<string>s/"(\w+)"/$1/</string>
 	</dict>
 </dict>
 </plist>
