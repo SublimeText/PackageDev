@@ -108,6 +108,13 @@ def sorted_completions(completions):
     return list(sorted(completions, key=lambda x: x[0].lower()))
 
 
+def int_or_float(string):
+    try:
+        return int(string)
+    except ValueError:
+        return float(string)
+
+
 def _settings():
     return sublime.load_settings("PackageDev.sublime-settings")
 
@@ -601,9 +608,7 @@ class KnownSettings(object):
             typed_region = sublime.Region(value_region.begin(), point)
             typed = view.substr(typed_region).lstrip()
             # try to built the list of completions from setting's comment
-            completions = list(
-                self._completions_from_comment(view, key, default, typed, prefix)
-            )
+            completions = self._completions_from_comment(view, key)
 
             if not completions:
                 if isinstance(default, bool):
@@ -614,7 +619,7 @@ class KnownSettings(object):
                     completions[default][0] += " (default)"  # booleans are integers
                 elif default:
                     completions = [(
-                        '{0}  \tdefault'.format(default),
+                        "{}  \t{} (default)".format(default, type(default).__name__),
                         default
                     )]
 
@@ -628,16 +633,31 @@ class KnownSettings(object):
         )
         # cursor already within quotes
         in_str = view.match_selector(point, 'string')
-        l.debug("Completing a string (%s) within a string (%s)", is_str, in_str)
+        l.debug("completing a string (%s) within a string (%s)", is_str, in_str)
 
         if not in_str or not is_str:
             # jsonify completion values
-            completions = [(trigger, sublime.encode_value(value))
-                           for trigger, value in completions]
+            completions_tmp = []
+            for trigger, value in completions:
+                if isinstance(value, float):
+                    # strip already typed text from float completions
+                    # because ST cannot complete past word boundaries
+                    # (e.g. strip `1.` of `1.234`)
+                    value_str = str(value)
+                    if value_str.startswith(typed):
+                        offset = len(typed) - len(prefix)
+                        completions.append((
+                            '{0}\tfloat'.format(value),
+                            value_str[offset:]
+                        ))
+                else:
+                    completions_tmp.append((trigger, sublime.encode_value(value)))
+            completions = completions_tmp
         elif is_str and in_str:
-            # stringify values, just to be safe. Don't need quotation marks
-            completions = [(trigger, str(value))
-                           for trigger, value in completions]
+            # Strip completions of non-strings. Don't need quotation marks.
+            completions = [(trigger, value)
+                           for trigger, value in completions
+                           if isinstance(value, str)]
         else:
             # We're within a string but don't have a string value to complete.
             # Complain about this in the status bar, I guess.
@@ -649,8 +669,8 @@ class KnownSettings(object):
         # disable word completion to prevent stupid suggestions
         return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
 
-    def _completions_from_comment(self, view, key, default, typed, prefix):
-        """Parse settings comments and return all possible values (generator).
+    def _completions_from_comment(self, view, key):
+        """Parse settings comments and return all possible values.
 
         Many settings are commented with a list of quoted words representing
         the possible / allowed values. This method generates a list of these
@@ -661,35 +681,46 @@ class KnownSettings(object):
                 the view to provide completions for
             key (string):
                 the settings key name to read comments from
-            default (any):
-                the default value of key
-            typed (string):
-                the value entered so far, which may differ from prefix if
-                user entered floating point numbers
-            prefix (string):
-                the completion prefix provided by ST.
 
         Yields:
             list: [trigger, contents]
                 The list representing one auto-completion item.
         """
-        is_float = isinstance(default, float)
+        comment = self.comments.get(key, '')
+        if not comment:
+            return
 
-        # TODO try backtick "quotes" first (less frequently used but more precise)
-        for match in re.finditer('"([\.\w]+)"', self.comments.get(key, '')):
-            word, = match.groups()
-            if is_float:
-                # provide completions for numbers which match the already
-                # entered value
-                if word.startswith(typed):
-                    # strip already entered '1.' from completions as ST doesn't
-                    offset = len(typed) - len(prefix)
-                    yield ('{0}  \tnumber'.format(word), word[offset:])
+        # must use list because "lists" as values are not hashable
+        values = []
+        for match in re.finditer('`([^`\n]+)`', comment):
+            # backticks should wrap the value in JSON representation,
+            # so we try to decode it
+            value_str, = match.groups()
+            try:
+                value = sublime.decode_value(value_str)
+            except:
+                value = value_str
+            values.append(value)
+
+        for match in re.finditer('"([\.\w]+)"', comment):
+            # quotation marks either wrap a string, a numeric or a boolean
+            # fall back to a str
+            value, = match.groups()
+            if value == 'true':
+                value = True
+            elif value == 'false':
+                value = False
             else:
-                yield (
-                    '{0}  \tstring'.format(word),
-                    word
-                )
+                try:
+                    value = int_or_float(value)
+                except ValueError:
+                    pass  # just use the string
+            values.append(value)
+
+        completions = [("{}  \t{}".format(value, type(value).__name__), value)
+                       for value in values]
+        l.debug("compl %r", completions)
+        return sorted_completions(completions)
 
     @staticmethod
     def _color_scheme_completions(view):
