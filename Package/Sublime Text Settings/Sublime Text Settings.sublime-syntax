@@ -13,7 +13,6 @@ contexts:
       scope: punctuation.section.mapping.begin.json
       push:
         - meta_scope: meta.mapping.json
-        - include: JSON.sublime-syntax#comments
         - match: '\}'
           scope: punctuation.section.mapping.end.json
           set:
