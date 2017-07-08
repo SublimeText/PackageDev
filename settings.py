@@ -51,6 +51,8 @@ VALUE_SCOPE = (
     "meta.expect-value | meta.mapping.value | "
     "punctuation.separator.mapping.pair.json"
 )
+# user package pattern
+USER_PATH = '{0}Packages{0}User{0}'.format(os.sep)
 
 # logging
 l = logging.getLogger(__name__)
@@ -229,7 +231,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         """Highlight all unknown settings keys."""
         unknown_regions = None
         if (
-            self._is_user_file()
+            USER_PATH in self.view.file_name()
             and _settings().get("settings.linting")
             and self.known_settings
         ):
@@ -250,15 +252,6 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             )
         else:
             self.view.erase_regions("unknown_settings_keys")
-
-    def _is_user_file(self):
-        """Determine whether the current file is inside the User package."""
-        path = self.view.file_name()
-        leaves = path.split(os.sep)
-        try:
-            return (leaves.index("Packages") + 1 == leaves.index("User"))
-        except ValueError:
-            return False
 
 
 # TODO cache these (by filename) to reduce load
