@@ -1,4 +1,13 @@
 [
+  // General
+  { "caption": "Preferences: PackageDev Settings",
+    "command": "edit_settings",
+    "args": {
+      "base_file": "${packages}/PackageDev/Package/PackageDev.sublime-settings",
+      "default": "{\n\t$0\n}\n"
+    }
+  },
+
   // Snippets
   { "caption": "PackageDev: New Raw Snippet",
     "command": "new_raw_snippet" },
