@@ -102,6 +102,10 @@ def sorted_completions(completions):
     return list(sorted(completions, key=lambda x: x[0].lower()))
 
 
+def _settings():
+    return sublime.load_settings("PackageDev.sublime-settings")
+
+
 class SettingsListener(sublime_plugin.ViewEventListener):
 
     @classmethod
@@ -204,7 +208,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         unknown_regions = [
             region for region in self.view.find_by_selector(KEY_SCOPE)
             if self.view.substr(region).strip('"') not in self.known_settings
-        ] if self.view.settings().get('settings_linting') else None
+        ] if _settings().get('settings.linting') else None
         if unknown_regions:
             self.view.add_regions(
                 'unknown_settings_keys',
@@ -634,7 +638,7 @@ class KnownSettings(object):
                 - trigger (string): base file name of the color scheme
                 - contents (string): the path to commit to the settings
         """
-        hidden = view.settings().get('hidden_color_scheme_pattern') or []
+        hidden = _settings().get('settings.exclude_color_scheme_patterns') or []
         completions = set()
         for scheme_path in sublime.find_resources('*.tmTheme'):
             if any(hide in scheme_path for hide in hidden):
@@ -664,7 +668,7 @@ class KnownSettings(object):
                 - trigger (string): base file name of the color scheme
                 - contents (string): the file name to commit to the settings
         """
-        hidden = view.settings().get('hidden_theme_pattern') or []
+        hidden = _settings().get('settings.exclude_theme_patterns') or []
         completions = set()
         for theme in sublime.find_resources('*.sublime-theme'):
             theme = os.path.basename(theme)

@@ -1,20 +1,4 @@
 {
-	// List of hidden color schemes not displayed in UI.
-	// Each color scheme containing one of the list's strings is hidden.
-	"hidden_color_scheme_pattern": [
-		"/Color Scheme - Legacy",
-		"/User/SublimeLinter",
-		"/User/Sublimerge",
-		"/InactivePanes"
-	],
-
-	// List of hidden themes not displayed in UI.
-	// Each theme containing one of the list's strings is hidden.
-	"hidden_theme_pattern": [],
-
-	// Underline unknown keys in Sublime Settings.
-	"settings_linting": true,
-
 	// A list of valid words added by the user.
 	"added_words": [],
 

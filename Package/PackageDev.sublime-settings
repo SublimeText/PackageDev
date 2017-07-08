@@ -3,6 +3,23 @@
     // Valid values are: "CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"
     "log_level": "WARNING",
 
+    // Underline unknown keys in Sublime Settings.
+    "settings.linting": true,
+
+    // List of patterns for color schemes not to be displayed in completions.
+    // Each color scheme containing one of the list's strings is hidden.
+    "settings.exclude_color_scheme_patterns": [
+        "/Color Scheme - Legacy",
+        "/User/SublimeLinter",
+        "/User/Sublimerge",
+        "/User/GitSavvy",
+        "/InactivePanes"
+    ],
+
+    // List of patterns for themes not to be displayed in completions.
+    // Each theme containing one of the list's strings is hidden.
+    "settings.exclude_theme_patterns": [],
+
     // what add_region styles to use for the highlighting of the line/positions being tested
     // valid values are:
     // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
