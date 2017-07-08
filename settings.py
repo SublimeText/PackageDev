@@ -222,7 +222,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
                 scope="markup.warning.unknown-key.sublime-settings",
                 icon="dot",
                 flags=sublime.DRAW_SOLID_UNDERLINE |
-                sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE)
+                sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE
+            )
         else:
             self.view.erase_regions('unknown_settings_keys')
 
@@ -284,8 +285,7 @@ class KnownSettings(object):
                 lines = sublime.load_resource(resource).splitlines()
                 for key, value in self._parse_settings(lines).items():
                     # merge settings without overwriting existing ones
-                    if key not in self.defaults:
-                        self.defaults[key] = value
+                    self.defaults.setdefault(key, value)
             except Exception as e:
                 l.error("error parsing %r - %s%s", resource, e.__class__.__name__, e.args)
                 pass
@@ -474,7 +474,7 @@ class KnownSettings(object):
         """
         encoded = sublime.encode_value(value)
         if isinstance(value, str):
-            # create he snippet for json strings and exclude quotation marks
+            # create the snippet for json strings and exclude quotation marks
             # from the input field {1:}
             #
             #   "key": "value"
@@ -482,7 +482,7 @@ class KnownSettings(object):
             fmt = '{bol}"{key}": "${{1:{encoded}}}"{eol}$0'
             encoded = encoded[1:-1]  # strip quotation
         elif isinstance(value, list):
-            # create he snippet for json lists and exclude brackets
+            # create the snippet for json lists and exclude brackets
             # from the input field {1:}
             #
             #   "key":
@@ -493,7 +493,7 @@ class KnownSettings(object):
             fmt = '{bol}"{key}":\n[\n\t${{1:{encoded}}}\n]{eol}$0'
             encoded = encoded[1:-1]  # strip brackets
         elif isinstance(value, dict):
-            # create he snippet for json dictionaries braces
+            # create the snippet for json dictionaries braces
             # from the input field {1:}
             #
             #   "key":
@@ -686,4 +686,3 @@ class KnownSettings(object):
             )
             completions.add(item)
         return sorted_completions(completions)
-
