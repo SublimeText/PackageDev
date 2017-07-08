@@ -108,6 +108,10 @@ def value_region(view, point):
     return None
 
 
+def sorted_completions(completions):
+    return list(sorted(completions, key=lambda x: x[0].lower()))
+
+
 class SettingsListener(sublime_plugin.ViewEventListener):
 
     @classmethod
@@ -508,18 +512,11 @@ class KnownSettings(object):
             return None
         l.debug("building completions for key %r", key)
         default = self.defaults.get(key)
-        # default value or list element is of type string
-        is_str = (
-            isinstance(default, str) or
-            isinstance(default, list) and isinstance(default[0], str)
-        )
-        # cursor not yet within quotes, so need to add some by completions
-        quote = is_str and not view.match_selector(point, 'string')
 
         if key == 'color_scheme':
-            completions = self._color_scheme_completions(view, quote)
+            completions = self._color_scheme_completions(view)
         elif key == 'theme':
-            completions = self._theme_completions(view, quote)
+            completions = self._theme_completions(view)
         else:
             # the value typed so far which may differ from prefix for floats
             typed = view.substr(sublime.Region(region.begin(), point)).lstrip()
@@ -531,20 +528,46 @@ class KnownSettings(object):
             if not completions:
                 if isinstance(default, bool):
                     completions = [
-                        ['true  \tboolean', 'true'],
-                        ['false \tboolean', 'false']
+                        ['false \tboolean', False],
+                        ['true  \tboolean', True],
                     ]
+                    completions[default][0] += " (default)"  # booleans are integers
                 elif default:
-                    completions = [[
+                    completions = [(
                         '{0}  \tdefault'.format(default),
-                        '"{0}"'.format(default) if quote else str(default)
-                    ]]
-        # disable word completion to prevent stupid suggestions
-        return (
-            sorted(completions, key=lambda x: x[0].lower()),
-            sublime.INHIBIT_WORD_COMPLETIONS)
+                        default
+                    )]
 
-    def _completions_from_comment(self, view, key, default, typed, prefix, quote):
+        # default value or list element is of type string, or completing string value
+        is_str = bool(
+            isinstance(default, str)
+            or isinstance(default, list) and default and isinstance(default[0], str)
+            or completions and isinstance(completions[0][1], str)
+        )
+        # cursor already within quotes
+        in_str = view.match_selector(point, 'string')
+        l.debug("Completing a string (%s) within a string (%s)", is_str, in_str)
+
+        if not in_str or not is_str:
+            # jsonify completion values
+            completions = [(trigger, sublime.encode_value(value))
+                           for trigger, value in completions]
+        elif is_str and in_str:
+            # stringify values, just to be safe. Don't need quotation marks
+            completions = [(trigger, str(value))
+                           for trigger, value in completions]
+        else:
+            # We're within a string but don't have a string value to complete.
+            # Complain about this in the status bar, I guess.
+            msg = "Cannot complete value set within a string"
+            self.view.window().status_message("Cannot complete value set within a string")
+            l.warn(msg)
+            return None
+
+        # disable word completion to prevent stupid suggestions
+        return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
+
+    def _completions_from_comment(self, view, key, default, typed, prefix):
         """Parse settings comments and return all possible values (generator).
 
         Many settings are commented with a list of quoted words representing
@@ -563,32 +586,31 @@ class KnownSettings(object):
                 user entered floating point numbers
             prefix (string):
                 the completion prefix provided by ST.
-            quote (bool):
-                True if completions need to be quoted.
 
         Yields:
             list: [trigger, contents]
                 The list representing one auto-completion item.
         """
         is_float = isinstance(default, float)
-        if is_float:
-            # strip already entered '1.' from completions as ST doesn't
-            offset = len(typed) - len(prefix)
+
+        # TODO try backtick "quotes" first (less frequently used but more precise)
         for match in re.finditer('"([\.\w]+)"', self.comments.get(key, '')):
             word, = match.groups()
             if is_float:
                 # provide completions for numbers which match the already
                 # entered value
                 if word.startswith(typed):
-                    yield ['{0}  \tnumber'.format(word), word[offset:]]
+                    # strip already entered '1.' from completions as ST doesn't
+                    offset = len(typed) - len(prefix)
+                    yield ('{0}  \tnumber'.format(word), word[offset:])
             else:
-                yield [
+                yield (
                     '{0}  \tstring'.format(word),
-                    '"{0}"'.format(word) if quote else word
-                ]
+                    word
+                )
 
     @staticmethod
-    def _color_scheme_completions(view, quote):
+    def _color_scheme_completions(view):
         """Create completions of all visible color schemes.
 
         The list will not include color schemes matching at least one entry of
@@ -597,8 +619,6 @@ class KnownSettings(object):
         Arguments:
             view (sublime.View):
                 the view to provide completions for
-            quote (bool):
-                True if completions need to be quoted.
 
         Returns:
             list: [[trigger, contents], ...]
@@ -607,20 +627,20 @@ class KnownSettings(object):
                 - contents (string): the path to commit to the settings
         """
         hidden = view.settings().get('hidden_color_scheme_pattern') or []
-        completions = []
-        for colors in sublime.find_resources('*.tmTheme'):
-            if any(hide in colors for hide in hidden):
+        completions = set()
+        for scheme_path in sublime.find_resources('*.tmTheme'):
+            if any(hide in scheme_path for hide in hidden):
                 continue
-            item = [
-                '{0}  \tcolors'.format(os.path.basename(colors)),
-                '"{0}"'.format(colors) if quote else colors
-            ]
-            if item not in completions:
-                completions.append(item)
+            _, package, *_, file_name  = scheme_path.split("/")
+            item = (
+                '{}  \tPackage: {}'.format(file_name, package),
+                scheme_path
+            )
+            completions.add(item)
         return completions
 
     @staticmethod
-    def _theme_completions(view, quote):
+    def _theme_completions(view):
         """Create completions of all visible themes.
 
         The list will not include color schemes matching at least one entry of
@@ -629,8 +649,6 @@ class KnownSettings(object):
         Arguments:
             view (sublime.View):
                 the view to provide completions for
-            quote (bool):
-                True if completions need to be quoted.
 
         Returns:
             list: [[trigger, contents], ...]
@@ -639,15 +657,15 @@ class KnownSettings(object):
                 - contents (string): the file name to commit to the settings
         """
         hidden = view.settings().get('hidden_theme_pattern') or []
-        completions = []
+        completions = set()
         for theme in sublime.find_resources('*.sublime-theme'):
             theme = os.path.basename(theme)
             if any(hide in theme for hide in hidden):
                 continue
-            item = [
-                '{0}  \tthemes'.format(theme),
-                '"{0}"'.format(theme) if quote else theme
-            ]
-            if item not in completions:
-                completions.append(item)
-        return completions
+            item = (
+                '{}  \ttheme'.format(theme),
+                theme
+            )
+            completions.add(item)
+        return sorted_completions(completions)
+
