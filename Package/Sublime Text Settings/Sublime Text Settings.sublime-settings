@@ -2,5 +2,6 @@
 	"extensions":
 	[
 		"sublime-settings"
-	]
+	],
+    "auto_complete_selector": "meta.mapping - comment - meta.value",
 }
