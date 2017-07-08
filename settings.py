@@ -198,7 +198,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             user_view = sublime.View(view_id)
             if not user_view.is_valid():
                 return
-            result = user_view.find(argument, 0)
+            result = user_view.find('"{}"'.format(argument), 0)
             self.view.hide_popup()
             if self.view.window():
                 self.view.window().focus_view(user_view)
@@ -207,7 +207,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             else:
                 user_view.sel().clear()
                 user_view.show_at_center(result.end())
-                user_view.sel().add(result.end() + 3)
+                user_view.sel().add(result.end() + 2)
 
     def do_linting(self):
         """Highlight all unknown settings keys."""
