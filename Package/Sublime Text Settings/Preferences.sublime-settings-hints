@@ -1,5 +1,5 @@
 {
-	// A list of valid words added by the user.
+	// A list of valid spell checker words added by the user.
 	"added_words": [],
 
 	// A list of words ignored by spell checker.
@@ -10,5 +10,5 @@
 	"dpi_scale": 1.0,
 
 	// Draw UI shadows (hidden setting)
-	"draw_shadows": true
+	"draw_shadows": true,
 }

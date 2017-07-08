@@ -276,11 +276,14 @@ class KnownSettings(object):
         l.debug("loading defaults and comments for %r", self.filename)
         start_time = time.time()
         resources = sublime.find_resources(self.filename)
+        resources += sublime.find_resources(self.filename + "-hints")
         l.debug("found %d %r files", len(resources), self.filename)
 
         # include general settings if we're in a syntax-specific file
         if self._is_syntax_specific():
-            pref_resources = sublime.find_resources('Preferences.sublime-settings')
+            # TODO fetch these from cache, once we have one
+            pref_resources = sublime.find_resources("Preferences.sublime-settings")
+            pref_resources += sublime.find_resources("Preferences.sublime-settings-hints")
             l.debug("found %d 'Preferences.sublime-settings' files", len(pref_resources))
             resources += pref_resources
 

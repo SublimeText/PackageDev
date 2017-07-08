@@ -3,6 +3,7 @@
 name: Sublime Text Settings (JSON)
 file_extensions:
   - sublime-settings
+  - sublime-settings-hints
 scope: source.json.sublime.settings
 contexts:
   prototype:
