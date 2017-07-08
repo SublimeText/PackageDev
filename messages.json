@@ -5,5 +5,6 @@
     "2.0.0": "messages/2.0.0.txt",
     "2.1.0": "messages/2.1.0.txt",
     "3.0.0-alpha.5": "messages/3.0.0-alpha.5.txt",
-    "3.0.0-alpha.6": "messages/3.0.0-alpha.6.txt"
+    "3.0.0-alpha.6": "messages/3.0.0-alpha.6.txt",
+    "3.0.0-beta.1": "messages/3.0.0-beta.1.txt"
 }
