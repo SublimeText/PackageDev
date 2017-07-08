@@ -1,0 +1,30 @@
+{
+	// List of hidden color schemes not displayed in UI.
+	// Each color scheme containing one of the list's strings is hidden.
+	"hidden_color_scheme_pattern": [
+		"/Color Scheme - Legacy",
+		"/User/SublimeLinter",
+		"/User/Sublimerge",
+		"/InactivePanes"
+	],
+
+	// List of hidden themes not displayed in UI.
+	// Each theme containing one of the list's strings is hidden.
+	"hidden_theme_pattern": [],
+
+	// Underline unknown keys in Sublime Settings.
+	"settings_linting": true,
+
+	// A list of valid words added by the user.
+	"added_words": [],
+
+	// A list of words ignored by spell checker.
+	"ignored_words": [],
+
+	// UI scaling factor (hidden setting)
+	// Common values are: "1.0", "1.25", "1.5", "1.75", "2.0"
+	"dpi_scale": 1.0,
+
+	// Draw UI shadows (hidden setting)
+	"draw_shadows": true
+}
