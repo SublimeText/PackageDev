@@ -51,6 +51,8 @@ VALUE_SCOPE = (
     "meta.expect-value | meta.mapping.value | "
     "punctuation.separator.mapping.pair.json"
 )
+# user package pattern
+USER_PATH = '{0}Packages{0}User{0}'.format(os.sep)
 
 # logging
 l = logging.getLogger(__name__)
@@ -58,12 +60,12 @@ l = logging.getLogger(__name__)
 
 def html_encode(string):
     """Encode some critical characters to html entities."""
-    return string.replace('&', '&amp;')           \
-                 .replace('<', '&lt;')            \
-                 .replace('>', '&gt;')            \
-                 .replace('\t', '&nbsp;&nbsp;')   \
-                 .replace('    ', '&nbsp;&nbsp;') \
-                 .replace('\n', '<br>') if string else ''
+    return string.replace("&", "&amp;")           \
+                 .replace("<", "&lt;")            \
+                 .replace(">", "&gt;")            \
+                 .replace("\t", "&nbsp;&nbsp;")   \
+                 .replace("    ", "&nbsp;&nbsp;") \
+                 .replace("\n", "<br>") if string else ""
 
 
 def get_key_region_at(view, point):
@@ -116,7 +118,13 @@ def int_or_float(string):
 
 
 def _settings():
-    return sublime.load_settings("PackageDev.sublime-settings")
+    """Return global package settings object or load it first if required."""
+    try:
+        return _settings.settings
+    except AttributeError:
+        l.debug("Loading PackageDev.sublime-settings")
+        _settings.settings = sublime.load_settings("PackageDev.sublime-settings")
+        return _settings.settings
 
 
 class SettingsListener(sublime_plugin.ViewEventListener):
@@ -125,12 +133,12 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def is_applicable(cls, settings):
         """Enable the listener for Sublime Settings syntax only."""
         # view is member of side-by-side settings
-        if settings.get('edit_settings_view') in ('base', 'user'):
+        if settings.get("edit_settings_view") in ("base", "user"):
             # l.debug("view is member of side-by-side settings")  # too spammy
             return True
         else:
-            syntax = settings.get('syntax', '')
-            return syntax.endswith('/Sublime Text Settings.sublime-syntax')
+            syntax = settings.get("syntax", "")
+            return syntax.endswith("/Sublime Text Settings.sublime-syntax")
 
     def __init__(self, view):
         """Initialize view event listener object."""
@@ -147,7 +155,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     def __del__(self):
         l.debug("deleting SettingsListener instance for %r", self.view.file_name())
-        self.view.erase_regions('unknown_settings_keys')
+        self.view.erase_regions("unknown_settings_keys")
 
     def on_modified_async(self):
         """Sublime Text modified event handler to update linting."""
@@ -202,9 +210,9 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     def on_navigate(self, href):
         """Popup navigation event handler."""
-        command, argument = href.split(':')
-        if command == 'edit':
-            view_id = self.view.settings().get('edit_settings_other_view_id')
+        command, argument = href.split(":")
+        if command == "edit":
+            view_id = self.view.settings().get("edit_settings_other_view_id")
             user_view = sublime.View(view_id)
             if not user_view.is_valid():
                 return
@@ -223,8 +231,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         """Highlight all unknown settings keys."""
         unknown_regions = None
         if (
-            self._is_user_file()
-            and _settings().get('settings.linting')
+            USER_PATH in self.view.file_name()
+            and _settings().get("settings.linting")
             and self.known_settings
         ):
             unknown_regions = [
@@ -236,23 +244,14 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             styles = _settings().get("settings.highlight_styles",
                                      ["DRAW_SOLID_UNDERLINE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE"])
             self.view.add_regions(
-                'unknown_settings_keys',
+                "unknown_settings_keys",
                 unknown_regions,
                 scope=_settings().get("settings.highlight_scope", "text"),
                 icon="dot",
                 flags=style_flags_from_list(styles)
             )
         else:
-            self.view.erase_regions('unknown_settings_keys')
-
-    def _is_user_file(self):
-        """Determine whether the current file is inside the User package."""
-        path = self.view.file_name()
-        leaves = path.split(os.sep)
-        try:
-            return (leaves.index("Packages") + 1 == leaves.index("User"))
-        except ValueError:
-            return False
+            self.view.erase_regions("unknown_settings_keys")
 
 
 # TODO cache these (by filename) to reduce load
@@ -304,7 +303,7 @@ class KnownSettings(object):
         are loaded into dictionaries and used to provide tooltips, completions
         and linting.
         """
-        ignored_patterns = frozenset(('/User/', '/Preferences Editor/'))
+        ignored_patterns = frozenset(("/User/", "/Preferences Editor/"))
 
         # TODO project settings include "Preferences",
         # but we don't have a syntax def for those yet
@@ -412,11 +411,11 @@ class KnownSettings(object):
                 key = match.group(1)
 
                 if key not in self.comments:
-                    self.comments[key] = textwrap.dedent('\n'.join(comment))
+                    self.comments[key] = textwrap.dedent("\n".join(comment))
                 comment.clear()
 
         # Return decoded json file from content with stripped comments
-        return sublime.decode_value('\n'.join(content))
+        return sublime.decode_value("\n".join(content))
 
     def build_tooltip(self, view, key):
         """Return html encoded docstring for settings key.
@@ -429,24 +428,24 @@ class KnownSettings(object):
         """
         if key in self.defaults:
             # the comment for the setting
-            comment = html_encode(self.comments.get(key) or 'No description.')
+            comment = html_encode(self.comments.get(key) or "No description.")
             # the default value from base file
             default = html_encode(
                 sublime.encode_value(self.defaults.get(key), pretty=True))
             # prepare a link to add the settings to user file or jump to its
             # position for editing, if the item in side-by-side setting's
             # base view is hoverd
-            if view.settings().get('edit_settings_view') == 'base':
+            if view.settings().get("edit_settings_view") == "base":
                 edit = '<a href="edit:{0}">✏</a>'.format(key)
             else:
-                edit = ''
+                edit = ""
         else:
-            comment, default, edit = 'No description.', 'unknown setting', ''
+            comment, default, edit = "No description.", "unknown setting", ""
         # format tooltip html content
         return (
-            '<h1>{key} {edit}</h1>'
-            '<h2>Default: {default}</h2>'
-            '<p>{comment}</p>'
+            "<h1>{key} {edit}</h1>"
+            "<h2>Default: {default}</h2>"
+            "<p>{comment}</p>"
         ).format(**locals())
 
     def insert_snippet(self, view, key):
@@ -470,26 +469,26 @@ class KnownSettings(object):
                 # no global dict found, insert one
                 point = view.size()
                 is_empty_line = not view.substr(view.line(point)).strip()
-                bol = '{\n\t' if is_empty_line else '\n{\n\t'
-                eol = '\n}\n'
+                bol = "{\n\t" if is_empty_line else "\n{\n\t"
+                eol = "\n}\n"
             else:
                 # insert first value to user file
                 point = value_regions[-1].end() - 1
-                bol, eol = '\t', '\n'
+                bol, eol = "\t", "\n"
         else:
             point = value_regions[-1].end()
-            if view.substr(point) == ',':
+            if view.substr(point) == ",":
                 # already have a comma after last entry
-                eol, bol = '', '\n'
+                eol, bol = "", "\n"
                 point += 1
             else:
                 # add a comma after last entry
-                eol, bol = '', ',\n'
+                eol, bol = "", ",\n"
         # format and insert the snippet
         snippet = self._key_snippet(key, self.defaults[key], bol, eol)
         view.sel().clear()
         view.sel().add(point)
-        view.run_command('insert_snippet', {'contents': snippet})
+        view.run_command("insert_snippet", {"contents": snippet})
 
     def key_completions(self, view, prefix, locations):
         """Create a list with completions for all known settings.
@@ -506,25 +505,25 @@ class KnownSettings(object):
             tuple ([ [trigger, content], [trigger, content] ], flags):
                 the tuple with content ST needs to display completions
         """
-        if view.match_selector(locations[0] - 1, 'string'):
+        if view.match_selector(locations[0] - 1, "string"):
             # we are within quotations, return words only
             completions = [
-                ['{0}  \tsetting'.format(key), '{0}'.format(key)]
+                ["{0}  \tsetting".format(key), "{0}".format(key)]
                 for key in self.defaults
             ]
         else:
             line = view.substr(view.line(locations[0])).strip()
             # don't add newline after snippet if user starts on empty line
-            eol = ',' if len(line) == len(prefix) else ',\n'
+            eol = "," if len(line) == len(prefix) else ",\n"
             # no quotations -> return full snippet
             completions = [[
-                '{0}  \tsetting'.format(key),
+                "{0}  \tsetting".format(key),
                 self._key_snippet(key, value, eol=eol)
             ] for key, value in self.defaults.items()]
         return (completions, sublime.INHIBIT_WORD_COMPLETIONS)
 
     @staticmethod
-    def _key_snippet(key, value, bol='', eol=',\n'):
+    def _key_snippet(key, value, bol="", eol=",\n"):
         """Create snippet with default value depending on type.
 
         Arguments:
@@ -599,9 +598,9 @@ class KnownSettings(object):
         l.debug("building completions for key %r", key)
         default = self.defaults.get(key)
 
-        if key == 'color_scheme':
+        if key == "color_scheme":
             completions = self._color_scheme_completions(view)
-        elif key == 'theme':
+        elif key == "theme":
             completions = self._theme_completions(view)
         else:
             # the value typed so far which may differ from prefix for floats
@@ -613,8 +612,8 @@ class KnownSettings(object):
             if not completions:
                 if isinstance(default, bool):
                     completions = [
-                        ['false \tboolean', False],
-                        ['true  \tboolean', True],
+                        ["false \tboolean", False],
+                        ["true  \tboolean", True],
                     ]
                     completions[default][0] += " (default)"  # booleans are integers
                 elif default:
@@ -632,7 +631,7 @@ class KnownSettings(object):
             or completions and isinstance(completions[0][1], str)
         )
         # cursor already within quotes
-        in_str = view.match_selector(point, 'string')
+        in_str = view.match_selector(point, "string")
         l.debug("completing a string (%s) within a string (%s)", is_str, in_str)
 
         if not in_str or not is_str:
@@ -647,7 +646,7 @@ class KnownSettings(object):
                     if value_str.startswith(typed):
                         offset = len(typed) - len(prefix)
                         completions.append((
-                            '{0}\tfloat'.format(value),
+                            "{0}\tfloat".format(value),
                             value_str[offset:]
                         ))
                 else:
@@ -686,13 +685,13 @@ class KnownSettings(object):
             list: [trigger, contents]
                 The list representing one auto-completion item.
         """
-        comment = self.comments.get(key, '')
+        comment = self.comments.get(key, "")
         if not comment:
             return
 
         # must use list because "lists" as values are not hashable
         values = []
-        for match in re.finditer('`([^`\n]+)`', comment):
+        for match in re.finditer("`([^`\n]+)`", comment):
             # backticks should wrap the value in JSON representation,
             # so we try to decode it
             value_str, = match.groups()
@@ -706,9 +705,9 @@ class KnownSettings(object):
             # quotation marks either wrap a string, a numeric or a boolean
             # fall back to a str
             value, = match.groups()
-            if value == 'true':
+            if value == "true":
                 value = True
-            elif value == 'false':
+            elif value == "false":
                 value = False
             else:
                 try:
@@ -739,14 +738,14 @@ class KnownSettings(object):
                 - trigger (string): base file name of the color scheme
                 - contents (string): the path to commit to the settings
         """
-        hidden = _settings().get('settings.exclude_color_scheme_patterns') or []
+        hidden = _settings().get("settings.exclude_color_scheme_patterns") or []
         completions = set()
-        for scheme_path in sublime.find_resources('*.tmTheme'):
+        for scheme_path in sublime.find_resources("*.tmTheme"):
             if any(hide in scheme_path for hide in hidden):
                 continue
             _, package, *_, file_name = scheme_path.split("/")
             item = (
-                '{}  \tPackage: {}'.format(file_name, package),
+                "{}  \tPackage: {}".format(file_name, package),
                 scheme_path
             )
             completions.add(item)
@@ -769,14 +768,14 @@ class KnownSettings(object):
                 - trigger (string): base file name of the color scheme
                 - contents (string): the file name to commit to the settings
         """
-        hidden = _settings().get('settings.exclude_theme_patterns') or []
+        hidden = _settings().get("settings.exclude_theme_patterns") or []
         completions = set()
-        for theme in sublime.find_resources('*.sublime-theme'):
+        for theme in sublime.find_resources("*.sublime-theme"):
             theme = os.path.basename(theme)
             if any(hide in theme for hide in hidden):
                 continue
             item = (
-                '{}  \ttheme'.format(theme),
+                "{}  \ttheme".format(theme),
                 theme
             )
             completions.add(item)
