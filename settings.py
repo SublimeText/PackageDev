@@ -41,8 +41,8 @@ POPUP_TEMPLATE = """
 """
 
 # match top-level keys only
-KEY_SCOPE = 'keyword.other.name.key.sublime.settings'
-VALUE_SCOPE = 'meta.structure.dictionary.value'
+KEY_SCOPE = "entity.name.other.key.sublime-settings"
+VALUE_SCOPE = "meta.expect-value | meta.mapping.value"
 
 
 def html_encode(string):
@@ -67,7 +67,21 @@ def key_region(view, point):
 def key_name(view, point):
     """Return the key name if point is on a settings key or None."""
     region = key_region(view, point)
-    return view.substr(region).strip('"') if region else None
+    return view.substr(region) if region else None
+
+
+def last_key_name(view, point):
+    """Return the last key name preceding the specified point or None."""
+    last_region = None
+    regions = view.find_by_selector(KEY_SCOPE)
+    if not regions:
+        return None
+    for region in regions:
+        # l.debug("comparing region %s to %d (contents: %r)", region,)
+        if region.begin() > point:
+            break
+        last_region = region
+    return view.substr(last_region)
 
 
 def value_region(view, point):
@@ -346,10 +360,10 @@ class KnownSettings(object):
             if view.substr(point) == ',':
                 # already have a comma after last entry
                 eol, bol = '', '\n'
+                point += 1
             else:
                 # add a comma after last entry
                 eol, bol = '', ',\n'
-                point -= 1
         # format and insert the snippet
         snippet = self._key_snippet(key, self.defaults[key], bol, eol)
         view.sel().clear()
@@ -456,7 +470,9 @@ class KnownSettings(object):
         """
         point = locations[0]
         region = value_region(view, point)
-        key = key_name(view, region.a - 2)
+        key = last_key_name(view, region.begin())
+        if not key:
+            return None
         default = self.defaults.get(key)
         # default value or list element is of type string
         is_str = (
@@ -472,7 +488,7 @@ class KnownSettings(object):
             completions = self._theme_completions(view, quote)
         else:
             # the value typed so far which may differ from prefix for floats
-            typed = view.substr(sublime.Region(region.a + 1, point)).lstrip()
+            typed = view.substr(sublime.Region(region.begin(), point)).lstrip()
             # try to built the list of completions from setting's comment
             completions = list(self._comment_completions(
                 view, key, default, typed, prefix, quote))
