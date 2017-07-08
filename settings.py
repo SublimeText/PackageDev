@@ -330,6 +330,9 @@ class KnownSettings(object):
                 continue
 
             if stripped.startswith("//"):
+                if stripped.endswith("//"):
+                    # skip comment lines ending with `//` (likely used as separators)
+                    continue
                 stripped = stripped[2:]
                 if stripped:
                     comment.append(stripped)
