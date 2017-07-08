@@ -47,7 +47,10 @@ POPUP_TEMPLATE = """
 
 # match top-level keys only
 KEY_SCOPE = "entity.name.other.key.sublime-settings"
-VALUE_SCOPE = "meta.expect-value | meta.mapping.value"
+VALUE_SCOPE = (
+    "meta.expect-value | meta.mapping.value | "
+    "punctuation.separator.mapping.pair.json"
+)
 
 # logging
 l = logging.getLogger(__name__)
