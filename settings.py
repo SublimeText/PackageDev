@@ -19,7 +19,7 @@ POPUP_TEMPLATE = """
         border-bottom: 1px solid color(var(--background) blend(white 80%));
         font-weight: normal;
         margin: 0;
-        padding: 0.5rem;
+        padding: 0.5rem 0.6rem;
     }}
     h1 {{
         color: color(var(--background) blend(var(--orangish) 20%));
@@ -172,15 +172,23 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         if not self.known_settings or hover_zone != sublime.HOVER_TEXT:
             return
         # settings key name under cursor
-        key = key_name(self.view, point)
-        if not key:
+        region = key_region(self.view, point)
+        if not region:
             return
+        key = self.view.substr(region)
+
         body = self.known_settings.build_tooltip(self.view, key)
         window_width = min(1000, int(self.view.viewport_extent()[0]) - 64)
+        # offset <h1> padding, if possible
+        location = max(region.begin() - 1, self.view.line(region.begin()).begin())
+
         self.view.show_popup(
-            content=POPUP_TEMPLATE.format(body), on_navigate=self.on_navigate,
-            location=point, max_width=window_width,
-            flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY)
+            content=POPUP_TEMPLATE.format(body),
+            on_navigate=self.on_navigate,
+            location=location,
+            max_width=window_width,
+            flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY
+        )
 
     def on_navigate(self, href):
         """Popup navigation event handler."""
