@@ -363,10 +363,10 @@ class KnownSettings(object):
             else:
                 edit = ''
         else:
-            comment, default, edit = 'No description.', 'unknown setting.', ''
+            comment, default, edit = 'No description.', 'unknown setting', ''
         # format tooltip html content
         return (
-            '<h1>{edit} {key}</h1>'
+            '<h1>{key} {edit}</h1>'
             '<h2>Default: {default}</h2>'
             '<p>{comment}</p>'
         ).format(**locals())
