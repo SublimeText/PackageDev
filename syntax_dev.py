@@ -6,6 +6,7 @@ import sublime
 import sublime_plugin
 
 from .sublime_lib.path import get_package_name
+from .sublime_lib.constants import style_flags_from_list
 from .scope_data import COMPILED_HEADS
 
 
@@ -36,18 +37,7 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
         scope = prefs.get('syntax_captures_highlight_scope', 'text')
         styles = prefs.get('syntax_captures_highlight_styles', ['DRAW_NO_FILL'])
 
-        style_flags = 0
-        # the following available add_region styles are taken from the API documentation:
-        # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
-        # unfortunately, the `sublime` module doesn't encapsulate them for easy reference
-        # so we hardcode them here
-        for style in styles:
-            if style in [
-                'DRAW_EMPTY', 'HIDE_ON_MINIMAP', 'DRAW_EMPTY_AS_OVERWRITE', 'DRAW_NO_FILL',
-                'DRAW_NO_OUTLINE', 'DRAW_SOLID_UNDERLINE', 'DRAW_STIPPLED_UNDERLINE',
-                'DRAW_SQUIGGLY_UNDERLINE', 'HIDDEN', 'PERSISTENT'
-            ]:
-                style_flags |= getattr(sublime, style)
+        style_flags = style_flags_from_list(styles)
 
         self.view.add_regions(
             key='captures',

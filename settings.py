@@ -8,6 +8,9 @@ import time
 import sublime
 import sublime_plugin
 
+from .sublime_lib.constants import style_flags_from_list
+
+
 POPUP_TEMPLATE = """
 <body id="sublime-settings">
 <style>
@@ -205,18 +208,21 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     def do_linting(self):
         """Highlight all unknown settings keys."""
-        unknown_regions = [
-            region for region in self.view.find_by_selector(KEY_SCOPE)
-            if self.view.substr(region).strip('"') not in self.known_settings
-        ] if _settings().get('settings.linting') else None
+        unknown_regions = None
+        if _settings().get('settings.linting'):
+            unknown_regions = [
+                region for region in self.view.find_by_selector(KEY_SCOPE)
+                if self.view.substr(region) not in self.known_settings
+            ]
         if unknown_regions:
+            styles = _settings().get("settings.highlight_styles",
+                                     ["DRAW_SOLID_UNDERLINE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE"])
             self.view.add_regions(
                 'unknown_settings_keys',
                 unknown_regions,
-                scope="markup.warning.unknown-key.sublime-settings",
+                scope=_settings().get("settings.highlight_scope", "text"),
                 icon="dot",
-                flags=sublime.DRAW_SOLID_UNDERLINE |
-                sublime.DRAW_NO_FILL | sublime.DRAW_NO_OUTLINE
+                flags=style_flags_from_list(styles)
             )
         else:
             self.view.erase_regions('unknown_settings_keys')
