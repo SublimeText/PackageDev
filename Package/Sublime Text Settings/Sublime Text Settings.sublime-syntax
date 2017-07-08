@@ -49,6 +49,7 @@ contexts:
       scope: invalid.illegal.expected-key-value-separator.json
 
   expect-value:
+    - meta_content_scope: meta.expect-value.json
     - match: (?=\S)
       set:
         - clear_scopes: 1
