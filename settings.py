@@ -271,13 +271,20 @@ class KnownSettings(object):
         """
         ignored_patterns = frozenset(('/User/', '/Preferences Editor/'))
 
-        # TODO syntax-specific settings include "Preferences"
-        # TODO as do project settings, but we don't have a syntax def for those yet
+        # TODO project settings include "Preferences",
+        # but we don't have a syntax def for those yet
         l.debug("loading defaults and comments for %r", self.filename)
         start_time = time.time()
         resources = sublime.find_resources(self.filename)
         l.debug("found %d %r files", len(resources), self.filename)
-        for resource in sublime.find_resources(self.filename):
+
+        # include general settings if we're in a syntax-specific file
+        if self._is_syntax_specific():
+            pref_resources = sublime.find_resources('Preferences.sublime-settings')
+            l.debug("found %d 'Preferences.sublime-settings' files", len(pref_resources))
+            resources += pref_resources
+
+        for resource in resources:
             # skip ignored settings
             if any(ignored in resource for ignored in ignored_patterns):
                 continue
@@ -293,6 +300,23 @@ class KnownSettings(object):
 
         duration = time.time() - start_time
         l.debug("loading took %.3fs", duration)
+
+    def _is_syntax_specific(self):
+        """Check whether a syntax def with the same base file name exists.
+
+        Returns:
+            bool
+        """
+        syntax_file_exts = (".sublime-syntax", ".tmLanguage")
+        name_no_ext = os.path.splitext(self.filename)[0]
+        for ext in syntax_file_exts:
+            syntax_file_name = name_no_ext + ext
+            resources = sublime.find_resources(syntax_file_name)
+            if resources:
+                l.debug("syntax-specific settings file for %r", resources[0])
+                return True
+        else:
+            return False
 
     def _parse_settings(self, lines):
         """Parse the setting file and capture comments.
