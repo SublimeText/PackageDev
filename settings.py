@@ -211,11 +211,16 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def do_linting(self):
         """Highlight all unknown settings keys."""
         unknown_regions = None
-        if _settings().get('settings.linting') and self.known_settings:
+        if (
+            self._is_user_file()
+            and _settings().get('settings.linting')
+            and self.known_settings
+        ):
             unknown_regions = [
                 region for region in self.view.find_by_selector(KEY_SCOPE)
                 if self.view.substr(region) not in self.known_settings
             ]
+
         if unknown_regions:
             styles = _settings().get("settings.highlight_styles",
                                      ["DRAW_SOLID_UNDERLINE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE"])
@@ -228,6 +233,15 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             )
         else:
             self.view.erase_regions('unknown_settings_keys')
+
+    def _is_user_file(self):
+        """Determine whether the current file is inside the User package."""
+        path = self.view.file_name()
+        leaves = path.split(os.sep)
+        try:
+            return (leaves.index("Packages") + 1 == leaves.index("User"))
+        except ValueError:
+            return False
 
 
 # TODO cache these (by filename) to reduce load
