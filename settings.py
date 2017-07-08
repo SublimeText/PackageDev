@@ -47,7 +47,7 @@ KEY_SCOPE = "entity.name.other.key.sublime-settings"
 VALUE_SCOPE = "meta.expect-value | meta.mapping.value"
 
 # logging
-l = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 def html_encode(string):
@@ -82,7 +82,7 @@ def get_last_key_name_from(view, point):
     if not regions:
         return None
     for region in regions:
-        # l.debug("comparing region %s to %d (contents: %r)", region,)
+        # log.debug("comparing region %s to %d (contents: %r)", region,)
         if region.begin() > point:
             break
         last_region = region
@@ -109,7 +109,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         """Enable the listener for Sublime Settings syntax only."""
         # view is member of side-by-side settings
         if settings.get('edit_settings_view') in ('base', 'user'):
-            # l.debug("view is member of side-by-side settings")  # too spammy
+            # log.debug("view is member of side-by-side settings")  # too spammy
             return True
         else:
             syntax = settings.get('syntax', '')
@@ -118,7 +118,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def __init__(self, view):
         """Initialize view event listener object."""
         super(SettingsListener, self).__init__(view)
-        l.debug("initializing SettingsListener for %r", view.file_name())
+        log.debug("initializing SettingsListener for %r", view.file_name())
         try:
             # try to attach to known settings object.
             self.known_settings = KnownSettings(view.file_name())
@@ -128,7 +128,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             self.known_settings = None
 
     def __del__(self):
-        l.debug("deleting SettingsListener instance for %r", self.view.file_name())
+        log.debug("deleting SettingsListener instance for %r", self.view.file_name())
 
     def on_modified(self):
         """Sublime Text modified event handler to update linting."""
@@ -263,26 +263,26 @@ class KnownSettings(object):
 
         # TODO syntax-specific settings include "Preferences"
         # TODO as do project settings, but we don't have a syntax def for those yet
-        l.debug("loading defaults and comments for %r", self.filename)
+        log.debug("loading defaults and comments for %r", self.filename)
         start_time = time.time()
         resources = sublime.find_resources(self.filename)
-        l.debug("found %d %r files", len(resources), self.filename)
+        log.debug("found %d %r files", len(resources), self.filename)
         for resource in sublime.find_resources(self.filename):
             # skip ignored settings
             if any(ignored in resource for ignored in ignored_patterns):
                 continue
             try:
-                l.debug("parsing %r", resource)
+                log.debug("parsing %r", resource)
                 lines = sublime.load_resource(resource).splitlines()
                 for key, value in self._parse_settings(lines).items():
                     # merge settings without overwriting existing ones
                     self.defaults.setdefault(key, value)
             except Exception as e:
-                l.error("error parsing %r - %s%s",
-                        resource, e.__class__.__name__, e.args)
+                log.error("error parsing %r - %s%s",
+                          resource, e.__class__.__name__, e.args)
 
         duration = time.time() - start_time
-        l.debug("loading took %.3fs", duration)
+        log.debug("loading took %.3fs", duration)
 
     def _parse_settings(self, lines):
         """Parse the setting file and capture comments.
@@ -517,9 +517,9 @@ class KnownSettings(object):
         value_region = get_value_region_at(view, point)
         key = get_last_key_name_from(view, value_region.begin())
         if not key:
-            l.debug("unable to find current key")
+            log.debug("unable to find current key")
             return None
-        l.debug("building completions for key %r", key)
+        log.debug("building completions for key %r", key)
         default = self.defaults.get(key)
 
         if key == 'color_scheme':
@@ -559,7 +559,7 @@ class KnownSettings(object):
         )
         # cursor already within quotes
         in_str = view.match_selector(point, 'string')
-        l.debug("Completing a string (%s) within a string (%s)", is_str, in_str)
+        log.debug("Completing a string (%s) within a string (%s)", is_str, in_str)
 
         if not in_str or not is_str:
             # jsonify completion values
@@ -574,7 +574,7 @@ class KnownSettings(object):
             # Complain about this in the status bar, I guess.
             msg = "Cannot complete value set within a string"
             self.view.window().status_message(msg)
-            l.warning(msg)
+            log.warning(msg)
             return None
 
         # disable word completion to prevent stupid suggestions
