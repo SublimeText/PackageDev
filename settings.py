@@ -246,7 +246,9 @@ class KnownSettings(object):
         self.comments = {}
         # the dictionary with all defaults of a setting
         self.defaults = {}
-        self._load_settings()
+
+        # look for settings files asynchronously
+        sublime.set_timeout_async(self._load_settings, 0)
 
     def __iter__(self):
         """Forward iteration to settings."""
