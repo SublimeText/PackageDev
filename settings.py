@@ -210,7 +210,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def do_linting(self):
         """Highlight all unknown settings keys."""
         unknown_regions = None
-        if _settings().get('settings.linting'):
+        if _settings().get('settings.linting') and self.known_settings:
             unknown_regions = [
                 region for region in self.view.find_by_selector(KEY_SCOPE)
                 if self.view.substr(region) not in self.known_settings
