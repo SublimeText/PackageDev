@@ -125,14 +125,15 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def __init__(self, view):
         """Initialize view event listener object."""
         super(SettingsListener, self).__init__(view)
+        self.known_settings = None
+
+        filepath = view.file_name()
         l.debug("initializing SettingsListener for %r", view.file_name())
-        try:
-            # try to attach to known settings object.
-            self.known_settings = KnownSettings(view.file_name())
-            # need to wait a little bit for the view to become valid
-            sublime.set_timeout_async(self.do_linting, 200)
-        except ValueError:
-            self.known_settings = None
+        if not filepath.endswith(".sublime-settings"):
+            l.error("Not a Sublime Text Settings file: %r", filepath)
+        else:
+            filename = os.path.basename(filepath)
+            self.known_settings = KnownSettings(filename, on_loaded=self.do_linting)
 
     def __del__(self):
         l.debug("deleting SettingsListener instance for %r", self.view.file_name())
@@ -238,13 +239,18 @@ class KnownSettings(object):
     provide all required information for tooltips and auto-completion.
     """
 
-    def __init__(self, filename):
-        """Initialize view event listener object."""
-        basename = os.path.basename(filename)
-        if not basename.lower().endswith(".sublime-settings"):
-            raise ValueError('No Sublime Settings')
+    def __init__(self, filename, on_loaded=None):
+        """Initialize view event listener object.
+
+        Arguments:
+            filename (str):
+                Settings file name to index.
+            on_loaded (callable):
+                Function to call once settings have been indexed.
+        """
         # the associated settings file name all the settings belong to
-        self.filename = basename
+        self.filename = filename
+        self.on_loaded = on_loaded
 
         self.trigger_settings_reload()
 
@@ -307,6 +313,9 @@ class KnownSettings(object):
 
         duration = time.time() - start_time
         l.debug("loading took %.3fs", duration)
+
+        if self.on_loaded:
+            self.on_loaded()
 
     def _is_syntax_specific(self):
         """Check whether a syntax def with the same base file name exists.
