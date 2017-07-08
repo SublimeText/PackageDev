@@ -11,4 +11,8 @@
 
 	// Draw UI shadows (hidden setting)
 	"draw_shadows": true,
+
+    // Check for updates on startup (hidden setting)
+    // Only available to registered users.
+    "update_check": true,
 }
