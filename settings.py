@@ -182,7 +182,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         body = self.known_settings.build_tooltip(self.view, key)
         window_width = min(1000, int(self.view.viewport_extent()[0]) - 64)
         # offset <h1> padding, if possible
-        location = max(key_region.begin() - 1, self.view.line(key_region.begin()).begin())
+        key_start = key_region.begin()
+        location = max(key_start - 1, self.view.line(key_start).begin())
 
         self.view.show_popup(
             content=POPUP_TEMPLATE.format(body),
@@ -326,7 +327,6 @@ class KnownSettings(object):
                     self.defaults.setdefault(key, value)
             except Exception as e:
                 l.error("error parsing %r - %s%s", resource, e.__class__.__name__, e.args)
-                pass
 
         duration = time.time() - start_time
         l.debug("loading took %.3fs", duration)
@@ -598,7 +598,8 @@ class KnownSettings(object):
             completions = self._theme_completions(view)
         else:
             # the value typed so far which may differ from prefix for floats
-            typed = view.substr(sublime.Region(value_region.begin(), point)).lstrip()
+            typed_region = sublime.Region(value_region.begin(), point)
+            typed = view.substr(typed_region).lstrip()
             # try to built the list of completions from setting's comment
             completions = list(
                 self._completions_from_comment(view, key, default, typed, prefix)
@@ -617,10 +618,12 @@ class KnownSettings(object):
                         default
                     )]
 
-        # default value or list element is of type string, or completing string value
         is_str = bool(
+            # default value is of type string
             isinstance(default, str)
+            # the list elements of default are of type string
             or isinstance(default, list) and default and isinstance(default[0], str)
+            # the offered completions are of type string
             or completions and isinstance(completions[0][1], str)
         )
         # cursor already within quotes
@@ -639,7 +642,7 @@ class KnownSettings(object):
             # We're within a string but don't have a string value to complete.
             # Complain about this in the status bar, I guess.
             msg = "Cannot complete value set within a string"
-            self.view.window().status_message("Cannot complete value set within a string")
+            self.view.window().status_message(msg)
             l.warning(msg)
             return None
 
@@ -710,7 +713,7 @@ class KnownSettings(object):
         for scheme_path in sublime.find_resources('*.tmTheme'):
             if any(hide in scheme_path for hide in hidden):
                 continue
-            _, package, *_, file_name  = scheme_path.split("/")
+            _, package, *_, file_name = scheme_path.split("/")
             item = (
                 '{}  \tPackage: {}'.format(file_name, package),
                 scheme_path
