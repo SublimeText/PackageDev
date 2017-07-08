@@ -136,6 +136,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     def __del__(self):
         l.debug("deleting SettingsListener instance for %r", self.view.file_name())
+        self.view.erase_regions('unknown_settings_keys')
 
     def on_modified(self):
         """Sublime Text modified event handler to update linting."""
