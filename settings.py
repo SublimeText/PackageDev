@@ -116,7 +116,13 @@ def int_or_float(string):
 
 
 def _settings():
-    return sublime.load_settings("PackageDev.sublime-settings")
+    """Return global package settings object or load it first if required."""
+    try:
+        return _settings.settings
+    except AttributeError:
+        l.debug("Loading PackageDev.sublime-settings")
+        _settings.settings = sublime.load_settings("PackageDev.sublime-settings")
+        return _settings.settings
 
 
 class SettingsListener(sublime_plugin.ViewEventListener):
