@@ -154,8 +154,8 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         region = sublime.Region(pos_start, pos_end)
 
         prefs = sublime.load_settings('PackageDev.sublime-settings')
-        scope = prefs.get('syntax_test_highlight_scope', 'text')
-        styles = prefs.get('syntax_test_highlight_styles', ['DRAW_NO_FILL'])
+        scope = prefs.get('syntax_test.highlight_scope', 'text')
+        styles = prefs.get('syntax_test.highlight_styles', ['DRAW_NO_FILL'])
         style_flags = 0
         # the following available add_region styles are taken from the API documentation:
         # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
@@ -342,7 +342,7 @@ class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
                     scopes.append(scope)
 
         prefs = sublime.load_settings('PackageDev.sublime-settings')
-        suggest_suffix = prefs.get('syntax_test_suggest_scope_suffix', True)
+        suggest_suffix = prefs.get('syntax_test.suggest_scope_suffix', True)
 
         scope = find_common_scopes(scopes, not suggest_suffix)
 
