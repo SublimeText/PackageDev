@@ -70,7 +70,7 @@ def html_encode(string):
                  .replace('\n', '<br>') if string else ''
 
 
-def key_region(view, point):
+def get_key_region_at(view, point):
     """Return the key region if point is on a settings key or None."""
     if view.match_selector(point, KEY_SCOPE):
         for region in view.find_by_selector(KEY_SCOPE):
@@ -79,13 +79,13 @@ def key_region(view, point):
     return None
 
 
-def key_name(view, point):
+def get_key_name(view, point):
     """Return the key name if point is on a settings key or None."""
-    region = key_region(view, point)
+    region = get_key_region_at(view, point)
     return view.substr(region) if region else None
 
 
-def last_key_name(view, point):
+def get_last_key_name_from(view, point):
     """Return the last key name preceding the specified point or None."""
     last_region = None
     regions = view.find_by_selector(KEY_SCOPE)
@@ -99,7 +99,7 @@ def last_key_name(view, point):
     return view.substr(last_region)
 
 
-def value_region(view, point):
+def get_value_region_at(view, point):
     """Return the value region if point is on a settings value or None."""
     if view.match_selector(point, VALUE_SCOPE):
         for region in view.find_by_selector(VALUE_SCOPE):
@@ -172,15 +172,15 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         if not self.known_settings or hover_zone != sublime.HOVER_TEXT:
             return
         # settings key name under cursor
-        region = key_region(self.view, point)
-        if not region:
+        key_region = get_key_region_at(self.view, point)
+        if not key_region:
             return
-        key = self.view.substr(region)
+        key = self.view.substr(key_region)
 
         body = self.known_settings.build_tooltip(self.view, key)
         window_width = min(1000, int(self.view.viewport_extent()[0]) - 64)
         # offset <h1> padding, if possible
-        location = max(region.begin() - 1, self.view.line(region.begin()).begin())
+        location = max(key_region.begin() - 1, self.view.line(key_region.begin()).begin())
 
         self.view.show_popup(
             content=POPUP_TEMPLATE.format(body),
@@ -523,8 +523,8 @@ class KnownSettings(object):
                 the tuple with content ST needs to display completions
         """
         point = locations[0]
-        region = value_region(view, point)
-        key = last_key_name(view, region.begin())
+        value_region = get_value_region_at(view, point)
+        key = get_last_key_name_from(view, value_region.begin())
         if not key:
             l.debug("unable to find current key")
             return None
@@ -537,7 +537,7 @@ class KnownSettings(object):
             completions = self._theme_completions(view)
         else:
             # the value typed so far which may differ from prefix for floats
-            typed = view.substr(sublime.Region(region.begin(), point)).lstrip()
+            typed = view.substr(sublime.Region(value_region.begin(), point)).lstrip()
             # try to built the list of completions from setting's comment
             completions = list(
                 self._completions_from_comment(view, key, default, typed, prefix)
