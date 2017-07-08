@@ -137,10 +137,10 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         """
         if self.known_settings and len(locations) == 1:
             if self.view.match_selector(locations[0], VALUE_SCOPE):
-                completions = self.known_settings.value_completions
+                completions_aggregator = self.known_settings.value_completions
             else:
-                completions = self.known_settings.key_completions
-            return completions(self.view, prefix, locations)
+                completions_aggregator = self.known_settings.key_completions
+            return completions_aggregator(self.view, prefix, locations)
 
     def on_hover(self, point, hover_zone):
         """Sublime Text hover event handler to show tooltip if needed."""
@@ -151,7 +151,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         key = key_name(self.view, point)
         if not key:
             return
-        body = self.known_settings.tooltip(self.view, key)
+        body = self.known_settings.build_tooltip(self.view, key)
         window_width = min(1000, int(self.view.viewport_extent()[0]) - 64)
         self.view.show_popup(
             content=POPUP_TEMPLATE.format(body), on_navigate=self.on_navigate,
@@ -297,7 +297,7 @@ class KnownSettings(object):
         # Return decoded json file from content with stripped comments
         return sublime.decode_value('\n'.join(content))
 
-    def tooltip(self, view, key):
+    def build_tooltip(self, view, key):
         """Return html encoded docstring for settings key.
 
         Arguments:
@@ -402,7 +402,8 @@ class KnownSettings(object):
             ] for key, value in self.defaults.items()]
         return (completions, sublime.INHIBIT_WORD_COMPLETIONS)
 
-    def _key_snippet(self, key, value, bol='', eol=',\n'):
+    @staticmethod
+    def _key_snippet(key, value, bol='', eol=',\n'):
         """Create snippet with default value depending on type.
 
         Arguments:
@@ -483,15 +484,17 @@ class KnownSettings(object):
         quote = is_str and not view.match_selector(point, 'string')
 
         if key == 'color_scheme':
-            completions = self._colors_completions(view, quote)
+            completions = self._color_scheme_completions(view, quote)
         elif key == 'theme':
             completions = self._theme_completions(view, quote)
         else:
             # the value typed so far which may differ from prefix for floats
             typed = view.substr(sublime.Region(region.begin(), point)).lstrip()
             # try to built the list of completions from setting's comment
-            completions = list(self._comment_completions(
-                view, key, default, typed, prefix, quote))
+            completions = list(
+                self._completions_from_comment(view, key, default, typed, prefix)
+            )
+
             if not completions:
                 if isinstance(default, bool):
                     completions = [
@@ -508,8 +511,8 @@ class KnownSettings(object):
             sorted(completions, key=lambda x: x[0].lower()),
             sublime.INHIBIT_WORD_COMPLETIONS)
 
-    def _comment_completions(self, view, key, default, typed, prefix, quote):
-        """Generator to parse settings comment and return all possible values.
+    def _completions_from_comment(self, view, key, default, typed, prefix, quote):
+        """Parse settings comments and return all possible values (generator).
 
         Many settings are commented with a list of quoted words representing
         the possible / allowed values. This method generates a list of these
@@ -551,7 +554,8 @@ class KnownSettings(object):
                     '"{0}"'.format(word) if quote else word
                 ]
 
-    def _colors_completions(self, view, quote):
+    @staticmethod
+    def _color_scheme_completions(view, quote):
         """Create completions of all visible color schemes.
 
         The list will not include color schemes matching at least one entry of
@@ -582,7 +586,8 @@ class KnownSettings(object):
                 completions.append(item)
         return completions
 
-    def _theme_completions(self, view, quote):
+    @staticmethod
+    def _theme_completions(view, quote):
         """Create completions of all visible themes.
 
         The list will not include color schemes matching at least one entry of
