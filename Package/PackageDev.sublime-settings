@@ -1,4 +1,8 @@
 {
+    // Define the minimum log level used for logging output on the console.
+    // Valid values are: "CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"
+    "log_level": "WARNING",
+
     // what add_region styles to use for the highlighting of the line/positions being tested
     // valid values are:
     // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",

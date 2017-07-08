@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Keymap/Sublime Keymap.sublime-syntax"
+// SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Keymap/Sublime Text Keymap.sublime-syntax"
 
 // <- source.json.sublime.keymap
 
@@ -152,7 +152,7 @@
     }
 //  ^ punctuation.section.mapping.end.json - meta.mapping.value.json
 
-    , {"keyz": ["test"], "command": "blah", "keys": ["a", "b"], "keys": [a, "f20", "f21", "F"]}
+    , {"keyz": ["test"], "command": "blah", "keys": ["a", "b"], "keys": [a, "f20", "f21", "F", "shift+F"]}
 //     ^^^^^^ meta.mapping.key.json meta.unknown-main-key.sublime-keymap string.quoted.double.json - meta.main-key.sublime-keymap - keyword
 //     ^ punctuation.definition.string.begin.json
 //          ^ punctuation.definition.string.end.json
@@ -169,8 +169,9 @@
 //                                                                           ^^^ string.quoted.double.json support.constant.key.named.sublime-keymap
 //                                                                               ^ punctuation.separator.sequence.json
 //                                                                                  ^^^ string.quoted.double.json invalid.deprecated.key.sublime-keymap
-//                                                                                         ^ invalid.deprecated.key.upper-case.sublime-keymap
-//                                                                                           ^ punctuation.section.sequence.end.json
+//                                                                                         ^ constant.character.key.literal.sublime-keymap
+//                                                                                                    ^ invalid.deprecated.key.upper-case.sublime-keymap
+//                                                                                                      ^ punctuation.section.sequence.end.json
 
     , { "keys": ["shift+alt+\\", "ab"] },
 //                          ^^constant.character.escape.json
