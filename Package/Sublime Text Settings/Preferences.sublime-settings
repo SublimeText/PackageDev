@@ -4,7 +4,8 @@
 	"hidden_color_scheme_pattern": [
 		"/Color Scheme - Legacy",
 		"/User/SublimeLinter",
-		"/User/Sublimerge"
+		"/User/Sublimerge",
+		"/InactivePanes"
 	],
 
 	// List of hidden themes not displayed in UI.
