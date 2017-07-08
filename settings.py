@@ -294,7 +294,10 @@ class KnownSettings(object):
         l.debug("loading took %.3fs", duration)
 
     def _parse_settings(self, lines):
-        """Parse the setting file and capture comments."""
+        """Parse the setting file and capture comments.
+
+        This is naive but gets the job done most of the time.
+        """
         content = []
         comment = []
         in_comment = False
@@ -335,10 +338,15 @@ class KnownSettings(object):
             content.append(line)
             if comment:
                 # the json key is used as key for the comments located above it
-                key = stripped.split(':', 1)[0].strip(' \t"')
+                match = re.match(r'"((?:[^"]|\\.)*)":', stripped)
+                if not match:
+                    continue
+                key = match.group(1)
+
                 if key not in self.comments:
                     self.comments[key] = textwrap.dedent('\n'.join(comment))
                 comment.clear()
+
         # Return decoded json file from content with stripped comments
         return sublime.decode_value('\n'.join(content))
 
