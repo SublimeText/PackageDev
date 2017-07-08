@@ -1,7 +1,9 @@
 # -*- encoding: utf-8 -*-
+import logging
 import os
 import re
 import textwrap
+import time
 
 import sublime
 import sublime_plugin
@@ -43,6 +45,19 @@ POPUP_TEMPLATE = """
 # match top-level keys only
 KEY_SCOPE = "entity.name.other.key.sublime-settings"
 VALUE_SCOPE = "meta.expect-value | meta.mapping.value"
+
+# logging
+l = logging.getLogger(__name__)
+handler = logging.StreamHandler()
+formatter = logging.Formatter(fmt="[{name}] {levelname}: {message}", style='{')
+handler.setFormatter(formatter)
+l.addHandler(handler)
+l.setLevel(logging.WARNING)
+# l.setLevel(logging.DEBUG)
+
+
+def plugin_unloaded():
+    l.removeHandler(handler)
 
 
 def html_encode(string):
@@ -99,15 +114,17 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def is_applicable(cls, settings):
         """Enable the listener for Sublime Settings syntax only."""
         # view is member of side-by-side settings
-        result = settings.get('edit_settings_view') in ('base', 'user')
-        if not result:
-            syntax = settings.get('syntax') or ''
-            result = syntax.endswith('/Sublime Text Settings.sublime-syntax')
-        return result
+        if settings.get('edit_settings_view') in ('base', 'user'):
+            # l.debug("view is member of side-by-side settings")  # too spammy
+            return True
+        else:
+            syntax = settings.get('syntax', '')
+            return syntax.endswith('/Sublime Text Settings.sublime-syntax')
 
     def __init__(self, view):
         """Initialize view event listener object."""
         super(SettingsListener, self).__init__(view)
+        l.debug("initializing SettingsListener for %r", view.file_name())
         try:
             # try to attach to known settings object.
             self.known_settings = KnownSettings(view.file_name())
@@ -115,6 +132,9 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             sublime.set_timeout_async(self.do_linting, 200)
         except ValueError:
             self.known_settings = None
+
+    def __del__(self):
+        l.debug("deleting SettingsListener instance for %r", self.view.file_name())
 
     def on_modified(self):
         """Sublime Text modified event handler to update linting."""
@@ -235,18 +255,29 @@ class KnownSettings(object):
         """
         ignored_patterns = frozenset(('/User/', '/Preferences Editor/'))
 
+        # TODO syntax-specific settings include "Preferences"
+        # TODO as do project settings, but we don't have a syntax def for those yet
+        l.debug("loading defaults and comments for %r", self.filename)
+        start_time = time.time()
+        resources = sublime.find_resources(self.filename)
+        l.debug("found %d %r files", len(resources), self.filename)
         for resource in sublime.find_resources(self.filename):
             # skip ignored settings
             if any(ignored in resource for ignored in ignored_patterns):
                 continue
             try:
+                l.debug("parsing %r", resource)
                 lines = sublime.load_resource(resource).splitlines()
                 for key, value in self._parse_settings(lines).items():
                     # merge settings without overwriting existing ones
                     if key not in self.defaults:
                         self.defaults[key] = value
-            except:
+            except Exception as e:
+                l.error("error parsing %r - %s%s", resource, e.__class__.__name__, e.args)
                 pass
+
+        duration = time.time() - start_time
+        l.debug("loading took %.3fs", duration)
 
     def _parse_settings(self, lines):
         """Parse the setting file and capture comments."""
@@ -473,7 +504,9 @@ class KnownSettings(object):
         region = value_region(view, point)
         key = last_key_name(view, region.begin())
         if not key:
+            l.debug("unable to find current key")
             return None
+        l.debug("building completions for key %r", key)
         default = self.defaults.get(key)
         # default value or list element is of type string
         is_str = (
