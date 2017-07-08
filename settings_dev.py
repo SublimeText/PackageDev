@@ -5,9 +5,12 @@ from .sublime_lib.path import root_at_packages, get_package_name
 
 PLUGIN_NAME = get_package_name()
 
-SETTINGS_SYNTAX = ("Packages/%s/Package/Sublime Text Settings/Sublime Settings.tmLanguage"
+SETTINGS_SYNTAX = ("Packages/%s/Package/Sublime Text Settings/Sublime Text Settings.sublime-syntax"
                    % PLUGIN_NAME)
-TPL = "{\n\t$0\n}"
+TPL = '''\
+{
+    "$1": $0
+}'''.replace(" " * 4, "\t")
 
 
 class NewSettingsCommand(sublime_plugin.WindowCommand):

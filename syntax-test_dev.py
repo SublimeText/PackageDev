@@ -4,6 +4,8 @@ from os import path
 import re
 from collections import namedtuple
 
+from .sublime_lib.constants import style_flags_from_list
+
 
 AssertionLineDetails = namedtuple(
     'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
@@ -154,20 +156,9 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         region = sublime.Region(pos_start, pos_end)
 
         prefs = sublime.load_settings('PackageDev.sublime-settings')
-        scope = prefs.get('syntax_test_highlight_scope', 'text')
-        styles = prefs.get('syntax_test_highlight_styles', ['DRAW_NO_FILL'])
-        style_flags = 0
-        # the following available add_region styles are taken from the API documentation:
-        # http://www.sublimetext.com/docs/3/api_reference.html#sublime.View
-        # unfortunately, the `sublime` module doesn't encapsulate them for easy reference
-        # so we hardcode them here
-        for style in styles:
-            if style in [
-                'DRAW_EMPTY', 'HIDE_ON_MINIMAP', 'DRAW_EMPTY_AS_OVERWRITE', 'DRAW_NO_FILL',
-                'DRAW_NO_OUTLINE', 'DRAW_SOLID_UNDERLINE', 'DRAW_STIPPLED_UNDERLINE',
-                'DRAW_SQUIGGLY_UNDERLINE', 'HIDDEN', 'PERSISTENT'
-            ]:
-                style_flags |= getattr(sublime, style)
+        scope = prefs.get('syntax_test.highlight_scope', 'text')
+        styles = prefs.get('syntax_test.highlight_styles', ['DRAW_NO_FILL'])
+        style_flags = style_flags_from_list(styles)
 
         self.view.add_regions('current_syntax_test', [region], scope, '', style_flags)
 
@@ -342,7 +333,7 @@ class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
                     scopes.append(scope)
 
         prefs = sublime.load_settings('PackageDev.sublime-settings')
-        suggest_suffix = prefs.get('syntax_test_suggest_scope_suffix', True)
+        suggest_suffix = prefs.get('syntax_test.suggest_scope_suffix', True)
 
         scope = find_common_scopes(scopes, not suggest_suffix)
 

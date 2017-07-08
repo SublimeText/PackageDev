@@ -45,5 +45,26 @@
         ]
       }
     ]
+  },
+  { "id": "preferences",
+    "children": [
+      { "caption": "Package Settings",
+        "id": "package-settings",
+        "children": [
+          { "caption": "PackageDev",
+            // "id": "package_dev",
+            "children": [
+              { "caption": "Settings",
+                "command": "edit_settings",
+                "args": {
+                  "base_file": "${packages}/PackageDev/Package/PackageDev.sublime-settings",
+                  "default": "{\n\t$0\n}\n"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
