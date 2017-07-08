@@ -37,6 +37,12 @@ s
 //   ^^^^^^^^^^^^^ keyword.other.namespace.sublime-settings
 //               ^ punctuation.separator.namespace.sublime-settings
 
+    "package_name.module_name.setting": null
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.other.key.sublime-settings
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.other.namespace.sublime-settings
+//               ^ punctuation.separator.namespace.sublime-settings
+//                           ^ punctuation.separator.namespace.sublime-settings
+
     "key_without_comma": false,
 // ^ invalid.illegal.expected-mapping-separator.json
 //                       ^^^^^ meta.mapping.value.json constant.language.json
