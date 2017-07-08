@@ -229,6 +229,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             self.view.erase_regions('unknown_settings_keys')
 
 
+# TODO cache these (by filename) to reduce load
 class KnownSettings(object):
     """A class which provides all known settings with comments/defaults.
 
@@ -244,13 +245,8 @@ class KnownSettings(object):
             raise ValueError('No Sublime Settings')
         # the associated settings file name all the settings belong to
         self.filename = basename
-        # the dictionary with all comments of each setting
-        self.comments = {}
-        # the dictionary with all defaults of a setting
-        self.defaults = {}
 
-        # look for settings files asynchronously
-        sublime.set_timeout_async(self._load_settings, 0)
+        self.trigger_settings_reload()
 
     def __iter__(self):
         """Forward iteration to settings."""
@@ -259,6 +255,14 @@ class KnownSettings(object):
     def __next__(self):
         """Forward iteration to settings."""
         return self.defaults.next()
+
+    def trigger_settings_reload(self):
+        # the dictionary with all defaults of a setting
+        self.defaults = {}
+        # the dictionary with all comments of each setting
+        self.comments = {}
+        # look for settings files asynchronously
+        sublime.set_timeout_async(self._load_settings, 0)
 
     def _load_settings(self):
         """Load and merge settings and their comments from all base files.
