@@ -35,10 +35,10 @@ contexts:
       scope: punctuation.definition.string.end.json
       pop: true
     - include: JSON.sublime-syntax#inside-string
-    - match: '([\w]+)(\.)'
+    - match: '[\w]+(\.)'
       scope: keyword.other.namespace.sublime-settings
       captures:
-        2: punctuation.separator.namespace.sublime-settings
+        1: punctuation.separator.namespace.sublime-settings
 
   post-key:
     - match: ":"
@@ -54,14 +54,13 @@ contexts:
         - clear_scopes: 1
         - meta_scope: meta.mapping.value.json
         - include: JSON.sublime-syntax#value
-        - match: '([^\s,}/]|/(?!/\*))*'
+        - match: (?:[^\s,}/]|/(?!/\*))*
           scope: invalid.illegal.expected-value.json
           set: post-value
 
   post-value:
-    - match: (,)|(?=\})
-      captures:
-        1: punctuation.separator.mapping.pair.json
+    - match: ',|(?=\})'
+      scope: punctuation.separator.mapping.pair.json
       pop: true
     # Match whitespace not followed by a character that's not
     # whitespace, a comma, a closing brace or a comment
