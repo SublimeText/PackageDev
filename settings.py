@@ -400,7 +400,7 @@ class KnownSettings(object):
         value_regions = view.find_by_selector(VALUE_SCOPE)
         if not value_regions:
             # no value found use end of global dict
-            selector = 'meta.structure.dictionary'
+            selector = "meta.mapping"
             value_regions = view.find_by_selector(selector)
             if not value_regions:
                 # no global dict found, insert one
