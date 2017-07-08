@@ -48,16 +48,6 @@ VALUE_SCOPE = "meta.expect-value | meta.mapping.value"
 
 # logging
 l = logging.getLogger(__name__)
-handler = logging.StreamHandler()
-formatter = logging.Formatter(fmt="[{name}] {levelname}: {message}", style='{')
-handler.setFormatter(formatter)
-l.addHandler(handler)
-l.setLevel(logging.WARNING)
-# l.setLevel(logging.DEBUG)
-
-
-def plugin_unloaded():
-    l.removeHandler(handler)
 
 
 def html_encode(string):
@@ -579,7 +569,7 @@ class KnownSettings(object):
             # Complain about this in the status bar, I guess.
             msg = "Cannot complete value set within a string"
             self.view.window().status_message("Cannot complete value set within a string")
-            l.warn(msg)
+            l.warning(msg)
             return None
 
         # disable word completion to prevent stupid suggestions
