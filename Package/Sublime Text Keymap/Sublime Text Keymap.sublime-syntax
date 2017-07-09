@@ -10,11 +10,11 @@ contexts:
   main:
     - include: comments
     - match: \[
-      scope: meta.sequence.json punctuation.section.sequence.begin.json
+      scope: punctuation.section.sequence.begin.json
       push:
-        - meta_content_scope: meta.sequence.json meta.keybinding.collection.sublime-keymap
+        - meta_scope: meta.sequence.json meta.keybinding.collection.sublime-keymap
         - match: \]
-          scope: meta.sequence.json punctuation.section.sequence.end.json
+          scope: punctuation.section.sequence.end.json
           set: only-comments
         - match: \{
           scope: punctuation.section.mapping.begin.json punctuation.section.keybinding.begin.sublime-keymap

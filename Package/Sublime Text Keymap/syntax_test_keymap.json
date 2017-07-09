@@ -338,6 +338,7 @@
 
 // <- -comment
 ]
+// <- meta.sequence.json meta.keybinding.collection.sublime-keymap punctuation.section.sequence.end.json
   ,[]//fgfg
 // <- - invalid.illegal
 //^^^ invalid.illegal.expected-comment-or-eof.sublime-keymap
