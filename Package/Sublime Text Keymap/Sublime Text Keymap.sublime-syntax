@@ -10,11 +10,11 @@ contexts:
   main:
     - include: comments
     - match: \[
-      scope: meta.sequence.json punctuation.section.sequence.begin.json
+      scope: punctuation.section.sequence.begin.json
       push:
-        - meta_content_scope: meta.sequence.json meta.keybinding.collection.sublime-keymap
+        - meta_scope: meta.sequence.json meta.keybinding.collection.sublime-keymap
         - match: \]
-          scope: meta.sequence.json punctuation.section.sequence.end.json
+          scope: punctuation.section.sequence.end.json
           set: only-comments
         - match: \{
           scope: punctuation.section.mapping.begin.json punctuation.section.keybinding.begin.sublime-keymap
@@ -53,6 +53,9 @@ contexts:
 
   main-keys:
     - meta_scope: meta.mapping.json
+    - match: \}
+      scope: punctuation.section.mapping.end.json punctuation.section.keybinding.end.sublime-keymap
+      pop: true
     - match: (")(keys)(")
       scope: meta.mapping.key.json meta.main-key.sublime-keymap string.quoted.double.json
       captures:
@@ -85,9 +88,6 @@ contexts:
         2: keyword.other.main.sublime-keymap
         3: punctuation.definition.string.end.json
       push: [in-dictionary-expect-comma, expect-context-array, expect-colon]
-    - match: \}
-      scope: punctuation.section.mapping.end.json punctuation.section.keybinding.end.sublime-keymap
-      pop: true
     # unknown main key
     - match: \"
       scope: punctuation.definition.string.begin.json
