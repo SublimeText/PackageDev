@@ -1,9 +1,9 @@
 {
     "scope": "source.json.sublime.keymap meta.mapping - meta.mapping meta - comment",
     "completions": [
-        {"trigger": "keys\tkey", "contents": "\"keys\": [$0]"},
-        {"trigger": "command\tkey", "contents": "\"command\": \"$1\""},
-        {"trigger": "args\tkey", "contents": "\"args\": {$0}"},
-        {"trigger": "context\tkey", "contents": "\"context\": [$0]"},
+        {"trigger": "keys\tkey", "contents": "\"keys\": [\"$1\"],"},
+        {"trigger": "command\tkey", "contents": "\"command\": \"$1\","},
+        {"trigger": "args\tkey", "contents": "\"args\": {$0},"},
+        {"trigger": "context\tkey", "contents": "\"context\": \n[\n\t$0\n],"},
     ]
 }
