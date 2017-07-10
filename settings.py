@@ -616,11 +616,16 @@ class KnownSettings(object):
                         ["true  \tboolean", True],
                     ]
                     completions[default][0] += " (default)"  # booleans are integers
+
                 elif default:
                     completions = [(
                         "{}  \t{} (default)".format(default, type(default).__name__),
                         default
                     )]
+
+                else:
+                    # nothing to offer
+                    return None
 
         is_str = bool(
             # default value is of type string
