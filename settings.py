@@ -661,7 +661,7 @@ class KnownSettings(object):
             # We're within a string but don't have a string value to complete.
             # Complain about this in the status bar, I guess.
             msg = "Cannot complete value set within a string"
-            self.view.window().status_message(msg)
+            view.window().status_message(msg)
             l.warning(msg)
             return None
 
