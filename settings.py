@@ -743,7 +743,7 @@ class KnownSettings(object):
                 - contents (string): the path to commit to the settings
         """
         hidden = _settings().get('settings.exclude_color_scheme_patterns') or []
-        completions = set()
+        completions = []
         for scheme_path in sublime.find_resources("*.tmTheme"):
             if any(hide in scheme_path for hide in hidden):
                 continue
@@ -752,7 +752,7 @@ class KnownSettings(object):
                 "{}  \tPackage: {}".format(file_name, package),
                 scheme_path
             )
-            completions.add(item)
+            completions.append(item)
         return completions
 
     @staticmethod
@@ -773,7 +773,7 @@ class KnownSettings(object):
                 - contents (string): the file name to commit to the settings
         """
         hidden = _settings().get('settings.exclude_theme_patterns') or []
-        completions = set()
+        completions = []
         for theme in sublime.find_resources("*.sublime-theme"):
             theme = os.path.basename(theme)
             if any(hide in theme for hide in hidden):
@@ -782,5 +782,5 @@ class KnownSettings(object):
                 "{}  \ttheme".format(theme),
                 theme
             )
-            completions.add(item)
+            completions.append(item)
         return sorted_completions(completions)
