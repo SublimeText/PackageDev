@@ -748,11 +748,8 @@ class KnownSettings(object):
             if any(hide in scheme_path for hide in hidden):
                 continue
             _, package, *_, file_name = scheme_path.split("/")
-            item = (
-                "{}  \tPackage: {}".format(file_name, package),
-                scheme_path
-            )
-            completions.append(item)
+            completions.append((
+                "{}: {}  \tcolors".format(package, file_name), scheme_path))
         return completions
 
     @staticmethod
@@ -778,9 +775,5 @@ class KnownSettings(object):
             theme = os.path.basename(theme)
             if any(hide in theme for hide in hidden):
                 continue
-            item = (
-                "{}  \ttheme".format(theme),
-                theme
-            )
-            completions.append(item)
+            completions.append(("{}  \ttheme".format(theme), theme))
         return sorted_completions(completions)
