@@ -690,7 +690,7 @@ class KnownSettings(object):
             list: [trigger, contents]
                 The list representing one auto-completion item.
         """
-        comment = self.comments.get(key, '')
+        comment = self.comments.get(key)
         if not comment:
             return
 
