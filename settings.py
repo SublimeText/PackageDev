@@ -650,7 +650,7 @@ class KnownSettings(object):
                     value_str = str(value)
                     if value_str.startswith(typed):
                         offset = len(typed) - len(prefix)
-                        completions.append((
+                        completions_tmp.append((
                             "{0}\tfloat".format(value),
                             value_str[offset:]
                         ))
