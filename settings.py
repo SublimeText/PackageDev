@@ -749,7 +749,7 @@ class KnownSettings(object):
                 continue
             _, package, *_, file_name = scheme_path.split("/")
             completions.append((
-                "{}: {}  \tcolors".format(package, file_name), scheme_path))
+                "{}  \t{}".format(file_name, package), scheme_path))
         return completions
 
     @staticmethod
