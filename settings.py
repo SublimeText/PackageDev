@@ -106,15 +106,26 @@ def get_value_region_at(view, point):
     return None
 
 
-def sorted_completions(completions):
-    return list(sorted(completions, key=lambda x: x[0].lower()))
-
-
-def int_or_float(string):
+def decode_value(string):
+    """Decode string to python object with unrestrictive booleans."""
+    if string.lower() == "true":
+        return True
+    if string.lower() == "false":
+        return False
     try:
         return int(string)
     except ValueError:
         return float(string)
+
+
+def format_completion_item(value):
+    """Create a completion item with its type as description."""
+    return ("{0}  \t{1}".format(value, type(value).__name__), value)
+
+
+def sorted_completions(completions):
+    """Sort completions case insensitive."""
+    return list(sorted(completions, key=lambda x: x[0].lower()))
 
 
 def _settings():
@@ -521,7 +532,7 @@ class KnownSettings(object):
                 "{0}  \tsetting".format(key),
                 self._key_snippet(key, value, eol=eol)
             ] for key, value in self.defaults.items()]
-        return (completions, sublime.INHIBIT_WORD_COMPLETIONS)
+        return completions, sublime.INHIBIT_WORD_COMPLETIONS
 
     @staticmethod
     def _key_snippet(key, value, bol="", eol=",\n"):
@@ -591,57 +602,51 @@ class KnownSettings(object):
                 the tuple with content ST needs to display completions
         """
         value_region = get_value_region_at(view, point)
+        if not value_region:
+            l.debug("unable to find current key region")
+            return None
+
         key = get_last_key_name_from(view, value_region.begin())
         if not key:
             l.debug("unable to find current key")
             return None
-        l.debug("building completions for key %r", key)
-        default = self.defaults.get(key)
 
-        if key == 'color_scheme':
-            completions = self._color_scheme_completions(view)
-        elif key == 'theme':
-            completions = self._theme_completions(view)
-        else:
-            # the value typed so far which may differ from prefix for floats
-            typed_region = sublime.Region(value_region.begin(), point)
-            typed = view.substr(typed_region).lstrip()
-            # try to built the list of completions from setting's comment
-            completions = self._completions_from_comment(view, key)
+        completions = self._value_completions_for(key)
+        if not completions:
+            l.debug("no completions to offer")
+            return None
 
-            if not completions:
-                if isinstance(default, bool):
-                    completions = [
-                        ["false \tboolean", False],
-                        ["true  \tboolean", True],
-                    ]
-                    completions[default][0] += " (default)"  # booleans are integers
-
-                elif default:
-                    completions = [(
-                        "{}  \t{} (default)".format(default, type(default).__name__),
-                        default
-                    )]
-
-                else:
-                    # nothing to offer
-                    return None
-
-        is_str = bool(
-            # default value is of type string
-            isinstance(default, str)
-            # the list elements of default are of type string
-            or isinstance(default, list) and default and isinstance(default[0], str)
-            # the offered completions are of type string
-            or completions and isinstance(completions[0][1], str)
-        )
+        is_str = any(bool(
+            # value is of type string
+            isinstance(value, str) or
+            # the list elements of type string
+            isinstance(value, list) and value and isinstance(value[0], str)
+            # check all completions
+        ) for _, value in completions)
         # cursor already within quotes
         in_str = view.match_selector(point, "string")
         l.debug("completing a string (%s) within a string (%s)", is_str, in_str)
 
-        if not in_str or not is_str:
+        if in_str and not is_str:
+            # We're within a string but don't have a string value to complete.
+            # Complain about this in the status bar, I guess.
+            msg = "Cannot complete value set within a string"
+            view.window().status_message(msg)
+            l.warning(msg)
+            return None
+
+        if in_str and is_str:
+            # Strip completions of non-strings. Don't need quotation marks.
+            results = [
+                [trigger, value] for trigger, value in completions
+                if isinstance(value, str)
+            ]
+        else:
+            # the value typed so far which may differ from prefix for floats
+            typed_region = sublime.Region(value_region.begin(), point)
+            typed = view.substr(typed_region).lstrip()
             # jsonify completion values
-            completions_tmp = []
+            results = []
             for trigger, value in completions:
                 if isinstance(value, float):
                     # strip already typed text from float completions
@@ -650,30 +655,36 @@ class KnownSettings(object):
                     value_str = str(value)
                     if value_str.startswith(typed):
                         offset = len(typed) - len(prefix)
-                        completions_tmp.append((
-                            "{0}\tfloat".format(value),
-                            value_str[offset:]
-                        ))
+                        results.append((trigger, value_str[offset:]))
                 else:
-                    completions_tmp.append((trigger, sublime.encode_value(value)))
-            completions = completions_tmp
-        elif is_str and in_str:
-            # Strip completions of non-strings. Don't need quotation marks.
-            completions = [(trigger, value)
-                           for trigger, value in completions
-                           if isinstance(value, str)]
-        else:
-            # We're within a string but don't have a string value to complete.
-            # Complain about this in the status bar, I guess.
-            msg = "Cannot complete value set within a string"
-            view.window().status_message(msg)
-            l.warning(msg)
-            return None
+                    results.append((trigger, sublime.encode_value(value)))
 
         # disable word completion to prevent stupid suggestions
-        return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
+        return sorted_completions(results), sublime.INHIBIT_WORD_COMPLETIONS
 
-    def _completions_from_comment(self, view, key):
+    def _value_completions_for(self, key):
+        """Collect and return value completions from matching source.
+
+        Arguments:
+            key (string):
+                the settings key name to read comments from
+
+        Returns:
+            ([trigger, contents], ...)
+                The list of all completions.
+        """
+        if key == 'color_scheme':
+            completions = self._color_scheme_completions()
+        elif key == 'theme':
+            completions = self._theme_completions()
+        else:
+            l.debug("building completions for key %r", key)
+            completions = self._completions_from_comment(key)
+            if not completions:
+                completions = self._completions_from_default(key)
+        return completions
+
+    def _completions_from_comment(self, key):
         """Parse settings comments and return all possible values.
 
         Many settings are commented with a list of quoted words representing
@@ -681,99 +692,109 @@ class KnownSettings(object):
         quoted words which are suggested in auto-completions.
 
         Arguments:
-            view (sublime.View):
-                the view to provide completions for
             key (string):
                 the settings key name to read comments from
 
-        Yields:
-            list: [trigger, contents]
-                The list representing one auto-completion item.
+        Returns:
+            ([trigger, contents], ...)
+                The list of all completions.
         """
         comment = self.comments.get(key)
         if not comment:
             return
 
         # must use list because "lists" as values are not hashable
-        values = []
+        completions = set()
+
         for match in re.finditer(r"`([^`\n]+)`", comment):
             # backticks should wrap the value in JSON representation,
             # so we try to decode it
-            value_str, = match.groups()
+            value, = match.groups()
             try:
-                value = sublime.decode_value(value_str)
-            except:
-                value = value_str
-            values.append(value)
+                value = sublime.decode_value(value)
+            except ValueError:
+                pass
+            if isinstance(value, list):
+                # Suggest list items as completions instead of a string
+                # representation of the list.
+                completions.update(format_completion_item(v) for v in value)
+            else:
+                completions.add(format_completion_item(value))
 
         for match in re.finditer(r'"([\.\w]+)"', comment):
             # quotation marks either wrap a string, a numeric or a boolean
             # fall back to a str
             value, = match.groups()
-            if value == "true":
-                value = True
-            elif value == "false":
-                value = False
-            else:
-                try:
-                    value = int_or_float(value)
-                except ValueError:
-                    pass  # just use the string
-            values.append(value)
+            try:
+                value = decode_value(value)
+            except ValueError:
+                pass
+            completions.add(format_completion_item(value))
 
-        completions = [("{}  \t{}".format(value, type(value).__name__), value)
-                       for value in values]
-        return sorted_completions(completions)
+        return completions
 
-    @staticmethod
-    def _color_scheme_completions(view):
-        """Create completions of all visible color schemes.
-
-        The list will not include color schemes matching at least one entry of
-        `"hidden_color_scheme_pattern": []` view setting.
+    def _completions_from_default(self, key):
+        """Built completions from default value.
 
         Arguments:
-            view (sublime.View):
-                the view to provide completions for
+            key (string):
+                the settings key name to read comments from
 
         Returns:
-            list: [[trigger, contents], ...]
+            ([trigger, contents], ...)
                 The list of all completions.
+        """
+        default = self.defaults.get(key)
+        return None if default is None else set([
+            # return False, True for boolean defaults
+            format_completion_item(False), format_completion_item(True)
+        ] if isinstance(default, bool) else [
+            # return list items of default
+            format_completion_item(item) for item in default
+        ] if isinstance(default, list) else [
+            # return the default as is
+            format_completion_item(default)
+        ])
+
+    @staticmethod
+    def _color_scheme_completions():
+        """Create completions of all visible color schemes.
+
+        The set will not include color schemes matching at least one entry of
+        `"settings.exclude_color_scheme_patterns": []`.
+
+        Returns:
+            ([trigger, contents], ...)
+                The set of all completions.
                 - trigger (string): base file name of the color scheme
                 - contents (string): the path to commit to the settings
         """
         hidden = _settings().get('settings.exclude_color_scheme_patterns') or []
-        completions = []
+        completions = set()
         for scheme_path in sublime.find_resources("*.tmTheme"):
-            if any(hide in scheme_path for hide in hidden):
-                continue
-            _, package, *_, file_name = scheme_path.split("/")
-            completions.append((
-                "{}  \t{}".format(file_name, package), scheme_path))
+            if not any(hide in scheme_path for hide in hidden):
+                _, package, *_, file_name = scheme_path.split("/")
+                completions.add((
+                    "{0}  \t{1}".format(file_name, package), scheme_path))
         return completions
 
     @staticmethod
-    def _theme_completions(view):
+    def _theme_completions():
         """Create completions of all visible themes.
 
-        The list will not include color schemes matching at least one entry of
-        `"hidden_theme_pattern": []` view setting.
-
-        Arguments:
-            view (sublime.View):
-                the view to provide completions for
+        The set will not include color schemes matching at least one entry of
+        `"settings.exclude_theme_patterns": []` setting.
 
         Returns:
-            list: [[trigger, contents], ...]
-                The list of all completions.
-                - trigger (string): base file name of the color scheme
+            ([trigger, contents], ...)
+                The set of all completions.
+                - trigger (string): base file name of the theme
                 - contents (string): the file name to commit to the settings
         """
         hidden = _settings().get('settings.exclude_theme_patterns') or []
-        completions = []
+        completions = set()
         for theme in sublime.find_resources("*.sublime-theme"):
             theme = os.path.basename(theme)
-            if any(hide in theme for hide in hidden):
-                continue
-            completions.append(("{}  \ttheme".format(theme), theme))
-        return sorted_completions(completions)
+            if not any(hide in theme for hide in hidden):
+                completions.add(("{0}  \ttheme".format(theme), theme))
+        return completions
