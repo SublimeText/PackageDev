@@ -177,11 +177,12 @@ class SettingsListener(sublime_plugin.ViewEventListener):
                 the tuple with content ST needs to display completions
         """
         if self.known_settings and len(locations) == 1:
-            if self.view.match_selector(locations[0], VALUE_SCOPE):
+            point = locations[0]
+            if self.view.match_selector(point, VALUE_SCOPE):
                 completions_aggregator = self.known_settings.value_completions
             else:
                 completions_aggregator = self.known_settings.key_completions
-            return completions_aggregator(self.view, prefix, locations)
+            return completions_aggregator(self.view, prefix, point)
 
     def on_hover(self, point, hover_zone):
         """Sublime Text hover event handler to show tooltip if needed."""
@@ -490,7 +491,7 @@ class KnownSettings(object):
         view.sel().add(point)
         view.run_command('insert_snippet', {'contents': snippet})
 
-    def key_completions(self, view, prefix, locations):
+    def key_completions(self, view, prefix, point):
         """Create a list with completions for all known settings.
 
         Arguments:
@@ -498,21 +499,21 @@ class KnownSettings(object):
                 the view to provide completions for
             prefix (string):
                 the line content before cursor
-            locations (list of int):
+            point (int):
                 the text positions of all characters in prefix
 
         Returns:
             tuple ([ [trigger, content], [trigger, content] ], flags):
                 the tuple with content ST needs to display completions
         """
-        if view.match_selector(locations[0] - 1, "string"):
+        if view.match_selector(point - 1, "string"):
             # we are within quotations, return words only
             completions = [
                 ["{0}  \tsetting".format(key), '{0}'.format(key)]
                 for key in self.defaults
             ]
         else:
-            line = view.substr(view.line(locations[0])).strip()
+            line = view.substr(view.line(point)).strip()
             # don't add newline after snippet if user starts on empty line
             eol = "," if len(line) == len(prefix) else ',\n'
             # no quotations -> return full snippet
@@ -574,7 +575,7 @@ class KnownSettings(object):
             fmt = '{bol}"{key}": ${{1:{encoded}}}{eol}$0'
         return fmt.format(**locals())
 
-    def value_completions(self, view, prefix, locations):
+    def value_completions(self, view, prefix, point):
         """Create a list with completions for all known settings values.
 
         Arguments:
@@ -582,14 +583,13 @@ class KnownSettings(object):
                 the view to provide completions for
             prefix (string):
                 the line content before cursor.
-            locations (list of int):
+            point (int):
                 the text positions of all characters in prefix
 
         Returns:
             tuple ([ [trigger, content], [trigger, content] ], flags):
                 the tuple with content ST needs to display completions
         """
-        point = locations[0]
         value_region = get_value_region_at(view, point)
         key = get_last_key_name_from(view, value_region.begin())
         if not key:
