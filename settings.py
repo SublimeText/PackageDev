@@ -382,9 +382,6 @@ class KnownSettings(object):
 
         for line in lines:
             stripped = line.strip()
-            # ignore empty lines
-            if not stripped:
-                continue
 
             if in_comment:
                 if stripped.endswith("*/"):
@@ -398,6 +395,10 @@ class KnownSettings(object):
                 else:
                     comment.append(line)
                 continue
+            # ignore empty lines if not in a comment
+            # empty line in comment may be used as visual separator
+            elif not stripped:
+                continue
 
             if stripped.startswith("/*"):
                 in_comment = True
@@ -408,11 +409,10 @@ class KnownSettings(object):
                 continue
 
             if stripped.startswith("//"):
-                if stripped.endswith("//"):
-                    # skip comment lines ending with `//` (likely used as separators)
-                    continue
+                # skip comment lines ending with `//` (likely used as separators)
+                # a standalone `//` adds an empty line as visual separator
                 stripped = stripped[2:]
-                if stripped:
+                if not stripped or not stripped.endswith("//"):
                     comment.append(stripped)
                 continue
 
