@@ -53,6 +53,7 @@ VALUE_SCOPE = (
 )
 # user package pattern
 USER_PATH = "{0}Packages{0}User{0}".format(os.sep)
+PREF_FILE = "Preferences.sublime-settings"
 
 # logging
 l = logging.getLogger(__name__)
@@ -253,8 +254,9 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             ]
 
         if unknown_regions:
-            styles = _settings().get('settings.highlight_styles',
-                                     ['DRAW_SOLID_UNDERLINE', 'DRAW_NO_FILL', 'DRAW_NO_OUTLINE'])
+            styles = _settings().get(
+                'settings.highlight_styles',
+                ['DRAW_SOLID_UNDERLINE', 'DRAW_NO_FILL', 'DRAW_NO_OUTLINE'])
             self.view.add_regions(
                 'unknown_settings_keys',
                 unknown_regions,
@@ -328,9 +330,9 @@ class KnownSettings(object):
         # include general settings if we're in a syntax-specific file
         if self._is_syntax_specific():
             # TODO fetch these from cache, once we have one
-            pref_resources = sublime.find_resources("Preferences.sublime-settings")
-            pref_resources += sublime.find_resources("Preferences.sublime-settings-hints")
-            l.debug("found %d 'Preferences.sublime-settings' files", len(pref_resources))
+            pref_resources = sublime.find_resources(PREF_FILE)
+            pref_resources += sublime.find_resources(PREF_FILE + "-hints")
+            l.debug("found %d %r files", len(resources), PREF_FILE)
             resources += pref_resources
 
         for resource in resources:
@@ -344,7 +346,8 @@ class KnownSettings(object):
                     # merge settings without overwriting existing ones
                     self.defaults.setdefault(key, value)
             except Exception as e:
-                l.error("error parsing %r - %s%s", resource, e.__class__.__name__, e.args)
+                l.error("error parsing %r - %s%s",
+                        resource, e.__class__.__name__, e.args)
 
         duration = time.time() - start_time
         l.debug("loading took %.3fs", duration)
@@ -366,8 +369,7 @@ class KnownSettings(object):
             if resources:
                 l.debug("syntax-specific settings file for %r", resources[0])
                 return True
-        else:
-            return False
+        return False
 
     def _parse_settings(self, lines):
         """Parse the setting file and capture comments.
