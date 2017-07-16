@@ -870,7 +870,7 @@ class CompletionsCommandsListener(sublime_plugin.EventListener):
                 listener.is_completing_key = False
         elif command_name in ('commit_completion', 'insert_best_completion'):
             listener = self._find_view_event_listener(view)
-            if not listener:
+            if not listener or not listener.is_completing_key:
                 return
 
             listener.is_completing_key = False
