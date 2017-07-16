@@ -571,6 +571,8 @@ class KnownSettings(object):
             string: the contents field to insert into completions entry
         """
         encoded = sublime.encode_value(value)
+        encoded = encoded.replace("$", "\\$") # escape snippet markers
+
         if isinstance(value, str):
             # create the snippet for json strings and exclude quotation marks
             # from the input field {1:}
@@ -688,6 +690,9 @@ class KnownSettings(object):
                 if is_list and not in_list:
                     # wrap each item in a brackets to insert a 'list'
                     value_str = "[{}]".format(value_str)
+
+                # escape snippet markers
+                value_str = value_str.replace("$", "\\$")
 
                 results.add((trigger, value_str))
 
