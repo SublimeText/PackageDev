@@ -536,10 +536,10 @@ class KnownSettings(object):
             # don't add newline after snippet if user starts on empty line
             eol = "," if len(line) == len(prefix) else ',\n'
             # no quotations -> return full snippet
-            completions = [[
+            completions = sorted_completions((
                 "{0}  \tsetting".format(key),
                 self._key_snippet(key, value, eol=eol)
-            ] for key, value in self.defaults.items()]
+            ) for key, value in self.defaults.items())
         return completions, sublime.INHIBIT_WORD_COMPLETIONS
 
     @staticmethod
