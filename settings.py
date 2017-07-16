@@ -84,18 +84,26 @@ def get_key_name(view, point):
     return view.substr(region) if region else None
 
 
-def get_last_key_name_from(view, point):
-    """Return the last key name preceding the specified point or None."""
+def get_last_key_region(view, point):
+    """Return the last key region preceding the specified point or None."""
     last_region = None
     regions = view.find_by_selector(KEY_SCOPE)
     if not regions:
         return None
     for region in regions:
-        # l.debug("comparing region %s to %d (contents: %r)", region,)
         if region.begin() > point:
             break
         last_region = region
-    return view.substr(last_region)
+    return last_region
+
+
+def get_last_key_name_from(view, point):
+    """Return the last key name preceding the specified point or None."""
+    last_region = get_last_key_region(view, point)
+    if last_region:
+        return view.substr(last_region)
+    else:
+        return None
 
 
 def get_value_region_at(view, point):
@@ -145,6 +153,8 @@ def _settings():
 
 
 class SettingsListener(sublime_plugin.ViewEventListener):
+
+    is_completing_key = False
 
     @classmethod
     def is_applicable(cls, settings):
@@ -210,6 +220,10 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         key_region = get_key_region_at(self.view, point)
         if not key_region:
             return
+
+        self.show_popup_for(key_region)
+
+    def show_popup_for(self, key_region):
         key = self.view.substr(key_region)
 
         body = self.known_settings.build_tooltip(self.view, key)
@@ -223,7 +237,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             on_navigate=self.on_navigate,
             location=location,
             max_width=window_width,
-            flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY
+            flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY | sublime.COOPERATE_WITH_AUTO_COMPLETE
         )
 
     def on_navigate(self, href):
@@ -540,6 +554,8 @@ class KnownSettings(object):
                 "{0}  \tsetting".format(key),
                 self._key_snippet(key, value, eol=eol)
             ) for key, value in self.defaults.items())
+
+        self.is_completing_key = True
         return completions, sublime.INHIBIT_WORD_COMPLETIONS
 
     @staticmethod
@@ -842,3 +858,34 @@ class KnownSettings(object):
             if not any(hide in theme for hide in hidden):
                 completions.add(("{0}  \ttheme".format(theme), theme))
         return completions
+
+
+class CompletionsCommandsListener(sublime_plugin.EventListener):
+
+    def _find_view_event_listener(self, view):
+        for listener in sublime_plugin.event_listeners_for_view(view):
+            if isinstance(listener, SettingsListener):
+                return listener
+        return None
+
+    def on_post_text_command(self, view, command_name, args):
+        if command_name == 'hide_auto_complete':
+            listener = self._find_view_event_listener(view)
+            if listener:
+                listener.is_completing_key = False
+        elif command_name in ('commit_completion', 'insert_best_completion'):
+            listener = self._find_view_event_listener(view)
+            if not listener:
+                return
+
+            listener.is_completing_key = False
+            sel = view.sel()
+            if len(sel) != 1:
+                # unclear what to do, so just do nothing
+                return
+            point = sel[0].begin()
+            key_region = get_last_key_region(view, point)
+            if key_region:
+                key = view.substr(key_region)
+                l.debug("showing popup after inserting key completion for %r", key)
+                listener.show_popup_for(key_region)
