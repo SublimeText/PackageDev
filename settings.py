@@ -119,10 +119,12 @@ def decode_value(string):
         return float(string)
 
 
-def format_completion_item(value):
+def format_completion_item(value, default=False):
     """Create a completion item with its type as description."""
-    return ("{0}  \t{1}".format(sublime.encode_value(value).strip('"'),
-                                type(value).__name__),
+    default_str = " (default)" if default else ""
+    return ("{0}  \t{1}{2}".format(sublime.encode_value(value).strip('"'),
+                                   type(value).__name__,
+                                   default_str),
             value)
 
 
@@ -684,10 +686,37 @@ class KnownSettings(object):
             completions = self._theme_completions()
         else:
             l.debug("building completions for key %r", key)
+            default = self.defaults.get(key)
+            l.debug("default value: %r", default)
             completions = self._completions_from_comment(key)
-            if not completions:
-                completions = self._completions_from_default(key)
+            completions |= self._completions_from_default(key, default)
+            completions = self._marked_default_completions(completions, default)
         return completions
+
+    def _marked_default_completions(self, completions, default):
+        """Mark completion items as default.
+
+        For a list as default value, mark all of its values as default.
+
+        Arguments:
+            completions (set):
+                The set with the completion items.
+
+            default (Any):
+                The default value (can also be a list).
+
+        Returns:
+            {(trigger, contents), ...}
+                A set of all completions with defaults marked.
+        """
+        default_completions = set()
+        is_list = isinstance(default, list)
+        for item in completions:
+            value = item[1]
+            if is_list and value in default or value == default:
+                item = format_completion_item(value, default=True)
+            default_completions.add(item)
+        return default_completions
 
     def _completions_from_comment(self, key):
         """Parse settings comments and return all possible values.
@@ -737,7 +766,7 @@ class KnownSettings(object):
 
         return completions
 
-    def _completions_from_default(self, key):
+    def _completions_from_default(self, key, default):
         """Built completions from default value.
 
         Arguments:
@@ -748,7 +777,6 @@ class KnownSettings(object):
             {(trigger, contents), ...}
                 A set of all completions.
         """
-        default = self.defaults.get(key)
         if default is None:
             return None
         elif isinstance(default, bool):
