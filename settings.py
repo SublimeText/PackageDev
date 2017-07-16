@@ -159,13 +159,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     @classmethod
     def is_applicable(cls, settings):
         """Enable the listener for Sublime Settings syntax only."""
-        # view is member of side-by-side settings
-        if settings.get('edit_settings_view') in ('base', 'user'):
-            # l.debug("view is member of side-by-side settings")  # too spammy
-            return True
-        else:
-            syntax = settings.get('syntax') or ""
-            return syntax.endswith("/Sublime Text Settings.sublime-syntax")
+        syntax = settings.get('syntax') or ""
+        return syntax.endswith("/Sublime Text Settings.sublime-syntax")
 
     def __init__(self, view):
         """Initialize view event listener object."""
