@@ -153,21 +153,21 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             # l.debug("view is member of side-by-side settings")  # too spammy
             return True
         else:
-            syntax = settings.get('syntax', "")
+            syntax = settings.get('syntax') or ""
             return syntax.endswith("/Sublime Text Settings.sublime-syntax")
 
     def __init__(self, view):
         """Initialize view event listener object."""
         super(SettingsListener, self).__init__(view)
-        self.known_settings = None
 
         filepath = view.file_name()
         l.debug("initializing SettingsListener for %r", view.file_name())
-        if not filepath.endswith(".sublime-settings"):
-            l.error("Not a Sublime Text Settings file: %r", filepath)
-        else:
+        if filepath and filepath.endswith(".sublime-settings"):
             filename = os.path.basename(filepath)
             self.known_settings = KnownSettings(filename, on_loaded=self.do_linting)
+        else:
+            self.known_settings = None
+            l.error("Not a Sublime Text Settings file: %r", filepath)
 
     def __del__(self):
         l.debug("deleting SettingsListener instance for %r", self.view.file_name())
@@ -248,9 +248,10 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         """Highlight all unknown settings keys."""
         unknown_regions = None
         if (
-            USER_PATH in self.view.file_name()
+            self.known_settings
+            # file_name maybe None if self.known_settings is None
+            and USER_PATH in self.view.file_name()
             and _settings().get('settings.linting')
-            and self.known_settings
         ):
             unknown_regions = [
                 region for region in self.view.find_by_selector(KEY_SCOPE)
