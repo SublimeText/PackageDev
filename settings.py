@@ -623,11 +623,8 @@ class KnownSettings(object):
             return None
 
         is_str = any(bool(
-            # value is of type string
-            isinstance(value, str) or
-            # the list elements of type string
-            isinstance(value, list) and value and isinstance(value[0], str)
-            # check all completions
+            isinstance(value, str)
+            or isinstance(value, list) and value and isinstance(value[0], str)
         ) for _, value in completions)
         # cursor already within quotes
         in_str = view.match_selector(point, "string")
