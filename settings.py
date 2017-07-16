@@ -605,7 +605,7 @@ class KnownSettings(object):
                 the text positions of all characters in prefix
 
         Returns:
-            tuple ([ [trigger, content], [trigger, content] ], flags):
+            tuple ([ (trigger, content), (trigger, content) ], flags):
                 the tuple with content ST needs to display completions
         """
         value_region = get_value_region_at(view, point)
@@ -630,6 +630,11 @@ class KnownSettings(object):
         # cursor already within quotes
         in_str = view.match_selector(point, "string")
         l.debug("completing a string (%s) within a string (%s)", is_str, in_str)
+        # 'meta.structure.array' is used in the default JSON syntax
+        # (PR pending: https://github.com/sublimehq/Packages/pull/862)
+        is_list = isinstance(self.defaults.get(key), list)
+        in_list = view.match_selector(point, "meta.sequence | meta.structure.array")
+        l.debug("completing a list item (%s) within a list (%s)", is_list, in_list)
 
         if in_str and not is_str:
             # We're within a string but don't have a string value to complete.
@@ -660,9 +665,15 @@ class KnownSettings(object):
                     value_str = str(value)
                     if value_str.startswith(typed):
                         offset = len(typed) - len(prefix)
-                        results.add((trigger, value_str[offset:]))
+                        value_str = value_str[offset:]
                 else:
-                    results.add((trigger, sublime.encode_value(value)))
+                    value_str = sublime.encode_value(value)
+
+                if is_list and not in_list:
+                    # wrap each item in a brackets to insert a 'list'
+                    value_str = "[{}]".format(value_str)
+
+                results.add((trigger, value_str))
 
         # disable word completion to prevent stupid suggestions
         return sorted_completions(results), sublime.INHIBIT_WORD_COMPLETIONS
