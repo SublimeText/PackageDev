@@ -121,7 +121,9 @@ def decode_value(string):
 
 def format_completion_item(value):
     """Create a completion item with its type as description."""
-    return ("{0}  \t{1}".format(value, type(value).__name__), value)
+    return ("{0}  \t{1}".format(sublime.encode_value(value).strip('"'),
+                                type(value).__name__),
+            value)
 
 
 def sorted_completions(completions):
