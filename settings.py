@@ -641,16 +641,17 @@ class KnownSettings(object):
 
         if in_str and is_str:
             # Strip completions of non-strings. Don't need quotation marks.
-            results = [
-                [trigger, value] for trigger, value in completions
+            results = {
+                (trigger, value) for trigger, value in completions
                 if isinstance(value, str)
-            ]
+            }
         else:
-            # the value typed so far which may differ from prefix for floats
+            # JSON-ify completion values with special handling for floats.
+            #
+            # the value typed so far, which may differ from prefix for floats
             typed_region = sublime.Region(value_region.begin(), point)
             typed = view.substr(typed_region).lstrip()
-            # jsonify completion values
-            results = []
+            results = set()
             for trigger, value in completions:
                 if isinstance(value, float):
                     # strip already typed text from float completions
@@ -659,9 +660,9 @@ class KnownSettings(object):
                     value_str = str(value)
                     if value_str.startswith(typed):
                         offset = len(typed) - len(prefix)
-                        results.append((trigger, value_str[offset:]))
+                        results.add((trigger, value_str[offset:]))
                 else:
-                    results.append((trigger, sublime.encode_value(value)))
+                    results.add((trigger, sublime.encode_value(value)))
 
         # disable word completion to prevent stupid suggestions
         return sorted_completions(results), sublime.INHIBIT_WORD_COMPLETIONS
@@ -674,8 +675,8 @@ class KnownSettings(object):
                 the settings key name to read comments from
 
         Returns:
-            ([trigger, contents], ...)
-                The list of all completions.
+            {(trigger, contents), ...}
+                A set of all completions.
         """
         if key == 'color_scheme':
             completions = self._color_scheme_completions()
@@ -700,14 +701,13 @@ class KnownSettings(object):
                 the settings key name to read comments from
 
         Returns:
-            ([trigger, contents], ...)
-                The list of all completions.
+            {(trigger, contents), ...}
+                A set of all completions.
         """
         comment = self.comments.get(key)
         if not comment:
             return
 
-        # must use list because "lists" as values are not hashable
         completions = set()
 
         for match in re.finditer(r"`([^`\n]+)`", comment):
@@ -745,20 +745,18 @@ class KnownSettings(object):
                 the settings key name to read comments from
 
         Returns:
-            ([trigger, contents], ...)
-                The list of all completions.
+            {(trigger, contents), ...}
+                A set of all completions.
         """
         default = self.defaults.get(key)
-        return None if default is None else set([
-            # return False, True for boolean defaults
-            format_completion_item(False), format_completion_item(True)
-        ] if isinstance(default, bool) else [
-            # return list items of default
-            format_completion_item(item) for item in default
-        ] if isinstance(default, list) else [
-            # return the default as is
-            format_completion_item(default)
-        ])
+        if default is None:
+            return None
+        elif isinstance(default, bool):
+            return {format_completion_item(True), format_completion_item(False)}
+        elif isinstance(default, list):
+            return {format_completion_item(value) for value in default}
+        else:
+            return {format_completion_item(default)}
 
     @staticmethod
     def _color_scheme_completions():
@@ -768,8 +766,8 @@ class KnownSettings(object):
         `"settings.exclude_color_scheme_patterns": []`.
 
         Returns:
-            ([trigger, contents], ...)
-                The set of all completions.
+            {(trigger, contents], ...}
+                A set of all completions.
                 - trigger (string): base file name of the color scheme
                 - contents (string): the path to commit to the settings
         """
@@ -790,8 +788,8 @@ class KnownSettings(object):
         `"settings.exclude_theme_patterns": []` setting.
 
         Returns:
-            ([trigger, contents], ...)
-                The set of all completions.
+            {(trigger, contents), ...}
+                A set of all completions.
                 - trigger (string): base file name of the theme
                 - contents (string): the file name to commit to the settings
         """
