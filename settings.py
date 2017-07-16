@@ -125,7 +125,8 @@ def format_completion_item(value, default=False):
     return ("{0}  \t{1}{2}".format(sublime.encode_value(value).strip('"'),
                                    type(value).__name__,
                                    default_str),
-            value)
+            # 'cast' dicts to frozen sets, because those are hashable
+            frozenset(value.items()) if isinstance(value, dict) else value)
 
 
 def sorted_completions(completions):
@@ -658,6 +659,10 @@ class KnownSettings(object):
             typed = view.substr(typed_region).lstrip()
             results = set()
             for trigger, value in completions:
+                # unroll dicts
+                if isinstance(value, frozenset):
+                    value = dict(value)
+
                 if isinstance(value, float):
                     # strip already typed text from float completions
                     # because ST cannot complete past word boundaries
