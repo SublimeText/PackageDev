@@ -205,9 +205,11 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         if self.known_settings and len(locations) == 1:
             point = locations[0]
             if self.view.match_selector(point, VALUE_SCOPE):
+                self.is_completing_key = False
                 completions_aggregator = self.known_settings.value_completions
             else:
                 completions_aggregator = self.known_settings.key_completions
+                self.is_completing_key = True
             return completions_aggregator(self.view, prefix, point)
 
     def on_hover(self, point, hover_zone):
@@ -630,7 +632,6 @@ class KnownSettings(object):
                 self._key_snippet(key, value, eol=eol)
             ) for key, value in self.defaults.items())
 
-        self.is_completing_key = True
         return completions, sublime.INHIBIT_WORD_COMPLETIONS
 
     @staticmethod
@@ -960,7 +961,7 @@ class GlobalSettingsListener(sublime_plugin.EventListener):
                 listener.is_completing_key = False
         elif command_name in ('commit_completion', 'insert_best_completion'):
             listener = self._find_view_event_listener(view)
-            if not listener or not listener.is_completing_key:
+            if not (listener and listener.is_completing_key):
                 return
 
             listener.is_completing_key = False
