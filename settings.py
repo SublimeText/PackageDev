@@ -914,9 +914,14 @@ class KnownSettings(object):
         return completions
 
 
-class CompletionsCommandsListener(sublime_plugin.EventListener):
+# Some hooks are not available to ViewEventListeners,
+# which is why we need an EventListener as well.
+class GlobalSettingsListener(sublime_plugin.EventListener):
 
     def _find_view_event_listener(self, view):
+        if not SettingsListener.is_applicable(view.settings()):
+            # speed up?
+            return None
         for listener in sublime_plugin.event_listeners_for_view(view):
             if isinstance(listener, SettingsListener):
                 return listener
@@ -943,3 +948,8 @@ class CompletionsCommandsListener(sublime_plugin.EventListener):
                 key = view.substr(key_region)
                 l.debug("showing popup after inserting key completion for %r", key)
                 listener.show_popup_for(key_region)
+
+    def on_post_save(self, view):
+        listener = self._find_view_event_listener(view)
+        if listener:
+            listener.known_settings.trigger_settings_reload()
