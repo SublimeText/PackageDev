@@ -4,39 +4,21 @@ import sublime
 import sublime_plugin
 
 from .lib.sublime_lib.view import has_file_ext, get_text, clear
-from .lib.sublime_lib.path import root_at_packages
+from .lib import syntax_paths
 
 __all__ = (
-    'NewRawSnippetCommand',
     'GenerateSnippetFromRawSnippetCommand',
     'NewRawSnippetFromSnippetCommand',
     'CopyAndInsertRawSnippetCommand',
 )
 
 
-PACKAGE_NAME = __package__.split('.')[0]
-
-RAW_SNIPPETS_SYNTAX = ("Packages/%s/"
-                       "Package/Sublime Text Snippet/Sublime Text Snippet (Raw).sublime-syntax"
-                       % PACKAGE_NAME)
-SNIPPETS_SYNTAX = ("Packages/%s/Package/Sublime Text Snippet/Sublime Text Snippet.sublime-syntax"
-                   % PACKAGE_NAME)
-
-
 SNIPPET_TEMPLATE = """<snippet>
     <content><![CDATA[$1]]></content>
     <tabTrigger>${2:tab_trigger}</tabTrigger>
-    <scope>${3:source.name}</scope>
+    <scope>${3:source.base_scope}</scope>
     <!-- <description></description> -->
 </snippet>""".replace("    ", "\t")  # always use tabs in snippets
-
-
-class NewRawSnippetCommand(sublime_plugin.WindowCommand):
-    def run(self):
-        v = self.window.new_file()
-        v.settings().set('default_dir', root_at_packages('User'))
-        v.set_syntax_file(RAW_SNIPPETS_SYNTAX)
-        v.set_scratch(True)
 
 
 class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
@@ -47,7 +29,7 @@ class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
         content = get_text(self.view)
         clear(self.view)
         self.view.run_command('insert_snippet', {'contents': SNIPPET_TEMPLATE})
-        self.view.set_syntax_file(SNIPPETS_SYNTAX)
+        self.view.set_syntax_file(syntax_paths.SNIPPET)
         # Insert existing contents into CDATA section. We rely on the fact
         # that Sublime will place the first selection in the first field of
         # the newly inserted snippet.
@@ -63,8 +45,8 @@ class NewRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
         snippet = get_text(self.view)
         contents = ET.fromstring(snippet).findtext(".//content")
         v = self.view.window().new_file()
-        v.insert(edit, 0, contents)
-        v.set_syntax_file(RAW_SNIPPETS_SYNTAX)
+        v.run_command('insert', {'contents': contents})
+        v.set_syntax_file(syntax_paths.SNIPPET_RAW)
 
 
 class CopyAndInsertRawSnippetCommand(sublime_plugin.TextCommand):

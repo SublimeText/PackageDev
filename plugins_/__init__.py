@@ -1,11 +1,8 @@
 # import ST-interfacing classes from sub-modules
 
-from .build_sys_dev import *  # noqa
-from .commands_file_dev import *  # noqa
-from .completions_dev import *  # noqa
 from .file_conversion import *  # noqa
+from .new_resource_file import *  # noqa
 from .settings import *  # noqa
-from .settings_dev import *  # noqa
 from .snippet_dev import *  # noqa
 from .syntax_dev import *  # noqa
 from .syntax_dev_legacy import *  # noqa

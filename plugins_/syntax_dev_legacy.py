@@ -9,7 +9,6 @@ import yaml
 import sublime
 import sublime_plugin
 
-from .lib.sublime_lib.path import root_at_packages
 from .lib.sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
                                    extract_selector)
 
@@ -18,67 +17,11 @@ from .lib.scope_data import COMPILED_HEADS
 from .lib.ordereddict_yaml import OrderedDictSafeDumper
 
 __all__ = (
-    'NewSyntaxDefCommand',
     'RearrangeYamlSyntaxDefCommand',
     'LegacySyntaxDefCompletions',
 )
 
 PACKAGE_NAME = __package__.split('.')[0]
-
-# Must be forward slashes (no os.path.join)!
-SYNTAX_LANGUAGE_TMPL = ("Packages/%s/Package/TextMate Syntax Definition (%%s)/"
-                        "TextMate Syntax Definition (%%s).tmLanguage"
-                        % PACKAGE_NAME)
-XML_SYNTAX_LANGUAGE = "Packages/XML/XML.tmLanguage"
-
-# Technically ST does not use uuids at all,
-# but we leave it in for TextMate compatability
-boilerplates = dict(
-    json="""\
-// [PackageDev] target_format: plist, ext: tmLanguage
-{ "name": "${1:Syntax Name}",
-  "scopeName": "source.${2:syntax_name}",
-  "fileTypes": ["$3"],
-  "uuid": "%s",
-
-  "patterns": [
-    $0
-  ]
-}""",
-    yaml="""\
-# [PackageDev] target_format: plist, ext: tmLanguage
----
-name: ${1:Syntax Name}
-scopeName: source.${2:syntax_name}
-fileTypes: [$3]
-uuid: %s
-
-patterns:
-- $0
-...""",
-    plist="""\
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>name</key>
-    <string>${1:Syntax Name}</string>
-    <key>scopeName</key>
-    <string>source.${2:syntax_name}</string>
-    <key>fileTypes</key>
-    <array>
-        <string>$3</string>
-    </array>
-    <key>uuid</key>
-    <string>%s</string>
-
-    <key>patterns</key>
-    <array>
-        $0
-    </array>
-</dict>
-</plist>"""  # NOQA - silence line too long
-)
 
 
 def status(msg, console=False):
@@ -86,28 +29,6 @@ def status(msg, console=False):
     sublime.status_message(msg)
     if console:
         print(msg)
-
-
-class NewSyntaxDefCommand(sublime_plugin.WindowCommand):
-
-    """Creates a new syntax definition file with some boilerplate text. """
-
-    def is_enabled(self, fmt='yaml'):
-        return fmt in boilerplates
-
-    def run(self, fmt='yaml'):
-        view = self.window.new_file()
-        ext = "%stmLanguage" % ('%s-' % fmt.upper() if fmt != 'plist' else '')
-
-        s = view.settings()
-        s.set('default_dir', root_at_packages('User'))
-        s.set('default_extension', ext)
-        if fmt == 'plist':
-            view.set_syntax_file(XML_SYNTAX_LANGUAGE)
-        else:
-            view.set_syntax_file(SYNTAX_LANGUAGE_TMPL % (fmt.upper(), fmt.upper()))
-
-        view.run_command('insert_snippet', {'contents': boilerplates[fmt] % uuid.uuid4()})
 
 
 ###############################################################################
