@@ -1,5 +1,5 @@
 [flake8]
 max-line-length = 99
-ignore = E221,W503
+ignore = E221,W503,D
 #default-ignore = E121,E123,E126,E226,E24,E704,W503,W504
 exclude = .git,__pycache__,plist_parser.py
