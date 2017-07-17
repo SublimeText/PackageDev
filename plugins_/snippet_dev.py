@@ -4,7 +4,7 @@ import sublime
 import sublime_plugin
 
 from .lib.sublime_lib.view import has_file_ext, get_text, clear
-from .lib.sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.path import root_at_packages
 
 __all__ = (
     'NewRawSnippetCommand',
@@ -14,13 +14,13 @@ __all__ = (
 )
 
 
-PLUGIN_NAME = get_package_name()
+PACKAGE_NAME = __package__.split('.')[0]
 
 RAW_SNIPPETS_SYNTAX = ("Packages/%s/"
                        "Package/Sublime Text Snippet/Sublime Text Snippet (Raw).sublime-syntax"
-                       % PLUGIN_NAME)
+                       % PACKAGE_NAME)
 SNIPPETS_SYNTAX = ("Packages/%s/Package/Sublime Text Snippet/Sublime Text Snippet.sublime-syntax"
-                   % PLUGIN_NAME)
+                   % PACKAGE_NAME)
 
 
 SNIPPET_TEMPLATE = """<snippet>

@@ -9,7 +9,7 @@ import yaml
 import sublime
 import sublime_plugin
 
-from .lib.sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.path import root_at_packages
 from .lib.sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
                                    extract_selector)
 
@@ -23,12 +23,12 @@ __all__ = (
     'LegacySyntaxDefCompletions',
 )
 
-PLUGIN_NAME = get_package_name()
+PACKAGE_NAME = __package__.split('.')[0]
 
 # Must be forward slashes (no os.path.join)!
 SYNTAX_LANGUAGE_TMPL = ("Packages/%s/Package/TextMate Syntax Definition (%%s)/"
                         "TextMate Syntax Definition (%%s).tmLanguage"
-                        % PLUGIN_NAME)
+                        % PACKAGE_NAME)
 XML_SYNTAX_LANGUAGE = "Packages/XML/XML.tmLanguage"
 
 # Technically ST does not use uuids at all,
@@ -82,7 +82,7 @@ patterns:
 
 
 def status(msg, console=False):
-    msg = "[%s] %s" % (PLUGIN_NAME, msg)
+    msg = "[%s] %s" % (PACKAGE_NAME, msg)
     sublime.status_message(msg)
     if console:
         print(msg)

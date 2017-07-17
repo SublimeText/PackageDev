@@ -1,14 +1,14 @@
 import sublime_plugin
 
-from .lib.sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.path import root_at_packages
 
 __all__ = ('NewBuildSystem2Command',)
 
-PLUGIN_NAME = get_package_name()
+PACKAGE_NAME = __package__.split('.')[0]
 
 BUILD_SYSTEM_SYNTAX = ("Packages/%s/Package/"
                        "Sublime Text Build System/Sublime Text Build System.tmLanguage"
-                       % PLUGIN_NAME)
+                       % PACKAGE_NAME)
 
 
 # Adding "2" to avoid name clash with shipped command.

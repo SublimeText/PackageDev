@@ -1,14 +1,14 @@
 import sublime_plugin
 
-from .lib.sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.path import root_at_packages
 
 __all__ = ('NewCompletionsCommand',)
 
-PLUGIN_NAME = get_package_name()
+PACKAGE_NAME = __package__.split('.')[0]
 
 COMPLETIONS_SYNTAX_DEF = ("Packages/%s/Package/"
                           "Sublime Text Completions/Sublime Completions.tmLanguage"
-                          % PLUGIN_NAME)
+                          % PACKAGE_NAME)
 TPL = """{
     "scope": "source.${1:off}",
 

@@ -1,13 +1,13 @@
 import sublime_plugin
 
-from .lib.sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.path import root_at_packages
 
 __all__ = ('NewSettingsCommand',)
 
-PLUGIN_NAME = get_package_name()
+PACKAGE_NAME = __package__.split('.')[0]
 
 SETTINGS_SYNTAX = ("Packages/%s/Package/Sublime Text Settings/Sublime Text Settings.sublime-syntax"
-                   % PLUGIN_NAME)
+                   % PACKAGE_NAME)
 TPL = '''\
 {
     "$1": $0
