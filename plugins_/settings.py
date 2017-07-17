@@ -136,8 +136,8 @@ def decode_value(string):
 
 def format_completion_item(value, default=False):
     """Create a completion item with its type as description."""
-    default_str = " (default)" if default else ""
-    return ("{0}  \t{1}{2}".format(sublime.encode_value(value).strip('"'),
+    default_str = "(default) " if default else ""
+    return ("{0}  \t{2}{1}".format(sublime.encode_value(value).strip('"'),
                                    type(value).__name__,
                                    default_str),
             # 'cast' dicts to frozen sets, because those are hashable
