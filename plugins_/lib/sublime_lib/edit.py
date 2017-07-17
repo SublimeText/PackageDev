@@ -59,7 +59,7 @@ import inspect
 import sublime
 import sublime_plugin
 
-from . import ST2
+ST2 = int(sublime.version()) < 3000
 
 try:
     sublime.edit_storage

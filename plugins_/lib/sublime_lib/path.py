@@ -89,7 +89,7 @@ def get_module_path(_file_=None):
 
     dir_name = os.path.dirname(os.path.abspath(_file_))
     # Check if we are in an archived package
-    if int(sublime.version()) < 3000 or not dir_name.endswith(".sublime-package"):
+    if not dir_name.endswith(".sublime-package"):
         return dir_name, False
 
     # We are in a .sublime-package and need to normalize the path
