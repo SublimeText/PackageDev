@@ -4,11 +4,13 @@ import os
 import re
 import textwrap
 import time
+import weakref
 
 import sublime
 import sublime_plugin
 
 from .sublime_lib.constants import style_flags_from_list
+from .sublime_lib.weakmethod import WeakMethodProxy
 
 
 POPUP_TEMPLATE = """
@@ -170,7 +172,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         l.debug("initializing SettingsListener for %r", view.file_name())
         if filepath and filepath.endswith(".sublime-settings"):
             filename = os.path.basename(filepath)
-            self.known_settings = KnownSettings(filename, on_loaded=self.do_linting)
+            self.known_settings = KnownSettings(filename)
+            self.known_settings.add_on_loaded(self.do_linting)
         else:
             self.known_settings = None
             l.error("Not a Sublime Text Settings file: %r", filepath)
@@ -283,7 +286,6 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             self.view.erase_regions('unknown_settings_keys')
 
 
-# TODO cache these (by filename) to reduce load
 class KnownSettings(object):
     """A class which provides all known settings with comments/defaults.
 
@@ -292,20 +294,66 @@ class KnownSettings(object):
     provide all required information for tooltips and auto-completion.
     """
 
-    def __init__(self, filename, on_loaded=None):
+    # cache for instances, keyed by the basename
+    # and using weakrefs for easy garbage collection
+    cache = weakref.WeakValueDictionary()
+
+    _loaded = False
+    filename = None
+    on_loaded_callbacks = None
+
+    def __new__(cls, filename, on_loaded=None, **kwargs):
+        # __init__ will be called on the return value
+        obj = cls.cache.get(filename)
+        if obj:
+            l.debug("cache hit %r", filename)
+            return cls.cache[filename]
+        else:
+            obj = super().__new__(cls, **kwargs)
+            cls.cache[filename] = obj
+            return obj
+
+    def __init__(self, filename):
         """Initialize view event listener object.
 
         Arguments:
             filename (str):
                 Settings file name to index.
-            on_loaded (callable):
-                Function to call once settings have been indexed.
         """
         # the associated settings file name all the settings belong to
-        self.filename = filename
-        self.on_loaded = on_loaded
+        if self.filename is None:
+            self.filename = filename
 
-        self.trigger_settings_reload()
+        # Because __init__ may be called multiple times
+        # and we only want to trigger a reload once,
+        # we need special handling here.
+        if self.on_loaded_callbacks is None:
+            self.on_loaded_callbacks = []
+            self.trigger_settings_reload()
+
+    def add_on_loaded(self, on_loaded):
+        """Add a callback to call once settings have been indexed (asynchronously).
+
+        Bound methods are stored as weak references.
+
+        Arguments:
+            on_loaded (callable):
+                The callback.
+        """
+        # Due to us archiving the callback, we use a weakref
+        # to avoid a circular reference to all SettingListeners affected,
+        # ensuring our __del__ is properly called when all relevant views are closed.
+        if on_loaded:
+            on_loaded = WeakMethodProxy(on_loaded)
+        if on_loaded:
+            self.on_loaded_callbacks.append(on_loaded)
+            if self._loaded:
+                # Invoke callback 'immediately' since we're already loaded.
+                # Note that this is currently not thread-safe.
+                sublime.set_timeout_async(on_loaded(), 0)
+
+    def __del__(self):
+        l.debug("deleting KnownSettings instance for %r", self.filename)
 
     def __iter__(self):
         """Forward iteration to settings."""
@@ -367,8 +415,14 @@ class KnownSettings(object):
         duration = time.time() - start_time
         l.debug("loading took %.3fs", duration)
 
-        if self.on_loaded:
-            self.on_loaded()
+        self._loaded = True
+        # copy callback list so we can clean up expired references
+        for callback in tuple(self.on_loaded_callbacks):
+            try:
+                callback()
+            except ReferenceError:
+                l.debug("removing gone-away weak on_loaded_callback reference")
+                self.on_loaded_callbacks.remove(callback)
 
     def _is_syntax_specific(self):
         """Check whether a syntax def with the same base file name exists.
