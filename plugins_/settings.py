@@ -772,6 +772,9 @@ class KnownSettings(object):
                     if value_str.startswith(typed):
                         offset = len(typed) - len(prefix)
                         value_str = value_str[offset:]
+                    elif typed:
+                        # don't offer as completion if 'typed' didn't match
+                        continue
                 else:
                     value_str = sublime.encode_value(value)
 
