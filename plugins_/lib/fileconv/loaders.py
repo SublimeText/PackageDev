@@ -1,6 +1,5 @@
 import re
 import os
-import sys
 
 import json
 import yaml
@@ -8,14 +7,8 @@ import plistlib
 
 import sublime
 
-if sys.version_info < (3,):
-    from sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
-    from sublime_lib.path import file_path_tuple
-    ST2 = True
-else:
-    from ..sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
-    from ..sublime_lib.path import file_path_tuple
-    ST2 = False
+from ..sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
+from ..sublime_lib.path import file_path_tuple
 
 
 # xml.parsers.expat is not available on certain Linux dists, use plist_parser then.
@@ -363,18 +356,11 @@ class PlistLoader(LoaderProto):
         if text.startswith('<?xml version="1.0" encoding="UTF-8"?>'):
             text = text[38:]
 
-        # See https://github.com/SublimeText/AAAPackageDev/issues/34
-        if ST2 and isinstance(text, unicode):  # NOQA
-            text = text.encode('utf-8')
-
         if use_plistlib:
             try:
                 # This will try `from xml.parsers.expat import ParserCreate`
                 # but since it is already tried above it should succeed.
-                if ST2:
-                    data = plistlib.readPlistFromString(text)
-                else:
-                    data = plistlib.readPlistFromBytes(text.encode('utf-8'))
+                data = plistlib.readPlistFromBytes(text.encode('utf-8'))
             except ExpatError as e:
                 self.output.write_line(self.debug_base
                                        % (self.file_path,

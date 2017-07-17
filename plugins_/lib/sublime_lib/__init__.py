@@ -1,10 +1,7 @@
 from sublime_plugin import WindowCommand, TextCommand
 import sublime
 
-__all__ = ['ST2', 'ST3', 'WindowAndTextCommand', 'Settings', 'FileSettings']
-
-ST2 = sublime.version().startswith('2')
-ST3 = not ST2
+__all__ = ['WindowAndTextCommand', 'Settings', 'FileSettings']
 
 
 class WindowAndTextCommand(WindowCommand, TextCommand):

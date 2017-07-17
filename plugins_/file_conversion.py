@@ -3,11 +3,13 @@ import time
 
 import sublime
 
-from .sublime_lib import WindowAndTextCommand
-from .sublime_lib.path import file_path_tuple
-from .sublime_lib.view import OutputPanel, get_text
+from .lib.sublime_lib import WindowAndTextCommand
+from .lib.sublime_lib.path import file_path_tuple
+from .lib.sublime_lib.view import OutputPanel, get_text
 
-from .fileconv import dumpers, loaders
+from .lib.fileconv import dumpers, loaders
+
+__all__ = ('ConvertFileCommand',)
 
 
 # build command

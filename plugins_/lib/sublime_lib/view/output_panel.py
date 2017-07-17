@@ -1,10 +1,6 @@
 from sublime import Region, Window
 
 from ._view import ViewSettings, unset_read_only, append, clear, get_text
-from .. import ST3
-
-if ST3:
-    basestring = str
 
 
 class OutputPanel(object):
@@ -109,7 +105,7 @@ class OutputPanel(object):
                  auto_show=True):
         if not isinstance(window, Window):
             raise ValueError("window parameter is invalid")
-        if not isinstance(panel_name, basestring):
+        if not isinstance(panel_name, str):
             raise ValueError("panel_name must be a string")
 
         self.window = window

@@ -47,6 +47,13 @@ class WeakMethod: # noqa: D
             else:
                 return _weak_callable(obj, self._meth)
 
+    def __eq__(self, other):
+        return (
+            type(self) is type(other)
+            and self._obj == other._obj
+            and self._meth == other._meth
+        )
+
 
 class WeakMethodProxy(WeakMethod):
 

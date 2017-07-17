@@ -10,7 +10,9 @@
 
   // Snippets
   { "caption": "PackageDev: New Raw Snippet",
-    "command": "new_raw_snippet" },
+    "command": "new_resource_file",
+    "args": {"kind": "snippet_raw"}
+  },
   { "caption": "PackageDev: New Raw Snippet from Snippet",
     "command": "new_raw_snippet_from_snippet" },
   { "caption": "PackageDev: Generate Snippet from Raw Snippet",
@@ -18,20 +20,22 @@
 
   // Syntax Definitions (create)
   { "caption": "PackageDev: New Syntax Definition",
-    "command": "new_syntax_def" }, // uses whatever the current standard is
-  { "caption": "PackageDev: New JSON Syntax Definition",
-    "command": "new_syntax_def",
-    "args": {"fmt": "json"}
+    "command": "new_resource_file",
+    "args": {"kind": "syntax_def"}
   },
-  { "caption": "PackageDev: New PList Syntax Definition",
-    "command": "new_syntax_def",
-    "args": {"fmt": "plist"}
+  { "caption": "PackageDev: New TextMate Syntax Definition",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_syntax_def"}
   },
-  { "caption": "PackageDev: New YAML Syntax Definition",
-    "command": "new_syntax_def",
-    "args": {"fmt": "yaml"}
+  { "caption": "PackageDev: New TextMate Syntax Definition (JSON)",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_syntax_def_json"}
   },
-  // Syntax Definitions (covert)
+  { "caption": "PackageDev: New TextMate Syntax Definition (YAML)",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_syntax_def_yaml"}
+  },
+  // Syntax Definitions (convert)
   { "caption": "PackageDev: Convert (YAML, JSON, PList) to…",
     "command": "convert_file"
   },
@@ -49,16 +53,24 @@
   },
 
   // Other
-  { "caption": "PackageDev: New Settings File",
-    "command": "new_settings"
-  },
-  { "caption": "PackageDev: New Completions File",
-    "command": "new_completions"
+  { "caption": "PackageDev: New Build System",
+    "command": "new_resource_file",
+    "args": {"kind": "build_system"}
   },
   { "caption": "PackageDev: New Commands File",
-    "command": "new_commands_file"
+    "command": "new_resource_file",
+    "args": {"kind": "commands"}
   },
-  { "caption": "PackageDev: New Build System",
-    "command": "new_build_system2"
-  }
+  { "caption": "PackageDev: New Completions File",
+    "command": "new_resource_file",
+    "args": {"kind": "completions"}
+  },
+  { "caption": "PackageDev: New Settings File",
+    "command": "new_resource_file",
+    "args": {"kind": "settings"}
+  },
+  { "caption": "PackageDev: New Textmate Preferences",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_preferences"}
+  },
 ]

@@ -5,22 +5,25 @@ import re
 import sublime
 import sublime_plugin
 
-from .sublime_lib.path import get_package_name
-from .sublime_lib.constants import style_flags_from_list
-from .scope_data import COMPILED_HEADS
+from .lib.sublime_lib.constants import style_flags_from_list
+from .lib.scope_data import COMPILED_HEADS
 
+__all__ = (
+    'SyntaxDefRegexCaptureGroupHighlighter',
+    'SyntaxDefCompletions',
+)
 
-PLUGIN_NAME = get_package_name()
+PACKAGE_NAME = __package__.split('.')[0]
 
 SYNTAX_DEF_FILENAME = ("Sublime Text Syntax Definition.sublime-syntax")
 SYNTAX_DEF_PATH = (
     "Packages/{}/Package/Sublime Text Syntax Definition/{}"
-    .format(PLUGIN_NAME, SYNTAX_DEF_FILENAME)
+    .format(PACKAGE_NAME, SYNTAX_DEF_FILENAME)
 )
 
 
 def status(msg, console=False):
-    msg = "[%s] %s" % (PLUGIN_NAME, msg)
+    msg = "[%s] %s" % (PACKAGE_NAME, msg)
     sublime.status_message(msg)
     if console:
         print(msg)
