@@ -1,7 +1,13 @@
+(Notes not shown on release)
+
 v3.0.0-beta.2 (2017-07-17)
 --------------------------
 
-(Notes not shown on release)
+* Settings completions fixes and improvements
+
+
+v3.0.0-beta.3 (2017-07-17)
+--------------------------
 
 * Settings completions fixes and improvements
 
