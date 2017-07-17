@@ -4,12 +4,19 @@ import re
 import sublime
 import sublime_plugin
 
-from .sublime_lib.commandinfo import (
+from .commandinfo import (
     get_command_name,
     get_builtin_command_meta_data,
     get_builtin_commands,
     get_python_command_classes,
     get_args_from_command_name
+)
+
+__all__ = (
+    "SublimeTextCommandCompletionPythonListener",
+    "SublimeTextCommandArgsCompletionListener",
+    "SublimeTextCommandArgsCompletionPythonListener",
+    "SublimeTextCommandCompletionListener",
 )
 
 
