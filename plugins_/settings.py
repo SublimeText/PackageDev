@@ -171,7 +171,10 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     def __init__(self, view):
         """Initialize view event listener object."""
-        super(SettingsListener, self).__init__(self, view)
+        # Need this "hack" to allow reloading of the module,
+        # because `super` tries to use the old reference (I think?).
+        # See also https://lists.gt.net/python/python/139992
+        sublime_plugin.ViewEventListener.__init__(self, view)
 
         filepath = view.file_name()
         l.debug("initializing SettingsListener for %r", view.file_name())
