@@ -296,6 +296,7 @@ contexts:
     - match: 's/'
       scope: punctuation.definition.substitute-what.tmPreferences
       push:
+        - meta_content_scope: source.regexp.oniguruma
         - match: '/'
           scope: punctuation.definition.substitute-with.tmPreferences
           set:
@@ -306,13 +307,13 @@ contexts:
                 3: punctuation.definition.substitution.end.tmPreferences
               pop: true
             - include: scope:source.regexp-replacement
-        - include: scope:source.regexp#base-literal
-    - include: scope:source.regexp#group-comment
-    - include: scope:source.regexp#extended-patterns
+        - include: scope:source.regexp.oniguruma#base-literal
+    - include: scope:source.regexp.oniguruma#group-comment
+    - include: scope:source.regexp.oniguruma#extended-patterns
 
   regex-pattern:
-    - meta_content_scope: meta.regex.tmPreferences
-    - include: scope:source.regexp
+    - meta_content_scope: meta.regex.tmPreferences source.regexp.oniguruma
+    - include: scope:source.regexp.oniguruma
 
   shell-variables:
     - include: comments
@@ -367,7 +368,7 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push:
-        - match: '((<)(string)\s*(>))(\s*((TM_COMMENT_(?:START|END|MODE|DISABLE_INDENT)(?:_[2-9])?)|(?:[^<]+))\s*)((</)(string)\s*(>))'
+        - match: '((<)(string)\s*(>))(\s*((TM_COMMENT_(?:START|END|DISABLE_INDENT)(?:_[2-9])?)|(?:[^<]+))\s*)((</)(string)\s*(>))'
           captures:
             1: meta.tag.xml
             2: punctuation.definition.tag.begin.xml

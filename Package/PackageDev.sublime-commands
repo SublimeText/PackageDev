@@ -1,27 +1,76 @@
 [
-    { "caption": "PackageDev: New Raw Snippet", "command": "new_raw_snippet" },
-    { "caption": "PackageDev: New Raw Snippet from Snippet", "command": "new_raw_snippet_from_snippet" },
-    { "caption": "PackageDev: Generate Snippet from Raw Snippet", "command": "generate_snippet_from_raw_snippet" },
+  // General
+  { "caption": "Preferences: PackageDev Settings",
+    "command": "edit_settings",
+    "args": {
+      "base_file": "${packages}/PackageDev/Package/PackageDev.sublime-settings",
+      "default": "{\n\t$0\n}\n"
+    }
+  },
 
-    { "caption": "PackageDev: New Syntax Definition",  "command": "new_syntax_def" }, // uses whatever the current standard is
-    { "caption": "PackageDev: New JSON Syntax Definition",  "command": "new_syntax_def", "args": {"fmt": "json"} },
-    { "caption": "PackageDev: New PList Syntax Definition", "command": "new_syntax_def", "args": {"fmt": "plist"} },
-    { "caption": "PackageDev: New YAML Syntax Definition",  "command": "new_syntax_def", "args": {"fmt": "yaml"} },
+  // Snippets
+  { "caption": "PackageDev: New Raw Snippet",
+    "command": "new_resource_file",
+    "args": {"kind": "snippet_raw"}
+  },
+  { "caption": "PackageDev: New Raw Snippet from Snippet",
+    "command": "new_raw_snippet_from_snippet" },
+  { "caption": "PackageDev: Generate Snippet from Raw Snippet",
+    "command": "generate_snippet_from_raw_snippet" },
 
-    { "caption": "PackageDev: Convert (YAML, JSON, PList) to…", "command": "convert_file" },
-    { "caption": "PackageDev: Convert to YAML and Rearrange Syntax Definition", "command": "convert_file", "args": {
-        "target_format": "yaml",
-        "ext": "YAML-tmLanguage",
-        "open_new_file": true,
-        "rearrange_yaml_syntax_def": true
-    } },
-    { "caption": "PackageDev: Rearrange YAML Syntax Definition", "command": "rearrange_yaml_syntax_def" },
+  // Syntax Definitions (create)
+  { "caption": "PackageDev: New Syntax Definition",
+    "command": "new_resource_file",
+    "args": {"kind": "syntax_def"}
+  },
+  { "caption": "PackageDev: New TextMate Syntax Definition",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_syntax_def"}
+  },
+  { "caption": "PackageDev: New TextMate Syntax Definition (JSON)",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_syntax_def_json"}
+  },
+  { "caption": "PackageDev: New TextMate Syntax Definition (YAML)",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_syntax_def_yaml"}
+  },
+  // Syntax Definitions (convert)
+  { "caption": "PackageDev: Convert (YAML, JSON, PList) to…",
+    "command": "convert_file"
+  },
+  { "caption": "PackageDev: Convert to YAML and Rearrange Syntax Definition",
+    "command": "convert_file",
+    "args": {
+      "target_format": "yaml",
+      "ext": "YAML-tmLanguage",
+      "open_new_file": true,
+      "rearrange_yaml_syntax_def": true
+    }
+  },
+  { "caption": "PackageDev: Rearrange YAML Syntax Definition",
+    "command": "rearrange_yaml_syntax_def"
+  },
 
-    { "caption": "PackageDev: New Settings File", "command": "new_settings" },
-
-    { "caption": "PackageDev: New Completions File", "command": "new_completions" },
-
-    { "caption": "PackageDev: New Commands File", "command": "new_commands_file" },
-
-    { "caption": "PackageDev: New Build System", "command": "new_build_system2" }
+  // Other
+  { "caption": "PackageDev: New Build System",
+    "command": "new_resource_file",
+    "args": {"kind": "build_system"}
+  },
+  { "caption": "PackageDev: New Commands File",
+    "command": "new_resource_file",
+    "args": {"kind": "commands"}
+  },
+  { "caption": "PackageDev: New Completions File",
+    "command": "new_resource_file",
+    "args": {"kind": "completions"}
+  },
+  { "caption": "PackageDev: New Settings File",
+    "command": "new_resource_file",
+    "args": {"kind": "settings"}
+  },
+  { "caption": "PackageDev: New Textmate Preferences",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_preferences"}
+  },
 ]

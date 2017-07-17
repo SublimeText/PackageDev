@@ -126,11 +126,14 @@ contexts:
       push: expect_bool
 
     - include: comment
+    - include: yaml-tags-anchors
+
     - include: scope:source.yaml
 
   variables_block:
     - meta_scope: meta.block.variables.sublime-syntax
     - include: comment
+    - include: yaml-tags-anchors
     # (based on YAML.sublime-syntax#block-pair)
     - match: '^ +{{block_key_lookahead}}'
       push:
@@ -149,6 +152,7 @@ contexts:
   contexts_block:
     - meta_scope: meta.block.contexts.sublime-syntax
     - include: comment
+    - include: yaml-tags-anchors
     - include: context_definition
     - include: context_content
     - match: ^(?=\S)
@@ -238,6 +242,7 @@ contexts:
   expect_captures:
     - meta_content_scope: meta.expect-captures.yaml
     - include: comment
+    - include: yaml-tags-anchors
     - match: (\d+)\s*(:)
       captures:
         1: constant.numeric.integer.yaml
@@ -252,6 +257,7 @@ contexts:
     # ends upon EOL
     - meta_content_scope: meta.expect-scope
     - include: comment
+    - include: yaml-tags-anchors
     - match: (?={{ns_plain_first_plain_out}})
       set:
         - meta_scope: meta.scope.sublime-syntax string.unquoted.plain.out.yaml
@@ -268,6 +274,7 @@ contexts:
   expect_include:
     - meta_content_scope: meta.expect-include
     - include: comment
+    - include: yaml-tags-anchors
     - include: include
     - match: '{{block_key_lookahead_bol}}'
       pop: true
@@ -287,6 +294,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.array-element.sublime-syntax
         - include: comment
+        - include: yaml-tags-anchors
         - include: include
     - include: expect_include
 
@@ -309,7 +317,7 @@ contexts:
               scope: punctuation.separator.context-name.sublime-syntax
               set: expect_include
         # absolute includes
-        - match: Packages/((?!\s#|:\s).)+\.sublime-syntax(?=\s*(#|$))
+        - match: \w((?!\s#|:\s).)+\.sublime-syntax(?=\s*(#|$))
           scope: support.module.file-path.sublime-syntax
           set:
             - match: '{{_flow_scalar_end_plain_in}}'
@@ -333,6 +341,7 @@ contexts:
   expect_bool:
     - meta_content_scope: meta.expect-bool
     - include: comment
+    - include: yaml-tags-anchors
     - match: \b(true|false){{_flow_scalar_end_plain_out}}
       scope: constant.language.boolean.yaml
     - match: $
@@ -341,6 +350,7 @@ contexts:
   expect_comment:
     - meta_content_scope: meta.expect-comment
     - include: comment
+    - include: yaml-tags-anchors
     - match: '"'
       scope: punctuation.definition.string.begin.yaml
       push:
@@ -394,6 +404,7 @@ contexts:
   expect_regexp:
     - meta_content_scope: meta.expect-regexp
     - include: comment
+    - include: yaml-tags-anchors
 
     # Not including the regexp syntax here because of the required double-escapes.
     # As such, double-quoting is discouraged.
@@ -473,10 +484,10 @@ contexts:
         - match: ^([ ]+)(?=.*\(\?[ims]*x[ixms]*(?:-[ims]+)?\))
         # This match is more accurate but doesn't match `match: ^(?x)`:
         # - match: ^([ ]+)(\()(\?[ims]*x[ixms]*(?:-[ims]+)?)(\))
-          captures:
-            2: keyword.control.group.regex
-            3: storage.modifier.mode.regexp
-            4: keyword.control.group.regex
+          # captures:
+            # 2: keyword.control.group.regex
+            # 3: storage.modifier.mode.regexp
+            # 4: keyword.control.group.regex
           set:
             - meta_scope: source.regexp.oniguruma
             - match: ^(?!\1|\s*$)
@@ -495,6 +506,7 @@ contexts:
         - match: ^(?=\S)  # the block is empty
           pop: true
         - include: comment
+        - include: yaml-tags-anchors
         - match: .+
           scope: invalid.illegal.expected-comment-or-newline.yaml
 
@@ -528,3 +540,6 @@ contexts:
     - include: scope:source.regexp.oniguruma#quantifiers
     - match: ''
       pop: true
+
+  yaml-tags-anchors:
+    - include: Packages/YAML/YAML.sublime-syntax#property

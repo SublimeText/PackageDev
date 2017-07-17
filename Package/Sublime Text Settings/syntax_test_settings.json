@@ -1,0 +1,63 @@
+// SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Settings/Sublime Text Settings.sublime-syntax"
+// <- source.json.sublime.settings
+
+// comment
+// <- comment.line
+
+s
+// <- invalid.illegal.expected-mapping.sublime-settings
+
+{ // comment
+// <- meta.mapping.json punctuation.section.mapping.begin.json
+// ^ meta.mapping.json comment.line.double-slash.js punctuation.definition.comment.json
+
+    "key": "value",
+// ^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+//  ^^^^^ meta.mapping.key.json string.quoted.double.json - meta.mapping.json
+//  ^ punctuation.definition.string.begin.json
+//      ^ punctuation.definition.string.end.json
+//       ^ punctuation.separator.mapping.key-value.json
+//         ^^^^^^^ meta.mapping.value.json string.quoted.double.json
+//                ^ punctuation.separator.mapping.pair.json
+//       ^ - meta.expect-value
+//        ^ meta.expect-value
+
+    "another_key": 123,
+//   ^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json entity.name.other.key.sublime-settings
+
+    "an_array": ["with", "strings"],
+//              ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json
+
+    "a_normal_object": {"normal key": "value"},
+//                     ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json
+//                       ^ - entity.name.other.key
+
+    "package_name.setting": null
+//   ^^^^^^^^^^^^^^^^^^^^ entity.name.other.key.sublime-settings
+//   ^^^^^^^^^^^^^ keyword.other.namespace.sublime-settings
+//               ^ punctuation.separator.namespace.sublime-settings
+
+    "package_name.module_name.setting": null
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.other.key.sublime-settings
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.other.namespace.sublime-settings
+//               ^ punctuation.separator.namespace.sublime-settings
+//                           ^ punctuation.separator.namespace.sublime-settings
+
+    "key_without_comma": false,
+// ^ invalid.illegal.expected-mapping-separator.json
+//                       ^^^^^ meta.mapping.value.json constant.language.json
+
+    "invalid_value": a
+//                   ^ invalid.illegal.expected-value.json
+
+
+    , // trailing commas are okay
+//  ^ punctuation.separator.mapping.pair.json
+
+    ,  // but not two consecutive commas
+//  ^ invalid.illegal.expected-key.json
+}
+
+not-a-comment // but this is
+// <- invalid.illegal.only-comments-allowed.sublime-settings
+//            ^^ comment.line

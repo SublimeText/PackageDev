@@ -1,0 +1,18 @@
+{
+	// A list of valid spell checker words added by the user.
+	"added_words": [],
+
+	// A list of words ignored by spell checker.
+	"ignored_words": [],
+
+	// UI scaling factor (hidden setting)
+	// Common values are: "1.0", "1.25", "1.5", "1.75", "2.0"
+	"dpi_scale": 1.0,
+
+	// Draw UI shadows (hidden setting)
+	"draw_shadows": true,
+
+	// Check for updates on startup (hidden setting)
+	// Only available to registered users.
+	"update_check": true,
+}

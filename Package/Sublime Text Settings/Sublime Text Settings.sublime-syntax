@@ -1,0 +1,74 @@
+%YAML 1.2
+---
+name: Sublime Text Settings (JSON)
+file_extensions:
+  - sublime-settings
+  - sublime-settings-hints
+scope: source.json.sublime.settings
+contexts:
+  prototype:
+    - include: JSON.sublime-syntax#comments
+
+  main:
+    - match: '\{'
+      scope: punctuation.section.mapping.begin.json
+      push:
+        - meta_scope: meta.mapping.json
+        - match: '\}'
+          scope: punctuation.section.mapping.end.json
+          set:
+            - match: \S
+              scope: invalid.illegal.only-comments-allowed.sublime-settings
+        - match: '"'
+          scope: punctuation.definition.string.begin.json
+          push: [post-key, inside-key]
+        - match: \S
+          scope: invalid.illegal.expected-key.json
+    - match: \S
+      scope: invalid.illegal.expected-mapping.sublime-settings
+
+  inside-key:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.key.json string.quoted.double.json
+    - meta_content_scope: entity.name.other.key.sublime-settings
+    - meta_include_prototype: false
+    - match: '"'
+      scope: punctuation.definition.string.end.json
+      pop: true
+    - include: JSON.sublime-syntax#inside-string
+    - match: '[\w]+(\.)'
+      scope: keyword.other.namespace.sublime-settings
+      captures:
+        1: punctuation.separator.namespace.sublime-settings
+
+  post-key:
+    - match: ":"
+      scope: punctuation.separator.mapping.key-value.json
+      set: expect-value
+    - match: \S
+      scope: invalid.illegal.expected-key-value-separator.json
+
+  expect-value:
+    - meta_content_scope: meta.expect-value.json
+    - match: (?=\S)
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.value.json
+        - include: JSON.sublime-syntax#value
+        - match: (?:[^\s,}/]|/(?!/\*))*
+          scope: invalid.illegal.expected-value.json
+          set: post-value
+
+  post-value:
+    - match: ',|(?=\})'
+      scope: punctuation.separator.mapping.pair.json
+      pop: true
+    # Match whitespace not followed by a character that's not
+    # whitespace, a comma, a closing brace or a comment
+    # as invalid.
+    - match: \s(?=(?!//|/\*)[^\s,}])
+      scope: invalid.illegal.expected-mapping-separator.json
+      pop: true
+    # otherwise just pop and consume nothing
+    - match: (?=\S)
+      pop: true

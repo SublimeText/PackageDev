@@ -124,11 +124,13 @@
 <!--                                                        ^ invalid.illegal.missing-entity.xml -->
             <key>increaseIndentPattern</key>
 <!--             ^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.regex.tmPreferences -->
-            <string><![CDATA[example containing <bad> & characters. (?<=doh)]]></string>
+            <string><![CDATA[example containing <bad> & characters. (?<=doh)\k<test+0>]]></string>
 <!--                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.tmPreferences - invalid -->
 <!--                ^^^^^^^^^ string.unquoted.cdata.xml punctuation.definition.string.begin.xml - meta.regex.tmPreferences -->
-<!--                                                                        ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml - meta.regex.tmPreferences -->
+<!--                                                                                  ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml - meta.regex.tmPreferences -->
 <!--                                                                 ^^^ constant.other.assertion.regexp -->
+<!--                                                                        ^^^^^^^^^^ keyword.other.backref-and-recursion.regexp -->
+<!--                                                                               ^^ constant.numeric.backref-level.regexp -->
             <key>bracketIndentNextLinePattern</key>
             <string><![CDATA[(?x)
                 (?=wow) # this is a comment
@@ -165,6 +167,7 @@
 <!--             ^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.regex-transform.tmPreferences -->
             <string><![CDATA[
                 s/(\[[^\]]*\])|\b_\b\s*|\(.*|(\s{2,})/$1(?2 )/g; (?# this is a regex transformation
+<!--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.regex.transformation.tmPreferences source.regexp.oniguruma -->
 <!--            ^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.transformation.tmPreferences punctuation.definition.substitute-what.tmPreferences -->
 <!--                                                 ^ punctuation.definition.substitute-with.tmPreferences -->
 <!--                                                     ^^ keyword.other.backref-and-recursion.conditional.regexp-replacement -->

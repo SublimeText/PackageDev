@@ -1,17 +1,54 @@
 {
-    // what add_region styles to use for the highlighting of the line/positions being tested
-    // valid values are:
+    // Define the minimum log level used for logging output on the console.
+    // Valid values are: "CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"
+    "log_level": "WARNING",
+
+    // Underline unknown keys in Sublime Settings.
+    "settings.linting": true,
+
+    // Whether or not to keep the scope suffix in the suggested test scopes
+    // i.e. if the base scope is text.html.markdown
+    // then suggest meta.example.markdown (true) vs meta.example (false).
+    "syntax_test.suggest_scope_suffix": true,
+
+    // List of patterns for color schemes not to be displayed in completions.
+    // Each color scheme containing one of the list's strings is hidden.
+    "settings.exclude_color_scheme_patterns": [
+        "/Color Scheme - Legacy",
+        "/User/SublimeLinter",
+        "/User/Sublimerge",
+        "/User/GitSavvy",
+        "/InactivePanes"
+    ],
+
+    // List of patterns for themes not to be displayed in completions.
+    // Each theme containing one of the list's strings is hidden.
+    "settings.exclude_theme_patterns": [],
+
+
+    /// ADVANCED SETTINGS /////////////////////////////////////////////////////////////////////////
+
+    // Underline unknown keys in Sublime Settings.
+    // What scope to use to draw the highlighting of unknown settings keys.
+    "settings.highlight_scope": "markup.warning.unknown-key.sublime-settings",
+
+    // What add_region styles to use for highlighting of unknown settings keys.
+    //
+    // Valid values are:
     // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
     // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
     // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
-    "syntax_test_highlight_styles": ["DRAW_NO_FILL"],
+    "settings.highlight_styles": ["DRAW_SOLID_UNDERLINE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE"],
 
-    // what scope to use to draw the add_region highlighting
-    // this affects what color it will be drawn as
-    "syntax_test_highlight_scope": "text",
 
-    // whether or not to keep the scope suffix in the suggested test scopes
-    // i.e. if the base scope is text.html.markdown
-    // then suggest meta.example.markdown (true) vs meta.example (false)
-    "syntax_test_suggest_scope_suffix": true,
+    // What scope to use to draw the highlighting of the line/positions being tested.
+    "syntax_test.highlight_scope": "markup.info.test.sublime-syntax",
+
+    // What add_region styles to use for highlighting of the line/positions being tested.
+    //
+    // Valid values are:
+    // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
+    // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
+    // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
+    "syntax_test.highlight_styles": ["DRAW_NO_FILL"],
 }

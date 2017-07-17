@@ -9,37 +9,76 @@
             "caption": "Package Development",
             "mnemonic": "P",
             "children": [
-              { "caption": "New Syntax Definition",
-                "command": "new_syntax_def" },
+              { "caption": "New Syntax Definition…",
+                "command": "new_resource_file",
+                "args": {"kind": "syntax_def"} },
               { "caption": "Convert to YAML and Rearrange Syntax Definition",
                 "command": "convert_file",
-                "args": { "target_format": "yaml",
-                          "ext": "YAML-tmLanguage",
-                          "open_new_file": true,
-                          "rearrange_yaml_syntax_def": true }
-                },
+                "args": {
+                  "target_format": "yaml",
+                  "ext": "YAML-tmLanguage",
+                  "open_new_file": true,
+                  "rearrange_yaml_syntax_def": true
+                }
+              },
               { "caption": "Rearrange YAML Syntax Definition",
                 "command": "rearrange_yaml_syntax_def" },
               { "caption": "-" },
 
               { "caption": "New Raw Snippet…",
-                "command": "new_raw_snippet" },
+                "command": "new_resource_file",
+                "args": {"kind": "snippet_raw"}
+              },
               { "caption": "New Raw Snippet from Snippet…",
                 "command": "new_raw_snippet_from_snippet" },
               { "caption": "Generate Snippet from Raw Snippet",
                 "command": "generate_snippet_from_raw_snippet" },
               { "caption": "-" },
 
-              { "caption": "New Settings File",
-                "command": "new_settings" },
-              { "caption": "New Completions File",
-                "command": "new_completions" },
-              { "caption": "New Commands File",
-                "command": "new_commands_file" },
-              { "caption": "New Build System",
-                "command": "new_build_system2" },
-              { "caption": "New Plugin",
-                "command": "new_plugin" }
+              { "caption": "New Build System…",
+                "command": "new_resource_file",
+                "args": {"kind": "build_system"}
+              },
+              { "caption": "New Commands File…",
+                "command": "new_resource_file",
+                "args": {"kind": "commands"}
+              },
+              { "caption": "New Completions File…",
+                "command": "new_resource_file",
+                "args": {"kind": "completions"}
+              },
+              { "caption": "New Settings File…",
+                "command": "new_resource_file",
+                "args": {"kind": "settings"}
+              },
+              { "caption": "New Textmate Preferences…",
+                "command": "new_resource_file",
+                "args": {"kind": "tm_preferences"}
+              },
+              // { "caption": "New Plugin",
+              //   "command": "new_resource_file",
+              //   "args": {"kind": "plugin"} }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  { "id": "preferences",
+    "children": [
+      { "caption": "Package Settings",
+        "id": "package-settings",
+        "children": [
+          { "caption": "PackageDev",
+            // "id": "package_dev",
+            "children": [
+              { "caption": "Settings",
+                "command": "edit_settings",
+                "args": {
+                  "base_file": "${packages}/PackageDev/Package/PackageDev.sublime-settings",
+                  "default": "{\n\t$0\n}\n"
+                }
+              }
             ]
           }
         ]

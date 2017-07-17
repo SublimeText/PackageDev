@@ -1,0 +1,17 @@
+(Notes not shown on release)
+
+v3.0.0-beta.2 (2017-07-17)
+--------------------------
+
+* Settings completions fixes and improvements
+
+
+v3.0.0-beta.3 (2017-07-17)
+--------------------------
+
+* Settings completions fixes and improvements
+
+---
+
+Please test the package thoroughly and report issues at the issue tracker.
+https://github.com/SublimeText/PackageDev/issues

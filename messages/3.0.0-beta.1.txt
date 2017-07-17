@@ -1,0 +1,23 @@
+v3.0.0-beta.1 (2017-07-08)
+--------------------------
+
+PackageDev now enters BETA *wheee*
+(which doesn't really mean a lot for you, but anyway).
+
+This latest release brings you:
+
++ A new syntax definition for settings files
++ Auto-completions for settings files (@deathaxe)
++ A tooltip showing the default and a description parsed from comments
+  when hovering a settings key (@deathaxe)
++ Highlighting of settings keys that couldn't be found in any reference file
+  (and were probably mis-spelled) (@deathaxe)
+
++ Completions for variables in syntax definitions
+
+* Other minor changes and fixes
+
+---
+
+Please test the package thoroughly and report issues at the issue tracker.
+https://github.com/SublimeText/PackageDev/issues

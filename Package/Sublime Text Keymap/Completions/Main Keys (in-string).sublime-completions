@@ -1,0 +1,9 @@
+{
+    "scope": "meta.unknown-main-key.sublime-keymap",
+    "completions": [
+        {"trigger": "keys\tkey", "contents": "keys"},
+        {"trigger": "command\tkey", "contents": "command"},
+        {"trigger": "args\tkey", "contents": "args"},
+        {"trigger": "context\tkey", "contents": "context"},
+    ]
+}
