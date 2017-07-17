@@ -30,8 +30,7 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
 
         # initialize settings (and syntax)
         v.set_syntax_file(_syntax_path_for_kind(kind))
-        user_package_path = os.path.join(sublime.packages_path(), "User")
-        v.settings().set('default_dir', user_package_path)
+        v.settings().set('default_dir', self._guess_folder())
         if kind == "tm_syntax_def":
             v.settings().set('default_extension', ".tmLanguage")
 
@@ -41,3 +40,30 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
             # tm_* kinds expect a uuid to be inserted
             template = template % uuid.uuid4()
         v.run_command('insert_snippet', {'contents': template})
+
+    def _guess_folder(self):
+        """Return the path to either the package currently being edited, or User."""
+        folders = self.window.folders()
+        # Test if we have exactly one folder; don't deal with any other number
+        if len(folders) == 1:
+            if self._is_package_path(folders[0]):
+                return folders[0]
+        return os.path.join(sublime.packages_path(), "User")
+
+    def _is_package_path(self, file_path):
+        """Test if file_path points to a ST package (while resolving symlinks).
+
+        Resolves symlinks for both the packages path and the argument.
+        """
+        if not file_path:
+            return False
+
+        packages_path = sublime.packages_path()
+        real_packages_path = os.path.realpath(packages_path)
+        real_file_path = os.path.realpath(file_path)
+
+        for pp in (real_packages_path, packages_path):
+            for fp in (real_file_path, file_path):
+                if fp.startswith(pp):
+                    leaf = fp[len(pp):].strip(os.sep)
+                    return (os.sep not in leaf)
