@@ -853,7 +853,7 @@ class KnownSettings(object):
         """
         comment = self.comments.get(key)
         if not comment:
-            return
+            return set()
 
         completions = set()
 
