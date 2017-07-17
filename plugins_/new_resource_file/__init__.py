@@ -37,7 +37,7 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
 
         # insert the template
         template = TEMPLATES[kind]
-        if kind.startswith("tm_syntax"):
-            # tm_syntax kinds expect a uuid to be inserted
+        if kind.startswith("tm_"):
+            # tm_* kinds expect a uuid to be inserted
             template = template % uuid.uuid4()
         v.run_command('insert_snippet', {'contents': template})

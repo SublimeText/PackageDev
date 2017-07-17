@@ -69,4 +69,8 @@
     "command": "new_resource_file",
     "args": {"kind": "settings"}
   },
+  { "caption": "PackageDev: New Textmate Preferences",
+    "command": "new_resource_file",
+    "args": {"kind": "tm_preferences"}
+  },
 ]

@@ -51,6 +51,10 @@
                 "command": "new_resource_file",
                 "args": {"kind": "settings"}
               },
+              { "caption": "New Textmate Preferences…",
+                "command": "new_resource_file",
+                "args": {"kind": "tm_preferences"}
+              },
               // { "caption": "New Plugin",
               //   "command": "new_resource_file",
               //   "args": {"kind": "plugin"} }

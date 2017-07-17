@@ -102,6 +102,43 @@ contexts:
         - match: \$\n?
           pop: true
 """,
+    tm_preferences="""\
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>${1:Comments}</string>
+  <key>scope</key>
+  <string>source.${2:example_c}</string>
+  <key>settings</key>
+  <dict>
+    <key>shellVariables</key>
+    <array>
+      <dict>
+        <key>name</key>
+        <string>TM_COMMENT_START</string>
+        <key>value</key>
+        <string>// </string>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>TM_COMMENT_START_2</string>
+        <key>value</key>
+        <string>/*</string>
+      </dict>
+      <dict>
+        <key>name</key>
+        <string>TM_COMMENT_END_2</string>
+        <key>value</key>
+        <string>*/</string>
+      </dict>
+    </array>
+  </dict>
+  <key>uuid</key>
+  <string>%s</string>
+</dict>
+</plist>""",  # noqa - line length
     # Technically ST does not use uuids at all,
     # but we leave it in for TextMate compatability
     tm_syntax_def_yaml="""\
