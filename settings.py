@@ -613,7 +613,7 @@ class KnownSettings(object):
                 the text positions of all characters in prefix
 
         Returns:
-            tuple ([ [trigger, content], [trigger, content] ], flags):
+            tuple ([ (trigger, content), (trigger, content) ], flags):
                 the tuple with content ST needs to display completions
         """
         if view.match_selector(point - 1, "string"):
@@ -652,7 +652,7 @@ class KnownSettings(object):
             string: the contents field to insert into completions entry
         """
         encoded = sublime.encode_value(value)
-        encoded = encoded.replace("$", "\\$") # escape snippet markers
+        encoded = encoded.replace("$", "\\$")  # escape snippet markers
 
         if isinstance(value, str):
             # create the snippet for json strings and exclude quotation marks
