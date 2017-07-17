@@ -10,9 +10,13 @@ import weakref
 import sublime
 import sublime_plugin
 
-from .sublime_lib.constants import style_flags_from_list
-from .sublime_lib.weakmethod import WeakMethodProxy
+from .lib.sublime_lib.constants import style_flags_from_list
+from .lib.weakmethod import WeakMethodProxy
 
+__all__ = (
+    'SettingsListener',
+    'GlobalSettingsListener',
+)
 
 POPUP_TEMPLATE = """
 <body id="sublime-settings">
@@ -167,7 +171,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     def __init__(self, view):
         """Initialize view event listener object."""
-        super(SettingsListener, self).__init__(view)
+        super(SettingsListener, self).__init__(self, view)
 
         filepath = view.file_name()
         l.debug("initializing SettingsListener for %r", view.file_name())

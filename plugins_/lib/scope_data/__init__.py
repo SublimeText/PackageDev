@@ -1,9 +1,5 @@
-import sys
 
 from .data import DATA
-
-if sys.version_info[0] > 2:
-    basestring = str
 
 __all__ = ["COMPILED_NODES", "COMPILED_HEADS"]
 
@@ -64,7 +60,7 @@ class ScopeNode(object):
             return self.name
 
     def __eq__(self, other):
-        if isinstance(other, basestring):
+        if isinstance(other, str):
             return str(self) == other
         elif isinstance(other, ScopeNode):
             return (self.name == other.name

@@ -9,15 +9,19 @@ import yaml
 import sublime
 import sublime_plugin
 
+from .lib.sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
+                                   extract_selector)
 
-from .sublime_lib.path import root_at_packages, get_package_name
-from .sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
-                               extract_selector)
+from .lib.fileconv import dumpers, loaders
+from .lib.scope_data import COMPILED_HEADS
+from .lib.ordereddict_yaml import OrderedDictSafeDumper
 
-from .fileconv import dumpers, loaders
-from .scope_data import COMPILED_HEADS
-from .ordereddict_yaml import OrderedDictSafeDumper
-
+__all__ = (
+    'NewSyntaxDefCommand',
+    'RearrangeYamlSyntaxDefCommand',
+    'LegacySyntaxDefCompletions',
+)
 
 PLUGIN_NAME = get_package_name()
 

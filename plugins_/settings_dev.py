@@ -1,7 +1,8 @@
 import sublime_plugin
 
-from .sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.path import root_at_packages, get_package_name
 
+__all__ = ('NewSettingsCommand',)
 
 PLUGIN_NAME = get_package_name()
 

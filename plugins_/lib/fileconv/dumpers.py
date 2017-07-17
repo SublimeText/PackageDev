@@ -1,14 +1,10 @@
 import datetime
-import sys
 
 import json
 import yaml
 import plistlib
 
-if sys.version_info < (3,):
-    from sublime_lib.view import OutputPanel
-else:
-    from ..sublime_lib.view import OutputPanel
+from ..sublime_lib.view import OutputPanel
 
 
 class DumperProto(object):

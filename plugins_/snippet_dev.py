@@ -3,8 +3,15 @@ from xml.etree import ElementTree as ET
 import sublime
 import sublime_plugin
 
-from .sublime_lib.view import has_file_ext, get_text, clear
-from .sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.view import has_file_ext, get_text, clear
+from .lib.sublime_lib.path import root_at_packages, get_package_name
+
+__all__ = (
+    'NewRawSnippetCommand',
+    'GenerateSnippetFromRawSnippetCommand',
+    'NewRawSnippetFromSnippetCommand',
+    'CopyAndInsertRawSnippetCommand',
+)
 
 
 PLUGIN_NAME = get_package_name()

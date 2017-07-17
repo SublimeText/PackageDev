@@ -4,8 +4,14 @@ from os import path
 import re
 from collections import namedtuple
 
-from .sublime_lib.constants import style_flags_from_list
+from .lib.sublime_lib.constants import style_flags_from_list
 
+__all__ = (
+    'SyntaxTestHighlighterListener',
+    'AlignSyntaxTestCommand',
+    'SuggestSyntaxTestCommand',
+    'AssignSyntaxTestSyntaxListener',
+)
 
 AssertionLineDetails = namedtuple(
     'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']

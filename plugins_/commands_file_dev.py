@@ -1,7 +1,8 @@
 import sublime_plugin
 
-from .sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.path import root_at_packages, get_package_name
 
+__all__ = ('NewCommandsFileCommand',)
 
 tpl = """[
     { "caption": "${1:PackageName}: ${2:My Caption for the Command Palette}", "command": "${3:my_command}" }$0

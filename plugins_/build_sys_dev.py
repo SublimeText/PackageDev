@@ -1,6 +1,8 @@
 import sublime_plugin
 
-from .sublime_lib.path import root_at_packages, get_package_name
+from .lib.sublime_lib.path import root_at_packages, get_package_name
+
+__all__ = ('NewBuildSystem2Command',)
 
 PLUGIN_NAME = get_package_name()
 
