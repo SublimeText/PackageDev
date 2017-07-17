@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+import collections
 import logging
 import os
 import re
@@ -298,9 +299,14 @@ class KnownSettings(object):
     # and using weakrefs for easy garbage collection
     cache = weakref.WeakValueDictionary()
 
-    _loaded = False
+    _is_initialized = False
+    _is_loaded = False
     filename = None
     on_loaded_callbacks = None
+    on_loaded_once_callbacks = None
+    defaults = None
+    comments = None
+    fallback_settings = None
 
     def __new__(cls, filename, on_loaded=None, **kwargs):
         # __init__ will be called on the return value
@@ -320,18 +326,24 @@ class KnownSettings(object):
             filename (str):
                 Settings file name to index.
         """
-        # the associated settings file name all the settings belong to
-        if self.filename is None:
-            self.filename = filename
-
         # Because __init__ may be called multiple times
         # and we only want to trigger a reload once,
         # we need special handling here.
-        if self.on_loaded_callbacks is None:
+        if not self._is_initialized:
+            # the associated settings file name all the settings belong to
+            self.filename = filename
+            # callback lists
             self.on_loaded_callbacks = []
+            self.on_loaded_once_callbacks = []
+            self._is_initialized = True
+            # the dictionary with all defaults of a setting
+            self.defaults = collections.ChainMap()
+            # the dictionary with all comments of each setting
+            self.comments = collections.ChainMap()
+
             self.trigger_settings_reload()
 
-    def add_on_loaded(self, on_loaded):
+    def add_on_loaded(self, on_loaded, once=False):
         """Add a callback to call once settings have been indexed (asynchronously).
 
         Bound methods are stored as weak references.
@@ -339,39 +351,34 @@ class KnownSettings(object):
         Arguments:
             on_loaded (callable):
                 The callback.
+            once (bool):
+                Whether the callback should be called only once.
         """
         # Due to us archiving the callback, we use a weakref
         # to avoid a circular reference to all SettingListeners affected,
         # ensuring our __del__ is properly called when all relevant views are closed.
-        if on_loaded:
-            on_loaded = WeakMethodProxy(on_loaded)
-        if on_loaded:
-            self.on_loaded_callbacks.append(on_loaded)
-            if self._loaded:
-                # Invoke callback 'immediately' since we're already loaded.
-                # Note that this is currently not thread-safe.
-                sublime.set_timeout_async(on_loaded(), 0)
+        if self._is_loaded:
+            # Invoke callback 'immediately' since we're already loaded.
+            # Note that this is currently not thread-safe.
+            sublime.set_timeout_async(on_loaded, 0)
+
+        if not once:
+            self.on_loaded_callbacks.append(WeakMethodProxy(on_loaded))
+        elif not self._is_loaded:
+            self.on_loaded_once_callbacks.append(WeakMethodProxy(on_loaded))
 
     def __del__(self):
         l.debug("deleting KnownSettings instance for %r", self.filename)
 
     def __iter__(self):
-        """Forward iteration to settings."""
-        return self.defaults.__iter__()
-
-    def __next__(self):
-        """Forward iteration to settings."""
-        return self.defaults.next()
+        """Iterate over default keys."""
+        return iter(self.defaults)
 
     def trigger_settings_reload(self):
-        # the dictionary with all defaults of a setting
-        self.defaults = {}
-        # the dictionary with all comments of each setting
-        self.comments = {}
         # look for settings files asynchronously
         sublime.set_timeout_async(self._load_settings, 0)
 
-    def _load_settings(self):
+    def _load_settings(self, on_loaded_once=None):
         """Load and merge settings and their comments from all base files.
 
         The idea is each package which wants to add a valid entry to the
@@ -390,18 +397,11 @@ class KnownSettings(object):
         resources += sublime.find_resources(self.filename + "-hints")
         l.debug("found %d %r files", len(resources), self.filename)
 
-        # include general settings if we're in a syntax-specific file
-        if self._is_syntax_specific():
-            # TODO fetch these from cache, once we have one
-            pref_resources = sublime.find_resources(PREF_FILE)
-            pref_resources += sublime.find_resources(PREF_FILE + "-hints")
-            l.debug("found %d %r files", len(resources), PREF_FILE)
-            resources += pref_resources
-
         for resource in resources:
-            # skip ignored settings
             if any(ignored in resource for ignored in ignored_patterns):
+                l.debug("ignoring %r", resource)
                 continue
+
             try:
                 l.debug("parsing %r", resource)
                 lines = sublime.load_resource(resource).splitlines()
@@ -415,7 +415,33 @@ class KnownSettings(object):
         duration = time.time() - start_time
         l.debug("loading took %.3fs", duration)
 
-        self._loaded = True
+        # include general settings if we're in a syntax-specific file
+        is_syntax_specific = self._is_syntax_specific()
+        if is_syntax_specific and not self.fallback_settings:
+            self.fallback_settings = KnownSettings(PREF_FILE)
+            # add fallbacks to the ChainMaps
+            self.defaults.maps.append(self.fallback_settings.defaults)
+            self.comments.maps.append(self.fallback_settings.comments)
+            # these may be loaded later, so delay calling our own callbacks
+            self.fallback_settings.add_on_loaded(self._has_loaded, once=True)
+        else:
+            if self.fallback_settings and not is_syntax_specific:
+                # file was renamed, probably
+                self.fallback_settings = None
+                self.defaults.maps.pop()
+                self.comments.maps.pop()
+            self._has_loaded()
+
+    def _has_loaded(self):
+        self._is_loaded = True
+
+        for callback in self.on_loaded_once_callbacks:
+            try:
+                callback()
+            except ReferenceError:
+                pass
+        self.on_loaded_once_callbacks.clear()
+
         # copy callback list so we can clean up expired references
         for callback in tuple(self.on_loaded_callbacks):
             try:
