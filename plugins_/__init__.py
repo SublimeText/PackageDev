@@ -45,7 +45,7 @@ def _check_missing():
             continue
         path = os.path.join(folder, name)
         mod_name, ext = os.path.splitext(name)
-        if not os.path.isfile(path) or not ext == ".py":
+        if name == "lib" or os.path.isfile(path) and ext != ".py":
             continue
 
         module = importlib.import_module("." + mod_name, __package__)
