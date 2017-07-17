@@ -53,20 +53,20 @@
   },
 
   // Other
-  { "caption": "PackageDev: New Settings File",
+  { "caption": "PackageDev: New Build System",
     "command": "new_resource_file",
-    "args": {"kind": "settings"}
-  },
-  { "caption": "PackageDev: New Completions File",
-    "command": "new_resource_file",
-    "args": {"kind": "completions"}
+    "args": {"kind": "build_system"}
   },
   { "caption": "PackageDev: New Commands File",
     "command": "new_resource_file",
     "args": {"kind": "commands"}
   },
-  { "caption": "PackageDev: New Build System",
+  { "caption": "PackageDev: New Completions File",
     "command": "new_resource_file",
-    "args": {"kind": "build_system"}
-  }
+    "args": {"kind": "completions"}
+  },
+  { "caption": "PackageDev: New Settings File",
+    "command": "new_resource_file",
+    "args": {"kind": "settings"}
+  },
 ]

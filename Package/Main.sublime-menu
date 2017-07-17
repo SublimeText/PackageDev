@@ -35,18 +35,22 @@
                 "command": "generate_snippet_from_raw_snippet" },
               { "caption": "-" },
 
-              { "caption": "New Settings File…",
-                "command": "new_resource_file",
-                "args": {"kind": "settings"} },
-              { "caption": "New Completions File…",
-                "command": "new_resource_file",
-                "args": {"kind": "completions"} },
-              { "caption": "New Commands File…",
-                "command": "new_resource_file",
-                "args": {"kind": "commands"} },
               { "caption": "New Build System…",
                 "command": "new_resource_file",
-                "args": {"kind": "build_system"} },
+                "args": {"kind": "build_system"}
+              },
+              { "caption": "New Commands File…",
+                "command": "new_resource_file",
+                "args": {"kind": "commands"}
+              },
+              { "caption": "New Completions File…",
+                "command": "new_resource_file",
+                "args": {"kind": "completions"}
+              },
+              { "caption": "New Settings File…",
+                "command": "new_resource_file",
+                "args": {"kind": "settings"}
+              },
               // { "caption": "New Plugin",
               //   "command": "new_resource_file",
               //   "args": {"kind": "plugin"} }
