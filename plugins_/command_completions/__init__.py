@@ -95,12 +95,9 @@ class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
 
 class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
 
-    # match run_command in backwards
-    # (trick to use re.match on the content before the caret)
     _RE_LINE_BEFORE = re.compile(
-        r"\w*(?:\'|\")"
-        r"\s*\(dnammoc_nur\."
-        r"(?P<callervar>\w+)",
+        r"(?P<callervar>\w+)\s*\.\s*run_command\s*\("
+        r"\s*['\"]\w*$",
         re.MULTILINE
     )
 
@@ -142,18 +139,19 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
         before_region = sublime.Region(view.line(loc).a, loc)
         lines = view.line(sublime.Region(view.line(locations[0]).a - 1, loc))
         before_region = sublime.Region(lines.a, loc)
-        before = view.substr(before_region)[::-1]
-        m = self._RE_LINE_BEFORE.match(before)
+        before = view.substr(before_region)
+        m = self._RE_LINE_BEFORE.search(before)
         if not m:
             return
         # get the command type
-        caller_var = m.group("callervar")[::-1]
+        caller_var = m.group('callervar')
         if "view" in caller_var or caller_var == "v":
-            command_type = "text"
+            command_type = 'text'
         elif caller_var == "sublime":
-            command_type = "application"
+            command_type = 'app'
         else:
-            command_type = ""
+            # window.run_command allows all command types
+            command_type = ''
 
         command_classes = iter_python_command_classes(command_type)
         completions = set()
@@ -209,10 +207,8 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
 
     _default_args = [("args\tArguments", '{"$1": "$2"$0}')]
     _RE_LINE_BEFORE = re.compile(
-        r"\w*\s*,"
-        r"(?:\'|\")(?P<command_name>\w+)(?:\'|\")"
-        r"\(dnammoc_nur\."
-        r"\w+"
+        r"\w+\s*\.\s*run_command\s*\("
+        r"\s*(['\"])(\w+)\1,\s*\w*$"
     )
 
     def on_query_completions(self, view, prefix, locations):
@@ -224,12 +220,12 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
             return
 
         before_region = sublime.Region(view.line(loc).a, loc)
-        before = view.substr(before_region)[::-1]
-        m = self._RE_LINE_BEFORE.match(before)
+        before = view.substr(before_region)
+        m = self._RE_LINE_BEFORE.search(before)
         if not m:
             return
-        # get the command name
-        command_name = m.group("command_name")[::-1]
+        command_name = m.group(2)
+        l.debug("building args completions for command %r", command_name)
 
         command_args = get_args_from_command_name(command_name)
         if command_args is None:
