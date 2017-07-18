@@ -434,6 +434,11 @@ contexts:
     - include: scope:text.xml.plist#whitespace-or-tag
 
   until-end-of-string:
+    - match: '(?=<!--)'
+      push:
+        - match: '(?!<!--)'
+          pop: true
+        - include: scope:text.xml
     - match: '(?=</string\s*>|<!\[CDATA\[)'
       pop: true
     - include: scope:text.xml#entity
