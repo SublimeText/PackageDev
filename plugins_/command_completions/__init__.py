@@ -22,6 +22,10 @@ __all__ = (
 )
 
 
+def _escape_in_snippet(v):
+    return v.replace("}", "\\}").replace("$", "\\$")
+
+
 def create_args_snippet_from_command_args(command_args, for_json=True):
     """Create an argument snippet to insert from the arguments to run a command.
 
@@ -38,21 +42,18 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
     """
     counter = itertools.count(1)
 
-    def escape_in_snippet(v):
-        return v.replace("}", "\\}")
-
     def make_snippet_value(kv):
         k = kv[0]
         if len(kv) >= 2:
             v = kv[1]
             if isinstance(v, str):
-                v = '"${{{i}:{v}}}"'.format(i=next(counter), v=escape_in_snippet(v))
+                v = '"${{{i}:{v}}}"'.format(i=next(counter), v=_escape_in_snippet(v))
             else:
                 if for_json:
                     dumps = json.dumps(v)
                 else:  # python
-                    dumps = str(v)
-                v = '${{{i}:{v}}}'.format(i=next(counter), v=escape_in_snippet(dumps))
+                    dumps = repr(v)
+                v = '${{{i}:{v}}}'.format(i=next(counter), v=_escape_in_snippet(dumps))
         else:
             v = '"${i}"'.format(i=next(counter))
         return '"{k}": {v}'.format(**locals())
