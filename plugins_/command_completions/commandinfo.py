@@ -69,52 +69,49 @@ def get_builtin_command_meta_data():
 
 @functools.lru_cache()
 def get_builtin_commands(command_type=""):
-    """
-    Retrieve a list of the names of the built-in commands.
+    """Retrieve a set of the names of the built-in commands.
+
+    Results are cached.
 
     Parameters:
         command_type (str) = ""
-            Limit the commands to the given type. Valid types are
-            "" to get all types, "text", "window", and "app"
+            Limit the commands to the given type.
+            Valid types are "" to get all types, "text", "window", and "app".
 
-    Returns (list of str)
+    Returns (frozenset of str)
         The command names for the type.
     """
     meta = get_builtin_command_meta_data()
     if not command_type:
-        result = list(sorted(meta.keys()))
+        result = frozenset(meta.keys())
     else:
-        result = list(sorted(
-            k for k, v in meta.items()
-            if v.get("command_type", "") == command_type)
-        )
+        result = frozenset(k for k, v in meta.items()
+                           if v['command_type'] == command_type)
 
     return result
 
 
-def get_python_command_classes(command_type=""):
-    """
-    Retrieve a list of all commands for a given command type.
+def iter_python_command_classes(command_type=""):
+    """Iterate over all commands for a given command type.
 
     Parameters:
         command_type (str) = ""
-            Limit the commands to the given type. Valid types are
-            "" to get all types, "text", "window", and "app"
+            Limit the commands to the given type.
+            Valid types are "" to get all types, "text", "window", and "app".
 
     Returns (list of sublime_plugin.Command)
         The command classes for the command type.
     """
     if not command_type:
-        command_classes = [
-            c for l in sublime_plugin.all_command_classes for c in l
-        ]
+        for cmd_list in sublime_plugin.all_command_classes:
+            yield from iter(cmd_list)
     else:
-        command_classes = {
+        cmd_list = {
             "text": sublime_plugin.text_command_classes,
             "window": sublime_plugin.window_command_classes,
             "app": sublime_plugin.application_command_classes
-        }.get(command_type, [])
-    return command_classes
+        }[command_type]
+        yield from iter(cmd_list)
 
 
 def extract_command_class_args(command_class):
@@ -158,17 +155,13 @@ def find_class_from_command_name(command_name):
 
 
     Returns (sublime_plugin.Command)
-        The python class, which belongs to the command name.
+        The python class, which belongs to the command name, or None.
     """
-    try:
-        command_class = next(
-            c
-            for l in sublime_plugin.all_command_classes for c in l
-            if get_command_name(c) == command_name
-        )
-    except StopIteration:
-        command_class = None
-    return command_class
+    return next(
+        (c for c in iter_python_command_classes()
+         if get_command_name(c) == command_name),
+        None
+    )
 
 
 def get_args_from_command_name(command_name):

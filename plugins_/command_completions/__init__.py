@@ -8,7 +8,7 @@ from .commandinfo import (
     get_command_name,
     get_builtin_command_meta_data,
     get_builtin_commands,
-    get_python_command_classes,
+    iter_python_command_classes,
     get_args_from_command_name
 )
 
@@ -91,7 +91,7 @@ class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
         loc = locations[0]
         if not view.score_selector(loc, keymap_scope):
             return
-        command_classes = get_python_command_classes()
+        command_classes = iter_python_command_classes()
         compl = [
             (c + "\tbuilt-in", c) for c in get_builtin_commands()
         ] + [
@@ -164,7 +164,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
         else:
             command_type = ""
 
-        command_classes = get_python_command_classes(command_type)
+        command_classes = iter_python_command_classes(command_type)
         compl = [
             self._create_builtin_completion(c)
             for c in get_builtin_commands(command_type)
