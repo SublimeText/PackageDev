@@ -1,4 +1,5 @@
 import inspect
+import functools
 import yaml
 
 import sublime
@@ -35,16 +36,16 @@ def get_command_name(command_class):
     return name
 
 
+@functools.lru_cache()
 def get_builtin_command_meta_data():
     """
     Retrieve the meta data of the built-in commands.
 
+    The result is cached after the first call.
+
     Returns (dict)
         The stored meta data for each command accessible by their names.
     """
-    if hasattr(get_builtin_command_meta_data, "result"):
-        return get_builtin_command_meta_data.result
-
     res_paths = sublime.find_resources(
         "sublime_text_builtin_commands_meta_data.yaml")
     result = {}
@@ -56,10 +57,11 @@ def get_builtin_command_meta_data():
         except (OSError, ValueError):
             print("Error loading resource: ", res_path)
             pass
-    get_builtin_command_meta_data.result = result
-    return get_builtin_command_meta_data.result
+
+    return result
 
 
+@functools.lru_cache()
 def get_builtin_commands(command_type=""):
     """
     Retrieve a list of the names of the built-in commands.
@@ -72,14 +74,6 @@ def get_builtin_commands(command_type=""):
     Returns (list of str)
         The command names for the type.
     """
-    try:
-        cache = get_builtin_commands.cache
-    except AttributeError:
-        cache = get_builtin_commands.cache = {}
-
-    if command_type in cache:
-        return cache[command_type]
-
     meta = get_builtin_command_meta_data()
     if not command_type:
         result = list(sorted(meta.keys()))
@@ -89,7 +83,6 @@ def get_builtin_commands(command_type=""):
             if v.get("command_type", "") == command_type)
         )
 
-    cache[command_type] = result
     return result
 
 
