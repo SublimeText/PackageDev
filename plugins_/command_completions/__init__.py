@@ -98,7 +98,7 @@ class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
             self._create_completion(c)
             for c in command_classes
         ]
-        return compl
+        return compl, sublime.INHIBIT_WORD_COMPLETIONS
 
 
 class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
@@ -172,7 +172,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
             self._create_completion(c)
             for c in command_classes
         ]
-        return compl
+        return compl, sublime.INHIBIT_WORD_COMPLETIONS
 
 
 class SublimeTextCommandArgsCompletionListener(
