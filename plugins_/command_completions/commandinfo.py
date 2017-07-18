@@ -1,9 +1,12 @@
 import inspect
 import functools
+import logging
 import yaml
 
 import sublime
 import sublime_plugin
+
+l = logging.getLogger(__name__)
 
 
 def get_command_name(command_class):
@@ -46,6 +49,8 @@ def get_builtin_command_meta_data():
     Returns (dict)
         The stored meta data for each command accessible by their names.
     """
+    l.debug("Loading built-in command meta data")
+
     res_paths = sublime.find_resources(
         "sublime_text_builtin_commands_meta_data.yaml")
     result = {}
@@ -53,10 +58,11 @@ def get_builtin_command_meta_data():
         try:
             res_raw = sublime.load_resource(res_path)
             res_content = yaml.load(res_raw)
+        except (OSError, ValueError) as e:
+            l.error("couldn't load resource: %s; %s%s",
+                    res_path, e.__class__.__name__, e.args)
+        else:
             result.update(res_content)
-        except (OSError, ValueError):
-            print("Error loading resource: ", res_path)
-            pass
 
     return result
 
