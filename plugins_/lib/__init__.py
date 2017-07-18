@@ -19,3 +19,8 @@ def package_settings():
 
 def get_setting(key, default=None):
     return package_settings().get(key, default)
+
+
+def sorted_completions(completions):
+    """Sort completions case insensitively."""
+    return list(sorted(completions, key=lambda x: x[0].lower()))

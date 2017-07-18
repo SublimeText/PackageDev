@@ -4,6 +4,7 @@ import re
 import sublime
 import sublime_plugin
 
+from ..lib import sorted_completions
 from .commandinfo import (
     get_command_name,
     get_builtin_command_meta_data,
@@ -92,13 +93,11 @@ class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
         if not view.score_selector(loc, keymap_scope):
             return
         command_classes = iter_python_command_classes()
-        compl = [
-            (c + "\tbuilt-in", c) for c in get_builtin_commands()
-        ] + [
-            self._create_completion(c)
-            for c in command_classes
-        ]
-        return compl, sublime.INHIBIT_WORD_COMPLETIONS
+
+        completions = set()
+        completions.update((c + "\tbuilt-in", c) for c in get_builtin_commands())
+        completions.update(self._create_completion(c) for c in command_classes)
+        return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
 
 
 class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
@@ -165,14 +164,13 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
             command_type = ""
 
         command_classes = iter_python_command_classes(command_type)
-        compl = [
+        completions = set()
+        completions.update(
             self._create_builtin_completion(c)
             for c in get_builtin_commands(command_type)
-        ] + [
-            self._create_completion(c)
-            for c in command_classes
-        ]
-        return compl, sublime.INHIBIT_WORD_COMPLETIONS
+        )
+        completions.update(self._create_completion(c) for c in command_classes)
+        return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
 
 
 class SublimeTextCommandArgsCompletionListener(
