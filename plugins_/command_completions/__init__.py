@@ -1,5 +1,6 @@
 import json
 import re
+import itertools
 
 import sublime
 import sublime_plugin
@@ -37,13 +38,7 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
         The formatted entry to insert into the sublime text package
         file.
     """
-    def _next_i():
-        try:
-            i = _next_i.i
-        except AttributeError:
-            i = _next_i.i = 1
-        _next_i.i += 1
-        return i
+    counter = itertools.count(1)
 
     def escape_in_snippet(v):
         return v.replace("}", "\\}")
@@ -53,17 +48,15 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
         if len(kv) >= 2:
             v = kv[1]
             if isinstance(v, str):
-                v = '"${{{i}:{v}}}"'.format(
-                    i=_next_i(), v=escape_in_snippet(v))
+                v = '"${{{i}:{v}}}"'.format(i=next(counter), v=escape_in_snippet(v))
             else:
                 if for_json:
                     dumps = json.dumps(v)
                 else:  # python
                     dumps = str(v)
-                v = '${{{i}:{v}}}'.format(
-                    i=_next_i(), v=escape_in_snippet(dumps))
+                v = '${{{i}:{v}}}'.format(i=next(counter), v=escape_in_snippet(dumps))
         else:
-            v = '"${i}"'.format(i=_next_i())
+            v = '"${i}"'.format(i=next(counter))
         return '"{k}": {v}'.format(**locals())
 
     if for_json:
