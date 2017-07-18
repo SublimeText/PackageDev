@@ -23,9 +23,7 @@ __all__ = (
 
 
 def create_args_snippet_from_command_args(command_args, for_json=True):
-    """
-    Create an argument snippet to insert from the arguments to run a
-    command.
+    """Create an argument snippet to insert from the arguments to run a command.
 
     Parameters:
         command_args (list of tuples)
@@ -60,8 +58,7 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
         return '"{k}": {v}'.format(**locals())
 
     if for_json:
-        args_content = ",\n\t".join(
-            make_snippet_value(kv) for kv in command_args)
+        args_content = ",\n\t".join(make_snippet_value(kv) for kv in command_args)
         args = '"args": {{\n\t{0}\n}},$0'.format(args_content)
     else:
         args_content = ", ".join(make_snippet_value(kv) for kv in command_args)
@@ -70,6 +67,7 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
 
 
 class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
+
     @staticmethod
     def _create_completion(c):
         name = get_command_name(c)
@@ -79,9 +77,7 @@ class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
         return show, name
 
     def on_query_completions(self, view, prefix, locations):
-        keymap_scope = (
-            "source.json.sublime meta.command-name"
-        )
+        keymap_scope = "source.json.sublime meta.command-name"
         loc = locations[0]
         if not view.score_selector(loc, keymap_scope):
             return
@@ -107,8 +103,8 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
     @staticmethod
     def _create_builtin_completion(c):
         meta = get_builtin_command_meta_data()
-        show = "{c}\t({stype}) built-in".format(
-            c=c, stype=meta[c].get("command_type", " ")[:1].upper())
+        show = ("{c}\t({stype}) built-in"
+                .format(c=c, stype=meta[c].get("command_type", " ")[:1].upper()))
         return show, c
 
     @staticmethod
@@ -140,8 +136,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
             return
 
         before_region = sublime.Region(view.line(loc).a, loc)
-        lines = view.line(
-            sublime.Region(view.line(locations[0]).a - 1, loc))
+        lines = view.line(sublime.Region(view.line(locations[0]).a - 1, loc))
         before_region = sublime.Region(lines.a, loc)
         before = view.substr(before_region)[::-1]
         m = self._RE_LINE_BEFORE.match(before)
@@ -166,8 +161,8 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
         return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
 
 
-class SublimeTextCommandArgsCompletionListener(
-        sublime_plugin.EventListener):
+class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
+
     _default_args = [("args\tArguments", '"args": {\n\t"$1": "$2"$0\n},')]
     _st_insert_arg_scope = (
         "("
@@ -188,8 +183,7 @@ class SublimeTextCommandArgsCompletionListener(
         if not view.score_selector(locations[0], self._st_insert_arg_scope):
             return
         # extract the line and the line above to search for the command
-        lines_reg = view.line(
-            sublime.Region(view.line(locations[0]).a - 1, locations[0]))
+        lines_reg = view.line(sublime.Region(view.line(locations[0]).a - 1, locations[0]))
         lines = view.substr(lines_reg)
 
         m = self._RE_COMMAND_SEARCH.search(lines)
@@ -202,12 +196,11 @@ class SublimeTextCommandArgsCompletionListener(
             return self._default_args
         args = create_args_snippet_from_command_args(command_args)
 
-        compl = [("args\tauto-detected Arguments", args)]
-        return compl
+        completions = [("args\tauto-detected Arguments", args)]
+        return completions
 
 
-class SublimeTextCommandArgsCompletionPythonListener(
-        sublime_plugin.EventListener):
+class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListener):
 
     _default_args = [("args\tArguments", '{"$1": "$2"$0}')]
     _RE_LINE_BEFORE = re.compile(
@@ -219,9 +212,7 @@ class SublimeTextCommandArgsCompletionPythonListener(
 
     def on_query_completions(self, view, prefix, locations):
         loc = locations[0]
-        python_arg_scope = (
-            "source.python meta.function-call.python"
-        )
+        python_arg_scope = "source.python meta.function-call.python"
         if not view.score_selector(loc, python_arg_scope):
             return
         if sublime.packages_path() not in (view.file_name() or ""):
@@ -240,5 +231,5 @@ class SublimeTextCommandArgsCompletionPythonListener(
             return self._default_args
         args = create_args_snippet_from_command_args(command_args, False)
 
-        compl = [("args\tauto-detected Arguments", args)]
-        return compl
+        completions = [("args\tauto-detected Arguments", args)]
+        return completions

@@ -10,20 +10,18 @@ l = logging.getLogger(__name__)
 
 
 def get_command_name(command_class):
-    """
-    Get the name of a command.
+    """Get the name of a command.
 
     Parameters:
-        command_class (<:sublime_plugin.Command)
+        command_class (sublime_plugin.Command)
             The command class for which the name should be retrieved.
-
 
     Returns (str)
         The name of the command.
     """
-    # Copy of the default name() method
-    # Don't initialize the class and call the method there, because
-    # nobody overwrites the method anyway.
+    # Copy of the `sublime_plugin.Command.name` method.
+    # Don't initialize the class and call its method,
+    # because virtually nobody overwrites it anyway.
     clsname = command_class.__name__
     name = clsname[0].lower()
     last_upper = False
@@ -41,18 +39,16 @@ def get_command_name(command_class):
 
 @functools.lru_cache()
 def get_builtin_command_meta_data():
-    """
-    Retrieve the meta data of the built-in commands.
+    """Retrieve the meta data of built-in commands.
 
     The result is cached after the first call.
 
     Returns (dict)
-        The stored meta data for each command accessible by their names.
+        The stored meta data for each command, keyed by their names.
     """
     l.debug("Loading built-in command meta data")
 
-    res_paths = sublime.find_resources(
-        "sublime_text_builtin_commands_meta_data.yaml")
+    res_paths = sublime.find_resources("sublime_text_builtin_commands_meta_data.yaml")
     result = {}
     for res_path in res_paths:
         try:
@@ -119,10 +115,9 @@ def extract_command_class_args(command_class):
     Extract the run arguments from a command class.
 
     Parameters:
-        command_class (<:sublime_plugin.Command)
+        command_class (sublime_plugin.Command)
             The command class, which should be used to extract the
             arguments.
-
 
     Returns (list of tuples)
         The arguments with their default value. Each entry is either a
@@ -146,13 +141,11 @@ def extract_command_class_args(command_class):
 
 
 def find_class_from_command_name(command_name):
-    """
-    Returns the python class for a specific command name.
+    """Find the Python class for a specific command name.
 
     Parameters:
         command_name (str)
             The command name, which should be used to find the class.
-
 
     Returns (sublime_plugin.Command)
         The python class, which belongs to the command name, or None.
@@ -165,15 +158,12 @@ def find_class_from_command_name(command_name):
 
 
 def get_args_from_command_name(command_name):
-    """
-    Extract the run arguments from a command class, which belongs to a
-    command name.
+    """Extract or fetch arguments from a built-in command or command class, by name.
 
     Parameters:
         command_name (str)
             The command name, which should be used to find the class,
             which should be used to extract the arguments.
-
 
     Returns (list of tuples)
         The arguments with their default value. Each entry is either a
@@ -183,11 +173,10 @@ def get_args_from_command_name(command_name):
     """
     builtin_meta_data = get_builtin_command_meta_data()
     if command_name in builtin_meta_data:
-        # check whether it is in the builtin command list
-        command_args = builtin_meta_data[command_name].get("args", [])
+        return builtin_meta_data[command_name].get("args", [])
     else:
         command_class = find_class_from_command_name(command_name)
-        if not command_class:
-            return  # the command is not defined
-        command_args = extract_command_class_args(command_class)
-    return command_args
+        if command_class:
+            return extract_command_class_args(command_class)
+        else:
+            return None  # the command is not defined
