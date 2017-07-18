@@ -1,3 +1,4 @@
+import logging
 import json
 import re
 import itertools
@@ -20,6 +21,8 @@ __all__ = (
     "SublimeTextCommandArgsCompletionPythonListener",
     "SublimeTextCommandCompletionListener",
 )
+
+l = logging.getLogger(__name__)
 
 
 def _escape_in_snippet(v):
@@ -187,11 +190,12 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
         lines_reg = view.line(sublime.Region(view.line(locations[0]).a - 1, locations[0]))
         lines = view.substr(lines_reg)
 
-        m = self._RE_COMMAND_SEARCH.search(lines)
-        if not m:
+        results = self._RE_COMMAND_SEARCH.findall(lines)
+        if not results:
             return self._default_args
 
-        command_name = m.group(1)
+        command_name = results[-1]
+        l.debug("building args completions for command %r", command_name)
         command_args = get_args_from_command_name(command_name)
         if not command_args:
             return self._default_args
