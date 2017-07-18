@@ -61,11 +61,15 @@
                     <string>TM_COMMENT_START_2</string>
 <!--                        ^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist entity.name.constant.shellVariable.tmPreferences support.type.shellVariable.tmPreferences -->
                     <key>value</key>
-                    <string><!-- test --># blah<!-- foo -->ignored by ST</string>
-<!--                        ^^^^^^^^^^^^^ comment.block.xml -->
-<!--                                     ^^^^^^ meta.inside-value.string - comment - invalid -->
-<!--                                           ^^^^^^^^^^^^ comment.block.xml -->
-<!--                                                                    ^^^^^^^^^ meta.tag.xml -->
+                    <string>  <!-- test --># blah<!-- foo -->ignored by ST<gfg/>h</string>
+<!--                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
+<!--                          ^^^^^^^^^^^^^ comment.block.xml -->
+<!--                                       ^^^^^^ - comment - invalid -->
+<!--                                             ^^^^^^^^^^^^ comment.block.xml -->
+<!--                                                         ^^^^^^^^^^^^^ invalid.deprecated -->
+<!--                                                                       ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                                                                            ^ invalid.deprecated -->
+<!--                                                                             ^^^^^^^^^ meta.tag.xml -->
                 </dict>
                 <dict>
 <!--                  ^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict.settings.tmPreferences meta.inside-array.plist meta.inside-dict.shellVariables -->
@@ -158,11 +162,26 @@
 
             <key>cancelCompletion</key>
 <!--             ^^^^^^^^^^^^^^^^ entity.name.constant.setting.regex.tmPreferences -->
-            <string><!-- test -->.*<!-- comment -->ignored by ST</string>
-<!--                ^^^^^^^^^^^^^ comment.block.xml -->
-<!--                             ^^ meta.inside-value.string.plist - invalid - comment -->
-<!--                               ^^^^^^^^^^^^^^^^ comment.block.xml -->
-<!--                                                            ^^^^^^^^^ meta.tag.xml -->
+            <string> <!-- test -->.*<!-- comment -->ignored by ST<![CDATA[test</string>]]>dfdf</string>
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
+<!--                 ^^^^^^^^^^^^^ comment.block.xml -->
+<!--                              ^^ keyword - invalid - comment -->
+<!--                                ^^^^^^^^^^^^^^^^ comment.block.xml -->
+<!--                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.deprecated.ignored-after-comment-or-cdata - meta.tag -->
+<!--                                                                                          ^^^^^^^^^ meta.tag.xml -->
+            <key>cancelCompletion</key>
+            <string> <![CDATA[.*]]>ignored by ST<![CDATA[<!-- test --> </string>]]>test<!-- still ignored -->here   </string>
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
+<!--                ^ - comment - invalid - string -->
+<!--                 ^^^^^^^^^ string.unquoted.cdata.xml -->
+<!--                            ^^^ string.unquoted.cdata.xml -->
+<!--                          ^^ keyword -->
+<!--                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.deprecated.ignored-after-comment-or-cdata -->
+<!--                               ^^^^^^^^^^^^^ - string - keyword - comment -->
+<!--                                                                                   ^^^^^^^^^^^^^^^^^^^^^^ comment.block.xml -->
+<!--                                                                                                         ^^^^ invalid.deprecated.ignored-after-comment-or-cdata -->
+<!--                                                                                                             ^^^ - invalid -->
+<!--                                                                                                                ^^^^^^^^^ meta.tag.xml -->
 
             <key>showInSymbolList</key>
 <!--             ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
