@@ -198,13 +198,13 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
             return self._default_args
         args = create_args_snippet_from_command_args(command_args)
 
-        completions = [("args\tauto-detected Arguments", args)]
+        completions = [("args\tauto-detected arguments", args)]
         return completions
 
 
 class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListener):
 
-    _default_args = [("args\tArguments", '{"$1": "$2"$0}')]
+    _default_args = [("args\targuments", '{"$1": "$2"$0}')]
     _RE_LINE_BEFORE = re.compile(
         r"\w+\s*\.\s*run_command\s*\("
         r"\s*(['\"])(\w+)\1,\s*\w*$"
@@ -231,5 +231,5 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
             return self._default_args
         args = create_args_snippet_from_command_args(command_args, False)
 
-        completions = [("args\tauto-detected Arguments", args)]
+        completions = [("args\tauto-detected arguments", args)]
         return completions
