@@ -132,10 +132,10 @@ def extract_command_class_args(command_class):
     arg_dict = {}
     for i, arg in enumerate(args):
         if i == 0:  # strip 'self' arg
-            assert arg == "self", arg
             continue
         elif i == 1 and issubclass(command_class, sublime_plugin.TextCommand):  # and 'edit'
-            assert arg == "edit", arg
+            if arg != "edit":
+                l.warning("Second argument for TextCommand is not named 'edit'. Ignoring anyway")
             continue
         elif i < num_non_default_args:
             value = None
