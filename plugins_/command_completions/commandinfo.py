@@ -119,25 +119,31 @@ def extract_command_class_args(command_class):
             The command class, which should be used to extract the
             arguments.
 
-    Returns (list of tuples)
-        The arguments with their default value. Each entry is either a
-        tuple with length 1 or 2. If it has the length 1 it doesn't
-        have a default value. Otherwise the second entry is the default
-        value.
+    Returns (dict with arg mapping)
+        Maps arguments to their default value (or None).
     """
     spec = inspect.getfullargspec(command_class.run)
     args = spec.args
-    defaults = list(reversed(spec.defaults or []))
-    command_args = list(reversed([
-        (a, defaults[i]) if len(defaults) > i else (a,)
-        for i, a in enumerate(reversed(args))
-    ]))
-    # strip given arguments (self and edit)
-    if issubclass(command_class, sublime_plugin.TextCommand):
-        command_args = command_args[2:]
-    else:
-        command_args = command_args[1:]
-    return command_args
+    defaults = spec.defaults or ()
+    num_non_default_args = len(args) - len(defaults)
+    l.debug("Args for command %r: %s; defaults: %s",
+            get_command_name(command_class), args, defaults)
+
+    arg_dict = {}
+    for i, arg in enumerate(args):
+        if i == 0:  # strip 'self' arg
+            assert arg == "self", arg
+            continue
+        elif i == 1 and issubclass(command_class, sublime_plugin.TextCommand):  # and 'edit'
+            assert arg == "edit", arg
+            continue
+        elif i < num_non_default_args:
+            value = None
+        else:
+            value = defaults[i - num_non_default_args]
+        arg_dict[arg] = value
+
+    return arg_dict
 
 
 def find_class_from_command_name(command_name):
@@ -165,15 +171,12 @@ def get_args_from_command_name(command_name):
             The command name, which should be used to find the class,
             which should be used to extract the arguments.
 
-    Returns (list of tuples)
-        The arguments with their default value. Each entry is either a
-        tuple with length 1 or 2. If it has the length 1 it doesn't
-        have a default value. Otherwise the second entry is the default
-        value.
+    Returns (dict with arg mapping)
+        Maps arguments to their default value (or None).
     """
     builtin_meta_data = get_builtin_command_meta_data()
     if command_name in builtin_meta_data:
-        return builtin_meta_data[command_name].get("args", [])
+        return builtin_meta_data[command_name].get("args", {})
     else:
         command_class = find_class_from_command_name(command_name)
         if command_class:

@@ -33,7 +33,7 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
     """Create an argument snippet to insert from the arguments to run a command.
 
     Parameters:
-        command_args (list of tuples)
+        command_args (dict)
             The arguments with their default value.
         for_json (bool)
             Whether it should be done for a json or a python file.
@@ -45,10 +45,8 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
     """
     counter = itertools.count(1)
 
-    def make_snippet_value(kv):
-        k = kv[0]
-        if len(kv) >= 2:
-            v = kv[1]
+    def make_snippet_value(k, v):
+        if v is not None:
             if isinstance(v, str):
                 v = '"${{{i}:{v}}}"'.format(i=next(counter), v=_escape_in_snippet(v))
             else:
@@ -58,16 +56,17 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
                     dumps = repr(v)
                 v = '${{{i}:{v}}}'.format(i=next(counter), v=_escape_in_snippet(dumps))
         else:
-            v = '"${i}"'.format(i=next(counter))
-        return '"{k}": {v}'.format(**locals())
+            v = '${i}'.format(i=next(counter))
+        return '"{k}": {v}'.format(k=k, v=v)
 
+    snippet_values = (make_snippet_value(k, command_args[k]) for k in sorted(command_args))
     if for_json:
-        args_content = ",\n\t".join(make_snippet_value(kv) for kv in command_args)
-        args = '"args": {{\n\t{0}\n}},$0'.format(args_content)
+        args_content = ",\n\t".join(snippet_values)
+        args_snippet = '"args": {{\n\t{0}\n}},$0'.format(args_content)
     else:
-        args_content = ", ".join(make_snippet_value(kv) for kv in command_args)
-        args = '{{{0}}}'.format(args_content)
-    return args
+        args_content = ", ".join(snippet_values)
+        args_snippet = '{{{0}}}'.format(args_content)
+    return args_snippet
 
 
 class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
