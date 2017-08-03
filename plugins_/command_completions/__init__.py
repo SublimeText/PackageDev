@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import logging
 import json
 import re
@@ -59,7 +60,10 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
             v = '${i}'.format(i=next(counter))
         return '"{k}": {v}'.format(k=k, v=v)
 
-    snippet_values = (make_snippet_value(k, command_args[k]) for k in sorted(command_args))
+    keys = iter(command_args)
+    if not isinstance(command_args, OrderedDict):
+        keys = sorted(keys)
+    snippet_values = (make_snippet_value(k, command_args[k]) for k in keys)
     if for_json:
         args_content = ",\n\t".join(snippet_values)
         args_snippet = '"args": {{\n\t{0}\n}},$0'.format(args_content)

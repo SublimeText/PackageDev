@@ -1,3 +1,4 @@
+from collections import OrderedDict
 import inspect
 import functools
 import logging
@@ -129,7 +130,7 @@ def extract_command_class_args(command_class):
     l.debug("Args for command %r: %s; defaults: %s",
             get_command_name(command_class), args, defaults)
 
-    arg_dict = {}
+    arg_dict = OrderedDict()
     for i, arg in enumerate(args):
         if i == 0:  # strip 'self' arg
             continue
