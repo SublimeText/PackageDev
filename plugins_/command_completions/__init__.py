@@ -46,7 +46,7 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
     """
     counter = itertools.count(1)
 
-    def make_snippet_value(k, v):
+    def make_snippet_item(k, v):
         if v is not None:
             if isinstance(v, str):
                 v = '"${{{i}:{v}}}"'.format(i=next(counter), v=_escape_in_snippet(v))
@@ -63,12 +63,12 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
     keys = iter(command_args)
     if not isinstance(command_args, OrderedDict):
         keys = sorted(keys)
-    snippet_values = (make_snippet_value(k, command_args[k]) for k in keys)
+    snippet_items = (make_snippet_item(k, command_args[k]) for k in keys)
     if for_json:
-        args_content = ",\n\t".join(snippet_values)
+        args_content = ",\n\t".join(snippet_items)
         args_snippet = '"args": {{\n\t{0}\n}},$0'.format(args_content)
     else:
-        args_content = ", ".join(snippet_values)
+        args_content = ", ".join(snippet_items)
         args_snippet = '{{{0}}}'.format(args_content)
     return args_snippet
 
