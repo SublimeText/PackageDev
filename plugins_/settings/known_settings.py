@@ -34,7 +34,7 @@ def format_completion_item(value, default=False):
                                    type(value).__name__,
                                    default_str),
             # 'cast' dicts to frozen sets, because those are hashable
-            frozenset(value.items()) if isinstance(value, dict) else value)
+            frozenset(value) if isinstance(value, dict) else value)
 
 
 def sorted_completions(completions):
