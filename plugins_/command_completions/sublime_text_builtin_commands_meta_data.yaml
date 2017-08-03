@@ -235,6 +235,10 @@ prompt_save_as:
   command_type: window
   doc_string: Show the OS' native save as dialog, so the user can choose the path
     where they want the file to be saved.
+quick_diff:
+  args: []
+  command_type: window
+  doc_string: Show a diff of the file currently in buffer compared to its saved state.
 redo:
   args: []
   command_type: text
