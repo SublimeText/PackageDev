@@ -7,6 +7,8 @@ import yaml
 import sublime
 import sublime_plugin
 
+from .yaml_omap import SaveOmapLoader
+
 l = logging.getLogger(__name__)
 
 
@@ -54,10 +56,9 @@ def get_builtin_command_meta_data():
     for res_path in res_paths:
         try:
             res_raw = sublime.load_resource(res_path)
-            res_content = yaml.load(res_raw)
+            res_content = yaml.load(res_raw, Loader=SaveOmapLoader)
         except (OSError, ValueError) as e:
-            l.error("couldn't load resource: %s; %s%s",
-                    res_path, e.__class__.__name__, e.args)
+            l.exception("couldn't load resource: %s", res_path)
         else:
             result.update(res_content)
 

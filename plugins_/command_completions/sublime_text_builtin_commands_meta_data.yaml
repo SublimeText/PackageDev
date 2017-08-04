@@ -1,8 +1,8 @@
 append:
-  args:
-    characters:
-    force: false
-    scroll_to_end: false
+  args: !!omap
+    - characters:
+    - force: false
+    - scroll_to_end: false
   command_type: text
   doc_string: Append the given text to the end of the document.
 auto_complete:
@@ -14,9 +14,9 @@ auto_complete:
   command_type: text
   doc_string: Show the auto-completion pop-up.
 build:
-  args:
-    select: false
-    variant: ""
+  args: !!omap
+    - variant: ""
+    - select: false
   command_type: window
   doc_string: Execute the relevant build system.
 cancel_build:
@@ -101,17 +101,17 @@ left_delete:
   command_type: text
   doc_string: Delete the character to the left of the text selection caret(s).
 move:
-  args:
-    forward: true
-    lines: false
-    by: chars|pages|lines|characters|words|word_ends|subwords|subword_ends|stops
-    extend: false
+  args: !!omap
+    - by: chars|pages|lines|characters|words|word_ends|subwords|subword_ends|stops
+    - forward: true
+    - extend: false
+    - lines: false
   command_type: text
   doc_string: Move the selection caret(s) by the specified units.
 move_to:
-  args:
-    extend: false
-    to: eol|bol|eof|bof|brackets
+  args: !!omap
+    - to: eol|bol|eof|bof|brackets
+    - extend: false
   command_type: text
   doc_string: Move the selection caret(s) to the specified relative location.
 move_to_group:
@@ -151,9 +151,9 @@ open_dir:
   doc_string: Open the specified dir in the default File Manager application, optionally
     highlighting the specified file.
 open_file:
-  args:
-    file:
-    contents:
+  args: !!omap
+    - file:
+    - contents:
   command_type: window
   doc_string: Open the specified file, and if it doesn't exist, prefill the default
     contents.
@@ -252,10 +252,10 @@ select_lines:
   command_type: text
   doc_string: Select the current or next line, if the full current line is selected.
 set_layout:
-  args:
-    cols: [0.0, 1.0]
-    rows:  [0.0, 1.0]
-    cells: [[0, 0, 1, 1]]
+  args: !!omap
+    - cols: [0.0, 1.0]
+    - rows:  [0.0, 1.0]
+    - cells: [[0, 0, 1, 1]]
   command_type: window
   doc_string: Set the layout of the window.
 set_file_type:
@@ -264,10 +264,10 @@ set_file_type:
   command_type: view
   doc_string: Set the syntax file for the view.
 show_overlay:
-  args:
-    overlay: goto|command_palette
-    text:
-    show_files:
+  args: !!omap
+    - overlay: goto|command_palette
+    - text:
+    - show_files:
   command_type: window
   doc_string: Show the overlay from the argument.
 show_panel:
