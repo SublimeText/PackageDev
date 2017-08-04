@@ -259,7 +259,8 @@ set_layout:
   command_type: window
   doc_string: Set the layout of the window.
 set_file_type:
-  args: ["syntax", "Packages/Foo/Bar.sublime-syntax"]
+  args:
+    syntax: Packages/Foo/Bar.sublime-syntax
   command_type: view
   doc_string: Set the syntax file for the view.
 show_overlay:
