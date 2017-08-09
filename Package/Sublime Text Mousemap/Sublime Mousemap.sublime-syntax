@@ -61,6 +61,12 @@ contexts:
         2: keyword.other.main.sublime-mousemap
         3: punctuation.definition.string.end.json
       push: [expect-count-integer-value, expect-colon]
+    - match: (")(\w*)(")
+      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: invalid.unknown-key.sublime-mousemap
+        3: punctuation.definition.string.end.json
     - match: \}
       scope: punctuation.section.mapping.end.json punctuation.section.keybinding.end.sublime-mousemap
       pop: true
