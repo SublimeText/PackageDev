@@ -121,7 +121,26 @@ contexts:
       set: in-dictionary-expect-comma
 
   expect-command-name:
-    - include: scope:source.json.sublime.keymap#expect-command-name
+    - match: (\")([a-z_\d]+)(\")
+      scope: meta.value.json string.quoted.double.json meta.command-name.sublime-mousemap
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: support.constant.command-name.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      set: in-dictionary-expect-comma
+    - match: \" # probably illegal command name
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: meta.value.json string.quoted.double.json meta.command-name.sublime-mousemap
+        - meta_content_scope: invalid.illegal.invalid-command.sublime-mousemap
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: in-dictionary-expect-comma
+        - include: string-escape
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+    - include: expect-string
 
   expect-count-integer-value:
     - match: \d+
@@ -141,6 +160,9 @@ contexts:
 
   expect-colon:
     - include: scope:source.json.sublime.keymap#expect-colon
+
+  expect-string:
+    - include: scope:source.json.sublime.keymap#expect-string
 
   in-array-expect-comma:
     - include: scope:source.json.sublime.keymap#in-array-expect-comma
