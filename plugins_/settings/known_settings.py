@@ -657,7 +657,7 @@ class KnownSettings(object):
                 A set of all completions.
         """
         if default is None or default is "":
-            return None
+            return set()
         elif isinstance(default, bool):
             return {format_completion_item(True), format_completion_item(False)}
         elif isinstance(default, list):
