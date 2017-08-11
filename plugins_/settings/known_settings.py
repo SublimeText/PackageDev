@@ -601,11 +601,10 @@ class KnownSettings(object):
             {(trigger, contents), ...}
                 A set of all completions.
         """
+        completions = set()
         comment = self.comments.get(key)
         if not comment:
-            return set()
-
-        completions = set()
+            return completions
 
         for match in re.finditer(r"`([^`\n]+)`", comment):
             # backticks should wrap the value in JSON representation,
