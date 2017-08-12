@@ -69,7 +69,7 @@ contexts:
         3: punctuation.definition.string.end.json
       push: expect-colon-value
     - match: \}
-      scope: punctuation.section.mapping.end.json punctuation.section.keybinding.end.sublime-mousemap
+      scope: punctuation.section.mapping.end.json punctuation.section.mousebinding.end.sublime-mousemap
       pop: true
     - include: comments
     - match: '[^\s\w]'
@@ -143,10 +143,6 @@ contexts:
         - match: '[^\s\]\{\/,]+'
           scope: invalid.illegal.modifier.expected-string.sublime-mousemap
     - include: comments
-    - match: \S
-      captures:
-        0: invalid.illegal.expected-number.sublime-mousemap
-      set: in-dictionary-expect-comma
 
   expect-command-name:
     - match: (\")([a-z_\d]+)(\")
