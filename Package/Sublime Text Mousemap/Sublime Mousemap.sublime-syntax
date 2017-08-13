@@ -176,7 +176,6 @@ contexts:
     - match: \S
       captures:
         0: invalid.illegal.expected-number.sublime-mousemap
-      set: in-dictionary-expect-comma
 
   comments:
     - include: scope:source.json.sublime.keymap#comments
@@ -190,7 +189,12 @@ contexts:
     - include: scope:source.json.sublime.keymap#expect-colon
 
   expect-string:
-    - include: scope:source.json.sublime.keymap#expect-string
+    - include: scope:source.json#string
+    - include: comments
+    - match: (?=[},\]])
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-string.sublime-mousemap
 
   expect-dictionary:
     - include: scope:source.json.sublime.keymap#expect-dictionary
@@ -204,8 +208,22 @@ contexts:
   in-dictionary-expect-comma:
     - include: scope:source.json.sublime.keymap#in-dictionary-expect-comma
 
+  dictionary:
+    - include: scope:source.json.sublime.keymap#dictionary
+
+  dictionary-value-meta-scope:
+    - meta_scope: meta.value.json
+    - match: ''
+      pop: true
+
   expect-dictionary-value:
-    - include: scope:source.json.sublime.keymap#expect-dictionary-value
+    - match: '(?=\{)'
+      set: [scope:source.json.sublime.keymap#dictionary-value-meta-scope, dictionary]
+    - include: comments
+    - match: (?=[},\]])
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-mapping.sublime-mousemap
 
   expect-colon-value:
     - include: scope:source.json.sublime.keymap#expect-colon-value

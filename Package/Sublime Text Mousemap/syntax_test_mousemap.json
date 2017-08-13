@@ -96,6 +96,18 @@
 //^^^^^^^^^^ invalid.illegal.expected-comma.inside-sequence.json
 //          ^^ - invalid
 //            ^ punctuation.separator.sequence.json
+
+
+    {
+
+        "command": foo,
+//                 ^ invalid.illegal.expected-string.sublime-mousemap
+        "args": "bar",
+//              ^ invalid.illegal.expected-mapping.sublime-mousemap
+        "count": "2",
+//               ^ invalid.illegal.expected-number.sublime-mousemap
+
+    }
 ]
   ,[]// comment
 // <- - invalid.illegal
