@@ -30,12 +30,14 @@ def _escape_in_snippet(v):
     return v.replace("}", "\\}").replace("$", "\\$")
 
 
-def create_args_snippet_from_command_args(command_args, for_json=True):
+def create_args_snippet_from_command_args(command_args, quote_char='"', for_json=True):
     """Create an argument snippet to insert from the arguments to run a command.
 
     Parameters:
         command_args (dict)
             The arguments with their default value.
+        quote_char (str)
+            Which char should be used for string quoting.
         for_json (bool)
             Whether it should be done for a json or a python file.
 
@@ -49,7 +51,9 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
     def make_snippet_item(k, v):
         if v is not None:
             if isinstance(v, str):
-                v = '"${{{i}:{v}}}"'.format(i=next(counter), v=_escape_in_snippet(v))
+                v = '{q}${{{i}:{v}}}{q}'.format(i=next(counter),
+                                                v=_escape_in_snippet(v),
+                                                q=quote_char)
             else:
                 if for_json:
                     dumps = json.dumps(v)
@@ -58,7 +62,7 @@ def create_args_snippet_from_command_args(command_args, for_json=True):
                 v = '${{{i}:{v}}}'.format(i=next(counter), v=_escape_in_snippet(dumps))
         else:
             v = '${i}'.format(i=next(counter))
-        return '"{k}": {v}'.format(k=k, v=v)
+        return '{q}{k}{q}: {v}'.format(k=k, v=v, q=quote_char)
 
     keys = iter(command_args)
     if not isinstance(command_args, OrderedDict):
@@ -200,7 +204,7 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
         command_args = get_args_from_command_name(command_name)
         if not command_args:
             return self._default_args
-        args = create_args_snippet_from_command_args(command_args)
+        args = create_args_snippet_from_command_args(command_args, for_json=True)
 
         completions = [("args\tauto-detected arguments", args)]
         return completions
@@ -227,13 +231,13 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
         m = self._RE_LINE_BEFORE.search(before)
         if not m:
             return
-        command_name = m.group(2)
+        quote_char, command_name = m.groups()
         l.debug("building args completions for command %r", command_name)
 
         command_args = get_args_from_command_name(command_name)
         if command_args is None:
             return self._default_args
-        args = create_args_snippet_from_command_args(command_args, False)
+        args = create_args_snippet_from_command_args(command_args, quote_char, for_json=False)
 
         completions = [("args\tauto-detected arguments", args)]
         return completions
