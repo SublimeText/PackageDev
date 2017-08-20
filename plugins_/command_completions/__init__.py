@@ -172,7 +172,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
 
 class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
 
-    _default_args = [("args\tArguments", '"args": {\n\t"$1": "$2"$0\n},')]
+    _default_args = [("args\targuments", '"args": {\n\t"$1": "$2"$0\n},')]
     _st_insert_arg_scope = (
         "("
         "(source.json.sublime.commands, source.json.sublime.keymap, "
@@ -212,7 +212,8 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
 
 class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListener):
 
-    _default_args = [("args\targuments", '{"$1": "$2"$0}')]
+    _default_args_dict = {q: [("args\targuments", "{{{q}$1{q}: {q}$2{q}$0}}".format(q=q))]
+                          for q in "'\""}
     _RE_LINE_BEFORE = re.compile(
         r"\w+\s*\.\s*run_command\s*\("
         r"\s*(['\"])(\w+)\1,\s*\w*$"
@@ -236,7 +237,7 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
 
         command_args = get_args_from_command_name(command_name)
         if command_args is None:
-            return self._default_args
+            return self._default_args_dict[quote_char]
         args = create_args_snippet_from_command_args(command_args, quote_char, for_json=False)
 
         completions = [("args\tauto-detected arguments", args)]
