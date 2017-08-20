@@ -26,54 +26,59 @@ contexts:
 
   main-keys:
     - meta_scope: meta.mapping.json
-    - match: (")(button)(")
-      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-mousemap
-        3: punctuation.definition.string.end.json
-      push: [expect-button-name, expect-colon]
-    - match: (")(modifiers)(")
-      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-mousemap
-        3: punctuation.definition.string.end.json
-      push: [expect-modifiers-array, expect-colon]
-    - match: (")((?:press_)?command)(")
-      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-mousemap
-        3: punctuation.definition.string.end.json
-      push: [expect-command-name, expect-colon]
-    - match: (")((?:press_)?args)(")
-      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-mousemap
-        3: punctuation.definition.string.end.json
-      push: [in-dictionary-expect-comma, expect-dictionary-value, expect-colon]
-    - match: (")(count)(")
-      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-mousemap
-        3: punctuation.definition.string.end.json
-      push: [expect-integer, expect-colon]
-    - match: (")(\w*)(")
-      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        # 2: invalid.unknown-key.sublime-mousemap
-        3: punctuation.definition.string.end.json
-      push: expect-colon-value
+    - match: (?=")
+      push: main-key
     - match: \}
       scope: punctuation.section.mapping.end.json punctuation.section.mousebinding.end.sublime-mousemap
       pop: true
     - include: comments
     - match: '[^\s\w]'
       scope: invalid.illegal.expected-key.sublime-mousemap
+
+  main-key:
+    - clear_scopes: 1  # remove `meta.mapping.json`
+    - match: (")(button)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      set: [expect-button-name, expect-colon]
+    - match: (")(modifiers)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      set: [expect-modifiers-array, expect-colon]
+    - match: (")((?:press_)?command)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      set: [expect-command-name, expect-colon]
+    - match: (")((?:press_)?args)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      set: [in-dictionary-expect-comma, expect-dictionary-value, expect-colon]
+    - match: (")(count)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      set: [expect-integer, expect-colon]
+    - match: (")(\w*)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        # 2: invalid.unknown-key.sublime-mousemap
+        3: punctuation.definition.string.end.json
+      set: expect-colon-value
 
   expect-button-name:
     - match: (\")(?:(button[1-5]|scroll_(?:down|up)))(\")
