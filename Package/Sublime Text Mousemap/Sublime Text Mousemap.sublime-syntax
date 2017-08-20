@@ -203,7 +203,6 @@ contexts:
       scope: invalid.illegal.expected-comment-or-eof.sublime-mousemap
 
   expect-colon:
-    - meta_scope: meta.mapping.json
     - include: scope:source.json.sublime.keymap#expect-colon
 
   expect-string:
