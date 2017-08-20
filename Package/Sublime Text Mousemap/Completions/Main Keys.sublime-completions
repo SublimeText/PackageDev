@@ -1,0 +1,13 @@
+{
+	"scope": "meta.main-key.sublime-mousemap",
+
+	"completions": [
+		{ "trigger": "button\tMain Key", "contents": "button"},
+		{ "trigger": "modifiers\tMain Key", "contents": "modifiers"},
+		{ "trigger": "command\tMain Key", "contents": "command"},
+		{ "trigger": "press_command\tMain Key", "contents": "press_command"},
+		{ "trigger": "args\tMain Key", "contents": "args"},
+		{ "trigger": "press_args\tMain Key", "contents": "press_args"},
+		{ "trigger": "count\tMain Key", "contents": "count"},
+	]
+}
