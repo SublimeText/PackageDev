@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[{
+	"caption": "$1",
+	"command": "$2",
+	"args": {$3}
+},]]></content>
+	<tabTrigger>cc</tabTrigger>
+	<scope>source.json.sublime.commands</scope>
+</snippet>
