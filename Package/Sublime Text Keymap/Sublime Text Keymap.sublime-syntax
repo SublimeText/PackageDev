@@ -626,6 +626,7 @@ contexts:
     - match: ':'
       scope: punctuation.separator.mapping.key-value.json
       set:
+        - include: comments
         - match: (?=\[)
           set: [dictionary-value-meta-scope, array]
         - match: (?=\{)
