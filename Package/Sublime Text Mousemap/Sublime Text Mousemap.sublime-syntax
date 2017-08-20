@@ -8,11 +8,11 @@ scope: source.json.sublime.mousemap
 contexts:
   main:
     - match: \[
-      scope: meta.sequence.json punctuation.section.sequence.begin.json
+      scope: punctuation.section.sequence.begin.json
       push:
-        - meta_content_scope: meta.sequence.json meta.mousebinding.collection.sublime-mousemap
+        - meta_scope: meta.sequence.json meta.mousebinding.collection.sublime-mousemap
         - match: \]
-          scope: meta.sequence.json punctuation.section.sequence.end.json
+          scope: punctuation.section.sequence.end.json
           set: only-comments
         - match: \{
           scope: punctuation.section.mapping.begin.json punctuation.definition.mousebinding.begin.sublime-mousemap

@@ -109,6 +109,8 @@
 
     }
 ]
+// <- meta.sequence.json meta.mousebinding.collection.sublime-mousemap punctuation.section.sequence.end.json
+
   ,[]// comment
 // <- - invalid.illegal
 //^^^ invalid.illegal.expected-comment-or-eof.sublime-mousemap
