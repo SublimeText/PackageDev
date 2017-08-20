@@ -9,32 +9,36 @@
 
     {
         "caption" : "Word Wrap: Toggle",
-//      ^^^^^^^^^ meta.mapping.json meta.key.json meta.main-key.sublime-commands string.quoted.double.json
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.sublime-commands.collection.sublime-commands meta.mapping - meta.mapping meta.mapping
+//      ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
 //       ^^^^^^^ keyword.other.main.sublime-commands
 //               ^ - invalid
 //                ^ punctuation.separator.mapping.key-value.json
-//                  ^^^^^^^^^^^^^^^^^^^ meta.mapping.json meta.value.json string.quoted.double.json
+//                  ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
         "command": "toggle_setting",
-//      ^^^^^^^^^ meta.mapping.json meta.key.json meta.main-key.sublime-commands string.quoted.double.json
+//      ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
 //       ^^^^^^^ keyword.other.main.sublime-commands
 //               ^ punctuation.separator.mapping.key-value.json
-//                 ^^^^^^^^^^^^^^^^ meta.mapping.json meta.value.json meta.command-name.sublime-commands string.quoted.double.json
+//                 ^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime-commands string.quoted.double.json
 //                  ^^^^^^^^^^^^^^ meta.command-name.sublime-commands
    "foo": "bar",
-// ^^^^^ meta.key.json meta.main-key.sublime-commands string.quoted.double.json
+// ^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
 //  ^^^ - keyword.other.main.sublime-commands
-//        ^^^^^ meta.value.json string.quoted.double.json
+//        ^^^^^ meta.mapping.value.json string.quoted.double.json
         "args": {"setting": "word_wrap"}
-//      ^^^^^^ meta.mapping.json meta.key.json meta.main-key.sublime-commands string.quoted.double.json
+//      ^^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
 //       ^^^^ keyword.other.main.sublime-commands
 //            ^ punctuation.separator.mapping.key-value.json
-//              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.json meta.value.json meta.mapping.json
+//              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping.json
 //              ^ punctuation.section.mapping.begin.json
 //                                     ^ punctuation.section.mapping.end.json
-//               ^^^^^^^^^ meta.mapping.json meta.value.json meta.mapping.json meta.key.json string.quoted.double.json
+//               ^^^^^^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
 //                        ^ punctuation.separator.mapping.key-value.json
-//                          ^^^^^^^^^^^ meta.mapping.json meta.value.json meta.mapping.json meta.value.json string.quoted.double.json
+//                          ^^^^^^^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
     },
+
+    abc
+//  ^^^ invalid.illegal.expected-mapping.sublime-commands
 
 ]
   ,[]//fgfg
