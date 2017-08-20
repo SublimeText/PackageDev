@@ -60,7 +60,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-mousemap
         3: punctuation.definition.string.end.json
-      push: [expect-count-integer-value, expect-colon]
+      push: [expect-integer, expect-colon]
     - match: (")(\w*)(")
       scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
       captures:
@@ -167,15 +167,16 @@ contexts:
     - include: comments
     - include: expect-string
 
-  expect-count-integer-value:
+  expect-integer:
     - match: \d+
-      captures:
-        0: meta.mapping.value.json constant.numeric.json
+      scope: meta.mapping.value.json constant.numeric.json
       set: in-dictionary-expect-comma
     - include: comments
+    - match: '"([^"]|\\.)*"'
+      scope: invalid.illegal.expected-number.sublime-mousemap
+      set: in-dictionary-expect-comma
     - match: \S
-      captures:
-        0: invalid.illegal.expected-number.sublime-mousemap
+      scope: invalid.illegal.expected-number.sublime-mousemap
 
   comments:
     - include: scope:source.json.sublime.keymap#comments

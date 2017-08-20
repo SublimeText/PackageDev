@@ -105,7 +105,7 @@
         "args": "bar",
 //              ^ invalid.illegal.expected-mapping.sublime-mousemap
         "count": "2",
-//               ^ invalid.illegal.expected-number.sublime-mousemap
+//               ^^^ invalid.illegal.expected-number.sublime-mousemap
 
     }
 ]
