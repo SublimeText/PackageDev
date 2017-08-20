@@ -99,7 +99,7 @@ contexts:
             - match: \"
               scope: punctuation.definition.string.end.json
               set: in-dictionary-expect-comma
-            - include: string-escape
+            - include: JSON.sublime-syntax#string-escape
         - include: comments
     - include: comments
     - match: '[^\s"]+'
@@ -175,7 +175,7 @@ contexts:
             - match: \"
               scope: punctuation.definition.string.end.json
               set: in-dictionary-expect-comma
-            - include: string-escape
+            - include: JSON.sublime-syntax#string-escape
             - match: $\n?
               scope: invalid.illegal.unclosed-string.json
               pop: true
@@ -243,7 +243,7 @@ contexts:
 
   expect-dictionary-value:
     - match: '(?=\{)'
-      set: [scope:source.json.sublime.keymap#dictionary-value-meta-scope, dictionary]
+      set: [dictionary-value-meta-scope, dictionary]
     - include: comments
     - match: (\s*)(?=[},\]])
       scope: invalid.illegal.expected-mapping.sublime-mousemap
