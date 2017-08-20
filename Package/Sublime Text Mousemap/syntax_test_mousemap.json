@@ -45,7 +45,7 @@
 //  ^^^^^^^^^^^ meta.main-key.sublime-mousemap string.quoted.double.json
 //             ^ punctuation.separator.mapping.key-value.json
 //               ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.sequence.json meta.modifiers.sublime-mousemap
-//                ^^^^^^ meta.mapping.json meta.mapping.value.json meta.sequence.json meta.modifiers.sublime-mousemap string.quoted.double.json
+//                ^^^^^^ meta.mapping.value.json meta.sequence.json meta.modifiers.sublime-mousemap string.quoted.double.json
 //                 ^^^^ meta.modifiers.sublime-mousemap string.quoted.double.json support.function.modifier.key.sublime-mousemap
 //                      ^ punctuation.separator.sequence.modifiers.json
 //                        ^^^^^^^ string.quoted.double.json
@@ -56,12 +56,12 @@
         "press_command": "drag_select",
 //      ^^^^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
 //                     ^ meta.mapping.json punctuation.separator.mapping.key-value.json
-//                       ^^^^^^^^^^^^^ meta.mapping.json meta.mapping.value.json meta.command-name.sublime-mousemap string.quoted.double.json
+//                       ^^^^^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime-mousemap string.quoted.double.json
 //                                    ^ meta.mapping.json punctuation.separator.mapping.pair.json
         "press_args": {"additive": true},
 //      ^^^^^^^^^^^^ meta.main-key.sublime-mousemap string.quoted.double.json
-//                    ^^^^^^^^^^^^^^^^^^ meta.mapping.json meta.mapping.value.json meta.mapping.json
-//                     ^^^^^^^^^^ meta.mapping.json meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
+//                    ^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping.json
+//                     ^^^^^^^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
 //                               ^ punctuation.separator.mapping.key-value.json
 //                                 ^^^^ meta.mapping.json meta.mapping.value.json meta.mapping.json meta.mapping.value.json constant.language.json
    "command": "my_command",
