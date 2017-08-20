@@ -1,0 +1,8 @@
+{
+    "scope": "meta.completions-key.sublime-completions",
+
+    "completions": [
+        { "trigger": "trigger\tCompletions Key", "contents": "trigger" },
+        { "trigger": "contents\tCompletions Key", "contents": "contents" }
+    ]
+}

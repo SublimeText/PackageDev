@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[
+{
+	"scope": "$1",
+	"completions": [
+		$2
+	]
+}
+]]></content>
+	<scope>source.json.sublime.completions - meta.completions.collection</scope>
+	<tabTrigger>completions</tabTrigger>
+</snippet>
