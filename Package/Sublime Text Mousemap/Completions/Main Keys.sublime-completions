@@ -2,12 +2,12 @@
 	"scope": "meta.main-key.sublime-mousemap",
 
 	"completions": [
-		{ "trigger": "button\tMain Key", "contents": "button"},
-		{ "trigger": "modifiers\tMain Key", "contents": "modifiers"},
-		{ "trigger": "command\tMain Key", "contents": "command"},
-		{ "trigger": "press_command\tMain Key", "contents": "press_command"},
-		{ "trigger": "args\tMain Key", "contents": "args"},
-		{ "trigger": "press_args\tMain Key", "contents": "press_args"},
-		{ "trigger": "count\tMain Key", "contents": "count"},
+		{ "trigger": "button\tmain key", "contents": "button"},
+		{ "trigger": "modifiers\tmain key", "contents": "modifiers"},
+		{ "trigger": "command\tmain key", "contents": "command"},
+		{ "trigger": "press_command\tmain key", "contents": "press_command"},
+		{ "trigger": "args\tmain key", "contents": "args"},
+		{ "trigger": "press_args\tmain key", "contents": "press_args"},
+		{ "trigger": "count\tmain key", "contents": "count"},
 	]
 }
