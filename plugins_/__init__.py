@@ -7,7 +7,7 @@ from .settings import *  # noqa
 from .snippet_dev import *  # noqa
 from .syntax_dev import *  # noqa
 from .syntax_dev_legacy import *  # noqa
-from .syntax_test_dev import *  # noqa
+from .syntaxtest_dev import *  # noqa
 
 from . import xml_hidden_extensions_hotfix
 
