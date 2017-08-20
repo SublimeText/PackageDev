@@ -9,6 +9,8 @@ import sublime_plugin
 
 from .yaml_omap import SaveOmapLoader
 
+BUILTIN_METADATA_FILENAME = "builtin_commands_meta_data.yaml"
+
 l = logging.getLogger(__name__)
 
 
@@ -51,7 +53,7 @@ def get_builtin_command_meta_data():
     """
     l.debug("Loading built-in command meta data")
 
-    res_paths = sublime.find_resources("sublime_text_builtin_commands_meta_data.yaml")
+    res_paths = sublime.find_resources(BUILTIN_METADATA_FILENAME)
     result = {}
     for res_path in res_paths:
         try:
