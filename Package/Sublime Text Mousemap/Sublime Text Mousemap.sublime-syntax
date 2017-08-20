@@ -78,7 +78,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         # 2: invalid.unknown-key.sublime-mousemap
         3: punctuation.definition.string.end.json
-      set: expect-colon-value
+      set: [in-dictionary-expect-comma, expect-colon-value]
 
   expect-button-name:
     - match: (?=")
