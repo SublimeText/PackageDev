@@ -1,5 +1,6 @@
 # import ST-interfacing classes from sub-modules
 
+from .command_completions import *  # noqa
 from .file_conversion import *  # noqa
 from .new_resource_file import *  # noqa
 from .settings import *  # noqa

@@ -1,4 +1,4 @@
 {
 	"extensions": ["sublime-keymap"],
-    "auto_complete_selector": "- comment - string | meta.context.key-value string - meta.context.key-value.operand | meta.key-chords string | meta.unknown-main-key | meta.unknown-context-key",
+    "auto_complete_selector": "- comment - string | meta.context.key-value string - meta.context.key-value.operand | meta.key-chords string | meta.unknown-main-key | meta.unknown-context-key | meta.command-name",
 }

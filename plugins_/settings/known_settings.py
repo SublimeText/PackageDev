@@ -9,7 +9,7 @@ import weakref
 import sublime
 
 from ..lib.weakmethod import WeakMethodProxy
-from ..lib import get_setting
+from ..lib import get_setting, sorted_completions
 from .region_math import VALUE_SCOPE, get_value_region_at, get_last_key_name_from
 
 l = logging.getLogger(__name__)
@@ -35,11 +35,6 @@ def format_completion_item(value, default=False):
                                    default_str),
             # 'cast' dicts to frozen sets, because those are hashable
             frozenset(value.items()) if isinstance(value, dict) else value)
-
-
-def sorted_completions(completions):
-    """Sort completions case insensitive."""
-    return list(sorted(completions, key=lambda x: x[0].lower()))
 
 
 def decode_value(string):

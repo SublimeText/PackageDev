@@ -1,0 +1,322 @@
+append:
+  args: !!omap
+    - characters:
+    - force: false
+    - scroll_to_end: false
+  command_type: text
+  doc_string: Append the given text to the end of the document.
+auto_complete:
+  args:
+    api_completions_only: false
+    disable_auto_insert: false
+    next_completion_if_showing: false
+    auto_complete_commit_on_tab: true
+  command_type: text
+  doc_string: Show the auto-completion pop-up.
+build:
+  args: !!omap
+    - variant: ""
+    - select: false
+  command_type: window
+  doc_string: Execute the relevant build system.
+cancel_build:
+  command_type: window
+  doc_string: Cancel the current build.
+clear_bookmarks:
+  command_type: text
+  doc_string: Remove all bookmarks in the current document.
+clear_fields:
+  command_type: text
+  doc_string: Clear the fields of the current snippet.
+close_file:
+  command_type: window
+  doc_string: Close the active file.
+context_menu:
+  command_type: window
+  doc_string: Show the context menu.
+copy:
+  command_type: text
+  doc_string: Copy the selected text to the clipboard.
+cut:
+  command_type: text
+  doc_string: Cut the selected text to the clipboard.
+expand_selection:
+  args:
+    to: line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets
+  command_type: text
+  doc_string: Expand the current text caret selection(s) to the specified location.
+find_all_under:
+  command_type: text
+  doc_string: Seach and select all text matches, which are the same as the text selected text or the word under the caret.
+find_next:
+  command_type: text
+  doc_string: Jump to the next occurrence of the text or pattern in the find buffer.
+find_prev:
+  command_type: text
+  doc_string: Jump to the previous occurrence of the text or pattern in the find buffer.
+find_under:
+  command_type: text
+  doc_string: Finds the next occurrence of the current selection or the current word.
+find_under_expand:
+  command_type: text
+  doc_string: Adds a new selection based on the current selection or expands the selection to the current word.
+find_under_expand_skip:
+  command_type: text
+  doc_string: Adds a new selection based on the current selection or expands the selection to the current word while removing the current selection.
+find_under_prev:
+  command_type: text
+  doc_string: Finds the previous occurrence of the current selection or the current word.
+focus_group:
+  args:
+    group: 0
+  command_type: window
+  doc_string: Set the focus to a view in an other group.
+hide_auto_complete:
+  command_type: view
+  doc_string: Hide the auto-completion pop-up.
+hide_overlay:
+  command_type: window
+  doc_string: Hide the current visible overlay.
+hide_panel:
+  command_type: window
+  doc_string: Hide the current visible panel.
+indent:
+  command_type: text
+  doc_string: Increase the indentation level of the text selection(s).
+insert:
+  args:
+    characters:
+  command_type: text
+  doc_string: Insert the specified text into the document at the text caret location(s).
+insert_snippet:
+  args:
+    contents:
+  command_type: text
+  doc_string: Insert the specified snippet content into the document at the text caret
+    location(s).
+join_lines:
+  command_type: text
+  doc_string: Join the current line with the following line.
+left_delete:
+  command_type: text
+  doc_string: Delete the character to the left of the text selection caret(s).
+move:
+  args: !!omap
+    - by: chars|pages|lines|characters|words|word_ends|subwords|subword_ends|stops
+    - forward: true
+    - extend: false
+    - lines: false
+  command_type: text
+  doc_string: Move the selection caret(s) by the specified units.
+move_to:
+  args: !!omap
+    - to: eol|bol|eof|bof|brackets
+    - extend: false
+  command_type: text
+  doc_string: Move the selection caret(s) to the specified relative location.
+move_to_group:
+  args:
+    group: 0
+  command_type: window
+  doc_string: Move the active tab to the specified layout group.
+new_file:
+  command_type: window
+  doc_string: Create a new empty tab in the active window.
+new_window:
+  command_type: application
+  doc_string: Open a new ST window.
+next_bookmark:
+  command_type: text
+  doc_string: Navigate to the next bookmark in the document.
+next_field:
+  command_type: text
+  doc_string: Navigate to the next field in the snippet.
+next_misspelling:
+  command_type: text
+  doc_string: Navigate to the next misspelling in the document.
+next_result:
+  command_type: window
+  doc_string: Jump to the next build result.
+next_view:
+  command_type: window
+  doc_string: Set the focus to the next view tab bar.
+next_view_in_stack:
+  command_type: window
+  doc_string: Set the focus to the next view in the stack of recent edited view.
+open_dir:
+  args:
+    dir:
+    file:
+  command_type: window
+  doc_string: Open the specified dir in the default File Manager application, optionally
+    highlighting the specified file.
+open_file:
+  args: !!omap
+    - file:
+    - contents:
+  command_type: window
+  doc_string: Open the specified file, and if it doesn't exist, prefill the default
+    contents.
+paste:
+  command_type: text
+  doc_string: Paste the text on the clipboard at the text selection location(s), replacing
+    the selected text.
+paste_and_indent:
+  command_type: text
+  doc_string: Paste the text on the clipboard at the text selection location(s), replacing
+    the selected text, and making the base indentation level match that of the target
+    location(s).
+prev_bookmark:
+  command_type: text
+  doc_string: Navigate to the previous bookmark in the document.
+prev_field:
+  command_type: text
+  doc_string: Navigate to the previous field in the snippet.
+prev_misspelling:
+  command_type: text
+  doc_string: Navigate to the previous misspelling in the document.
+prev_result:
+  command_type: window
+  doc_string: Jump to the previous build result.
+prev_view:
+  command_type: window
+  doc_string: Set the focus to the previous view tab bar.
+prev_view_in_stack:
+  command_type: window
+  doc_string: Set the focus to the previous view in the stack of recent edited view.
+prompt_open_file:
+  command_type: window
+  doc_string: Show the OS' native open dialog, so the user can choose what file they
+    want to open.
+prompt_open_folder:
+  command_type: window
+  doc_string: Show the OS' native open dialog, so the user can choose what folder they
+    want to open.
+prompt_save_as:
+  command_type: window
+  doc_string: Show the OS' native save as dialog, so the user can choose the path
+    where they want the file to be saved.
+quick_diff:
+  command_type: window
+  doc_string: Show a diff of the file currently in buffer compared to its saved state.
+redo:
+  command_type: text
+  doc_string: Redo the last undo.
+redo_or_repeat:
+  command_type: text
+  doc_string: Redo the last undo or repeat the last action if there is no undo to revert.
+reindent:
+  args:
+    single_line: false
+  command_type: text
+  doc_string: Reindent the lines.
+right_delete:
+  command_type: text
+  doc_string: Delete the character to the right of the text selection caret(s).
+run_macro:
+  command_type: text
+  doc_string: Run the last recorded macro.
+run_macro_file:
+  args:
+    file:
+  command_type: view
+  doc_string: Run a macro saved in a macro file.
+save:
+  args:
+    encoding:
+  command_type: view
+  doc_string: Save the active document.
+save_all:
+  command_type: window
+  doc_string: Save all the open documents in the active window.
+scroll_lines:
+  args:
+    amount: 1.0
+  command_type: view
+  doc_string: Scroll the active view by the specified number of lines. A negative
+    number means to scroll in an upwards direction.
+select_all:
+  command_type: text
+  doc_string: Select the entire contents of the document.
+select_all_bookmarks:
+  command_type: text
+  doc_string: Select all the bookmarks in the current document.
+select_bookmark:
+  args:
+    index:
+  command_type: text
+  doc_string: Select a specific bookmark (by index) in the current document.
+select_lines:
+  args:
+    forward: true
+  command_type: text
+  doc_string: Select the current or next line, if the full current line is selected.
+set_layout:
+  args: !!omap
+    - cols: [0.0, 1.0]
+    - rows:  [0.0, 1.0]
+    - cells: [[0, 0, 1, 1]]
+  command_type: window
+  doc_string: Set the layout of the window.
+set_file_type:
+  args:
+    syntax: Packages/Foo/Bar.sublime-syntax
+  command_type: view
+  doc_string: Set the syntax file for the view.
+show_overlay:
+  args: !!omap
+    - overlay: goto|command_palette
+    - text:
+    - show_files:
+  command_type: window
+  doc_string: Show the overlay from the argument.
+show_panel:
+  args:
+    panel:
+    reverse: false
+  command_type: window
+  doc_string: Show the panel from the argument.
+single_selection:
+  command_type: text
+  doc_string: Switch to only the first selection.
+slurp_find_string:
+  command_type: window
+  doc_string: Use the current selection as the find string.
+slurp_replace_string:
+  command_type: window
+  doc_string: Use the current selection as the replacement string.
+soft_redo:
+  command_type: text
+  doc_string: Redo the last move or action, which has been undone.
+soft_undo:
+  command_type: text
+  doc_string: Undo the last move or action.
+split_selection_into_lines:
+  command_type: text
+  doc_string: Split each selection into individual lines.
+toggle_bookmark:
+  command_type: text
+  doc_string: For each selection, toggle it's bookmarked state.
+toggle_full_screen:
+  command_type: window
+  doc_string: Toggle whether the current Sublime Text window is in full screen mode.
+toggle_overwrite:
+  command_type: view
+  doc_string: Toggle whether the caret is in insert mode or overwrite mode.
+toggle_record_macro:
+  command_type: text
+  doc_string: Start or stop to record a macro.
+toggle_setting:
+  args:
+    setting:
+  command_type: text
+  doc_string: Toggle the specified boolean setting.
+toggle_side_bar:
+  command_type: window
+  doc_string: Toggle the visibility of the side bar.
+undo:
+  command_type: text
+  doc_string: Undo the last action.
+unindent:
+  command_type: text
+  doc_string: Unindent the selection by one level.

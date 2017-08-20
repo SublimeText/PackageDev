@@ -3,7 +3,6 @@
     "completions": [
         {"trigger": "keys\tkey", "contents": "\"keys\": [\"$1\"],"},
         {"trigger": "command\tkey", "contents": "\"command\": \"$1\","},
-        {"trigger": "args\tkey", "contents": "\"args\": {$0},"},
         {"trigger": "context\tkey", "contents": "\"context\": \n[\n\t$0\n],"},
     ]
 }
