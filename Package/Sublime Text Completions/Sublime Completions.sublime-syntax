@@ -139,7 +139,7 @@ contexts:
             - clear_scopes: 1
             - meta_scope: meta.mapping.value.json string.quoted.double.json
             - match: (\\t)
-              scope: punctuation.separator.trigger.json
+              scope: constant.character.escape.json punctuation.separator.trigger.json
             - include: string-escape
             - match: (")
               scope: punctuation.definition.string.end.json

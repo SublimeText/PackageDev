@@ -36,7 +36,7 @@
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping meta.sequence meta.mapping - meta.mapping meta.mapping meta.mapping
 //        ^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
 //         ^^^^^^^ support.function.completions.key.sublime-completions
-//                       ^^ punctuation.separator.trigger.json
+//                       ^^ constant.character.escape.json punctuation.separator.trigger.json
 //                                    ^^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
 //                                     ^^^^^^^^ support.function.completions.key.sublime-completions
 //                                              ^ punctuation.separator.mapping.key-value.json
