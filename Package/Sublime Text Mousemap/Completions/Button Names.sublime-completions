@@ -1,0 +1,13 @@
+{
+	"scope": "meta.button-name.sublime-mousemap",
+
+	"completions": [
+		{ "trigger": "button1\tbutton", "contents": "button1" },
+		{ "trigger": "button2\tbutton", "contents": "button2" },
+		{ "trigger": "button3\tbutton", "contents": "button3" },
+		{ "trigger": "button4\tbutton", "contents": "button4" },
+		{ "trigger": "button5\tbutton", "contents": "button5" },
+		{ "trigger": "scroll_up\tbutton", "contents": "scroll_up" },
+		{ "trigger": "scroll_down\tbutton", "contents": "scroll_down" },
+	]
+}

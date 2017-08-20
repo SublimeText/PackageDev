@@ -22,7 +22,7 @@ COMMANDS           = _build_path("Sublime Text Commands", "Sublime Commands", te
 COMPLETIONS        = _build_path("Sublime Text Completions", "Sublime Completions", textmate=True)
 KEYMAP             = _build_path("Sublime Text Keymap")
 MACROS             = _build_path("Sublime Text Macros", textmate=True)
-MOUSEMAP           = _build_path("Sublime Text Mousemap", "Sublime Mouse Map", textmate=True)
+MOUSEMAP           = _build_path("Sublime Text Mousemap")
 SETTINGS           = _build_path("Sublime Text Settings")
 SNIPPET            = _build_path("Sublime Text Snippet")
 SNIPPET_RAW        = _build_path("Sublime Text Snippet", "Sublime Text Snippet (Raw)")

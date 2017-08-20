@@ -3,9 +3,9 @@
 	"button": "${1:button1}",
 	"modifiers": ["${2:alt}"$3],
 	"press_command": "${4:drag_select}",
-	"command": "${5:foo_bar}"$0
-}]]></content>
+	"command": "${5:foo_bar}",$0
+},]]></content>
 	<tabTrigger>k</tabTrigger>
 	<description>Creates a Mouse binding</description>
-	<scope>source.sublimemousemap</scope>
+	<scope>source.json.sublime.mousemap</scope>
 </snippet>
