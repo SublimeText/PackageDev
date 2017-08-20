@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[<snippet>
+	<content><![CDATA[$1]]$UNDEFINED></content>
+	<tabTrigger>$2</tabTrigger>
+	<!-- <description>Creates a Mouse binding</description> -->
+	<scope>source.$3</scope>
+</snippet>]]></content>
+	<tabTrigger>snippet</tabTrigger>
+	<scope>text.xml.sublime.snippet - meta</scope>
+</snippet>
