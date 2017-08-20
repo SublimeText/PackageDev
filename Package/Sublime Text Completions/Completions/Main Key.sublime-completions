@@ -1,0 +1,8 @@
+{
+    "scope": "meta.main-key.sublime-completions",
+
+    "completions": [
+        { "trigger": "scope\tMain Key", "contents": "scope" },
+        { "trigger": "completions\tMain Key", "contents": "completions" }
+    ]
+}
