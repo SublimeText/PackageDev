@@ -69,6 +69,8 @@
 //          ^ meta.mapping.json punctuation.separator.mapping.key-value.json
 //            ^^^^^^^^^^^^ string.quoted.double.json
 //             ^^^^^^^^^^ meta.command-name.sublime-mousemap string.quoted.double.json support.constant.command-name.sublime-mousemap
+            "args": ,
+//                 ^ invalid.illegal.expected-mapping.sublime-mousemap
             "args": {
 //          ^^^^^^ meta.sequence.json meta.mousebinding.collection.sublime-mousemap meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
                 "hello": "world",

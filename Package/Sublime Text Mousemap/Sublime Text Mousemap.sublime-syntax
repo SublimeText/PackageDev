@@ -246,7 +246,8 @@ contexts:
     - match: '(?=\{)'
       set: [scope:source.json.sublime.keymap#dictionary-value-meta-scope, dictionary]
     - include: comments
-    - match: (?=[},\]])
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-mapping.sublime-mousemap
       pop: true
     - match: \S
       scope: invalid.illegal.expected-mapping.sublime-mousemap
