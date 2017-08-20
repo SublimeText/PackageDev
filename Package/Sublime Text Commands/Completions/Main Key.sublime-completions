@@ -2,8 +2,8 @@
     "scope": "meta.main-key.sublime-commands",
 
     "completions": [
-        { "trigger": "caption\tMain Key", "contents": "caption" },
-        { "trigger": "command\tMain Key", "contents": "command" },
-        { "trigger": "args\tMain Key", "contents": "args" },
+        { "trigger": "caption\tmain key", "contents": "caption" },
+        { "trigger": "command\tmain key", "contents": "command" },
+        { "trigger": "args\tmain key", "contents": "args" },
     ]
 }
