@@ -27,42 +27,42 @@ contexts:
   main-keys:
     - meta_scope: meta.mapping.json
     - match: (")(button)(")
-      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-mousemap
         3: punctuation.definition.string.end.json
       push: [expect-button-name, expect-colon]
     - match: (")(modifiers)(")
-      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-mousemap
         3: punctuation.definition.string.end.json
       push: [expect-modifiers-array, expect-colon]
     - match: (")((?:press_)?command)(")
-      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-mousemap
         3: punctuation.definition.string.end.json
       push: [expect-command-name, expect-colon]
     - match: (")((?:press_)?args)(")
-      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-mousemap
         3: punctuation.definition.string.end.json
       push: [in-dictionary-expect-comma, expect-dictionary-value, expect-colon]
     - match: (")(count)(")
-      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-mousemap
         3: punctuation.definition.string.end.json
       push: [expect-count-integer-value, expect-colon]
     - match: (")(\w*)(")
-      scope: meta.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         # 2: invalid.unknown-key.sublime-mousemap
@@ -77,7 +77,7 @@ contexts:
 
   expect-button-name:
     - match: (\")(?:(button[1-5]|scroll_(?:down|up)))(\")
-      scope: meta.value.json string.quoted.double.json meta.button-name.sublime-mousemap
+      scope: meta.mapping.value.json string.quoted.double.json meta.button-name.sublime-mousemap
       captures:
         1: punctuation.definition.string.begin.json
         2: support.constant.button.named.sublime-mousemap
@@ -86,7 +86,7 @@ contexts:
     - match: \" # probably illegal button name
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: meta.value.json string.quoted.double.json meta.button-name.sublime-mousemap
+        - meta_scope: meta.mapping.value.json string.quoted.double.json meta.button-name.sublime-mousemap
         - meta_content_scope: invalid.illegal.invalid-button.sublime-mousemap
         - match: \"
           scope: punctuation.definition.string.end.json
@@ -100,7 +100,7 @@ contexts:
     - match: \[
       scope: meta.modifiers.sublime-mousemap punctuation.section.sequence.begin.json
       set:
-        - meta_scope: meta.value.json meta.sequence.json
+        - meta_scope: meta.mapping.value.json meta.sequence.json
         - meta_content_scope: meta.modifiers.sublime-mousemap
         - match: \]
           scope: punctuation.section.sequence.end.json
@@ -146,7 +146,7 @@ contexts:
 
   expect-command-name:
     - match: (\")([a-z_\d]+)(\")
-      scope: meta.value.json meta.command-name.sublime-mousemap string.quoted.double.json
+      scope: meta.mapping.value.json meta.command-name.sublime-mousemap string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: support.constant.command-name.sublime-mousemap
@@ -155,7 +155,7 @@ contexts:
     - match: \" # probably illegal command name
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: meta.value.json string.quoted.double.json meta.command-name.sublime-mousemap
+        - meta_scope: meta.mapping.value.json string.quoted.double.json meta.command-name.sublime-mousemap
         - meta_content_scope: invalid.illegal.invalid-command.sublime-mousemap
         - match: \"
           scope: punctuation.definition.string.end.json
@@ -170,7 +170,7 @@ contexts:
   expect-count-integer-value:
     - match: \d+
       captures:
-        0: meta.value.json constant.numeric.json
+        0: meta.mapping.value.json constant.numeric.json
       set: in-dictionary-expect-comma
     - include: comments
     - match: \S
@@ -212,7 +212,7 @@ contexts:
     - include: scope:source.json.sublime.keymap#dictionary
 
   dictionary-value-meta-scope:
-    - meta_scope: meta.value.json
+    - meta_scope: meta.mapping.value.json
     - match: ''
       pop: true
 
