@@ -92,19 +92,19 @@ contexts:
   main:
     - match: (first_line_match)\s*(:)
       captures:
-        1: keyword.other.first_line_match.sublime-syntax
+        1: string.unquoted.plain.out.yaml keyword.other.first_line_match.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_regexp
 
     - match: (contexts)\s*(:)
       captures:
-        1: keyword.control.flow.contexts.sublime-syntax
+        1: string.unquoted.plain.out.yaml keyword.control.flow.contexts.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: contexts_block
 
     - match: (variables)\s*(:)
       captures:
-        1: keyword.control.flow.variables.sublime-syntax
+        1: string.unquoted.plain.out.yaml keyword.control.flow.variables.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: variables_block
 
@@ -182,7 +182,7 @@ contexts:
 
     - match: (captures)\s*(:)
       captures:
-        1: keyword.control.flow.sublime-syntax
+        1: string.unquoted.plain.out.yaml storage.type.captures.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_captures
 
@@ -194,25 +194,25 @@ contexts:
 
     - match: (include)\s*(:)
       captures:
-        1: string.unquoted.plain.out.yaml entity.name.tag.yaml
+        1: string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_include
 
     - match: (push|set)\s*(:)
       captures:
-        1: keyword.control.flow.push.sublime-syntax
+        1: string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_include_list
       # can also be a normal context mapping (in which case the context pops)
 
     - match: (with_prototype)\s*(:)
       captures:
-        1: keyword.control.flow.push.sublime-syntax
+        1: string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
         2: punctuation.separator.key-value.yaml
 
     - match: (pop)\s*(:)
       captures:
-        1: keyword.control.flow.pop.sublime-syntax
+        1: string.unquoted.plain.out.yaml keyword.control.flow.pop.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_bool
 
@@ -224,7 +224,7 @@ contexts:
 
     - match: (meta_include_prototype)\s*(:)
       captures:
-        1: string.unquoted.plain.out.yaml entity.name.tag.yaml
+        1: string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_bool
 
@@ -236,7 +236,7 @@ contexts:
 
     - match: (clear_scopes)\s*(:)  # expects bool or number
       captures:
-        1: keyword.control.flow.clear-scopes.sublime-syntax
+        1: string.unquoted.plain.out.yaml storage.modifier.clear-scopes.sublime-syntax
         2: punctuation.separator.key-value.yaml
 
   expect_captures:
