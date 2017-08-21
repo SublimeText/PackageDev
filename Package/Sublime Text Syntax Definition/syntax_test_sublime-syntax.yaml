@@ -3,9 +3,11 @@
 #^^^^ keyword.other.directive.yaml.yaml
 ---
 name: foo
+#^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
 scope: source.foo
 #^^^^ storage.type.scope-name.sublime-syntax
 file_extensions: [a, b]
+#^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
 #                ^^^^^^ meta.flow-sequence.yaml
 #                 ^ string
 first_line_match: azx
@@ -103,14 +105,16 @@ variables:
 #           ^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
 
 contexts:
-# <- meta.block.contexts - meta.block.variables
+# <- meta.block.contexts keyword.control.flow.contexts.sublime-syntax - meta.block.variables
 
   main:
 # ^^^^ entity.name.context.sublime-syntax
     - include: scope:source.json
+#     ^^^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
   context_name:
 # ^^^^^^^^^^^^ entity.name.context.sublime-syntax
     - captures:
+#     ^^^^^^^^ string.unquoted.plain.out.yaml storage.type.captures.sublime-syntax
         1: name
   another_context_name:
 # ^ entity.name.context.sublime-syntax
@@ -138,15 +142,18 @@ contexts:
 #                                           ^ punctuation.separator.context-name.sublime-syntax - comment
 #                                            ^^^^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
     - push: [main, Packages/JSON/JSON.sublime-syntax#comment]
+#     ^^^^ string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.flow-sequence.yaml
 #            ^^^^ meta.include.sublime-syntax string
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
       set: Packages/JSON/JSON.sublime-syntax#comment
+#     ^^^ string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
     - set: Packages/JSON/JSON.sublime-syntax XX#comment
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string - meta.include
 
     - comment: this is a comment
+#     ^^^^^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
 #              ^^^^^^^^^^^^^^^^^ comment.other.plain.sublime-syntax
 
     - comment:
@@ -168,7 +175,7 @@ contexts:
 #       ^^^^^^^^^^^^^^ comment.other.unquoted.block.sublime-syntax
 
     - match: ^regexp$
-#     ^^^^^ keyword.other.match.sublime-syntax
+#     ^^^^^ string.unquoted.plain.out.yaml keyword.other.match.sublime-syntax
 #            ^^^^^^^^ meta.expect-regexp source.regexp.oniguruma
 #            ^ keyword.control.anchors.regexp
       match:
@@ -188,22 +195,27 @@ contexts:
       match: # a comment
 #            ^^^^^^^^^^^ comment.line
 
+      match: |
+      (?x) # extended group with comments
+#     ^^^^ source.regexp.oniguruma meta.group.extended.regexp
+#          ^ source.regexp.oniguruma comment.line.number-sign.regexp punctuation.definition.comment.regexp
     - scope: abc
-#     ^^^^^ storage.type.scope-name.sublime-syntax
+#     ^^^^^ string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
     - meta_scope: abc
-#     ^^^^^^^^^^ storage.type.scope-name.meta.sublime-syntax
+#     ^^^^^^^^^^ string.unquoted.plain.out.yaml storage.type.scope-name.meta.sublime-syntax
     - meta_content_scope: abc
-#     ^^^^^^^^^^^^^^^^^^ storage.type.scope-name.meta.sublime-syntax
+#     ^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml storage.type.scope-name.meta.sublime-syntax
 
     - meta_include_prototype: false
+#     ^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
 #                             ^^^^^ meta.expect-bool constant.language.boolean.yaml
 
 
 variables:
-#^^^^^^^^ keyword.control.flow.variables.sublime-syntax
+#^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.variables.sublime-syntax
 
 contexts: !mytag
-#^^^^^^^ keyword.control.flow.contexts.sublime-syntax
+#^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.contexts.sublime-syntax
 #         ^^^^^^ storage.type.tag-handle.yaml
   main: !mytag
 # ^^^^ entity.name.context.sublime-syntax
