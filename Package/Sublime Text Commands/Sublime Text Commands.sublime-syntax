@@ -94,7 +94,7 @@ contexts:
     - include: expect-string
 
   comments:
-    - include: scope:source.json.sublime.keymap#comments
+    - include: Sublime Text Keymap.sublime-syntax#comments
 
   only-comments:
     - include: comments
@@ -102,26 +102,26 @@ contexts:
       scope: invalid.illegal.expected-comment-or-eof.sublime-commands
 
   expect-colon:
-    - include: scope:source.json.sublime.keymap#expect-colon
+    - include: Sublime Text Keymap.sublime-syntax#expect-colon
 
   expect-string:
-    - include: scope:source.json.sublime.mousemap#expect-string
+    - include: Sublime Text Mousemap.sublime-syntax#expect-string
 
   expect-string-value:
     - match: (?=")
       set:
         - clear_scopes: 1
         - meta_scope: meta.mapping.value.json
-        - include: scope:source.json#string
+        - include: JSON.sublime-syntax#string
         - match: ''
           pop: true
     - include: expect-string
 
   in-array-expect-comma:
-    - include: scope:source.json.sublime.keymap#in-array-expect-comma
+    - include: Sublime Text Keymap.sublime-syntax#in-array-expect-comma
 
   in-dictionary-expect-comma:
-    - include: scope:source.json.sublime.keymap#in-dictionary-expect-comma
+    - include: Sublime Text Keymap.sublime-syntax#in-dictionary-expect-comma
 
   expect-dictionary-value:
     - match: '(?=\{)'
@@ -135,4 +135,4 @@ contexts:
       scope: invalid.illegal.expected-mapping.sublime-commands
 
   expect-colon-value:
-    - include: scope:source.json.sublime.keymap#expect-colon-value
+    - include: Sublime Text Keymap.sublime-syntax#expect-colon-value

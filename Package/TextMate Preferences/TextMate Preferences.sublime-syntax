@@ -307,9 +307,9 @@ contexts:
                 3: punctuation.definition.substitution.end.tmPreferences
               pop: true
             - include: scope:source.regexp-replacement
-        - include: scope:source.regexp.oniguruma#base-literal
-    - include: scope:source.regexp.oniguruma#group-comment
-    - include: scope:source.regexp.oniguruma#extended-patterns
+        - include: Oniguruma RegExp.sublime-syntax#base-literal
+    - include: Oniguruma RegExp.sublime-syntax#group-comment
+    - include: Oniguruma RegExp.sublime-syntax#extended-patterns
 
   regex-pattern:
     - meta_content_scope: meta.regex.tmPreferences source.regexp.oniguruma

@@ -62,4 +62,4 @@ contexts:
                 - match: '[^}]+'
                   scope: invalid.illegal.unexpected-token.snippet
             - include: scope:source.regexp-replacement
-        - include: scope:source.regexp#base-literal
+        - include: RegExp.sublime-syntax#base-literal

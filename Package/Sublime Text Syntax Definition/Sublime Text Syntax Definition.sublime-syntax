@@ -521,11 +521,11 @@ contexts:
       pop: true
 
   regexp:
-    - include: scope:source.regexp.oniguruma
+    - include: Oniguruma RegExp.sublime-syntax
 
   regexp_extended:
     - meta_content_scope: source.regexp.oniguruma
-    - include: scope:source.regexp.oniguruma#base-group-extended
+    - include: Oniguruma RegExp.sublime-syntax#base-group-extended
 
   regexp_variable:
     - match: '(\{\{)([a-zA-Z_0-9]+)(\}\})'
@@ -537,9 +537,9 @@ contexts:
       push: regexp_quantifier_pop
 
   regexp_quantifier_pop:
-    - include: scope:source.regexp.oniguruma#quantifiers
+    - include: Oniguruma RegExp.sublime-syntax#quantifiers
     - match: ''
       pop: true
 
   yaml-tags-anchors:
-    - include: Packages/YAML/YAML.sublime-syntax#property
+    - include: YAML.sublime-syntax#property

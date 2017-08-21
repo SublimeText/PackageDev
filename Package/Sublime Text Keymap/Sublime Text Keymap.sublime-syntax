@@ -507,9 +507,9 @@ contexts:
 
   value:
     - include: comments
-    - include: scope:source.json#string
-    - include: scope:source.json#number
-    - include: scope:source.json#constant
+    - include: JSON.sublime-syntax#string
+    - include: JSON.sublime-syntax#number
+    - include: JSON.sublime-syntax#constant
     - include: dictionary
     - include: array
 
@@ -581,7 +581,7 @@ contexts:
       scope: invalid.illegal.expected-boolean.sublime-keymap
 
   expect-string:
-    - include: scope:source.json#string # we don't actually use need this anywhere currently
+    - include: JSON.sublime-syntax#string # we don't actually use need this anywhere currently
     - include: comments
     - match: (?=[},\]])
       pop: true
@@ -605,7 +605,7 @@ contexts:
       pop: true
 
   comments:
-    - include: scope:source.js#comments
+    - include: JSON.sublime-syntax#comments
 
   only-comments:
     - include: comments

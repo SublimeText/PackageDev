@@ -59,7 +59,7 @@ contexts:
           set:
             - clear_scopes: 1
             - meta_scope: meta.mapping.value.json string.quoted.double.json
-            - include: scope:source.scope-selector#main
+            - include: scope:source.scope-selector
             - match: (")
               scope: punctuation.definition.string.end.json
               pop: true
@@ -177,7 +177,7 @@ contexts:
     - include: expect-string
 
   comments:
-    - include: scope:source.json.sublime.keymap#comments
+    - include: Sublime Text Keymap.sublime-syntax#comments
 
   only-comments:
     - include: comments
@@ -185,7 +185,7 @@ contexts:
       scope: invalid.illegal.expected-comment-or-eof.sublime-completions
 
   expect-colon:
-    - include: scope:source.json.sublime.keymap#expect-colon
+    - include: Sublime Text Keymap.sublime-syntax#expect-colon
 
   expect-string:
     - match: (?=")
@@ -201,13 +201,13 @@ contexts:
       scope: invalid.illegal.expected-string.sublime-mousemap
 
   in-array-expect-comma:
-    - include: scope:source.json.sublime.keymap#in-array-expect-comma
+    - include: Sublime Text Keymap.sublime-syntax#in-array-expect-comma
 
   in-dictionary-expect-comma:
-    - include: scope:source.json.sublime.keymap#in-dictionary-expect-comma
+    - include: Sublime Text Keymap.sublime-syntax#in-dictionary-expect-comma
 
   expect-colon-value:
-    - include: scope:source.json.sublime.keymap#expect-colon-value
+    - include: Sublime Text Keymap.sublime-syntax#expect-colon-value
 
   string-escape:
-    - include: scope:source.json.sublime.keymap#string-escape
+    - include: Sublime Text Keymap.sublime-syntax#string-escape
