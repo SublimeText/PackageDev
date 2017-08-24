@@ -2,6 +2,10 @@
 	// A list of valid spell checker words added by the user.
 	"added_words": [],
 
+	// List of extensions that should be opened with a corresponding syntax.
+	// Only makes sense in syntax-specific settings.
+	"extensions": [],
+
 	// A list of words ignored by spell checker.
 	"ignored_words": [],
 
