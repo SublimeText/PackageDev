@@ -76,7 +76,8 @@
 //                                                                   ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //                                                                    ^^^^^^^^ keyword.other.main.sublime-menu
         ]
-    }
+    },
+//   ^ punctuation.separator.sequence.json
 ]
   ,[]// comment
 // <- - invalid.illegal
