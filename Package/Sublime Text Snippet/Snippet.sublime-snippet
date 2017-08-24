@@ -2,7 +2,7 @@
 	<content><![CDATA[<snippet>
 	<content><![CDATA[$1]]$UNDEFINED></content>
 	<tabTrigger>$2</tabTrigger>
-	<!-- <description>Creates a Mouse binding</description> -->
+	<!-- <description>Optionally, insert a description here</description> -->
 	<scope>source.$3</scope>
 </snippet>]]></content>
 	<tabTrigger>snippet</tabTrigger>
