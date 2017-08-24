@@ -193,36 +193,42 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       set:
-        - meta_content_scope: meta.inside-value.string.plist meta.toc-list.scope.tmPreferences
-        - match: '<!\[CDATA\['
-          scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+        - meta_content_scope: meta.inside-value.string.plist
+        - match: (?=<!--)
           push:
-            - match: ']]>'
-              scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+            - match: (?!<!--)
               pop: true
-            - include: scope:source.scope-selector
-        - match: '(</)(string)\s*(>)'
-          scope: meta.tag.xml
-          captures:
-            1: punctuation.definition.tag.begin.xml
-            2: entity.name.tag.localname.xml
-            3: punctuation.definition.tag.end.xml
-          pop: true
+            - include: scope:text.xml
         - match: '(?=\S)'
-          push:
-            - include: scope:source.scope-selector
-          with_prototype:
-            - match: '(?=</string\s*>|<!\[CDATA\[)'
+          set:
+            - meta_content_scope: meta.inside-value.string.plist meta.toc-list.scope.tmPreferences
+            - match: '<!\[CDATA\['
+              scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+              push:
+                - match: ']]>'
+                  scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+                  set: st-end-of-string-handling
+                - include: scope:source.scope-selector
+            - match: '(</)(string)\s*(>)'
+              scope: meta.tag.xml
+              captures:
+                1: punctuation.definition.tag.begin.xml
+                2: entity.name.tag.localname.xml
+                3: punctuation.definition.tag.end.xml
               pop: true
-            - match: '\s*((&)amp(;))\s*'
-              captures:
-                1: constant.character.entity.xml keyword.operator.with.scope-selector
-                2: punctuation.definition.constant.xml
-                3: punctuation.definition.constant.xml
-            - include: scope:text.xml#entity
-            - match: '\s*(&)\s*'
-              captures:
-                1: invalid.illegal.bad-ampersand.xml
+            - match: '(?=\S)'
+              push:
+                - include: scope:source.scope-selector
+              with_prototype:
+                - match: '\s*((&)amp(;))\s*'
+                  captures:
+                    1: constant.character.entity.xml keyword.operator.with.scope-selector
+                    2: punctuation.definition.constant.xml
+                    3: punctuation.definition.constant.xml
+                - include: until-end-of-string
+                - match: '\s*(&)\s*'
+                  captures:
+                    1: invalid.illegal.bad-ampersand.xml
     - include: scope:text.xml.plist#whitespace-or-tag
 
   expect-regex-string:
@@ -234,28 +240,36 @@ contexts:
         3: punctuation.definition.tag.end.xml
       set:
         - meta_content_scope: meta.inside-value.string.plist
-        - match: '(</)(string)\s*(>)'
-          scope: meta.tag.xml
-          captures:
-            1: punctuation.definition.tag.begin.xml
-            2: entity.name.tag.localname.xml
-            3: punctuation.definition.tag.end.xml
-          pop: true
-        - match: '(?=<!\[CDATA\[)'
+        - match: (?=<!--)
           push:
-            - match: ']]>'
-              scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+            - match: (?!<!--)
               pop: true
-            - match: '<!\[CDATA\['
-              scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+            - include: scope:text.xml
+        - match: '(?=\S)'
+          set:
+            - meta_content_scope: meta.inside-value.string.plist
+            - match: '(</)(string)\s*(>)'
+              scope: meta.tag.xml
+              captures:
+                1: punctuation.definition.tag.begin.xml
+                2: entity.name.tag.localname.xml
+                3: punctuation.definition.tag.end.xml
+              pop: true
+            - match: '(?=<!\[CDATA\[)'
+              push:
+                - match: ']]>'
+                  scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+                  set: st-end-of-string-handling
+                - match: '<!\[CDATA\['
+                  scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+                  push: regex-pattern
+                  with_prototype:
+                    - match: '(?=]]>)'
+                      pop: true
+            - match: '(?=\S)'
               push: regex-pattern
               with_prototype:
-                - match: '(?=]]>)'
-                  pop: true
-        - match: '(?=\S)'
-          push: regex-pattern
-          with_prototype:
-            - include: until-end-of-string
+                - include: until-end-of-string
     - include: scope:text.xml.plist#whitespace-or-tag
 
   expect-transformation-string:
@@ -267,28 +281,36 @@ contexts:
         3: punctuation.definition.tag.end.xml
       set:
         - meta_content_scope: meta.inside-value.string.plist
-        - match: '(</)(string)\s*(>)'
-          scope: meta.tag.xml
-          captures:
-            1: punctuation.definition.tag.begin.xml
-            2: entity.name.tag.localname.xml
-            3: punctuation.definition.tag.end.xml
-          pop: true
-        - match: '(?=<!\[CDATA\[)'
+        - match: (?=<!--)
           push:
-            - match: ']]>'
-              scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+            - match: (?!<!--)
               pop: true
-            - match: '<!\[CDATA\['
-              scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+            - include: scope:text.xml
+        - match: '(?=\S)'
+          set:
+            - meta_content_scope: meta.inside-value.string.plist
+            - match: '(</)(string)\s*(>)'
+              scope: meta.tag.xml
+              captures:
+                1: punctuation.definition.tag.begin.xml
+                2: entity.name.tag.localname.xml
+                3: punctuation.definition.tag.end.xml
+              pop: true
+            - match: '(?=<!\[CDATA\[)'
+              push:
+                - match: ']]>'
+                  scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+                  set: st-end-of-string-handling
+                - match: '<!\[CDATA\['
+                  scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+                  push: transformation
+                  with_prototype:
+                    - match: '(?=]]>)'
+                      pop: true
+            - match: '(?=\S)'
               push: transformation
               with_prototype:
-                - match: '(?=]]>)'
-                  pop: true
-        - match: '(?=\S)'
-          push: transformation
-          with_prototype:
-            - include: until-end-of-string
+                - include: until-end-of-string
     - include: scope:text.xml.plist#whitespace-or-tag
 
   transformation:
@@ -430,10 +452,58 @@ contexts:
     - include: scope:text.xml.plist#whitespace-or-tag
 
   expect-string:
-    - include: scope:text.xml.plist#string
+    - match: '(<)(string)\s*(>)'
+      scope: meta.tag.xml
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      set:
+        - meta_content_scope: meta.inside-value.string.plist
+        - match: (?=<!--)
+          push:
+            - match: (?!<!--)
+              pop: true
+            - include: scope:text.xml
+        - match: '(?=\S)'
+          set:
+            - meta_content_scope: meta.inside-value.string.plist
+            - include: handle-comments-until-end-of-string
+            - match: '(</)(string)\s*(>)'
+              scope: meta.tag.xml
+              captures:
+                1: punctuation.definition.tag.begin.xml
+                2: entity.name.tag.localname.xml
+                3: punctuation.definition.tag.end.xml
+              pop: true
+            - match: '<(?!!)'
+              scope: punctuation.definition.tag.begin.xml
+              push: scope:text.xml.plist#unknown-tag
+            - include: scope:text.xml
     - include: scope:text.xml.plist#whitespace-or-tag
 
+  handle-comments-until-end-of-string:
+    - match: '(?=<!--)'
+      push: st-end-of-string-handling
+
+  st-end-of-string-handling:
+    - match: '(?=</string\s*>)'
+      pop: true
+    - match: '(?=<!\[CDATA\[)'
+      push:
+        - meta_scope: invalid.deprecated.ignored-after-comment-or-cdata.tmPreferences
+        - match: '(?!<!\[CDATA\[)'
+          pop: true
+        - include: scope:text.xml
+    - match: '<(?!!)'
+      scope: punctuation.definition.tag.begin.xml
+      push: scope:text.xml.plist#unknown-tag
+    - include: scope:text.xml
+    - match: '[^<\s]+|\s+(?![\s<])'
+      scope: invalid.deprecated.ignored-after-comment-or-cdata.tmPreferences
+
   until-end-of-string:
+    - include: handle-comments-until-end-of-string
     - match: '(?=</string\s*>|<!\[CDATA\[)'
       pop: true
     - include: scope:text.xml#entity
