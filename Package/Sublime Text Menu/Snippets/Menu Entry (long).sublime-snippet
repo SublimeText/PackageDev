@@ -1,0 +1,5 @@
+<snippet>
+	<content><![CDATA[{ "caption": "$1", "mnemonic": "$2", "command": "$3", "args": {$4}, platform": "$5" },]]></content>
+	<tabTrigger>mm</tabTrigger>
+	<scope>source.json.sublime.menu meta.menu.collection.sublime-menu - string - comment</scope>
+</snippet>
