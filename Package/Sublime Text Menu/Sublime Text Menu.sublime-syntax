@@ -85,7 +85,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-menu
         3: punctuation.definition.string.end.json
-      set: [in-dictionary-expect-comma, expect-string-value, expect-colon]
+      set: [in-dictionary-expect-comma, expect-platform-name, expect-colon]
     - match: \"
       scope: punctuation.definition.string.begin.json
       set:
@@ -136,11 +136,37 @@ contexts:
     - match: \" # probably illegal command name
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: string.quoted.double.json meta.command-name.sublime-menu
+        - meta_scope: meta.command-name.sublime-menu string.quoted.double.json
         - meta_content_scope: invalid.illegal.invalid-command.sublime-menu
         - match: \"
           scope: punctuation.definition.string.end.json
-          set: in-dictionary-expect-comma
+          pop: true
+        - include: string-escape
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+
+  expect-platform-name:
+    - match: (?=")
+      set: [mapping-value-meta, platform-name]
+    - include: expect-string
+
+  platform-name:
+    - match: (\")(Windows|Linux|OSX)(\")
+      scope: meta.platform-name.sublime-menu string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: support.constant.command-name.sublime-menu
+        3: punctuation.definition.string.end.json
+      pop: true
+    - match: \" # probably illegal command name
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: meta.platform-name.sublime-menu string.quoted.double.json
+        - meta_content_scope: invalid.illegal.invalid-command.sublime-menu
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          pop: true
         - include: string-escape
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json

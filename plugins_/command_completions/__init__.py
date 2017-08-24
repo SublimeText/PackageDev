@@ -175,8 +175,10 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
     _default_args = [("args\targuments", '"args": {\n\t"$1": "$2"$0\n},')]
     _st_insert_arg_scope = (
         "("
-        "(source.json.sublime.commands, source.json.sublime.keymap, "
-        " source.json.sublime.macro, source.json.sublime.mousemap)"
+        "("
+        + ", ".join("source.json.sublime.{}".format(suffix)
+                    for suffix in ("commands", "keymap", "macro", "menu", "mousemap"))
+        + ")"
         " & "
         "meta.sequence.json meta.mapping.json"
         ")"

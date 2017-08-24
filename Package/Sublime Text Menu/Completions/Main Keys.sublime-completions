@@ -1,12 +1,12 @@
 {
     "scope": "meta.main-key.sublime-menu",
     "completions": [
-        { "trigger": "caption\tMain Key", "contents": "caption" },
-        { "trigger": "id\tMain Key", "contents": "id" },
-        { "trigger": "mnemonic\tMain Key", "contents": "mnemonic" },
-        { "trigger": "command\tMain Key", "contents": "command" },
-        { "trigger": "args\tMain Key", "contents": "args" },
-        { "trigger": "children\tMain Key", "contents": "children" },
-        { "trigger": "platform\tMain Key", "contents": "platform" },
+        { "trigger": "caption\tmain key", "contents": "caption" },
+        { "trigger": "id\tmain key", "contents": "id" },
+        { "trigger": "mnemonic\tmain key", "contents": "mnemonic" },
+        { "trigger": "command\tmain key", "contents": "command" },
+        { "trigger": "args\tmain key", "contents": "args" },
+        { "trigger": "children\tmain key", "contents": "children" },
+        { "trigger": "platform\tmain key", "contents": "platform" },
     ]
 }
