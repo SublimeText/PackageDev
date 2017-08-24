@@ -1,0 +1,85 @@
+// SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Menu/Sublime Text Menu.sublime-syntax"
+
+// <- source.json.sublime.menu
+
+// comment
+// ^^^^^^^^ comment.line.double-slash - meta.keybinding.collection.sublime-menu - meta.sequence.json
+
+[
+// <- meta.sequence.json punctuation.section.sequence.begin.json
+    {
+//  ^ meta.sequence.json meta.menu.collection.sublime-menu meta.mapping.json punctuation.section.mapping.begin.json
+        "caption": "File",
+//      ^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+//      ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//       ^^^^^^^ keyword.other.main.sublime-menu
+//               ^ punctuation.separator.mapping.key-value.json
+//                 ^^^^^^ meta.mapping.value.json string.quoted.double.json
+        "foo": "bar",
+//      ^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//       ^^^ - keyword.other.main.sublime-menu
+//           ^ punctuation.separator.mapping.key-value.json
+//             ^^^^^ meta.mapping.value.json string.quoted.double.json
+        "mnemonic": "F",
+//      ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//       ^^^^^^^^ keyword.other.main.sublime-menu
+//                  ^^^ meta.mapping.value.json string.quoted.double.json
+//                   ^ support.constant.mnemonic.sublime-menu
+        "id": ["file"],
+//      ^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//       ^^ keyword.other.main.sublime-menu
+//            ^ invalid.illegal.expected-string.sublime-menu
+//                   ^ invalid.illegal.expected-comma - invalid.illegal.expected-string.sublime-menu
+//                    ^ punctuation.separator.mapping.pair.json
+        "children"  :
+//      ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//       ^^^^^^^^ keyword.other.main.sublime-menu
+//                  ^ punctuation.separator.mapping.key-value.json
+        [
+//      ^ meta.sequence.json meta.mapping.value.json meta.sequence.json meta.modifiers.sublime-menu punctuation.section.sequence.begin.json
+            { "command": "new_file", "caption": "New File", "mnemonic": "N" },
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.mapping.value.json meta.sequence.json meta.mapping
+//            ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//             ^^^^^^^ keyword.other.main.sublime-menu
+//                       ^^^^^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime-menu string.quoted.double.json
+//                        ^^^^^^^^ support.constant.command-name.sublime-menu
+            { "caption": "-", "": "exit" },
+//            ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//             ^^^^^^^ keyword.other.main.sublime-menu
+//                       ^^^ meta.mapping.value.json  meta.mapping.value.json string.quoted.double.json
+//                        ^ - meta.command-name.sublime-menu - support.constant.command-name.sublime-menu
+//                            ^^ meta.main-key.sublime-menu string.quoted.double.json
+//                                ^^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
+            { "command": "exit", "caption": "Exit", "mnemonic": "x", "platform": "Windows" }
+//            ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//             ^^^^^^^ keyword.other.main.sublime-menu
+//                       ^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime-menu string.quoted.double.json
+//                        ^^^^ support.constant.command-name.sublime-menu
+//                               ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//                                ^^^^^^^ keyword.other.main.sublime-menu
+//                                                  ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//                                                   ^^^^^^^^ keyword.other.main.sublime-menu
+//                                                                   ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//                                                                    ^^^^^^^^ keyword.other.main.sublime-menu
+
+            { "command": "exit", "caption": "Quit", "mnemonic": "Q", "platform": "Linux" },
+// ^^^^^^^^^ invalid.illegal.expected-comma.inside-sequence.json
+//          ^ - invalid.illegal.expected-comma.inside-sequence.json
+//            ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//             ^^^^^^^ keyword.other.main.sublime-menu
+//                       ^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime-menu string.quoted.double.json
+//                        ^^^^ support.constant.command-name.sublime-menu
+//                               ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//                                ^^^^^^^ keyword.other.main.sublime-menu
+//                                                  ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//                                                   ^^^^^^^^ keyword.other.main.sublime-menu
+//                                                                   ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//                                                                    ^^^^^^^^ keyword.other.main.sublime-menu
+        ]
+    },
+//   ^ punctuation.separator.sequence.json
+]
+  ,[]// comment
+// <- - invalid.illegal
+//^^^ invalid.illegal.expected-comment-or-eof.sublime-menu
+//   ^^ comment.line.double-slash - invalid.illegal

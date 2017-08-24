@@ -1,0 +1,5 @@
+<snippet>
+	<content><![CDATA[{ "caption": "-" },]]></content>
+	<tabTrigger>sep</tabTrigger>
+	<scope>source.json.sublime.menu meta.menu.collection.sublime-menu - string - comment</scope>
+</snippet>
