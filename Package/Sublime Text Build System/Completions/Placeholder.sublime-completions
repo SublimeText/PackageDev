@@ -1,0 +1,18 @@
+{
+    "scope": "meta.placeholder-name.sublime-build",
+
+    "completions": [
+        { "trigger": "file_path\tPlaceholder", "contents": "file_path" },
+        { "trigger": "file\tPlaceholder", "contents": "file" },
+        { "trigger": "file_name\tPlaceholder", "contents": "file_name" },
+        { "trigger": "file_extension\tPlaceholder", "contents": "file_extension" },
+        { "trigger": "file_base_name\tPlaceholder", "contents": "file_base_name" },
+        { "trigger": "folder\tPlaceholder", "contents": "folder" },
+        { "trigger": "project\tPlaceholder", "contents": "project" },
+        { "trigger": "project_path\tPlaceholder", "contents": "project_path" },
+        { "trigger": "project_name\tPlaceholder", "contents": "project_name" },
+        { "trigger": "project_extension\tPlaceholder", "contents": "project_extension" },
+        { "trigger": "project_base_name\tPlaceholder", "contents": "project_base_name" },
+        { "trigger": "packages\tPlaceholder", "contents": "packages" },
+    ]
+}
