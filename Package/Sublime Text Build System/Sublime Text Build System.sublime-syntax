@@ -190,6 +190,7 @@ contexts:
       set: [mapping-value-meta, variants-array]
     - match: (?=\}|,)
       pop: true
+    - include: comments
     - match: (\s*)(?=[},\]])
       scope: invalid.illegal.expected-array.sublime-build
       pop: true
@@ -209,7 +210,6 @@ contexts:
         - include: comments
         - match: '[^\s\]\/,]+'
           scope: invalid.illegal.build.expected-mapping.sublime-build
-    - include: comments
 
   variant:
     - match: \{
@@ -218,7 +218,7 @@ contexts:
         - meta_scope: meta.mapping.json
         - match: \}
           scope: punctuation.section.mapping.end.json
-          set: in-array-expect-comma
+          pop: true
         - match: (?=")
           push:
             - clear_scopes: 1
@@ -238,6 +238,7 @@ contexts:
   expect-os-dict:
     - match: (?=\{)
       set: [mapping-value-meta, os-dict]
+    - include: comments
     - match: (\s*)(?=[},\]])
       scope: invalid.illegal.expected-mapping.sublime-build
       pop: true
@@ -265,6 +266,7 @@ contexts:
       set: [mapping-value-meta, shell-cmd-string]
     - match: (?=\[)
       set: [mapping-value-meta, cmd-value]
+    - include: comments
     - match: (\s*)(?=[},\]])
       scope: invalid.illegal.expected-array-or-string.sublime-build
       pop: true
