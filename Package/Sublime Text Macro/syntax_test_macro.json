@@ -1,0 +1,46 @@
+// SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Macro/Sublime Text Macro.sublime-syntax"
+
+// <- source.json.sublime.macro
+
+// comment
+// ^^^^^^^^ comment.line.double-slash - meta.keybinding.collection.sublime-macro - meta.sequence.json
+
+[
+// <- meta.sequence.json punctuation.section.sequence.begin.json
+
+    {
+        "command"     :
+//      ^^^^^^^^^ meta.sequence.json meta.macro.collection.sublime-macro meta.mapping.key.json meta.main-key.sublime-macro string.quoted.double.json
+//       ^^^^^^^ keyword.other.main.sublime-macro
+//                    ^ punctuation.separator.mapping.key-value.json
+        "move_to"  ,
+//      ^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime-macro string.quoted.double.json
+//       ^^^^^^^ support.constant.command-name.sublime-macro
+//                 ^ punctuation.separator.mapping.pair.json
+    "args": {"to": "hardeol"}
+//  ^^^^^^ meta.mapping.key.json meta.main-key.sublime-macro string.quoted.double.json
+//          ^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping
+, "foo": "bar"
+//^^^^^ meta.mapping.key.json meta.main-key.sublime-macro string.quoted.double.json
+// ^^^ - keyword.other.main.sublime-macro
+//       ^^^^^ meta.mapping.value.json string.quoted.double.json
+}
+    ,
+//  ^ punctuation.separator.sequence.json
+    {"command": "insert" "args": "test"}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.macro.collection.sublime-macro meta.mapping - meta.mapping meta.mapping
+//   ^^^^^^^^^ meta.sequence.json meta.macro.collection.sublime-macro meta.mapping.key.json meta.main-key.sublime-macro string.quoted.double.json
+//    ^^^^^^^ keyword.other.main.sublime-macro
+//              ^^^^^^^^ meta.mapping.value.json meta.command-name.sublime-macro string.quoted.double.json
+//               ^^^^^^ support.constant.command-name.sublime-macro
+//                      ^ invalid.illegal.expected-comma.inside-mapping.json
+//                       ^^^^^^ meta.mapping.key.json meta.main-key.sublime-macro string.quoted.double.json
+//                        ^^^^ keyword.other.main.sublime-macro
+//                               ^ invalid.illegal.expected-mapping.sublime-macro
+//                                     ^ punctuation.section.mapping.end.json
+
+]
+  ,[]// comment
+// <- - invalid.illegal
+//^^^ invalid.illegal.expected-comment-or-eof.sublime-macro
+//   ^^ comment.line.double-slash - invalid.illegal
