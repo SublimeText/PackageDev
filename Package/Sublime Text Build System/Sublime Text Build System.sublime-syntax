@@ -244,8 +244,7 @@ contexts:
     - match: \{
       scope: punctuation.section.mapping.begin.json
       set:
-        - clear_scopes: 1
-        - meta_scope: meta.mapping.value.json meta.os.sublime-build meta.mapping.json
+        - meta_scope: meta.os.sublime-build meta.mapping.json
         - match: \}
           scope: punctuation.section.mapping.end.json
           pop: true
@@ -364,7 +363,7 @@ contexts:
                   - match: \S
                     scope: invalid.illegal.unexpected-token.placeholder.sublime-build
               - include: scope:source.regexp-replacement
-            - include: scope:source.regexp#base-literal
+            - include: RegExp.sublime-syntax#base-literal
     - match: '(\$)(?:({{placeholder}})\b|(\w*))(\s?)'
       captures:
         1: keyword.other.placeholder.dollar.placeholder.sublime-build
@@ -374,7 +373,7 @@ contexts:
     - include: string-escape
 
   comments:
-    - include: scope:source.json.sublime.keymap#comments
+    - include: Sublime Text Keymap.sublime-syntax#comments
 
   only-comments:
     - include: comments
@@ -382,7 +381,7 @@ contexts:
       scope: invalid.illegal.expected-comment-or-eof.sublime-build
 
   expect-colon:
-    - include: scope:source.json.sublime.keymap#expect-colon
+    - include: Sublime Text Keymap.sublime-syntax#expect-colon
 
   expect-string:
     - include: JSON.sublime-syntax#string
@@ -402,7 +401,7 @@ contexts:
     - include: expect-string
 
   expect-boolean:
-    - include: scope:source.json.sublime.keymap#expect-boolean
+    - include: Sublime Text Keymap.sublime-syntax#expect-boolean
 
   expect-boolean-value:
     - match: \b(?=true|false|null\b)
@@ -420,22 +419,22 @@ contexts:
       pop: true
 
   expect-dictionary-value:
-    - include: scope:source.json.sublime.keymap#expect-dictionary-value
+    - include: Sublime Text Keymap.sublime-syntax#expect-dictionary-value
 
   in-array-expect-comma:
-    - include: scope:source.json.sublime.keymap#in-array-expect-comma
+    - include: Sublime Text Keymap.sublime-syntax#in-array-expect-comma
 
   in-dictionary-expect-comma:
-    - include: scope:source.json.sublime.keymap#in-dictionary-expect-comma
+    - include: Sublime Text Keymap.sublime-syntax#in-dictionary-expect-comma
 
   expect-colon-value:
-    - include: scope:source.json.sublime.keymap#expect-colon-value
+    - include: Sublime Text Keymap.sublime-syntax#expect-colon-value
 
   string-escape:
-    - include: scope:source.json.sublime.keymap#string-escape
+    - include: Sublime Text Keymap.sublime-syntax#string-escape
 
   dictionary-value-meta-scope:
-    - include: scope:source.json.sublime.keymap#dictionary-value-meta-scope
+    - include: Sublime Text Keymap.sublime-syntax#dictionary-value-meta-scope
 
   mapping-value-meta:
     - clear_scopes: 1
