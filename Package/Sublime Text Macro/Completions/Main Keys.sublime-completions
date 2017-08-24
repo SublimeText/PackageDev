@@ -1,7 +1,7 @@
 {
     "scope": "meta.main-key.sublime-macro",
     "completions": [
-        { "trigger": "command\tMain Key", "contents": "command" },
-        { "trigger": "args\tMain Key", "contents": "args" },
+        { "trigger": "command\tmain key", "contents": "command" },
+        { "trigger": "args\tmain key", "contents": "args" },
     ]
 }

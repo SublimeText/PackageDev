@@ -1,0 +1,4 @@
+{
+    "extensions": ["sublime-settings"],
+    "auto_complete_selector": "- string - comment | meta.main-key | meta.command-name",
+}
