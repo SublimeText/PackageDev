@@ -1,0 +1,7 @@
+{
+    "scope": "meta.main-key.sublime-build - meta.mapping meta.mapping",
+    "completions": [
+        { "trigger": "selector\tmain key", "contents": "selector" },
+        { "trigger": "variants\tmain key", "contents": "variants" },
+    ]
+}

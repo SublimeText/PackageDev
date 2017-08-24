@@ -1,0 +1,20 @@
+{
+    "scope": "meta.main-key.sublime-build",
+    "completions": [
+        { "trigger": "target\ttarget command", "contents": "target" },
+        { "trigger": "cmd\texec argument", "contents": "cmd" },
+        { "trigger": "shell_cmd\texec argument", "contents": "shell_cmd" },
+        { "trigger": "file_regex\texec argument", "contents": "file_regex" },
+        { "trigger": "line_regex\texec argument", "contents": "line_regex" },
+        { "trigger": "working_dir\texec argument", "contents": "working_dir" },
+        { "trigger": "encoding\texec argument", "contents": "encoding" },
+        { "trigger": "env\texec argument", "contents": "env" },
+        { "trigger": "quiet\texec argument", "contents": "quiet" },
+        { "trigger": "kill\texec argument", "contents": "kill" },
+        { "trigger": "update_phantoms_only\texec argument", "contents": "update_phantoms_only" },
+        { "trigger": "hide_phantoms_only\texec argument", "contents": "hide_phantoms_only" },
+        { "trigger": "word_wrap\texec argument", "contents": "word_wrap" },
+        { "trigger": "syntax\texec argument", "contents": "syntax" },
+        { "trigger": "path\texec argument", "contents": "path" },
+    ]
+}
