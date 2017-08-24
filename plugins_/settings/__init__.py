@@ -50,6 +50,21 @@ POPUP_TEMPLATE = """
 </body>
 """
 
+PHANTOM_TEMPLATE = """
+<body id="sublime-settings-edit">
+<style>
+    body {{
+        margin: 0;
+        padding: 0;
+    }}
+    a {{
+        text-decoration: none;
+    }}
+</style>
+{0}
+</body>
+"""
+
 # user package pattern
 USER_PATH = "{0}Packages{0}User{0}".format(os.sep)
 
@@ -84,13 +99,21 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             self.known_settings = None
             l.error("Not a Sublime Text Settings file: %r", filepath)
 
+        self.phantom_set = sublime.PhantomSet(self.view, "sublime-settings-edit")
+        if self._is_base_settings_view():
+            self.build_phantoms()
+
     def __del__(self):
         l.debug("deleting SettingsListener instance for %r", self.view.file_name())
         self.view.erase_regions('unknown_settings_keys')
+        self.phantom_set.update([])
 
     def on_modified_async(self):
         """Sublime Text modified event handler to update linting."""
         self.do_linting()
+        if self._is_base_settings_view():
+            # This may only occur for unpacked packages
+            self.build_phantoms()
 
     def on_query_completions(self, prefix, locations):
         """Sublime Text query completions event handler.
@@ -192,6 +215,27 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             )
         else:
             self.view.erase_regions('unknown_settings_keys')
+
+    def build_phantoms(self):
+        """Add links to side-by-side base file for editing this setting in the user file."""
+        l.debug("Building phantom set for view %r", self.view.file_name())
+        key_regions = self.view.find_by_selector(KEY_SCOPE)
+        phantoms = []
+        for region in key_regions:
+            key_name = self.view.substr(region)
+            phantom_region = sublime.Region(region.end() + 1)  # before colon
+            content = "<a href=\"edit:{0}\">✏</a>".format(key_name)
+            phantoms.append(sublime.Phantom(
+                phantom_region,
+                PHANTOM_TEMPLATE.format(content),
+                sublime.LAYOUT_INLINE,
+                self.on_navigate,
+            ))
+
+        self.phantom_set.update(phantoms)
+
+    def _is_base_settings_view(self):
+        return self.view.settings().get('edit_settings_view') == 'base'
 
 
 # Some hooks are not available to ViewEventListeners,

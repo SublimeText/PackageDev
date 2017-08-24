@@ -303,18 +303,11 @@ class KnownSettings(object):
             # the default value from base file
             default = html_encode(
                 sublime.encode_value(self.defaults.get(key), pretty=True))
-            # prepare a link to add the settings to user file or jump to its
-            # position for editing, if the item in side-by-side setting's
-            # base view is hoverd
-            if view.settings().get('edit_settings_view') == 'base':
-                edit = "<a href=\"edit:{0}\">✏</a>".format(key)
-            else:
-                edit = ""
         else:
-            comment, default, edit = "No description.", "unknown setting", ""
+            comment, default = "No description.", "unknown setting"
         # format tooltip html content
         return (
-            "<h1>{key} {edit}</h1>"
+            "<h1>{key}</h1>"
             "<h2>Default: {default}</h2>"
             "<p>{comment}</p>"
         ).format(**locals())
