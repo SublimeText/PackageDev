@@ -1,8 +1,8 @@
 {
     "scope": "meta.main-key.sublime-build - meta.os.sublime-build",
     "completions": [
-        { "trigger": "linux\tMain Key", "contents": "linux" },
-        { "trigger": "osx\tMain Key", "contents": "osx" },
-        { "trigger": "windows\tMain Key", "contents": "windows" },
+        { "trigger": "linux\tmain key", "contents": "linux" },
+        { "trigger": "osx\tmain key", "contents": "osx" },
+        { "trigger": "windows\tmain key", "contents": "windows" },
     ]
 }
