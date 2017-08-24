@@ -34,7 +34,7 @@ def format_completion_item(value, default=False):
                                    type(value).__name__,
                                    default_str),
             # 'cast' dicts to frozen sets, because those are hashable
-            frozenset(value.items()) if isinstance(value, dict) else value)
+            frozenset(value) if isinstance(value, dict) else value)
 
 
 def decode_value(string):
@@ -644,7 +644,7 @@ class KnownSettings(object):
             {(trigger, contents), ...}
                 A set of all completions.
         """
-        if default is None:
+        if default is None or default is "":
             return set()
         elif isinstance(default, bool):
             return {format_completion_item(True), format_completion_item(False)}
