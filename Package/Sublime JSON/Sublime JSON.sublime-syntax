@@ -122,6 +122,7 @@ contexts:
       set: [mapping-value-meta, number-pop]
 
   expect-number-rest:
+    - include: comments
     - match: (\s*)(?=[},\]])
       scope: invalid.illegal.expected-string.sublime
       pop: true
@@ -247,6 +248,7 @@ contexts:
       set: [mapping-value-meta, null-pop]
 
   expect-null-rest:
+    - include: comments
     - match: (\s*)(?=[},\]])
       scope: invalid.illegal.expected-null.sublime
       pop: true
@@ -276,6 +278,7 @@ contexts:
       set: [mapping-value-meta, sequence-pop]
 
   expect-sequence-rest:
+    - include: comments
     - match: (\s*)(?=[},\]])
       scope: invalid.illegal.expected-sequence.sublime
       pop: true
@@ -332,6 +335,7 @@ contexts:
       set: [mapping-value-meta, mapping-pop]
 
   expect-mapping-rest:
+    - include: comments
     - match: (\s*)(?=[},\]])
       scope: invalid.illegal.expected-mapping.sublime
       pop: true
