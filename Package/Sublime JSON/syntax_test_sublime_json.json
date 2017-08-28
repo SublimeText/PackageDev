@@ -5,6 +5,11 @@
 // comment
 // <- comment.line.double-slash.js punctuation.definition.comment.json
 // ^^^^^^^^ comment.line.double-slash.js
+//
+    /* block comment */
+//  ^^^^^^^^^^^^^^^^^^^ comment.block.json
+//  ^^ punctuation.definition.comment.begin.json
+//                   ^^ punctuation.definition.comment.end.json
 
     2
 //  ^ constant.numeric.json
@@ -34,7 +39,7 @@
 //  ^^^ meta.mapping.json
 //   ^ - invalid.illegal.expected-key.json
 
-    { "a key": "a value" }
+    { "a key": "a value" /* comment*/ }
 //  ^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 //    ^^^^^^^ meta.mapping.key.json string.quoted.double.json
 //    ^ punctuation.definition.string.begin.json
@@ -43,7 +48,8 @@
 //             ^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
 //             ^ punctuation.definition.string.begin.json
 //                     ^ punctuation.definition.string.end.json
-//                       ^ meta.mapping.json punctuation.section.mapping.end.json
+//                       ^^^^^^^^^^^^ comment.block.json
+//                                    ^ meta.mapping.json punctuation.section.mapping.end.json
 
     { not-a-key, still-not-a-key "key": 1 }
 //    ^^^^^^^^^^ invalid.illegal.expected-key.json

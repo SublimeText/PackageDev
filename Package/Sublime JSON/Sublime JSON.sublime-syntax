@@ -46,10 +46,11 @@ contexts:
     #     - match: \*/
     #       pop: true
     - match: /\*
-      scope: punctuation.definition.comment.json
+      scope: punctuation.definition.comment.begin.json
       push:
         - meta_scope: comment.block.json
         - match: \*/
+          scope: punctuation.definition.comment.end.json
           pop: true
     - match: (//).*$\n?
       scope: comment.line.double-slash.js
