@@ -358,8 +358,16 @@ contexts:
     - match: (\s*)(?=[\]])
       scope: invalid.illegal.expected-key.json
       pop: true
-    - match: \S
+    # Try to match only valid "values" as invalid,
+    # not any bare words.
+    - match: (,|{{number}}|\b(true|false|null))
       scope: invalid.illegal.expected-key.json
+    - match: (\s*)(?=\[)
+      scope: invalid.illegal.expected-key.json
+      push: sequence-pop
+    - match: (\s*)(?=\{)
+      scope: invalid.illegal.expected-key.json
+      push: mapping-pop
 
   key-pop:
     - clear_scopes: 1  # clear the "meta.mapping.json" scope

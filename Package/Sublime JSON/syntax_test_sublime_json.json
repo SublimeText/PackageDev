@@ -51,11 +51,22 @@
 //                       ^^^^^^^^^^^^ comment.block.json
 //                                    ^ meta.mapping.json punctuation.section.mapping.end.json
 
-    { not-a-key, still-not-a-key "key": 1 }
-//    ^^^^^^^^^^ invalid.illegal.expected-key.json
-//               ^^^^^^^^^^^^^^^ invalid.illegal.expected-key.json
-//                               ^^^^^ meta.mapping.key.json string.quoted.double.json
-//                                        ^ punctuation.section.mapping.end.json
+    { not-a-key, still-not-a-key 123 null "key": 1 }
+//    ^^^^^^^^^ - meta.mapping.key - invalid.illegal.expected-key.json
+//             ^ invalid.illegal.expected-key.json
+//               ^^^^^^^^^^^^^^^ - meta.mapping.key - invalid.illegal.expected-key.json
+//                               ^^^ invalid.illegal.expected-key.json
+//                                   ^^^^ invalid.illegal.expected-key.json
+//                                        ^^^^^ meta.mapping.key.json string.quoted.double.json
+//                                             ^ punctuation.separator.mapping.key-value.json
+//                                               ^ meta.mapping.value.json constant.numeric.json
+//                                                 ^ punctuation.section.mapping.end.json
+
+    { ["unexpected sequence that is still highlighted"], "normal key": null }
+//   ^ invalid.illegal.expected-key.json
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.json meta.sequence.json
+//                                                     ^ invalid.illegal.expected-key.json
+//                                                       ^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json
 
     { "key" "without colon" }
 //         ^ invalid.illegal.expected-colon.json
