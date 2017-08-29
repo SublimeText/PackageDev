@@ -448,3 +448,19 @@ contexts:
           scope: invalid.illegal.unclosed-string.json
           pop: true
 
+  expect-scope-value:
+    - match: (?=")
+      set: [mapping-value-meta, scope-string-pop]
+    - include: expect-string-rest
+
+  scope-string-pop:
+    - match: '"'
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json
+        - meta_content_scope: source.scope-selector
+        - include: scope:source.scope-selector
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+

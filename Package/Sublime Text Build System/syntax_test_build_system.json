@@ -9,10 +9,10 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 //  ^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //          ^ punctuation.separator.mapping.key-value.json
-//            ^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime-build string.quoted.double.json
-//             ^^^^^^^^^^^^^^^^ support.constant.command-name.sublime-build
+//            ^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
+//             ^^^^^^^^^^^^^^^^ support.constant.command-name.sublime
 //                              ^ punctuation.separator.mapping.pair.json
-//                               ^ invalid.illegal.expected-key.sublime-build
+//                               ^ invalid.illegal.expected-key.json
     "selector": "source.mylang",
 //  ^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //   ^^^^^^^^ keyword.other.main.sublime-build
@@ -75,7 +75,7 @@
     "env": "path",
 //  ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //   ^^^ keyword.other.main.sublime-build
-//         ^^^^^^ invalid.illegal.expected-mapping.sublime-keymap
+//         ^^^^^^ invalid.illegal.expected-mapping.sublime
 
     "cmd":  ["python", "-u", "$file"],
 //  ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
@@ -105,15 +105,15 @@
 //                             ^^^^ constant.other.placeholder.sublime-build
 
     "shell_cmd": ["$file"],
-//               ^ invalid.illegal.expected-string.sublime-build
+//               ^ invalid.illegal.expected-string.sublime
 
 
     "shell": false,
 //  ^^^^^^^ meta.build.collection.sublime-build meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //   ^^^^^ keyword.other.main.sublime-build
-//           ^^^^^ meta.mapping.value.json constant.language.json
+//           ^^^^^ meta.mapping.value.json constant.language.boolean.json
     "shell": "foo",
-//           ^^^^^ invalid.illegal.expected-boolean.sublime-build
+//           ^^^^^ invalid.illegal.expected-boolean.sublime
 
 
 // name is not a keyword outside variants
@@ -134,8 +134,8 @@
             "target": "do_something",
 //          ^^^^^^^^ meta.mapping.value.json meta.variants.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //           ^^^^^^ keyword.other.main.sublime-build
-//                    ^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping.value.json meta.command-name.sublime-build string.quoted.double.json
-//                     ^^^^^^^^^^^^ support.constant.command-name.sublime-build
+//                    ^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
+//                     ^^^^^^^^^^^^ support.constant.command-name.sublime
 
 // selector is not a keyword inside variants
             "selector": "source.mylang",
@@ -157,5 +157,5 @@
 
   ,[]//fgfg
 // <- - invalid.illegal
-//^^^ invalid.illegal.expected-comment-or-eof.sublime-build
+//^^^ invalid.illegal.expected-comment-or-eof.sublime
 //   ^^ comment.line.double-slash - invalid.illegal
