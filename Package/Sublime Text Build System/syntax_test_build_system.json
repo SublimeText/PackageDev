@@ -55,7 +55,7 @@
 //                     ^^^^^ - constant.other.placeholder.sublime-build
 
     "osx": "test",
-//         ^ invalid.illegal.expected-mapping.sublime-build
+//         ^ invalid.illegal.expected-mapping.sublime
 
     "osx": {
 //  ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
@@ -97,6 +97,9 @@
 //                                                 ^ constant.other.regex-modifier.placeholder.sublime-build
 //
 
+    "cmd": 1,
+//         ^ invalid.illegal.expected-sequence-or-string.sublime-build
+
     "shell_cmd": "python -u \"$file\" && ls",
 //  ^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //   ^^^^^^^^^ keyword.other.main.sublime-build
@@ -124,7 +127,7 @@
     "variants": [
 //              ^ meta.build.collection.sublime-build meta.mapping.value.json meta.variants.sublime-build meta.sequence.json punctuation.section.sequence.begin.json
         "test"
-//      ^^^^^^ invalid.illegal.build.expected-mapping.sublime-build
+//      ^^^^^^ invalid.illegal.expected-mapping.sublime
         {
             "name": "Foo",
 //          ^^^^^^ meta.mapping.value.json meta.variants.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json

@@ -28,7 +28,7 @@ contexts:
           scope: punctuation.section.mapping.end.json
           set: only-comments
         - match: (?=")
-          push: main-key
+          push: [in-mapping-expect-comma, main-key]
         - include: expect-key-rest
 
   main-key:
@@ -39,96 +39,97 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-scope-value, expect-colon]
+      set: [expect-scope-string-value, expect-colon]
     - match: (")(variants)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-variants-array, expect-colon]
-    - include: in-dictionary-target-command
-    - include: in-dictionary-exec-args
-    - include: in-dictionary-os-dict
+      set: [expect-variants-array, expect-colon]
+    - include: target-key
+    - include: exec-args-key
+    - include: os-key
     - include: in-dictionary-main-key
 
-  in-dictionary-os-dict:
+  os-key:
     - match: (")(linux|osx|windows)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-os-dict, expect-colon]
+      set: [expect-os-mapping, expect-colon]
 
   in-dictionary-main-key:
     - match: \"
       scope: punctuation.definition.string.begin.json
       set:
-      - meta_scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-      - match: \"
-        scope: punctuation.definition.string.end.json
-        set: [in-mapping-expect-comma, expect-any-value, expect-colon]
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
 
-  in-dictionary-target-command:
+  target-key:
     - match: (")(target)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-command-name-value, expect-colon]
+      set: [expect-command-name-value, expect-colon]
 
-  in-dictionary-exec-args:
+  exec-args-key:
     - match: (")(cmd)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-cmd-value, expect-colon]
+      set: [expect-cmd-value, expect-colon]
     - match: (")(shell_cmd)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-shell-cmd-string-value, expect-colon]
+      set: [expect-shell-cmd-string-value, expect-colon]
     - match: (")(working_dir)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-working-dir-value, expect-colon]
+      set: [expect-working-dir-value, expect-colon]
     - match: (")(file_regex|line_regex)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-regex-string-value, expect-colon]
+      set: [expect-regex-string-value, expect-colon]
     - match: (")(shell|quiet|kill|update_phantoms_only|hide_phantoms_only|word_wrap)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-boolean-value, expect-colon]
+      set: [expect-boolean-value, expect-colon]
     - match: (")(env)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-mapping-value, expect-colon]
+      set: [expect-mapping-value, expect-colon]
     - match: (")(encoding|path|syntax)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [in-mapping-expect-comma, expect-string-value, expect-colon]
+      set: [expect-string-value, expect-colon]
 
   expect-regex-string-value:
     - match: (?=")
@@ -158,13 +159,7 @@ contexts:
       set: [mapping-value-meta, variants-array]
     - match: (?=\}|,)
       pop: true
-    - include: comments
-    - match: (\s*)(?=[},\]])
-      scope: invalid.illegal.expected-array.sublime-build
-      pop: true
-    - match: \S
-      scope: invalid.illegal.expected-array.sublime-build
-      pop: true
+    - include: expect-sequence-rest
 
   variants-array:
     - match: \[
@@ -174,46 +169,42 @@ contexts:
         - match: \]
           scope: punctuation.section.sequence.end.json
           pop: true
-        - include: variant
-        - include: comments
-        - match: '[^\s\]\/,]+'
-          scope: invalid.illegal.build.expected-mapping.sublime-build
+        - match: (?=\{)
+          push: [in-sequence-expect-comma, variant-pop]
+        - include: expect-mapping-rest
 
-  variant:
+  variant-pop:
     - match: \{
       scope: punctuation.section.mapping.begin.json
-      push:
+      set:
         - meta_scope: meta.mapping.json
         - match: \}
           scope: punctuation.section.mapping.end.json
           pop: true
         - match: (?=")
-          push:
-            - clear_scopes: 1
-            - include: in-dictionary-target-command
-            - include: in-dictionary-exec-args
-            - include: in-dictionary-os-dict
-            - match: (")(name)(")
-              scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-              captures:
-                1: punctuation.definition.string.begin.json
-                2: keyword.other.main.sublime-build
-                3: punctuation.definition.string.end.json
-              set: [in-mapping-expect-comma, expect-string-value, expect-colon]
-            - include: in-dictionary-main-key
-        - include: comments
+          push: [in-mapping-expect-comma, variant-key]
+        - include: expect-key-rest
 
-  expect-os-dict:
+  variant-key:
+    - clear_scopes: 1
+    - include: target-key
+    - include: exec-args-key
+    - include: os-key
+    - match: (")(name)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-build
+        3: punctuation.definition.string.end.json
+      set: [expect-string-value, expect-colon]
+    - include: in-dictionary-main-key
+
+  expect-os-mapping:
     - match: (?=\{)
-      set: [mapping-value-meta, os-dict]
-    - include: comments
-    - match: (\s*)(?=[},\]])
-      scope: invalid.illegal.expected-mapping.sublime-build
-      pop: true
-    - match: \S
-      scope: invalid.illegal.expected-mapping.sublime-build
+      set: [mapping-value-meta, os-mapping-pop]
+    - include: expect-mapping-rest
 
-  os-dict:
+  os-mapping-pop:
     - match: \{
       scope: punctuation.section.mapping.begin.json
       set:
@@ -222,12 +213,14 @@ contexts:
           scope: punctuation.section.mapping.end.json
           pop: true
         - match: (?=")
-          push:
-            - clear_scopes: 1
-            - include: in-dictionary-target-command
-            - include: in-dictionary-exec-args
-            - include: in-dictionary-main-key
-        - include: comments
+          push: [in-mapping-expect-comma, os-mapping-key]
+        - include: expect-key-rest
+
+  os-mapping-key:
+    - clear_scopes: 1
+    - include: target-key
+    - include: exec-args-key
+    - include: in-dictionary-main-key
 
   expect-cmd-value:
     - match: (?=")
@@ -236,10 +229,10 @@ contexts:
       set: [mapping-value-meta, cmd-value]
     - include: comments
     - match: (\s*)(?=[},\]])
-      scope: invalid.illegal.expected-array-or-string.sublime-build
+      scope: invalid.illegal.expected-sequence-or-string.sublime-build
       pop: true
     - match: \S
-      scope: invalid.illegal.expected-array-or-string.sublime-build
+      scope: invalid.illegal.expected-sequence-or-string.sublime-build
       pop: true
 
   cmd-value:
@@ -358,11 +351,14 @@ contexts:
   expect-any-value:
     - include: Sublime JSON.sublime-syntax#expect-any-value
 
-  expect-scope-value:
-    - include: Sublime JSON.sublime-syntax#expect-scope-value
+  expect-scope-string-value:
+    - include: Sublime JSON.sublime-syntax#expect-scope-string-value
 
   expect-key-rest:
     - include: Sublime JSON.sublime-syntax#expect-key-rest
+
+  expect-sequence-rest:
+    - include: Sublime JSON.sublime-syntax#expect-sequence-rest
 
   expect-mapping-rest:
     - include: Sublime JSON.sublime-syntax#expect-mapping-rest
