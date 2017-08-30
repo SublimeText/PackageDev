@@ -9,6 +9,11 @@ scope: source.json.sublime.keymap
 contexts:
   main:
     - include: comments
+    - match: (?=\[)
+      push: main-sequence
+    - include: expect-sequence-rest
+
+  main-sequence:
     - match: \[
       scope: punctuation.section.sequence.begin.json
       push:
@@ -17,20 +22,15 @@ contexts:
           scope: punctuation.section.sequence.end.json
           set: only-comments
         - match: (?=\{)
-          push: [in-sequence-expect-comma, keymap-entry]
+          push: [in-sequence-expect-comma, keymap-entry-pop]
         - include: comments
-        - match: '[^,\s]'
+        - match: (\s*)(?=[}\]])
           scope: invalid.illegal.expected-mapping.sublime-keymap
-    - match: \S
-      scope: invalid.illegal.expected-sequence.sublime-keymap
+          pop: true
+        - match: \S
+          scope: invalid.illegal.expected-mapping.sublime-keymap
 
-  in-sequence-expect-comma:
-    - include: Sublime JSON.sublime-syntax#in-sequence-expect-comma
-
-  in-mapping-expect-comma:
-    - include: Sublime JSON.sublime-syntax#in-mapping-expect-comma
-
-  keymap-entry:
+  keymap-entry-pop:
     - match: \{
       scope: punctuation.section.mapping.begin.json punctuation.section.keybinding.begin.sublime-keymap
       set:
@@ -39,13 +39,13 @@ contexts:
           scope: punctuation.section.mapping.end.json punctuation.section.keybinding.end.sublime-keymap
           pop: true
         - match: (?=")
-          # Normally, we'd push 'in-mapping-expect-comma' here before main-keys,
+          # Normally, we'd push 'in-mapping-expect-comma' here before main-key,
           # but because we want to match the entire remaining dict inside the context
           # after the command name, we don't.
-          push: main-keys
+          push: main-key
         - include: expect-key-rest
 
-  main-keys:
+  main-key:
     - clear_scopes: 1
     - match: (")(keys)(")
       scope: meta.mapping.key.json meta.main-key.sublime-keymap string.quoted.double.json
@@ -94,7 +94,7 @@ contexts:
           set: [in-mapping-expect-comma, expect-any-value, expect-colon]
     - include: comments
 
-  main-keys-with-snippet-args:
+  main-key-with-snippet-args:
     - clear_scopes: 1
     - match: (")(args)(")
       scope: meta.mapping.key.json string.quoted.double.json meta.main-key.sublime-keymap
@@ -103,7 +103,7 @@ contexts:
         2: keyword.other.main.sublime-keymap meta.main-key.sublime-keymap
         3: punctuation.definition.string.end.json meta.main-key.sublime-keymap
       set: [in-mapping-expect-comma, expect-snippet-args-mapping-value, expect-colon]
-    - include: main-keys
+    - include: main-key
 
   expect-keys-sequence-value:
     - match: (?=\[)
@@ -191,7 +191,7 @@ contexts:
     - match: (?="command")
       pop: true
     - match: (?=")
-      push: main-keys-with-snippet-args
+      push: main-key-with-snippet-args
     - include: expect-key-rest
 
   expect-snippet-args-mapping-value:
@@ -598,6 +598,12 @@ contexts:
 
   expect-mapping-rest:
     - include: Sublime JSON.sublime-syntax#expect-mapping-rest
+
+  in-sequence-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-sequence-expect-comma
+
+  in-mapping-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-mapping-expect-comma
 
   mapping-value-meta:
     # - include: Sublime JSON.sublime-syntax#mapping-value-meta
