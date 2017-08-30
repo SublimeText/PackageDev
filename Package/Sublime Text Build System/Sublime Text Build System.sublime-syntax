@@ -345,7 +345,6 @@ contexts:
         3: meta.placeholder-name.sublime-build
         4: meta.placeholder-name.sublime-build # to provide auto-completion
     - include: string-escape
-    - include: string-escape
 
   comments:
     - include: Sublime JSON.sublime-syntax#comments
