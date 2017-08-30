@@ -28,8 +28,8 @@
         "id": ["file"],
 //      ^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //       ^^ keyword.other.main.sublime-menu
-//            ^ invalid.illegal.expected-string.sublime-menu
-//                   ^ invalid.illegal.expected-comma - invalid.illegal.expected-string.sublime-menu
+//            ^ invalid.illegal.expected-string.sublime
+//                   ^ invalid.illegal.expected-comma - invalid.illegal.expected-string.sublime
 //                    ^ punctuation.separator.mapping.pair.json
         "children"  :
 //      ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
@@ -41,20 +41,20 @@
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.mapping.value.json meta.sequence.json meta.mapping
 //            ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //             ^^^^^^^ keyword.other.main.sublime-menu
-//                       ^^^^^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime-menu string.quoted.double.json
-//                        ^^^^^^^^ support.constant.command-name.sublime-menu
+//                       ^^^^^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
+//                        ^^^^^^^^ support.constant.command-name.sublime
             { "caption": "-", "": "exit" },
 //            ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //             ^^^^^^^ keyword.other.main.sublime-menu
 //                       ^^^ meta.mapping.value.json  meta.mapping.value.json string.quoted.double.json
-//                        ^ - meta.command-name.sublime-menu - support.constant.command-name.sublime-menu
+//                        ^ - meta.command-name.sublime - support.constant.command-name.sublime
 //                            ^^ meta.main-key.sublime-menu string.quoted.double.json
 //                                ^^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
             { "command": "exit", "caption": "Exit", "mnemonic": "x", "platform": "Windows" }
 //            ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //             ^^^^^^^ keyword.other.main.sublime-menu
-//                       ^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime-menu string.quoted.double.json
-//                        ^^^^ support.constant.command-name.sublime-menu
+//                       ^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
+//                        ^^^^ support.constant.command-name.sublime
 //                               ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //                                ^^^^^^^ keyword.other.main.sublime-menu
 //                                                  ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
@@ -67,8 +67,8 @@
 //          ^ - invalid.illegal.expected-comma.inside-sequence.json
 //            ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //             ^^^^^^^ keyword.other.main.sublime-menu
-//                       ^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime-menu string.quoted.double.json
-//                        ^^^^ support.constant.command-name.sublime-menu
+//                       ^^^^^^ meta.mapping.value.json  meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
+//                        ^^^^ support.constant.command-name.sublime
 //                               ^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //                                ^^^^^^^ keyword.other.main.sublime-menu
 //                                                  ^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
@@ -81,5 +81,5 @@
 ]
   ,[]// comment
 // <- - invalid.illegal
-//^^^ invalid.illegal.expected-comment-or-eof.sublime-menu
+//^^^ invalid.illegal.expected-comment-or-eof.sublime
 //   ^^ comment.line.double-slash - invalid.illegal
