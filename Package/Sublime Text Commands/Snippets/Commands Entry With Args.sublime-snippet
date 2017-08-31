@@ -4,6 +4,6 @@
 	"command": "$2",
 	"args": {$3}
 },]]></content>
-	<tabTrigger>cc</tabTrigger>
+	<tabTrigger>ee</tabTrigger>
 	<scope>source.json.sublime.commands</scope>
 </snippet>

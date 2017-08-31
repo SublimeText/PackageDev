@@ -1,5 +1,5 @@
 <snippet>
 	<content><![CDATA[{ "caption": "$1", "command": "$2" },]]></content>
-	<tabTrigger>c</tabTrigger>
+	<tabTrigger>e</tabTrigger>
 	<scope>source.json.sublime.commands</scope>
 </snippet>
