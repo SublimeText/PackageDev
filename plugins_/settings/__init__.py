@@ -163,7 +163,6 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
         self.view.show_popup(
             content=POPUP_TEMPLATE.format(body),
-            on_navigate=self.on_navigate,
             location=location,
             max_width=window_width,
             flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY | sublime.COOPERATE_WITH_AUTO_COMPLETE
@@ -205,7 +204,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         if unknown_regions:
             styles = get_setting(
                 'settings.highlight_styles',
-                ['DRAW_SOLID_UNDERLINE', 'DRAW_NO_FILL', 'DRAW_NO_OUTLINE'])
+                ['DRAW_SOLID_UNDERLINE', 'DRAW_NO_FILL', 'DRAW_NO_OUTLINE']
+            )
             self.view.add_regions(
                 'unknown_settings_keys',
                 unknown_regions,
