@@ -287,7 +287,7 @@ contexts:
     - match: \[
       scope: punctuation.definition.array.begin.sublime-syntax
       set:
-        - meta_scope: meta.flow-sequence.yaml
+        - meta_scope: meta.include-list.sublime-syntax meta.flow-sequence.yaml
         - match: \]
           scope: punctuation.definition.array.end.sublime-syntax
           pop: true

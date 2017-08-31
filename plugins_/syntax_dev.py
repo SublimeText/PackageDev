@@ -231,7 +231,8 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
             return base_scope_completion
 
         # Auto-completion for include values using the 'contexts' keys
-        elif verify_scope("meta.expect-include-list | meta.expect-include"):
+        elif verify_scope("meta.expect-include-list | meta.expect-include"
+                          " | meta.include | meta.include-list"):
             # Verify that we're not looking for an external include
             for point in locations:
                 line_prefix = self._line_prefix(point)
