@@ -124,10 +124,12 @@ contexts:
   expect-number-rest:
     - include: comments
     - match: (\s*)(?=[},\]])
-      scope: invalid.illegal.expected-string.sublime
+      scope: invalid.illegal.expected-number.sublime
       pop: true
+    - match: '"([^"]|\\.)*"'
+      scope: invalid.illegal.expected-number.sublime
     - match: \S
-      scope: invalid.illegal.expected-string.sublime
+      scope: invalid.illegal.expected-number.sublime
 
   number-pop:
     - match: '{{number}}'
