@@ -90,36 +90,36 @@ contexts:
     - include: Packages/YAML/YAML.sublime-syntax#comment
 
   main:
-    - match: (first_line_match)\s*(:)
+    - match: (first_line_match)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.other.first_line_match.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_regexp
 
-    - match: (contexts)\s*(:)
+    - match: (contexts)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.contexts.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: contexts_block
 
-    - match: (variables)\s*(:)
+    - match: (variables)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.variables.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: variables_block
 
-    - match: (scope)\s*(:)
+    - match: (scope)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_scope
 
-    - match: (file_extensions)\s*(:)
+    - match: (file_extensions)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml entity.name.tag.yaml
         2: punctuation.separator.key-value.yaml
 
-    - match: (hidden)\s*(:)
+    - match: (hidden)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml storage.modifier.hidden.sublime-syntax
         2: punctuation.separator.key-value.yaml
@@ -174,67 +174,67 @@ contexts:
               pop: true
 
   context_content:
-    - match: (match)\s*(:)
+    - match: (match)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.other.match.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_regexp
 
-    - match: (captures)\s*(:)
+    - match: (captures)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.captures.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_captures
 
-    - match: (scope)\s*(:)
+    - match: (scope)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_scope
 
-    - match: (include)\s*(:)
+    - match: (include)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_include
 
-    - match: (push|set)\s*(:)
+    - match: (push|set)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_include_list
       # can also be a normal context mapping (in which case the context pops)
 
-    - match: (with_prototype)\s*(:)
+    - match: (with_prototype)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
         2: punctuation.separator.key-value.yaml
 
-    - match: (pop)\s*(:)
+    - match: (pop)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.pop.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_bool
 
-    - match: (meta_(?:content_)?scope)\s*(:)
+    - match: (meta_(?:content_)?scope)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.scope-name.meta.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_scope
 
-    - match: (meta_include_prototype)\s*(:)
+    - match: (meta_include_prototype)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_bool
 
-    - match: (comment)\s*(:)
+    - match: (comment)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml entity.name.tag.yaml
         3: punctuation.separator.key-value.yaml
       push: expect_comment
 
-    - match: (clear_scopes)\s*(:)  # expects bool or number
+    - match: (clear_scopes)\s*(:)(?=\s|$)  # expects bool or number
       captures:
         1: string.unquoted.plain.out.yaml storage.modifier.clear-scopes.sublime-syntax
         2: punctuation.separator.key-value.yaml
@@ -243,7 +243,7 @@ contexts:
     - meta_content_scope: meta.expect-captures.yaml
     - include: comment
     - include: yaml-tags-anchors
-    - match: (\d+)\s*(:)
+    - match: (\d+)\s*(:)(?=\s|$)
       captures:
         1: constant.numeric.integer.yaml
         2: punctuation.separator.key-value.yaml

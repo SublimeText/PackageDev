@@ -232,3 +232,8 @@ contexts: !mytag
 #     ^^^ keyword.control.flow.pop.sublime-syntax
 #          ^^^^^^ storage.type.tag-handle.yaml
 #                 ^^^^ constant.language.boolean.yaml
+
+      pop:not a key
+#     ^^^ - keyword
+variables:also not a key
+# <- - keyword
