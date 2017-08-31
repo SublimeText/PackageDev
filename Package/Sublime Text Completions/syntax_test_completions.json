@@ -19,18 +19,18 @@
 //               ^ punctuation.separator.mapping.key-value.json
 //                 ^ punctuation.section.sequence.begin.json
         "dict",
-//      ^ punctuation.definition.string.begin.json punctuation.definition.snippet.begin.sublime-completions
+//      ^ punctuation.definition.string.begin.json punctuation.definition.snippet.begin.sublime
 //      ^^^^^ meta.mapping.value.json meta.sequence.json string.quoted.double.json
-//           ^ punctuation.definition.string.end.json punctuation.definition.snippet.end.sublime-completions
+//           ^ punctuation.definition.string.end.json punctuation.definition.snippet.end.sublime
 //            ^ punctuation.separator.sequence.json
         { "trigger": "hello", "contents": "world" },
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping
 //                                                 ^ punctuation.separator.sequence.json
         "test",
-//      ^ punctuation.definition.string.begin.json punctuation.definition.snippet.begin.sublime-completions
+//      ^ punctuation.definition.string.begin.json punctuation.definition.snippet.begin.sublime
 //      ^^^^^^ meta.mapping.value.json meta.sequence.json string.quoted.double.json
 //       ^^^^ source.sublime.snippet.embedded.json-string
-//           ^ punctuation.definition.string.end.json punctuation.definition.snippet.end.sublime-completions
+//           ^ punctuation.definition.string.end.json punctuation.definition.snippet.end.sublime
 //            ^ punctuation.separator.sequence.json
         { "trigger": "fct\tFunction", "contents": "function ($1) { ${2:Test}; ${2/t/a/g}}" },
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping meta.sequence meta.mapping - meta.mapping meta.mapping meta.mapping
@@ -60,4 +60,4 @@
 // <- meta.completions.collection.sublime-completions meta.mapping.json punctuation.section.mapping.end.json
 
 {more}
-// <- invalid.illegal.expected-comment-or-eof.sublime-completions
+// <- invalid.illegal.expected-comment-or-eof.sublime

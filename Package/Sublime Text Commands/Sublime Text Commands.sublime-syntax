@@ -7,6 +7,11 @@ file_extensions:
 scope: source.json.sublime.commands
 contexts:
   main:
+    - match: (?=\[)
+      push: main-sequence
+    - include: expect-sequence-rest
+
+  main-sequence:
     - match: \[
       scope: punctuation.section.sequence.begin.json
       push:
@@ -14,26 +19,21 @@ contexts:
         - match: \]
           scope: punctuation.section.sequence.end.json
           set: only-comments
-        - match: \{
-          scope: punctuation.section.mapping.begin.json punctuation.definition.sublime-commands.begin.sublime-commands
-          push: [in-array-expect-comma, main-keys]
-        - include: comments
-        - match: '[^,\s]'
-          scope: invalid.illegal.expected-mapping.sublime-commands
-    - include: comments
-    - match: \S
-      scope: invalid.illegal.expected-sequence.sublime-commands
+        - match: (?=\{)
+          push: [in-sequence-expect-comma, commands-entry]
+        - include: expect-mapping-rest
 
-  main-keys:
-    - meta_scope: meta.mapping.json
-    - match: (?=")
-      push: main-key
-    - match: \}
-      scope: punctuation.section.mapping.end.json punctuation.section.sublime-commands.end.sublime-commands
-      pop: true
-    - include: comments
-    - match: \S
-      scope: invalid.illegal.expected-key.sublime-commands
+  commands-entry:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json punctuation.definition.sublime-commands.begin.sublime-commands
+      set:
+        - meta_scope: meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json punctuation.section.sublime-commands.end.sublime-commands
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, main-key]
+        - include: expect-key-rest
 
   main-key:
     - clear_scopes: 1
@@ -43,96 +43,59 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-commands
         3: punctuation.definition.string.end.json
-      set: [in-dictionary-expect-comma, expect-string-value, expect-colon]
+      set: [expect-string-value, expect-colon]
     - match: (")(command)(")
       scope: meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-commands
         3: punctuation.definition.string.end.json
-      set: [in-dictionary-expect-comma, expect-command-name, expect-colon]
+      set: [expect-command-name-value, expect-colon]
     - match: (")(args)(")
       scope: meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-commands
         3: punctuation.definition.string.end.json
-      set: [in-dictionary-expect-comma, expect-dictionary-value, expect-colon]
+      set: [expect-mapping-value, expect-colon]
     - match: (")(\w*)(")
       scope: meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         # 2: invalid.unknown-key.sublime-commands
         3: punctuation.definition.string.end.json
-      set: [in-dictionary-expect-comma, expect-colon-value]
+      set: [expect-any-value, expect-colon]
 
-  expect-command-name:
-    - match: (?=")
-      set:
-        - clear_scopes: 1
-        - match: (\")([a-z_\d]+)(\")
-          scope: meta.mapping.value.json meta.command-name.sublime-commands string.quoted.double.json
-          captures:
-            1: punctuation.definition.string.begin.json
-            2: support.constant.command-name.sublime-commands
-            3: punctuation.definition.string.end.json
-          pop: true
-        - match: \" # probably illegal command name
-          scope: punctuation.definition.string.begin.json
-          set:
-            - clear_scopes: 1
-            - meta_scope: meta.mapping.value.json string.quoted.double.json meta.command-name.sublime-commands
-            - meta_content_scope: invalid.illegal.invalid-command.sublime-commands
-            - match: \"
-              scope: punctuation.definition.string.end.json
-              pop: true
-            - include: JSON.sublime-syntax#string-escape
-            - match: $\n?
-              scope: invalid.illegal.unclosed-string.json
-              pop: true
-    - include: comments
-    - include: expect-string
-
-  comments:
-    - include: Sublime Text Keymap.sublime-syntax#comments
+  expect-command-name-value:
+    - include: Sublime JSON.sublime-syntax#expect-command-name-value
 
   only-comments:
-    - include: comments
-    - match: '[^/\s]+'
-      scope: invalid.illegal.expected-comment-or-eof.sublime-commands
+    - include: Sublime JSON.sublime-syntax#only-comments
 
   expect-colon:
-    - include: Sublime Text Keymap.sublime-syntax#expect-colon
-
-  expect-string:
-    - include: Sublime Text Mousemap.sublime-syntax#expect-string
+    - include: Sublime JSON.sublime-syntax#expect-colon
 
   expect-string-value:
-    - match: (?=")
-      set:
-        - clear_scopes: 1
-        - meta_scope: meta.mapping.value.json
-        - include: JSON.sublime-syntax#string
-        - match: ''
-          pop: true
-    - include: expect-string
+    - include: Sublime JSON.sublime-syntax#expect-string-value
 
-  in-array-expect-comma:
-    - include: Sublime Text Keymap.sublime-syntax#in-array-expect-comma
+  in-sequence-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-sequence-expect-comma
 
-  in-dictionary-expect-comma:
-    - include: Sublime Text Keymap.sublime-syntax#in-dictionary-expect-comma
+  in-mapping-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-mapping-expect-comma
 
-  expect-dictionary-value:
-    - match: '(?=\{)'
-      set: [Sublime Text Mousemap.sublime-syntax#dictionary-value-meta-scope,
-            Sublime Text Mousemap.sublime-syntax#dictionary]
-    - include: comments
-    - match: (\s*)(?=[},\]])
-      scope: invalid.illegal.expected-mapping.sublime-commands
-      pop: true
-    - match: \S
-      scope: invalid.illegal.expected-mapping.sublime-commands
+  expect-mapping-value:
+    - include: Sublime JSON.sublime-syntax#expect-mapping-value
 
-  expect-colon-value:
-    - include: Sublime Text Keymap.sublime-syntax#expect-colon-value
+  expect-mapping-rest:
+    - include: Sublime JSON.sublime-syntax#expect-mapping-rest
+
+  expect-sequence-rest:
+    - include: Sublime JSON.sublime-syntax#expect-sequence-rest
+
+  expect-any-value:
+    - include: Sublime JSON.sublime-syntax#expect-any-value
+
+  expect-key-rest:
+    - include: Sublime JSON.sublime-syntax#expect-key-rest
+

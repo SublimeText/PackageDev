@@ -1,0 +1,90 @@
+// SYNTAX TEST "Packages/PackageDev/Package/Sublime JSON/Sublime JSON.sublime-syntax"
+
+// <- source.json.sublime
+
+// comment
+// <- comment.line.double-slash.js punctuation.definition.comment.json
+// ^^^^^^^^ comment.line.double-slash.js
+//
+    /* block comment */
+//  ^^^^^^^^^^^^^^^^^^^ comment.block.json
+//  ^^ punctuation.definition.comment.begin.json
+//                   ^^ punctuation.definition.comment.end.json
+
+    2
+//  ^ constant.numeric.json
+
+    true tru null
+//  ^^^^ constant.language.boolean.json
+//       ^^^ - constant
+//           ^^^^ constant.language.null.json
+
+    "string \t \-" '' "
+//  ^^^^^^^^^^^^^^ string.quoted.double.json
+//  ^ punctuation.definition.string.begin.json
+//          ^^ constant.character.escape.json
+//             ^^ invalid.illegal.unrecognized-string-escape.json
+//               ^ punctuation.definition.string.end.json
+//                ^^^^ - string
+//                     ^ string.quoted.double.json invalid.illegal.unclosed-string.json
+
+    [1, 2, 3]
+//  ^^^^^^^^^ meta.sequence.json
+//  ^ punctuation.section.sequence.begin.json
+//  ^ punctuation.section.sequence.begin.json
+//   ^ constant.numeric.json
+//    ^ punctuation.separator.sequence.json
+
+    { }
+//  ^^^ meta.mapping.json
+//   ^ - invalid.illegal.expected-key.json
+
+    { "a key": "a value" /* comment*/ }
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+//    ^^^^^^^ meta.mapping.key.json string.quoted.double.json
+//    ^ punctuation.definition.string.begin.json
+//          ^ punctuation.definition.string.end.json
+//           ^ meta.mapping.json punctuation.separator.mapping.key-value.json
+//             ^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
+//             ^ punctuation.definition.string.begin.json
+//                     ^ punctuation.definition.string.end.json
+//                       ^^^^^^^^^^^^ comment.block.json
+//                                    ^ meta.mapping.json punctuation.section.mapping.end.json
+
+    { not-a-key, still-not-a-key 123 null "key": 1 }
+//    ^^^^^^^^^ - meta.mapping.key - invalid.illegal.expected-key.json
+//             ^ invalid.illegal.expected-key.json
+//               ^^^^^^^^^^^^^^^ - meta.mapping.key - invalid.illegal.expected-key.json
+//                               ^^^ invalid.illegal.expected-key.json
+//                                   ^^^^ invalid.illegal.expected-key.json
+//                                        ^^^^^ meta.mapping.key.json string.quoted.double.json
+//                                             ^ punctuation.separator.mapping.key-value.json
+//                                               ^ meta.mapping.value.json constant.numeric.json
+//                                                 ^ punctuation.section.mapping.end.json
+
+    { ["unexpected sequence that is still highlighted"], "normal key": null }
+//   ^ invalid.illegal.expected-key.json
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.json meta.sequence.json
+//                                                     ^ invalid.illegal.expected-key.json
+//                                                       ^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json
+
+    { "key" "without colon" }
+//         ^ invalid.illegal.expected-colon.json
+//                          ^ punctuation.section.mapping.end.json
+
+    { "key" , 123 }
+//         ^ invalid.illegal.expected-colon.json
+//          ^ punctuation.separator.mapping.pair.json
+//            ^^^ invalid.illegal.expected-key.json
+//                ^ punctuation.section.mapping.end.json
+
+    { "key": "value", , }
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+//                  ^ punctuation.separator.mapping.pair.json
+//                    ^ invalid.illegal.expected-key.json
+
+    { "sequence": [], "mapping": {"hi": null} }
+//                ^^ meta.mapping.value.json meta.sequence.json
+//                               ^^^^^^^^^^^^ meta.mapping.value.json meta.mapping - meta.mapping meta.mapping meta.mapping
+//                                ^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
+//

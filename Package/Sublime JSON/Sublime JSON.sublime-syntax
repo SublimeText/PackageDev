@@ -1,0 +1,497 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+
+# This file serves as a shared repository for the various JSON-based resource files,
+# because of how similar they are.
+# As a result,
+# the most specific scope node will just be named "sublime" instead of "sublime-menu",
+# since it is most likely being used in multiple places.
+#
+# Also, I'm calling this "Sublime JSON" because it has a nicer ring to it
+# and is shorter for importing purposes.
+#
+# Note that this is very context-push-based.
+hidden: true
+scope: source.json.sublime
+
+variables:
+  number: |- # handles integer and decimal numbers
+    (?x:
+      -?
+      (?: 0
+        | [1-9] \d*
+      )
+      (?:
+        (?: \. \d+ )?
+        (?: [eE] [+-]? \d+ )?
+      )?
+    )
+
+
+contexts:
+  main:
+    - include: comments
+    - include: any
+
+#################################################
+# Comments
+#################################################
+
+  comments:
+    # - match: /\*\*(?!/)
+    #   scope: punctuation.definition.comment.json
+    #   push:
+    #     - meta_scope: comment.block.documentation.json
+    #     - match: \*/
+    #       pop: true
+    - match: /\*
+      scope: punctuation.definition.comment.begin.json
+      push:
+        - meta_scope: comment.block.json
+        - match: \*/
+          scope: punctuation.definition.comment.end.json
+          pop: true
+    - match: (//).*$\n?
+      scope: comment.line.double-slash.js
+      captures:
+        1: punctuation.definition.comment.json
+
+  only-comments:
+    - include: comments
+    - match: '[^/\s]+'
+      scope: invalid.illegal.expected-comment-or-eof.sublime
+
+
+#################################################
+# Any
+#################################################
+
+  any:
+    - include: comments
+    - include: number
+    - include: string
+    - include: boolean
+    - include: 'null'
+    - include: sequence
+    - include: mapping
+
+  expect-any:
+    - include: comments
+    - include: number-pop
+    - include: string-pop
+    - include: boolean-pop
+    - include: null-pop
+    - include: sequence-pop
+    - include: mapping-pop
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-value.sublime
+      pop: true
+
+  expect-any-value:
+    - include: comments
+    - include: expect-number-value-only
+    - include: expect-string-value-only
+    - include: expect-boolean-value-only
+    - include: expect-null-value-only
+    - include: expect-sequence-value-only
+    - include: expect-mapping-value-only
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-value.sublime
+      pop: true
+
+
+#################################################
+# Number
+#################################################
+
+  number:
+    - match: '{{number}}'
+      scope: constant.numeric.json
+
+  expect-number:
+    - include: number-pop
+    - include: expect-number-rest
+
+  expect-number-value:
+    - include: expect-number-value-only
+    - include: expect-number-rest
+
+  expect-number-value-only:
+    - match: '(?={{number}})'
+      set: [mapping-value-meta, number-pop]
+
+  expect-number-rest:
+    - include: comments
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-number.sublime
+      pop: true
+    - match: '"([^"]|\\.)*"'
+      scope: invalid.illegal.expected-number.sublime
+    - match: \S
+      scope: invalid.illegal.expected-number.sublime
+
+  number-pop:
+    - match: '{{number}}'
+      scope: constant.numeric.json
+      pop: true
+
+
+#################################################
+# String
+#################################################
+
+  string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.json
+      push: inside-string
+
+  expect-string:
+    - include: string-pop
+    - include: expect-string-rest
+
+  expect-string-value:
+    - include: expect-string-value-only
+    - include: expect-string-rest
+
+  expect-string-value-only:
+    - match: (?=")
+      set: [mapping-value-meta, string-pop]
+
+  expect-string-rest:
+    - include: comments
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-string.sublime
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-string.sublime
+
+  string-pop:
+    - match: '"'
+      scope: punctuation.definition.string.begin.json
+      set: inside-string
+
+  inside-string:
+    - meta_scope: string.quoted.double.json
+    - match: '"'
+      scope: punctuation.definition.string.end.json
+      pop: true
+    - include: string-escape
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.json
+      pop: true
+
+  string-escape:
+    - match: |-
+        (?x:
+          \\
+          (?:
+              ["\\/bfnrt]
+            | u [0-9a-fA-F]{4}
+          )
+        )
+      scope: constant.character.escape.json
+    - match: \\.
+      scope: invalid.illegal.unrecognized-string-escape.json
+
+
+#################################################
+# Boolean
+#################################################
+
+  boolean:
+    - match: \b(true|false)\b
+      scope: constant.language.boolean.json
+
+  expect-boolean:
+    - include: boolean-pop
+    - include: expect-boolean-rest
+
+  expect-boolean-value:
+    - include: expect-boolean-value-only
+    - include: expect-boolean-rest
+
+  expect-boolean-value-only:
+    - match: \b(?=true|false\b)
+      set: [mapping-value-meta, boolean-pop]
+
+  expect-boolean-rest:
+    - include: comments
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-boolean.sublime
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-boolean.sublime
+
+  boolean-pop:
+    - match: \b(true|false)\b
+      scope: constant.language.boolean.json
+      pop: true
+
+
+#################################################
+# Null
+#################################################
+
+  'null':
+    - match: \bnull\b
+      scope: constant.language.null.json
+
+  expect-null:
+    - include: null-pop
+    - include: expect-null-rest
+
+  expect-null-value:
+    - include: expect-null-value-only
+    - include: expect-null-rest
+
+  expect-null-value-only:
+    - match: \b(?=null\b)
+      set: [mapping-value-meta, null-pop]
+
+  expect-null-rest:
+    - include: comments
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-null.sublime
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-null.sublime
+
+  null-pop:
+    - match: \bnull\b
+      scope: constant.language.null.json
+      pop: true
+
+
+#################################################
+# Sequence
+#################################################
+
+  sequence:
+    - match: (?=\[)
+      push: sequence-pop
+
+  expect-sequence-value:
+    - include: expect-sequence-value-only
+    - include: expect-sequence-rest
+
+  expect-sequence-value-only:
+    - match: (?=\[)
+      set: [mapping-value-meta, sequence-pop]
+
+  expect-sequence-rest:
+    - include: comments
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-sequence.sublime
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-sequence.sublime
+
+  sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.sequence.json
+        - include: comments
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\S)
+          push: [in-sequence-expect-comma, expect-any]
+
+  in-sequence-expect-comma:
+    - match: (?=\])
+      pop: true
+    - include: comments
+    - match: ','
+      scope: punctuation.separator.sequence.json
+      pop: true
+    - match: \s*(?=[{"\d\[]|true|false|null)
+      scope: invalid.illegal.expected-comma.inside-sequence.json
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-comma.inside-sequence.json
+
+
+#################################################
+# Mapping
+#################################################
+
+  mapping:
+    - match: (?=\{)
+      push: mapping-pop
+
+  expect-mapping:
+    - include: comments
+    - match: (?=\{)
+      set: mapping-pop
+    - include: expect-mapping-rest
+
+  expect-mapping-value:
+    - include: expect-mapping-value-only
+    - include: expect-mapping-rest
+
+  expect-mapping-value-only:
+    - include: comments
+    - match: (?=\{)
+      set: [mapping-value-meta, mapping-pop]
+
+  expect-mapping-rest:
+    - include: comments
+    - match: (\s*)(?=[},\]])
+      scope: invalid.illegal.expected-mapping.sublime
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-mapping.sublime
+
+  mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - include: key
+        - include: expect-key-rest
+
+  key:
+    - match: (?=")
+      push: [in-mapping-expect-comma, key-pop]
+
+  expect-key-rest:
+    - include: comments
+    - match: (\s*)(?=[\]])
+      scope: invalid.illegal.expected-key.json
+      pop: true
+    # Try to match only valid "values" as invalid,
+    # not any bare words.
+    - match: (,|{{number}}|\b(true|false|null))
+      scope: invalid.illegal.expected-key.json
+    - match: (\s*)(?=\[)
+      scope: invalid.illegal.expected-key.json
+      push: sequence-pop
+    - match: (\s*)(?=\{)
+      scope: invalid.illegal.expected-key.json
+      push: mapping-pop
+
+  key-pop:
+    - clear_scopes: 1  # clear the "meta.mapping.json" scope
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set: [expect-any-value, expect-colon, inside-key]
+
+  inside-key:
+    - clear_scopes: 1  # clear the "meta.mapping.json" scope
+    - meta_scope: meta.mapping.key.json string.quoted.double.json
+    - match: '"'
+      scope: punctuation.definition.string.end.json
+      pop: true
+    - include: inside-string
+
+  expect-colon:
+    - include: comments
+    - match: ':'
+      scope: punctuation.separator.mapping.key-value.json
+      pop: true
+    - match: (\s*)(?=[},\]"])
+      scope: invalid.illegal.expected-colon.json
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-colon.json
+
+  in-mapping-expect-comma:
+    - include: comments
+    - match: ','
+      scope: punctuation.separator.mapping.pair.json
+      pop: true
+    - match: (?=})
+      pop: true
+    - match: (\s*)(?=")
+      scope: invalid.illegal.expected-comma.inside-mapping.json
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected-comma.inside-mapping.json
+
+  mapping-value-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.value.json
+    - match: ''
+      pop: true
+
+
+#################################################
+# Special Values
+#################################################
+
+  expect-command-name-value:
+    - match: (?=")
+      set: [mapping-value-meta, command-name-pop]
+    - include: expect-string-rest
+
+  command-name-pop:
+    - match: (\")([a-z_\d]+)(\")
+      scope: meta.command-name.sublime string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: support.constant.command-name.sublime
+        3: punctuation.definition.string.end.json
+      pop: true
+    - match: \" # probably illegal command name
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: meta.command-name.sublime string.quoted.double.json
+        - meta_content_scope: invalid.illegal.invalid-command.sublime
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - include: string-escape
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+
+  expect-scope-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, scope-string-pop]
+    - include: expect-string-rest
+
+  scope-string-pop:
+    - match: '"'
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json
+        - meta_content_scope: source.scope-selector
+        - include: scope:source.scope-selector
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+
+  expect-snippet-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, snippet-string-pop]
+    - include: expect-string-rest
+
+  snippet-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json punctuation.definition.snippet.begin.sublime
+      set:
+        - meta_scope: string.quoted.double.json
+        - match: '"'
+          scope: punctuation.definition.string.end.json punctuation.definition.snippet.end.sublime
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - match: ''
+          push:
+            - meta_content_scope: source.sublime.snippet.embedded.json-string
+            - include: scope:source.sublime.snippet
+          with_prototype:
+            - match: (?="|$)
+              pop: true
+            - match: '(\\)(\\)([$}])'
+              captures:
+                1: constant.character.escape.json
+                2: constant.character.escape.json constant.character.escape.snippet
+                3: constant.character.escape.snippet
+            - include: string-escape

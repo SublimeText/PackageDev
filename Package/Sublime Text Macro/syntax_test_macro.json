@@ -14,8 +14,8 @@
 //       ^^^^^^^ keyword.other.main.sublime-macro
 //                    ^ punctuation.separator.mapping.key-value.json
         "move_to"  ,
-//      ^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime-macro string.quoted.double.json
-//       ^^^^^^^ support.constant.command-name.sublime-macro
+//      ^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
+//       ^^^^^^^ support.constant.command-name.sublime
 //                 ^ punctuation.separator.mapping.pair.json
     "args": {"to": "hardeol"}
 //  ^^^^^^ meta.mapping.key.json meta.main-key.sublime-macro string.quoted.double.json
@@ -31,16 +31,16 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.macro.collection.sublime-macro meta.mapping - meta.mapping meta.mapping
 //   ^^^^^^^^^ meta.sequence.json meta.macro.collection.sublime-macro meta.mapping.key.json meta.main-key.sublime-macro string.quoted.double.json
 //    ^^^^^^^ keyword.other.main.sublime-macro
-//              ^^^^^^^^ meta.mapping.value.json meta.command-name.sublime-macro string.quoted.double.json
-//               ^^^^^^ support.constant.command-name.sublime-macro
+//              ^^^^^^^^ meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
+//               ^^^^^^ support.constant.command-name.sublime
 //                      ^ invalid.illegal.expected-comma.inside-mapping.json
 //                       ^^^^^^ meta.mapping.key.json meta.main-key.sublime-macro string.quoted.double.json
 //                        ^^^^ keyword.other.main.sublime-macro
-//                               ^ invalid.illegal.expected-mapping.sublime-macro
+//                               ^ invalid.illegal.expected-mapping.sublime
 //                                     ^ punctuation.section.mapping.end.json
 
 ]
   ,[]// comment
 // <- - invalid.illegal
-//^^^ invalid.illegal.expected-comment-or-eof.sublime-macro
+//^^^ invalid.illegal.expected-comment-or-eof.sublime
 //   ^^ comment.line.double-slash - invalid.illegal

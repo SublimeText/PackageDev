@@ -23,7 +23,7 @@
 //                                 ^ string.quoted.double.json punctuation.definition.string.end.json
 //                                  ^^ - string.quoted.double.json
 //                                    ^ string.quoted.double.json punctuation.definition.string.begin.json
-//                                    ^^^^^ meta.mapping.value.json meta.command-name.sublime-mousemap string.quoted.double.json
+//                                    ^^^^^ meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
 //                                        ^ string.quoted.double.json punctuation.definition.string.end.json
 //                                          ^ punctuation.section.mapping.end.json
 //                                           ^ punctuation.separator.sequence.json
@@ -44,49 +44,49 @@
     "modifiers": ["ctrl", "nokey", ctrl],
 //  ^^^^^^^^^^^ meta.main-key.sublime-mousemap string.quoted.double.json
 //             ^ punctuation.separator.mapping.key-value.json
-//               ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.sequence.json meta.modifiers.sublime-mousemap
-//                ^^^^^^ meta.mapping.value.json meta.sequence.json meta.modifiers.sublime-mousemap string.quoted.double.json
+//               ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.modifiers.sublime-mousemap meta.sequence.json
+//                ^^^^^^ meta.mapping.value.json meta.modifiers.sublime-mousemap meta.sequence.json string.quoted.double.json
 //                 ^^^^ meta.modifiers.sublime-mousemap string.quoted.double.json support.function.modifier.key.sublime-mousemap
 //                      ^ punctuation.separator.sequence.modifiers.json
 //                        ^^^^^^^ string.quoted.double.json
 //                         ^^^^^ invalid.illegal.modifier.sublime-mousemap
 //                               ^ punctuation.separator.sequence.modifiers.json
-//                                 ^^^^ meta.mapping.json meta.mapping.value.json meta.sequence.json meta.modifiers.sublime-mousemap invalid.illegal.modifier.expected-string.sublime-mousemap
+//                                 ^^^^ meta.mapping.value.json meta.modifiers.sublime-mousemap meta.sequence.json invalid.illegal.modifier.expected-string.sublime-mousemap
 //                                      ^ punctuation.separator.mapping.pair.json
         "press_command": "drag_select",
 //      ^^^^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
 //                     ^ meta.mapping.json punctuation.separator.mapping.key-value.json
-//                       ^^^^^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime-mousemap string.quoted.double.json
+//                       ^^^^^^^^^^^^^ meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
 //                                    ^ meta.mapping.json punctuation.separator.mapping.pair.json
         "press_args": {"additive": true},
 //      ^^^^^^^^^^^^ meta.main-key.sublime-mousemap string.quoted.double.json
-//                    ^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping.json
+//                    ^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping - meta.mapping meta.mapping meta.mapping
 //                     ^^^^^^^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
 //                               ^ punctuation.separator.mapping.key-value.json
-//                                 ^^^^ meta.mapping.value.json meta.mapping.json meta.mapping.value.json constant.language.json
+//                                 ^^^^ meta.mapping.value.json meta.mapping.value.json constant.language.boolean.json
    "command": "my_command",
 // ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
 //          ^ meta.mapping.json punctuation.separator.mapping.key-value.json
 //            ^^^^^^^^^^^^ string.quoted.double.json
-//             ^^^^^^^^^^ meta.command-name.sublime-mousemap string.quoted.double.json support.constant.command-name.sublime-mousemap
+//             ^^^^^^^^^^ meta.command-name.sublime string.quoted.double.json support.constant.command-name.sublime
             "args": ,
-//                 ^ invalid.illegal.expected-mapping.sublime-mousemap
+//                 ^ invalid.illegal.expected-mapping.sublime
             "args": {
 //          ^^^^^^ meta.sequence.json meta.mousebinding.collection.sublime-mousemap meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
                 "hello": "world",
 //              ^^^^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
 //                     ^ meta.mapping.value.json meta.mapping.json punctuation.separator.mapping.key-value.json
-//                       ^^^^^^^ meta.mapping.value.json meta.mapping.json meta.mapping.value.json string.quoted.double.json
+//                       ^^^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
 //                              ^ meta.mapping.value.json meta.mapping.json punctuation.separator.mapping.pair.json
                 "foo": "bar"
 //              ^^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
 //                   ^ meta.mapping.value.json meta.mapping.json punctuation.separator.mapping.key-value.json
-//                     ^^^^^ meta.mapping.value.json meta.mapping.json meta.mapping.value.json string.quoted.double.json
+//                     ^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
             },
         "no_key": "value",
 //      ^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
 //              ^ meta.mapping.json punctuation.separator.mapping.key-value.json
-//                ^^^^^^^ meta.mapping.json meta.mapping.value.json string.quoted.double.json
+//                ^^^^^^^ meta.mapping.value.json string.quoted.double.json
 //                       ^ punctuation.separator.mapping.pair.json
         "unknown_key": "value",
 //      ^^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
@@ -103,11 +103,11 @@
     {
 
         "command": foo,
-//                 ^ invalid.illegal.expected-string.sublime-mousemap
+//                 ^ invalid.illegal.expected-string.sublime
         "args": "bar",
-//              ^ invalid.illegal.expected-mapping.sublime-mousemap
+//              ^ invalid.illegal.expected-mapping.sublime
         "count": "2",
-//               ^^^ invalid.illegal.expected-number.sublime-mousemap
+//               ^^^ invalid.illegal.expected-number.sublime
 
     }
 ]
@@ -115,5 +115,5 @@
 
   ,[]// comment
 // <- - invalid.illegal
-//^^^ invalid.illegal.expected-comment-or-eof.sublime-mousemap
+//^^^ invalid.illegal.expected-comment-or-eof.sublime
 //   ^^ comment.line.double-slash - invalid.illegal
