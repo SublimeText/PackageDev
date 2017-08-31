@@ -60,8 +60,9 @@ def _check_missing():
     print("found {} plugin classes".format(len(plugin_classes)))
     print("special callbacks: {}".format(special_callbacks))
 
-    # assert that every item in plugin_classes is also in globals()
+    # assert that every item in plugin_classes is also in globals(),
+    # but exclude "WindowAndTextCommand" class from sublime_lib
     imported = globals().values()
     for plugin in plugin_classes:
-        if plugin not in imported:
+        if plugin not in imported and plugin.__name__ != "WindowAndTextCommand":
             print("[!!] plugin missing: {p.__module__}.{p.__qualname__} ({p})".format(p=plugin))
