@@ -53,7 +53,7 @@ def _check_missing():
 
         for k, v in module.__dict__.items():
             if k in special_callbacks:
-                special_callbacks[k].append(v)
+                special_callbacks[k].append(v.__module__)
             elif _is_plugin_class(v):
                 plugin_classes.append(v)
 
