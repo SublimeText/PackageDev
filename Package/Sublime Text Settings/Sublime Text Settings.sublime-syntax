@@ -6,69 +6,63 @@ file_extensions:
   - sublime-settings-hints
 scope: source.json.sublime.settings
 contexts:
-  prototype:
-    - include: JSON.sublime-syntax#comments
-
   main:
-    - match: '\{'
+    - match: (?=\{)
+      push: main-mapping
+    - include: expect-mapping-rest
+
+  main-mapping:
+    - match: \{
       scope: punctuation.section.mapping.begin.json
       push:
-        - meta_scope: meta.mapping.json
-        - match: '\}'
+        - meta_scope: meta.completions.collection.sublime-completions meta.mapping.json
+        - match: \}
           scope: punctuation.section.mapping.end.json
-          set:
-            - match: \S
-              scope: invalid.illegal.only-comments-allowed.sublime-settings
-        - match: '"'
-          scope: punctuation.definition.string.begin.json
-          push: [post-key, inside-key]
-        - match: \S
-          scope: invalid.illegal.expected-key.json
-    - match: \S
-      scope: invalid.illegal.expected-mapping.sublime-settings
+          set: only-comments
+        - match: (?=")
+          push: [in-mapping-expect-comma, main-key]
+        - include: expect-key-rest
 
-  inside-key:
+  main-key:
     - clear_scopes: 1
-    - meta_scope: meta.mapping.key.json string.quoted.double.json
-    - meta_content_scope: entity.name.other.key.sublime-settings
-    - meta_include_prototype: false
     - match: '"'
-      scope: punctuation.definition.string.end.json
-      pop: true
-    - include: JSON.sublime-syntax#inside-string
-    - match: '[\w]+(\.)'
-      scope: keyword.other.namespace.sublime-settings
-      captures:
-        1: punctuation.separator.namespace.sublime-settings
-
-  post-key:
-    - match: ":"
-      scope: punctuation.separator.mapping.key-value.json
-      set: expect-value
-    - match: \S
-      scope: invalid.illegal.expected-key-value-separator.json
-
-  expect-value:
-    - meta_content_scope: meta.expect-value.json
-    - match: (?=\S)
+      scope: punctuation.definition.string.begin.json
       set:
         - clear_scopes: 1
-        - meta_scope: meta.mapping.value.json
-        - include: JSON.sublime-syntax#value
-        - match: (?:[^\s,}/]|/(?!/\*))*
-          scope: invalid.illegal.expected-value.json
-          set: post-value
+        - meta_scope: meta.mapping.key.json string.quoted.double.json
+        - meta_content_scope: entity.name.other.key.sublime-settings
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: inside-string
+        - match: '[\w]+(\.)'
+          scope: keyword.other.namespace.sublime-settings
+          captures:
+            1: punctuation.separator.namespace.sublime-settings
 
-  post-value:
-    - match: ',|(?=\})'
-      scope: punctuation.separator.mapping.pair.json
-      pop: true
-    # Match whitespace not followed by a character that's not
-    # whitespace, a comma, a closing brace or a comment
-    # as invalid.
-    - match: \s(?=(?!//|/\*)[^\s,}])
-      scope: invalid.illegal.expected-mapping-separator.json
-      pop: true
-    # otherwise just pop and consume nothing
-    - match: (?=\S)
-      pop: true
+  comments:
+    - include: Sublime JSON.sublime-syntax#comments
+
+  only-comments:
+    - include: Sublime JSON.sublime-syntax#only-comments
+
+  expect-colon:
+    - include: Sublime JSON.sublime-syntax#expect-colon
+
+  expect-any-value:
+    - match: ''
+      set:
+        - meta_content_scope: meta.expect-value
+        - include: Sublime JSON.sublime-syntax#expect-any-value
+
+  expect-mapping-rest:
+    - include: Sublime JSON.sublime-syntax#expect-mapping-rest
+
+  expect-key-rest:
+    - include: Sublime JSON.sublime-syntax#expect-key-rest
+
+  inside-string:
+    - include: Sublime JSON.sublime-syntax#inside-string
+
+  in-mapping-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-mapping-expect-comma

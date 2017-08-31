@@ -5,7 +5,7 @@
 // <- comment.line
 
 s
-// <- invalid.illegal.expected-mapping.sublime-settings
+// <- invalid.illegal.expected-mapping.sublime
 
 { // comment
 // <- meta.mapping.json punctuation.section.mapping.begin.json
@@ -38,17 +38,18 @@ s
 //               ^ punctuation.separator.namespace.sublime-settings
 
     "package_name.module_name.setting": null
+//^^ invalid.illegal.expected-comma.inside-mapping.json
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.other.key.sublime-settings
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^ keyword.other.namespace.sublime-settings
 //               ^ punctuation.separator.namespace.sublime-settings
 //                           ^ punctuation.separator.namespace.sublime-settings
 
     "key_without_comma": false,
-// ^ invalid.illegal.expected-mapping-separator.json
-//                       ^^^^^ meta.mapping.value.json constant.language.json
+// ^ invalid.illegal.expected-comma.inside-mapping.json
+//                       ^^^^^ meta.mapping.value.json constant.language.boolean.json
 
     "invalid_value": a
-//                   ^ invalid.illegal.expected-value.json
+//                   ^ - invalid.illegal.expected-value
 
 
     , // trailing commas are okay
@@ -59,5 +60,5 @@ s
 }
 
 not-a-comment // but this is
-// <- invalid.illegal.only-comments-allowed.sublime-settings
-//            ^^ comment.line
+// <- invalid.illegal.expected-comment-or-eof.sublime
+//            ^^ comment.line.double-slash.js
