@@ -1,0 +1,38 @@
+v3.0.0-beta.4 (2017-08-31)
+--------------------------
+
+It's time for another **big** PackageDev update.
+With this, we are nearing a release candidate (and stable release), since only few things are left
+to do now.
+
+This latest release brings you:
+
++ Completions of command names and arguments in all resource files that support them (@r-stein)
+
+  This includes the JSON files as well as Python plugins!
+
+* Rewrites of all relevant syntax definitions from tmLanguage to sublime-syntax
+  (with the help of @r-stein)
+
+  Now with very precise highlighting for:
+
+  - build systems
+  - commands files
+  - completions files
+  - macro files
+  - menu files (new!)
+  - mousemap files
+
+  Additionally, snippets and completions (within strings) were added wherever they made sense.
+
+* Unified "New *" command with more templates for more resource file types
++ Suggests to create this file in the current project, if it is a package
+* Supportive deprecation warnings in tmPreferences files when Sublime Text wouldn't pick up a
+  string's content after a comment or CDATA tag (@keith-hall)
+* Settings completions fixes and improvements (with help from @deathaxe)
+* Various other fixes
+
+---
+
+Please test the package thoroughly and report issues at the issue tracker.
+https://github.com/SublimeText/PackageDev/issues
