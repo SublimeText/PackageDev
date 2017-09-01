@@ -24,9 +24,6 @@ contexts:
         - match: (?=\{)
           push: [in-sequence-expect-comma, keymap-entry-pop]
         - include: comments
-        - match: (\s*)(?=[}\]])
-          scope: invalid.illegal.expected-mapping.sublime-keymap
-          pop: true
         - match: \S
           scope: invalid.illegal.expected-mapping.sublime-keymap
 

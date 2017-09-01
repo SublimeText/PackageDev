@@ -67,12 +67,8 @@ contexts:
         - match: (?=\{)
           push: [in-sequence-expect-comma, completions-mapping-pop]
         - include: comments
-        - match: (\s*)(?=[},])
-          scope: invalid.illegal.expected-mapping-or-string.sublime-completions
-          pop: true
         - match: \S
           scope: invalid.illegal.expected-mapping-or-string.sublime-completions
-          pop: true
     - include: expect-sequence-rest
 
   completions-mapping-pop:

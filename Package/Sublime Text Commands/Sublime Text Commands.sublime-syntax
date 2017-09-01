@@ -21,7 +21,9 @@ contexts:
           set: only-comments
         - match: (?=\{)
           push: [in-sequence-expect-comma, commands-entry]
-        - include: expect-mapping-rest
+        - include: comments
+        - match: \S
+          scope: invalid.illegal.expected-mapping.sublime-commands
 
   commands-entry:
     - match: \{
@@ -68,6 +70,9 @@ contexts:
 
   expect-command-name-value:
     - include: Sublime JSON.sublime-syntax#expect-command-name-value
+
+  comments:
+    - include: Sublime JSON.sublime-syntax#comments
 
   only-comments:
     - include: Sublime JSON.sublime-syntax#only-comments

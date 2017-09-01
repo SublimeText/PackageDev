@@ -22,9 +22,6 @@ contexts:
         - match: (?=\{)
           push: [in-sequence-expect-comma, mousemap-entry-pop]
         - include: comments
-        - match: (\s*)(?=[}\]])
-          scope: invalid.illegal.expected-mapping.sublime-mousemap
-          pop: true
         - match: \S
           scope: invalid.illegal.expected-mapping.sublime-mousemap
 

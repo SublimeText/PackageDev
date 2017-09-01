@@ -23,9 +23,6 @@ contexts:
         - match: (?=\{)
           push: [in-sequence-expect-comma, macro-entry-pop]
         - include: comments
-        - match: (\s*)(?=[}\]])
-          scope: invalid.illegal.expected-mapping.sublime-macro
-          pop: true
         - match: \S
           scope: invalid.illegal.expected-mapping.sublime-macro
 

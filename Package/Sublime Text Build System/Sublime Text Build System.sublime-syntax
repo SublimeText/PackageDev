@@ -171,7 +171,9 @@ contexts:
           pop: true
         - match: (?=\{)
           push: [in-sequence-expect-comma, variant-pop]
-        - include: expect-mapping-rest
+        - include: comments
+        - match: \S
+          scope: invalid.illegal.expected-mapping.sublime-build
 
   variant-pop:
     - match: \{
