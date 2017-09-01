@@ -179,6 +179,10 @@ hello++
 #^^^ constant.other.range
 #   ^^ - constant.other.range
 
+[[-\w]abc]
+#^^^^^ meta.set.regexp meta.set.regexp
+#        ^ keyword.control.set.regexp
+
 []-]
 #  ^ keyword.control.set
 # ^ - constant.other.range
