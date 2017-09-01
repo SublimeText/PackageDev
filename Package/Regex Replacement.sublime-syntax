@@ -4,38 +4,76 @@
 scope: source.regexp-replacement
 name: Regular Expression Replacement
 hidden: true
+
 contexts:
   main:
     # http://www.boost.org/doc/libs/1_56_0/libs/regex/doc/html/boost_regex/format/boost_format_syntax.html
-    - match: '\$\$'
+    - match: \\[1-9]
+      scope: keyword.other.backref-and-recursion.regexp-replacement
+    - match: \\[aefnrtv()]
       scope: constant.character.escape.regexp-replacement
-    - match: '\$(\d+|\{\d+\}|&|\+(\{\w+\})?|^N)'
-      scope: keyword.other.backref-and-recursion.regexp-replacement
-    - match: \$(MATCH|PREMATCH|POSTMATCH|\{\^(MATCH|PREMATCH|POSTMATCH)\}|[`']|LAST_PAREN_MATCH|LAST_SUBMATCH_RESULT)
-      scope: keyword.other.backref-and-recursion.regexp-replacement
-    - match: '\\[1-9]'
-      scope: keyword.other.backref-and-recursion.regexp-replacement
-    - match: '\\[aefnrtv()]'
-      scope: constant.character.escape.regexp-replacement
-    - match: '\\[lLuUE]'
+    - match: \\[lLuUE]
       scope: keyword.operator.case-conversion.regexp-replacement
-    - match: '\)'
-      scope: meta.literal.regexp-replacement
-    - match: '\\x(\h{2}|\{\h{4}\})'
+    - match: \\x(\h{2}|\{\h{4}\})
       scope: constant.character.escape.regexp-replacement
-    - match: '\(\?([1-9]|\{\w+\})'
+    - match: \(\?([1-9]|\{\w+\})
       scope: keyword.other.backref-and-recursion.conditional.regexp-replacement
       push:
         - meta_scope: meta.group.conditional.regexp-replacement
         - match: ':'
           scope: keyword.operator.alternation.regexp-replacement
-        - match: '\)'
+        - match: \)
           scope: keyword.other.backref-and-recursion.conditional.regexp-replacement
           pop: true
         - include: main
-    - match: '\\\\'
+    - match: \\.
       scope: constant.character.escape.regexp-replacement
-    - match: '\\.'
+    - include: shared
+
+  escaped:
+    - meta_scope: source.regexp-replacement.escaped
+    - match: \\\\[1-9]
+      scope: keyword.other.backref-and-recursion.regexp-replacement
+    - match: \\\\[aefnrtv()]
       scope: constant.character.escape.regexp-replacement
-    - match: '.'
+    - match: \\\\[lLuUE]
+      scope: keyword.operator.case-conversion.regexp-replacement
+    - match: \\\\x(\h{2}|\{\h{4}\})
+      scope: constant.character.escape.regexp-replacement
+    - match: \(\?([1-9]|\{\w+\})
+      scope: keyword.other.backref-and-recursion.conditional.regexp-replacement
+      push:
+        - meta_scope: meta.group.conditional.regexp-replacement
+        - match: ':'
+          scope: keyword.operator.alternation.regexp-replacement
+        - match: \)
+          scope: keyword.other.backref-and-recursion.conditional.regexp-replacement
+          pop: true
+        - include: escaped
+    - match: \\\\.|\\{3}.
+      scope: constant.character.escape.regexp-replacement
+    - match: \\.
+      scope: constant.character.escape meta.literal.regexp-replacement
+    - include: shared
+
+  shared:
+    - match: \$\$
+      scope: constant.character.escape.regexp-replacement
+    - match: \$(\d+|\{\d+\}|&|\+(\{\w+\})?|^N)
+      scope: keyword.other.backref-and-recursion.regexp-replacement
+    - match: \$(MATCH|PREMATCH|POSTMATCH|\{\^(MATCH|PREMATCH|POSTMATCH)\}|[`']|LAST_PAREN_MATCH|LAST_SUBMATCH_RESULT)
+      scope: keyword.other.backref-and-recursion.regexp-replacement
+    # - match: \)
+    #   scope: meta.literal.regexp-replacement
+    - match: \(\?([1-9]|\{\w+\})
+      scope: keyword.other.backref-and-recursion.conditional.regexp-replacement
+      push:
+        - meta_scope: meta.group.conditional.regexp-replacement
+        - match: ':'
+          scope: keyword.operator.alternation.regexp-replacement
+        - match: \)
+          scope: keyword.other.backref-and-recursion.conditional.regexp-replacement
+          pop: true
+        - include: main
+    - match: .
       scope: meta.literal.regexp-replacement

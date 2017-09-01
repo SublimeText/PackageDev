@@ -150,7 +150,7 @@ contexts:
           scope: invalid.illegal.unclosed-string.json
           pop: true
         - match: ''
-          push: scope:source.escapedregexp
+          push: scope:source.regexp.escaped
           with_prototype:
             - match: (?="|$)
               pop: true
@@ -332,8 +332,16 @@ contexts:
                     scope: constant.other.regex-modifier.placeholder.sublime-build
                   - match: \S
                     scope: invalid.illegal.unexpected-token.placeholder.sublime-build
-              - include: scope:source.regexp-replacement
-            - include: RegExp.sublime-syntax#base-literal
+              - match: ''
+                push: Regex Replacement.sublime-syntax#escaped
+                with_prototype:
+                  - match: (?=/)
+                    pop: true
+            - match: ''
+              push: scope:source.regexp.escaped
+              with_prototype:
+                - match: (?=/)
+                  pop: true
     - match: '(\$)(?:({{placeholder}})\b|(\w*))(\s?)'
       captures:
         1: keyword.other.placeholder.dollar.placeholder.sublime-build
