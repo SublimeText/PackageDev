@@ -4,6 +4,7 @@ from os import path
 import re
 from collections import namedtuple
 
+from .lib import get_setting
 from .lib.sublime_lib.constants import style_flags_from_list
 
 __all__ = (
@@ -161,9 +162,8 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         pos_end = min(line.begin() + col_end, line.end() + 1)
         region = sublime.Region(pos_start, pos_end)
 
-        prefs = sublime.load_settings('PackageDev.sublime-settings')
-        scope = prefs.get('syntax_test.highlight_scope', 'text')
-        styles = prefs.get('syntax_test.highlight_styles', ['DRAW_NO_FILL'])
+        scope = get_setting('syntax_test.highlight_scope', 'text')
+        styles = get_setting('syntax_test.highlight_styles', ['DRAW_NO_FILL'])
         style_flags = style_flags_from_list(styles)
 
         self.view.add_regions('current_syntax_test', [region], scope, '', style_flags)
@@ -338,8 +338,7 @@ class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
                 if scope not in scopes:
                     scopes.append(scope)
 
-        prefs = sublime.load_settings('PackageDev.sublime-settings')
-        suggest_suffix = prefs.get('syntax_test.suggest_scope_suffix', True)
+        suggest_suffix = get_setting('syntax_test.suggest_scope_suffix', True)
 
         scope = find_common_scopes(scopes, not suggest_suffix)
 
