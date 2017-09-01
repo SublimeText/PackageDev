@@ -130,7 +130,7 @@
     "variants": [
 //              ^ meta.build.collection.sublime-build meta.mapping.value.json meta.variants.sublime-build meta.sequence.json punctuation.section.sequence.begin.json
         "test"
-//      ^^^^^^ invalid.illegal.expected-mapping.sublime
+//      ^^^^^^ invalid.illegal.expected-mapping.sublime-build
         {
             "name": "Foo",
 //          ^^^^^^ meta.mapping.value.json meta.variants.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
