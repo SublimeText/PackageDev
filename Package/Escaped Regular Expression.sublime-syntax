@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # Based on Packages/Regular Expression/RegExp.sublime-syntax, with slight modifications.
-# Like the base, this syntax targets BOOST's PCRE syntax.
+# Like the base, this syntax targets BOOST's PCRE syntax and is intended for JSON strings.
 #
 # The modifications are:
 #
@@ -350,7 +350,17 @@ contexts:
       scope: keyword.other.any.regexp # https://github.com/sublimehq/Packages/issues/314
     - match: \)
       scope: invalid.illegal.unmatched-brace.regexp
+    # sourced from JSON.sublime-syntax#string-escape
+    - match: |-
+        (?x:
+          \\
+          (?:
+              ["\\/bfnrt]
+            | u [0-9a-fA-F]{4}
+          )
+        )
+      scope: constant.character.escape.json meta.literal.regexp
     - match: \\.
-      scope: constant.character.escape meta.literal.regexp
+      scope: invalid.illegal.unrecognized-string-escape.json
     - match: .
       scope: meta.literal.regexp

@@ -33,7 +33,7 @@
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.json-string
 
 
-    "working_dir": "${project_path:${folder/\.fo\\\\o/$0-\.test/g}}",
+    "working_dir": "${project_path:${folder/\tfo\\\\o/$0-\\.test/g}}",
 //  ^^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //   ^^^^^^^^^^^ keyword.other.main.sublime-build
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
@@ -44,14 +44,14 @@
 //                                   ^^^^^^^ meta.placeholder-name.sublime-build
 //                                    ^^^^^ constant.other.placeholder.sublime-build
 //                                          ^ - meta.placeholder-name.sublime-build
-//                                          ^^ constant.character.escape meta.literal.regexp
+//                                          ^^ constant.character.escape.json meta.literal.regexp
 //                                              ^^^^ constant.character.escape.regexp
 //                                                  ^ meta.literal.regexp - constant.character.escape
 //                                                    ^^ keyword.other.backref-and-recursion.regexp-replacement
-//                                                       ^^ constant.character.escape meta.literal.regexp-replacement
-//                                                              ^ constant.other.regex-modifier.placeholder.sublime-build
-//                                                               ^ keyword.other.block.end.placeholder.sublime-build
+//                                                       ^^^ constant.character.escape.regexp-replacement
+//                                                               ^ constant.other.regex-modifier.placeholder.sublime-build
 //                                                                ^ keyword.other.block.end.placeholder.sublime-build
+//                                                                 ^ keyword.other.block.end.placeholder.sublime-build
 
 // only built-in placeholders should be highlighted as constants
     "working_dir" : "${PARAM}",
@@ -89,15 +89,15 @@
 //                             ^^^^ constant.other.placeholder.sublime-build
 
 // cmd should also accept a string (if shell: true)
-    "cmd": "command \"$file\" && ${file/\.ext/\.ty/g}",
+    "cmd": "command \"$file\" && ${file/\.ext/\\.ty/g}",
 //  ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //   ^^^ keyword.other.main.sublime-build
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.placeholder-string.sublime-build string.quoted.double.json
 //                     ^^^^ meta.placeholder-name.sublime-build
 //                     ^^^^ constant.other.placeholder.sublime-build
-//                                      ^^ constant.character.escape
-//                                            ^^ constant.character.escape
-//                                                 ^ constant.other.regex-modifier.placeholder.sublime-build
+//                                      ^^ invalid.illegal.unrecognized-string-escape.json
+//                                            ^^^ constant.character.escape.regexp-replacement
+//                                                  ^ constant.other.regex-modifier.placeholder.sublime-build
 //
 
     "cmd": 1,
