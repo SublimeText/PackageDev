@@ -12,7 +12,7 @@
 #            ^^^^^^^^^^^^^^^^ comment.block.xml
 #                            ^^^^^^^^^^ string.unquoted.cdata - meta.tag
 #                            ^^^^^^^^^ punctuation.definition.string.begin
-
+#                                     ^ source.sublime.snippet
       Original: ${1:Hey, Joe!}
 #               ^^^^^^^^^^^^^^ meta.text-substitution
 #              ^ - meta.text-substitution
@@ -204,11 +204,13 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #^ keyword.other.regex.end
 # ^ keyword.other.block.end
 
- ]]></content>
+ ]]>snippet<</content>
 #^^^ string.unquoted.cdata punctuation.definition.string.end
-#   ^^^^^^^^^^ meta.tag - string
-#   ^^ punctuation.definition.tag.begin
-#            ^ punctuation.definition.tag.end
+#   ^^^^^^^ source.sublime.snippet
+#          ^ invalid.illegal.missing-entity.xml - source.sublime.snippet
+#           ^^^^^^^^^^ meta.tag - string
+#           ^^ punctuation.definition.tag.begin
+#                    ^ punctuation.definition.tag.end
     <!-- Optional: Tab trigger to activate the snippet -->
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment
     <tabTrigger>test-snippet</tabTrigger>

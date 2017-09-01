@@ -31,7 +31,11 @@ contexts:
                     - match: '\]\]>'
                       pop: true
                 - include: inside_content
-            - include: snippet_content
+            - match: ''
+              push: scope:source.sublime.snippet
+              with_prototype:
+                - match: (?=\]\]>)
+                  pop: true
         - match: '(?=\S)'
           set: inside_content
     - match: '(<)(scope)(>)'
@@ -77,9 +81,6 @@ contexts:
         - include: scope:text.xml#tag-stuff
     - include: scope:text.xml
 
-  snippet_content:
-    - include: scope:source.sublime.snippet
-
   inside_content:
     - match: '(</)(content)(>)'
       scope: meta.tag.xml
@@ -88,7 +89,13 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       pop: true
-    - include: snippet_content
+    - include: scope:text.xml
+    - match: ''
+      push: scope:source.sublime.snippet
+      with_prototype:
+        - include: comments
+        - match: (?=<)
+          pop: true
 
   comments:
     # this is simplified; actual xml comments are more complicated
