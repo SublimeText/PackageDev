@@ -282,5 +282,5 @@ class GlobalSettingsListener(sublime_plugin.EventListener):
 
     def on_post_save(self, view):
         listener = self._find_view_event_listener(view)
-        if listener:
+        if listener and listener.known_settings:
             listener.known_settings.trigger_settings_reload()
