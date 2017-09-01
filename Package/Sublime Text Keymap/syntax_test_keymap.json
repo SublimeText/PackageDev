@@ -237,7 +237,9 @@
 //                                                                               ^^^^^^^^^^^^^^ meta.mapping.value.json meta.context.key-value.operand.regex.sublime-keymap string.quoted.double.json
 //                                                                                ^^^^^^^^^^^^ source.regexp.embedded.json-string
 //                                                                                ^ keyword
-//                                                                                  ^^^ entity.other.attribute-name.anchor.escapedregexp
+//                                                                                  ^^^ keyword.control.anchors.regexp
+            { "key": "following_text", "operator": "regex_contains", "operand": "^[0-9a-zA-Z\\\\\\(\\)\\[\\]{}]", "match_all": true }
+//                                                                                          ^^^^^^^^^^^^^^^^ constant.character.escape.regexp
             { key }, // be less strict about invalid keys because of completions
 //            ^^^ - invalid
             { "key": "preceding_text", "operator": "equal" }, // trailing commas before closing array punctuation are allowed
@@ -260,12 +262,11 @@
 //                                                                                                           ^^^^^^^^ comment.block
 //                                                                                                                   ^ punctuation.separator.sequence.json
             { "key": "preceding_text", "operator": "regex_contains", "operand": "^\\s*\\|\t\\\b\\b\s\\s", "match_all": true },
-//                                                                                       ^^ entity.other.attribute-name.escape.sequence.json.escapedregexp
-//                                                                                         ^^ constant.character.escape.sequence.regexp.escapedregexp
-//                                                                                           ^^ entity.other.attribute-name.escape.sequence.json.escapedregexp
-//                                                                                             ^^^ entity.other.attribute-name.anchor.escapedregexp
+//                                                                                       ^^ constant.character.escape meta.literal.regexp
+//                                                                                         ^^^^ constant.character.escape.regexp
+//                                                                                             ^^^ keyword.control.anchors.regexp
 //                                                                                                ^^ invalid.illegal.unrecognized-string-escape.json.escapedregexp
-//                                                                                                  ^^^ keyword.other.character-class.escapedregexp
+//                                                                                                  ^^^ keyword.control.character-class.regexp
             { "key": "following_text", "operator": "regex_match", "operand": "\\s*\\|.*$" /*test*/, /*test*/ "match_all":/*false*/ true },
 //                                                                          ^ - string
 //                                                                           ^^^^^^^^^^^^ meta.mapping.value.json meta.context.key-value.operand.regex.sublime-keymap string.quoted.double.json

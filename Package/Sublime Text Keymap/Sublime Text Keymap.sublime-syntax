@@ -529,22 +529,22 @@ contexts:
 
   expect-context-operand-regex:
     - match: (?=")
-      set: [mapping-value-meta, context-operand-regex-value]
+      set: [mapping-value-meta, context-operand-regex-pop]
 
-  context-operand-regex-value:
+  context-operand-regex-pop:
     - match: '"'
       scope: punctuation.definition.string.begin.json
       set:
         - meta_scope: meta.context.key-value.operand.regex.sublime-keymap string.quoted.double.json
         - meta_content_scope: source.regexp.embedded.json-string
         - match: \"
-          scope: punctuation.definition.regex.end.sublime-keymap
+          scope: punctuation.definition.string.end.json
           pop: true
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
           pop: true
         - match: ''
-          push: scope:source.escapedregexp
+          push: scope:source.regexp.escaped
           with_prototype:
             - match: (?="|$)
               pop: true
