@@ -233,10 +233,10 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             phantom_region = sublime.Region(region.end() + 1)  # before colon
             content = "<a href=\"edit:{0}\">✏</a>".format(key_name)
             phantoms.append(sublime.Phantom(
-                phantom_region,
-                PHANTOM_TEMPLATE.format(content),
-                sublime.LAYOUT_INLINE,
-                self.on_navigate,
+                region=phantom_region,
+                content=PHANTOM_TEMPLATE.format(content),
+                layout=sublime.LAYOUT_INLINE,
+                on_navigate=self.on_navigate,
             ))
 
         self.phantom_set.update(phantoms)
