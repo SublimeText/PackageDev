@@ -54,6 +54,7 @@ variables:
 #        ^^^^^^^^^^^^^ variable.other.sublime-syntax
 
   x10: '''{{identifier}}(?!\'')\b'
+#       ^^ constant.character.escape.yaml
 #                          ^^^ constant.character.escape.regexp.yaml
 #                             ^ - invalid
 
