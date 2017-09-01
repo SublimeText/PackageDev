@@ -31,9 +31,14 @@ contexts:
         - clear_scopes: 1
         - meta_scope: meta.mapping.key.json string.quoted.double.json
         - meta_content_scope: entity.name.other.key.sublime-settings
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          set: [expect-any-value, expect-colon]
+        # we need to set another context to not have meta_content_scope
+        # affect the closing quotation mark
+        - match: (?=")
+          set:
+            - clear_scopes: 1
+            - match: '"'
+              scope: meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
+              set: [expect-any-value, expect-colon]
         - include: inside-string
         - match: '[\w]+(\.)'
           scope: keyword.other.namespace.sublime-settings

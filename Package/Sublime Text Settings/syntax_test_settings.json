@@ -23,7 +23,9 @@ s
 //        ^ meta.expect-value
 
     "another_key": 123,
+//  ^ - entity.name.other.key.sublime-settings
 //   ^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json entity.name.other.key.sublime-settings
+//              ^ - entity.name.other.key.sublime-settings
 
     "an_array": ["with", "strings"],
 //              ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json
