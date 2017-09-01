@@ -1,6 +1,5 @@
 from xml.etree import ElementTree as ET
 
-import sublime
 import sublime_plugin
 
 from .lib.sublime_lib.view import has_file_ext, get_text, clear
