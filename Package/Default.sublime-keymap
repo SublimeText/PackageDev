@@ -4,7 +4,7 @@
 		"keys": ["ctrl+s"], "command": "generate_snippet_from_raw_snippet",
 		"context":
 		[
-			{ "key": "selector", "operator": "equal", "operand": "source.sublimesnippetraw" }
+			{ "key": "selector", "operand": "source.sublime.snippet" }
 		]
 	},
     /* end of snippet_dev keys */
