@@ -8,6 +8,10 @@
     }
   },
 
+  { "caption": "PackageDev: Create Package",
+    "command": "packagedev_create_package",
+  },
+
   // Snippets
   { "caption": "PackageDev: New Raw Snippet",
     "command": "new_resource_file",

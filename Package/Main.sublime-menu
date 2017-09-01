@@ -9,6 +9,12 @@
             "caption": "Package Development",
             "mnemonic": "P",
             "children": [
+              { "caption": "Create Package…",
+                "command": "new_resource_file",
+                "args": {"kind": "syntax_def"} },
+
+              { "caption": "-" },
+
               { "caption": "New Syntax Definition…",
                 "command": "new_resource_file",
                 "args": {"kind": "syntax_def"} },
@@ -23,6 +29,7 @@
               },
               { "caption": "Rearrange YAML Syntax Definition",
                 "command": "rearrange_yaml_syntax_def" },
+
               { "caption": "-" },
 
               { "caption": "New Raw Snippet…",
@@ -33,6 +40,7 @@
                 "command": "new_raw_snippet_from_snippet" },
               { "caption": "Generate Snippet from Raw Snippet",
                 "command": "generate_snippet_from_raw_snippet" },
+
               { "caption": "-" },
 
               { "caption": "New Build System…",
