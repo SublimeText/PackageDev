@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+import html
 import logging
 import os
 
@@ -176,7 +176,9 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     def on_navigate(self, href):
         """Popup navigation event handler."""
-        command, argument = href.split(":")
+        command, _, argument = href.partition(":")
+        argument = html.unescape(argument)
+
         if command == 'edit':
             view_id = self.view.settings().get('edit_settings_other_view_id')
             user_view = sublime.View(view_id)
@@ -231,7 +233,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         for region in key_regions:
             key_name = self.view.substr(region)
             phantom_region = sublime.Region(region.end() + 1)  # before colon
-            content = "<a href=\"edit:{0}\">✏</a>".format(key_name)
+            content = "<a href=\"edit:{0}\">✏</a>".format(html.escape(key_name))
             phantoms.append(sublime.Phantom(
                 region=phantom_region,
                 content=PHANTOM_TEMPLATE.format(content),
