@@ -220,6 +220,11 @@ contexts:
 #     ^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
 #                             ^^^^^ meta.expect-bool constant.language.boolean.yaml
 
+    - scope: >-
+        long.scope.name
+        over.multiple.lines
+#       ^^^^^^^^^^^^^^^^^^^ meta.scope.sublime-syntax string.unquoted.block.yaml
+#           ^ punctuation.separator.scope-segments.sublime-syntax
 
 variables:
 #^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.variables.sublime-syntax

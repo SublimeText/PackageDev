@@ -266,10 +266,35 @@ contexts:
           pop: true
         - match: \.
           scope: punctuation.separator.scope-segments.sublime-syntax
-        # TODO match common scope names
-    - include: scope:source.yaml
+        # TODO match common scope names?
+    # - include: scope:source.yaml
     - match: $
       pop: true
+
+    - match: (?:(\|)|(>))([1-9])?([-+])?
+      captures:
+        1: keyword.control.flow.block-scalar.literal.yaml
+        2: keyword.control.flow.block-scalar.folded.yaml
+        3: constant.numeric.indentation-indicator.yaml
+        4: storage.modifier.chomping-indicator.yaml
+      set:
+        # We need to match the first non-empty line
+        # to determine the block's indentation level
+        # (without verifying that indentation is big enough).
+        - match: ^([ ]+)(?!$)
+          set:
+            - meta_scope: meta.scope.sublime-syntax string.unquoted.block.yaml
+            - match: ^(?!\1|\s*$)
+              pop: true
+            - match: \.
+              scope: punctuation.separator.scope-segments.sublime-syntax
+            - include: regexp
+        - match: ^(?=\S)  # the block is empty
+          pop: true
+        - include: comment
+        - include: yaml-tags-anchors
+        - match: .+
+          scope: invalid.illegal.expected-comment-or-newline.yaml
 
   expect_include:
     - meta_content_scope: meta.expect-include
