@@ -5,12 +5,14 @@ import re
 import sublime
 import sublime_plugin
 
+from .lib import find_view_event_listener
 from .lib.sublime_lib.constants import style_flags_from_list
 from .lib.scope_data import COMPILED_HEADS
 
 __all__ = (
     'SyntaxDefRegexCaptureGroupHighlighter',
-    'SyntaxDefCompletions',
+    'SyntaxDefCompletionsListener',
+    'PostCompletionsListener',
 )
 
 PACKAGE_NAME = __package__.split('.')[0]
@@ -139,7 +141,7 @@ def _build_completions(base_keys=(), dict_keys=(), list_keys=()):
     return tuple(sorted(generator))
 
 
-class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
+class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     base_completions_root = _build_completions(
         base_keys=('scope', 'name'),
@@ -153,6 +155,9 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
         dict_keys=('captures',),
     )
     base_completions_contexts += (("pop\tpop: true", "pop: true"),)
+
+    # This instance variable is kept to communicate with our PostCompletionsListener instance.
+    is_completing_scope = False
 
     @classmethod
     def is_applicable(cls, settings):
@@ -192,6 +197,8 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
 
         # Scope name completions based on our scope_data database
         elif verify_scope("meta.expect-scope, meta.scope", -1):
+            self.is_completing_scope = True
+
             # Determine entire prefix
             prefixes = set()
             for point in locations:
@@ -227,7 +234,10 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
                 return nodes.to_completion() + base_scope_completion
 
             # Since we don't have anything to offer,
-            # just complete the base scope appendix/suffix
+            # just complete the base scope appendix/suffix.
+            # Disable dot insertion in this case
+            # since we would only offer the same completion again.
+            self.is_completing_scope = False
             return base_scope_completion
 
         # Auto-completion for include values using the 'contexts' keys
@@ -279,3 +289,27 @@ class SyntaxDefCompletions(sublime_plugin.ViewEventListener):
                 return self.base_completions_contexts
             else:
                 return None
+
+
+class PostCompletionsListener(sublime_plugin.EventListener):
+
+    """Insert a dot and re-open the completions popup when completing a scope segment.
+
+    A separate class is needed
+    because on_post_text_command is not available to ViewEventListeners.
+    """
+
+    def on_post_text_command(self, view, command_name, args):
+        if command_name == 'hide_auto_complete':
+            listener = find_view_event_listener(view, SyntaxDefCompletionsListener)
+            if listener:
+                listener.is_completing_scope = False
+        if command_name in ('commit_completion', 'insert_best_completion'):
+            listener = find_view_event_listener(view, SyntaxDefCompletionsListener)
+            if not (listener and listener.is_completing_scope):
+                return
+
+            listener.is_completing_scope = False
+
+            view.run_command('insert', {'characters': "."})
+            view.run_command('auto_complete', {'disable_auto_insert': True})

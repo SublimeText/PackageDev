@@ -1,6 +1,7 @@
 import logging
 
 import sublime
+import sublime_plugin
 
 SETTINGS_FILE = "PackageDev.sublime-settings"
 
@@ -24,3 +25,14 @@ def get_setting(key, default=None):
 def sorted_completions(completions):
     """Sort completions case insensitively."""
     return list(sorted(completions, key=lambda x: x[0].lower()))
+
+
+def find_view_event_listener(view, cls):
+    if not cls.is_applicable(view.settings()):
+        # speed up?
+        return None
+    for listener in sublime_plugin.event_listeners_for_view(view):
+        # We don't use isinstance because we don't want a subclass
+        if type(listener) is cls:
+            return listener
+    return None
