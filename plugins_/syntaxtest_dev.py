@@ -184,7 +184,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
 
         keys = {
             "current_line_is_a_syntax_test": current_line_is_a_syntax_test,
-            "file_contains_syntax_tests": lambda: self.header,
+            "file_contains_syntax_tests": lambda: bool(self.header),
         }
 
         if key not in keys:
