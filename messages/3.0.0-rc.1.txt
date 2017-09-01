@@ -1,0 +1,17 @@
+v3.0.0-rc.1 (2017-09-01)
+------------------------
+
+With the first release candidate we're nearing the stable release even further.
+This latest release can be considered feature-complete and only bugfixes will be incorporated now.
+
+This time we have:
+
++ A new syntax for project files (with key name and settings completions and all that)
++ A command to create a new package
+* Fixed settings linting, popups and completions due to syntax update in last release
+* Other fixes
+
+---
+
+Please test the package thoroughly and report issues at the issue tracker:
+https://github.com/SublimeText/PackageDev/issues
