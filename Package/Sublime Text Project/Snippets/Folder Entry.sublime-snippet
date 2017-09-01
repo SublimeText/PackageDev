@@ -1,0 +1,5 @@
+<snippet>
+	<content><![CDATA[{ "name": "$1", "path": "$2" },]]></content>
+	<tabTrigger>e</tabTrigger>
+	<scope>meta.project.folder.collection.sublime-project - meta.project.folder.sublime-project - comment</scope>
+</snippet>

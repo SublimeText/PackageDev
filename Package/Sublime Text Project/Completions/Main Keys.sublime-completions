@@ -1,0 +1,8 @@
+{
+    "scope": "meta.main-key.sublime-project",
+    "completions": [
+        { "trigger": "folders\tmain key", "contents": "folders" },
+        { "trigger": "build_systems\tmain key", "contents": "build_systems" },
+        { "trigger": "settings\tmain key", "contents": "settings" },
+    ]
+}

@@ -1,0 +1,63 @@
+// SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Project/Sublime Text Project.sublime-syntax"
+
+// comment
+// ^^^^^^^^ comment.line.double-slash.js
+
+1
+// <- invalid.illegal.expected-mapping.sublime
+
+{
+// <- meta.project.sublime-project meta.mapping.json punctuation.section.mapping.begin.json
+    "folders": [
+//  ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-project string.quoted.double.json
+//   ^^^^^^^ keyword.other.main.sublime-project
+//           ^ punctuation.separator.mapping.key-value.json
+//             ^ meta.mapping.value.json meta.project.folder.collection.sublime-project meta.sequence.json punctuation.section.sequence.begin.json
+        {
+//      ^ meta.mapping.value.json meta.sequence.json meta.project.folder.sublime-project meta.mapping.json punctuation.section.mapping.begin.json
+            "name": "name",
+//           ^^^^ meta.folder-key.sublime-project string.quoted.double.json keyword.other.folder.sublime-project
+//                        ^ punctuation.separator.mapping.pair.json
+            "path": ".\u1234",
+//           ^^^^ meta.folder-key.sublime-project string.quoted.double.json keyword.other.folder.sublime-project
+            "folder_exclude_patterns": ["*.txt",,],
+//           ^ meta.folder-key.sublime-project string.quoted.double.json keyword.other.folder.sublime-project
+//                                     ^^^^^^^^^ meta.mapping.value.json meta.patterns-sequence.sublime-project meta.sequence.json
+//                                     ^ punctuation.section.sequence.begin.json
+//                                      ^^^^^^^ meta.pattern-string.sublime-build string.quoted.double.json
+//                                       ^ keyword.operator.wildcard.sublime-project
+//                                             ^ punctuation.separator.sequence.json
+//                                              ^ invalid.illegal.expected-string.sublime-project
+//                                               ^ punctuation.section.sequence.end.json
+            "follow_symlinks": 123 false,
+//           ^ meta.folder-key.sublime-project string.quoted.double.json keyword.other.folder.sublime-project
+//                             ^^^ invalid.illegal.expected-boolean.sublime
+//                                 ^^^^^ constant.language.boolean.json
+            ,
+//          ^ invalid.illegal.expected-key.json
+        },
+//       ^ punctuation.separator.sequence.json
+    ],
+
+    "build_systems": true [
+//   ^^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-project string.quoted.double.json keyword.other.main.sublime-project
+//                   ^^^^ invalid.illegal.expected-sequence.sublime
+//                        ^  meta.mapping.value.json meta.variants.sublime-build meta.sequence.json punctuation.section.sequence.begin.json
+        {
+            "name": "Test Build",
+            "shell_cmd": "sh $file",
+//                            ^^^^ meta.placeholder-name.sublime-build constant.other.placeholder.sublime-build
+        },
+    ],
+
+    "settings": {
+//              ^ meta.mapping.value.json meta.settings-mapping.sublime-settings meta.mapping.json punctuation.section.mapping.begin.json
+        "setting": "value"
+//       ^^^^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json entity.name.other.key.sublime-settings
+    }
+}
+// <- meta.project.sublime-project meta.mapping.json punctuation.section.mapping.end.json
+
+   ,{} // comment
+// ^^^ invalid.illegal.expected-comment-or-eof.sublime
+//     ^^ comment.line.double-slash.js

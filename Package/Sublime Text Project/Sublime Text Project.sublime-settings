@@ -1,0 +1,4 @@
+{
+    "extensions": ["sublime-project"],
+    "auto_complete_selector": "- string - comment | meta.main-key | meta.folder-key | meta.settings-mapping - comment - meta.setting-value",
+}
