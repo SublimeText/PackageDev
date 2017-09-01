@@ -22,6 +22,11 @@ SyntaxTestHeader = namedtuple(
 )
 
 
+def _show_tab_warning():
+    sublime.error_message("Syntax tests do not work properly with tabs as indentation."
+                          "\n\nYou MUST use spaces!")
+
+
 def get_syntax_test_tokens(view):
     """Parse the first line of the given view into a SyntaxTestHeader.
 
@@ -45,10 +50,21 @@ def get_syntax_test_tokens(view):
 class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
     header = None
 
+    @classmethod
+    def is_applicable(cls, settings):
+        """Disable the listener completely when tabs are used."""
+        return settings.get('translate_tabs_to_spaces', False)
+
     def __init__(self, view):
         super().__init__(view)
         self.on_modified_async()
         self.on_selection_modified_async()
+
+    def __del__(self):
+        # Settings were (most likely) changed to use tabs.
+        # Complain about this, if we have a test file.
+        if self.header:
+            _show_tab_warning()
 
     def on_modified_async(self):
         """If the view has a filename, and that file name starts with
@@ -366,3 +382,7 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
         if test_header and test_header.syntax_file:
             if view.settings().get('syntax', None) != test_header.syntax_file:
                 view.assign_syntax(test_header.syntax_file)
+
+            # warn user if they try to do something stupid
+            if not view.settings().get('translate_tabs_to_spaces', False):
+                _show_tab_warning()
