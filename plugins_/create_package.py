@@ -1,3 +1,4 @@
+import glob
 import logging
 import os
 
@@ -8,6 +9,27 @@ import sublime_plugin
 __all__ = ('PackagedevCreatePackageCommand',)
 
 l = logging.getLogger(__name__)
+
+
+def _archived_packages_in_path(path):
+    paths = glob.glob(os.path.join(path, "*.sublime-package"))
+    return {os.path.splitext(os.path.basename(p))[0]
+            for p in paths}
+
+
+def _get_default_packages():
+    default_path = os.path.join(os.path.dirname(sublime.executable_path()), "Packages")
+    return _archived_packages_in_path(default_path)
+
+
+def _get_installed_packages():
+    return _archived_packages_in_path(sublime.installed_packages_path())
+
+
+def _is_override_package(name):
+    existing_packages = _get_default_packages() | _get_installed_packages()
+    l.debug("existing packages: %r", existing_packages)
+    return name in existing_packages
 
 
 def _create_package(name):
@@ -41,6 +63,14 @@ class PackagedevCreatePackageCommand(sublime_plugin.WindowCommand):
                 on_cancel=None,
             )
             return
+
+        if _is_override_package(name):
+            result = sublime.ok_cancel_dialog("A package named {!r} already exists."
+                                              " Do you want to create an override package?"
+                                              .format(name))
+            if not result:
+                l.debug("Aborted creation of override package for %r", name)
+                return
 
         path = _create_package(name)
         if not path:
