@@ -197,7 +197,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [expect-string-value, expect-colon]
+      set: [expect-variant-name-string-value, expect-colon]
     - include: in-dictionary-main-key
 
   expect-os-mapping-value:
@@ -348,6 +348,25 @@ contexts:
         2: meta.placeholder-name.sublime-build constant.other.placeholder.sublime-build
         3: meta.placeholder-name.sublime-build
         4: meta.placeholder-name.sublime-build # to provide auto-completion
+
+  expect-variant-name-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, variant-name-string-pop]
+    - include: expect-string-rest
+
+  variant-name-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json punctuation.definition.snippet.begin.sublime
+      set:
+        - meta_scope: string.quoted.double.json meta.variant-name.sublime-build
+        - meta_content_scope: entity.name.variant.sublime-build
+        - match: '"'
+          scope: punctuation.definition.string.end.json punctuation.definition.snippet.end.sublime
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
 
   comments:
     - include: Sublime JSON.sublime-syntax#comments

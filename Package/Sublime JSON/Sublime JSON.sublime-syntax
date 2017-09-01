@@ -495,3 +495,21 @@ contexts:
                 2: constant.character.escape.json constant.character.escape.snippet
                 3: constant.character.escape.snippet
             - include: string-escape
+
+  expect-caption-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, caption-string-pop]
+    - include: expect-string-rest
+
+  caption-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json punctuation.definition.snippet.begin.sublime
+      set:
+        - meta_scope: string.quoted.double.json meta.caption.sublime
+        - match: '"'
+          scope: punctuation.definition.string.end.json punctuation.definition.snippet.end.sublime
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape

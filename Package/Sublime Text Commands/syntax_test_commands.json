@@ -14,7 +14,7 @@
 //       ^^^^^^^ keyword.other.main.sublime-commands
 //               ^ - invalid
 //                ^ punctuation.separator.mapping.key-value.json
-//                  ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
+//                  ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.caption.sublime
         "command": "toggle_setting",
 //      ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
 //       ^^^^^^^ keyword.other.main.sublime-commands

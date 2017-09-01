@@ -14,7 +14,7 @@
 //      ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //       ^^^^^^^ keyword.other.main.sublime-menu
 //               ^ punctuation.separator.mapping.key-value.json
-//                 ^^^^^^ meta.mapping.value.json string.quoted.double.json
+//                 ^^^^^^ meta.mapping.value.json string.quoted.double.json meta.caption.sublime
         "foo": "bar",
 //      ^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //       ^^^ - keyword.other.main.sublime-menu
@@ -29,6 +29,8 @@
 //      ^^^^  meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //       ^^ keyword.other.main.sublime-menu
 //            ^ invalid.illegal.expected-string.sublime
+//             ^^^^^^ meta.id.sublime-menu
+//              ^^^^ entity.name.id.sublime-menu
 //                   ^ invalid.illegal.expected-comma - invalid.illegal.expected-string.sublime
 //                    ^ punctuation.separator.mapping.pair.json
         "children"  :

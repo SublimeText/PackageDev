@@ -136,6 +136,7 @@
 //          ^^^^^^ meta.mapping.value.json meta.variants.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //           ^^^^ keyword.other.main.sublime-build
 //                  ^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
+//                   ^^^ meta.variant-name.sublime-build entity.name.variant.sublime-build
 
             "target": "do_something",
 //          ^^^^^^^^ meta.mapping.value.json meta.variants.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json

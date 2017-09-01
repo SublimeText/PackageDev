@@ -45,14 +45,14 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-menu
         3: punctuation.definition.string.end.json
-      set: [expect-string-value, expect-colon]
+      set: [expect-caption-string-value, expect-colon]
     - match: (")(id)(")
       scope: meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-menu
         3: punctuation.definition.string.end.json
-      set: [expect-string-value, expect-colon]
+      set: [expect-id-string-value, expect-colon]
     - match: (")(mnemonic)(")
       scope: meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
       captures:
@@ -171,6 +171,25 @@ contexts:
         - match: \S
           scope: invalid.illegal.expected-mapping.sublime-menu
 
+  expect-id-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, id-string-pop]
+    - include: expect-string-rest
+
+  id-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json punctuation.definition.snippet.begin.sublime
+      set:
+        - meta_scope: string.quoted.double.json meta.id.sublime-menu
+        - meta_content_scope: entity.name.id.sublime-menu
+        - match: '"'
+          scope: punctuation.definition.string.end.json punctuation.definition.snippet.end.sublime
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
+
   comments:
     - include: Sublime JSON.sublime-syntax#comments
 
@@ -182,6 +201,9 @@ contexts:
 
   expect-string-value:
     - include: Sublime JSON.sublime-syntax#expect-string-value
+
+  expect-caption-string-value:
+    - include: Sublime JSON.sublime-syntax#expect-caption-string-value
 
   expect-command-name-value:
     - include: Sublime JSON.sublime-syntax#expect-command-name-value
@@ -200,6 +222,9 @@ contexts:
 
   expect-sequence-rest:
     - include: Sublime JSON.sublime-syntax#expect-sequence-rest
+
+  string-escape:
+    - include: Sublime JSON.sublime-syntax#string-escape
 
   in-sequence-expect-comma:
     - include: Sublime JSON.sublime-syntax#in-sequence-expect-comma

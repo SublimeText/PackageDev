@@ -117,7 +117,7 @@ contexts:
     - match: (")
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: string.quoted.double.json
+        - meta_scope: string.quoted.double.json meta.trigger.sublime-completions
         - match: (\\t)
           scope: constant.character.escape.json punctuation.separator.trigger.json
         - include: string-escape
