@@ -9,7 +9,6 @@ from .lib import syntax_paths
 __all__ = (
     'GenerateSnippetFromRawSnippetCommand',
     'NewRawSnippetFromSnippetCommand',
-    'CopyAndInsertRawSnippetCommand',
 )
 
 
@@ -47,21 +46,3 @@ class NewRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
         v = self.view.window().new_file()
         v.run_command('insert', {'contents': contents})
         v.set_syntax_file(syntax_paths.SNIPPET_RAW)
-
-
-class CopyAndInsertRawSnippetCommand(sublime_plugin.TextCommand):
-    """Inserts the raw snippet contents into the first selection of
-    the previous view in the stack.
-
-    Allows a workflow where you're creating snippets for a .sublime-completions
-    file, for example, and you don't want to store them as .sublime-snippet
-    files.
-    """
-    def is_enabled(self):
-        return self.view.match_selector(0, 'source.sublime.snippet')
-
-    def run(self, edit):
-        snip = get_text(self.view)
-        self.view.window().run_command('close')
-        target = sublime.active_window().active_view()
-        target.replace(edit, target.sel()[0], snip)
