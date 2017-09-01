@@ -61,5 +61,13 @@ contexts:
                   pop: true
                 - match: '[^}]+'
                   scope: invalid.illegal.unexpected-token.snippet
-            - include: scope:source.regexp-replacement
-        - include: RegExp.sublime-syntax#base-literal
+            - match: ''
+              push: scope:source.regexp-replacement
+              with_prototype:
+                - match: (?=/)
+                  pop: true
+        - match: ''
+          push: scope:source.regexp
+          with_prototype:
+            - match: (?=/)
+              pop: true

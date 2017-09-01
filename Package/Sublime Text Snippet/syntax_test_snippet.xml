@@ -36,6 +36,8 @@ Transformation: ${1/./=/g}
 #                        ^ keyword.other.block
 
 Transformation: ${1/^(\w)|(?:_(\w))/(?1\u$1:)(?2 \u${2}:)/g}
+#                   ^^^^^^^^^^^^^^^ source.regexp
+#                                   ^^^^^^^^^^^^^^^^^^^^^ source.regexp-replacement
 #               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.text-substitution
 #              ^ - meta.text-substitution
 #                                                           ^ - meta.text-substitution
