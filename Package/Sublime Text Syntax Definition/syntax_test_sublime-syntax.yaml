@@ -67,6 +67,15 @@ variables:
   x12: '-?{{nmstart}}{{nmchar}}*??'
 #                              ^^ keyword.operator.quantifier
 #                                ^ invalid.illegal.unexpected-quantifier
+
+# TODO These two tests are failing currently (need to be reversed).
+# They might be addressed later.
+  x13: '(?=>|[^ \t\n\$=<_+''*(),&:\[\][:alnum:]])'
+#                           ^ keyword.operator.quantifier.regexp
+  x14: '[x-'']+'
+#            ^ - keyword.control.set.regexp
+
+
 # BLOCKS #
 
   b1: | # comment

@@ -437,7 +437,7 @@ contexts:
             - match: \\''
               scope: constant.character.escape.regexp.yaml
               push: regexp_quantifier_pop
-            - match: "(?=')"
+            - match: (?=')
               pop: true
 
     - match: '{{plain_scalar_but_not_block_key}}'
