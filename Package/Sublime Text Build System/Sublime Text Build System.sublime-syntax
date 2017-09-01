@@ -70,6 +70,7 @@ contexts:
         - match: \"
           scope: punctuation.definition.string.end.json
           set: [expect-any-value, expect-colon]
+        - include: string-escape
 
   target-key:
     - match: (")(target)(")
