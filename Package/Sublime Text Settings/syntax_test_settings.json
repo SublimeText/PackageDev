@@ -17,10 +17,10 @@ s
 //  ^ punctuation.definition.string.begin.json
 //      ^ punctuation.definition.string.end.json
 //       ^ punctuation.separator.mapping.key-value.json
-//         ^^^^^^^ meta.mapping.value.json string.quoted.double.json
+//         ^^^^^^^ meta.setting-value.sublime-settings meta.mapping.value.json string.quoted.double.json
 //                ^ punctuation.separator.mapping.pair.json
-//       ^ - meta.expect-value
-//        ^ meta.expect-value
+//       ^ - meta.expect-value.sublime-settings
+//        ^ meta.expect-value.sublime-settings
 
     "another_key": 123,
 //  ^ - entity.name.other.key.sublime-settings

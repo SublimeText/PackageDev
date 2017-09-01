@@ -8,7 +8,8 @@ import sublime_plugin
 from ..lib import get_setting
 from ..lib.sublime_lib.constants import style_flags_from_list
 
-from .region_math import VALUE_SCOPE, KEY_SCOPE, get_key_region_at, get_last_key_region
+from .region_math import (VALUE_SCOPE, KEY_SCOPE, KEY_COMPLETIONS_SCOPE,
+                          get_key_region_at, get_last_key_region)
 from .known_settings import KnownSettings
 
 __all__ = (
@@ -80,7 +81,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def is_applicable(cls, settings):
         """Enable the listener for Sublime Settings syntax only."""
         syntax = settings.get('syntax') or ""
-        return syntax.endswith("/Sublime Text Settings.sublime-syntax")
+        return (syntax.endswith("/Sublime Text Settings.sublime-syntax")
+                or syntax.endswith("/Sublime Text Project.sublime-syntax"))
 
     def __init__(self, view):
         """Initialize view event listener object."""
@@ -91,13 +93,17 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
         filepath = view.file_name()
         l.debug("initializing SettingsListener for %r", view.file_name())
+
         if filepath and filepath.endswith(".sublime-settings"):
             filename = os.path.basename(filepath)
             self.known_settings = KnownSettings(filename)
             self.known_settings.add_on_loaded(self.do_linting)
+        elif filepath and filepath.endswith(".sublime-project"):
+            self.known_settings = KnownSettings("Preferences.sublime-settings")
+            self.known_settings.add_on_loaded(self.do_linting)
         else:
             self.known_settings = None
-            l.error("Not a Sublime Text Settings file: %r", filepath)
+            l.error("Not a Sublime Text Settings or Project file: %r", filepath)
 
         self.phantom_set = sublime.PhantomSet(self.view, "sublime-settings-edit")
         if self._is_base_settings_view():
@@ -132,10 +138,10 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         """
         if self.known_settings and len(locations) == 1:
             point = locations[0]
+            self.is_completing_key = False
             if self.view.match_selector(point, VALUE_SCOPE):
-                self.is_completing_key = False
                 completions_aggregator = self.known_settings.value_completions
-            else:
+            elif self.view.match_selector(point, KEY_COMPLETIONS_SCOPE):
                 completions_aggregator = self.known_settings.key_completions
                 self.is_completing_key = True
             return completions_aggregator(self.view, prefix, point)
@@ -190,10 +196,11 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def do_linting(self):
         """Highlight all unknown settings keys."""
         unknown_regions = None
+        file_name = self.view.file_name() or ""
         if (
             self.known_settings
-            # file_name maybe None if self.known_settings is None
-            and USER_PATH in self.view.file_name()
+            and (USER_PATH in file_name
+                 or file_name.endswith(".sublime-project"))
             and get_setting('settings.linting')
         ):
             unknown_regions = [
