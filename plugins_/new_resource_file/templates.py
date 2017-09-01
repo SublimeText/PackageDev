@@ -1,7 +1,7 @@
 TEMPLATES = dict(
     build_system="""\
 {
-\t"cmd": ["${0:make}"]
+\t"cmd": ["${0:make}"],
 }""",
     commands="""\
 [
@@ -37,7 +37,7 @@ TEMPLATES = dict(
     "completions": [
         { "trigger": "${2:some_trigger}", "contents": "${3:$2}" },$0
     ]
-}""".replace("    ", "\t"),  # noqa - line length
+}""".replace("    ", "\t"),
     settings="""{
 \t$0
 }""",
