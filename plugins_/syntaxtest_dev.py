@@ -61,9 +61,10 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         self.on_selection_modified_async()
 
     def __del__(self):
-        # Settings were (most likely) changed to use tabs.
-        # Complain about this, if we have a test file.
-        if self.header:
+        # Settings were (most likely) changed to use tabs
+        # or plugin was unloaded.
+        # Complain about the former, if we have a test file.
+        if not self.is_applicable(self.view.settings()) and self.header:
             _show_tab_warning()
 
     def on_modified_async(self):
