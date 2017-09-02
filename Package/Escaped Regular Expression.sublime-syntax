@@ -8,17 +8,18 @@
 # - replaced all `\\` with `\\\\`
 # - added a `\\.` match to the 'literal' context
 # - modified 'char_escape' variable to accept triple backslahes + any
+# - added captures to json escape sequences
 scope: source.regexp.escaped
 hidden: true
 
 variables:
-  known_char_escape: '\\\\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)'
-  invalid_char_escape: '\\\\[xcCM]'
-  char_escape: '(?:\\{3}.|\\\\.)'
+  known_char_escape: (\\\\)(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)
+  invalid_char_escape: (\\\\)[xcCM]
+  char_escape: (?:(\\\\)\\?.)
   ranged_quantifier: '\{\d+(,\d*)?\}'
   lazy_or_possessive: '[?+]?'
   character_quantifier: '[?*+]'
-  char_class: '\\\\(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(L&|[A-Z][a-z]?)))'
+  char_class: (\\\\)(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(?:L&|[A-Z][a-z]?)))
 
 contexts:
   main:
@@ -264,12 +265,18 @@ contexts:
                 - meta_scope: constant.other.range.regexp
                 - match: '-'
                 - match: '{{known_char_escape}}'
+                  captures:
+                    1: constant.character.escape.json
                   scope: constant.character.escape.regexp
                   pop: true
                 - match: '{{invalid_char_escape}}'
+                  captures:
+                    1: constant.character.escape.json
                   scope: invalid.illegal.character.escape.regexp
                   pop: true
                 - match: '{{char_escape}}'
+                  captures:
+                    1: constant.character.escape.json
                   scope: constant.character.escape.regexp
                   pop: true
                 - match: '.'
@@ -283,42 +290,56 @@ contexts:
 
   character-class:
     - match: '{{char_class}}'
+      captures:
+        1: constant.character.escape.json
       scope: keyword.control.character-class.regexp
 
   special-escaped-char:
     - match: '{{known_char_escape}}'
+      captures:
+        1: constant.character.escape.json
       scope: constant.character.escape.regexp
     - match: '{{invalid_char_escape}}'
+      captures:
+        1: constant.character.escape.json
       scope: invalid.illegal.character.escape.regexp
 
   escaped-char:
     - match: '{{char_escape}}'
+      captures:
+        1: constant.character.escape.json
       scope: constant.character.escape.regexp
 
   backslashes:
-    - match: '\\\\[bBAZzG]|[\^$]'
+    - match: (\\\\)[bBAZzG]|[\^$]
       scope: keyword.control.anchors.regexp
+      captures:
+        1: constant.character.escape.json
       push: unexpected-quantifier-pop
-    - match: '\\\\[QEK]'
+    - match: (\\\\)[QEK]
       scope: keyword.control.regexp
+      captures:
+        1: constant.character.escape.json
       push: unexpected-quantifier-pop
-    - match: \\\\[kg](?:(<)([^>]+)(>)|(')([^']+)(')|(\{)([^}]+)(\})|(-?\d+))
+    - match: (\\\\)[kg](?:(<)([^>]+)(>)|(')([^']+)(')|(\{)([^}]+)(\})|(-?\d+))
       scope: keyword.other.backref-and-recursion.regexp
       captures:
-        1: punctuation.definition.capture-group-name.begin.regexp
+        1: constant.character.escape.json
+        2: punctuation.definition.capture-group-name.begin.regexp
+        3: variable.other.backref-and-recursion.regexp
+        4: punctuation.definition.capture-group-name.end.regexp
+        5: punctuation.definition.capture-group-name.begin.regexp
+        6: variable.other.backref-and-recursion.regexp
+        7: punctuation.definition.capture-group-name.end.regexp
+        8: punctuation.definition.capture-group-name.begin.regexp
+        9: variable.other.backref-and-recursion.regexp
+        10: punctuation.definition.capture-group-name.end.regexp
+        11: variable.other.backref-and-recursion.regexp
+    - match: (\\\\)([1-9]\d*)
+      scope: keyword.other.backref-and-recursion.regexp
+      captures:
+        1: constant.character.escape.json
         2: variable.other.backref-and-recursion.regexp
-        3: punctuation.definition.capture-group-name.end.regexp
-        4: punctuation.definition.capture-group-name.begin.regexp
-        5: variable.other.backref-and-recursion.regexp
-        6: punctuation.definition.capture-group-name.end.regexp
-        7: punctuation.definition.capture-group-name.begin.regexp
-        8: variable.other.backref-and-recursion.regexp
-        9: punctuation.definition.capture-group-name.end.regexp
-        10: variable.other.backref-and-recursion.regexp
-    - match: \\\\([1-9]\d*)
-      scope: keyword.other.backref-and-recursion.regexp
-      captures:
-        1: variable.other.backref-and-recursion.regexp
 
   quantifiers:
     - match: '{{ranged_quantifier}}{{lazy_or_possessive}}'

@@ -46,9 +46,11 @@
 //                                          ^ - meta.placeholder-name.sublime-build
 //                                          ^^ constant.character.escape.json meta.literal.regexp
 //                                              ^^^^ constant.character.escape.regexp
+//                                              ^^ constant.character.escape.json
 //                                                  ^ meta.literal.regexp - constant.character.escape
 //                                                    ^^ keyword.other.backref-and-recursion.regexp-replacement
 //                                                       ^^^ constant.character.escape.regexp-replacement
+//                                                       ^^ constant.character.escape.json
 //                                                               ^ constant.other.regex-modifier.placeholder.sublime-build
 //                                                                ^ keyword.other.block.end.placeholder.sublime-build
 //                                                                 ^ keyword.other.block.end.placeholder.sublime-build
