@@ -341,14 +341,17 @@ class KnownSettings(object):
                 point = value_regions[-1].end() - 1
                 bol, eol = "\t", "\n"
         else:
-            point = value_regions[-1].end()
+            # Due to the scope selector,
+            # the comma will always be the last character of the last region found,
+            # if it exists.
+            point = value_regions[-1].end() - 1
             if view.substr(point) == ",":
                 # already have a comma after last entry
-                eol, bol = "", "\n"
+                bol, eol = "\n", ","
                 point += 1
             else:
                 # add a comma after last entry
-                eol, bol = "", ",\n"
+                bol, eol = ",\n", ""
         # format and insert the snippet
         snippet = self._key_snippet(key, self.defaults[key], bol, eol)
         view.sel().clear()
