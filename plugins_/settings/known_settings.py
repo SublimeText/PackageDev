@@ -414,7 +414,7 @@ class KnownSettings(object):
             #
             #   "key": "value"
             #
-            fmt = '{bol}"{key}": "${{1:{encoded}}}"{eol}$0'
+            fmt = '{bol}"{key}": "${{1:{encoded}}}"{eol}'
             encoded = encoded[1:-1]  # strip quotation
         elif isinstance(value, list):
             # create the snippet for json lists and exclude brackets
@@ -425,7 +425,7 @@ class KnownSettings(object):
             #      value
             #   ]
             #
-            fmt = '{bol}"{key}":\n[\n\t${{1:{encoded}}}\n]{eol}$0'
+            fmt = '{bol}"{key}":\n[\n\t${{1:{encoded}}}\n]{eol}'
             encoded = encoded[1:-1]  # strip brackets
         elif isinstance(value, dict):
             # create the snippet for json dictionaries braces
@@ -436,10 +436,10 @@ class KnownSettings(object):
             #      value
             #   }
             #
-            fmt = '{bol}"{key}":\n{{\n\t${{1:{encoded}}}\n}}{eol}$0'
+            fmt = '{bol}"{key}":\n{{\n\t${{1:{encoded}}}\n}}{eol}'
             encoded = encoded[1:-1]  # strip braces
         else:
-            fmt = '{bol}"{key}": ${{1:{encoded}}}{eol}$0'
+            fmt = '{bol}"{key}": ${{1:{encoded}}}{eol}'
         return fmt.format(**locals())
 
     def value_completions(self, view, prefix, point):
