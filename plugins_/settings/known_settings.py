@@ -335,7 +335,7 @@ class KnownSettings(object):
                 point = view.size()
                 is_empty_line = not view.substr(view.line(point)).strip()
                 bol = "{\n\t" if is_empty_line else "\n{\n\t"
-                eol = "\n}\n"
+                eol = ",$0\n}\n"
             else:
                 # insert first value to user file
                 point = value_regions[-1].end() - 1
