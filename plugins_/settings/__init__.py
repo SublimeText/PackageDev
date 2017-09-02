@@ -7,6 +7,7 @@ import sublime_plugin
 
 from ..lib import get_setting, find_view_event_listener
 from ..lib.sublime_lib.constants import style_flags_from_list
+from ..lib.weakmethod import WeakMethodProxy
 
 from .region_math import (VALUE_SCOPE, KEY_SCOPE, KEY_COMPLETIONS_SCOPE,
                           get_key_region_at, get_last_key_region)
@@ -238,7 +239,9 @@ class SettingsListener(sublime_plugin.ViewEventListener):
                 region=phantom_region,
                 content=PHANTOM_TEMPLATE.format(content),
                 layout=sublime.LAYOUT_INLINE,
-                on_navigate=self.on_navigate,
+                # use weak reference for callback
+                # to allow for phantoms to be cleaned up in __del__
+                on_navigate=WeakMethodProxy(self.on_navigate),
             ))
 
         self.phantom_set.update(phantoms)
