@@ -10,8 +10,7 @@
             "mnemonic": "P",
             "children": [
               { "caption": "Create Package…",
-                "command": "new_resource_file",
-                "args": {"kind": "syntax_def"} },
+                "command": "packagedev_create_package" },
 
               { "caption": "-" },
 
