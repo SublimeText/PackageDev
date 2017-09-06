@@ -21,7 +21,7 @@ def _syntax_path_for_kind(kind):
 
 
 class NewResourceFileCommand(sublime_plugin.WindowCommand):
-    def run(self, kind):
+    def run(self, kind, default=False):
         if kind not in TEMPLATES:
             l.error("Unknown resource file kind %r", kind)
             return
@@ -35,8 +35,9 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
             v.settings().set('default_extension', ".tmLanguage")
 
         # insert the template
-        template = TEMPLATES[kind]
-        if kind.startswith("tm_"):
+        template_key = kind + ("_default" if default else "")
+        template = TEMPLATES[template_key]
+        if template_key.startswith("tm_"):
             # tm_* kinds expect a uuid to be inserted
             template = template % uuid.uuid4()
         v.run_command('insert_snippet', {'contents': template})
