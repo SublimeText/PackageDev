@@ -1,0 +1,19 @@
+v3.0.0-rc.5 (2017-09-06)
+------------------------
+
+This will hopefully be the final release candidate.
+
+Changes since the last notes:
+
++ Added symbol definitions to a couple syntaxes for faster browsing (Ctrl+R)
++ Show warning when working with tabs in a syntax test file
+
+* Improved "New *" resource file commands (insert package name, default file name, added menu)
+* Fixed phantoms in side-by-side-settings
+* Better completions for scope names in syntax definitions (re-opens automatically)
+* Various other fixes (syntaxes, settings insertions)
+
+---
+
+Please test the package thoroughly and report issues at the issue tracker:
+https://github.com/SublimeText/PackageDev/issues
