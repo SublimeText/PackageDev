@@ -51,10 +51,9 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
 
         snippet_args = {'contents': template}
         # Prefill snippet with package name, if desired
-        if default:
-            pkg_name = self._guess_package_name()
-            if pkg_name:
-                snippet_args["1"] = pkg_name
+        pkg_name = self._guess_package_name()
+        if pkg_name:
+            snippet_args["package_name"] = pkg_name
 
         v.run_command('insert_snippet', snippet_args)
 

@@ -5,11 +5,11 @@ TEMPLATES = dict(
 }""",
     commands="""\
 [
-  { "caption": "${1:PackageName}: ${2:My Caption for the Command Palette}",
+  { "caption": "${1:${package_name:PackageName}}: ${2:My Caption for the Command Palette}",
     "command": "${3:my_command}" },$0
 ]""",
     commands_default=R"""[
-  { "caption": "Preferences: ${1:PackageName}",
+  { "caption": "Preferences: ${1:${package_name:PackageName}}",
     "command": "edit_settings",
     "args": {
       "base_file": "\${packages}/$1/$1.sublime-settings",
