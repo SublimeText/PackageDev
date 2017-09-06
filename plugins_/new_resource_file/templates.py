@@ -12,21 +12,21 @@ TEMPLATES = dict(
   { "caption": "Preferences: ${1:PackageName}",
     "command": "edit_settings",
     "args": {
-      "base_file": "${packages}/$1/$1.sublime-settings",
+      "base_file": "\${packages}/$1/$1.sublime-settings",
       "default": "{\n\t\$0\n}\n"
     }
   },
   { "caption": "Preferences: $1 Key Bindings",
     "command": "edit_settings",
     "args": {
-      "base_file": "${packages}/$1/Default (${platform}).sublime-keymap",
+      "base_file": "\${packages}/$1/Default (\${platform}).sublime-keymap",
       "default": "[\n\t\$0\n]\n"
     }
   },
   { "caption": "$1: Open Readme",
     "command": "open_file",
     "args": {
-      "target": "${packages}/$1/README.md"
+      "target": "\${packages}/$1/README.md"
     }
   },$0
 ]""",
