@@ -21,6 +21,14 @@ def _syntax_path_for_kind(kind):
 
 
 class NewResourceFileCommand(sublime_plugin.WindowCommand):
+
+    """Command to create a new resource file.
+
+    - Assigns the proper syntax.
+    - Sets the default directory to the current project folder, if it is a package.
+    - Prefills package name in snippets, if possible.
+    """
+
     def run(self, kind, default=False):
         if kind not in TEMPLATES:
             l.error("Unknown resource file kind %r", kind)
