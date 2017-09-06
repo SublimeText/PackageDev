@@ -3,12 +3,7 @@ TEMPLATES = dict(
 {
 \t"cmd": ["${0:make}"],
 }""",
-    commands="""\
-[
-  { "caption": "${1:${package_name:PackageName}}: ${2:My Caption for the Command Palette}",
-    "command": "${3:my_command}" },$0
-]""",
-    commands_default=R"""[
+    commands=R"""[
   { "caption": "Preferences: ${1:${package_name:PackageName}}",
     "command": "edit_settings",
     "args": {
@@ -29,6 +24,11 @@ TEMPLATES = dict(
       "target": "\${packages}/$1/README.md"
     }
   },$0
+]""",
+    commands_short="""\
+[
+  { "caption": "${1:${package_name:PackageName}}: ${2:My Caption for the Command Palette}",
+    "command": "${3:my_command}" },$0
 ]""",
     completions="""\
 {

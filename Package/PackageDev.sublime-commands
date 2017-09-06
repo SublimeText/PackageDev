@@ -65,9 +65,9 @@
     "command": "new_resource_file",
     "args": {"kind": "commands"}
   },
-  { "caption": "PackageDev: New Commands File (with default entries)",
+  { "caption": "PackageDev: New Commands File (short)",
     "command": "new_resource_file",
-    "args": {"kind": "commands", "default": true}
+    "args": {"kind": "commands", "suffix": "short"}
   },
   { "caption": "PackageDev: New Completions File",
     "command": "new_resource_file",

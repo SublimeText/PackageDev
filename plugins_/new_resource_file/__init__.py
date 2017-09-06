@@ -29,7 +29,7 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
     - Prefills package name in snippets, if possible.
     """
 
-    def run(self, kind, default=False):
+    def run(self, kind, suffix=None):
         if kind not in TEMPLATES:
             l.error("Unknown resource file kind %r", kind)
             return
@@ -43,7 +43,9 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
             v.settings().set('default_extension', ".tmLanguage")
 
         # insert the template
-        template_key = kind + ("_default" if default else "")
+        template_key = kind
+        if suffix:
+            template_key = "{}_{}".format(kind, suffix)
         template = TEMPLATES[template_key]
         if template_key.startswith("tm_"):
             # tm_* kinds expect a uuid to be inserted

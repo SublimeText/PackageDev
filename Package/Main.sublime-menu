@@ -50,9 +50,9 @@
                 "command": "new_resource_file",
                 "args": {"kind": "commands"}
               },
-              { "caption": "New Commands File (with default values)…",
+              { "caption": "New Commands File (short)…",
                 "command": "new_resource_file",
-                "args": {"kind": "commands", "default": true}
+                "args": {"kind": "commands", "suffix": "short"}
               },
               { "caption": "New Completions File…",
                 "command": "new_resource_file",
