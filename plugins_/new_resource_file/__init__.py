@@ -14,10 +14,34 @@ l = logging.getLogger(__name__)
 
 
 def _syntax_path_for_kind(kind):
-    if kind == "tm_syntax_def":
-        kind = "plist"
+    if kind == 'tm_syntax_def':
+        kind = 'plist'
     key = kind.upper()
     return getattr(syntax_paths, key)
+
+
+def _get_template(kind, suffix):
+    template_key = kind
+    if suffix:
+        template_key = "{}_{}".format(kind, suffix)
+    template = TEMPLATES[template_key]
+
+    if template_key.startswith("tm_"):
+        # tm_* kinds expect a uuid to be inserted
+        template = template % uuid.uuid4()
+
+    return template
+
+
+def _default_file_name(kind, suffix, package_name):
+    name = None
+    extension = None
+    if kind == 'tm_syntax_def':  # only syntax with multiple extensions (plist)
+        extension = ".tmLanguage"
+    if kind in ('commands', 'settings', 'build_system'):
+        name = package_name
+
+    return name, extension
 
 
 class NewResourceFileCommand(sublime_plugin.WindowCommand):
@@ -34,34 +58,32 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
             l.error("Unknown resource file kind %r", kind)
             return
 
+        package_dir = self._guess_folder()
+        package_name = self._guess_package_name(package_dir)
+
         v = self.window.new_file()
 
         # initialize settings (and syntax)
         v.set_syntax_file(_syntax_path_for_kind(kind))
-        v.settings().set('default_dir', self._guess_folder())
-        if kind == "tm_syntax_def":
-            v.settings().set('default_extension', ".tmLanguage")
+        v.settings().set('default_dir', package_dir)
+        name, extension = _default_file_name(kind, suffix, package_name)
+        if name:
+            v.set_name(name)
+        if extension:
+            v.settings().set('default_extension', extension)
 
         # insert the template
-        template_key = kind
-        if suffix:
-            template_key = "{}_{}".format(kind, suffix)
-        template = TEMPLATES[template_key]
-        if template_key.startswith("tm_"):
-            # tm_* kinds expect a uuid to be inserted
-            template = template % uuid.uuid4()
-
-        snippet_args = {'contents': template}
-        # Prefill snippet with package name, if desired
-        pkg_name = self._guess_package_name()
-        if pkg_name:
-            snippet_args["package_name"] = pkg_name
+        snippet_args = {'contents': _get_template(kind, suffix)}
+        # prefill snippet with package name
+        if package_name:
+            snippet_args["package_name"] = package_name
 
         v.run_command('insert_snippet', snippet_args)
 
-    def _guess_package_name(self):
+    def _guess_package_name(self, path=None):
         """Determine the package name currently being edited, or None."""
-        name = os.path.basename(self._guess_folder())
+        path = path or self._guess_folder()
+        name = os.path.basename(path)
         return name if name != "User" else None
 
     def _guess_folder(self):
