@@ -40,7 +40,20 @@ class NewResourceFileCommand(sublime_plugin.WindowCommand):
         if template_key.startswith("tm_"):
             # tm_* kinds expect a uuid to be inserted
             template = template % uuid.uuid4()
-        v.run_command('insert_snippet', {'contents': template})
+
+        snippet_args = {'contents': template}
+        # Prefill snippet with package name, if desired
+        if default:
+            pkg_name = self._guess_package_name()
+            if pkg_name:
+                snippet_args["1"] = pkg_name
+
+        v.run_command('insert_snippet', snippet_args)
+
+    def _guess_package_name(self):
+        """Determine the package name currently being edited, or None."""
+        name = os.path.basename(self._guess_folder())
+        return name if name != "User" else None
 
     def _guess_folder(self):
         """Return the path to either the package currently being edited, or User."""
