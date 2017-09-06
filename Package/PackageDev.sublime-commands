@@ -73,6 +73,14 @@
     "command": "new_resource_file",
     "args": {"kind": "completions"}
   },
+  { "caption": "PackageDev: New Menu File (empty)…",
+    "command": "new_resource_file",
+    "args": {"kind": "menu"}
+  },
+  { "caption": "PackageDev: New Main Menu File…",
+    "command": "new_resource_file",
+    "args": {"kind": "menu", "suffix": "main"}
+  },
   { "caption": "PackageDev: New Settings File",
     "command": "new_resource_file",
     "args": {"kind": "settings"}

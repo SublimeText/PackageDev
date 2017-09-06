@@ -41,6 +41,48 @@ TEMPLATES = dict(
     settings="""{
 \t$0
 }""",
+    menu="""[
+\t$0
+]""",
+    menu_main=R"""\
+[
+  { "id": "preferences",
+    "children": [
+      { "caption": "Package Settings",
+        "mnemonic": "P",
+        "id": "package-settings",
+        "children": [
+          { "caption": "${1:${package_name:PackageName}}",
+            "children": [
+              { "caption": "README",
+                "command": "open_file",
+                "args": {
+                  "target": "\${packages}/$1/README.md"
+                }
+              },
+              { "caption": "-" },
+              { "caption": "Settings",
+                "command": "edit_settings",
+                "args": {
+                  "base_file": "\${packages}/$1/$1.sublime-settings",
+                  "default": "{\n\t$0\n}\n"
+                }
+              },
+              { "caption": "Key Bindings",
+                "command": "edit_settings",
+                "args": {
+                  "base_file": "\${packages}/$1/Default (\${platform}).sublime-settings",
+                  "default": "[\n\t$0\n]\n"
+                }
+              },
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
+""",
     snippet_raw="",
     # based on the default "New Syntax..." command
     syntax_def=R"""%YAML 1.2

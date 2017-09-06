@@ -38,6 +38,8 @@ def _default_file_name(kind, suffix, package_name):
     extension = None
     if kind == 'tm_syntax_def':  # only syntax with multiple extensions (plist)
         extension = ".tmLanguage"
+    if (kind, suffix) == ('menu', 'main'):
+        name = "Main"
     if kind in ('commands', 'settings', 'build_system'):
         name = package_name
 

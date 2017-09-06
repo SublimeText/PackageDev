@@ -58,6 +58,14 @@
                 "command": "new_resource_file",
                 "args": {"kind": "completions"}
               },
+              { "caption": "New Menu File (empty)…",
+                "command": "new_resource_file",
+                "args": {"kind": "menu"}
+              },
+              { "caption": "New Main Menu File…",
+                "command": "new_resource_file",
+                "args": {"kind": "menu", "suffix": "main"}
+              },
               { "caption": "New Settings File…",
                 "command": "new_resource_file",
                 "args": {"kind": "settings"}
