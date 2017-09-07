@@ -9,11 +9,11 @@ from .lib.sublime_lib.view import OutputPanel, get_text
 
 from .lib.fileconv import dumpers, loaders
 
-__all__ = ('ConvertFileCommand',)
+__all__ = ('PackagedevConvertCommand',)
 
 
 # build command
-class ConvertFileCommand(WindowAndTextCommand):
+class PackagedevConvertCommand(WindowAndTextCommand):
     """Convert a file (view's buffer) of type ``source_format`` to type
     ``target_format``.
 

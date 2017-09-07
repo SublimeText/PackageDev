@@ -15,10 +15,10 @@
               { "caption": "-" },
 
               { "caption": "New Syntax Definition…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "syntax_def"} },
               { "caption": "Convert to YAML and Rearrange Syntax Definition",
-                "command": "convert_file",
+                "command": "packagedev_convert",
                 "args": {
                   "target_format": "yaml",
                   "ext": "YAML-tmLanguage",
@@ -27,55 +27,55 @@
                 }
               },
               { "caption": "Rearrange YAML Syntax Definition",
-                "command": "rearrange_yaml_syntax_def" },
+                "command": "packagedev_rearrange_yaml_syntax_def" },
 
               { "caption": "-" },
 
               { "caption": "New Raw Snippet…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "snippet_raw"}
               },
               { "caption": "New Raw Snippet from Snippet…",
-                "command": "new_raw_snippet_from_snippet" },
+                "command": "packagedev_raw_snippet_from_snippet" },
               { "caption": "Generate Snippet from Raw Snippet",
-                "command": "generate_snippet_from_raw_snippet" },
+                "command": "packagedev_snippet_from_raw_snippet" },
 
               { "caption": "-" },
 
               { "caption": "New Build System…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "build_system"}
               },
               { "caption": "New Commands File…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "commands"}
               },
               { "caption": "New Commands File (short)…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "commands", "suffix": "short"}
               },
               { "caption": "New Completions File…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "completions"}
               },
               { "caption": "New Menu File (empty)…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "menu"}
               },
               { "caption": "New Main Menu File…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "menu", "suffix": "main"}
               },
               { "caption": "New Settings File…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "settings"}
               },
               { "caption": "New Textmate Preferences…",
-                "command": "new_resource_file",
+                "command": "packagedev_new_resource",
                 "args": {"kind": "tm_preferences"}
               },
               // { "caption": "New Plugin",
-              //   "command": "new_resource_file",
+              //   "command": "packagedev_new_resource",
               //   "args": {"kind": "plugin"} }
             ]
           }

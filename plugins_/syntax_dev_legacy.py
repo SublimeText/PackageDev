@@ -17,7 +17,7 @@ from .lib.scope_data import COMPILED_HEADS
 from .lib.ordereddict_yaml import OrderedDictSafeDumper
 
 __all__ = (
-    'RearrangeYamlSyntaxDefCommand',
+    'PackagedevRearrangeYamlSyntaxDefCommand',
     'LegacySyntaxDefCompletions',
 )
 
@@ -119,7 +119,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         return yaml.dump(data, **params)
 
 
-class RearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
+class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
     """Parses YAML and sorts all the dict keys reasonably.
     Does not write to the file, only to the buffer.
     """

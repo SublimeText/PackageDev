@@ -9,8 +9,8 @@ from .lib.sublime_lib.constants import style_flags_from_list
 
 __all__ = (
     'SyntaxTestHighlighterListener',
-    'AlignSyntaxTestCommand',
-    'SuggestSyntaxTestCommand',
+    'PackagedevAlignSyntaxTestCommand',
+    'PackagedevSuggestSyntaxTestCommand',
     'AssignSyntaxTestSyntaxListener',
 )
 
@@ -265,7 +265,7 @@ def find_common_scopes(scopes, skip_syntax_suffix):
     return shared_scopes.strip()
 
 
-class AlignSyntaxTestCommand(sublime_plugin.TextCommand):
+class PackagedevAlignSyntaxTestCommand(sublime_plugin.TextCommand):
 
     """Align the cursor with spaces to be to the right of the previous line's assertion."""
 
@@ -296,7 +296,7 @@ class AlignSyntaxTestCommand(sublime_plugin.TextCommand):
         view.run_command('suggest_syntax_test')
 
 
-class SuggestSyntaxTestCommand(sublime_plugin.TextCommand):
+class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
     """Intelligently suggest where the syntax test assertions should be placed.
 
     This is based on the scopes of the line being tested, and where they change.

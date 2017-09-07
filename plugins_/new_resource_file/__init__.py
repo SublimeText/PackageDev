@@ -8,7 +8,7 @@ import sublime_plugin
 from ..lib import syntax_paths
 from .templates import TEMPLATES
 
-__all__ = ('NewResourceFileCommand',)
+__all__ = ('PackagedevNewResourceCommand',)
 
 l = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ def _default_file_name(kind, suffix, package_name):
     return name, extension
 
 
-class NewResourceFileCommand(sublime_plugin.WindowCommand):
+class PackagedevNewResourceCommand(sublime_plugin.WindowCommand):
 
     """Command to create a new resource file.
 

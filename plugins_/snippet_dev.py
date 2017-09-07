@@ -6,8 +6,8 @@ from .lib.sublime_lib.view import has_file_ext, get_text, clear
 from .lib import syntax_paths
 
 __all__ = (
-    'GenerateSnippetFromRawSnippetCommand',
-    'NewRawSnippetFromSnippetCommand',
+    'PackagedevSnippetFromRawSnippetCommand',
+    'PackagedevRawSnippetFromSnippetCommand',
 )
 
 PACKAGE_NAME = __package__.split(".")[0]
@@ -17,7 +17,7 @@ SNIPPET_PATH = (
 )
 
 
-class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
+class PackagedevSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return self.view.match_selector(0, "source.sublime.snippet")
 
@@ -34,7 +34,7 @@ class GenerateSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
         self.view.set_syntax_file(syntax_paths.SNIPPET)
 
 
-class NewRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
+class PackagedevRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return has_file_ext(self.view, 'sublime-snippet')
 
