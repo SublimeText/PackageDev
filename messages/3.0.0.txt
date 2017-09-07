@@ -1,0 +1,89 @@
+v3.0.0 (2017-09-08)
+-------------------
+
+Congratulations on receiving the biggest update of PackageDev to date!
+
+After almost a year in the making,
+doubling the amount of commits
+and a couple helpful contributors,
+I am pleased to announce that PackageDev
+has finally been completely updated to the Next Generation
+(which is Sublime Text 3).
+As such, this release is the first not to support ST2,
+which has essentially been EOLed years ago.
+The old version still remains installable and usable, however.
+
+I tried to keep the changelog to a minimum
+without leaving up the important stuff,
+so please bear with me.
+
+First of all, many thanks to the [contributors][]
+@deathaxe, @r-stein, @keith-hall and @Thom1729.
+Because of how aggregated this changelog is,
+it isn't feasible to attribute them to the respective features they added.
+
+[contributors]: https://github.com/SublimeText/PackageDev/graphs/contributors?from=2016-10-20&to=2017-09-08&type=c
+
+---
+
+For details on new features,
+please refer to the README or the [wiki][].
+
+[wiki]: https://github.com/SublimeText/PackageDev/wiki
+
+
+## Actual Changelog
+
++ *All* syntax definitions have been rewritten from scratch
+  in the new .sublime-syntax format (excluding `*-tmLanguage` syntaxes).
+
+  As a result, all file paths to the syntax definitions have changed
+  and you may have to re-set or re-open any files using them.
+
+  In the process, all snippets and completions have been updated
+  and more have been added,
+  including auto-completions for all available commands
+  and their arguments.
+
+  Entirely new syntax definitions have been added for:
+
+  - new syntax definition files
+  - menu files
+  - project files
+  - tmPreferences files (and generic property lists)
+
++ Settings are linted, have auto-completion and helpful tooltips.
+
+  Settings descriptions and possible values
+  are parsed from a setting's comment,
+  as long as the package provides one.
+
+  Side-by-side settings also have quick link for editing them.
+
++ New and intelligent templates for old and new resource files.
+
+  With a package's folder added to a project,
+  open the command palette with `PackageDev: New`.
+
++ Some goodies for writing syntax tests:
+
+  - Completions of scope selectors
+  - Highlighting of the region that is being tested with the current line
+  - Automatic assignment of the specified syntax
+
++ A new command to create a package: `PackageDev: Create Package`
+
+* All commands have been renamed to include the `packagedev_` prefix.
+
+  Remember to update your key bindings, if you have any.
+
+* Other varous fixes or tweaks
+
+
+Happy developing
+FichteFoll
+
+---
+
+As always, please report any issues you encounter at the issue tracker:
+https://github.com/SublimeText/PackageDev/issues
