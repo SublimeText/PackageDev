@@ -1,12 +1,16 @@
-# The XML package includes a `XML.sublime-settings` file that sets `hidden_extensions` to some
-# of the extension we want to highlight with our package.
-# There is currently no other way to override this, so we manually remove these extensions from the
-# setting with a plugin.
-#
-# See also:
-#   https://github.com/sublimehq/Packages/issues/823
-#   https://github.com/SublimeTextIssues/Core/issues/1326
+"""Bootstrap the 'hidden_extensions' setting for the XML syntax.
 
+The XML package includes a `XML.sublime-settings` file
+that sets `hidden_extensions` to include some of the extensions
+we want to highlight with our package.
+There is currently no other way to override this,
+so we manually override this extension list
+in a User settings file with a plugin.
+
+See also:
+  https://github.com/sublimehq/Packages/issues/823
+  https://github.com/SublimeTextIssues/Core/issues/1326
+"""
 import sublime
 
 
