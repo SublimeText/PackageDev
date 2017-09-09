@@ -201,7 +201,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 save=save
             ))
             sublime.set_timeout(
-                lambda: self.view.run_command("rearrange_yaml_syntax_def", kwargs),
+                lambda: self.view.run_command('packagedev_rearrange_yaml_syntax_def', kwargs),
                 20
             )
             return

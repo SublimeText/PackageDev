@@ -256,8 +256,8 @@ class PackagedevConvertCommand(WindowAndTextCommand):
             new_view = self.window.open_file(new_file_path)
 
             if rearrange_yaml_syntax_def:
-                new_view.run_command("rearrange_yaml_syntax_def",
-                                     {"save": True, "_output_text": output_text})
+                new_view.run_command('packagedev_rearrange_yaml_syntax_def',
+                                     {'save': True, '_output_text': output_text})
 
     def status(self, msg, file_path=None):
         sublime.status_message(msg)

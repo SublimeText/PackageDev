@@ -293,7 +293,7 @@ class PackagedevAlignSyntaxTestCommand(sublime_plugin.TextCommand):
             next_col = details.assertion_colrange[1]
         col_diff = next_col - view.rowcol(cursor.begin())[1]
         view.insert(edit, cursor.end(), " " * col_diff)
-        view.run_command('suggest_syntax_test')
+        view.run_command('packagedev_suggest_syntax_test')
 
 
 class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
