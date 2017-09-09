@@ -7,6 +7,10 @@
       "default": "{\n\t$0\n}\n"
     }
   },
+  { "caption": "PackageDev: View Documentation",
+    "command": "open_url",
+    "args": {"url": "https://github.com/SublimeText/PackageDev/wiki"},
+  },
 
   { "caption": "PackageDev: Create Package",
     "command": "packagedev_create_package",

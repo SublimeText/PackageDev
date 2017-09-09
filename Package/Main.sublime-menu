@@ -91,6 +91,11 @@
           { "caption": "PackageDev",
             // "id": "package_dev",
             "children": [
+              { "caption": "Documentation",
+                "command": "open_url",
+                "args": {"url": "https://github.com/SublimeText/PackageDev/wiki"},
+              },
+              { "caption": "-" },
               { "caption": "Settings",
                 "command": "edit_settings",
                 "args": {
