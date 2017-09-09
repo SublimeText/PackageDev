@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[{
+	"caption": "$1",
+	"mnemonic": "$2",
+	"id": "$3",
+	"children": [
+		$0
+	]
+},]]></content>
+	<tabTrigger>see</tabTrigger>
+	<scope>source.json.sublime.menu meta.menu.collection.sublime-menu - string - comment</scope>
+</snippet>
