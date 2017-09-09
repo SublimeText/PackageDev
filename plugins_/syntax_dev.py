@@ -5,7 +5,6 @@ import re
 import sublime
 import sublime_plugin
 
-from .lib import find_view_event_listener
 from .lib.sublime_lib.constants import style_flags_from_list
 from .lib.scope_data import COMPILED_HEADS
 
@@ -301,11 +300,11 @@ class PostCompletionsListener(sublime_plugin.EventListener):
 
     def on_post_text_command(self, view, command_name, args):
         if command_name == 'hide_auto_complete':
-            listener = find_view_event_listener(view, SyntaxDefCompletionsListener)
+            listener = sublime_plugin.find_view_event_listener(view, SyntaxDefCompletionsListener)
             if listener:
                 listener.is_completing_scope = False
         if command_name in ('commit_completion', 'insert_best_completion'):
-            listener = find_view_event_listener(view, SyntaxDefCompletionsListener)
+            listener = sublime_plugin.find_view_event_listener(view, SyntaxDefCompletionsListener)
             if not (listener and listener.is_completing_scope):
                 return
 

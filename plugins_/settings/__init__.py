@@ -5,7 +5,7 @@ import os
 import sublime
 import sublime_plugin
 
-from ..lib import get_setting, find_view_event_listener
+from ..lib import get_setting
 from ..lib.sublime_lib.constants import style_flags_from_list
 from ..lib.weakmethod import WeakMethodProxy
 
@@ -256,11 +256,11 @@ class GlobalSettingsListener(sublime_plugin.EventListener):
 
     def on_post_text_command(self, view, command_name, args):
         if command_name == 'hide_auto_complete':
-            listener = find_view_event_listener(view, SettingsListener)
+            listener = sublime_plugin.find_view_event_listener(view, SettingsListener)
             if listener:
                 listener.is_completing_key = False
         elif command_name in ('commit_completion', 'insert_best_completion'):
-            listener = find_view_event_listener(view, SettingsListener)
+            listener = sublime_plugin.find_view_event_listener(view, SettingsListener)
             if not (listener and listener.is_completing_key):
                 return
 
@@ -277,6 +277,6 @@ class GlobalSettingsListener(sublime_plugin.EventListener):
                 listener.show_popup_for(key_region)
 
     def on_post_save(self, view):
-        listener = find_view_event_listener(view, SettingsListener)
+        listener = sublime_plugin.find_view_event_listener(view, SettingsListener)
         if listener and listener.known_settings:
             listener.known_settings.trigger_settings_reload()
