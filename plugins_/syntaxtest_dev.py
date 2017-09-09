@@ -382,7 +382,12 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
         test_header = get_syntax_test_tokens(view)
         if test_header and test_header.syntax_file:
             if view.settings().get('syntax', None) != test_header.syntax_file:
-                view.assign_syntax(test_header.syntax_file)
+                syntax = test_header.syntax_file
+                *_, file_name = syntax.rpartition('/')
+                if syntax in sublime.find_resources(file_name):
+                    view.assign_syntax(syntax)
+                else:  # file doesn't exist
+                    view.assign_syntax("Packages/Text/Plain text.tmLanguage")
 
             # warn user if they try to do something stupid
             if not view.settings().get('translate_tabs_to_spaces', False):
