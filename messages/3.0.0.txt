@@ -1,4 +1,4 @@
-v3.0.0 (2017-09-08)
+v3.0.0 (2017-09-09)
 -------------------
 
 Congratulations on receiving the biggest update of PackageDev to date!
@@ -77,7 +77,7 @@ please refer to the README or the [wiki][].
 
   Remember to update your key bindings, if you have any.
 
-* Other varous fixes or tweaks
+* Other various fixes or tweaks
 
 
 Happy developing
