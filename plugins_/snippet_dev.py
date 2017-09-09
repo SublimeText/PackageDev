@@ -28,7 +28,7 @@ class PackagedevSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
         # Insert existing contents into CDATA section. We rely on the fact
         # that Sublime will place the first selection in the first field of
         # the newly inserted snippet.
-        self.view.run_command('insert', {'contents': content})
+        self.view.run_command('insert', {'characters': content})
         self.view.run_command('next_field')
 
         self.view.set_syntax_file(syntax_paths.SNIPPET)
@@ -42,5 +42,5 @@ class PackagedevRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
         snippet = get_text(self.view)
         contents = ET.fromstring(snippet).findtext(".//content")
         v = self.view.window().new_file()
-        v.run_command('insert', {'contents': contents})
+        v.run_command('insert', {'characters': contents})
         v.set_syntax_file(syntax_paths.SNIPPET_RAW)
