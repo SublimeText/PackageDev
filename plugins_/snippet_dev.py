@@ -17,6 +17,11 @@ SNIPPET_PATH = (
 )
 
 
+def _insert_unindented(view, text):
+    # circumvent auto-indentation with this method
+    view.run_command('insert_snippet', {'contents': "$bla", 'bla': text})
+
+
 class PackagedevSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
         return self.view.match_selector(0, "source.sublime.snippet")
@@ -25,10 +30,13 @@ class PackagedevSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
         content = get_text(self.view)
         clear(self.view)
         self.view.run_command('insert_snippet', {'name': SNIPPET_PATH})
+
+        # defuse CDATA end sequence with an undefined variable
+        content = content.replace("]]>", "]]$UNDEFINED>")
         # Insert existing contents into CDATA section. We rely on the fact
         # that Sublime will place the first selection in the first field of
         # the newly inserted snippet.
-        self.view.run_command('insert', {'characters': content})
+        _insert_unindented(self.view, content)
         self.view.run_command('next_field')
 
         self.view.set_syntax_file(syntax_paths.SNIPPET)
@@ -40,7 +48,9 @@ class PackagedevRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         snippet = get_text(self.view)
-        contents = ET.fromstring(snippet).findtext(".//content")
+        content = ET.fromstring(snippet).findtext(".//content")
+        content = content.replace("]]$UNDEFINED>", "]]>")  # undo defusing
+
         v = self.view.window().new_file()
-        v.run_command('insert', {'characters': contents})
         v.set_syntax_file(syntax_paths.SNIPPET_RAW)
+        _insert_unindented(v, content)
