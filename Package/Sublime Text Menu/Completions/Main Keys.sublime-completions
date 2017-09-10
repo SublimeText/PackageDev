@@ -1,11 +1,11 @@
 {
     "scope": "meta.menu.collection.sublime-menu meta.mapping - string",
     "completions": [
-        { "trigger": "caption\tmain key", "contents": "\"caption\": \"$1\"${2:,}$0" },
-        { "trigger": "id\tmain key", "contents": "\"id\": \"$1\"${2:,}$0" },
-        { "trigger": "mnemonic\tmain key", "contents": "\"mnemonic\": \"$1\"${2:,}$0" },
-        { "trigger": "command\tmain key", "contents": "\"command\": \"$1\"${2:,}$0" },
-        { "trigger": "children\tmain key", "contents": "\"children\": [\n\t$0\n]" },
-        { "trigger": "platform\tmain key", "contents": "\"platform\": \"$1\"${2:,}$0" },
+        { "trigger": "caption\tmain key", "contents": "\"caption\": \"$1\",$0" },
+        { "trigger": "id\tmain key", "contents": "\"id\": \"$1\",$0" },
+        { "trigger": "mnemonic\tmain key", "contents": "\"mnemonic\": \"$1\",$0" },
+        { "trigger": "command\tmain key", "contents": "\"command\": \"$1\",$0" },
+        { "trigger": "children\tmain key", "contents": "\"children\": [\n\t$0\n]," },
+        { "trigger": "platform\tmain key", "contents": "\"platform\": \"$1\",$0" },
     ]
 }
