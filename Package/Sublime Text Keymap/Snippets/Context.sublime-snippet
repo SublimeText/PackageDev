@@ -1,8 +1,0 @@
-<snippet>
-	<content><![CDATA["context":
-[
-	{ "key": "$1", "operator": "$2", "operand": "$3" },$0
-],]]></content>
-	<scope>meta.keybinding.collection.sublime-keymap meta.mapping.json - meta.mapping meta - string - comment</scope>
-	<tabTrigger>ctx</tabTrigger>
-</snippet>
