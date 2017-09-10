@@ -62,6 +62,7 @@ class PackagedevNewResourceCommand(sublime_plugin.WindowCommand):
 
         package_dir = self._guess_folder()
         package_name = self._guess_package_name(package_dir)
+        l.debug("Guessed package name %r from path %r", package_name, package_dir)
 
         v = self.window.new_file()
 
@@ -91,8 +92,8 @@ class PackagedevNewResourceCommand(sublime_plugin.WindowCommand):
     def _guess_folder(self):
         """Return the path to either the package currently being edited, or User."""
         folders = self.window.folders()
-        # Test if we have exactly one folder; don't deal with any other number
-        if len(folders) == 1:
+        # Test if the first folder is a package
+        if len(folders) >= 1:
             if self._is_package_path(folders[0]):
                 return folders[0]
         return os.path.join(sublime.packages_path(), "User")
