@@ -1,0 +1,8 @@
+{
+    "scope": "meta.sublime-commands.collection.sublime-commands meta.mapping - string - comment",
+    "completions": [
+        { "trigger": "caption\tmain key", "contents": "\"caption\": \"$1\",$0" },
+        { "trigger": "command\tmain key", "contents": "\"command\": \"$1\",$0" },
+        // args provided by plugin
+    ]
+}

@@ -1,6 +1,5 @@
 {
 	"scope": "meta.button-name.sublime-mousemap",
-
 	"completions": [
 		{ "trigger": "button1\tbutton", "contents": "button1" },
 		{ "trigger": "button2\tbutton", "contents": "button2" },

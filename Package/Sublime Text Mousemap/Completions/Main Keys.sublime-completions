@@ -1,13 +1,12 @@
 {
-	"scope": "meta.main-key.sublime-mousemap",
-
+	"scope": "meta.mousebinding.collection.sublime-mousemap meta.mapping - meta.mapping meta.mapping",
 	"completions": [
-		{ "trigger": "button\tmain key", "contents": "button"},
-		{ "trigger": "modifiers\tmain key", "contents": "modifiers"},
-		{ "trigger": "command\tmain key", "contents": "command"},
-		{ "trigger": "press_command\tmain key", "contents": "press_command"},
-		{ "trigger": "args\tmain key", "contents": "args"},
-		{ "trigger": "press_args\tmain key", "contents": "press_args"},
-		{ "trigger": "count\tmain key", "contents": "count"},
+        { "trigger": "button\tmain key", "contents": "\"button\": \"$1\",$0" },
+        { "trigger": "modifiers\tmain key", "contents": "\"modifiers\": \"$1\",$0" },
+        { "trigger": "command\tmain key", "contents": "\"command\": \"$1\",$0" },
+        { "trigger": "press_command\tmain key", "contents": "\"press_command\": \"$1\",$0" },
+        { "trigger": "press_args\tmain key", "contents": "\"press_args\": {\n\t$0\n}," },
+        { "trigger": "count\tmain key", "contents": "\"count\": ${1:2},$0" },
+        // args provided by plugin
 	]
 }

@@ -1,12 +1,12 @@
 {
-    "scope": "meta.folder-key.sublime-project",
+    "scope": "meta.project.folder.sublime-project - meta.project.folder.sublime-project meta.sequence - string - comment",
     "completions": [
-        { "trigger": "name\tfolder key", "contents": "name" },
-        { "trigger": "path\tfolder key", "contents": "path" },
-        { "trigger": "file_include_patterns\tfolder key", "contents": "file_include_patterns" },
-        { "trigger": "file_exclude_patterns\tfolder key", "contents": "file_exclude_patterns" },
-        { "trigger": "folder_include_patterns\tfolder key", "contents": "folder_include_patterns" },
-        { "trigger": "folder_exclude_patterns\tfolder key", "contents": "folder_exclude_patterns" },
-        { "trigger": "follow_symlinks\tfolder key", "contents": "follow_symlinks" },
+        { "trigger": "name\tfolder key", "contents": "\"name\": \"$1\"," },
+        { "trigger": "path\tfolder key", "contents": "\"path\": \"$1\"," },
+        { "trigger": "file_include_patterns\tfolder key", "contents": "\"file_include_patterns\": [\"$1\"]," },
+        { "trigger": "file_exclude_patterns\tfolder key", "contents": "\"file_exclude_patterns\": [\"$1\"]," },
+        { "trigger": "folder_include_patterns\tfolder key", "contents": "\"folder_include_patterns\": [\"$1\"]," },
+        { "trigger": "folder_exclude_patterns\tfolder key", "contents": "\"folder_exclude_patterns\": [\"$1\"]," },
+        { "trigger": "follow_symlinks\tfolder key", "contents": "\"follow_symlinks\": ${1:true}," },
     ]
 }

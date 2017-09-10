@@ -1,8 +1,8 @@
 {
-    "scope": "meta.main-key.sublime-project",
+    "scope": "meta.project.sublime-project - meta.mapping meta.mapping - meta.sequence - string - comment",
     "completions": [
-        { "trigger": "folders\tmain key", "contents": "folders" },
-        { "trigger": "build_systems\tmain key", "contents": "build_systems" },
-        { "trigger": "settings\tmain key", "contents": "settings" },
+        { "trigger": "folders\tmain key", "contents": "\"folders\": [\n\t$0\n]," },
+        { "trigger": "build_systems\tmain key", "contents": "\"build_systems\": [\n\t$0\n]," },
+        { "trigger": "settings\tmain key", "contents": "\"settings\": {\n\t$0\n}," },
     ]
 }

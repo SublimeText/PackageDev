@@ -1,0 +1,7 @@
+{
+    "scope": "meta.completions.sublime-completions - string - comment",
+    "completions": [
+        { "trigger": "trigger\tmain key", "contents": "\"trigger\": \"$1\",$0" },
+        { "trigger": "contents\tmain key", "contents": "\"contents\": \"$1\",$0" },
+    ]
+}

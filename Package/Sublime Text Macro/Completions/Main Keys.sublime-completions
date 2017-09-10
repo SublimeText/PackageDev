@@ -1,7 +1,7 @@
 {
-    "scope": "meta.main-key.sublime-macro",
+    "scope": "meta.macro.collection.sublime-macro meta.mapping - string - comment - meta.mapping meta.mapping",
     "completions": [
-        { "trigger": "command\tmain key", "contents": "command" },
-        { "trigger": "args\tmain key", "contents": "args" },
+        { "trigger": "command\tmain key", "contents": "\"command\": \"$1\",$0" },
+        // args provided by plugin
     ]
 }

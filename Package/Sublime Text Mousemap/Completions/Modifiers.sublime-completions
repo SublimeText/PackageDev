@@ -1,6 +1,5 @@
 {
 	"scope": "meta.modifiers.sublime-mousemap string.quoted.double.json",
-
 	"completions": [
 		{ "trigger": "shift\tmodifier key", "contents": "shift" },
 		{ "trigger": "ctrl\tmodifier key", "contents": "ctrl" },
