@@ -44,8 +44,7 @@ TEMPLATES = dict(
     menu="""[
 \t$0
 ]""",
-    menu_main=R"""\
-[
+    menu_main=R"""[
   { "id": "preferences",
     "children": [
       { "caption": "Package Settings",
