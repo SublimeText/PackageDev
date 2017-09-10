@@ -1,0 +1,11 @@
+v3.0.1 (2017-09-09)
+-------------------
+
+This is a small update
+with better integration for completions in JSON resource files.
+You can now complete all known keys with their appropriate value
+in the mapping without having to start a string.
+
+See this section in the documentation below for an example:
+
+https://github.com/SublimeText/PackageDev/wiki#snippets-and-completions
