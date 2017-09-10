@@ -1,0 +1,8 @@
+{
+    "scope": "meta.main-key.sublime-build - meta.os.sublime-build",
+    "completions": [
+        { "trigger": "linux\tplatform key", "contents": "linux" },
+        { "trigger": "osx\tplatform key", "contents": "osx" },
+        { "trigger": "windows\tplatform key", "contents": "windows" },
+    ]
+}

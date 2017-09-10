@@ -1,0 +1,8 @@
+{
+    "scope": "(meta.build.collection.sublime-build | meta.variant.sublime-build) - meta.platform.sublime-build - string - comment",
+    "completions": [
+        { "trigger": "linux\tplatform key", "contents": "\"linux\": {\n\t$0\n}," },
+        { "trigger": "osx\tplatform key", "contents": "\"osx\": {\n\t$0\n}," },
+        { "trigger": "windows\tplatform key", "contents": "\"windows\": {\n\t$0\n}," },
+    ]
+}

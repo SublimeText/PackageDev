@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[{
+	"name": "$1",
+	"cmd": ["${0:make}"],
+},]]></content>
+	<tabTrigger>e</tabTrigger>
+	<scope>meta.variants.collection.sublime-build - meta.variant.sublime-build - string - snippet</scope>
+</snippet>

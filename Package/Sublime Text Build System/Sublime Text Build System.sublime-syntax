@@ -49,17 +49,17 @@ contexts:
       set: [expect-variants-sequence-value, expect-colon]
     - include: target-key
     - include: exec-args-key
-    - include: os-key
+    - include: platform-key
     - include: in-dictionary-main-key
 
-  os-key:
+  platform-key:
     - match: (")(linux|osx|windows)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [expect-os-mapping-value, expect-colon]
+      set: [expect-platform-mapping-value, expect-colon]
 
   in-dictionary-main-key:
     - match: \"
@@ -164,7 +164,7 @@ contexts:
     - match: \[
       scope: punctuation.section.sequence.begin.json
       set:
-        - meta_scope: meta.variants.sublime-build meta.sequence.json
+        - meta_scope: meta.variants.collection.sublime-build meta.sequence.json
         - match: \]
           scope: punctuation.section.sequence.end.json
           pop: true
@@ -178,7 +178,7 @@ contexts:
     - match: \{
       scope: punctuation.section.mapping.begin.json
       set:
-        - meta_scope: meta.mapping.json
+        - meta_scope: meta.variant.sublime-build meta.mapping.json
         - match: \}
           scope: punctuation.section.mapping.end.json
           pop: true
@@ -190,7 +190,7 @@ contexts:
     - clear_scopes: 1
     - include: target-key
     - include: exec-args-key
-    - include: os-key
+    - include: platform-key
     - match: (")(name)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
@@ -200,24 +200,24 @@ contexts:
       set: [expect-variant-name-string-value, expect-colon]
     - include: in-dictionary-main-key
 
-  expect-os-mapping-value:
+  expect-platform-mapping-value:
     - match: (?=\{)
-      set: [mapping-value-meta, os-mapping-pop]
+      set: [mapping-value-meta, platform-mapping-pop]
     - include: expect-mapping-rest
 
-  os-mapping-pop:
+  platform-mapping-pop:
     - match: \{
       scope: punctuation.section.mapping.begin.json
       set:
-        - meta_scope: meta.os.sublime-build meta.mapping.json
+        - meta_scope: meta.platform.sublime-build meta.mapping.json
         - match: \}
           scope: punctuation.section.mapping.end.json
           pop: true
         - match: (?=")
-          push: [in-mapping-expect-comma, os-mapping-key]
+          push: [in-mapping-expect-comma, platform-mapping-key]
         - include: expect-key-rest
 
-  os-mapping-key:
+  platform-mapping-key:
     - clear_scopes: 1
     - include: target-key
     - include: exec-args-key

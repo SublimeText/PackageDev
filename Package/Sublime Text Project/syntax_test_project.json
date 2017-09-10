@@ -42,7 +42,7 @@
     "build_systems": true [
 //   ^^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-project string.quoted.double.json keyword.other.main.sublime-project
 //                   ^^^^ invalid.illegal.expected-sequence.sublime
-//                        ^  meta.mapping.value.json meta.variants.sublime-build meta.sequence.json punctuation.section.sequence.begin.json
+//                        ^  meta.mapping.value.json meta.variants.collection.sublime-build meta.sequence.json punctuation.section.sequence.begin.json
         {
             "name": "Test Build",
             "shell_cmd": "sh $file",

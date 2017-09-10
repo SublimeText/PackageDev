@@ -65,7 +65,7 @@
     "osx": {
 //  ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //   ^^^ keyword.other.main.sublime-build
-//         ^ meta.mapping.value.json meta.os.sublime-build meta.mapping.json punctuation.section.mapping.begin.json
+//         ^ meta.mapping.value.json meta.platform.sublime-build meta.mapping.json punctuation.section.mapping.begin.json
         "file_regex": "^(...*?):([0-9]+): ([0-9]*)([^\\.]+)"
 //      ^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //       ^^^^^^^^^^ keyword.other.main.sublime-build
@@ -130,25 +130,26 @@
 //   ^^^^ - keyword.other.main.sublime-build
 
     "variants": [
-//              ^ meta.build.collection.sublime-build meta.mapping.value.json meta.variants.sublime-build meta.sequence.json punctuation.section.sequence.begin.json
+//              ^ meta.build.collection.sublime-build meta.mapping.value.json meta.variants.collection.sublime-build meta.sequence.json punctuation.section.sequence.begin.json
         "test"
 //      ^^^^^^ invalid.illegal.expected-mapping.sublime-build
         {
+//      ^ meta.variants.collection.sublime-build meta.sequence.json meta.variant.sublime-build meta.mapping.json punctuation.section.mapping.begin.json
             "name": "Foo",
-//          ^^^^^^ meta.mapping.value.json meta.variants.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+//          ^^^^^^ meta.mapping.value.json meta.variants.collection.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //           ^^^^ keyword.other.main.sublime-build
 //                  ^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
 //                   ^^^ meta.variant-name.sublime-build entity.name.variant.sublime-build
 
             "target": "do_something",
-//          ^^^^^^^^ meta.mapping.value.json meta.variants.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+//          ^^^^^^^^ meta.mapping.value.json meta.variants.collection.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //           ^^^^^^ keyword.other.main.sublime-build
 //                    ^^^^^^^^^^^^^^ meta.mapping.value.json meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
 //                     ^^^^^^^^^^^^ support.constant.command-name.sublime
 
 // selector is not a keyword inside variants
             "selector": "source.mylang",
-//          ^^^^^^^^^^ meta.mapping.value.json meta.variants.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+//          ^^^^^^^^^^ meta.mapping.value.json meta.variants.collection.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //           ^^^^^^^^ - keyword.other.main.sublime-build
 
             "osx": {
