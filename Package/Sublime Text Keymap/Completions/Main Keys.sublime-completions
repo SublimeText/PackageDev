@@ -1,8 +1,9 @@
 {
-    "scope": "source.json.sublime.keymap meta.mapping - meta.mapping meta - comment",
+    "scope": "source.json.sublime.keymap meta.mapping - meta.mapping meta - string - comment",
     "completions": [
         {"trigger": "keys\tkey", "contents": "\"keys\": [\"$1\"],"},
         {"trigger": "command\tkey", "contents": "\"command\": \"$1\","},
         {"trigger": "context\tkey", "contents": "\"context\": \n[\n\t$0\n],"},
+        // args provided by plugin
     ]
 }

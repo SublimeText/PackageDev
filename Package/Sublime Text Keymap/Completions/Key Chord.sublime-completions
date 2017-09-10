@@ -1,5 +1,5 @@
 {
-	"scope": "source.json.sublime.keymap meta.key-chord.sublime-keymap",
+	"scope": "meta.key-chord.sublime-keymap",
 
 	"completions": [
 		"super+",
