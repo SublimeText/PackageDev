@@ -65,16 +65,16 @@ TEMPLATES = dict(
                 "command": "edit_settings",
                 "args": {
                   "base_file": "\${packages}/$1/$1.sublime-settings",
-                  "default": "{\n\t$0\n}\n"
+                  "default": "{\n\t\$0\n}\n"
                 }
               },
               { "caption": "Key Bindings",
                 "command": "edit_settings",
                 "args": {
                   "base_file": "\${packages}/$1/Default (\${platform}).sublime-settings",
-                  "default": "[\n\t$0\n]\n"
+                  "default": "[\n\t\$0\n]\n"
                 }
-              },
+              },$0
             ]
           }
         ]
