@@ -3,7 +3,7 @@
     "completions": [
         {"trigger": "keys\tkey", "contents": "\"keys\": [\"$1\"],"},
         {"trigger": "command\tkey", "contents": "\"command\": \"$1\","},
-        {"trigger": "context\tkey", "contents": "\"context\": \n[\n\t$0\n],"},
+        {"trigger": "context\tkey", "contents": "\"context\": [\n\t$0\n],"},
         // args provided by plugin
     ]
 }

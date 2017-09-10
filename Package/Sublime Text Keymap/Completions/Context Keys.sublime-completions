@@ -1,9 +1,9 @@
 {
     "scope": "meta.keybinding-context.sublime-keymap - meta.keybinding-context meta - string - comment",
     "completions": [
-        {"trigger": "key\tkey", "contents": "\"key\": \"$1\""},
-        {"trigger": "operator\tkey", "contents": "\"operator\": \"$1\""},
-        {"trigger": "operand\tkey", "contents": "\"operand\": \"$1\""},
-        {"trigger": "match_all\tkey", "contents": "\"match_all\": ${1:true}"},
+        {"trigger": "key\tkey", "contents": "\"key\": \"$1\","},
+        {"trigger": "operator\tkey", "contents": "\"operator\": \"$1\","},
+        {"trigger": "operand\tkey", "contents": "\"operand\": \"$1\","},
+        {"trigger": "match_all\tkey", "contents": "\"match_all\": ${1:true},"},
     ]
 }
