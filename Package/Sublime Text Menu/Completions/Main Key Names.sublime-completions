@@ -1,0 +1,12 @@
+{
+    "scope": "meta.main-key.sublime-menu",
+    "completions": [
+        { "trigger": "caption\tmain key", "contents": "caption" },
+        { "trigger": "id\tmain key", "contents": "id" },
+        { "trigger": "mnemonic\tmain key", "contents": "mnemonic" },
+        { "trigger": "command\tmain key", "contents": "command" },
+        { "trigger": "args\tmain key", "contents": "args" },
+        { "trigger": "children\tmain key", "contents": "children" },
+        { "trigger": "platform\tmain key", "contents": "platform" },
+    ]
+}
