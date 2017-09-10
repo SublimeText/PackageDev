@@ -41,6 +41,9 @@ TEMPLATES = dict(
     settings="""{
 \t$0
 }""",
+    keymap="""[
+\t{ "keys": ["${1:ctrl+shift+h}"], "command": "${2:foo_bar}",$0 },
+]""",
     menu="""[
 \t$0
 ]""",
@@ -82,6 +85,7 @@ TEMPLATES = dict(
   }
 ]
 """,
+    # no template for a mousemap because I don't want to encourage usage of it
     snippet_raw="",
     # based on the default "New Syntax..." command
     syntax_def=R"""%YAML 1.2
