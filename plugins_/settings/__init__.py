@@ -57,7 +57,7 @@ PHANTOM_TEMPLATE = """
 <style>
     body {{
         margin: 0;
-        padding: 0;
+        padding: 0 0.2rem 0 0.2rem;
     }}
     a {{
         text-decoration: none;
