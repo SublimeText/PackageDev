@@ -56,6 +56,7 @@ PHANTOM_TEMPLATE = """
 <body id="sublime-settings-edit">
 <style>
     body {{
+        background-color: var(--background);
         margin: 0;
         padding: 0;
     }}
