@@ -315,13 +315,18 @@ class PostCompletionsListener(sublime_plugin.EventListener):
 
             listener.is_completing_scope = False
 
+            point = view.sel()[0].a
+
             # Check if the completed value was the base suffix
             # and don't re-open auto complete in that case.
             if listener.base_suffix:
-                point = view.sel()[0].a
                 region = sublime.Region(point - len(listener.base_suffix) - 1, point)
                 if view.substr(region) == "." + listener.base_suffix:
                     return
+
+            # Chck if completions were requested within a scope name.
+            if view.substr(point) == ".":
+                return
 
             view.run_command('insert', {'characters': "."})
             view.run_command('auto_complete', {'disable_auto_insert': True})
