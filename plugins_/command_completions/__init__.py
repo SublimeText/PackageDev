@@ -175,18 +175,21 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
     _default_args = [("args\targuments", '"args": {\n\t"$1": "$2"$0\n},')]
     _st_insert_arg_scope = (
         "("
-        "("
+        "  ("
         + ", ".join("source.json.sublime.{}".format(suffix)
                     for suffix in ("commands", "keymap", "macro", "menu", "mousemap"))
         + ")"
-        " & "
-        "meta.sequence.json meta.mapping.json"
+        "  & "
+        "  meta.sequence.json meta.mapping.json"
         ")"
         "- string "
         "- comment "
-        "- meta.value.json "
-        "- meta.mapping.json meta.mapping.json "
-        "- meta.sequence.json meta.sequence.json "
+        "- ("
+        "    meta.value.json "
+        "  | meta.mapping.json meta.mapping.json "
+        "  | meta.sequence.json meta.sequence.json "
+        "  - meta.menu.collection.sublime-menu"
+        ")"
     )
     _RE_COMMAND_SEARCH = re.compile(r'\"command\"\s*\:\s*\"(\w+)\"')
 
