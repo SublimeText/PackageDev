@@ -86,49 +86,49 @@ contexts:
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-build
+        2: support.function.exec-arg.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-cmd-value, expect-colon]
     - match: (")(shell_cmd)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-build
+        2: support.function.exec-arg.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-shell-cmd-string-value, expect-colon]
     - match: (")(working_dir)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-build
+        2: support.function.exec-arg.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-working-dir-string-value, expect-colon]
     - match: (")(file_regex|line_regex)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-build
+        2: support.function.exec-arg.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-regex-string-value, expect-colon]
     - match: (")(shell|quiet|kill|update_phantoms_only|hide_phantoms_only|word_wrap)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-build
+        2: support.function.exec-arg.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-boolean-value, expect-colon]
     - match: (")(env)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-build
+        2: support.function.exec-arg.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-mapping-value, expect-colon]
     - match: (")(encoding|path|syntax)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-build
+        2: support.function.exec-arg.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon]
 

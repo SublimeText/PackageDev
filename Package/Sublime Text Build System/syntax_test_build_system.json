@@ -28,14 +28,14 @@
 
     "file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
 //  ^^^^^^^^^^^^  meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//   ^^^^^^^^^^ keyword.other.main.sublime-build
+//   ^^^^^^^^^^ support.function.exec-arg.sublime-build
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.json-string
 
 
     "working_dir": "${project_path:${folder/\tfo\\\\o/$0-\\.test/g}}",
 //  ^^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//   ^^^^^^^^^^^ keyword.other.main.sublime-build
+//   ^^^^^^^^^^^ support.function.exec-arg.sublime-build
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.placeholder-string.sublime-build
 //                    ^^^^^^^^^^^^^ meta.placeholder-name.sublime-build
@@ -68,7 +68,7 @@
 //         ^ meta.mapping.value.json meta.platform.sublime-build meta.mapping.json punctuation.section.mapping.begin.json
         "file_regex": "^(...*?):([0-9]+): ([0-9]*)([^\\.]+)"
 //      ^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//       ^^^^^^^^^^ keyword.other.main.sublime-build
+//       ^^^^^^^^^^ support.function.exec-arg.sublime-build
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.json-string
     },
@@ -79,12 +79,12 @@
     },
     "env": "path",
 //  ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//   ^^^ keyword.other.main.sublime-build
+//   ^^^ support.function.exec-arg.sublime-build
 //         ^^^^^^ invalid.illegal.expected-mapping.sublime
 
     "cmd":  ["python", "-u", "$file"],
 //  ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//   ^^^ keyword.other.main.sublime-build
+//   ^^^ support.function.exec-arg.sublime-build
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.sequence.json meta.cmd.sublime-build
 //           ^^^^^^^^ string.quoted.double.json
 //                           ^^^^^^^ meta.placeholder-string.sublime-build string.quoted.double.json
@@ -93,7 +93,7 @@
 // cmd should also accept a string (if shell: true)
     "cmd": "command \"$file\" && ${file/\.ext/\\.ty/g}",
 //  ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//   ^^^ keyword.other.main.sublime-build
+//   ^^^ support.function.exec-arg.sublime-build
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.placeholder-string.sublime-build string.quoted.double.json
 //                     ^^^^ meta.placeholder-name.sublime-build
 //                     ^^^^ constant.other.placeholder.sublime-build
@@ -107,7 +107,7 @@
 
     "shell_cmd": "python -u \"$file\" && ls",
 //  ^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//   ^^^^^^^^^ keyword.other.main.sublime-build
+//   ^^^^^^^^^ support.function.exec-arg.sublime-build
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
 //                            ^^^^^ meta.placeholder-string.sublime-build string.quoted.double.json
 //                             ^^^^ constant.other.placeholder.sublime-build
@@ -118,7 +118,7 @@
 
     "shell": false,
 //  ^^^^^^^ meta.build.collection.sublime-build meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//   ^^^^^ keyword.other.main.sublime-build
+//   ^^^^^ support.function.exec-arg.sublime-build
 //           ^^^^^ meta.mapping.value.json constant.language.boolean.json
     "shell": "foo",
 //           ^^^^^ invalid.illegal.expected-boolean.sublime
@@ -150,14 +150,14 @@
 // selector is not a keyword inside variants
             "selector": "source.mylang",
 //          ^^^^^^^^^^ meta.mapping.value.json meta.variants.collection.sublime-build meta.sequence.json meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//           ^^^^^^^^ - keyword.other.main.sublime-build
+//           ^^^^^^^^ - support.function.exec-arg.sublime-build
 
             "osx": {
 //          ^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
 //           ^^^ keyword.other.main.sublime-build
                 "file_regex": "^(...*?):([0-9]+): ([0-9]*)([^\\.]+)"
 //              ^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-//               ^^^^^^^^^^ keyword.other.main.sublime-build
+//               ^^^^^^^^^^ support.function.exec-arg.sublime-build
 //                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.json-string
             },
