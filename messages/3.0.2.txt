@@ -1,0 +1,11 @@
+v3.0.2 (2017-09-12)
+-------------------
+
+(Notes not shown on release)
+
+* Always use color scheme background color for quick edit icon phantoms.
+* Fix base scope completions re-opening the completion popup in some situations.
+* Don't re-open completion popup when completing within a scope name.
+* Fix argument completions in menu children sub-menu entries.
+* Fix JSON escape sequences in regex charsets.
+* Scope exec arguments in build systems differently.
