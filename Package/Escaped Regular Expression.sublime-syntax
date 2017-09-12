@@ -20,6 +20,15 @@ variables:
   lazy_or_possessive: '[?+]?'
   character_quantifier: '[?*+]'
   char_class: (\\\\)(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(?:L&|[A-Z][a-z]?)))
+  # sourced from JSON.sublime-syntax#string-escape
+  json_escape: |-
+    (?x:
+      \\
+      (?:
+          ["\\/bfnrt]
+        | u [0-9a-fA-F]{4}
+      )
+    )
 
 contexts:
   main:
@@ -255,7 +264,12 @@ contexts:
         - match: '\]'
           scope: keyword.control.set.regexp
           pop: true
-        - match: '(?=({{known_char_escape}}|{{char_escape}}|(?!\\\\-)[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))'
+        - match: |-
+            (?x)(?=
+              ({{known_char_escape}}|{{char_escape}}|{{json_escape}}|(?!\\\\-)[^\]])
+              -
+              ({{known_char_escape}}|{{char_escape}}|{{json_escape}}|[^\]])
+            )
           push:
             - meta_content_scope: constant.other.range.regexp
             - include: special-escaped-char
@@ -279,12 +293,19 @@ contexts:
                     1: constant.character.escape.json
                   scope: constant.character.escape.regexp
                   pop: true
+                - match: '{{json_escape}}'
+                  scope: constant.character.escape.json meta.literal.regexp
+                  pop: true
+                - match: \\.
+                  scope: invalid.illegal.unrecognized-string-escape.json
+                  pop: true
                 - match: '.'
                   pop: true
         - include: character-class
         - include: special-escaped-char
         - include: escaped-char
         - include: charset
+        - include: json-escape
         - match: '&&'
           scope: keyword.operator.intersection.regexp
 
@@ -365,23 +386,18 @@ contexts:
       scope: keyword.operator.alternation.regexp
       push: unexpected-quantifier-pop
 
+  json-escape:
+    - match: '{{json_escape}}'
+      scope: constant.character.escape.json meta.literal.regexp
+    - match: \\.
+      scope: invalid.illegal.unrecognized-string-escape.json
+
   literal:
     - include: quantifiers
     - match: '\.'
       scope: keyword.other.any.regexp # https://github.com/sublimehq/Packages/issues/314
     - match: \)
       scope: invalid.illegal.unmatched-brace.regexp
-    # sourced from JSON.sublime-syntax#string-escape
-    - match: |-
-        (?x:
-          \\
-          (?:
-              ["\\/bfnrt]
-            | u [0-9a-fA-F]{4}
-          )
-        )
-      scope: constant.character.escape.json meta.literal.regexp
-    - match: \\.
-      scope: invalid.illegal.unrecognized-string-escape.json
+    - include: json-escape
     - match: .
       scope: meta.literal.regexp
