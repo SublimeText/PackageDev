@@ -218,7 +218,7 @@ contexts:
 
   expect-snippet-string:
     - match: (?=")
-      push: [mapping-value-meta, snippet-string-pop]
+      set: [mapping-value-meta, snippet-string-pop]
     - include: expect-string-rest
 
   snippet-string-pop:

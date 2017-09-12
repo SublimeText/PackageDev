@@ -337,6 +337,7 @@
 //                                                                          ^^ constant.character.escape.json
 //                                                                            ^^ invalid.illegal.unrecognized-string-escape.json
 //                                                                              ^ punctuation.definition.snippet.end.sublime-keymap
+//                                                                               ^ - invalid
     },
 
 /**/
