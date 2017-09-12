@@ -155,8 +155,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
     )
     base_completions_contexts += (("pop\tpop: true", "pop: true"),)
 
-    # This instance variable is kept to communicate with our PostCompletionsListener instance.
+    # These instance variables are for communicating
+    # with our PostCompletionsListener instance.
     is_completing_scope = False
+    base_suffix = None
 
     @classmethod
     def is_applicable(cls, settings):
@@ -171,6 +173,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         regions = self.view.find_by_selector("meta.scope string - meta.block")
         if len(regions) != 1:
             status("Warning: Could not determine base scope uniquely", console=True)
+            self.base_suffix = None
             return []
 
         base_scope = self.view.substr(regions[0])
@@ -178,7 +181,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # Only useful when the base scope suffix is not already the last one
         # In this case it is even useful to inhibit other completions completely
         if last_token == base_suffix:
+            self.base_suffix = None
             return []
+
+        self.base_suffix = base_suffix
 
         return [(base_suffix + "\tbase suffix", base_suffix)]
 
@@ -196,7 +202,6 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         # Scope name completions based on our scope_data database
         elif verify_scope("meta.expect-scope, meta.scope", -1):
-            self.is_completing_scope = True
 
             # Determine entire prefix
             prefixes = set()
@@ -208,6 +213,9 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 return None
             else:
                 real_prefix = next(iter(prefixes))
+
+            # We're not leaving this block anymore now
+            self.is_completing_scope = True
 
             # Tokenize the current selector
             tokens = real_prefix.split(".")
@@ -234,9 +242,6 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
             # Since we don't have anything to offer,
             # just complete the base scope appendix/suffix.
-            # Disable dot insertion in this case
-            # since we would only offer the same completion again.
-            self.is_completing_scope = False
             return base_scope_completion
 
         # Auto-completion for include values using the 'contexts' keys
@@ -309,6 +314,14 @@ class PostCompletionsListener(sublime_plugin.EventListener):
                 return
 
             listener.is_completing_scope = False
+
+            # Check if the completed value was the base suffix
+            # and don't re-open auto complete in that case.
+            if listener.base_suffix:
+                point = view.sel()[0].a
+                region = sublime.Region(point - len(listener.base_suffix) - 1, point)
+                if view.substr(region) == "." + listener.base_suffix:
+                    return
 
             view.run_command('insert', {'characters': "."})
             view.run_command('auto_complete', {'disable_auto_insert': True})
