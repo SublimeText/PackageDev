@@ -171,7 +171,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         regions = self.view.find_by_selector("meta.scope string - meta.block")
         if len(regions) != 1:
             status("Warning: Could not determine base scope uniquely", console=True)
-            return None
+            return []
 
         base_scope = self.view.substr(regions[0])
         *_, base_suffix = base_scope.rpartition(".")
