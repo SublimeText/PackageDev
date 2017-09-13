@@ -80,6 +80,13 @@ contexts:
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-command-name-value, expect-colon]
+    - match: (")(cancel)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-build
+        3: punctuation.definition.string.end.json
+      set: [expect-command-name-value, expect-colon]
 
   exec-args-key:
     - match: (")(cmd)(")

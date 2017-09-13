@@ -1,0 +1,7 @@
+{
+    "scope": "meta.main-key.sublime-build",
+    "completions": [
+        { "trigger": "target\tmain key", "contents": "target" },
+        { "trigger": "cancel\tmain key", "contents": "cancel" },
+    ],
+}

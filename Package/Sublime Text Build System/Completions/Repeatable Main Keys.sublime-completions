@@ -1,0 +1,7 @@
+{
+    "scope": "(meta.build.collection.sublime-build | meta.variant.sublime-build) - string - comment",
+    "completions": [
+        { "trigger": "target\tmain key", "contents": "\"target\": \"$1\",$0" },
+        { "trigger": "cancel\tmain key", "contents": "\"cancel\": \"$1\",$0" },
+    ],
+}
