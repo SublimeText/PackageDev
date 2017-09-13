@@ -1,6 +1,7 @@
 { "name": "JSON Generic Array",
 
   "scopeName": "source.jsongenericarray",
+  "hidden": true,
 
   "patterns": [
   	{ "include": "#genericArray" }

@@ -1,5 +1,6 @@
 { "name": "Json Generic Object Elements",
   "scopeName": "source.jsongenericobject",
+  "hidden": true,
   "patterns": [
   	{ "include": "#key" },
   	{ "include": "#typeNumber" },

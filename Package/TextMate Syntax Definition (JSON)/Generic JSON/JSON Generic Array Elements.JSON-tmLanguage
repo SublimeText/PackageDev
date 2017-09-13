@@ -1,6 +1,7 @@
 { "name": "JSON Generic Array Elements",
 
   "scopeName": "source.jsongenericarrayelements",
+  "hidden": true,
 
   "patterns": [
     { "include": "#string" },

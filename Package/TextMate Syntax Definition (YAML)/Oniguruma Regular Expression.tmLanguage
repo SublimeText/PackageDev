@@ -8,6 +8,8 @@
 	<array>
 		<string>ore</string>
 	</array>
+	<key>hidden</key>
+	<true/>
 	<key>name</key>
 	<string>Oniguruma Regular Expression (old)</string>
 	<key>patterns</key>

@@ -5,6 +5,7 @@ comment: 'Version 5.9.1 2007/09/05, Specification used: http://www.geocities.jp/
 scopeName: source.oniregexp
 fileTypes: [ore]
 uuid: 516c608b-ce09-4e6f-a2db-caedc8d1fbff
+hidden: true
 
 #foldingStartMarker: (?<!\\)\( # buggy for '\\('
 #foldingStopMarker: (?<!\\)\) # buggy for '\\)'

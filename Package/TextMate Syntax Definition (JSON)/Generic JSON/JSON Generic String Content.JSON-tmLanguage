@@ -1,5 +1,6 @@
 { "name": "JSON String Content",
   "scopeName": "source.jsonstring",
+  "hidden": true,
   "patterns": [
   	{ "include": "#escapeSequence" },
     {  "name": "string.double.quoted.jsonstring",
