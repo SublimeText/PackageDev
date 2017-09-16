@@ -52,7 +52,6 @@ def get_syntax_test_tokens(view):
 
 
 class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
-    header = None
 
     @classmethod
     def is_applicable(cls, settings):
@@ -61,6 +60,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
 
     def __init__(self, view):
         super().__init__(view)
+        self.header = None
         self.on_modified_async()
         self.on_selection_modified_async()
 
@@ -68,7 +68,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         # Settings were (most likely) changed to use tabs
         # or plugin was unloaded.
         # Complain about the former, if we have a test file.
-        if not self.is_applicable(self.view.settings()) and self.header:
+        if self.header and not self.is_applicable(self.view.settings()):
             _show_tab_warning()
 
     def on_modified_async(self):
@@ -78,11 +78,9 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         """
 
         name = self.view.file_name()
-        if name:
-            name = path.basename(name)
-            if not name.startswith('syntax_test_'):
-                self.header = None
-                return
+        if name and not path.basename(name).startswith('syntax_test_'):
+            self.header = None
+            return
         self.header = get_syntax_test_tokens(self.view)
         # if there is no comment start token, clear the header
         if self.header and not self.header.comment_start:
