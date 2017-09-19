@@ -23,7 +23,7 @@ variables:
         | [1-9] \d*
       )
       (?:
-        (?: \. \d+ )?
+        (?: \. \d* )?
         (?: [eE] [+-]? \d+ )?
       )?
     )
@@ -416,7 +416,7 @@ contexts:
   mapping-value-meta:
     - clear_scopes: 1
     - meta_scope: meta.mapping.value.json
-    - match: ''
+    - match: '(?=\S)'
       pop: true
 
 
