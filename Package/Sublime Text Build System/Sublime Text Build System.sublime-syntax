@@ -236,7 +236,7 @@ contexts:
     - match: (?=\[)
       set: [mapping-value-meta, cmd-value-pop]
     - include: comments
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-sequence-or-string.sublime-build
       pop: true
     - match: \S
