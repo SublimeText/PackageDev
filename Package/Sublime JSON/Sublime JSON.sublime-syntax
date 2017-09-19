@@ -84,7 +84,7 @@ contexts:
     - include: null-pop
     - include: sequence-pop
     - include: mapping-pop
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-value.sublime
       pop: true
 
@@ -96,7 +96,7 @@ contexts:
     - include: expect-null-value-only
     - include: expect-sequence-value-only
     - include: expect-mapping-value-only
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-value.sublime
       pop: true
 
@@ -123,7 +123,7 @@ contexts:
 
   expect-number-rest:
     - include: comments
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-number.sublime
       pop: true
     - match: '"([^"]|\\.)*"'
@@ -160,7 +160,7 @@ contexts:
 
   expect-string-rest:
     - include: comments
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-string.sublime
       pop: true
     - match: \S
@@ -200,7 +200,7 @@ contexts:
 #################################################
 
   boolean:
-    - match: \b(true|false)\b
+    - match: \b(?:true|false)\b
       scope: constant.language.boolean.json
 
   expect-boolean:
@@ -217,14 +217,14 @@ contexts:
 
   expect-boolean-rest:
     - include: comments
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-boolean.sublime
       pop: true
     - match: \S
       scope: invalid.illegal.expected-boolean.sublime
 
   boolean-pop:
-    - match: \b(true|false)\b
+    - match: \b(?:true|false)\b
       scope: constant.language.boolean.json
       pop: true
 
@@ -251,7 +251,7 @@ contexts:
 
   expect-null-rest:
     - include: comments
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-null.sublime
       pop: true
     - match: \S
@@ -281,7 +281,7 @@ contexts:
 
   expect-sequence-rest:
     - include: comments
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-sequence.sublime
       pop: true
     - match: \S
@@ -338,7 +338,7 @@ contexts:
 
   expect-mapping-rest:
     - include: comments
-    - match: (\s*)(?=[},\]])
+    - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-mapping.sublime
       pop: true
     - match: \S
@@ -361,17 +361,17 @@ contexts:
 
   expect-key-rest:
     - include: comments
-    - match: (\s*)(?=[\]])
+    - match: \s*(?=[\]])
       scope: invalid.illegal.expected-key.json
       pop: true
     # Try to match only valid "values" as invalid,
     # not any bare words.
     - match: (,|{{number}}|\b(true|false|null))
       scope: invalid.illegal.expected-key.json
-    - match: (\s*)(?=\[)
+    - match: \s*(?=\[)
       scope: invalid.illegal.expected-key.json
       push: sequence-pop
-    - match: (\s*)(?=\{)
+    - match: \s*(?=\{)
       scope: invalid.illegal.expected-key.json
       push: mapping-pop
 
@@ -394,7 +394,7 @@ contexts:
     - match: ':'
       scope: punctuation.separator.mapping.key-value.json
       pop: true
-    - match: (\s*)(?=[},\]"])
+    - match: \s*(?=[},\]"])
       scope: invalid.illegal.expected-colon.json
       pop: true
     - match: \S
@@ -407,7 +407,7 @@ contexts:
       pop: true
     - match: (?=})
       pop: true
-    - match: (\s*)(?=")
+    - match: \s*(?=")
       scope: invalid.illegal.expected-comma.inside-mapping.json
       pop: true
     - match: \S
