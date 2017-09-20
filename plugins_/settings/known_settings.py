@@ -408,7 +408,9 @@ class KnownSettings(object):
             string: the contents field to insert into completions entry
         """
         encoded = sublime.encode_value(value)
-        encoded = encoded.replace("$", "\\$")  # escape snippet markers
+        encoded = encoded.replace("\\", "\\\\")  # escape snippet markers
+        encoded = encoded.replace("$", "\\$")
+        encoded = encoded.replace("}", "\\}")
 
         if isinstance(value, str):
             # create the snippet for json strings and exclude quotation marks
