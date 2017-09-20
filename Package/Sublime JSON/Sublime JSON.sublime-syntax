@@ -401,17 +401,20 @@ contexts:
       scope: invalid.illegal.expected-colon.json
 
   in-mapping-expect-comma:
-    - include: comments
-    - match: ','
-      scope: punctuation.separator.mapping.pair.json
-      pop: true
-    - match: (?=})
-      pop: true
-    - match: \s*(?=")
-      scope: invalid.illegal.expected-comma.inside-mapping.json
-      pop: true
-    - match: \S
-      scope: invalid.illegal.expected-comma.inside-mapping.json
+    - match: ''
+      set:
+        - meta_scope: meta.expect-comma.sublime
+        - include: comments
+        - match: ','
+          scope: punctuation.separator.mapping.pair.json
+          pop: true
+        - match: (?=})
+          pop: true
+        - match: \s*(?=")
+          scope: invalid.illegal.expected-comma.inside-mapping.json
+          pop: true
+        - match: \S
+          scope: invalid.illegal.expected-comma.inside-mapping.json
 
   mapping-value-meta:
     - clear_scopes: 1

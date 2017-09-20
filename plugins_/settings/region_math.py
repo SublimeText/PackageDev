@@ -1,4 +1,3 @@
-
 # match top-level keys only
 KEY_SCOPE = "entity.name.other.key.sublime-settings"
 KEY_COMPLETIONS_SCOPE = (
@@ -6,8 +5,8 @@ KEY_COMPLETIONS_SCOPE = (
     " | " + KEY_SCOPE
 )
 VALUE_SCOPE = (
-    "meta.expect-value | meta.setting-value.sublime-settings"
-    " | punctuation.separator.mapping.pair.json"
+    "meta.expect-value.sublime-settings | meta.setting-value.sublime-settings"
+    " | meta.expect-comma.sublime"
 )
 
 

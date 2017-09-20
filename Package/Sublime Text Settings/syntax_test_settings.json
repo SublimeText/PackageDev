@@ -11,16 +11,18 @@ s
 // <- meta.mapping.json punctuation.section.mapping.begin.json
 // ^ meta.mapping.json comment.line.double-slash.js punctuation.definition.comment.json
 
-    "key": "value",
+    "key": "value"  ,
 // ^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 //  ^^^^^ meta.mapping.key.json string.quoted.double.json - meta.mapping.json
 //  ^ punctuation.definition.string.begin.json
 //      ^ punctuation.definition.string.end.json
 //       ^ punctuation.separator.mapping.key-value.json
 //         ^^^^^^^ meta.setting-value.sublime-settings meta.mapping.value.json string.quoted.double.json
-//                ^ punctuation.separator.mapping.pair.json
+//                  ^ punctuation.separator.mapping.pair.json
 //       ^ - meta.expect-value.sublime-settings
 //        ^ meta.expect-value.sublime-settings
+//                ^^^ meta.expect-comma.sublime
+//                   ^ - meta.expect-comma.sublime
 
     "another_key": 123,
 //  ^ - entity.name.other.key.sublime-settings
