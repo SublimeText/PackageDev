@@ -1,4 +1,5 @@
 from collections import namedtuple
+import logging
 import re
 from os import path
 
@@ -14,6 +15,8 @@ __all__ = (
     'PackagedevSuggestSyntaxTestCommand',
     'AssignSyntaxTestSyntaxListener',
 )
+
+l = logging.getLogger(__name__)
 
 AssertionLineDetails = namedtuple(
     'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
@@ -379,17 +382,36 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
 
     """Assign target syntax highlighting to a syntax test file."""
 
+    PLAIN_TEXT = "Packages/Text/Plain text.tmLanguage"
+
     def on_load_async(self, view):
         test_header = get_syntax_test_tokens(view)
-        if test_header and test_header.syntax_file:
-            if view.settings().get('syntax', None) != test_header.syntax_file:
-                syntax = test_header.syntax_file
-                *_, file_name = syntax.rpartition('/')
-                if syntax in sublime.find_resources(file_name):
-                    view.assign_syntax(syntax)
-                else:  # file doesn't exist
-                    view.assign_syntax("Packages/Text/Plain text.tmLanguage")
+        if not test_header:
+            return
+        current_syntax = view.settings().get('syntax', None)
+        test_syntax = test_header.syntax_file
 
-            # warn user if they try to do something stupid
-            if not view.settings().get('translate_tabs_to_spaces', False):
-                _show_tab_warning()
+        # resource-relative path specified
+        if "/" in test_syntax and current_syntax != test_syntax:
+            *_, file_name = test_syntax.rpartition("/")
+            if test_syntax in sublime.find_resources(file_name):
+                view.assign_syntax(test_syntax)
+            else:  # file doesn't exist
+                l.info("Couldn't find a file at %r", test_syntax)
+                view.assign_syntax(self.PLAIN_TEXT)
+
+        # just base name specified
+        elif not current_syntax.endswith(test_syntax):
+            syntax_candidates = sublime.find_resources(test_syntax)
+            if syntax_candidates:
+                l.debug("Found the following candidates for %r: %r",
+                        test_syntax, syntax_candidates)
+                view.assign_syntax(syntax_candidates[0])
+            else:
+                l.info("Couldn't find a syntax matching %r", test_syntax)
+                view.assign_syntax(self.PLAIN_TEXT)
+
+        # warn user if they try to do something stupid
+        if not view.settings().get('translate_tabs_to_spaces', False):
+            _show_tab_warning()
+
