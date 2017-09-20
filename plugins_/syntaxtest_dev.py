@@ -1,8 +1,9 @@
+from collections import namedtuple
+import re
+from os import path
+
 import sublime
 import sublime_plugin
-from os import path
-import re
-from collections import namedtuple
 
 from .lib import get_setting
 from .lib.sublime_lib.constants import style_flags_from_list
