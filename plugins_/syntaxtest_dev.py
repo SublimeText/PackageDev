@@ -375,19 +375,22 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
 
 
 class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
-
     """Assign target syntax highlighting to a syntax test file."""
 
     def on_load_async(self, view):
+        plain_text = "Packages/Text/Plain text.tmLanguage"
         test_header = get_syntax_test_tokens(view)
         if test_header and test_header.syntax_file:
-            if view.settings().get('syntax', None) != test_header.syntax_file:
-                syntax = test_header.syntax_file
-                *_, file_name = syntax.rpartition('/')
-                if syntax in sublime.find_resources(file_name):
-                    view.assign_syntax(syntax)
-                else:  # file doesn't exist
-                    view.assign_syntax("Packages/Text/Plain text.tmLanguage")
+            view_syntax = view.settings().get('syntax', plain_text)
+            if view_syntax != test_header.syntax_file:
+                *_, file_name = test_header.syntax_file.rpartition('/')
+                found_syntaxes = sublime.find_resources(file_name)
+                if not found_syntaxes:
+                    # no syntax file matching the header was found
+                    view.assign_syntax(plain_text)
+                elif not any(view_syntax == f for f in found_syntaxes):
+                    # the view syntax does not match any of the found ones
+                    view.assign_syntax(found_syntaxes[0])
 
             # warn user if they try to do something stupid
             if not view.settings().get('translate_tabs_to_spaces', False):
