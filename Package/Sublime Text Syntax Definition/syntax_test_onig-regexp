@@ -214,10 +214,10 @@ hello++
 
 (?:a|b|c)
 #^^^^^^^^ meta.group
-# <- keyword.control.group
+# <- keyword.control.group punctuation.section.group.begin.oniguruma
 #^^ constant.other.assertion
 #   ^ keyword.operator
-#       ^ keyword.control.group
+#       ^ keyword.control.group punctuation.section.group.end.oniguruma
 
 
 ###################
@@ -267,7 +267,7 @@ where escape characters are ignored.\).
 #   ^^^^^^^^^ comment
    (?-x)
 ) # no comment
-# <- keyword.control.group
+# <- keyword.control.group punctuation.section.group.end.oniguruma
 # ^ - comment
 
 (?sm-ixxs)
@@ -275,17 +275,17 @@ where escape characters are ignored.\).
 
  (?i:hello)
 #^^^^^^^^^^ meta.group.regexp
-#^ keyword.control.group.regexp
+#^ keyword.control.group.regexp punctuation.section.group.begin.oniguruma
 # ^^^ storage.modifier.mode.regexp
 #    ^ - storage.modifier.mode.regexp
-#         ^ keyword.control.group.regexp
+#         ^ keyword.control.group.regexp punctuation.section.group.end.oniguruma
 
  (?i-s:hello)
 #^^^^^^^^^^^^ meta.group.regexp
-#^ keyword.control.group.regexp
+#^ keyword.control.group.regexp punctuation.section.group.begin.oniguruma
 # ^^^^^ storage.modifier.mode.regexp
 #      ^ - storage.modifier.mode.regexp
-#           ^ keyword.control.group.regexp
+#           ^ keyword.control.group.regexp punctuation.section.group.end.oniguruma
 
 # not a comment
 ^ - comment
@@ -404,7 +404,7 @@ where escape characters are ignored.\).
 
 (?x)
 (?<element> \g<stag> \g<content>* \g<etag> ){0}
-# <- meta.group.extended keyword.control.group
+# <- meta.group.extended keyword.control.group punctuation.section.group.begin.oniguruma
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
 #^^^^^^^^^^ keyword.other.named-capture-group.regexp
 #  ^^^^^^^ entity.name.capture-group.regexp
@@ -419,11 +419,11 @@ where escape characters are ignored.\).
 #                                 ^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                                    ^^^^ variable.other.backref-and-recursion.regexp
 #                                         ^ meta.ignored-whitespace.regexp
-#                                          ^ keyword.control.group
+#                                          ^ keyword.control.group punctuation.section.group.end.oniguruma
 #                                           ^^^ keyword.operator.quantifier.regexp
 #                                              ^ meta.ignored-whitespace.regexp
 (?<stag> < \g<name> \s* > ){0}
-# <- meta.group.extended keyword.control.group
+# <- meta.group.extended keyword.control.group punctuation.section.group.begin.oniguruma
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
 #^^^^^^^ keyword.other.named-capture-group.regexp
 #       ^ meta.ignored-whitespace.regexp
@@ -436,7 +436,7 @@ where escape characters are ignored.\).
 #                      ^ meta.ignored-whitespace.regexp
 #                       ^ meta.literal.regexp
 #                        ^ meta.ignored-whitespace.regexp
-#                         ^ keyword.control.group
+#                         ^ keyword.control.group punctuation.section.group.end.oniguruma
 #                          ^^^ keyword.operator.quantifier.regexp
 (?<name> [a-zA-Z_:]+ ){0}
 # <- meta.group.extended keyword.control.group
@@ -449,10 +449,10 @@ where escape characters are ignored.\).
 #                 ^ keyword.control.set
 #                  ^ keyword.operator.quantifier
 #                   ^ meta.ignored-whitespace.regexp
-#                    ^ keyword.control.group
+#                    ^ keyword.control.group punctuation.section.group.end.oniguruma
 #                     ^^^ keyword.operator.quantifier.regexp
 (?<content> [^<&]+ (\g<element> | [^<&]+)* ){0}
-# <- meta.group.extended keyword.control.group
+# <- meta.group.extended keyword.control.group punctuation.section.group.begin.oniguruma
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
 #^^^^^^^^^^ keyword.other.named-capture-group.regexp
 #           ^^^^^ meta.set
@@ -460,20 +460,20 @@ where escape characters are ignored.\).
 #                ^ keyword.operator.quantifier
 #                 ^ meta.ignored-whitespace.regexp
 #                  ^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended meta.group.extended
-#                  ^ keyword.control.group
+#                  ^ keyword.control.group punctuation.section.group.begin.oniguruma
 #                   ^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                              ^ meta.ignored-whitespace.regexp
 #                               ^ keyword.operator.alternation
 #                                ^ meta.ignored-whitespace.regexp
 #                                 ^^^^^ meta.set
 #                                      ^ keyword.operator.quantifier
-#                                       ^ keyword.control.group
+#                                       ^ keyword.control.group punctuation.section.group.end.oniguruma
 #                                        ^ keyword.operator.quantifier
 #                                         ^ meta.ignored-whitespace.regexp
-#                                          ^ keyword.control.group
+#                                          ^ keyword.control.group punctuation.section.group.end.oniguruma
 #                                           ^^^ keyword.operator.quantifier.regexp
 (?'etag' </ \k<name+1> > ){0}
-# <- meta.group.extended keyword.control.group
+# <- meta.group.extended keyword.control.group punctuation.section.group.begin.oniguruma
 #^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
 #^^^^^^^ keyword.other.named-capture-group.regexp
 #       ^ meta.ignored-whitespace.regexp
@@ -484,7 +484,7 @@ where escape characters are ignored.\).
 #                     ^ meta.ignored-whitespace.regexp
 #                      ^ meta.literal.regexp
 #                       ^ meta.ignored-whitespace.regexp
-#                        ^ keyword.control.group
+#                        ^ keyword.control.group punctuation.section.group.end.oniguruma
 #                         ^^^ keyword.operator.quantifier.regexp
 \g<element>
 #^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
