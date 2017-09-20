@@ -1,0 +1,11 @@
+v3.0.3 (2017-09-20)
+-------------------
+
+(Notes not shown on release)
+
+* Hide internal syntax definitions.
+* Add punctuation scopes to parens in Oniguruma syntax.
+* Fix completions of setting values before spaces (and not a comma).
+* Properly escape setting values when completing them.
+* Support syntax file specifications based on base file name in syntax test files.
+* Fix some completions in build systems.
