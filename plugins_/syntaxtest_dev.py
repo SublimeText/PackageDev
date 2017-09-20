@@ -415,3 +415,4 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
         if not view.settings().get('translate_tabs_to_spaces', False):
             _show_tab_warning()
 
+    on_post_save_async = on_load_async
