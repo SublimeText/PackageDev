@@ -382,7 +382,7 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
 
     PLAIN_TEXT = "Packages/Text/Plain text.tmLanguage"
 
-    def on_load_async(self, view):
+    def on_load(self, view):
         test_header = get_syntax_test_tokens(view)
         if not test_header:
             return
@@ -413,4 +413,4 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
         if not view.settings().get('translate_tabs_to_spaces', False):
             _show_tab_warning()
 
-    on_post_save_async = on_load_async
+    on_post_save_async = on_load
