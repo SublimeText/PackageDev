@@ -188,6 +188,9 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         return [(base_suffix + "\tbase suffix", base_suffix)]
 
+    def on_deactivated(self):
+        self.is_completing_scope = False
+
     @_inhibit_word_completions
     def on_query_completions(self, prefix, locations):
 
@@ -304,7 +307,7 @@ class PostCompletionsListener(sublime_plugin.EventListener):
     """
 
     def on_post_text_command(self, view, command_name, args):
-        if command_name == 'hide_auto_complete':
+        if command_name in ('drag_select', 'hide_auto_complete', 'move'):
             listener = sublime_plugin.find_view_event_listener(view, SyntaxDefCompletionsListener)
             if listener:
                 listener.is_completing_scope = False
