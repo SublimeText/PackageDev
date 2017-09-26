@@ -9,6 +9,18 @@
 	},
     /* end of snippet_dev keys */
 
+    /* start of syntax_dev keys */
+    {
+        "keys": ["."], "command": "run_macro_file", "args": {
+            "file": "res://Packages/PackageDev/Package/Sublime Text Syntax Definition/Dot Commit Completion.sublime-macro"
+        },
+        "context": [
+             { "key": "auto_complete_visible" },
+             { "key": "selector", "operator": "equal", "operand": "source.yaml.sublime.syntax" }
+        ]
+    },
+    /* end of syntax_dev keys */
+
     /* start of syntax_test_dev keys */
     { "keys": ["tab"], "command": "packagedev_align_syntax_test", "context":
         [
