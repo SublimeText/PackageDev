@@ -1,5 +1,0 @@
-[
-    { "command": "commit_completion" },
-    { "command": "insert", "args": {"characters": "."} },
-    { "command": "auto_complete", "args": { "api_completions_only": true, "disable_auto_insert": true } },
-]

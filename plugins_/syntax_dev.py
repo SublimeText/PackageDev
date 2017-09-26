@@ -11,7 +11,7 @@ from .lib.scope_data import COMPILED_HEADS
 __all__ = (
     'SyntaxDefRegexCaptureGroupHighlighter',
     'SyntaxDefCompletionsListener',
-    'PostCompletionsListener',
+    'PackagedevCommitScopeCompletionCommand'
 )
 
 PACKAGE_NAME = __package__.split('.')[0]
@@ -289,3 +289,22 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 return self.base_completions_contexts
             else:
                 return None
+
+
+class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
+
+    def run(self, edit):
+        self.view.run_command("commit_completion")
+
+        # Check if the completed value was the base suffix
+        # and don't re-open auto complete in that case.
+        listener = sublime_plugin.find_view_event_listener(self.view, SyntaxDefCompletionsListener)
+        if listener.base_suffix:
+            point = self.view.sel()[0].a
+            region = sublime.Region(point - len(listener.base_suffix) - 1, point)
+            if self.view.substr(region) == "." + listener.base_suffix:
+                return
+
+        # Insert a . and trigger next completion
+        self.view.run_command('insert', {'characters': "."})
+        self.view.run_command('auto_complete', {'disable_auto_insert': True})
