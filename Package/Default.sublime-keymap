@@ -13,13 +13,14 @@
     {
         "keys": ["enter"], "command": "packagedev_commit_scope_completion", "context": [
             { "key": "auto_complete_visible" },
+            { "key": "setting.auto_complete_commit_on_tab", "operator": "equal", "operand": false },
             { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
         ]
     },
     {
         "keys": ["tab"], "command": "packagedev_commit_scope_completion", "context": [
             { "key": "auto_complete_visible" },
-            { "key": "setting.tab_completion", "operator": "equal", "operand": true },
+            { "key": "setting.auto_complete_commit_on_tab", "operator": "equal", "operand": true },
             { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
         ]
     },
