@@ -30,7 +30,7 @@ def html_encode(string):
 def format_completion_item(value, default=False):
     """Create a completion item with its type as description."""
     if isinstance(value, dict):
-        return
+        raise ValueError("Cannot format dictionary value", value)
     default_str = "(default) " if default else ""
     return ("{0}  \t{2}{1}".format(sublime.encode_value(value).strip('"'),
                                    type(value).__name__,
@@ -621,7 +621,9 @@ class KnownSettings(object):
             if isinstance(value, list):
                 # Suggest list items as completions instead of a string
                 # representation of the list.
-                completions.update(format_completion_item(v) for v in value)
+                # Unless it's a dict.
+                completions.update(format_completion_item(v) for v in value
+                                   if not isinstance(v, dict))
             elif isinstance(value, dict):
                 # TODO what should we do with dicts?
                 pass
