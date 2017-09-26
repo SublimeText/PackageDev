@@ -659,6 +659,8 @@ class KnownSettings(object):
             return {format_completion_item(True), format_completion_item(False)}
         elif isinstance(default, list):
             return {format_completion_item(value) for value in default}
+        elif isinstance(default, dict):
+            return set()  # TODO can't complete these yet
         else:
             return {format_completion_item(default)}
 
