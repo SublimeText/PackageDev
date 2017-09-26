@@ -16,7 +16,7 @@
         },
         "context": [
              { "key": "auto_complete_visible" },
-             { "key": "selector", "operator": "equal", "operand": "source.yaml.sublime.syntax" }
+             { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
         ]
     },
     /* end of syntax_dev keys */
