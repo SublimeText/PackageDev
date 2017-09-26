@@ -31,6 +31,9 @@ clear_fields:
 close_file:
   command_type: window
   doc_string: Close the active file.
+commit_completion:
+  command_type: text
+  doc_string: Insert the selected item into the text and close completion panel.
 context_menu:
   command_type: window
   doc_string: Show the context menu.
