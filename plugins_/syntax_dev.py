@@ -296,6 +296,10 @@ class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         self.view.run_command("commit_completion")
 
+        # Don't add duplicated dot, if scope is edited in the middle.
+        if self.view.substr(self.view.sel()[0].a) == ".":
+            return
+
         # Check if the completed value was the base suffix
         # and don't re-open auto complete in that case.
         listener = sublime_plugin.find_view_event_listener(self.view, SyntaxDefCompletionsListener)
