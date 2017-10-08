@@ -23,7 +23,7 @@ def html_encode(string):
                  .replace("<", "&lt;")            \
                  .replace(">", "&gt;")            \
                  .replace("\t", "&nbsp;&nbsp;")   \
-                 .replace("    ", "&nbsp;&nbsp;") \
+                 .replace("  ", "&nbsp;&nbsp;")   \
                  .replace("\n", "<br>") if string else ""
 
 
