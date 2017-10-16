@@ -1,5 +1,5 @@
 {
-	"scope": "meta.dict-key-unknown.textmateprefs | meta.close-unknown-dict-key-tag.textmateprefs",
+	"scope": "meta.dict-key-unknown.tmPreferences | meta.close-unknown-dict-key-tag.tmPreferences",
 
 	"completions": [
 		"scope",
