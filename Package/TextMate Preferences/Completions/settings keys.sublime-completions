@@ -13,6 +13,7 @@
 		"cancelCompletion",
 		"shellVariables",
 		"showInSymbolList",
+		"showInIndexedReferenceList",
 		"showInIndexedSymbolList",
 		"symbolTransformation",
 		"symbolIndexTransformation",

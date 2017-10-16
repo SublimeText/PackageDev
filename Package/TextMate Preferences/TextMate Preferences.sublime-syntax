@@ -145,7 +145,7 @@ contexts:
         - match: '(?:symbolTransformation|symbolIndexTransformation)(?=\s*<)'
           scope: entity.name.constant.setting.regex-transform.tmPreferences
           set: [expect-transformation-string, key-end]
-        - match: '(?:showInSymbolList|showInIndexedSymbolList)(?=\s*<)'
+        - match: '(?:showInSymbolList|showInIndexedSymbolList|showInIndexedReferenceList)(?=\s*<)'
           scope: entity.name.constant.setting.tmPreferences
           set: [expect-integer, key-end] # yes, integer - for some reason, booleans don't work here
         - match: '(?:indentParens|indentSquareBrackets|preserveIndent)(?=\s*<)'
