@@ -107,6 +107,13 @@ contexts:
         2: keyword.other.rule.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-color-string-value, expect-colon]
+    - match: (")(font_style)(")
+      scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-fontstyle-string-value, expect-colon]
     - include: expect-mapping-rest
 
   expect-variables-mapping-value:
@@ -289,3 +296,23 @@ contexts:
             pop: true
           - match: \w+
             scope: variable.other.color-scheme
+
+  expect-fontstyle-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, fontstyle-string-pop]
+    - include: expect-string-rest
+
+  fontstyle-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json meta.fontstyle.sublime-color-scheme
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - match: \b(bold|italic)\b
+          scope: support.constant.font-style.color-scheme
+        - include: string-escape

@@ -91,6 +91,12 @@
         {
             "scope": "meta.structure.dictionary.key.json string.quoted.double.json",
             "foreground": "#A6E22E",
+            "font_style": "bold italic",
+//                        ^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.fontstyle.sublime-color-scheme
+//           ^^^^^^^^^^ meta.rule-key.sublime-color-scheme string.quoted.double.json keyword.other.rule.sublime-color-scheme
+//                         ^^^^ support.constant.font-style.color-scheme
+//                             ^ - support
+//                              ^^^^^^ support.constant.font-style.color-scheme
         },
         {
             "scope": "text.html.markdown & (punctuation.definition.list_item, punctuation.definition.blockquote, punctuation.definition.italic, punctuation.definition.bold, punctuation.definition.image, punctuation.definition.link)",
