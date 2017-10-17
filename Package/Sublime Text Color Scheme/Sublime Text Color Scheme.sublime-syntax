@@ -180,14 +180,14 @@ contexts:
         - include: expect-key-rest
 
   defaults-mapping-key:
-    - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|tags_foreground)(")
+    - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|tags_foreground|minimap_border|gutter|gutter_foreground)(")
       scope: meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: entity.name.defaults.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-color-string-value, expect-colon]
-    - match: (")(shadow_width|bracket_options|bracket_contents_options|tag_options|popup_css|phantom_css)(")
+    - match: (")(shadow_width|popup_css|phantom_css)(")
       scope: meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
@@ -201,6 +201,13 @@ contexts:
         2: entity.name.defaults.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-boolean-value, expect-colon]
+    - match: (")(bracket_options|bracket_contents_options|tag_options)(")
+      scope: meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.defaults.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-underlinestyle-string-value, expect-colon]
     - include: in-dictionary-defaults-key
     - include: expect-mapping-rest
 
@@ -330,3 +337,23 @@ contexts:
         - match: \b(bold|italic)\b
           scope: support.constant.font-style.color-scheme
         - include: string-escape
+
+  expect-underlinestyle-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, underline-string-pop]
+    - include: expect-string-rest
+
+  underline-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json meta.underline-style.sublime-color-scheme
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
+        - match: \b(underline|stippled_underline|squiggly_underline|foreground)\b
+          scope: support.constant.underline-style.color-scheme

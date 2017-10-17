@@ -1,0 +1,9 @@
+{
+    "scope": "meta.underline-style.sublime-color-scheme",
+    "completions": [
+        { "trigger": "underline\toptions value", "contents": "underline" },
+        { "trigger": "stippled_underline\toptions value", "contents": "stippled_underline" },
+        { "trigger": "squiggly_underline\toptions value", "contents": "squiggly_underline" },
+        { "trigger": "foreground\toptions value", "contents": "foreground" },
+    ]
+}

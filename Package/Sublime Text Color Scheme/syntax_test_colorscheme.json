@@ -50,6 +50,10 @@
         "shadow_width": "12",
         "shadow": "#cccccc",
         "invisibles": "#F8F8F239",
+        "bracket_options": "squiggly_underline stippled_underline",
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.underline-style.sublime-color-scheme
+//                          ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
+//                                             ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
         "random": "nope",
 //      ^^^^^^^^ meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
 //       ^^^^^^ - entity.name
