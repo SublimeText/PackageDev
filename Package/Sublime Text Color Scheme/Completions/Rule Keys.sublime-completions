@@ -1,0 +1,10 @@
+{
+    "scope": "meta.rule-key.sublime-color-scheme",
+    "completions": [
+        { "trigger": "scope\trule key", "contents": "scope" },
+        { "trigger": "foreground\trule key", "contents": "foreground" },
+        { "trigger": "background\trule key", "contents": "background" },
+        { "trigger": "font_style\trule key", "contents": "font_style" },
+        { "trigger": "selection_foreground\trule key", "contents": "selection_foreground" },
+    ]
+}

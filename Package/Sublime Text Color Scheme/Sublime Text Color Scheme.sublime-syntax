@@ -114,7 +114,19 @@ contexts:
         2: keyword.other.rule.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-fontstyle-string-value, expect-colon]
+    - include: in-dictionary-rule-key
     - include: expect-mapping-rest
+
+  in-dictionary-rule-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
 
   expect-variables-mapping-value:
     - match: (?=\{)
@@ -139,9 +151,11 @@ contexts:
       set:
         - meta_scope: string.quoted.double.json meta.variable-name.sublime-color-scheme
         - meta_content_scope: entity.name.variable.sublime-color-scheme
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          set: [expect-color-string-value, expect-colon]
+        - match: (?=")
+          set:
+            - match: '"'
+              scope: string.quoted.double.json meta.variable-name.sublime-color-scheme punctuation.definition.string.end.json
+              set: [expect-color-string-value, expect-colon]
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
           set: [expect-color-string-value, expect-colon]
