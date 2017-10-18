@@ -24,8 +24,12 @@
         { "trigger": "bracket_options\tdefaults key", "contents": "bracket_options" },
         { "trigger": "bracket_contents_options\tdefaults key", "contents": "bracket_contents_options" },
         { "trigger": "tag_options\tdefaults key", "contents": "tag_options" },
+        { "trigger": "minimap_border\tdefaults key", "contents": "minimap_border" },
+        { "trigger": "gutter\tdefaults key", "contents": "gutter" },
+        { "trigger": "gutter_foreground\tdefaults key", "contents": "gutter_foreground" },
         { "trigger": "popup_css\tdefaults key", "contents": "popup_css" },
         { "trigger": "phantom_css\tdefaults key", "contents": "phantom_css" },
         { "trigger": "implicit_selection_foreground\tdefaults key", "contents": "implicit_selection_foreground" },
+        { "trigger": "rulers\tdefaults key", "contents": "rulers" },
     ]
 }
