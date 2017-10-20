@@ -40,13 +40,13 @@ contexts:
         2: keyword.other.main.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-variables-mapping-value, expect-colon]
-    - match: (")(defaults)(")
+    - match: (")(globals)(")
       scope: meta.mapping.key.json meta.main-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-color-scheme
         3: punctuation.definition.string.end.json
-      set: [expect-defaults-mapping-value, expect-colon]
+      set: [expect-globals-mapping-value, expect-colon]
     - include: in-dictionary-main-key
 
   in-dictionary-main-key:
@@ -162,61 +162,61 @@ contexts:
         - include: string-escape
     - include: in-dictionary-main-key
 
-  expect-defaults-mapping-value:
+  expect-globals-mapping-value:
     - match: (?=\{)
-      set: [mapping-value-meta, defaults-mapping-pop]
+      set: [mapping-value-meta, globals-mapping-pop]
     - include: expect-mapping-rest
 
-  defaults-mapping-pop:
+  globals-mapping-pop:
     - match: \{
       scope: punctuation.section.mapping.begin.json
       set:
-        - meta_scope: meta.defaults.sublime-color-scheme meta.mapping.json
+        - meta_scope: meta.globals.sublime-color-scheme meta.mapping.json
         - match: \}
           scope: punctuation.section.mapping.end.json
           pop: true
         - match: (?=")
-          push: [in-mapping-expect-comma, defaults-mapping-key]
+          push: [in-mapping-expect-comma, globals-mapping-key]
         - include: expect-key-rest
 
-  defaults-mapping-key:
+  globals-mapping-key:
     - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|tags_foreground|minimap_border|gutter|gutter_foreground|rulers)(")
-      scope: meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: entity.name.defaults.sublime-color-scheme
+        2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-color-string-value, expect-colon]
     - match: (")(shadow_width|popup_css|phantom_css)(")
-      scope: meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: entity.name.defaults.sublime-color-scheme
+        2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon]
     - match: (")(implicit_selection_foreground)(")
-      scope: meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: entity.name.defaults.sublime-color-scheme
+        2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-boolean-value, expect-colon]
     - match: (")(bracket_options|bracket_contents_options|tag_options)(")
-      scope: meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: entity.name.defaults.sublime-color-scheme
+        2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-underlinestyle-string-value, expect-colon]
-    - include: in-dictionary-defaults-key
+    - include: in-dictionary-globals-key
     - include: expect-mapping-rest
 
-  in-dictionary-defaults-key:
+  in-dictionary-globals-key:
     - match: \"
       scope: punctuation.definition.string.begin.json
       set:
         - clear_scopes: 1
-        - meta_scope: meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
+        - meta_scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
         - match: \"
           scope: punctuation.definition.string.end.json
           set: [expect-any-value, expect-colon]
@@ -305,7 +305,7 @@ contexts:
     - match: \b(var)(?=\()
       scope: support.function.var.sublime-color-scheme
       push:
-        - meta_scope: meta.function-call.sublime-color-scheme
+        - meta_scope: meta.function-call.var.sublime-color-scheme
         - match: \)
           scope: meta.group.sublime-color-scheme punctuation.definition.group.end.sublime-color-scheme
           pop: true
@@ -327,16 +327,19 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: string.quoted.double.json meta.fontstyle.sublime-color-scheme
+        - meta_scope: string.quoted.double.json meta.font-style.sublime-color-scheme
         - match: '"'
           scope: punctuation.definition.string.end.json
           pop: true
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
           pop: true
-        - match: \b(bold|italic)\b
-          scope: support.constant.font-style.color-scheme
+        - include: font-style
         - include: string-escape
+
+  font-style:
+    - match: \b(bold|italic)\b
+      scope: support.constant.font-style.color-scheme
 
   expect-underlinestyle-string-value:
     - match: (?=")
@@ -357,3 +360,4 @@ contexts:
         - include: string-escape
         - match: \b(underline|stippled_underline|squiggly_underline|foreground)\b
           scope: support.constant.underline-style.color-scheme
+        - include: font-style

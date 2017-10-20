@@ -27,16 +27,16 @@
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json - meta.variables.sublime-color-scheme
-    "defaults":
-//  ^^^^^^^^^^ meta.main-key.sublime-color-scheme string.quoted.double.json
-//   ^^^^^^^^ keyword.other.main.sublime-color-scheme
+    "globals":
+//  ^^^^^^^^^ meta.main-key.sublime-color-scheme string.quoted.double.json
+//   ^^^^^^^ keyword.other.main.sublime-color-scheme
     {
-//  ^ meta.defaults.sublime-color-scheme meta.mapping.json punctuation.section.mapping.begin.json
+//  ^ meta.globals.sublime-color-scheme meta.mapping.json punctuation.section.mapping.begin.json
         "accent": "var(color_orange)",
-//      ^^^^^^^^ meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
+//      ^^^^^^^^ meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
 //      ^ punctuation.definition.string.begin.json
 //             ^ punctuation.definition.string.end.json
-//       ^^^^^^ entity.name.defaults.sublime-color-scheme
+//       ^^^^^^ entity.name.globals.sublime-color-scheme
 //              ^ punctuation.separator.mapping.key-value.json
 //                ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
 //                ^ punctuation.definition.string.begin.json
@@ -54,8 +54,12 @@
 //                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.underline-style.sublime-color-scheme
 //                          ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
 //                                             ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
+        "bracket_contents_options": "squiggly_underline bold italic",
+//                                   ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
+//                                                      ^^^^ support.constant.font-style.color-scheme
+//                                                           ^^^^^^ support.constant.font-style.color-scheme
         "random": "nope",
-//      ^^^^^^^^ meta.mapping.key.json meta.defaults-key.sublime-color-scheme string.quoted.double.json
+//      ^^^^^^^^ meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
 //       ^^^^^^ - entity.name
 //              ^ punctuation.separator.mapping.key-value.json
 //                ^^^^^^ meta.mapping.value.json string.quoted.double.json
@@ -96,7 +100,7 @@
             "scope": "meta.structure.dictionary.key.json string.quoted.double.json",
             "foreground": "#A6E22E",
             "font_style": "bold italic",
-//                        ^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.fontstyle.sublime-color-scheme
+//                        ^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.font-style.sublime-color-scheme
 //           ^^^^^^^^^^ meta.rule-key.sublime-color-scheme string.quoted.double.json keyword.other.rule.sublime-color-scheme
 //                         ^^^^ support.constant.font-style.color-scheme
 //                             ^ - support
