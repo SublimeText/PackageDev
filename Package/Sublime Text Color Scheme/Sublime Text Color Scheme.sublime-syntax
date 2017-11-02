@@ -100,13 +100,20 @@ contexts:
         2: keyword.other.rule.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-scope-string-value, expect-colon]
-    - match: (")(foreground|background|selection_foreground)(")
+    - match: (")(background|selection_foreground)(")
       scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.rule.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-color-string-value, expect-colon]
+    - match: (")(foreground)(")
+      scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-color-list-string-value, expect-colon]
     - match: (")(font_style)(")
       scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
       captures:
@@ -281,6 +288,13 @@ contexts:
       set: [mapping-value-meta, color-string-pop]
     - include: expect-string-rest
 
+  expect-color-list-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, color-string-pop]
+    - match: (?=\[)
+      set: [mapping-value-meta, color-list-pop]
+    - include: expect-string-rest # it's more common to expect a string than a sequence of strings, so we'll act as though a string is expected for normal use
+
   color-string-pop:
     - match: \"
       scope: punctuation.definition.string.begin.json
@@ -317,6 +331,21 @@ contexts:
             pop: true
           - match: \w+
             scope: variable.other.color-scheme
+
+  color-list-pop:
+    - match: \[
+      scope: meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.sequence.json
+        - meta_content_scope: meta.foreground.color-list.sublime-color-scheme
+        - match: \]
+          scope: meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=")
+          push: [in-sequence-expect-comma, color-string-pop]
+        - include: comments
+        - match: '[^\s\]\/,]+'
+          scope: invalid.illegal.color.expected-string.sublime-color-scheme
 
   expect-fontstyle-string-value:
     - match: (?=")

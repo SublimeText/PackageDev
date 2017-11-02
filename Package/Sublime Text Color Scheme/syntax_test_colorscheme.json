@@ -114,6 +114,29 @@
             "scope": "entity.name.section.markdown, punctuation.accessor, punctuation.separator.continuation.line, punctuation.separator.context-name.sublime-syntax, punctuation.separator.namespace, punctuation.definition.block, punctuation.section.interpolation",
             "foreground": "var(color_radical_red)",
         },
+        {
+            "scope": "variable.other, meta.generic-name - entity.name",
+            "foreground":
+            [
+//          ^ meta.mapping.value.json meta.sequence.json meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.begin.json
+                "hsl(100, 100%, 56%)",
+//              ^^^^^^^^^^^^^^^^^^^^^ meta.foreground.color-list.sublime-color-scheme string.quoted.double.json meta.color.sublime-color-scheme
+//               ^^^ support.function.color.css
+//                   ^^^ constant.numeric.css
+//              ^ punctuation.definition.string.begin.json
+//                                  ^ punctuation.definition.string.end.json
+//                                   ^ punctuation.separator.sequence.json
+                "hsl(200, 100%, 56%)",
+//              ^^^^^^^^^^^^^^^^^^^^^ meta.foreground.color-list.sublime-color-scheme string.quoted.double.json meta.color.sublime-color-scheme
+//               ^^^ support.function.color.css
+//                   ^^^ constant.numeric.css
+//              ^ punctuation.definition.string.begin.json
+//                                  ^ punctuation.definition.string.end.json
+//                                   ^ punctuation.separator.sequence.json
+            ],
+//          ^ meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.end.json
+//           ^ punctuation.separator.mapping.pair.json
+        },
     ],
 }
 
