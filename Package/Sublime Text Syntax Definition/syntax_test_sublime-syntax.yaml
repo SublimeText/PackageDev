@@ -226,6 +226,22 @@ contexts:
 #       ^^^^^^^^^^^^^^^^^^^ meta.scope.sublime-syntax string.unquoted.block.yaml
 #           ^ punctuation.separator.scope-segments.sublime-syntax
 
+    - embed: scope:source.test
+#     ^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
+#            ^^^^^ support.type.include.sublime-syntax
+    - embed_scope: meta.embedded.source.test
+#     ^^^^^^^^^^^ storage.type.scope-name.sublime-syntax
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.sublime-syntax string.unquoted.plain.out.yaml
+    - escape: foo(.)bar
+#     ^^^^^^ string.unquoted.plain.out.yaml keyword.other.escape.sublime-syntax
+#             ^^^^^^^^^^ meta.expect-regexp
+#                 ^ source.regexp.oniguruma keyword.other.any.regexp
+    - escape_captures:
+#     ^^^^^^^^^^^^^^^ storage.type.captures.sublime-syntax
+        1: keyword.other
+#          ^^^^^^^ meta.expect-captures.yaml meta.scope.sublime-syntax string.unquoted.plain.out.yaml
+#                 ^ punctuation.separator.scope-segments.sublime-syntax
+
 variables:
 #^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.variables.sublime-syntax
 
