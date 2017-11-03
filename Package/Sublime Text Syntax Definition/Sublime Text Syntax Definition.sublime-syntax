@@ -180,19 +180,25 @@ contexts:
         2: punctuation.separator.key-value.yaml
       push: expect_regexp
 
-    - match: (captures)\s*(:)(?=\s|$)
+    - match: (escape)\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml keyword.other.escape.sublime-syntax
+        2: punctuation.separator.key-value.yaml
+      push: expect_regexp
+
+    - match: ((?:escape_)?captures)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.captures.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_captures
 
-    - match: (scope)\s*(:)(?=\s|$)
+    - match: ((?:embed_)?scope)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_scope
 
-    - match: (include)\s*(:)(?=\s|$)
+    - match: (include|embed)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
         2: punctuation.separator.key-value.yaml
