@@ -24,7 +24,7 @@ def _insert_unindented(view, text):
 
 class PackagedevSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
     def is_enabled(self):
-        return self.view.match_selector(0, "source.sublime.snippet")
+        return self.view.match_selector(0, "source.sublime.snippet - source.json")
 
     def run(self, edit):
         content = get_text(self.view)

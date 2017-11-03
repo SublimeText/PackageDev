@@ -1,12 +1,10 @@
 [
     /* start of snippet_dev keys */
-	{
-		"keys": ["ctrl+s"], "command": "packagedev_snippet_from_raw_snippet",
-		"context":
-		[
-			{ "key": "selector", "operand": "source.sublime.snippet - text.xml.sublime.snippet" }
-		]
-	},
+    { "keys": ["ctrl+s"], "command": "packagedev_snippet_from_raw_snippet", "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.sublime.snippet - source.json - text.xml.sublime.snippet" }
+        ]
+    },
     /* end of snippet_dev keys */
 
     /* start of syntax_dev keys */
