@@ -1,0 +1,392 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Sublime Text Color Scheme (JSON)
+file_extensions:
+  - sublime-color-scheme
+scope: source.json.sublime.color-scheme
+
+contexts:
+  main:
+    - match: (?=\{)
+      push: main-mapping
+    - include: expect-mapping-rest
+
+  main-mapping:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      push:
+        - meta_scope: meta.color-scheme.collection.sublime-color-scheme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          set: only-comments
+        - match: (?=")
+          push: [in-mapping-expect-comma, main-key]
+        - include: expect-key-rest
+
+  main-key:
+    - clear_scopes: 1
+    - match: (")(rules)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-rules-sequence-value, expect-colon]
+    - match: (")(variables)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-variables-mapping-value, expect-colon]
+    - match: (")(globals)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-globals-mapping-value, expect-colon]
+    - include: in-dictionary-main-key
+
+  in-dictionary-main-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.main-key.sublime-color-scheme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
+
+  expect-rules-sequence-value:
+    - match: (?=\[)
+      set: [mapping-value-meta, rules-sequence-pop]
+    - include: expect-sequence-rest
+
+  rules-sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.rules.collection.sublime-color-scheme meta.sequence.json
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\{)
+          push: [in-sequence-expect-comma, rules-mapping-pop]
+        - include: comments
+        - match: \S
+          scope: invalid.illegal.expected-mapping.sublime-color-scheme
+
+  rules-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.rule.sublime-color-scheme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, rule-key]
+        - include: expect-key-rest
+
+  rule-key:
+    - clear_scopes: 1
+    - match: (")(scope)(")
+      scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-scope-string-value, expect-colon]
+    - match: (")(background|selection_foreground)(")
+      scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-color-string-value, expect-colon]
+    - match: (")(foreground)(")
+      scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-color-list-string-value, expect-colon]
+    - match: (")(font_style)(")
+      scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-fontstyle-string-value, expect-colon]
+    - include: in-dictionary-rule-key
+    - include: expect-mapping-rest
+
+  in-dictionary-rule-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
+
+  expect-variables-mapping-value:
+    - match: (?=\{)
+      set: [mapping-value-meta, variable-mapping-pop]
+    - include: expect-mapping-rest
+
+  variable-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.variables.sublime-color-scheme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, variable-mapping-key]
+        - include: expect-key-rest
+
+  variable-mapping-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json meta.variable-name.sublime-color-scheme
+        - meta_content_scope: entity.name.variable.sublime-color-scheme
+        - match: (?=")
+          set:
+            - match: '"'
+              scope: string.quoted.double.json meta.variable-name.sublime-color-scheme punctuation.definition.string.end.json
+              set: [expect-color-string-value, expect-colon]
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          set: [expect-color-string-value, expect-colon]
+        - include: string-escape
+    - include: in-dictionary-main-key
+
+  expect-globals-mapping-value:
+    - match: (?=\{)
+      set: [mapping-value-meta, globals-mapping-pop]
+    - include: expect-mapping-rest
+
+  globals-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.globals.sublime-color-scheme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, globals-mapping-key]
+        - include: expect-key-rest
+
+  globals-mapping-key:
+    - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|tags_foreground|minimap_border|gutter|gutter_foreground|rulers)(")
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.globals.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-color-string-value, expect-colon]
+    - match: (")(shadow_width|popup_css|phantom_css)(")
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.globals.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-string-value, expect-colon]
+    - match: (")(implicit_selection_foreground)(")
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.globals.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-boolean-value, expect-colon]
+    - match: (")(bracket_options|bracket_contents_options|tag_options)(")
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.globals.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-underlinestyle-string-value, expect-colon]
+    - include: in-dictionary-globals-key
+    - include: expect-mapping-rest
+
+  in-dictionary-globals-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
+
+  comments:
+    - include: Sublime JSON.sublime-syntax#comments
+
+  only-comments:
+    - include: Sublime JSON.sublime-syntax#only-comments
+
+  expect-colon:
+    - include: Sublime JSON.sublime-syntax#expect-colon
+
+  expect-any-value:
+    - include: Sublime JSON.sublime-syntax#expect-any-value
+
+  expect-scope-string-value:
+    - include: Sublime JSON.sublime-syntax#expect-scope-string-value
+
+  expect-key-rest:
+    - include: Sublime JSON.sublime-syntax#expect-key-rest
+
+  expect-sequence-rest:
+    - include: Sublime JSON.sublime-syntax#expect-sequence-rest
+
+  expect-mapping-rest:
+    - include: Sublime JSON.sublime-syntax#expect-mapping-rest
+
+  expect-string-rest:
+    - include: Sublime JSON.sublime-syntax#expect-string-rest
+
+  expect-string-value:
+    - include: Sublime JSON.sublime-syntax#expect-string-value
+
+  string-escape:
+    - include: Sublime JSON.sublime-syntax#string-escape
+
+  expect-boolean-value:
+    - include: Sublime JSON.sublime-syntax#expect-boolean-value
+
+  expect-mapping-value:
+    - include: Sublime JSON.sublime-syntax#expect-mapping-value
+
+  in-sequence-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-sequence-expect-comma
+
+  in-mapping-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-mapping-expect-comma
+
+  expect-command-name-value:
+    - include: Sublime JSON.sublime-syntax#expect-command-name-value
+
+  mapping-value-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.value.json
+    - match: ''
+      pop: true
+
+  expect-color-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, color-string-pop]
+    - include: expect-string-rest
+
+  expect-color-list-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, color-string-pop]
+    - match: (?=\[)
+      set: [mapping-value-meta, color-list-pop]
+    - include: expect-string-rest # it's more common to expect a string than a sequence of strings, so we'll act as though a string is expected for normal use
+
+  color-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json meta.color.sublime-color-scheme
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: CSS.sublime-syntax#color-values
+        - include: color-var-function
+        - match: (?=\bhsla\b)
+          push:
+            - include: CSS.sublime-syntax#color-functions
+            - match: ''
+              pop: true
+        - include: string-escape
+
+  color-var-function:
+    - match: \b(var)(?=\()
+      scope: support.function.var.sublime-color-scheme
+      push:
+        - meta_scope: meta.function-call.var.sublime-color-scheme
+        - match: \)
+          scope: meta.group.sublime-color-scheme punctuation.definition.group.end.sublime-color-scheme
+          pop: true
+        - match: \(
+          scope: punctuation.definition.group.begin.sublime-color-scheme
+          push:
+          - meta_scope: meta.group.sublime-color-scheme
+          - match: (?=\))
+            pop: true
+          - match: \w+
+            scope: variable.other.color-scheme
+
+  color-list-pop:
+    - match: \[
+      scope: meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.sequence.json
+        - meta_content_scope: meta.foreground.color-list.sublime-color-scheme
+        - match: \]
+          scope: meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=")
+          push: [in-sequence-expect-comma, color-string-pop]
+        - include: comments
+        - match: '[^\s\]\/,]+'
+          scope: invalid.illegal.color.expected-string.sublime-color-scheme
+
+  expect-fontstyle-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, fontstyle-string-pop]
+    - include: expect-string-rest
+
+  fontstyle-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json meta.font-style.sublime-color-scheme
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: font-style
+        - include: string-escape
+
+  font-style:
+    - match: \b(bold|italic)\b
+      scope: support.constant.font-style.color-scheme
+
+  expect-underlinestyle-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, underline-string-pop]
+    - include: expect-string-rest
+
+  underline-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json meta.underline-style.sublime-color-scheme
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
+        - match: \b(underline|stippled_underline|squiggly_underline|foreground)\b
+          scope: support.constant.underline-style.color-scheme
+        - include: font-style

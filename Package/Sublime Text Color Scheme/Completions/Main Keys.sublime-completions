@@ -1,0 +1,8 @@
+{
+    "scope": "meta.color-scheme.collection.sublime-color-scheme - meta.mapping meta.mapping - string - comment",
+    "completions": [
+        { "trigger": "variables\tmain key", "contents": "\"variables\": {\n\t\"$1\": \"$2\",\n},$0" },
+        { "trigger": "defaults\tmain key", "contents": "\"defaults\": {\n\t$1\n},$0" },
+        { "trigger": "rules\tmain key", "contents": "\"rules\": {\n\t$1\n},$0" },
+    ]
+}
