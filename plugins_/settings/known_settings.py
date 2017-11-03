@@ -341,16 +341,20 @@ class KnownSettings(object):
                 point = value_regions[-1].end() - 1
                 bol, eol = "\t", "\n"
         else:
-            point = value_regions[-1].end()
-            # Due to the scope selector,
-            # the comma will always be the last character of the last region found,
-            # if it exists.
-            if view.substr(point - 1) == ",":
+            # find line with last non-whitespace characters
+            value_region = value_regions[-1]
+            value_str = view.substr(value_region)
+            value_str_trimmed = value_str.rstrip()
+            ws_length = len(value_str) - len(value_str_trimmed)
+            point = view.line(value_region.end() - ws_length).end()
+
+            if value_str_trimmed.endswith(","):
                 # already have a comma after last entry
                 bol, eol = "\n", ","
             else:
                 # add a comma after last entry
                 bol, eol = ",\n", ""
+
         # format and insert the snippet
         snippet = self._key_snippet(key, self.defaults[key], bol, eol)
         view.sel().clear()
