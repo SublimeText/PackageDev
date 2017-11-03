@@ -52,6 +52,7 @@ DATA = """
     keyword
         control
             conditional
+            flow
             import
         operator
             assignment
