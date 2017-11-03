@@ -9,6 +9,23 @@
 	},
     /* end of snippet_dev keys */
 
+    /* start of syntax_dev keys */
+    {
+        "keys": ["enter"], "command": "packagedev_commit_scope_completion", "context": [
+            { "key": "auto_complete_visible" },
+            { "key": "setting.auto_complete_commit_on_tab", "operator": "equal", "operand": false },
+            { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
+        ]
+    },
+    {
+        "keys": ["tab"], "command": "packagedev_commit_scope_completion", "context": [
+            { "key": "auto_complete_visible" },
+            { "key": "setting.auto_complete_commit_on_tab", "operator": "equal", "operand": true },
+            { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
+        ]
+    },
+    /* end of syntax_dev keys */
+
     /* start of syntax_test_dev keys */
     { "keys": ["tab"], "command": "packagedev_align_syntax_test", "context":
         [

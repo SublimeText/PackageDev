@@ -263,7 +263,10 @@ contexts:
         - meta_scope: meta.scope.sublime-syntax string.unquoted.plain.out.yaml
         - match: '{{_flow_scalar_end_plain_in}}'
           # use plain-in for when inside of an 'include-list', although not always accurate
-          pop: true
+          set:
+            - match: \n?
+              scope: meta.scope.sublime-syntax
+              pop: true
         - match: \.
           scope: punctuation.separator.scope-segments.sublime-syntax
         # TODO match common scope names?

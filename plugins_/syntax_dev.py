@@ -11,7 +11,7 @@ from .lib.scope_data import COMPILED_HEADS
 __all__ = (
     'SyntaxDefRegexCaptureGroupHighlighter',
     'SyntaxDefCompletionsListener',
-    'PostCompletionsListener',
+    'PackagedevCommitScopeCompletionCommand'
 )
 
 PACKAGE_NAME = __package__.split('.')[0]
@@ -157,7 +157,6 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     # These instance variables are for communicating
     # with our PostCompletionsListener instance.
-    is_completing_scope = False
     base_suffix = None
 
     @classmethod
@@ -213,9 +212,6 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 return None
             else:
                 real_prefix = next(iter(prefixes))
-
-            # We're not leaving this block anymore now
-            self.is_completing_scope = True
 
             # Tokenize the current selector
             tokens = real_prefix.split(".")
@@ -295,38 +291,24 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 return None
 
 
-class PostCompletionsListener(sublime_plugin.EventListener):
+class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
 
-    """Insert a dot and re-open the completions popup when completing a scope segment.
+    def run(self, edit):
+        self.view.run_command("commit_completion")
 
-    A separate class is needed
-    because on_post_text_command is not available to ViewEventListeners.
-    """
+        # Don't add duplicated dot, if scope is edited in the middle.
+        if self.view.substr(self.view.sel()[0].a) == ".":
+            return
 
-    def on_post_text_command(self, view, command_name, args):
-        if command_name == 'hide_auto_complete':
-            listener = sublime_plugin.find_view_event_listener(view, SyntaxDefCompletionsListener)
-            if listener:
-                listener.is_completing_scope = False
-        if command_name in ('commit_completion', 'insert_best_completion'):
-            listener = sublime_plugin.find_view_event_listener(view, SyntaxDefCompletionsListener)
-            if not (listener and listener.is_completing_scope):
+        # Check if the completed value was the base suffix
+        # and don't re-open auto complete in that case.
+        listener = sublime_plugin.find_view_event_listener(self.view, SyntaxDefCompletionsListener)
+        if listener.base_suffix:
+            point = self.view.sel()[0].a
+            region = sublime.Region(point - len(listener.base_suffix) - 1, point)
+            if self.view.substr(region) == "." + listener.base_suffix:
                 return
 
-            listener.is_completing_scope = False
-
-            point = view.sel()[0].a
-
-            # Check if the completed value was the base suffix
-            # and don't re-open auto complete in that case.
-            if listener.base_suffix:
-                region = sublime.Region(point - len(listener.base_suffix) - 1, point)
-                if view.substr(region) == "." + listener.base_suffix:
-                    return
-
-            # Chck if completions were requested within a scope name.
-            if view.substr(point) == ".":
-                return
-
-            view.run_command('insert', {'characters': "."})
-            view.run_command('auto_complete', {'disable_auto_insert': True})
+        # Insert a . and trigger next completion
+        self.view.run_command('insert', {'characters': "."})
+        self.view.run_command('auto_complete', {'disable_auto_insert': True})
