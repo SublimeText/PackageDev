@@ -21,7 +21,7 @@ TEMPLATES = dict(
   { "caption": "$1: Open Readme",
     "command": "open_file",
     "args": {
-      "target": "\${packages}/$1/README.md"
+      "file": "\${packages}/$1/README.md"
     }
   },$0
 ]""",
@@ -73,7 +73,7 @@ TEMPLATES = dict(
               { "caption": "Key Bindings",
                 "command": "edit_settings",
                 "args": {
-                  "base_file": "\${packages}/$1/Default (\${platform}).sublime-settings",
+                  "base_file": "\${packages}/$1/Default (\${platform}).sublime-keymap",
                   "default": "[\n\t\$0\n]\n"
                 }
               },$0
