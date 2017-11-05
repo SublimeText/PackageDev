@@ -1,0 +1,10 @@
+{
+	"scope": "text.xml.plist.textmate.preferences meta.inside-dict-key.plist - meta.inside-dict meta.inside-dict",
+
+	"completions": [
+		{ "trigger": "name\tsettings key", "contents": "<key>name</key>\n<string>$1</string>" },
+		{ "trigger": "scope\tsettings key", "contents": "<key>scope</key>\n<string>$1</string>" },
+		{ "trigger": "settings\tsettings key", "contents": "<key>settings</key>\n<dict>\n\t$0\n</dict>" },
+		{ "trigger": "uuid\tsettings key", "contents": "<key>uuid</key>\n<string>$1</string>" },
+	]
+}
