@@ -111,6 +111,11 @@
 <!--                 ^^^^^^ - invalid -->
 <!--                        ^^^^^ constant.character.entity.xml -->
                 </dict>
+                <dict>
+                    <key>name</key>
+                    <string></string>
+<!--                 ^^^^^^ - invalid -->
+                </dict>
             </array>
 
             <key>preserveIndent</key>
