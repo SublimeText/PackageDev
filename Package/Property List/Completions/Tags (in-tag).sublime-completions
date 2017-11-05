@@ -1,5 +1,5 @@
 {
-    "scope": "text.xml.plist.textmate.preferences meta.tag.xml",
+    "scope": "text.xml.plist.textmate.preferences meta.tag.xml - punctuation.definition.tag.begin.xml",
     "completions": [
         { "trigger": "array\tplist tag", "contents": "array" },
         { "trigger": "data\tplist tag", "contents": "data" },
