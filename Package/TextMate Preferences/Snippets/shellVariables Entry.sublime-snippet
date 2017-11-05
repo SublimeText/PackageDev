@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[<dict>
+    <key>name</key>
+    <string>$1</string>
+    <key>value</key>
+    <string>$2</string>
+</dict>]]></content>
+	<tabTrigger>e</tabTrigger>
+	<scope>meta.inside-dict.settings.tmPreferences meta.inside-array.plist - (meta.inside-array meta.inside-dict | meta.inside-key | meta.inside-value | comment | meta.tag)</scope>
+</snippet>
