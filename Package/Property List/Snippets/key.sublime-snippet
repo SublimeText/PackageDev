@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[<key>$1</key>]]></content>
-	<description>&lt;key&gt;</description>
-	<scope>meta.inside-dict.plist - (comment | meta.tag | meta.inside-value)</scope>
-	<tabTrigger>key</tabTrigger>
-</snippet>

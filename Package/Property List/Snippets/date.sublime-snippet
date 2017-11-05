@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[<date>$1</date>]]></content>
-	<description>&lt;date&gt;</description>
-	<scope>meta.inside-plist.plist - (comment | meta.tag | meta.inside-value)</scope>
-	<tabTrigger>date</tabTrigger>
-</snippet>

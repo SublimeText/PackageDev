@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[<true />]]></content>
-	<description>&lt;true /&gt;</description>
-	<scope>meta.inside-plist.plist - (comment | meta.tag | meta.inside-value)</scope>
-	<tabTrigger>true</tabTrigger>
-</snippet>

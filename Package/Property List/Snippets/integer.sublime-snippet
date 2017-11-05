@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[<integer>$1</integer>]]></content>
-	<description>&lt;integer&gt;</description>
-	<scope>meta.inside-plist.plist - (comment | meta.tag | meta.inside-value)</scope>
-	<tabTrigger>integer</tabTrigger>
-</snippet>

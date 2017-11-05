@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+$0
+</plist>
+]]></content>
+	<tabTrigger>plist</tabTrigger>
+	<scope>text.xml.plist.textmate.preferences - meta.inside-plist - meta.tag</scope>
+</snippet>

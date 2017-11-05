@@ -1,0 +1,16 @@
+{
+    "scope": "text.xml.plist.textmate.preferences meta.tag.xml",
+    "completions": [
+        { "trigger": "array\tplist tag", "contents": "array" },
+        { "trigger": "data\tplist tag", "contents": "data" },
+        { "trigger": "date\tplist tag", "contents": "date" },
+        { "trigger": "dict\tplist tag", "contents": "dict" },
+        { "trigger": "false\tplist tag", "contents": "false" },
+        { "trigger": "integer\tplist tag", "contents": "integer" },
+        { "trigger": "key\tplist tag", "contents": "key" },
+        { "trigger": "plist\tplist tag", "contents": "plist" },
+        { "trigger": "real\tplist tag", "contents": "real" },
+        { "trigger": "string\tplist tag", "contents": "string" },
+        { "trigger": "true\tplist tag", "contents": "true" },
+    ]
+}
