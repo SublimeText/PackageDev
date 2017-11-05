@@ -1,3 +1,4 @@
 {
-    "extensions": ["tmPreferences"]
+    "extensions": ["tmPreferences"],
+    "auto_complete_selector": "meta.tag - punctuation.definition.tag.begin.xml | meta.settings-key-wrapper | meta.inside-value.string.shellVariable-name | meta.main-key-wrapper | meta.shellVariable-name.wrapper | meta.inside-dict-settings | meta.inside-dict.settings.tmPreferences | meta.inside-dict - meta.inside-value - meta.inside-dict-key",
 }

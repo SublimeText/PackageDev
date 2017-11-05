@@ -1,0 +1,10 @@
+{
+	"scope": "meta.main-key-wrapper.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
+
+	"completions": [
+		{ "trigger": "name\tmain key", "contents": "name" },
+		{ "trigger": "scope\tmain key", "contents": "scope" },
+		{ "trigger": "settings\tmain key", "contents": "settings" },
+		{ "trigger": "uuid\tmain key", "contents": "uuid" },
+	]
+}

@@ -98,6 +98,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       push:
+        - meta_scope: meta.main-key-wrapper.tmPreferences
         - meta_content_scope: meta.inside-dict-key.plist
         - include: key-end
         - match: 'scope(?=\s*<)'
@@ -134,6 +135,7 @@ contexts:
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
       push:
+        - meta_scope: meta.settings-key-wrapper.tmPreferences
         - meta_content_scope: meta.inside-dict-key.plist
         - include: inside-dict-key
         - match: 'shellVariables(?=\s*<)'
@@ -391,6 +393,7 @@ contexts:
         9: punctuation.definition.tag.end.xml
       push:
         - match: '((<)(string)\s*(>))(\s*((TM_COMMENT_(?:START|END|DISABLE_INDENT)(?:_[2-9])?)|(?:[^<]*))\s*)((</)(string)\s*(>))'
+          scope: meta.shellVariable-name.wrapper.tmPreferences
           captures:
             1: meta.tag.xml
             2: punctuation.definition.tag.begin.xml

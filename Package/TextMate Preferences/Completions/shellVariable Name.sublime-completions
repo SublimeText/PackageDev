@@ -1,0 +1,11 @@
+{
+    "scope": "meta.shellVariable-name.wrapper.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
+    "completions": [
+        { "trigger": "TM_COMMENT_DISABLE_INDENT\tshellVariable name", "contents": "TM_COMMENT_DISABLE_INDENT" },
+        { "trigger": "TM_COMMENT_DISABLE_INDENT_2\tshellVariable name", "contents": "TM_COMMENT_DISABLE_INDENT_2" },
+        { "trigger": "TM_COMMENT_END\tshellVariable name", "contents": "TM_COMMENT_END" },
+        { "trigger": "TM_COMMENT_END_2\tshellVariable name", "contents": "TM_COMMENT_END_2" },
+        { "trigger": "TM_COMMENT_START\tshellVariable name", "contents": "TM_COMMENT_START" },
+        { "trigger": "TM_COMMENT_START_2\tshellVariable name", "contents": "TM_COMMENT_START_2" },
+    ]
+}
