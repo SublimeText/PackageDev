@@ -1,0 +1,8 @@
+{
+    "scope": "meta.main-key.sublime-color-scheme",
+    "completions": [
+        { "trigger": "variables\tmain key", "contents": "variables" },
+        { "trigger": "globals\tmain key", "contents": "globals" },
+        { "trigger": "rules\tmain key", "contents": "rules" },
+    ]
+}
