@@ -46,6 +46,10 @@
                 "command": "packagedev_new_resource",
                 "args": {"kind": "build_system"}
               },
+              { "caption": "New Color Scheme…",
+                "command": "packagedev_new_resource",
+                "args": {"kind": "color_scheme"}
+              },
               { "caption": "New Commands File…",
                 "command": "packagedev_new_resource",
                 "args": {"kind": "commands"}

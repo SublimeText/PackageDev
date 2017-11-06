@@ -3,6 +3,35 @@ TEMPLATES = dict(
 {
 \t"cmd": ["${0:make}"],
 }""",
+    color_scheme="""{
+    "variables": {
+        ${0:// Define variables here}
+    },
+    "globals": {
+        "foreground": "",
+        "background": "",
+        "accent": "",
+        "selection": "",
+    },
+    "rules": [
+        {
+            "scope": "string",
+            "foreground": "",
+        },
+        {
+            "scope": "variable",
+            "foreground": "",
+        },
+        {
+            "scope": "keyword",
+            "foreground": "",
+        },
+        {
+            "scope": "constant",
+            "foreground": "",
+        },
+    ]
+}""".replace("    ", "\t"),
     commands=R"""[
   { "caption": "Preferences: ${1:${package_name:PackageName}}",
     "command": "edit_settings",
