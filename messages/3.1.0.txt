@@ -1,0 +1,39 @@
+v3.1.0 (2017-11-06)
+-------------------
+
++ Add support for the new .sublime-color-scheme format, including:
+  - syntax highlighting (@keith-hall),
+  - symbol list,
+  - completions for all keys,
+  - CSS variable completions,
+  - scope name completions in selectors.
++ Add support for `embed` action in syntax definitions. (@keith-hall)
++ Add completions for tmPreferences files (and improve PList completions).
++ Add `e` snippet for tmPreferences.
+* Make scope name completions more robust. (@deathaxe)
+* Ensure all plugins are updated in-memory on a package update.
+* Improve settings tooltip readability with white color schemes. (@deathaxe)
+* More small bugfixes.
+
+
+Notes from earlier releases that weren't shown:
+
+v3.0.3 (2017-09-20)
+-------------------
+
+* Hide internal syntax definitions.
+* Add punctuation scopes to parens in Oniguruma syntax.
+* Fix completions of setting values before spaces (and not a comma).
+* Properly escape setting values when completing them.
+* Support syntax file specifications based on base file name in syntax test files.
+* Fix some completions in build systems.
+
+v3.0.2 (2017-09-12)
+-------------------
+
+* Always use color scheme background color for quick edit icon phantoms.
+* Fix base scope completions re-opening the completion popup in some situations.
+* Don't re-open completion popup when completing within a scope name.
+* Fix argument completions in menu children sub-menu entries.
+* Fix JSON escape sequences in regex charsets.
+* Scope exec arguments in build systems differently.
