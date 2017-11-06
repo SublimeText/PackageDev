@@ -58,7 +58,8 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
 
     def scope_completions(self, prefix, locations):
         real_prefix = self._scope_prefix(locations)
-        if not real_prefix:
+        l.debug("Full prefix: %r", real_prefix)
+        if real_prefix is None:
             return None
         else:
             return completions_from_prefix(real_prefix)
