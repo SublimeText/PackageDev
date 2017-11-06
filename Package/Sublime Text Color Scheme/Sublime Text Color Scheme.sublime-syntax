@@ -336,7 +336,10 @@ contexts:
             pop: true
           - match: \w+
             scope: variable.other.color-scheme
-
+          - match: (?=")  # embed this here so we don't have to "with_prototype"
+            pop: true
+        - match: (?=")
+          pop: true
   color-list-pop:
     - match: \[
       scope: meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.begin.json

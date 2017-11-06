@@ -72,7 +72,11 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
             return all(self.view.match_selector(point + offset, selector)
                        for point in locations)
 
-        if verify_scope("meta.function-call.var.sublime-color-scheme"):
+        if (
+            verify_scope("meta.function-call.var.sublime-color-scheme")
+            or (verify_scope("meta.function-call.var.sublime-color-scheme", -1)
+                and verify_scope("punctuation.definition.string.end.json"))
+        ):
             return self.variable_completions(prefix, locations)
 
         elif verify_scope("meta.scope-selector.sublime"):

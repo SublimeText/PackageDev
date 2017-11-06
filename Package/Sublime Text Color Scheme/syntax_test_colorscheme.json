@@ -49,6 +49,9 @@
         "stack_guide": "#9D550FB0",
         "shadow_width": "12",
         "shadow": "#cccccc",
+        "caret": "var(unclosed_var",
+//                    ^^^^^^^^^^^^ variable.other.color-scheme
+//                                ^ punctuation.definition.string.end.json
         "invisibles": "#F8F8F239",
         "bracket_options": "squiggly_underline stippled_underline",
 //                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.underline-style.sublime-color-scheme string.quoted.double.json
