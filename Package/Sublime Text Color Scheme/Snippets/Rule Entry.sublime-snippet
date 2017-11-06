@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[{
+	"scope": "$1",
+	"foreground": "$2",
+},]]></content>
+	<tabTrigger>e</tabTrigger>
+	<scope>meta.rules.collection.sublime-color-scheme - meta.rule.sublime-color-scheme - comment</scope>
+</snippet>
