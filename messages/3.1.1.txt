@@ -1,0 +1,7 @@
+v3.1.1 (2017-11-06)
+-------------------
+
+(Notes not shown on release)
+
+* Add template for color scheme
+* Various fixes for color scheme completions
