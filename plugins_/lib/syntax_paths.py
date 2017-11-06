@@ -18,6 +18,7 @@ def _build_path(sub_package_name, file_name=None, textmate=False):
 # paths to our package
 PLIST              = _build_path("Property List")
 BUILD_SYSTEM       = _build_path("Sublime Text Build System")
+COLOR_SCHEME       = _build_path("Sublime Text Color Scheme")
 COMMANDS           = _build_path("Sublime Text Commands")
 COMPLETIONS        = _build_path("Sublime Text Completions")
 KEYMAP             = _build_path("Sublime Text Keymap")

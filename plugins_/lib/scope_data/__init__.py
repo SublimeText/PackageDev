@@ -1,7 +1,10 @@
+import logging
 
 from .data import DATA
 
-__all__ = ["COMPILED_NODES", "COMPILED_HEADS"]
+__all__ = ["COMPILED_NODES", "COMPILED_HEADS", "completions_from_prefix"]
+
+l = logging.getLogger(__name__)
 
 
 class NodeSet(set):
@@ -117,3 +120,30 @@ for line in lines:
         COMPILED_HEADS.add(node)
 
     COMPILED_NODES.add(node)
+
+
+# Tokenize the current selector
+def completions_from_prefix(prefix):
+    """Build completions from a given scope prefix (including dots)."""
+    tokens = prefix.split(".")
+    if len(tokens) <= 1:
+        # No work to be done here, just return the heads
+        return COMPILED_HEADS.to_completion()
+
+    # Browse the nodes and their children
+    nodes = COMPILED_HEADS
+    for i, token in enumerate(tokens[:-1]):
+        node = nodes.find(token)
+        if not node:
+            l.info("`%s` not found in scope naming conventions" % '.'.join(tokens[:i + 1]))
+            break
+        nodes = node.children
+        if not nodes:
+            l.info("No nodes available in scope naming conventions after `%s`"
+                   % '.'.join(tokens[:-1]))
+            break
+    else:
+        # Offer to complete from conventions or base scope
+        return nodes.to_completion()
+
+    return []

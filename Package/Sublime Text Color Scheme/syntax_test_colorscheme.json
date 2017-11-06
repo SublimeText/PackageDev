@@ -23,7 +23,7 @@
 //                            ^ punctuation.definition.constant.css
 //                             ^^^^^^ constant.other.color.rgb-value.css
         "color_pear_green": "#A6E22E",
-        
+
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json - meta.variables.sublime-color-scheme
@@ -32,26 +32,26 @@
 //   ^^^^^^^ keyword.other.main.sublime-color-scheme
     {
 //  ^ meta.globals.sublime-color-scheme meta.mapping.json punctuation.section.mapping.begin.json
-        "accent": "var(color_orange)",
+        "accent": "var(color_pear_green)",
 //      ^^^^^^^^ meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
 //      ^ punctuation.definition.string.begin.json
 //             ^ punctuation.definition.string.end.json
 //       ^^^^^^ entity.name.globals.sublime-color-scheme
 //              ^ punctuation.separator.mapping.key-value.json
-//                ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
+//                ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
 //                ^ punctuation.definition.string.begin.json
-//                                  ^ punctuation.definition.string.end.json
 //                 ^^^ support.function.var.sublime-color-scheme
 //                    ^ punctuation.definition.group.begin.sublime-color-scheme
-//                     ^^^^^^^^^^^^ variable.other.color-scheme
-//                                 ^ punctuation.definition.group.end.sublime-color-scheme
-//                                   ^ punctuation.separator.mapping.pair.json
+//                     ^^^^^^^^^^^^^^^^ variable.other.color-scheme
+//                                     ^ punctuation.definition.group.end.sublime-color-scheme
+//                                      ^ punctuation.definition.string.end.json
+//                                       ^ punctuation.separator.mapping.pair.json
         "stack_guide": "#9D550FB0",
         "shadow_width": "12",
         "shadow": "#cccccc",
         "invisibles": "#F8F8F239",
         "bracket_options": "squiggly_underline stippled_underline",
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.underline-style.sublime-color-scheme
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.underline-style.sublime-color-scheme string.quoted.double.json
 //                          ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
 //                                             ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
         "bracket_contents_options": "squiggly_underline bold italic",
@@ -81,7 +81,7 @@
 //          ^^^^^^^ meta.rules.collection.sublime-color-scheme meta.sequence.json meta.rule.sublime-color-scheme meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
 //           ^^^^^ keyword.other.rule.sublime-color-scheme
 //                 ^ punctuation.separator.mapping.key-value.json
-//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.scope-selector.sublime string.quoted.double.json
 //                   ^ punctuation.definition.string.begin.json
 //                                                                   ^ punctuation.definition.string.end.json
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.scope-selector
@@ -100,7 +100,7 @@
             "scope": "meta.structure.dictionary.key.json string.quoted.double.json",
             "foreground": "#A6E22E",
             "font_style": "bold italic",
-//                        ^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.font-style.sublime-color-scheme
+//                        ^^^^^^^^^^^^^ meta.mapping.value.json meta.font-style.sublime-color-scheme string.quoted.double.json
 //           ^^^^^^^^^^ meta.rule-key.sublime-color-scheme string.quoted.double.json keyword.other.rule.sublime-color-scheme
 //                         ^^^^ support.constant.font-style.color-scheme
 //                             ^ - support

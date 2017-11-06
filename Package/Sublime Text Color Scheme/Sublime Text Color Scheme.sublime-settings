@@ -1,0 +1,3 @@
+{
+    "auto_complete_selector": "meta.function-call.var.sublime-color-scheme | meta.font-style.sublime-color-scheme | meta.underline-style.sublime-color-scheme | meta.scope-selector.sublime | - string - comment",
+}

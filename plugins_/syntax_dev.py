@@ -304,7 +304,7 @@ class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
         # Check if the completed value was the base suffix
         # and don't re-open auto complete in that case.
         listener = sublime_plugin.find_view_event_listener(self.view, SyntaxDefCompletionsListener)
-        if listener.base_suffix:
+        if listener and listener.base_suffix:
             point = self.view.sel()[0].a
             region = sublime.Region(point - len(listener.base_suffix) - 1, point)
             if self.view.substr(region) == "." + listener.base_suffix:

@@ -1,5 +1,6 @@
 # import ST-interfacing classes from sub-modules
 
+from .color_scheme_dev import *  # noqa
 from .command_completions import *  # noqa
 from .create_package import *  # noqa
 from .file_conversion import *  # noqa

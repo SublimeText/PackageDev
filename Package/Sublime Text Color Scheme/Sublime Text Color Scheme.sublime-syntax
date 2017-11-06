@@ -356,7 +356,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: string.quoted.double.json meta.font-style.sublime-color-scheme
+        - meta_scope: meta.font-style.sublime-color-scheme string.quoted.double.json
         - match: '"'
           scope: punctuation.definition.string.end.json
           pop: true
@@ -379,7 +379,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: string.quoted.double.json meta.underline-style.sublime-color-scheme
+        - meta_scope: meta.underline-style.sublime-color-scheme string.quoted.double.json
         - match: '"'
           scope: punctuation.definition.string.end.json
           pop: true
