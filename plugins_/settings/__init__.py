@@ -156,6 +156,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             elif self.view.match_selector(point, KEY_COMPLETIONS_SCOPE):
                 completions_aggregator = self.known_settings.key_completions
                 self.is_completing_key = True
+            else:
+                return None
             return completions_aggregator(self.view, prefix, point)
 
     def on_hover(self, point, hover_zone):
