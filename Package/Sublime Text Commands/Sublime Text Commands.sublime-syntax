@@ -27,7 +27,7 @@ contexts:
 
   commands-entry:
     - match: \{
-      scope: punctuation.section.mapping.begin.json punctuation.definition.sublime-commands.begin.sublime-commands
+      scope: punctuation.section.mapping.begin.json punctuation.section.sublime-commands.begin.sublime-commands
       set:
         - meta_scope: meta.mapping.json
         - match: \}
