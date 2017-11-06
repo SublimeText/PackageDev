@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>meta.rule.sublime-color-scheme source.scope-selector</string>
+    <key>settings</key>
+    <dict>
+        <key>showInSymbolList</key>
+        <integer>1</integer>
+        <key>symbolTransformation</key>
+        <string>s/^/scope: /</string>
+    </dict>
+</dict>
+</plist>
