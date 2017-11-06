@@ -3,6 +3,6 @@
     "completions": [
         { "trigger": "variables\tmain key", "contents": "\"variables\": {\n\t\"$1\": \"$2\",\n}," },
         { "trigger": "globals\tmain key", "contents": "\"globals\": {\n\t$1\n}," },
-        { "trigger": "rules\tmain key", "contents": "\"rules\": {\n\t$1\n}," },
+        { "trigger": "rules\tmain key", "contents": "\"rules\": [\n\t$1\n]," },
     ]
 }
