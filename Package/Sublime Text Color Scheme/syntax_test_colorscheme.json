@@ -91,9 +91,12 @@
 //          ^ punctuation.definition.string.begin.json
 //           ^^^^^^^^^^ keyword.other.rule.sublime-color-scheme
 //                     ^ punctuation.definition.string.end.json
+//                         ^^^^^^^^^^^^^^^^^^^^^^ source.css meta.function-call.var.sublime-color-scheme
 //                         ^^^ support.function.var.sublime-color-scheme
 //                             ^^^^^^^^^^^^^^^^^ variable.other.color-scheme
 //                                               ^ punctuation.definition.string.end.json
+            "foreground": "color(var(color_radical_red) tint(20%))",
+//                                   ^^^^^^^^^^^^^^^^^ variable.other.color-scheme
             "foreground": "#F8F8F0",
         },
         {

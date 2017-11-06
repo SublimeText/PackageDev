@@ -306,13 +306,18 @@ contexts:
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
           pop: true
-        - include: CSS.sublime-syntax#color-values
-        - include: color-var-function
-        - match: (?=\bhsla\b)
+        # The CSS syntax doesn't recognize bare words as variables,
+        # i.e. without the "custom property prefix" of `--`,
+        # so we push a prototype.
+        - match: ''
           push:
-            - include: CSS.sublime-syntax#color-functions
-            - match: ''
+            - meta_scope: source.css
+            - include: CSS.sublime-syntax#color-values
+          with_prototype:
+            - match: (?=")
               pop: true
+            - include: string-escape
+            - include: color-var-function
         - include: string-escape
 
   color-var-function:
