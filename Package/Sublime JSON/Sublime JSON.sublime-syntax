@@ -463,12 +463,11 @@ contexts:
       scope: punctuation.definition.string.begin.json
       set:
         - meta_scope: meta.scope-selector.sublime string.quoted.double.json
+        - meta_content_scope: source.scope-selector
+        - include: scope:source.scope-selector
         - match: '"'
           scope: punctuation.definition.string.end.json
           pop: true
-        - match: ''
-          embed: scope:source.scope-selector
-          escape: (?=")
 
   expect-snippet-string-value:
     - match: (?=")
