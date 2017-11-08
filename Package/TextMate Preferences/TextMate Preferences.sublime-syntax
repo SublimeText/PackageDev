@@ -317,7 +317,7 @@ contexts:
 
   transformation:
     - meta_content_scope: meta.regex.transformation.tmPreferences
-    - match: 's/'
+    - match: 's?/'
       scope: punctuation.definition.substitute-what.tmPreferences
       push:
         - meta_content_scope: source.regexp.oniguruma

@@ -209,7 +209,11 @@
 <!--                                                     ^^ keyword.other.backref-and-recursion.conditional.regexp-replacement -->
 <!--                                                         ^ punctuation.definition.substitute-flags.tmPreferences -->
 <!--                                                          ^ storage.modifier.mode.regexp.transformation.tmPreferences -->
-<!--                                                           ^ punctuation.definition.substitution.end.tmPreferences -->
+<!--                                                           ^ punctuation.definition.substitution.end.tmPreferences -->)
+
+                /./$0/g; (?# the leading s is optional
+<!--            ^ punctuation.definition.substitute-what.tmPreferences -->
+<!--             ^ keyword.other.any.regexp -->
             note that we don't end the comment, but the CDATA end still applies
             ]]></string>
 <!--        ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
