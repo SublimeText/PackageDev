@@ -61,6 +61,15 @@
 //                                   ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
 //                                                      ^^^^ support.constant.font-style.color-scheme
 //                                                           ^^^^^^ support.constant.font-style.color-scheme
+        "implicit_selection_foreground": "true",
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
+//                                       ^^^^^^ meta.boolean-string.sublime-color-scheme string.quoted.double.json - invalid
+//                                        ^^^^ support.constant.boolean-string.color-scheme
+//                                             ^ punctuation.separator.mapping.pair.json
+        "implicit_selection_foreground": false,
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
+//                                       ^^^^^ invalid.illegal.expected-string.sublime
+//                                            ^ punctuation.separator.mapping.pair.json
         "random": "nope",
 //      ^^^^^^^^ meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
 //       ^^^^^^ - entity.name

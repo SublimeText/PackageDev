@@ -207,7 +207,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
-      set: [expect-boolean-value, expect-colon]
+      set: [expect-string-boolean-value, expect-colon]
     - match: (")(bracket_options|bracket_contents_options|tag_options)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
@@ -398,3 +398,23 @@ contexts:
         - match: \b(underline|stippled_underline|squiggly_underline|foreground)\b
           scope: support.constant.underline-style.color-scheme
         - include: font-style
+
+  expect-string-boolean-value:
+    - match: (?=")
+      set: [mapping-value-meta, boolean-string-pop]
+    - include: expect-string-rest
+
+  boolean-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: meta.boolean-string.sublime-color-scheme string.quoted.double.json
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
+        - match: \b(true|false)\b
+          scope: support.constant.boolean-string.color-scheme
