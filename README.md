@@ -48,7 +48,7 @@ and <kbd>Command</kbd> (<kbd>⌘</kbd>) on macOS.
 
 ## Documentation
 
-Detailed documentation is available at the repository's [wiki][].
+Detailed documentation is available [at the repository's wiki][wiki].
 
 
 [wiki]: https://github.com/SublimeText/PackageDev/wiki
@@ -59,6 +59,7 @@ Detailed documentation is available at the repository's [wiki][].
 - Syntax definitions for:
 
   - Build System files
+  - Color Scheme files
   - Commands files
   - Completions files
   - Keymap files
@@ -76,7 +77,8 @@ Detailed documentation is available at the repository's [wiki][].
 
   Dynamic completions are provided for
   all files expecting command names,
-  syntax definitions
+  syntax definitions,
+  color schemes,
   and settings files.
 
 - Snippets for some of the above.
