@@ -2,10 +2,26 @@ sudo: false
 language: python
 
 python:
-  - "3.3" # ST3 uses this, but we're only running flake8 anyway
+  - "3.3"  # ST3 uses this internally, so we do as well for flake8
+
+# branches:
+#   except:
+#     - /^v\d/
 
 install:
   - pip install flake8==3.3.0
+  # fetch syntax testing binary
+  - wget --content-disposition https://download.sublimetext.com/latest/dev/linux/x64/syntax_tests
+  - tar xf "$(ls st3_syntax_tests_build_*_x64.tar.bz2)"
+  - rm -R st3_syntax_tests*.tar.bz2
+  - mv st3_syntax_tests ..
+
+before_script:
+  # setup portable testing env & fetch default packages
+  - mkdir ../st3_syntax_tests/Data
+  - git clone --depth=1 https://github.com/sublimehq/Packages.git ../st3_syntax_tests/Data/Packages  # --branch=v3157
+  - ln -s "$PWD" ../st3_syntax_tests/Data/Packages/PackageDev
 
 script:
+  - ../st3_syntax_tests/syntax_tests
   - flake8 .
