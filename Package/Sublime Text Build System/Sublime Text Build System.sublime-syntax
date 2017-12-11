@@ -340,7 +340,7 @@ contexts:
                   - match: \S
                     scope: invalid.illegal.unexpected-token.placeholder.sublime-build
               - match: ''
-                push: Regex Replacement.sublime-syntax#escaped
+                push: scope:source.regexp-replacement.escaped
                 with_prototype:
                   - match: (?=/)
                     pop: true

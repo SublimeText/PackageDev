@@ -1,7 +1,6 @@
 %YAML 1.2
 ---
 # See http://www.sublimetext.com/docs/3/syntax.html
-# The 'escaped' context is intended for JSON strings
 scope: source.regexp-replacement
 name: Regular Expression Replacement
 hidden: true
@@ -29,52 +28,6 @@ contexts:
         - include: main
     - match: \\.
       scope: constant.character.escape.regexp-replacement
-    - include: shared
-
-  escaped:
-    - meta_scope: source.regexp-replacement.escaped
-    - match: (\\\\)[1-9]
-      captures:
-        1: constant.character.escape.json
-      scope: keyword.other.backref-and-recursion.regexp-replacement
-    - match: (\\\\)[aefnrtv()]
-      captures:
-        1: constant.character.escape.json
-      scope: constant.character.escape.regexp-replacement
-    - match: (\\\\)[lLuUE]
-      captures:
-        1: constant.character.escape.json
-      scope: keyword.operator.case-conversion.regexp-replacement
-    - match: (\\\\)x(\h{2}|\{\h{4}\})
-      captures:
-        1: constant.character.escape.json
-      scope: constant.character.escape.regexp-replacement
-    - match: \(\?([1-9]|\{\w+\})
-      scope: keyword.other.backref-and-recursion.conditional.regexp-replacement
-      push:
-        - meta_scope: meta.group.conditional.regexp-replacement
-        - match: ':'
-          scope: keyword.operator.alternation.regexp-replacement
-        - match: \)
-          scope: keyword.other.backref-and-recursion.conditional.regexp-replacement
-          pop: true
-        - include: escaped
-    - match: (\\\\)\\?.
-      captures:
-        1: constant.character.escape.json
-      scope: constant.character.escape.regexp-replacement
-    # sourced from JSON.sublime-syntax#string-escape
-    - match: |-
-        (?x:
-          \\
-          (?:
-              ["\\/bfnrt]
-            | u [0-9a-fA-F]{4}
-          )
-        )
-      scope: constant.character.escape.json meta.literal.regexp-replacement
-    - match: \\.
-      scope: invalid.illegal.unrecognized-string-escape.json
     - include: shared
 
   shared:
