@@ -54,6 +54,9 @@ DATA = """
             conditional
             flow
             import
+        declaration
+            extends
+            throws
         operator
             assignment
             arithmetic
