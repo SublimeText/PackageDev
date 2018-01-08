@@ -3,5 +3,6 @@
     "completions": [
         { "trigger": "selector\tmain key", "contents": "\"selector\": \"$1\",$0" },
         { "trigger": "variants\tmain key", "contents": "\"variants\": [\n\t$0\n]," },
+        { "trigger": "keyfiles\tmain key", "contents": "\"keyfiles\": [\"$0\"]," },
     ]
 }
