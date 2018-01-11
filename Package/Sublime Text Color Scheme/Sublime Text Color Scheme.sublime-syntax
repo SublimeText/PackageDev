@@ -47,6 +47,13 @@ contexts:
         2: keyword.other.main.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-globals-mapping-value, expect-colon]
+    - match: (")(name|author)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-string-value, expect-colon]
     - include: in-dictionary-main-key
 
   in-dictionary-main-key:
@@ -121,6 +128,13 @@ contexts:
         2: keyword.other.rule.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-fontstyle-string-value, expect-colon]
+    - match: (")(name)(")
+      scope: meta.mapping.key.json meta.rule-key.name.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-string-value, expect-colon]
     - include: in-dictionary-rule-key
     - include: expect-mapping-rest
 
@@ -187,7 +201,7 @@ contexts:
         - include: expect-key-rest
 
   globals-mapping-key:
-    - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|tags_foreground|minimap_border|gutter|gutter_foreground|rulers)(")
+    - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|bracket_contents_foreground|tags_foreground|minimap_border|gutter|gutter_foreground|rulers)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
@@ -208,7 +222,7 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-string-boolean-value, expect-colon]
-    - match: (")(bracket_options|bracket_contents_options|tag_options)(")
+    - match: (")(brackets_options|bracket_contents_options|tags_options)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json

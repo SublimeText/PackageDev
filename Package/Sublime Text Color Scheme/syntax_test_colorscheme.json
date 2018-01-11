@@ -5,6 +5,14 @@
 // comment
 // ^^^^^^^ comment.line.double-slash - meta.color-scheme.collection
 {
+    "author": "PackageDev contributors",
+//   ^^^^^^ meta.color-scheme.collection.sublime-color-scheme meta.mapping.key.json meta.main-key.sublime-color-scheme string.quoted.double.json keyword.other.main.sublime-color-scheme
+//          ^ punctuation.separator.mapping.key-value.json
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
+//                                     ^ punctuation.separator.mapping.pair.json
+    "name": "Just a syntax test, nothing to see here",
+//  ^^^^^^ meta.main-key
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
     "variables":
 //  ^ punctuation.definition.string.begin.json
 //  ^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-color-scheme string.quoted.double.json
@@ -53,10 +61,10 @@
 //                    ^^^^^^^^^^^^ variable.other.color-scheme
 //                                ^ punctuation.definition.string.end.json
         "invisibles": "#F8F8F239",
-        "bracket_options": "squiggly_underline stippled_underline",
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.underline-style.sublime-color-scheme string.quoted.double.json
-//                          ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
-//                                             ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
+        "brackets_options": "squiggly_underline stippled_underline",
+//                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.underline-style.sublime-color-scheme string.quoted.double.json
+//                           ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
+//                                              ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
         "bracket_contents_options": "squiggly_underline bold italic",
 //                                   ^^^^^^^^^^^^^^^^^^ support.constant.underline-style.color-scheme
 //                                                      ^^^^ support.constant.font-style.color-scheme
@@ -122,6 +130,10 @@
 //                              ^^^^^^ support.constant.font-style.color-scheme
         },
         {
+            "name": "I have a name",
+//          ^^^^^^ meta.rule-key.name.sublime-color-scheme string.quoted.double.json
+//                ^ punctuation.separator.mapping.key-value.json
+//                  ^^^^^^^^^^^^^^^ string.quoted.double.json
             "scope": "text.html.markdown & (punctuation.definition.list_item, punctuation.definition.blockquote, punctuation.definition.italic, punctuation.definition.bold, punctuation.definition.image, punctuation.definition.link)",
             "foreground": "#F83333",
         },

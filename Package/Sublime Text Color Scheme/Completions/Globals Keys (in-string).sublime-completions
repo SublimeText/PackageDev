@@ -4,8 +4,9 @@
         { "trigger": "accent\tglobals key", "contents": "accent" },
         { "trigger": "active_guide\tglobals key", "contents": "active_guide" },
         { "trigger": "background\tglobals key", "contents": "background" },
+        { "trigger": "bracket_contents_foreground\tglobals key", "contents": "bracket_contents_foreground" },
         { "trigger": "bracket_contents_options\tglobals key", "contents": "bracket_contents_options" },
-        { "trigger": "bracket_options\tglobals key", "contents": "bracket_options" },
+        { "trigger": "brackets_options\tglobals key", "contents": "brackets_options" },
         { "trigger": "brackets_foreground\tglobals key", "contents": "brackets_foreground" },
         { "trigger": "caret\tglobals key", "contents": "caret" },
         { "trigger": "find_highlight\tglobals key", "contents": "find_highlight" },
@@ -30,7 +31,7 @@
         { "trigger": "shadow\tglobals key", "contents": "shadow" },
         { "trigger": "shadow_width\tglobals key", "contents": "shadow_width" },
         { "trigger": "stack_guide\tglobals key", "contents": "stack_guide" },
-        { "trigger": "tag_options\tglobals key", "contents": "tag_options" },
+        { "trigger": "tags_options\tglobals key", "contents": "tags_options" },
         { "trigger": "tags_foreground\tglobals key", "contents": "tags_foreground" },
     ]
 }
