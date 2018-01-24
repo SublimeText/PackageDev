@@ -7,8 +7,9 @@ else:
         # clean up sys.modules to ensure all submodules are reloaded
         import sys
         modules_to_clear = set()
+        prefix = __package__ + "."  # don't clear the base package
         for module_name in sys.modules:
-            if module_name.startswith(__package__):
+            if module_name.startswith(prefix) and module_name != __name__:
                 modules_to_clear.add(module_name)
 
         print("[{}] Cleaning up {} cached modules after update…"
@@ -18,5 +19,6 @@ else:
 
 # Must be named "plugins_"
 # because sublime_plugin claims a plugin module's `plugin` attribute for itself.
+# Fixed in 3153 https://github.com/SublimeTextIssues/Core/issues/1991.
 
 from .plugins_ import *  # noqa
