@@ -171,7 +171,14 @@
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.json-string
             },
         },
-    ]
+    ],
+    
+    "cancel": "cancel_build",
+//   ^^^^^^ keyword.other.main.sublime-build
+//             ^^^^^^^^^^^^ support.constant.command-name.sublime
+    "cancel": {"kill": true},
+//             ^^^^^^ meta.mapping.key.json string.quoted.double.json
+//                     ^^^^ constant.language.boolean.json
 }
 
   ,[]//fgfg
