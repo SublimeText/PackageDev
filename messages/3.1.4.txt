@@ -1,0 +1,8 @@
+v3.1.4 (2018-02-11)
+-------------------
+
+(Notes not shown on release)
+
+* Highlight `keyfiles` in build systems (@keith-hall)
+* Fix `cancel` keys with a dict value in build systems (@keith-hall)
+* Fix some completions and highlighting of color scheme properties (wrt "bracket*s") (@keith-hall)
