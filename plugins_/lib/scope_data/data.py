@@ -7,6 +7,7 @@ DATA = """
             double-dash
             number-sign
             percentage
+            semi-colon
         block
             documentation
 
