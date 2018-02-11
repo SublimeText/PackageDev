@@ -47,6 +47,13 @@ contexts:
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-variants-sequence-value, expect-colon]
+    - match: (")(keyfiles)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-build
+        3: punctuation.definition.string.end.json
+      set: [expect-keyfiles-sequence-value, expect-colon]
     - include: target-key
     - include: exec-args-key
     - include: platform-key
@@ -86,7 +93,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.other.main.sublime-build
         3: punctuation.definition.string.end.json
-      set: [expect-command-name-value, expect-colon]
+      set: [expect-command-name-or-dict-value, expect-colon]
 
   exec-args-key:
     - match: (")(cmd)(")
@@ -375,6 +382,23 @@ contexts:
           pop: true
         - include: string-escape
 
+  expect-keyfiles-sequence-value:
+    - match: (?=\[)
+      set: [mapping-value-meta, keyfiles-sequence-pop]
+    - include: expect-sequence-rest
+
+  keyfiles-sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.sequence.json meta.keyfiles.collection.sublime-build
+        - include: comments
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\S)
+          push: [in-sequence-expect-comma, Sublime JSON.sublime-syntax#expect-string]
+
   comments:
     - include: Sublime JSON.sublime-syntax#comments
 
@@ -422,6 +446,10 @@ contexts:
 
   expect-command-name-value:
     - include: Sublime JSON.sublime-syntax#expect-command-name-value
+
+  expect-command-name-or-dict-value:
+    - include: Sublime JSON.sublime-syntax#command-name-pop
+    - include: expect-mapping-value
 
   mapping-value-meta:
     - clear_scopes: 1

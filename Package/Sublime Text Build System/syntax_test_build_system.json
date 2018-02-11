@@ -20,6 +20,15 @@
 //               ^^^^^^ string.unquoted.scope-segment.scope-selector
 //                     ^ punctuation.separator.scope-segments.scope-selector
 //                      ^^^^^^ string.unquoted.scope-segment.scope-selector
+    "keyfiles": ["Make"],
+//  ^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+//   ^^^^^^^^ keyword.other.main.sublime-build
+//            ^ punctuation.separator.mapping.key-value.json
+//              ^^^^^^^^ meta.keyfiles.collection.sublime-build
+//              ^ punctuation.section.sequence.begin.json
+//               ^^^^^^ string.quoted.double.json
+//                     ^ punctuation.section.sequence.end.json
+//                      ^ meta.mapping.json meta.expect-comma.sublime punctuation.separator.mapping.pair.json - meta.keyfiles
 
         "other_key": "value",
 //      ^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
@@ -162,7 +171,14 @@
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp.embedded.json-string
             },
         },
-    ]
+    ],
+    
+    "cancel": "cancel_build",
+//   ^^^^^^ keyword.other.main.sublime-build
+//             ^^^^^^^^^^^^ support.constant.command-name.sublime
+    "cancel": {"kill": true},
+//             ^^^^^^ meta.mapping.key.json string.quoted.double.json
+//                     ^^^^ constant.language.boolean.json
 }
 
   ,[]//fgfg
