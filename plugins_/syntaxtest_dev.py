@@ -296,7 +296,9 @@ class PackagedevAlignSyntaxTestCommand(sublime_plugin.TextCommand):
 
         # find the next non-whitespace char on the line being tested above
         if skip_whitespace:
-            for pos in range(details.line_region.begin() + next_col, details.line_region.end()):
+            line_region = listener.get_details_of_line_being_tested()[1]
+            pos = line_region.begin() + next_col
+            for pos in range(pos, line_region.end()):
                 if view.substr(pos).strip() != '':
                     break
             next_col = view.rowcol(pos)[1]
