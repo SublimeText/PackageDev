@@ -51,8 +51,8 @@
     // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
     // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
     "syntax_test.highlight_styles": ["DRAW_NO_FILL"],
-    
+
     // Whether to skip whitespace after the previous line's test assertions when
     // pressing the Tab key on a new syntax test line
-    "syntax_test.skip_whitespace": false,
+    "syntax_test.skip_whitespace": true,
 }

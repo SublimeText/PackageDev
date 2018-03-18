@@ -284,7 +284,7 @@ class PackagedevAlignSyntaxTestCommand(sublime_plugin.TextCommand):
         # find the last test assertion column on the previous line
         details = listener.get_details_of_test_assertion_line(details.line_region.begin() - 1)
         next_col = None
-        skip_whitespace = get_setting('syntax_test.skip_whitespace', False)
+        skip_whitespace = get_setting('syntax_test.skip_whitespace', True)
         if details.assertion_colrange:
             next_col = details.assertion_colrange[1]
         else:
