@@ -1,0 +1,7 @@
+v3.1.5 (2018-03-18)
+-------------------
+
+(Notes not shown on release)
+
+* Fix highlighting of negative platform filters in menu files (@keith-hall)
+* Skip whitespace when completing syntax tests (@keith-hall)
