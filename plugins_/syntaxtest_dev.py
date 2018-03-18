@@ -284,15 +284,25 @@ class PackagedevAlignSyntaxTestCommand(sublime_plugin.TextCommand):
         # find the last test assertion column on the previous line
         details = listener.get_details_of_test_assertion_line(details.line_region.begin() - 1)
         next_col = None
-        if not details.assertion_colrange:
+        skip_whitespace = get_setting('syntax_test.skip_whitespace', False)
+        if details.assertion_colrange:
+            next_col = details.assertion_colrange[1]
+        else:
             # the previous line wasn't a syntax test line, so instead
-            # find the first non-whitespace char on the line being tested above
-            for pos in range(details.line_region.begin(), details.line_region.end()):
+            # start at the first position on the line. We will then
+            # advance to the first non-whitespace char on the line.
+            next_col = 0
+            skip_whitespace = True
+
+        # find the next non-whitespace char on the line being tested above
+        if skip_whitespace:
+            line_region = listener.get_details_of_line_being_tested()[1]
+            pos = line_region.begin() + next_col
+            for pos in range(pos, line_region.end()):
                 if view.substr(pos).strip() != '':
                     break
             next_col = view.rowcol(pos)[1]
-        else:
-            next_col = details.assertion_colrange[1]
+
         col_diff = next_col - view.rowcol(cursor.begin())[1]
         view.insert(edit, cursor.end(), " " * col_diff)
         view.run_command('packagedev_suggest_syntax_test')
