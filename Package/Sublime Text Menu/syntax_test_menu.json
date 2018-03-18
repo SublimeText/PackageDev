@@ -64,7 +64,7 @@
 //                                                                   ^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //                                                                    ^^^^^^^^ keyword.other.main.sublime-menu
 
-            { "command": "exit", "caption": "Quit", "mnemonic": "Q", "platform": "Linux" },
+            { "command": "exit", "caption": "Quit", "mnemonic": "Q", "platform": "!Linux" },
 // ^^^^^^^^^ invalid.illegal.expected-comma.inside-sequence.json
 //          ^ - invalid.illegal.expected-comma.inside-sequence.json
 //            ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
@@ -77,6 +77,8 @@
 //                                                   ^^^^^^^^ keyword.other.main.sublime-menu
 //                                                                   ^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //                                                                    ^^^^^^^^ keyword.other.main.sublime-menu
+//                                                                                ^ keyword.operator.logical.sublime-menu
+//                                                                                 ^^^^^ support.constant.command-name.sublime-menu - invalid
         ]
     },
 //   ^ punctuation.separator.sequence.json

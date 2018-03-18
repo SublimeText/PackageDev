@@ -128,12 +128,13 @@ contexts:
     - include: expect-string-rest
 
   platform-name-string-pop:
-    - match: (\")(Windows|Linux|OSX)(\")
+    - match: (\")(!)?(Windows|Linux|OSX)(\")
       scope: meta.platform-name.sublime-menu string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: support.constant.command-name.sublime-menu
-        3: punctuation.definition.string.end.json
+        2: keyword.operator.logical.sublime-menu
+        3: support.constant.command-name.sublime-menu
+        4: punctuation.definition.string.end.json
       pop: true
     - match: \" # probably illegal command name
       scope: punctuation.definition.string.begin.json
