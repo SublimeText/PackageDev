@@ -208,13 +208,13 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-color-string-value, expect-colon]
-    - match: (")(shadow_width|popup_css|phantom_css)(")
+    - match: (")(shadow_width|popup_css|phantom_css|selection_corner_radius|selection_border_width)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
-      set: [expect-string-value, expect-colon]
+      set: [expect-possible-number-in-string-value, expect-colon]
     - match: (")(implicit_selection_foreground)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
@@ -229,6 +229,13 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-underlinestyle-string-value, expect-colon]
+    - match: (")(selection_corner_style)(")
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.globals.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-cornerstyle-string-value, expect-colon]
     - include: in-dictionary-globals-key
     - include: expect-mapping-rest
 
@@ -432,3 +439,42 @@ contexts:
         - include: string-escape
         - match: \b(true|false)\b
           scope: support.constant.boolean-string.color-scheme
+
+  expect-cornerstyle-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, cornerstyle-string-pop]
+    - include: expect-string-rest
+
+  cornerstyle-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: meta.corner-style.sublime-color-scheme string.quoted.double.json
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
+        - match: \b(square|cut|round)\b
+          scope: support.constant.corner-style.color-scheme
+
+  expect-possible-number-in-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, possible-number-in-string-pop]
+    - include: expect-string-rest
+
+  possible-number-in-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
+        - include: Sublime JSON.sublime-syntax#number
