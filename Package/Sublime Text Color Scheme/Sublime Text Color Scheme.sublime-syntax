@@ -208,7 +208,14 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-color-string-value, expect-colon]
-    - match: (")(shadow_width|popup_css|phantom_css|selection_corner_radius|selection_border_width)(")
+    - match: (")(popup_css|phantom_css)(")
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.globals.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-string-value, expect-colon]
+    - match: (")(shadow_width|selection_corner_radius|selection_border_width)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
