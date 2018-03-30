@@ -11,6 +11,7 @@
         { "trigger": "caret\tglobals key", "contents": "caret" },
         { "trigger": "find_highlight\tglobals key", "contents": "find_highlight" },
         { "trigger": "find_highlight_foreground\tglobals key", "contents": "find_highlight_foreground" },
+        { "trigger": "fold_marker\tglobals key", "contents": "fold_marker" },
         { "trigger": "foreground\tglobals key", "contents": "foreground" },
         { "trigger": "guide\tglobals key", "contents": "guide" },
         { "trigger": "gutter\tglobals key", "contents": "gutter" },

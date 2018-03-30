@@ -96,6 +96,9 @@
 //       ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
 //                                 ^^^ meta.mapping.value.json string.quoted.double.json
 //                                  ^ constant.numeric.json
+        "fold_marker": "#ffcc00",
+//       ^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
+//                      ^^^^^^^ constant.other.color.rgb-value.css
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json

@@ -11,6 +11,7 @@
         { "trigger": "caret\tglobals key", "contents": "\"caret\": \"$1\"," },
         { "trigger": "find_highlight\tglobals key", "contents": "\"find_highlight\": \"$1\"," },
         { "trigger": "find_highlight_foreground\tglobals key", "contents": "\"find_highlight_foreground\": \"$1\"," },
+        { "trigger": "fold_marker\tglobals key", "contents": "\"fold_marker\": \"$1\"," },
         { "trigger": "foreground\tglobals key", "contents": "\"foreground\": \"$1\"," },
         { "trigger": "guide\tglobals key", "contents": "\"guide\": \"$1\"," },
         { "trigger": "gutter\tglobals key", "contents": "\"gutter\": \"$1\"," },
