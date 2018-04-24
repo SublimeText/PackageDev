@@ -7,6 +7,9 @@
         { "trigger": "file_exclude_patterns\tfolder key", "contents": "file_exclude_patterns" },
         { "trigger": "folder_include_patterns\tfolder key", "contents": "folder_include_patterns" },
         { "trigger": "folder_exclude_patterns\tfolder key", "contents": "folder_exclude_patterns" },
+        { "trigger": "index_include_patterns\tfolder key", "contents": "index_include_patterns" },
+        { "trigger": "index_exclude_patterns\tfolder key", "contents": "index_exclude_patterns" },
+        { "trigger": "binary_file_patterns\tfolder key", "contents": "binary_file_patterns" },
         { "trigger": "follow_symlinks\tfolder key", "contents": "follow_symlinks" },
     ]
 }

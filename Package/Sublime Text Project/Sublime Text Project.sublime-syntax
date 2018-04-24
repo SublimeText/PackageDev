@@ -106,7 +106,7 @@ contexts:
         2: keyword.other.folder.sublime-project
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon]
-    - match: (")((?:file|folder)_(?:include|exclude)_patterns)(")
+    - match: (")((?:(?:file|folder|index)_(?:include|exclude)_patterns)|binary_file_patterns)(")
       scope: meta.mapping.key.json meta.folder-key.sublime-project string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
