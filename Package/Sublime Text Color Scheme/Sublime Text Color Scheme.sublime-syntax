@@ -4,6 +4,7 @@
 name: Sublime Text Color Scheme (JSON)
 file_extensions:
   - sublime-color-scheme
+  - hidden-color-scheme
 scope: source.json.sublime.color-scheme
 
 contexts:
