@@ -10,8 +10,10 @@
 #   ^ punctuation.definition.tag.begin
 #           ^ punctuation.definition.tag.end
 #            ^^^^^^^^^^^^^^^^ comment.block.xml
-#                            ^^^^^^^^^^ string.unquoted.cdata - meta.tag
-#                            ^^^^^^^^^ punctuation.definition.string.begin
+#                            ^^^^^^^^^^^ meta.tag.cdata
+#                            ^^^ punctuation.definition.tag.begin
+#                               ^^^^^ entity.name.tag.cdata
+#                                    ^ punctuation.definition.tag.begin
 #                                     ^ source.sublime.snippet
       Original: ${1:Hey, Joe!}
 #               ^^^^^^^^^^^^^^ meta.text-substitution
@@ -205,7 +207,7 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 # ^ keyword.other.block.end
 
  ]]>snippet<</content>
-#^^^ string.unquoted.cdata punctuation.definition.string.end
+#^^^ meta.tag.cdata punctuation.definition.tag.end
 #   ^^^^^^^ source.sublime.snippet
 #          ^ invalid.illegal.missing-entity.xml - source.sublime.snippet
 #           ^^^^^^^^^^ meta.tag - string
@@ -246,7 +248,7 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 
 <content>
     <![CDATA[ example ${1} ]]>
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml - string.unquoted.cdata.xml string.unquoted.cdata.xml
+#            ^^^^^^^^^^^^^^ string.unquoted.cdata.xml - string.unquoted.cdata.xml string.unquoted.cdata.xml
 #                     ^^ keyword.other.block
 #                       ^ constant.numeric
 #                        ^ keyword.other.block
@@ -256,17 +258,23 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #  ^ - invalid
 #                             ^ - invalid
 </content>
-#^^^^^^^^^ meta.tag
+#^^^^^^^^^ meta.tag.xml
+# ^^^^^^^ entity.name.tag.localname.xml
 
 <content>
     <![CDATA[ example </content> ${1} ]]>
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string
-#                                        ^ - string
-#                     ^^^^^^^^^^ - meta.tag
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.cdata
+#   ^^^ punctuation.definition.tag.begin
+#      ^^^^^ entity.name.tag.cdata.xml
+#           ^ punctuation.definition.tag.begin.xml - string
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^ string
+#                                     ^ - string
+#                     ^^^^^^^^^^ - entity.name.tag
 #                                ^^^^ meta.text-substitution
 #                                ^^ keyword.other.block
 #                                  ^ constant.numeric
 #                                   ^ keyword.other.block
+#                                     ^^^ punctuation.definition.tag.end
 </content>
 #^^^^^^^^^ meta.tag
 

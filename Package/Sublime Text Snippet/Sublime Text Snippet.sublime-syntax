@@ -17,20 +17,26 @@ contexts:
         3: punctuation.definition.tag.end.xml
       push:
         - include: comments
-        - match: '<!\[CDATA\['
-          scope: punctuation.definition.string.begin.xml
+        - match: '(<!\[)(CDATA)(\[)'
+          captures:
+            1: punctuation.definition.tag.begin.xml
+            2: entity.name.tag.cdata.xml
+            3: punctuation.definition.tag.begin.xml
           set:
-            - meta_scope: string.unquoted.cdata.xml
-            - match: '\]\]>'
-              scope: punctuation.definition.string.end.xml
+            - meta_scope: meta.tag.cdata.xml
+            - meta_content_scope: string.unquoted.cdata.xml
+            - match: (?=\]\]>)
               set:
-                - include: comments
-                - match: '<!\[CDATA\['
+                - match: '\]\]>'
+                  scope: meta.tag.cdata.xml punctuation.definition.tag.end.xml
                   set:
-                    - meta_scope: invalid.illegal.multiple-cdata-not-allowed.sublime-snippet
-                    - match: '\]\]>'
-                      pop: true
-                - include: inside_content
+                    - include: comments
+                    - match: '<!\[CDATA\['
+                      push:
+                        - meta_scope: invalid.illegal.multiple-cdata-not-allowed.sublime-snippet
+                        - match: '\]\]>'
+                          pop: true
+                    - include: inside_content
             - match: ''
               push: scope:source.sublime.snippet
               with_prototype:
