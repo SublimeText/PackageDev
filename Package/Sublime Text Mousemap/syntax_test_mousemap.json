@@ -11,6 +11,7 @@
     { "button": "button1", "command": "foo" },
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.mousebinding.collection.sublime-mousemap meta.mapping
 //  ^ punctuation.section.mapping.begin.json
+//  ^ punctuation.section.mousebinding.begin.sublime-mousemap
 //    ^ string.quoted.double.json punctuation.definition.string.begin.json
 //    ^^^^^^^^ meta.main-key.sublime-mousemap string.quoted.double.json
 //            ^^ - string.quoted.double.json
@@ -26,6 +27,7 @@
 //                                    ^^^^^ meta.mapping.value.json meta.command-name.sublime string.quoted.double.json
 //                                        ^ string.quoted.double.json punctuation.definition.string.end.json
 //                                          ^ punctuation.section.mapping.end.json
+//                                          ^ punctuation.section.mousebinding.end.sublime-mousemap
 //                                           ^ punctuation.separator.sequence.json
 
 

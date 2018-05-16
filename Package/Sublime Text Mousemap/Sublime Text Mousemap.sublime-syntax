@@ -27,7 +27,7 @@ contexts:
 
   mousemap-entry-pop:
     - match: \{
-      scope: punctuation.section.mapping.begin.json punctuation.definition.mousebinding.begin.sublime-mousemap
+      scope: punctuation.section.mapping.begin.json punctuation.section.mousebinding.begin.sublime-mousemap
       set:
         - meta_scope: meta.mapping.json
         - match: \}
