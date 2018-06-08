@@ -29,6 +29,9 @@
 //                                             ^ punctuation.separator.sequence.json
 //                                              ^ invalid.illegal.expected-string.sublime-project
 //                                               ^ punctuation.section.sequence.end.json
+            "binary_file_patterns": ["*.bin"],
+//           ^^^^^^^^^^^^^^^^^^^^ meta.folder-key.sublime-project string.quoted.double.json keyword.other.folder.sublime-project
+//                                    ^^^^^ meta.mapping.value.json meta.patterns-sequence.sublime-project meta.sequence.json
             "follow_symlinks": 123 false,
 //           ^ meta.folder-key.sublime-project string.quoted.double.json keyword.other.folder.sublime-project
 //                             ^^^ invalid.illegal.expected-boolean.sublime
