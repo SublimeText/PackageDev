@@ -1,0 +1,8 @@
+{
+    "scope": "meta.corner-style.sublime-color-scheme",
+    "completions": [
+        { "trigger": "cut\toptions value", "contents": "cut" },
+        { "trigger": "round\toptions value", "contents": "round" },
+        { "trigger": "square\toptions value", "contents": "square" },
+    ]
+}

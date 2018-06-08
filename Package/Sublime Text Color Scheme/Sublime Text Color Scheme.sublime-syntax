@@ -4,6 +4,7 @@
 name: Sublime Text Color Scheme (JSON)
 file_extensions:
   - sublime-color-scheme
+  - hidden-color-scheme
 scope: source.json.sublime.color-scheme
 
 contexts:
@@ -201,20 +202,27 @@ contexts:
         - include: expect-key-rest
 
   globals-mapping-key:
-    - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|bracket_contents_foreground|tags_foreground|minimap_border|gutter|gutter_foreground|rulers)(")
+    - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|bracket_contents_foreground|tags_foreground|minimap_border|gutter|gutter_foreground|rulers|fold_marker)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-color-string-value, expect-colon]
-    - match: (")(shadow_width|popup_css|phantom_css)(")
+    - match: (")(popup_css|phantom_css)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon]
+    - match: (")(shadow_width|selection_corner_radius|selection_border_width)(")
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.globals.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-possible-number-in-string-value, expect-colon]
     - match: (")(implicit_selection_foreground)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
@@ -229,6 +237,13 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-underlinestyle-string-value, expect-colon]
+    - match: (")(selection_corner_style)(")
+      scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: entity.name.globals.sublime-color-scheme
+        3: punctuation.definition.string.end.json
+      set: [expect-cornerstyle-string-value, expect-colon]
     - include: in-dictionary-globals-key
     - include: expect-mapping-rest
 
@@ -432,3 +447,42 @@ contexts:
         - include: string-escape
         - match: \b(true|false)\b
           scope: support.constant.boolean-string.color-scheme
+
+  expect-cornerstyle-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, cornerstyle-string-pop]
+    - include: expect-string-rest
+
+  cornerstyle-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: meta.corner-style.sublime-color-scheme string.quoted.double.json
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
+        - match: \b(square|cut|round)\b
+          scope: support.constant.corner-style.color-scheme
+
+  expect-possible-number-in-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, possible-number-in-string-pop]
+    - include: expect-string-rest
+
+  possible-number-in-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
+        - include: Sublime JSON.sublime-syntax#number

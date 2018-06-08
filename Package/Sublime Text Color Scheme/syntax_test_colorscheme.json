@@ -84,6 +84,23 @@
 //              ^ punctuation.separator.mapping.key-value.json
 //                ^^^^^^ meta.mapping.value.json string.quoted.double.json
 //                      ^ punctuation.separator.mapping.pair.json
+        "selection_border_width": "1",
+//       ^^^^^^^^^^^^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
+//                                ^^^ meta.mapping.value.json string.quoted.double.json
+//                                 ^ constant.numeric.json
+        "selection_border": "#ffffff40",
+//       ^^^^^^^^^^^^^^^^ meta.globals-key string.quoted.double entity.name.globals
+//                           ^^^^^^^^^ constant.other.color.rgba-value
+        "selection_corner_style": "round",
+//       ^^^^^^^^^^^^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
+//                                 ^^^^^ support.constant.corner-style.color-scheme
+        "selection_corner_radius": "4",
+//       ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
+//                                 ^^^ meta.mapping.value.json string.quoted.double.json
+//                                  ^ constant.numeric.json
+        "fold_marker": "#ffcc00",
+//       ^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
+//                      ^^^^^^^ constant.other.color.rgb-value.css
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json
