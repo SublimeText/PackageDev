@@ -1,0 +1,8 @@
+v3.1.6 (2018-06-08)
+-------------------
+
+(Notes not shown on release)
+
+* Highlighting and completions for new (3158) keys in color schemes (@keith-hall)
+* Highlighting and completions for new (3158) keys in projects (@ehuss)
+* Other small fixes (@keith-hall, @deathaxe)
