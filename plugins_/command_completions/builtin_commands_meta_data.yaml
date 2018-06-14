@@ -213,6 +213,12 @@ reindent:
     single_line: false
   command_type: text
   doc_string: Reindent the lines.
+resize_window:
+  args: !!omap
+    - width:
+    - height:
+  command_type: window
+  doc_string: Resize the window('s external bounds) to the width and height specified.
 right_delete:
   command_type: text
   doc_string: Delete the character to the right of the text selection caret(s).
