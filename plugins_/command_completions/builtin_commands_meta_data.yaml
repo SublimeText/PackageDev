@@ -43,11 +43,19 @@ copy:
 cut:
   command_type: text
   doc_string: Cut the selected text to the clipboard.
+detect_indentation:
+  command_type: text
+  doc_string: Analyze the content of the view to detect whether tabs or spaces (and how many) are used for indentation.
 expand_selection:
   args:
     to: line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets
   command_type: text
   doc_string: Expand the current text caret selection(s) to the specified location.
+expand_tabs:
+  args:
+    set_translate_tabs: true
+  command_type: text
+  doc_string: Convert tab characters to spaces everywhere in the view.
 find_all_under:
   command_type: text
   doc_string: Seach and select all text matches, which are the same as the text selected text or the word under the caret.
@@ -75,7 +83,7 @@ focus_group:
   command_type: window
   doc_string: Set the focus to a view in an other group.
 hide_auto_complete:
-  command_type: view
+  command_type: text
   doc_string: Hide the auto-completion pop-up.
 hide_overlay:
   command_type: window
@@ -213,6 +221,12 @@ reindent:
     single_line: false
   command_type: text
   doc_string: Reindent the lines.
+resize_window:
+  args: !!omap
+    - width:
+    - height:
+  command_type: window
+  doc_string: Resize the window('s external bounds) to the width and height specified.
 right_delete:
   command_type: text
   doc_string: Delete the character to the right of the text selection caret(s).
@@ -222,12 +236,12 @@ run_macro:
 run_macro_file:
   args:
     file:
-  command_type: view
+  command_type: text
   doc_string: Run a macro saved in a macro file.
 save:
   args:
     encoding:
-  command_type: view
+  command_type: text
   doc_string: Save the active document.
 save_all:
   command_type: window
@@ -235,7 +249,7 @@ save_all:
 scroll_lines:
   args:
     amount: 1.0
-  command_type: view
+  command_type: text
   doc_string: Scroll the active view by the specified number of lines. A negative
     number means to scroll in an upwards direction.
 select_all:
@@ -264,7 +278,7 @@ set_layout:
 set_file_type:
   args:
     syntax: Packages/Foo/Bar.sublime-syntax
-  command_type: view
+  command_type: text
   doc_string: Set the syntax file for the view.
 show_overlay:
   args: !!omap
@@ -304,7 +318,7 @@ toggle_full_screen:
   command_type: window
   doc_string: Toggle whether the current Sublime Text window is in full screen mode.
 toggle_overwrite:
-  command_type: view
+  command_type: text
   doc_string: Toggle whether the caret is in insert mode or overwrite mode.
 toggle_record_macro:
   command_type: text
@@ -320,6 +334,11 @@ toggle_side_bar:
 undo:
   command_type: text
   doc_string: Undo the last action.
+unexpand_tabs:
+  args:
+    set_translate_tabs: true
+  command_type: text
+  doc_string: Convert spaces to tabs everywhere in the view according to the tab_width setting.
 unindent:
   command_type: text
   doc_string: Unindent the selection by one level.
