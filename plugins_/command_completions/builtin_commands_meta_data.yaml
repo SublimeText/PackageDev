@@ -75,7 +75,7 @@ focus_group:
   command_type: window
   doc_string: Set the focus to a view in an other group.
 hide_auto_complete:
-  command_type: view
+  command_type: text
   doc_string: Hide the auto-completion pop-up.
 hide_overlay:
   command_type: window
@@ -228,12 +228,12 @@ run_macro:
 run_macro_file:
   args:
     file:
-  command_type: view
+  command_type: text
   doc_string: Run a macro saved in a macro file.
 save:
   args:
     encoding:
-  command_type: view
+  command_type: text
   doc_string: Save the active document.
 save_all:
   command_type: window
@@ -241,7 +241,7 @@ save_all:
 scroll_lines:
   args:
     amount: 1.0
-  command_type: view
+  command_type: text
   doc_string: Scroll the active view by the specified number of lines. A negative
     number means to scroll in an upwards direction.
 select_all:
@@ -270,7 +270,7 @@ set_layout:
 set_file_type:
   args:
     syntax: Packages/Foo/Bar.sublime-syntax
-  command_type: view
+  command_type: text
   doc_string: Set the syntax file for the view.
 show_overlay:
   args: !!omap
@@ -310,7 +310,7 @@ toggle_full_screen:
   command_type: window
   doc_string: Toggle whether the current Sublime Text window is in full screen mode.
 toggle_overwrite:
-  command_type: view
+  command_type: text
   doc_string: Toggle whether the caret is in insert mode or overwrite mode.
 toggle_record_macro:
   command_type: text
