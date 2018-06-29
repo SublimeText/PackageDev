@@ -187,3 +187,25 @@ def get_args_from_command_name(command_name):
             return extract_command_class_args(command_class)
         else:
             return None  # the command is not defined
+
+
+def validate_commands():
+    custom_data = get_builtin_commands()
+    if len(custom_data) == 0:
+        l.warning('unable to load command metadata, command metadata validation failed.')
+        return False
+
+    failures = False
+    for c in iter_python_command_classes():
+        name = get_command_name(c)
+        module = c.__module__
+        package = module.split(".")[0]
+        if package == 'Default':
+            if name in custom_data:
+                failures = True
+                l.warning(
+                    'command "{name}" in the {package} package is defined in the built-in'
+                    'metadata file, probably it should not be'.format(name=name, package=package)
+                )
+
+    return not failures
