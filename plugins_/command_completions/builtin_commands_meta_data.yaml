@@ -43,19 +43,11 @@ copy:
 cut:
   command_type: text
   doc_string: Cut the selected text to the clipboard.
-detect_indentation:
-  command_type: text
-  doc_string: Analyze the content of the view to detect whether tabs or spaces (and how many) are used for indentation.
 expand_selection:
   args:
     to: line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets
   command_type: text
   doc_string: Expand the current text caret selection(s) to the specified location.
-expand_tabs:
-  args:
-    set_translate_tabs: true
-  command_type: text
-  doc_string: Convert tab characters to spaces everywhere in the view.
 find_all_under:
   command_type: text
   doc_string: Seach and select all text matches, which are the same as the text selected text or the word under the caret.
@@ -334,11 +326,6 @@ toggle_side_bar:
 undo:
   command_type: text
   doc_string: Undo the last action.
-unexpand_tabs:
-  args:
-    set_translate_tabs: true
-  command_type: text
-  doc_string: Convert spaces to tabs everywhere in the view according to the tab_width setting.
 unindent:
   command_type: text
   doc_string: Unindent the selection by one level.

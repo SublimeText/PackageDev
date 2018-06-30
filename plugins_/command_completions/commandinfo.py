@@ -88,6 +88,17 @@ def get_builtin_commands(command_type=""):
         result = frozenset(k for k, v in meta.items()
                            if v['command_type'] == command_type)
 
+    for c in iter_python_command_classes(command_type):
+        name = get_command_name(c)
+        module = c.__module__
+        package = module.split(".")[0]
+        if package == 'Default':
+            if name in result:
+                l.warning(
+                    'command "{name}" in the {package} package is defined in the built-in '
+                    'metadata file, probably it should not be'.format(name=name, package=package)
+                )
+
     return result
 
 
