@@ -13,8 +13,7 @@ from .commandinfo import (
     get_builtin_command_meta_data,
     get_builtin_commands,
     iter_python_command_classes,
-    get_args_from_command_name,
-    validate_commands
+    get_args_from_command_name
 )
 
 __all__ = (
@@ -248,7 +247,3 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
 
         completions = [("args\tauto-detected arguments", args)]
         return completions
-
-
-def plugin_loaded():
-    validate_commands()
