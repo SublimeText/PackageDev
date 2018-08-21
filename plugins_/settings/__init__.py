@@ -68,7 +68,7 @@ PHANTOM_TEMPLATE = """
     html, body {{
         margin: 0;
         padding: 0;
-        background-color: var(--background);
+        background-color: transparent;
     }}
     a {{
         text-decoration: none;
