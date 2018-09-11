@@ -4,7 +4,7 @@ from ._view import ViewSettings, unset_read_only, append, clear, get_text
 
 
 class OutputPanel(object):
-    """This class represents an output panel (useful for e.g. build systems).
+    r"""This class represents an output panel (useful for e.g. build systems).
     Please note that the panel's contents will be cleared on __init__.
 
     Can be used as a context handler in `with` statement which will

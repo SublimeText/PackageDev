@@ -73,8 +73,8 @@ def append(view, text, scroll=False):
         None:  Don't scroll.
     """
     size = view.size()
-    scroll = scroll or (scroll is not None and len(view.sel()) == 1 and
-                        view.sel()[0] == Region(size))
+    scroll = scroll or (scroll is not None and len(view.sel()) == 1
+                        and view.sel()[0] == Region(size))
 
     with Edit(view) as edit:
         edit.insert(size, text)

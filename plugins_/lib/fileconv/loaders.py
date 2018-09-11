@@ -60,7 +60,7 @@ def strip_js_comments(string):
 
 # Define the prototype loader class and the loaders for the separate data types
 class LoaderProto(object):
-    """Prototype class for data loaders of different types.
+    r"""Prototype class for data loaders of different types.
 
         Classes derived from this class (and in this file) will be appended
         to the module's ``get`` variable (a dict) with ``self.ext`` as their key.
@@ -248,7 +248,7 @@ class LoaderProto(object):
                 # Just parse the string with yaml; wrapped in {}
                 # Yeah, I'm lazy like that, but see, I even put "safe_" in front of it
                 return yaml.safe_load('{%s}' % optstr.group(1))
-            except:
+            except Exception:
                 continue
 
         return None

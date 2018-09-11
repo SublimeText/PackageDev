@@ -38,7 +38,7 @@ def _create_package(name):
         os.mkdir(path)
     except FileExistsError:
         l.error("Path exists already: %r", path)
-    except Exception as e:
+    except Exception:
         l.exception("Unknown error while creating path %r", path)
     else:
         return path

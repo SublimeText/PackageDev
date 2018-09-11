@@ -225,7 +225,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             data = None
             try:
                 data = loader.load(**kwargs)
-            except:
+            except Exception:
                 output.write_line("Unexpected error occurred while parsing, "
                                   "please see the console for details.")
                 raise
@@ -241,7 +241,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
             try:
                 text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
-            except:
+            except Exception:
                 output.write_line("Unexpected error occurred while dumping, "
                                   "please see the console for details.")
                 raise
@@ -315,7 +315,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
 
         completions = [
             ("include\tinclude: '#...'", "include: '#$0'"),
-            ("include\tinclude: $self", "include: \$self"),
+            ("include\tinclude: $self", "include: \\$self"),
         ]
         for ex in ((("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys),
                    (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),
