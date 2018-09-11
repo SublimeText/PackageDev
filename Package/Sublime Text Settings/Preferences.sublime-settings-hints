@@ -19,4 +19,9 @@
 	// Check for updates on startup (hidden setting)
 	// Only available to registered users.
 	"update_check": true,
+
+	// Scroll to the clicked location
+	// instead of using the minimap as an extension of the scrollbar.
+	// Disabling this allows dragging the minimap from anywhere.
+	"minimap_scroll_to_clicked_text": true,
 }
