@@ -46,7 +46,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
             )
 
     def run(self, edit=None, source_format=None, target_format=None, ext=None,
-            open_new_file=False, rearrange_yaml_syntax_def=False, _output=None, *args, **kwargs):
+            open_new_file=False, rearrange_yaml_syntax_def=False, _output=None, **kwargs):
         """Available parameters:
 
         edit (sublime.Edit) = None
@@ -83,10 +83,6 @@ class PackagedevConvertCommand(WindowAndTextCommand):
         _output (OutputPanel) = None
             For internal use only.
 
-        *args
-            Forwarded to pretty much every relevant call but does not have any effect.
-            You can't pass *args in commands anyway.
-
         **kwargs
             Will be forwarded to both the loading function and the dumping function, after
             stripping unsupported entries. Only do this if you know what you're doing.
@@ -99,7 +95,6 @@ class PackagedevConvertCommand(WindowAndTextCommand):
             A more detailed description of each supported parameter for the respective dumper can
             be found in `fileconv/dumpers.py`.
         """
-        # TODO: Ditch *args, can't be passed in commands anyway
 
         # Check the environment (view, args, ...)
 
@@ -190,7 +185,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
 
                         kwargs.update(target['kwargs'])
                         kwargs.update(dict(source_format=source_format, _output=output))
-                        self.run(*args, **kwargs)
+                        self.run(**kwargs)
 
                     # Forward all params to the new command call
                     self.window.show_quick_panel(options, on_select)
@@ -215,8 +210,8 @@ class PackagedevConvertCommand(WindowAndTextCommand):
             #       in order to receive a nice traceback in the console
             loader_ = Loader(self.window, self.view, output=output)
             try:
-                data = loader_.load(*args, **kwargs)
-            except:
+                data = loader_.load(**kwargs)
+            except Exception:
                 output.write_line("Unexpected error occurred while parsing, "
                                   "please see the console for details.")
                 raise
@@ -237,8 +232,8 @@ class PackagedevConvertCommand(WindowAndTextCommand):
             dumper = dumpers.get[target_format](self.window, self.view, new_file_path,
                                                 output=output)
             try:
-                dumper.dump(data, *args, **kwargs)
-            except:
+                dumper.dump(data, **kwargs)
+            except Exception:
                 output.write_line("Unexpected error occurred while dumping, "
                                   "please see the console for details.")
                 raise
