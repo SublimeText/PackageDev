@@ -4,4 +4,4 @@ v3.1.2 (2017-11-08)
 (Notes not shown on release)
 
 * Fix highlighting of `implicit_selection_foreground` in color schemes (@keith-hall)
-* Allow symbol transformations without the leading `s` in
+* Allow symbol transformations without the leading `s` in `s/pattern/repl/`

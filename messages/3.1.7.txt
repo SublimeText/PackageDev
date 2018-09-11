@@ -1,0 +1,15 @@
+v3.1.7 (2018-09-11)
+-------------------
+
+* Add command to open a new project with a package ("PackageDev: Open Package")
+* Make edit setting phantom background transparent (@deathaxe)
+
+
+Notes from earlier releases that weren't shown:
+
+* Add template for color scheme
+* Various fixes for color scheme completions
+* Highlighting and completions for new (3158) keys in color schemes (@keith-hall),
+  projects (@ehuss) and build systems (@keith-hall)
+* Skip whitespace when completing syntax tests (@keith-hall)
+* Other small fixes (@keith-hall, @deathaxe)
