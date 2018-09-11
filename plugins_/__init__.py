@@ -5,6 +5,7 @@ from .command_completions import *  # noqa
 from .create_package import *  # noqa
 from .file_conversion import *  # noqa
 from .new_resource_file import *  # noqa
+from .open_package import *  # noqa
 from .settings import *  # noqa
 from .snippet_dev import *  # noqa
 from .syntax_dev import *  # noqa

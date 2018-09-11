@@ -12,6 +12,9 @@
               { "caption": "Create Package…",
                 "command": "packagedev_create_package" },
 
+              { "caption": "Open Package…",
+                "command": "packagedev_open_package" },
+
               { "caption": "-" },
 
               { "caption": "New Syntax Definition…",

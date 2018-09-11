@@ -87,7 +87,7 @@ Detailed documentation is available [at the repository's wiki][wiki].
   snippets are available with the trigger `e` and `ee`
   for a short and a long entry, respectively.
 
-- Commands to create a package
+- Commands to create (or open) a package
   and various resource files with standard templates.
 
 - Checking for unknown settings keys.

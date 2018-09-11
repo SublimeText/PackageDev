@@ -16,6 +16,10 @@
     "command": "packagedev_create_package",
   },
 
+  { "caption": "PackageDev: Open Package",
+    "command": "packagedev_open_package",
+  },
+
   // Snippets
   { "caption": "PackageDev: New Raw Snippet",
     "command": "packagedev_new_resource",
