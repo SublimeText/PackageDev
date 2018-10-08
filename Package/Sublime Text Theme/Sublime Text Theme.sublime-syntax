@@ -41,13 +41,6 @@ contexts:
         2: keyword.other.main.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-variables-mapping-value, expect-colon]
-    - match: (")(name|author)(")
-      scope: meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-theme
-        3: punctuation.definition.string.end.json
-      set: [expect-string-value, expect-colon]
     - include: in-dictionary-main-key
 
   in-dictionary-main-key:
@@ -104,7 +97,7 @@ contexts:
     # TODO: layerx.etc
     # TODO: other rule keys and values
     - include: in-dictionary-rule-key
-    - include: expect-mapping-rest
+    - include: expect-key-rest
 
   in-dictionary-rule-key:
     - match: \"
@@ -149,7 +142,6 @@ contexts:
           scope: invalid.illegal.unclosed-string.json
           set: [expect-color-string-value, expect-colon]
         - include: string-escape
-    - include: in-dictionary-main-key
 
   comments:
     - include: Sublime JSON.sublime-syntax#comments

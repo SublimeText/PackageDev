@@ -5,14 +5,6 @@
 // comment
 // ^^^^^^^ comment.line.double-slash - meta.theme.collection
 {
-    "author": "PackageDev contributors",
-//   ^^^^^^ meta.theme.collection.sublime-theme meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json keyword.other.main.sublime-theme
-//          ^ punctuation.separator.mapping.key-value.json
-//            ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
-//                                     ^ punctuation.separator.mapping.pair.json
-    "name": "Just a syntax test, nothing to see here",
-//  ^^^^^^ meta.main-key
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
     "variables":
 //  ^ punctuation.definition.string.begin.json
 //  ^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
