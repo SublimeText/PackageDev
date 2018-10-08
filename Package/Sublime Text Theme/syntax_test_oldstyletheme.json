@@ -1,0 +1,18 @@
+// SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Theme/Sublime Text Theme.sublime-syntax"
+
+// <- source.json.sublime.theme
+
+// comment
+// ^^^^^^^ comment.line.double-slash - meta.theme.collection
+    [
+//  ^ meta.sequence.json punctuation.section.sequence.begin.json
+        {
+//      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
+            "class": "button_control",
+//           ^^^^^ meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double keyword.other.rule
+
+        },
+    ]
+
+    //fgfg
+//  ^^ comment.line.double-slash - invalid.illegal
