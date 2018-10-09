@@ -1,0 +1,208 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Sublime Text Theme (JSON)
+file_extensions:
+  - sublime-theme
+scope: source.json.sublime.theme
+
+contexts:
+  main:
+    - match: (?=\{)
+      push: main-mapping
+    - include: rules-sequence-pop
+    - include: expect-mapping-rest
+
+  main-mapping:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      push:
+        - meta_scope: meta.theme.collection.sublime-theme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          set: only-comments
+        - match: (?=")
+          push: [in-mapping-expect-comma, main-key]
+        - include: expect-key-rest
+
+  main-key:
+    - clear_scopes: 1
+    - match: (")(rules)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-rules-sequence-value, expect-colon]
+    - match: (")(variables)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-variables-mapping-value, expect-colon]
+    - include: in-dictionary-main-key
+
+  in-dictionary-main-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
+
+  expect-rules-sequence-value:
+    - match: (?=\[)
+      set: [mapping-value-meta, rules-sequence-pop]
+    - include: expect-sequence-rest
+
+  rules-sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.rules.collection.sublime-theme meta.sequence.json
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\{)
+          push: [in-sequence-expect-comma, rules-mapping-pop]
+        - include: comments
+        - match: \S
+          scope: invalid.illegal.expected-mapping.sublime-theme
+
+  rules-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.rule.sublime-theme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, rule-key]
+        - include: expect-key-rest
+
+  rule-key:
+    - clear_scopes: 1
+    - match: (")(class)(")
+      scope: meta.mapping.key.json meta.rule-key.class.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-string-value, expect-colon] # TODO: mark the string value as something to be indexed?
+    # TODO: layerx.etc
+    # TODO: other rule keys and values
+    - include: in-dictionary-rule-key
+    - include: expect-key-rest
+
+  in-dictionary-rule-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
+
+  expect-variables-mapping-value:
+    - match: (?=\{)
+      set: [mapping-value-meta, variable-mapping-pop]
+    - include: expect-mapping-rest
+
+  variable-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.variables.sublime-theme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, variable-mapping-key]
+        - include: expect-key-rest
+
+  variable-mapping-key:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json meta.variable-name.sublime-theme
+        - meta_content_scope: entity.name.variable.sublime-theme
+        - match: (?=")
+          set:
+            - match: '"'
+              scope: string.quoted.double.json meta.variable-name.sublime-theme punctuation.definition.string.end.json
+              set: [expect-color-string-value-or-json-value, expect-colon]
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          set: [expect-color-string-value, expect-colon]
+        - include: string-escape
+
+  comments:
+    - include: Sublime JSON.sublime-syntax#comments
+
+  only-comments:
+    - include: Sublime JSON.sublime-syntax#only-comments
+
+  expect-colon:
+    - include: Sublime JSON.sublime-syntax#expect-colon
+
+  expect-any-value:
+    - include: Sublime JSON.sublime-syntax#expect-any-value
+
+  expect-scope-string-value:
+    - include: Sublime JSON.sublime-syntax#expect-scope-string-value
+
+  expect-key-rest:
+    - include: Sublime JSON.sublime-syntax#expect-key-rest
+
+  expect-sequence-rest:
+    - include: Sublime JSON.sublime-syntax#expect-sequence-rest
+
+  expect-mapping-rest:
+    - include: Sublime JSON.sublime-syntax#expect-mapping-rest
+
+  expect-string-rest:
+    - include: Sublime JSON.sublime-syntax#expect-string-rest
+
+  expect-string-value:
+    - include: Sublime JSON.sublime-syntax#expect-string-value
+
+  string-escape:
+    - include: Sublime JSON.sublime-syntax#string-escape
+
+  expect-boolean-value:
+    - include: Sublime JSON.sublime-syntax#expect-boolean-value
+
+  expect-mapping-value:
+    - include: Sublime JSON.sublime-syntax#expect-mapping-value
+
+  in-sequence-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-sequence-expect-comma
+
+  in-mapping-expect-comma:
+    - include: Sublime JSON.sublime-syntax#in-mapping-expect-comma
+
+  expect-command-name-value:
+    - include: Sublime JSON.sublime-syntax#expect-command-name-value
+
+  mapping-value-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.value.json
+    - match: ''
+      pop: true
+
+  expect-color-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, Sublime Text Color Scheme.sublime-syntax#color-string-pop]
+    - include: expect-string-rest
+
+  expect-color-string-value-or-json-value:
+    - match: (?=")
+      set: [mapping-value-meta, Sublime Text Color Scheme.sublime-syntax#color-string-pop]
+    - include: expect-any-value

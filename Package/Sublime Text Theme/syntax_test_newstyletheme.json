@@ -1,0 +1,50 @@
+// SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Theme/Sublime Text Theme.sublime-syntax"
+
+// <- source.json.sublime.theme
+
+// comment
+// ^^^^^^^ comment.line.double-slash - meta.theme.collection
+{
+    "variables":
+//  ^ punctuation.definition.string.begin.json
+//  ^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+//            ^ punctuation.definition.string.end.json
+//             ^ punctuation.separator.mapping.key-value.json
+    {
+//  ^ meta.variables.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
+        "color_radical_red": "#F92672", // http://chir.ag/projects/name-that-color/#F92672
+//      ^^^^^^^^^^^^^^^^^^^ string.quoted.double.json meta.variable-name.sublime-theme
+//       ^^^^^^^^^^^^^^^^^ entity.name.variable.sublime-theme
+//                         ^ punctuation.separator.mapping.key-value.json
+//                           ^^^^^^^^^ string.quoted.double.json meta.color
+//                           ^ punctuation.definition.string.begin.json
+//                                   ^ punctuation.definition.string.end.json
+//                                    ^ punctuation.separator.mapping.pair.json
+//                            ^ punctuation.definition.constant.css
+//                             ^^^^^^ constant.other.color.rgb-value.css
+        "color_pear_green": "#A6E22E",
+
+    },
+//  ^ punctuation.section.mapping.end.json
+//   ^ punctuation.separator.mapping.pair.json - meta.variables.sublime-theme
+
+    "rules":
+//  ^^^^^^^ meta.theme.collection.sublime-theme meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+//  ^ punctuation.definition.string.begin.json
+//   ^^^^^ keyword.other.main.sublime-theme
+//        ^ punctuation.definition.string.end.json
+    [
+//  ^ meta.sequence.json punctuation.section.sequence.begin.json
+        {
+//      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
+            "class": "button_control",
+//           ^^^^^ meta.theme.collection meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double keyword.other.rule
+
+        }
+    ],
+}
+
+  ,[]//fgfg
+// <- - invalid.illegal
+//^^^ invalid.illegal.expected-comment-or-eof.sublime
+//   ^^ comment.line.double-slash - invalid.illegal
