@@ -3,6 +3,7 @@
     "completions": [
         { "trigger": "scope\trule key", "contents": "scope" },
         { "trigger": "foreground\trule key", "contents": "foreground" },
+        { "trigger": "foreground_adjust\trule key", "contents": "foreground_adjust" },
         { "trigger": "background\trule key", "contents": "background" },
         { "trigger": "font_style\trule key", "contents": "font_style" },
         { "trigger": "selection_foreground\trule key", "contents": "selection_foreground" },

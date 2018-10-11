@@ -3,6 +3,7 @@
     "completions": [
         { "trigger": "scope\trule key", "contents": "\"scope\": \"$1\"," },
         { "trigger": "foreground\trule key", "contents": "\"foreground\": \"$1\"," },
+        { "trigger": "foreground_adjust\trule key", "contents": "\"foreground_adjust\": \"$1\"," },
         { "trigger": "background\trule key", "contents": "\"background\": \"$1\"," },
         { "trigger": "font_style\trule key", "contents": "\"font_style\": \"$1\"," },
         { "trigger": "selection_foreground\trule key", "contents": "\"selection_foreground\": \"$1\"," },
