@@ -212,9 +212,7 @@ contexts:
       pop: true
 
   expect-color-string-value:
-    - match: (?=")
-      set: [mapping-value-meta, Sublime Text Color Scheme.sublime-syntax#color-string-pop]
-    - include: expect-string-rest
+    - include: Sublime Text Color Scheme.sublime-syntax#expect-color-string-value
 
   expect-color-string-value-or-json-value:
     - match: (?=")
