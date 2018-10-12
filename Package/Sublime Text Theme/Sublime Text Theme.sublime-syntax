@@ -41,6 +41,13 @@ contexts:
         2: keyword.other.main.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-variables-mapping-value, expect-colon]
+    - match: (")(extends)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-extends-string-value, expect-colon]
     - include: in-dictionary-main-key
 
   in-dictionary-main-key:
@@ -53,6 +60,10 @@ contexts:
           scope: punctuation.definition.string.end.json
           set: [expect-any-value, expect-colon]
         - include: string-escape
+
+  expect-extends-string-value:
+    - match: (?=\")
+      set: [mapping-value-meta, string-pop]
 
   expect-rules-sequence-value:
     - match: (?=\[)
@@ -175,6 +186,9 @@ contexts:
 
   string-escape:
     - include: Sublime JSON.sublime-syntax#string-escape
+
+  string-pop:
+    - include: Sublime JSON.sublime-syntax#string-pop
 
   expect-boolean-value:
     - include: Sublime JSON.sublime-syntax#expect-boolean-value

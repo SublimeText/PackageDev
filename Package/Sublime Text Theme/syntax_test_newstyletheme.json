@@ -5,6 +5,12 @@
 // comment
 // ^^^^^^^ comment.line.double-slash - meta.theme.collection
 {
+    "extends": "Merge.sublime-theme",
+//  ^ punctuation.definition.string.begin.json
+//  ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+//          ^ punctuation.definition.string.end.json
+//           ^ punctuation.separator.mapping.key-value.json
+//             ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
     "variables":
 //  ^ punctuation.definition.string.begin.json
 //  ^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
