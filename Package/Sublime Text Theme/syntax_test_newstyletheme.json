@@ -45,7 +45,24 @@
 //      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
             "class": "button_control",
 //           ^^^^^ meta.theme.collection meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double keyword.other.rule
-
+            "layer0.tint": "var(--background)"
+//          ^^^^^^^^^^^^^ meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
+//           ^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//           ^^^^^^ constant.other.layer.sublime-theme
+//                 ^ punctuation.accessor.dot.sublime-theme
+//                  ^^^^ keyword.other.rule.sublime-theme
+//                      ^ punctuation.definition.string.end.json
+//                       ^ punctuation.separator.mapping.key-value.json
+//                         ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
+//                              ^^^^^^^^^^^^ variable.other.color-scheme
+            "line_selection_color": "color(var(blue) alpha(0.05))",
+// <- invalid.illegal.expected-comma.inside-mapping.json
+//          ^^^^^^^^^^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme
+//                                         ^^^ support.function.var.sublime-color-scheme
+            "line_selection_border_width": "abc" 2.0,
+//           ^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                                         ^^^^^ invalid.illegal.expected-number.sublime
+//                                               ^^^ meta.mapping.value.json constant.numeric.json
         }
     ],
 }

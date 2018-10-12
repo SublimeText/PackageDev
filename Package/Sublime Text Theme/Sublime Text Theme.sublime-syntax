@@ -6,6 +6,64 @@ file_extensions:
   - sublime-theme
 scope: source.json.sublime.theme
 
+variables:
+  string_key: |-
+    (?x:
+      font\.face
+    )
+  color_key: |-
+    (?x:
+        line_selection(?:_border)?_color
+      | highlight(?:_border)?_colour
+      | headline_color
+      | (?:selected_)?(?:match_)?fg
+      | bg
+      | shadow_color
+      | viewport_color
+      | color_scheme_tint(?:_2)?
+      | color\d+
+    )
+  integer_key: |-
+    (?x:
+        num_colors
+      | tab_overlap
+      | tab_(?:min_)width
+      | tab_height
+      | tint_index
+      | accent_tint_index
+      | border_size
+      | spacing
+      | inside_spacing | outside_vspacing | outside_hspacing
+    )
+  float_key: |-
+    (?x:
+        line_selection_border_(?:width|radius)
+      | indent(?:_offset)?
+      | opacity
+      | viewport_opacity
+    )
+  boolean_key: |-
+    (?x:
+        dark_content
+      | indent_top_level
+      | spacer_rows
+      | font\. (?:bold|italic)
+      | mouse_wheel_switch
+      | fg_blend
+      | overlay
+    )
+  attribute: |-
+    (?x:
+        hover # all
+      | file_(?:light|medium|medium_dark|dark) # luminosity attributes
+      | selectable | selected | expandable | expanded # tree_row
+      | dirty | transient # tab_control
+      | panel_visible # status_bar
+      | dark | horizonzal # stat_bar_control
+      | pressed | confirm | highlighted # button_control
+      | left | right # icon_button_control
+    )
+
 contexts:
   main:
     - match: (?=\{)
@@ -105,8 +163,88 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon] # TODO: mark the string value as something to be indexed?
-    # TODO: layerx.etc
-    # TODO: other rule keys and values
+    # TODO: parents (sequence of {class: <some_class>, attributes: <attributes>})
+    #   "parents": [{"class": "commit_table_row", "attributes": ["selected"]}],
+    # color values
+    - match: (")({{color_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-color-value, expect-colon]
+    # number values
+    - match: (")({{float_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-interpolatable-number-value, expect-colon]
+    - match: (")({{integer_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-number-value, expect-colon]
+    # TODO: inner_margin, content_margin, row_padding, max_margin_trim;
+    #   padding&margin: number or sequence of numbers
+    # TODO: min_size, icon_spacing, tint_modifier, shadow_offset, accent_tint_modifier;
+    #   sequence of numbers
+    # boolean values
+    - match: (")({{boolean_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.string.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-boolean-value, expect-colon]
+    # string values
+    - match: (")({{string_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.string.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-string-value, expect-colon]
+    # TODO: attributes; accepts sequence of attributes(string), optional ! for negation
+    # TODO: settings; accepts sequence of strings, optional ! for negation
+    # TODO: texture; accepts string or "animation" object
+    # TODO: font.size; accepts number or string with variables, e.g. "var(label_color)"
+
+    # layer: color values
+    - match: (")((layer\d+)(\.)tint)(")
+      scope: meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: constant.other.layer.sublime-theme
+        4: punctuation.accessor.dot.sublime-theme
+        5: punctuation.definition.string.end.json
+      set: [expect-color-value, expect-colon]
+    # layer: boolean values
+    - match: (")((layer\d+)(\.)(?:draw_center|repeat))(")
+      scope: meta.mapping.key.json meta.rule-key.boolean.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: constant.other.layer.sublime-theme
+        4: punctuation.accessor.dot.sublime-theme
+        5: punctuation.definition.string.end.json
+      set: [expect-boolean-value, expect-colon]
+    # layer: number values
+    - match: (")((layer\d+)(\.)opacity)(")
+      scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: constant.other.layer.sublime-theme
+        4: punctuation.accessor.dot.sublime-theme
+        5: punctuation.definition.string.end.json
+      set: [expect-interpolatable-number-value, expect-colon]
+    # TODO layer*.inner_margin
+    # TODO layer*.texture
     - include: in-dictionary-rule-key
     - include: expect-key-rest
 
@@ -148,11 +286,24 @@ contexts:
           set:
             - match: '"'
               scope: string.quoted.double.json meta.variable-name.sublime-theme punctuation.definition.string.end.json
-              set: [expect-color-string-value-or-json-value, expect-colon]
+              set: [expect-color-or-any-value, expect-colon]
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
           set: [expect-color-string-value, expect-colon]
         - include: string-escape
+
+  expect-color-value:
+    - match: (?=")
+      set: [mapping-value-meta, Sublime Text Color Scheme.sublime-syntax#color-string-pop]
+    # TODO: highlight sequences?
+    #   https://www.sublimetext.com/docs/3/themes.html#color_values
+    #   https://www.sublimetext.com/docs/3/themes.html#deprecated
+    - include: expect-sequence-value
+
+  expect-color-or-any-value:
+    - match: (?="|\[)
+      set: [expect-color-value]
+    - include: expect-any-value
 
   comments:
     - include: Sublime JSON.sublime-syntax#comments
@@ -172,11 +323,25 @@ contexts:
   expect-key-rest:
     - include: Sublime JSON.sublime-syntax#expect-key-rest
 
+  expect-sequence-value:
+    - include: Sublime JSON.sublime-syntax#expect-sequence-value
+
   expect-sequence-rest:
     - include: Sublime JSON.sublime-syntax#expect-sequence-rest
 
   expect-mapping-rest:
     - include: Sublime JSON.sublime-syntax#expect-mapping-rest
+
+  expect-number-value:
+    - include: Sublime JSON.sublime-syntax#expect-number-value
+
+  expect-interpolatable-number-value:
+    - match: (?=\{)
+      set: expect-mapping-value
+    # TODO: "interpolation" mapping (also layer*.)
+    #   https://www.sublimetext.com/docs/3/themes.html#layer_properties
+    #   { "target": 0.6, "speed": 4.0, "interpolation": "smoothstep" }
+    - include: expect-number-value
 
   expect-string-rest:
     - include: Sublime JSON.sublime-syntax#expect-string-rest
@@ -205,16 +370,11 @@ contexts:
   expect-command-name-value:
     - include: Sublime JSON.sublime-syntax#expect-command-name-value
 
+  expect-color-string-value:
+    - include: Sublime Text Color Scheme.sublime-syntax#expect-color-string-value
+
   mapping-value-meta:
     - clear_scopes: 1
     - meta_scope: meta.mapping.value.json
     - match: ''
       pop: true
-
-  expect-color-string-value:
-    - include: Sublime Text Color Scheme.sublime-syntax#expect-color-string-value
-
-  expect-color-string-value-or-json-value:
-    - match: (?=")
-      set: [mapping-value-meta, Sublime Text Color Scheme.sublime-syntax#color-string-pop]
-    - include: expect-any-value
