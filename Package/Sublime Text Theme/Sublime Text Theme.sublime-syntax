@@ -621,8 +621,8 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: string.quoted.double.json
         # deliberately do not choose "entity.name.class"
+        - meta_scope: string.quoted.double.json meta.class-selector.sublime-theme
         - meta_content_scope: entity.name.class-selector.sublime-theme
         - include: Sublime JSON.sublime-syntax#inside-string
 

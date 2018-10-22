@@ -54,7 +54,7 @@
 //      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
             "class": "button_control",
 //           ^^^^^ meta.theme meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double storage.modifier.selector
-//                    ^^^^^^^^^^^^^^ string.quoted.double.json entity.name.class-selector.sublime-theme
+//                    ^^^^^^^^^^^^^^ string.quoted.double.json meta.class-selector.sublime-theme entity.name.class-selector.sublime-theme
             "settings": ["test_setting", "!namespaced.setting"],
 //           ^^^^^^^^ meta.rule-key.settings.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.settings-sequence.sublime-theme
