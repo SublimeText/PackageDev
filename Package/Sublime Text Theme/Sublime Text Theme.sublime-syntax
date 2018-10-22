@@ -17,11 +17,13 @@ variables:
       | highlight(?:_border)?_colour
       | headline_color
       | (?:selected_)?(?:match_)?fg
-      | bg
+      | fg | color # alias
+      | bg | background_color # alias?
       | shadow_color
       | viewport_color
       | color_scheme_tint(?:_2)?
-      | color\d* # "color" is an alias for "fg"
+      | color\d+
+      | link_color # from Sublime Merge
     )
   integer_key: |-
     (?x:
@@ -57,6 +59,7 @@ variables:
       | opacity
       | viewport_opacity
       | hit_test_level
+      | font\.size
     )
   boolean_key: |-
     (?x:
@@ -266,7 +269,6 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-texture-mapping-value, expect-colon]
-    # TODO: font.size; accepts number or string with variables, e.g. "var(main_size)"
 
     # layer: color values
     - match: (")((layer\d+)(\.)tint)(")
@@ -357,10 +359,10 @@ contexts:
           set:
             - match: '"'
               scope: string.quoted.double.json meta.variable-name.sublime-theme punctuation.definition.string.end.json
-              set: [expect-color-value, expect-colon]
+              set: [expect-color-or-any-value, expect-colon]
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
-          set: [expect-color-value, expect-colon]
+          set: [expect-color-or-any-value, expect-colon]
         - include: string-escape
 
   expect-attributes-sequence-value:
@@ -381,7 +383,7 @@ contexts:
           push: [in-sequence-expect-comma, expect-attribute-string]
 
   expect-attribute-string:
-    - match: '(")(!?)({{attribute}})(")'
+    - match: (")(!?)({{attribute}})(")
       scope: string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
@@ -468,6 +470,7 @@ contexts:
     - include: expect-string
 
   expect-texture-mapping-value:
+    - include: var-value
     - match: (?=\{)
       set: [mapping-value-meta, texture-mapping-pop]
     - include: expect-string
@@ -517,8 +520,9 @@ contexts:
         - include: string-escape
 
   expect-interpolatable-number-value:
+    - include: var-value
     - match: (?=\{)
-      set: interpolation-mapping-pop
+      set: [mapping-value-meta, interpolation-mapping-pop]
     - include: expect-number-value
 
   interpolation-mapping-pop:
@@ -561,6 +565,7 @@ contexts:
         - include: string-escape
 
   expect-interpolation-string-value:
+    - include: var-value
     - match: (?=")
       set: [mapping-value-meta, interpolation-string-pop]
     - include: expect-string-rest
@@ -568,12 +573,14 @@ contexts:
   interpolation-string-pop:
     - match: (")(linear|smoothstep)(")
       captures:
-        1: punctuation.definition.string.begin.sublime-theme
+        1: punctuation.definition.string.begin.json
         2: support.constant.interpolation.sublime-theme
-        3: punctuation.definition.string.begin.sublime-theme
+        3: punctuation.definition.string.begin.json
       pop: true
+    - include: string-pop
 
   expect-color-value:
+    # already has variable interpolation
     - match: (?=")
       set: [mapping-value-meta, Sublime Text Color Scheme.sublime-syntax#color-string-pop]
     # Sequences are deprecated, so only use lazy highlighting
@@ -587,9 +594,25 @@ contexts:
     - include: expect-any-value
 
   expect-number-or-number-sequence-value:
+    - include: var-value
     - include: Sublime JSON.sublime-syntax#number-pop
     # Be a bit lazy here
     - include: expect-sequence-value
+
+  var-value:
+    - match: (?=\"var\(|\"(v(a(r)?)?)?(\"|$)) # improve ux while typing
+      set: [mapping-value-meta, var-pop]
+
+  var-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json
+        - meta_content_scope: source.css
+        - include: Sublime JSON.sublime-syntax#inside-string
+        - include: Sublime Text Color Scheme.sublime-syntax#color-var-function
+
+  #####################################
 
   comments:
     - include: Sublime JSON.sublime-syntax#comments
@@ -603,13 +626,11 @@ contexts:
   expect-any-value:
     - include: Sublime JSON.sublime-syntax#expect-any-value
 
-  expect-scope-string-value:
-    - include: Sublime JSON.sublime-syntax#expect-scope-string-value
-
   expect-key-rest:
     - include: Sublime JSON.sublime-syntax#expect-key-rest
 
   expect-sequence-value:
+    - include: var-value
     - include: Sublime JSON.sublime-syntax#expect-sequence-value
 
   expect-sequence-rest:
@@ -619,12 +640,14 @@ contexts:
     - include: Sublime JSON.sublime-syntax#expect-mapping-rest
 
   expect-number-value:
+    - include: var-value
     - include: Sublime JSON.sublime-syntax#expect-number-value
 
   expect-string:
     - include: Sublime JSON.sublime-syntax#expect-string
 
   expect-string-value:
+    - include: var-value
     - include: Sublime JSON.sublime-syntax#expect-string-value
 
   string-escape:
@@ -634,10 +657,8 @@ contexts:
     - include: Sublime JSON.sublime-syntax#string-pop
 
   expect-boolean-value:
+    - include: var-value
     - include: Sublime JSON.sublime-syntax#expect-boolean-value
-
-  expect-mapping-value:
-    - include: Sublime JSON.sublime-syntax#expect-mapping-value
 
   in-sequence-expect-comma:
     - include: Sublime JSON.sublime-syntax#in-sequence-expect-comma

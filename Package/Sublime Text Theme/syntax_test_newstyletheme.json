@@ -8,12 +8,14 @@
     "extends": "Merge.sublime-theme",
 //  ^ punctuation.definition.string.begin.json
 //  ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+//   ^^^^^^^ keyword.other.main.sublime-theme
 //          ^ punctuation.definition.string.end.json
 //           ^ punctuation.separator.mapping.key-value.json
 //             ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json
     "variables":
 //  ^ punctuation.definition.string.begin.json
 //  ^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+//   ^^^^^^^^^ keyword.other.main.sublime-theme
 //            ^ punctuation.definition.string.end.json
 //             ^ punctuation.separator.mapping.key-value.json
     {
@@ -30,6 +32,13 @@
 //                             ^^^^^^ constant.other.color.rgb-value.css
         "color_pear_green": "color(var(color_radical_red) alpha(0.02))",
 //                                     ^^^^^^^^^^^^^^^^^ variable.other.color-scheme
+        "icon_button_opacity":
+        {
+            "target": 0.6,
+            "speed": 5.0,
+            "interpolation": "smoothstep"
+//           ^^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json
+        },
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json - meta.variables.sublime-theme
@@ -91,9 +100,9 @@
 //           ^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                                         ^^^^^ invalid.illegal.expected-number.sublime
 //                                               ^^^ meta.mapping.value.json constant.numeric.json
-            "opacity": {
+            "layer0.opacity": {
 //           ^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
-//                     ^ meta.interpolation-mapping.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
+//                            ^ meta.interpolation-mapping.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
                 "target": 1,
 //               ^^^^^^ meta.interpolation-key.sublime-theme string.quoted.double.json keyword.other.interpolation.sublime-theme
 //                        ^ constant.numeric.json
@@ -104,6 +113,13 @@
 //               ^^^^^^^^^^^^^ meta.interpolation-key.sublime-theme string.quoted.double.json keyword.other.interpolation.sublime-theme
 //                                ^^^^^^^^^^ support.constant.interpolation.sublime-theme
             },
+            "opacity": "var(icon_button_opacity)",
+//                      ^^^ string.quoted.double.json source.css meta.function-call.var.sublime-color-scheme support.function.var.sublime-color-scheme
+//                          ^^^^^^^^^^^^^^^^^^^ variable.other.color-scheme
+            "font.size": "",
+//                       ^^ string.quoted.double.json
+            "font.size": "var(default_size)"
+//                            ^^^^^^^^^^^^ source.css meta.function-call.var.sublime-color-scheme meta.group.sublime-color-scheme variable.other.color-scheme
         },
         { // integer (sequences)
             "inner_margin": 12,
@@ -114,6 +130,11 @@
 //                          ^^ constant.numeric.json
             "inner_margin": "abc",
 //                          ^^^^^ invalid.illegal.expected-sequence.sublime
+            "inner_margin": "var(abc)",
+//                          ^^^^^ - invalid.illegal.expected-sequence.sublime
+            "inner_margin": "var
+//                          ^^^^ - invalid.illegal.expected-sequence.sublime
+//                              ^ invalid.illegal.unclosed-string.json
         }
         },
 //      ^ invalid.illegal.expected-comma.inside-sequence.json
