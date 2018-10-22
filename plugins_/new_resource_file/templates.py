@@ -3,7 +3,8 @@ TEMPLATES = dict(
 {
 \t"cmd": ["${0:make}"],
 }""",
-    color_scheme="""{
+    color_scheme="""\
+{
     "variables": {
         ${0:// Define variables here}
     },
@@ -32,7 +33,8 @@ TEMPLATES = dict(
         },
     ]
 }""".replace("    ", "\t"),
-    commands=R"""[
+    commands=R"""\
+[
   { "caption": "Preferences: ${1:${package_name:PackageName}}",
     "command": "edit_settings",
     "args": {

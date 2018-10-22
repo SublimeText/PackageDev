@@ -65,7 +65,7 @@
                 "command": "packagedev_new_resource",
                 "args": {"kind": "completions"}
               },
-              { "caption": "PackageDev: New Keymap File",
+              { "caption": "New Keymap File",
                 "command": "packagedev_new_resource",
                 "args": {"kind": "keymap"}
               },
@@ -81,7 +81,7 @@
                 "command": "packagedev_new_resource",
                 "args": {"kind": "settings"}
               },
-              { "caption": "New Textmate Preferences…",
+              { "caption": "New Textmate Preferences File…",
                 "command": "packagedev_new_resource",
                 "args": {"kind": "tm_preferences"}
               },
