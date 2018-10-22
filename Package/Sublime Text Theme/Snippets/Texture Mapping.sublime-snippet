@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[{
+	"keyframes": [
+		"$0",
+	],
+	"frame_time": 1.0,
+	"loop": false
+},]]></content>
+	<tabTrigger>texture</tabTrigger>
+	<scope>(meta.variables.sublime-theme | meta.rules.collection.sublime-theme) - comment - string - constant</scope>
+</snippet>

@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[{
+	"target": ${1:1.0},
+	"speed": ${2:1.0},
+	"interpolation": "${3:smoothstep}"
+},]]></content>
+	<tabTrigger>interpolation</tabTrigger>
+	<scope>(meta.variables.sublime-theme | meta.rules.collection.sublime-theme) - comment - string - constant</scope>
+</snippet>
