@@ -45,6 +45,9 @@ POPUP_TEMPLATE = """
         color: var(--orangish);
         font-size: 1.0rem;
     }}
+    html.light h1 {{
+        color: var(--redish);
+    }}
     h2 {{
         color: color(var(--html-background) blend(var(--foreground) 30%));
         font-size: 1.0rem;
