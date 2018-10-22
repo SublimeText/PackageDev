@@ -53,9 +53,9 @@
         { // selectors
 //      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
             "class": "button_control",
-//           ^^^^^ meta.theme.collection meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double keyword.other.rule
+//           ^^^^^ meta.theme.collection meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double storage.modifier.selector
             "settings": ["test_setting", "!namespaced.setting"],
-//           ^^^^^^^^ meta.rule-key.settings.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//           ^^^^^^^^ meta.rule-key.settings.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.settings-sequence.sublime-theme
 //                       ^ punctuation.definition.string.begin.json
 //                        ^^^^^^^^^^^^ variable.other.setting.sublime-theme
@@ -66,12 +66,12 @@
 //                                         ^^^^^^^^^^^ keyword.other.namespace.sublime-theme
 //                                                   ^ punctuation.separator.namespace.sublime-theme
             "parents": [{"class": "button_control", "attributes": ["!selected"]}]
-//           ^^^^^^^ meta.rule-key.parents.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//           ^^^^^^^ meta.rule-key.parents.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.parents-sequence.sublime-theme
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parent-mapping.sublime-theme meta.mapping
 //                       ^ punctuation.definition.string.begin.json
-//                        ^^^^^ meta.rule-key.class.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
-//                                                   ^^^^^^^^^^ meta.rule-key.attributes.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                        ^^^^^ meta.rule-key.class.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
+//                                                   ^^^^^^^^^^ meta.rule-key.attributes.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                                                                  ^ keyword.operator.logical.sublime-theme
 //                                                                   ^^^^^^^^ entity.other.attribute-name.sublime-theme
         },
@@ -85,7 +85,6 @@
 //           ^^^^^^^^^^^ keyword.other.rule.sublime-theme
 //           ^^^^^^ constant.other.layer.sublime-theme
 //                 ^ punctuation.accessor.dot.sublime-theme
-//                  ^^^^ keyword.other.rule.sublime-theme
 //                      ^ punctuation.definition.string.end.json
 //                       ^ punctuation.separator.mapping.key-value.json
 //                         ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
@@ -148,7 +147,7 @@
         },
         {
             "attributes": ["selected", "!expanded", "unknown", 12],
-//           ^^^^^^^^^^ meta.rule-key.attributes.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//           ^^^^^^^^^^ meta.rule-key.attributes.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.attributes-sequence.sublime-theme
 //                        ^ punctuation.section.sequence.begin.json
 //                         ^^^^^^^^^^ string.quoted.double.json

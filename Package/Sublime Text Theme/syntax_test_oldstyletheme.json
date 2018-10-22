@@ -9,7 +9,7 @@
         {
 //      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
             "class": "button_control",
-//           ^^^^^ meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double keyword.other.rule
+//           ^^^^^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.key.json meta.rule-key.class.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 
         },
     ]

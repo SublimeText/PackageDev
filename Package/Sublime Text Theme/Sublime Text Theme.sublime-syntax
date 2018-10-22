@@ -179,14 +179,14 @@ contexts:
       scope: meta.mapping.key.json meta.rule-key.class.sublime-theme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.rule.sublime-theme
+        2: storage.modifier.selector.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon] # TODO: mark the string value as something to be indexed?
     - match: (")(attributes)(")
       scope: meta.mapping.key.json meta.rule-key.attributes.sublime-theme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.rule.sublime-theme
+        2: storage.modifier.selector.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-attributes-sequence-value, expect-colon]
 
@@ -198,14 +198,14 @@ contexts:
       scope: meta.mapping.key.json meta.rule-key.settings.sublime-theme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.rule.sublime-theme
+        2: storage.modifier.selector.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-settings-sequence-value, expect-colon]
     - match: (")(parents)(")
       scope: meta.mapping.key.json meta.rule-key.parents.sublime-theme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
-        2: keyword.other.rule.sublime-theme
+        2: storage.modifier.selector.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-parents-sequence-value, expect-colon]
 
