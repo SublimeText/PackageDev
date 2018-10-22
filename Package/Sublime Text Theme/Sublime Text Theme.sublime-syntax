@@ -181,7 +181,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: storage.modifier.selector.sublime-theme
         3: punctuation.definition.string.end.json
-      set: [expect-string-value, expect-colon] # TODO: mark the string value as something to be indexed?
+      set: [expect-class-string-value, expect-colon]
     - match: (")(attributes)(")
       scope: meta.mapping.key.json meta.rule-key.attributes.sublime-theme string.quoted.double.json
       captures:
@@ -611,6 +611,20 @@ contexts:
         - meta_content_scope: source.css
         - include: Sublime JSON.sublime-syntax#inside-string
         - include: Sublime Text Color Scheme.sublime-syntax#color-var-function
+
+  expect-class-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, class-string-pop]
+    - include: expect-string-rest
+
+  class-string-pop:
+    - match: '"'
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json
+        # deliberately do not choose "entity.name.class"
+        - meta_content_scope: entity.name.class-selector.sublime-theme
+        - include: Sublime JSON.sublime-syntax#inside-string
 
   #####################################
 
