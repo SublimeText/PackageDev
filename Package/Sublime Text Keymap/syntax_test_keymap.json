@@ -304,6 +304,8 @@
 //                    ^^^^^^^ storage.type.context.key-value.sublime-keymap
 //                           ^ punctuation.separator.setting-value.sublime-keymap - storage
 //                            ^^^^^^^^^^^ variable.other.setting.sublime-keymap
+//                            ^^^^ keyword.other.namespace.sublime-settings
+//                               ^ punctuation.separator.namespace.sublime-settings
             { "blah": "unknown" rub },rubbish, "rubbish": 123
 //            ^^^^^^ meta.unknown-context-key.sublime-keymap string.quoted.double.json
 //            ^ punctuation.definition.string.begin.json

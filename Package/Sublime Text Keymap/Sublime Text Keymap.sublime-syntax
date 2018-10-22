@@ -443,6 +443,10 @@ contexts:
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
           pop: true
+        - match: '[\w]+(\.)'
+          scope: keyword.other.namespace.sublime-settings
+          captures:
+            1: punctuation.separator.namespace.sublime-settings
         - include: string-escape
     # unknown key value
     - match: '"'
