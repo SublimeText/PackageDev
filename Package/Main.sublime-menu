@@ -85,6 +85,10 @@
                 "command": "packagedev_new_resource",
                 "args": {"kind": "tm_preferences"}
               },
+              { "caption": "New Theme…",
+                "command": "packagedev_new_resource",
+                "args": {"kind": "theme"}
+              },
               // { "caption": "New Plugin",
               //   "command": "packagedev_new_resource",
               //   "args": {"kind": "plugin"} }

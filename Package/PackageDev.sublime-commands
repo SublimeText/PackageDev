@@ -105,4 +105,8 @@
     "command": "packagedev_new_resource",
     "args": {"kind": "tm_preferences"}
   },
+  { "caption": "PackageDev: New Theme",
+    "command": "packagedev_new_resource",
+    "args": {"kind": "theme"}
+  },
 ]

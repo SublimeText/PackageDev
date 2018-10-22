@@ -176,6 +176,20 @@ contexts:
         - match: \$\n?
           pop: true
 """,
+    theme="""\
+{
+    "extends": "Default.sublime-theme",
+    "variables": {
+        "fg": "${1:black}",
+        "bg": "${2:white}",
+    },
+    "rules": [
+        {
+            "class": "$0",
+        }
+    ]
+}
+""",
     tm_preferences="""\
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
