@@ -21,13 +21,13 @@ variables:
       | shadow_color
       | viewport_color
       | color_scheme_tint(?:_2)?
-      | color\d+
+      | color\d* # "color" is an alias for "fg"
     )
   integer_key: |-
     (?x:
         num_colors
       | tab_overlap
-      | tab_(?:min_)width
+      | tab_(?:min_)?width
       | tab_height
       | tint_index
       | accent_tint_index
@@ -35,12 +35,28 @@ variables:
       | spacing
       | inside_spacing | outside_vspacing | outside_hspacing
     )
+  padding_and_margin_key: |-
+    (?x:
+        inner_margin
+      | content_margin
+      | row_padding
+      | max_margin_trim
+    )
+  number_sequence_key: |-
+    (?x:
+        min_size
+      | icon_spacing
+      | tint_modifier
+      | shadow_offset
+      | accent_tint_modifier
+    )
   float_key: |-
     (?x:
         line_selection_border_(?:width|radius)
       | indent(?:_offset)?
       | opacity
       | viewport_opacity
+      | hit_test_level
     )
   boolean_key: |-
     (?x:
@@ -137,12 +153,12 @@ contexts:
           scope: punctuation.section.sequence.end.json
           pop: true
         - match: (?=\{)
-          push: [in-sequence-expect-comma, rules-mapping-pop]
+          push: [in-sequence-expect-comma, rule-mapping-pop]
         - include: comments
         - match: \S
           scope: invalid.illegal.expected-mapping.sublime-theme
 
-  rules-mapping-pop:
+  rule-mapping-pop:
     - match: \{
       scope: punctuation.section.mapping.begin.json
       set:
@@ -154,8 +170,8 @@ contexts:
           push: [in-mapping-expect-comma, rule-key]
         - include: expect-key-rest
 
-  rule-key:
-    - clear_scopes: 1
+  rule-and-parent-keys:
+    # shared by rule and parent mappings
     - match: (")(class)(")
       scope: meta.mapping.key.json meta.rule-key.class.sublime-theme string.quoted.double.json
       captures:
@@ -163,8 +179,33 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon] # TODO: mark the string value as something to be indexed?
-    # TODO: parents (sequence of {class: <some_class>, attributes: <attributes>})
-    #   "parents": [{"class": "commit_table_row", "attributes": ["selected"]}],
+    - match: (")(attributes)(")
+      scope: meta.mapping.key.json meta.rule-key.attributes.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-attributes-sequence-value, expect-colon]
+
+  rule-key:
+    - clear_scopes: 1
+    # selectors
+    - include: rule-and-parent-keys
+    - match: (")(settings)(")
+      scope: meta.mapping.key.json meta.rule-key.settings.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-settings-sequence-value, expect-colon]
+    - match: (")(parents)(")
+      scope: meta.mapping.key.json meta.rule-key.parents.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-parents-sequence-value, expect-colon]
+
     # color values
     - match: (")({{color_key}})(")
       scope: meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
@@ -173,7 +214,7 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-color-value, expect-colon]
-    # number values
+    # numeric values
     - match: (")({{float_key}})(")
       scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
       captures:
@@ -188,10 +229,20 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-number-value, expect-colon]
-    # TODO: inner_margin, content_margin, row_padding, max_margin_trim;
-    #   padding&margin: number or sequence of numbers
-    # TODO: min_size, icon_spacing, tint_modifier, shadow_offset, accent_tint_modifier;
-    #   sequence of numbers
+    - match: (")({{padding_and_margin_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-number-or-number-sequence-value, expect-colon]
+    - match: (")({{number_sequence_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-sequence-value, expect-colon] # actually number sequence
     # boolean values
     - match: (")({{boolean_key}})(")
       scope: meta.mapping.key.json meta.rule-key.string.sublime-theme string.quoted.double.json
@@ -208,10 +259,14 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon]
-    # TODO: attributes; accepts sequence of attributes(string), optional ! for negation
-    # TODO: settings; accepts sequence of strings, optional ! for negation
-    # TODO: texture; accepts string or "animation" object
-    # TODO: font.size; accepts number or string with variables, e.g. "var(label_color)"
+    - match: (")(texture)(")
+      scope: meta.mapping.key.json meta.rule-key.string.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-texture-mapping-value, expect-colon]
+    # TODO: font.size; accepts number or string with variables, e.g. "var(main_size)"
 
     # layer: color values
     - match: (")((layer\d+)(\.)tint)(")
@@ -233,7 +288,7 @@ contexts:
         4: punctuation.accessor.dot.sublime-theme
         5: punctuation.definition.string.end.json
       set: [expect-boolean-value, expect-colon]
-    # layer: number values
+    # layer: numeric values
     - match: (")((layer\d+)(\.)opacity)(")
       scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
       captures:
@@ -243,8 +298,24 @@ contexts:
         4: punctuation.accessor.dot.sublime-theme
         5: punctuation.definition.string.end.json
       set: [expect-interpolatable-number-value, expect-colon]
-    # TODO layer*.inner_margin
-    # TODO layer*.texture
+    - match: (")((layer\d+)(\.)inner_margin)(")
+      scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: constant.other.layer.sublime-theme
+        4: punctuation.accessor.dot.sublime-theme
+        5: punctuation.definition.string.end.json
+      set: [expect-number-or-number-sequence-value, expect-colon]
+    - match: (")((layer\d+)(\.)texture)(")
+      scope: meta.mapping.key.json meta.rule-key.string.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: constant.other.layer.sublime-theme
+        4: punctuation.accessor.dot.sublime-theme
+        5: punctuation.definition.string.end.json
+      set: [expect-texture-mapping-value, expect-colon]
     - include: in-dictionary-rule-key
     - include: expect-key-rest
 
@@ -261,10 +332,10 @@ contexts:
 
   expect-variables-mapping-value:
     - match: (?=\{)
-      set: [mapping-value-meta, variable-mapping-pop]
+      set: [mapping-value-meta, variables-mapping-pop]
     - include: expect-mapping-rest
 
-  variable-mapping-pop:
+  variables-mapping-pop:
     - match: \{
       scope: punctuation.section.mapping.begin.json
       set:
@@ -273,10 +344,10 @@ contexts:
           scope: punctuation.section.mapping.end.json
           pop: true
         - match: (?=")
-          push: [in-mapping-expect-comma, variable-mapping-key]
+          push: [in-mapping-expect-comma, variables-mapping-key]
         - include: expect-key-rest
 
-  variable-mapping-key:
+  variables-mapping-key:
     - match: \"
       scope: punctuation.definition.string.begin.json
       set:
@@ -286,16 +357,226 @@ contexts:
           set:
             - match: '"'
               scope: string.quoted.double.json meta.variable-name.sublime-theme punctuation.definition.string.end.json
-              set: [expect-color-or-any-value, expect-colon]
+              set: [expect-color-value, expect-colon]
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
-          set: [expect-color-string-value, expect-colon]
+          set: [expect-color-value, expect-colon]
         - include: string-escape
+
+  expect-attributes-sequence-value:
+    - match: (?=\[)
+      set: [mapping-value-meta, attributes-sequence-pop]
+    - include: expect-sequence-rest
+
+  attributes-sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.sequence.json meta.attributes-sequence.sublime-theme
+        - include: comments
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\S)
+          push: [in-sequence-expect-comma, expect-attribute-string]
+
+  expect-attribute-string:
+    - match: '(")(!?)({{attribute}})(")'
+      scope: string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.operator.logical.sublime-theme
+        3: entity.other.attribute-name.sublime-theme # I hate this name, but it's fairly standard
+        4: punctuation.definition.string.end.json
+      pop: true
+    - include: expect-string
+
+  expect-settings-sequence-value:
+    - match: (?=\[)
+      set: [mapping-value-meta, settings-sequence-pop]
+    - include: expect-sequence-rest
+
+  settings-sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.sequence.json meta.settings-sequence.sublime-theme
+        - include: comments
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\S)
+          push: [in-sequence-expect-comma, expect-setting-string]
+
+  expect-parents-sequence-value:
+    - match: (?=\[)
+      set: [mapping-value-meta, parents-sequence-pop]
+    - include: expect-sequence-rest
+
+  parents-sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.sequence.json meta.parents-sequence.sublime-theme
+        - include: comments
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\S)
+          push: [in-sequence-expect-comma, expect-parent-mapping]
+
+  expect-parent-mapping:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.parent-mapping.sublime-theme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, parent-mapping-key]
+        - include: expect-key-rest
+    - include: expect-mapping-rest
+
+  parent-mapping-key:
+    - clear_scopes: 1
+    - include: rule-and-parent-keys
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.parent-key.sublime-theme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
+
+  expect-setting-string:
+    - match: (\")(!?)
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.operator.logical.sublime-theme
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json
+        - meta_content_scope: variable.other.setting.sublime-theme
+        - include: Sublime JSON.sublime-syntax#inside-string
+        - match: '[\w]+(\.)'
+          scope: keyword.other.namespace.sublime-theme
+          captures:
+            1: punctuation.separator.namespace.sublime-theme
+    - include: expect-string
+
+  expect-texture-mapping-value:
+    - match: (?=\{)
+      set: [mapping-value-meta, texture-mapping-pop]
+    - include: expect-string
+
+  texture-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.texture-mapping.sublime-theme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, texture-mapping-key]
+        - include: expect-key-rest
+
+  texture-mapping-key:
+    - match: (")(keyframes)(")
+      scope: meta.mapping.key.json meta.texture-key.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.texture.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-sequence-value, expect-colon] # techincally a sequence of strings
+    - match: (")(frame_time)(")
+      scope: meta.mapping.key.json meta.texture-key.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.texture.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-number-value, expect-colon]
+    - match: (")(loop)(")
+      scope: meta.mapping.key.json meta.texture-key.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.texture.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-boolean-value, expect-colon]
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.texture-key.sublime-theme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
+
+  expect-interpolatable-number-value:
+    - match: (?=\{)
+      set: interpolation-mapping-pop
+    - include: expect-number-value
+
+  interpolation-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.interpolation-mapping.sublime-theme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, interpolation-mapping-key]
+        - include: expect-key-rest
+
+  interpolation-mapping-key:
+    # https://www.sublimetext.com/docs/3/themes.html#layer_properties
+    - clear_scopes: 1
+    - match: (")(target|speed)(")
+      scope: meta.mapping.key.json meta.interpolation-key.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.interpolation.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-number-value, expect-colon]
+    - match: (")(interpolation)(")
+      scope: meta.mapping.key.json meta.interpolation-key.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.interpolation.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-interpolation-string-value, expect-colon]
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.mapping.key.json meta.interpolation-key.sublime-theme string.quoted.double.json
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          set: [expect-any-value, expect-colon]
+        - include: string-escape
+
+  expect-interpolation-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, interpolation-string-pop]
+    - include: expect-string-rest
+
+  interpolation-string-pop:
+    - match: (")(linear|smoothstep)(")
+      captures:
+        1: punctuation.definition.string.begin.sublime-theme
+        2: support.constant.interpolation.sublime-theme
+        3: punctuation.definition.string.begin.sublime-theme
+      pop: true
 
   expect-color-value:
     - match: (?=")
       set: [mapping-value-meta, Sublime Text Color Scheme.sublime-syntax#color-string-pop]
-    # TODO: highlight sequences?
+    # Sequences are deprecated, so only use lazy highlighting
     #   https://www.sublimetext.com/docs/3/themes.html#color_values
     #   https://www.sublimetext.com/docs/3/themes.html#deprecated
     - include: expect-sequence-value
@@ -304,6 +585,11 @@ contexts:
     - match: (?="|\[)
       set: [expect-color-value]
     - include: expect-any-value
+
+  expect-number-or-number-sequence-value:
+    - include: Sublime JSON.sublime-syntax#number-pop
+    # Be a bit lazy here
+    - include: expect-sequence-value
 
   comments:
     - include: Sublime JSON.sublime-syntax#comments
@@ -335,16 +621,8 @@ contexts:
   expect-number-value:
     - include: Sublime JSON.sublime-syntax#expect-number-value
 
-  expect-interpolatable-number-value:
-    - match: (?=\{)
-      set: expect-mapping-value
-    # TODO: "interpolation" mapping (also layer*.)
-    #   https://www.sublimetext.com/docs/3/themes.html#layer_properties
-    #   { "target": 0.6, "speed": 4.0, "interpolation": "smoothstep" }
-    - include: expect-number-value
-
-  expect-string-rest:
-    - include: Sublime JSON.sublime-syntax#expect-string-rest
+  expect-string:
+    - include: Sublime JSON.sublime-syntax#expect-string
 
   expect-string-value:
     - include: Sublime JSON.sublime-syntax#expect-string-value
@@ -366,12 +644,6 @@ contexts:
 
   in-mapping-expect-comma:
     - include: Sublime JSON.sublime-syntax#in-mapping-expect-comma
-
-  expect-command-name-value:
-    - include: Sublime JSON.sublime-syntax#expect-command-name-value
-
-  expect-color-string-value:
-    - include: Sublime Text Color Scheme.sublime-syntax#expect-color-string-value
 
   mapping-value-meta:
     - clear_scopes: 1

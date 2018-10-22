@@ -28,8 +28,8 @@
 //                                    ^ punctuation.separator.mapping.pair.json
 //                            ^ punctuation.definition.constant.css
 //                             ^^^^^^ constant.other.color.rgb-value.css
-        "color_pear_green": "#A6E22E",
-
+        "color_pear_green": "color(var(color_radical_red) alpha(0.02))",
+//                                     ^^^^^^^^^^^^^^^^^ variable.other.color-scheme
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json - meta.variables.sublime-theme
@@ -41,10 +41,36 @@
 //        ^ punctuation.definition.string.end.json
     [
 //  ^ meta.sequence.json punctuation.section.sequence.begin.json
-        {
+        { // selectors
 //      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
             "class": "button_control",
 //           ^^^^^ meta.theme.collection meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double keyword.other.rule
+            "settings": ["test_setting", "!namespaced.setting"],
+//           ^^^^^^^^ meta.rule-key.settings.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.settings-sequence.sublime-theme
+//                       ^ punctuation.definition.string.begin.json
+//                        ^^^^^^^^^^^^ variable.other.setting.sublime-theme
+//                                    ^ punctuation.definition.string.end.json
+//                                       ^ punctuation.definition.string.begin.json
+//                                        ^ keyword.operator.logical.sublime-theme
+//                                         ^^^^^^^^^^^^^^^^^^ variable.other.setting.sublime-theme
+//                                         ^^^^^^^^^^^ keyword.other.namespace.sublime-theme
+//                                                   ^ punctuation.separator.namespace.sublime-theme
+            "parents": [{"class": "button_control", "attributes": ["!selected"]}]
+//           ^^^^^^^ meta.rule-key.parents.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.parents-sequence.sublime-theme
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parent-mapping.sublime-theme meta.mapping
+//                       ^ punctuation.definition.string.begin.json
+//                        ^^^^^ meta.rule-key.class.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                                                   ^^^^^^^^^^ meta.rule-key.attributes.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                                                                  ^ keyword.operator.logical.sublime-theme
+//                                                                   ^^^^^^^^ entity.other.attribute-name.sublime-theme
+        },
+        { // strings
+            "font.face": "Random Font"
+//           ^^^^^^^^^ meta.rule-key.string.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+        },
+        { // colors
             "layer0.tint": "var(--background)"
 //          ^^^^^^^^^^^^^ meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
 //           ^^^^^^^^^^^ keyword.other.rule.sublime-theme
@@ -59,10 +85,78 @@
 // <- invalid.illegal.expected-comma.inside-mapping.json
 //          ^^^^^^^^^^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme
 //                                         ^^^ support.function.var.sublime-color-scheme
+        },
+        { // floats
             "line_selection_border_width": "abc" 2.0,
 //           ^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                                         ^^^^^ invalid.illegal.expected-number.sublime
 //                                               ^^^ meta.mapping.value.json constant.numeric.json
+            "opacity": {
+//           ^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                     ^ meta.interpolation-mapping.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
+                "target": 1,
+//               ^^^^^^ meta.interpolation-key.sublime-theme string.quoted.double.json keyword.other.interpolation.sublime-theme
+//                        ^ constant.numeric.json
+                "speed": 0.2,
+//                       ^^^ constant.numeric.json
+//               ^^^^^ meta.interpolation-key.sublime-theme string.quoted.double.json keyword.other.interpolation.sublime-theme
+                "interpolation": "smoothstep"
+//               ^^^^^^^^^^^^^ meta.interpolation-key.sublime-theme string.quoted.double.json keyword.other.interpolation.sublime-theme
+//                                ^^^^^^^^^^ support.constant.interpolation.sublime-theme
+            },
+        },
+        { // integer (sequences)
+            "inner_margin": 12,
+//           ^^^^^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                          ^^ constant.numeric.json
+            "row_padding": [12, 11],
+//           ^^^^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                          ^^ constant.numeric.json
+            "inner_margin": "abc",
+//                          ^^^^^ invalid.illegal.expected-sequence.sublime
+        }
+        },
+//      ^ invalid.illegal.expected-comma.inside-sequence.json
+        { // integer sequences
+            "min_size": 12,
+//           ^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                      ^^ invalid.illegal.expected-sequence.sublime
+            "tint_modifier": [12, 11],
+//           ^^^^^^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                            ^^ constant.numeric.json
+        },
+        {
+            "attributes": ["selected", "!expanded", "unknown", 12],
+//           ^^^^^^^^^^ meta.rule-key.attributes.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.attributes-sequence.sublime-theme
+//                        ^ punctuation.section.sequence.begin.json
+//                         ^^^^^^^^^^ string.quoted.double.json
+//                         ^ punctuation.definition.string.begin.json
+//                          ^^^^^^^^ entity.other.attribute-name.sublime-theme
+//                                  ^ punctuation.definition.string.end.json
+//                                   ^ punctuation.separator.sequence.json
+//                                      ^ keyword.operator.logical.sublime-theme
+//                                       ^^^^^^^^ entity.other.attribute-name.sublime-theme
+//                                                   ^^^^^^^ string - entity.other.attribute-name.sublime-theme
+//                                                             ^^ invalid.illegal.expected-string.sublime
+            "texture": "String",
+            "texture": {
+//           ^^^^^^^ meta.rule-key.string.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                     ^ meta.texture-mapping.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
+                "keyframes": ["String", "String"],
+//               ^^^^^^^^^ meta.texture-key.sublime-theme string.quoted.double.json keyword.other.texture.sublime-theme
+//                             ^ string.quoted.double.json
+//                                    ^ punctuation.separator.sequence.json
+                "loop": false,
+//               ^^^^ meta.texture-key.sublime-theme string.quoted.double.json keyword.other.texture.sublime-theme
+//                      ^^^^^ constant.language.boolean.json
+                "frame_time": 1,
+//               ^^^^^^^^^^ meta.texture-key.sublime-theme string.quoted.double.json keyword.other.texture.sublime-theme
+//                            ^ constant.numeric.json
+                "unknown": null
+//               ^^^^^^^ meta.texture-key.sublime-theme string.quoted.double.json - keyword.other.texture.sublime-theme
+//                         ^^^^ constant.language.null.json
+            }
         }
     ],
 }

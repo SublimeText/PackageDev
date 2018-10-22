@@ -370,7 +370,7 @@ contexts:
           - meta_scope: meta.group.sublime-color-scheme
           - match: (?=\))
             pop: true
-          - match: \w+
+          - match: (?:--)?[\w-]+
             scope: variable.other.color-scheme
           - match: (?=")  # embed this here so we don't have to "with_prototype"
             pop: true
