@@ -1,0 +1,8 @@
+{
+    "scope": "meta.texture-key.string.sublime-theme",
+    "completions": [
+        { "trigger": "keyframes\ttexture key", "contents": "keyframes" },
+        { "trigger": "frame_time\ttexture key", "contents": "frame_time" },
+        { "trigger": "loop\ttexture key", "contents": "loop" },
+    ]
+}

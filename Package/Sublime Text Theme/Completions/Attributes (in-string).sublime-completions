@@ -1,0 +1,24 @@
+{
+    "scope": "meta.attributes-sequence.sublime-theme string",
+    "completions": [
+        { "trigger": "hover\tattribute", "contents": "hover" },
+        { "trigger": "file_light\tattribute", "contents": "file_light" },
+        { "trigger": "file_medium\tattribute", "contents": "file_medium" },
+        { "trigger": "file_medium_dark\tattribute", "contents": "file_medium_dark" },
+        { "trigger": "file_dark\tattribute", "contents": "file_dark" },
+        { "trigger": "selectable\tattribute", "contents": "selectable" },
+        { "trigger": "selected\tattribute", "contents": "selected" },
+        { "trigger": "expandable\tattribute", "contents": "expandable" },
+        { "trigger": "expanded\tattribute", "contents": "expanded" },
+        { "trigger": "dirty\tattribute", "contents": "dirty" },
+        { "trigger": "transient\tattribute", "contents": "transient" },
+        { "trigger": "panel_visible\tattribute", "contents": "panel_visible" },
+        { "trigger": "dark\tattribute", "contents": "dark" },
+        { "trigger": "horizonzal\tattribute", "contents": "horizonzal" },
+        { "trigger": "pressed\tattribute", "contents": "pressed" },
+        { "trigger": "confirm\tattribute", "contents": "confirm" },
+        { "trigger": "highlighted\tattribute", "contents": "highlighted" },
+        { "trigger": "left\tattribute", "contents": "left" },
+        { "trigger": "right\tattribute", "contents": "right" },
+    ]
+}

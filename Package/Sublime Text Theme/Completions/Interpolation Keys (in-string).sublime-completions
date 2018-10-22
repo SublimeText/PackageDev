@@ -1,0 +1,8 @@
+{
+    "scope": "meta.interpolation-key.sublime-theme",
+    "completions": [
+        { "trigger": "target\tinterpolation key", "contents": "target" },
+        { "trigger": "speed\tinterpolation key", "contents": "speed" },
+        { "trigger": "interpolation\tinterpolation key", "contents": "interpolation" },
+    ]
+}

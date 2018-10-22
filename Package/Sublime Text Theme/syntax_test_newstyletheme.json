@@ -44,7 +44,7 @@
 //   ^ punctuation.separator.mapping.pair.json - meta.variables.sublime-theme
 
     "rules":
-//  ^^^^^^^ meta.theme.collection.sublime-theme meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
+//  ^^^^^^^ meta.theme.sublime-theme meta.mapping.key.json meta.main-key.sublime-theme string.quoted.double.json
 //  ^ punctuation.definition.string.begin.json
 //   ^^^^^ keyword.other.main.sublime-theme
 //        ^ punctuation.definition.string.end.json
@@ -53,7 +53,7 @@
         { // selectors
 //      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
             "class": "button_control",
-//           ^^^^^ meta.theme.collection meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double storage.modifier.selector
+//           ^^^^^ meta.theme meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double storage.modifier.selector
 //                    ^^^^^^^^^^^^^^ string.quoted.double.json entity.name.class-selector.sublime-theme
             "settings": ["test_setting", "!namespaced.setting"],
 //           ^^^^^^^^ meta.rule-key.settings.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
@@ -109,9 +109,11 @@
                 "speed": 0.2,
 //                       ^^^ constant.numeric.json
 //               ^^^^^ meta.interpolation-key.sublime-theme string.quoted.double.json keyword.other.interpolation.sublime-theme
-                "interpolation": "smoothstep"
+                "interpolation": "smoothstep",
 //               ^^^^^^^^^^^^^ meta.interpolation-key.sublime-theme string.quoted.double.json keyword.other.interpolation.sublime-theme
 //                                ^^^^^^^^^^ support.constant.interpolation.sublime-theme
+                "random_key": null
+//              ^^^^^^^^^^^^ meta.interpolation-key.sublime-theme
             },
             "opacity": "var(icon_button_opacity)",
 //                      ^^^ string.quoted.double.json source.css meta.function-call.var.sublime-color-scheme support.function.var.sublime-color-scheme
@@ -145,6 +147,8 @@
             "tint_modifier": [12, 11],
 //           ^^^^^^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                            ^^ constant.numeric.json
+            "random_key": null
+//          ^^^^^^^^^^^^ meta.rule-key.sublime-theme
         },
         {
             "attributes": ["selected", "!expanded", "unknown", 12],

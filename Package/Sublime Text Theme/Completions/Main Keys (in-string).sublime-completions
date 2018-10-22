@@ -1,0 +1,8 @@
+{
+    "scope": "meta.main-key.sublime-theme",
+    "completions": [
+        { "trigger": "extends\tmain key", "contents": "extends" },
+        { "trigger": "variables\tmain key", "contents": "variables" },
+        { "trigger": "rules\tmain key", "contents": "rules" },
+    ]
+}

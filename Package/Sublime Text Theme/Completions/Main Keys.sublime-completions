@@ -1,0 +1,8 @@
+{
+    "scope": "meta.theme.sublime-theme - meta.mapping meta.mapping - meta.sequence - string - comment",
+    "completions": [
+        { "trigger": "extends\tmain key", "contents": "\"extends\": \"$0\"," },
+        { "trigger": "variables\tmain key", "contents": "\"variables\": {\n\t$0\n}," },
+        { "trigger": "rules\tmain key", "contents": "\"rules\": [\n\t$0\n]," },
+    ]
+}

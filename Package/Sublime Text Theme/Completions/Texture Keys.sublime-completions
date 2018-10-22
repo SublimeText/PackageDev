@@ -1,0 +1,8 @@
+{
+    "scope": "meta.texture-mapping.sublime-theme - meta.texture-mapping.sublime-theme meta.sequence - string - comment",
+    "completions": [
+        { "trigger": "keyframes\ttexture key", "contents": "\"keyframes\": [\n\t\"$0\"\n]," },
+        { "trigger": "frame_time\ttexture key", "contents": "\"frame_time\": ${0:1.0}," },
+        { "trigger": "loop\ttexture key", "contents": "\"loop\": ${0:true}," },
+    ]
+}

@@ -94,7 +94,7 @@ contexts:
     - match: \{
       scope: punctuation.section.mapping.begin.json
       push:
-        - meta_scope: meta.theme.collection.sublime-theme meta.mapping.json
+        - meta_scope: meta.theme.sublime-theme meta.mapping.json
         - match: \}
           scope: punctuation.section.mapping.end.json
           set: only-comments
@@ -326,7 +326,7 @@ contexts:
       scope: punctuation.definition.string.begin.json
       set:
         - clear_scopes: 1
-        - meta_scope: meta.mapping.key.json meta.rule-key.sublime-color-scheme string.quoted.double.json
+        - meta_scope: meta.mapping.key.json meta.rule-key.sublime-theme string.quoted.double.json
         - match: \"
           scope: punctuation.definition.string.end.json
           set: [expect-any-value, expect-colon]

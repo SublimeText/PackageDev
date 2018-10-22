@@ -1,0 +1,8 @@
+{
+    "scope": "meta.interpolation-mapping.sublime-theme - string - comment",
+    "completions": [
+        { "trigger": "target\tinterpolation key", "contents": "\"target\": ${0:1.0}," },
+        { "trigger": "speed\tinterpolation key", "contents": "\"speed\": ${0:1.0}," },
+        { "trigger": "interpolation\tinterpolation key", "contents": "\"interpolation\": \"${0:smoothstep}\"," },
+    ]
+}

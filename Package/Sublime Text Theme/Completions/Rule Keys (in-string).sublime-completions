@@ -1,0 +1,89 @@
+{
+    "scope": "meta.rule-key.sublime-theme",
+    "completions": [
+        // selectors
+        { "trigger": "class\tselector", "contents": "class" },
+        { "trigger": "settings\tselector", "contents": "settings" },
+        { "trigger": "parents\tselector", "contents": "parents" },
+        { "trigger": "attributes\tselector", "contents": "attributes" },
+
+        // strings
+        { "trigger": "font.face\tproperty", "contents": "font.face" },
+
+        // colors
+        { "trigger": "line_selection_color\tproperty", "contents": "line_selection_color" },
+        { "trigger": "line_selection_border_color\tproperty", "contents": "line_selection_border_color" },
+        { "trigger": "highlight_colour\tproperty", "contents": "highlight_colour" },
+        { "trigger": "highlight_border_colour\tproperty", "contents": "highlight_border_colour" },
+        { "trigger": "headline_color\tproperty", "contents": "headline_color" },
+        { "trigger": "match_fg\tproperty", "contents": "match_fg" },
+        { "trigger": "selected_fg\tproperty", "contents": "selected_fg" },
+        { "trigger": "selected_match_fg\tproperty", "contents": "selected_match_fg" },
+        { "trigger": "fg\tproperty", "contents": "fg" },
+        { "trigger": "color\tproperty", "contents": "color" },
+        { "trigger": "bg\tproperty", "contents": "bg" },
+        { "trigger": "background_color\tproperty", "contents": "background_color" },
+        { "trigger": "shadow_color\tproperty", "contents": "shadow_color" },
+        { "trigger": "viewport_color\tproperty", "contents": "viewport_color" },
+        { "trigger": "color_scheme_tint\tproperty", "contents": "color_scheme_tint" },
+        { "trigger": "color_scheme_tint_2\tproperty", "contents": "color_scheme_tint_2" },
+        { "trigger": "link_color\tproperty", "contents": "link_color" },
+
+        // numbers
+        { "trigger": "num_colors\tproperty", "contents": "num_colors" },
+        { "trigger": "tab_overlap\tproperty", "contents": "tab_overlap" },
+        { "trigger": "tab_width\tproperty", "contents": "tab_width" },
+        { "trigger": "tab_min_width\tproperty", "contents": "tab_min_width" },
+        { "trigger": "tab_height\tproperty", "contents": "tab_height" },
+        { "trigger": "tint_index\tproperty", "contents": "tint_index" },
+        { "trigger": "accent_tint_index\tproperty", "contents": "accent_tint_index" },
+        { "trigger": "border_size\tproperty", "contents": "border_size" },
+        { "trigger": "spacing\tproperty", "contents": "spacing" },
+        { "trigger": "inside_spacing\tproperty", "contents": "inside_spacing" },
+        { "trigger": "outside_vspacing\tproperty", "contents": "outside_vspacing" },
+        { "trigger": "outside_hspacing\tproperty", "contents": "outside_hspacing" },
+
+        // number sequences (optional)
+        { "trigger": "inner_margin\tproperty", "contents": "inner_margin" },
+        { "trigger": "content_margin\tproperty", "contents": "content_margin" },
+        { "trigger": "row_padding\tproperty", "contents": "row_padding" },
+        { "trigger": "max_margin_trim\tproperty", "contents": "max_margin_trim" },
+        // number sequences (always)
+        { "trigger": "min_size\tproperty", "contents": "min_size" },
+        { "trigger": "icon_spacing\tproperty", "contents": "icon_spacing" },
+        { "trigger": "tint_modifier\tproperty", "contents": "tint_modifier" },
+        { "trigger": "shadow_offset\tproperty", "contents": "shadow_offset" },
+        { "trigger": "accent_tint_modifier\tproperty", "contents": "accent_tint_modifier" },
+
+        // floats
+        { "trigger": "line_selection_border_radius\tproperty", "contents": "line_selection_border_radius" },
+        { "trigger": "line_selection_border_width\tproperty", "contents": "line_selection_border_width" },
+        { "trigger": "indent\tproperty", "contents": "indent" },
+        { "trigger": "indent_offset\tproperty", "contents": "indent_offset" },
+        { "trigger": "opacity\tproperty", "contents": "opacity" },
+        { "trigger": "viewport_opacity\tproperty", "contents": "viewport_opacity" },
+        { "trigger": "hit_test_level\tproperty", "contents": "hit_test_level" },
+        { "trigger": "font.size\tproperty", "contents": "font.size" },
+
+        // booleans
+        { "trigger": "dark_content\tproperty", "contents": "dark_content" },
+        { "trigger": "indent_top_level\tproperty", "contents": "indent_top_level" },
+        { "trigger": "spacer_rows\tproperty", "contents": "spacer_rows" },
+        { "trigger": "font.bold\tproperty", "contents": "font.bold" },
+        { "trigger": "font.italic\tproperty", "contents": "font.italic" },
+        { "trigger": "mouse_wheel_switch\tproperty", "contents": "mouse_wheel_switch" },
+        { "trigger": "fg_blend\tproperty", "contents": "fg_blend" },
+        { "trigger": "overlay\tproperty", "contents": "overlay" },
+
+        // layer*.
+        { "trigger": "layer.tint\tproperty", "contents": "layer${1:0}.tint" },
+        { "trigger": "layer.draw_center\tproperty", "contents": "layer${1:0}.draw_center" },
+        { "trigger": "layer.repeat\tproperty", "contents": "layer${1:0}.repeat" },
+        { "trigger": "layer.opacity\tproperty", "contents": "layer${1:0}.opacity" },
+        { "trigger": "layer.inner_margin\tproperty", "contents": "layer${1:0}.inner_margin" },
+        { "trigger": "layer.texture\tproperty", "contents": "layer${1:0}.texture" },
+
+        // other
+        { "trigger": "texture\tproperty", "contents": "texture" },
+    ]
+}
