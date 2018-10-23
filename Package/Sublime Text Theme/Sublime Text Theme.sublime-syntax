@@ -279,7 +279,7 @@ contexts:
         3: constant.other.layer.sublime-theme
         4: punctuation.accessor.dot.sublime-theme
         5: punctuation.definition.string.end.json
-      set: [expect-color-value, expect-colon]
+      set: [expect-tint-value, expect-colon]
     # layer: boolean values
     - match: (")((layer\d+)(\.)(?:draw_center|repeat))(")
       scope: meta.mapping.key.json meta.rule-key.boolean.sublime-theme string.quoted.double.json
@@ -578,6 +578,11 @@ contexts:
         3: punctuation.definition.string.begin.json
       pop: true
     - include: string-pop
+
+  expect-tint-value:
+    - include: Sublime JSON.sublime-syntax#expect-boolean-value-only
+    - include: Sublime JSON.sublime-syntax#expect-null-value-only
+    - include: expect-color-value
 
   expect-color-value:
     # already has variable interpolation

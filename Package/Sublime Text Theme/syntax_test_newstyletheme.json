@@ -94,6 +94,8 @@
 // <- invalid.illegal.expected-comma.inside-mapping.json
 //          ^^^^^^^^^^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme
 //                                         ^^^ support.function.var.sublime-color-scheme
+            "layer1.tint": null,
+//                         ^^^^ meta.mapping.value.json constant.language.null.json
         },
         { // floats
             "line_selection_border_width": "abc" 2.0,
