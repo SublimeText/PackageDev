@@ -15,6 +15,7 @@ from .region_math import VALUE_SCOPE, get_value_region_at, get_last_key_name_fro
 l = logging.getLogger(__name__)
 
 PREF_FILE = "Preferences.sublime-settings"
+PREF_FILE_ALIAS = "Base File.sublime-settings"
 
 
 def html_encode(string):
@@ -158,6 +159,8 @@ class KnownSettings(object):
         start_time = time.time()
         resources = sublime.find_resources(self.filename)
         resources += sublime.find_resources(self.filename + "-hints")
+        if self.filename == PREF_FILE:
+            resources += sublime.find_resources(PREF_FILE_ALIAS)
         l.debug("found %d %r files", len(resources), self.filename)
 
         for resource in resources:
