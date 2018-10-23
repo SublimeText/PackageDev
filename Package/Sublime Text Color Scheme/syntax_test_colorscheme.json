@@ -128,7 +128,7 @@
 //          ^ punctuation.definition.string.begin.json
 //           ^^^^^^^^^^ keyword.other.rule.sublime-color-scheme
 //                     ^ punctuation.definition.string.end.json
-//                         ^^^^^^^^^^^^^^^^^^^^^^ source.css meta.function-call.var.sublime-color-scheme
+//                         ^^^^^^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme
 //                         ^^^ support.function.var.sublime-color-scheme
 //                             ^^^^^^^^^^^^^^^^^ variable.other.color-scheme
 //                                               ^ punctuation.definition.string.end.json
@@ -187,7 +187,7 @@
 //                               ^^^ support.function.var.sublime-color-scheme
             "foreground_adjust": "l(+ 50%)",
 //                               ^^^^^^^^^^ meta.color-adjuster.sublime-color-scheme
-//                                ^^^^^^^^ source.css meta.function-call.css
+//                                ^^^^^^^^ source.css-color meta.function-call.css
 //                                ^ support.function.color.css
 //                                 ^ punctuation.definition.group.begin.css
 //                                  ^ keyword.operator.css

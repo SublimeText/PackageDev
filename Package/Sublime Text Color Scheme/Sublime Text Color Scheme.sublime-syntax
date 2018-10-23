@@ -347,7 +347,7 @@ contexts:
         # so we push a prototype.
         - match: ''
           push:
-            - meta_scope: source.css
+            - meta_scope: source.css-color
             - include: CSS.sublime-syntax#color-values
           with_prototype:
             - match: (?=")
@@ -401,8 +401,9 @@ contexts:
       scope: punctuation.definition.string.begin.json
       set:
         - meta_scope: string.quoted.double.json meta.color-adjuster.sublime-color-scheme
-        # Set a fake source scope so it's recognized as "embedded code"
-        - meta_content_scope: source.css
+        # Set a fake source scope so it's recognized as "embedded code",
+        # but don't set "source.css" to avoid completions provided by shipped package.
+        - meta_content_scope: source.css-color
         - match: '"'
           scope: punctuation.definition.string.end.json
           pop: true

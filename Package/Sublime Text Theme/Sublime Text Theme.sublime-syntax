@@ -608,7 +608,7 @@ contexts:
       scope: punctuation.definition.string.begin.json
       set:
         - meta_scope: string.quoted.double.json
-        - meta_content_scope: source.css
+        - meta_content_scope: source.css-color
         - include: Sublime JSON.sublime-syntax#inside-string
         - include: Sublime Text Color Scheme.sublime-syntax#color-var-function
 

@@ -116,12 +116,12 @@
 //              ^^^^^^^^^^^^ meta.interpolation-key.sublime-theme
             },
             "opacity": "var(icon_button_opacity)",
-//                      ^^^ string.quoted.double.json source.css meta.function-call.var.sublime-color-scheme support.function.var.sublime-color-scheme
+//                      ^^^ string.quoted.double.json source.css-color meta.function-call.var.sublime-color-scheme support.function.var.sublime-color-scheme
 //                          ^^^^^^^^^^^^^^^^^^^ variable.other.color-scheme
             "font.size": "",
 //                       ^^ string.quoted.double.json
             "font.size": "var(default_size)"
-//                            ^^^^^^^^^^^^ source.css meta.function-call.var.sublime-color-scheme meta.group.sublime-color-scheme variable.other.color-scheme
+//                            ^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme meta.group.sublime-color-scheme variable.other.color-scheme
         },
         { // integer (sequences)
             "inner_margin": 12,
