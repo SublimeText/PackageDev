@@ -1,0 +1,15 @@
+v3.2.0 (2018-10-23)
+-------------------
+
+* Add complete support for theme files!
+
+  Includes syntax highlighting, completions, snippets and a template to create a new file.
+  Supports all the new features from ST build 3179.
+
+  Check out this gif for a preview:
+  https://raw.githubusercontent.com/wiki/SublimeText/PackageDev/images/theme_completions.gif
+
+* Add support for new `foreground_adjust` key in color schemes
+* Fix setting edit buttons not showing for unpack default setting files (#178)
+* Fix variable completions in color schemes (and themes) being interfered by CSS completions
+* Improve setting phantom header visibility for certain bright color schemes (#197)
