@@ -669,6 +669,9 @@ contexts:
     - include: var-value
     - include: Sublime JSON.sublime-syntax#expect-string-value
 
+  expect-string-rest:
+    - include: Sublime JSON.sublime-syntax#expect-string-rest
+
   string-escape:
     - include: Sublime JSON.sublime-syntax#string-escape
 
