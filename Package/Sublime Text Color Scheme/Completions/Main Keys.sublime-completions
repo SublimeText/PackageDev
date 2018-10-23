@@ -1,5 +1,5 @@
 {
-    "scope": "meta.color-scheme.collection.sublime-color-scheme - meta.mapping meta.mapping - string - comment",
+    "scope": "meta.color-scheme.collection.sublime-color-scheme - meta.mapping meta.mapping - meta.sequence - string - comment",
     "completions": [
         { "trigger": "variables\tmain key", "contents": "\"variables\": {\n\t\"$1\": \"$2\",$0\n}," },
         { "trigger": "globals\tmain key", "contents": "\"globals\": {\n\t$0\n}," },
