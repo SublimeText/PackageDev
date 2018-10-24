@@ -1,0 +1,9 @@
+v3.2.1 (2018-10-24)
+-------------------
+
+(Notes not shown on release)
+
+* Allow `null` and `false` for layer*.tint values
+* Consider `Base File.sublime-settings` for default Preferences setting features
+* Fix completions for main keys in color schemes appearing inside the rules main key (@deathaxe)
+* `highlight_colour` was an upstream misspelling of `highlight_color` (in themes)
