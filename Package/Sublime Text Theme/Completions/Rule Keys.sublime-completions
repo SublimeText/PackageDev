@@ -13,8 +13,8 @@
         // colors
         { "trigger": "line_selection_color\tproperty", "contents": "\"line_selection_color\": \"$0\"," },
         { "trigger": "line_selection_border_color\tproperty", "contents": "\"line_selection_border_color\": \"$0\"," },
-        { "trigger": "highlight_colour\tproperty", "contents": "\"highlight_colour\": \"$0\"," },
-        { "trigger": "highlight_border_colour\tproperty", "contents": "\"highlight_border_colour\": \"$0\"," },
+        { "trigger": "highlight_color\tproperty", "contents": "\"highlight_color\": \"$0\"," },
+        { "trigger": "highlight_border_color\tproperty", "contents": "\"highlight_border_color\": \"$0\"," },
         { "trigger": "headline_color\tproperty", "contents": "\"headline_color\": \"$0\"," },
         { "trigger": "match_fg\tproperty", "contents": "\"match_fg\": \"$0\"," },
         { "trigger": "selected_fg\tproperty", "contents": "\"selected_fg\": \"$0\"," },

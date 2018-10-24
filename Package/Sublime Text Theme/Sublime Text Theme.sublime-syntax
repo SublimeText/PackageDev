@@ -14,7 +14,7 @@ variables:
   color_key: |-
     (?x:
         line_selection(?:_border)?_color
-      | highlight(?:_border)?_colour
+      | highlight(?:_border)?_color
       | headline_color
       | (?:selected_)?(?:match_)?fg
       | fg | color # alias
