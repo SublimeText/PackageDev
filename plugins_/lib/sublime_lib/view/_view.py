@@ -2,9 +2,7 @@ from contextlib import contextmanager
 
 from sublime import Region
 
-from ..edit import Edit
-
-__all__ = ['unset_read_only', 'append', 'clear', 'has_sels',
+__all__ = ['unset_read_only', 'has_sels',
            'has_file_ext', 'base_scope', 'rowcount', 'rowwidth',
            'relative_point', 'coorded_region', 'coorded_substr', 'get_text',
            'get_viewport_point', 'get_viewport_coords', 'set_viewport',
@@ -33,33 +31,6 @@ def unset_read_only(view):
 
     if read_only_before:
         view.set_read_only(True)
-
-
-def append(view, text, scroll=False):
-    """Appends text to `view`. Won't work if the view is read-only.
-
-    The `scroll_always` parameter may be one of these values:
-
-        True:  Always scroll to the end of the view.
-        False: Scroll only if the selecton is already at the end.
-        None:  Don't scroll.
-    """
-    size = view.size()
-    scroll = scroll or (scroll is not None and len(view.sel()) == 1
-                        and view.sel()[0] == Region(size))
-
-    with Edit(view) as edit:
-        edit.insert(size, text)
-
-    if scroll:
-        view.show(view.size())
-
-
-def clear(view, edit=None):
-    """Removes all the text in ``view``. Won't work if the view is read-only.
-    """
-    with Edit(view) as edit:
-        edit.erase(Region(0, view.size()))
 
 
 def has_sels(view):
