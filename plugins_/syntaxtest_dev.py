@@ -349,11 +349,17 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             test_at_start_of_comment = True
             lines = lines[1:]
 
+        col_start, col_end = lines[0].assertion_colrange
+        base_scope = path.commonprefix([
+            view.scope_name(pos)
+            for pos in range(line.begin() + col_start, line.begin() + col_end)
+        ])
+
         for pos in range(line.begin() + col, line.end() + 1):
             scope = view.scope_name(pos)
             if len(scopes) == 0:
                 scopes.append(scope)
-            elif scope != scopes[0]:
+            elif not scope.startswith(base_scope):
                 break
             length += 1
             if test_at_start_of_comment:
