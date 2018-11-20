@@ -1,42 +1,9 @@
-from contextlib import contextmanager
-
 from sublime import Region
 
-__all__ = ['unset_read_only', 'has_sels',
-           'has_file_ext', 'base_scope', 'rowcount', 'rowwidth',
-           'relative_point', 'coorded_region', 'coorded_substr', 'get_text',
-           'get_viewport_point', 'get_viewport_coords', 'set_viewport',
+__all__ = ['has_file_ext', 'base_scope',
+           'coorded_substr', 'get_text',
+           'get_viewport_coords', 'set_viewport',
            'extract_selector']
-
-
-@contextmanager
-def unset_read_only(view):
-    """Context manager to make sure a view writable if it is read-only.
-    If the view is not read-only it will just leave it untouched.
-
-    Yields a boolean indicating whether the view was read-only before or
-    not. This has limited use.
-
-    Examples:
-        ...
-        with unset_read_only(view):
-            ...
-        ...
-    """
-    read_only_before = view.is_read_only()
-    if read_only_before:
-        view.set_read_only(False)
-
-    yield read_only_before
-
-    if read_only_before:
-        view.set_read_only(True)
-
-
-def has_sels(view):
-    """Returns `True` if `view` has one selection or more.
-    """
-    return len(view.sel()) > 0
 
 
 def has_file_ext(view, ext):
