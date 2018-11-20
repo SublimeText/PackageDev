@@ -7,7 +7,7 @@ import plistlib
 
 import sublime
 
-from sublime_lib import OutputPanel, SettingsDict
+from sublime_lib import OutputPanel
 
 from ..sublime_lib.view import coorded_substr, base_scope, get_text
 from ..sublime_lib.path import file_path_tuple
@@ -181,10 +181,9 @@ class LoaderProto(object):
                 self.output_panel_name
             )
 
-        SettingsDict(self.output.view.settings()).update(
-            result_file_regex=self.file_regex,
-            result_base_dir=path,
-        )
+        output_settings = self.output.view.settings()
+        output_settings.set('result_file_regex', self.file_regex)
+        output_settings.set('result_base_dir', path)
 
     @classmethod
     def _pre_init_(cls):
