@@ -198,11 +198,11 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                 # Validate the shit again, but this time print to output panel
                 if source_format is not None and target_format == source_format:
                     return output.print("\nTarget and source file format are identical. (%s)"
-                                             % target_format)
+                                        % target_format)
 
                 if target_format not in dumpers.get:
                     return output.print("\nDumper for '%s' not supported/implemented."
-                                             % target_format)
+                                        % target_format)
 
                 output.print(' %s\n' % dumpers.get[target_format].name)
 
@@ -216,7 +216,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                 data = loader_.load(**kwargs)
             except Exception:
                 output.print("Unexpected error occurred while parsing, "
-                                  "please see the console for details.")
+                             "please see the console for details.")
                 raise
             if not data:
                 return
@@ -238,7 +238,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                 dumper.dump(data, **kwargs)
             except Exception:
                 output.print("Unexpected error occurred while dumping, "
-                                  "please see the console for details.")
+                             "please see the console for details.")
                 raise
             self.status("File conversion successful. (%s -> %s)"
                         % (source_format, target_format))

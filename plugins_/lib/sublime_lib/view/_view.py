@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from sublime import Region, View
 
 from .. import Settings
+from ..edit import Edit
 
 __all__ = ['ViewSettings', 'unset_read_only', 'append', 'clear', 'has_sels',
            'has_file_ext', 'base_scope', 'rowcount', 'rowwidth',

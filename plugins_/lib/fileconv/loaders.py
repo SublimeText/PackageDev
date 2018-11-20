@@ -371,11 +371,11 @@ class PlistLoader(LoaderProto):
                 data = plistlib.readPlistFromBytes(text.encode('utf-8'))
             except ExpatError as e:
                 self.output.print(self.debug_base
-                                       % (self.file_path,
-                                          ErrorString(e.code),
-                                          e.lineno,
-                                          e.offset)
-                                       )
+                                  % (self.file_path,
+                                     ErrorString(e.code),
+                                     e.lineno,
+                                     e.offset)
+                                  )
             # except BaseException as e:
             #     # Whatever could happen here ...
             #     self.output.print(self.debug_base % (self.file_path, str(e), 0, 0))
@@ -391,9 +391,9 @@ class PlistLoader(LoaderProto):
             except SAXReaderNotAvailable:
                 # https://github.com/SublimeText/AAAPackageDev/issues/48
                 self.output.print("Unable to parse Property List because of missing XML "
-                                       "parsers in your Python environment.\n"
-                                       "Please use Sublime Text 3 or reinstall Python 2.6 "
-                                       "on your system.")
+                                  "parsers in your Python environment.\n"
+                                  "Please use Sublime Text 3 or reinstall Python 2.6 "
+                                  "on your system.")
             else:
                 return data
 

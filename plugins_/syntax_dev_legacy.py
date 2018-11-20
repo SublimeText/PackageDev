@@ -235,7 +235,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 data = loader.load(**kwargs)
             except Exception:
                 output.print("Unexpected error occurred while parsing, "
-                                  "please see the console for details.")
+                             "please see the console for details.")
                 raise
 
             if not data:
@@ -251,7 +251,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
             except Exception:
                 output.print("Unexpected error occurred while dumping, "
-                                  "please see the console for details.")
+                             "please see the console for details.")
                 raise
 
             if not text:
