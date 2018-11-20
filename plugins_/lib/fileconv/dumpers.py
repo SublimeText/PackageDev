@@ -4,7 +4,7 @@ import json
 import yaml
 import plistlib
 
-from ..sublime_lib.view import OutputPanel
+from sublime_lib import OutputPanel
 
 
 class DumperProto(object):
@@ -41,7 +41,7 @@ class DumperProto(object):
 
                 Data to write is defined in ``data``.
                 The parsed data should be returned.
-                To output problems, use ``self.output.write_line(str)``.
+                To output problems, use ``self.output.print(str)``.
                 The default self.dump function will catch excetions raised
                 and print them via ``str()`` to the output.
 
@@ -169,7 +169,7 @@ class DumperProto(object):
 
         This function is called by the handler directly.
         """
-        self.output.write_line("Writing %s... (%s)" % (self.name, self.new_file_path))
+        self.output.print("Writing %s... (%s)" % (self.name, self.new_file_path))
         self.output.show()
         data = self.validate_data(data)
         params = self.validate_params(kwargs)

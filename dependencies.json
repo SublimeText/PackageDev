@@ -5,7 +5,8 @@
         ],
         "<3000": [
             "ordereddict",
-            "pyyaml"
+            "pyyaml",
+            "sublime_lib"
         ]
     }
 }

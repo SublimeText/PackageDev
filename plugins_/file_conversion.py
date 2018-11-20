@@ -3,9 +3,11 @@ import time
 
 import sublime
 
+from sublime_lib import OutputPanel
+
 from .lib.sublime_lib import WindowAndTextCommand
 from .lib.sublime_lib.path import file_path_tuple
-from .lib.sublime_lib.view import OutputPanel, get_text
+from .lib.sublime_lib.view import get_text
 
 from .lib.fileconv import dumpers, loaders
 
@@ -119,7 +121,8 @@ class PackagedevConvertCommand(WindowAndTextCommand):
             return self.status("Dumper for '%s' not supported/implemented." % target_format)
 
         # Now the actual "building" starts (collecting remaining parameters)
-        with OutputPanel(self.window, "package_dev") as output:
+        with OutputPanel.create(self.window, "package_dev",
+                                read_only=True, force_writes=True) as output:
             output.show()
 
             # Auto-detect the file type if it's not specified
@@ -128,13 +131,13 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                 for Loader in loaders.get.values():
                     if Loader.file_is_valid(self.view):
                         source_format = Loader.ext
-                        output.write_line(' %s\n' % Loader.name)
+                        output.print(' %s\n' % Loader.name)
                         break
 
                 if not source_format:
-                    return output.write_line("\nUnable to detect file type.")
+                    return output.print("\nUnable to detect file type.")
                 elif target_format == source_format:
-                    return output.write_line("File already is %s." % Loader.name)
+                    return output.print("File already is %s." % Loader.name)
 
             # Load inline options
             Loader = loaders.get[source_format]
@@ -177,11 +180,11 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                     def on_select(index):
                         if index < 0 or index >= len(items):
                             # canceled or other magic
-                            output.write_line("\n\nBuild canceled.")
+                            output.print("\n\nBuild canceled.")
                             return
 
                         target = items[index]
-                        output.write_line(' %s\n' % target['name'])
+                        output.print(' %s\n' % target['name'])
 
                         kwargs.update(target['kwargs'])
                         kwargs.update(dict(source_format=source_format, _output=output))
@@ -194,14 +197,14 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                 target_format = opts['target_format']
                 # Validate the shit again, but this time print to output panel
                 if source_format is not None and target_format == source_format:
-                    return output.write_line("\nTarget and source file format are identical. (%s)"
+                    return output.print("\nTarget and source file format are identical. (%s)"
                                              % target_format)
 
                 if target_format not in dumpers.get:
-                    return output.write_line("\nDumper for '%s' not supported/implemented."
+                    return output.print("\nDumper for '%s' not supported/implemented."
                                              % target_format)
 
-                output.write_line(' %s\n' % dumpers.get[target_format].name)
+                output.print(' %s\n' % dumpers.get[target_format].name)
 
             start_time = time.time()
 
@@ -212,7 +215,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
             try:
                 data = loader_.load(**kwargs)
             except Exception:
-                output.write_line("Unexpected error occurred while parsing, "
+                output.print("Unexpected error occurred while parsing, "
                                   "please see the console for details.")
                 raise
             if not data:
@@ -225,7 +228,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                 try:
                     os.makedirs(new_dir)
                 except OSError:
-                    output.write_line("Could not create folder '%s'" % new_dir)
+                    output.print("Could not create folder '%s'" % new_dir)
                     return
 
             # Now dump to new file
@@ -234,14 +237,14 @@ class PackagedevConvertCommand(WindowAndTextCommand):
             try:
                 dumper.dump(data, **kwargs)
             except Exception:
-                output.write_line("Unexpected error occurred while dumping, "
+                output.print("Unexpected error occurred while dumping, "
                                   "please see the console for details.")
                 raise
             self.status("File conversion successful. (%s -> %s)"
                         % (source_format, target_format))
 
             # Finish
-            output.write_line("[Finished in %.3fs]" % (time.time() - start_time))
+            output.print("[Finished in %.3fs]" % (time.time() - start_time))
             # We need to save the text if calling "rearrange_yaml_syntax_def"
             # because `get_output_panel` resets its contents.
             output_text = get_text(output.view)
