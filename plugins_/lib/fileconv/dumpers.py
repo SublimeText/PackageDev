@@ -378,10 +378,11 @@ class YAMLDumper(DumperProto):
 
 
 # Add the internal plistlib dict wrapper to the safe dumper
-yaml.SafeDumper.add_representer(
-    plistlib._InternalDict,
-    yaml.SafeDumper.represent_dict
-)
+if hasattr(plistlib, '_InternalDict'):
+    yaml.SafeDumper.add_representer(
+        plistlib._InternalDict,
+        yaml.SafeDumper.represent_dict
+    )
 
 
 ###############################################################################
