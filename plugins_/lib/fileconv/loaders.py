@@ -10,7 +10,6 @@ import sublime
 from sublime_lib import OutputPanel
 
 from ..view_utils import coorded_substr, base_scope, get_text
-from ..sublime_lib.path import file_path_tuple
 
 
 # xml.parsers.expat is not available on certain Linux dists, use plist_parser then.
@@ -269,7 +268,7 @@ class LoaderProto(object):
             return None
 
         return (cls.get_ext_appendix(file_path) is not None
-                or file_path_tuple(file_path).ext == '.' + cls.ext
+                or os.path.splitext(file_path)[1] == '.' + cls.ext
                 or (cls.scope is not None and view
                     and base_scope(view) == cls.scope))
 
