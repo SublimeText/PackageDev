@@ -4,9 +4,9 @@ import time
 import sublime
 
 from sublime_lib import OutputPanel
+from pathlib import Path
 
 from .lib.sublime_lib import WindowAndTextCommand
-from .lib.sublime_lib.path import file_path_tuple
 from .lib.view_utils import get_text
 
 from .lib.fileconv import dumpers, loaders
@@ -110,6 +110,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
         file_path = self.view.file_name()
         if not file_path:
             return self.status("File does not exist.", file_path)
+        file_path = Path(file_path)
 
         if source_format and target_format == source_format:
             return self.status("Target and source file format are identical. (%s)" % target_format)
@@ -156,8 +157,6 @@ class PackagedevConvertCommand(WindowAndTextCommand):
 
                 return (new_ext or '.' + target_format)
 
-            path_tuple = file_path_tuple(file_path)  # This is the latest point possible
-
             if not target_format:
                 output.write("No target format specified, searching in file...")
 
@@ -174,7 +173,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                         target_format_ = itm['kwargs']['target_format']
                         if target_format_ != source_format:
                             options.append(["Convert to: %s" % itm['name'],
-                                            path_tuple.base_name + get_new_ext(target_format_)])
+                                            file_path.stem + get_new_ext(target_format_)])
                             items.append(itm)
 
                     def on_select(index):
@@ -222,17 +221,16 @@ class PackagedevConvertCommand(WindowAndTextCommand):
                 return
 
             # Determine new file name
-            new_file_path = path_tuple.no_ext + get_new_ext(target_format)
-            new_dir = os.path.dirname(new_file_path)
-            if not os.path.exists(new_dir):
-                try:
-                    os.makedirs(new_dir)
-                except OSError:
-                    output.print("Could not create folder '%s'" % new_dir)
-                    return
+            new_file_path = file_path.with_suffix(get_new_ext(target_format))
+            new_dir = new_file_path.parent
+            try:
+                os.makedirs(str(new_dir), exist_ok=True)
+            except OSError:
+                output.print("Could not create folder '%s'" % new_dir)
+                return
 
             # Now dump to new file
-            dumper = dumpers.get[target_format](self.window, self.view, new_file_path,
+            dumper = dumpers.get[target_format](self.window, self.view, str(new_file_path),
                                                 output=output)
             try:
                 dumper.dump(data, **kwargs)
@@ -251,7 +249,7 @@ class PackagedevConvertCommand(WindowAndTextCommand):
 
         # Continue with potential further steps
         if open_new_file or rearrange_yaml_syntax_def:
-            new_view = self.window.open_file(new_file_path)
+            new_view = self.window.open_file(str(new_file_path))
 
             if rearrange_yaml_syntax_def:
                 new_view.run_command('packagedev_rearrange_yaml_syntax_def',
