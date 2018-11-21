@@ -28,20 +28,14 @@ else:
 ###############################################################################
 
 re_js_comments_str = r"""
-    (                               # Capture code
-        (?:
-            "(?:\\.|[^"\\])*"           # String literal
-            |
-            '(?:\\.|[^'\\])*'           # String literal
-            |
-            (?:[^/\n"']|/[^/*\n"'])+    # Any code besides newlines or string literals
-            |
-            \n                          # Newline
-        )+                          # Repeat
-    )|
-    (/\* (?:[^*]|\*[^/])* \*/)      # Multi-line comment
-    |
-    (?://(.*)$)                     # Comment
+    ((?:                          # Non-comments
+          "(?:\\.|[^"\\])*"           # String literal
+        | '(?:\\.|[^'\\])*'           # String literal
+        | (?:[^/\n"'] | / [^/*\n"'])+ # Anything besides newlines, string literals or comments
+        | \n                          # Newline
+    )+)
+    | (/\* (?:[^*]|\*[^/])* \*/)  # Multi-line comment
+    | (?://(.*)$)                 # Line comment
 """
 re_js_comments = re.compile(re_js_comments_str, re.VERBOSE + re.MULTILINE)
 
