@@ -9,8 +9,9 @@ import yaml
 import sublime
 import sublime_plugin
 
-from .lib.sublime_lib.view import (OutputPanel, base_scope, get_viewport_coords, set_viewport,
-                                   extract_selector)
+from sublime_lib import OutputPanel
+
+from .lib.view_utils import base_scope, get_viewport_coords, set_viewport, extract_selector
 
 from .lib.fileconv import dumpers, loaders
 from .lib.scope_data import COMPILED_HEADS
@@ -73,7 +74,10 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         if isinstance(output, OutputPanel):
             self.output = output
         elif window:
-            self.output = OutputPanel(window, self.output_panel_name)
+            self.output = OutputPanel.create(
+                window, self.output_panel_name,
+                read_only=True, force_writes=True
+            )
 
     def sort_keys(self, data, sort_order, sort_numeric):
         def do_sort(obj):
@@ -109,13 +113,13 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         ))
 
     def dump(self, data, sort=True, sort_order=None, sort_numeric=True, *args, **kwargs):
-        self.output.write_line("Sorting %s..." % self.name)
+        self.output.print("Sorting %s..." % self.name)
         self.output.show()
         if sort:
             data = self.sort_keys(data, sort_order, sort_numeric)
         params = self.validate_params(kwargs)
 
-        self.output.write_line("Dumping %s..." % self.name)
+        self.output.print("Dumping %s..." % self.name)
         return yaml.dump(data, **params)
 
 
@@ -212,10 +216,13 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             sort_order = self.default_order
         vp = get_viewport_coords(self.view)
 
-        with OutputPanel(self.view.window() or sublime.active_window(), "package_dev") as output:
+        with OutputPanel.create(
+            self.view.window() or sublime.active_window(), "package_dev",
+            read_only=True, force_writes=True
+        ) as output:
             output.show()
             if _output_text:
-                output.write_line(_output_text)  # With additional newline
+                output.print(_output_text)  # With additional newline
 
             self.start_time = time.time()
 
@@ -226,12 +233,12 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             try:
                 data = loader.load(**kwargs)
             except Exception:
-                output.write_line("Unexpected error occurred while parsing, "
-                                  "please see the console for details.")
+                output.print("Unexpected error occurred while parsing, "
+                             "please see the console for details.")
                 raise
 
             if not data:
-                output.write_line("No contents in file.")
+                output.print("No contents in file.")
                 return
 
             # Dump
@@ -242,12 +249,12 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             try:
                 text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
             except Exception:
-                output.write_line("Unexpected error occurred while dumping, "
-                                  "please see the console for details.")
+                output.print("Unexpected error occurred while dumping, "
+                             "please see the console for details.")
                 raise
 
             if not text:
-                output.write_line("Error re-dumping the data in file (no output).")
+                output.print("Error re-dumping the data in file (no output).")
                 status("Error re-dumping the data (no output).", True)
                 return
 
@@ -261,7 +268,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
             # Insert the new lines using the syntax definition (which has hopefully been set)
             if insert_newlines:
-                output.write_line("Inserting newlines...")
+                output.print("Inserting newlines...")
                 find = self.view.find_by_selector
 
                 def select(l, only_first=True, not_first=True):
@@ -295,7 +302,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                     self.view.insert(edit, reg.begin(), '\n')
 
             if save:
-                output.write_line("Saving...")
+                output.print("Saving...")
                 # Otherwise the "dirty" indicator is not removed
                 sublime.set_timeout(lambda: self.view.run_command("save"), 20)
 

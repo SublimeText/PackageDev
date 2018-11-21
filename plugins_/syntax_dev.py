@@ -5,7 +5,7 @@ import re
 import sublime
 import sublime_plugin
 
-from .lib.sublime_lib.constants import style_flags_from_list
+from .lib.flags import style_flags_from_list
 from .lib.scope_data import COMPILED_HEADS
 from .lib import syntax_paths
 

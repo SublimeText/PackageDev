@@ -1,8 +1,9 @@
 from xml.etree import ElementTree as ET
 
+from sublime import Region
 import sublime_plugin
 
-from .lib.sublime_lib.view import has_file_ext, get_text, clear
+from .lib.view_utils import has_file_ext, get_text
 from .lib import syntax_paths
 
 __all__ = (
@@ -28,7 +29,7 @@ class PackagedevSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         content = get_text(self.view)
-        clear(self.view)
+        self.view.erase(edit, Region(0, self.view.size()))
         self.view.run_command('insert_snippet', {'name': SNIPPET_PATH})
 
         # defuse CDATA end sequence with an undefined variable

@@ -7,7 +7,7 @@ import sublime
 import sublime_plugin
 
 from .lib import get_setting
-from .lib.sublime_lib.constants import style_flags_from_list
+from .lib.flags import style_flags_from_list
 
 __all__ = (
     'SyntaxTestHighlighterListener',

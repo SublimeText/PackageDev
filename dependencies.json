@@ -1,11 +1,9 @@
 {
     "*": {
         ">=3000": [
-            "pyyaml"
-        ],
-        "<3000": [
-            "ordereddict",
-            "pyyaml"
+            "pyyaml",
+            "pathlib",
+            "sublime_lib"
         ]
     }
 }

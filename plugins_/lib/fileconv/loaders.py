@@ -7,7 +7,9 @@ import plistlib
 
 import sublime
 
-from ..sublime_lib.view import OutputPanel, coorded_substr, base_scope, get_text
+from sublime_lib import OutputPanel
+
+from ..view_utils import coorded_substr, base_scope, get_text
 from ..sublime_lib.path import file_path_tuple
 
 
@@ -121,7 +123,7 @@ class LoaderProto(object):
 
                 The file to be read from is defined in ``self.file_path``.
                 The parsed data should be returned.
-                To output problems, use ``self.output.write_line(str)`` and use a
+                To output problems, use ``self.output.print(str)`` and use a
                 string matched by ``self.file_regex`` if possible.
 
                 *args, **kwargs parameters are passed from
@@ -172,11 +174,16 @@ class LoaderProto(object):
 
         path = os.path.split(self.file_path)[0]
         if isinstance(output, OutputPanel):
-            output.set_path(path, self.file_regex)
             self.output = output
         else:
-            self.output = OutputPanel(self.window, self.output_panel_name,
-                                      file_regex=self.file_regex, path=path)
+            self.output = OutputPanel.create(
+                self.window,
+                self.output_panel_name
+            )
+
+        output_settings = self.output.view.settings()
+        output_settings.set('result_file_regex', self.file_regex)
+        output_settings.set('result_base_dir', path)
 
     @classmethod
     def _pre_init_(cls):
@@ -284,10 +291,10 @@ class LoaderProto(object):
         This function is called by the handler directly.
         """
         if not self.is_valid():
-            self.output.write_line("Not a %s file." % self.name)
+            self.output.print("Not a %s file." % self.name)
             return
 
-        self.output.write_line("Parsing %s... (%s)" % (self.name, self.file_path))
+        self.output.print("Parsing %s... (%s)" % (self.name, self.file_path))
 
         return self.parse(*args, **kwargs)
 
@@ -312,7 +319,7 @@ class JSONLoader(LoaderProto):
             text = strip_js_comments(text)
             data = json.loads(text)
         except ValueError as e:
-            self.output.write_line(self.debug_base % (self.file_path, str(e)))
+            self.output.print(self.debug_base % (self.file_path, str(e)))
         else:
             return data
 
@@ -362,15 +369,15 @@ class PlistLoader(LoaderProto):
                 # but since it is already tried above it should succeed.
                 data = plistlib.readPlistFromBytes(text.encode('utf-8'))
             except ExpatError as e:
-                self.output.write_line(self.debug_base
-                                       % (self.file_path,
-                                          ErrorString(e.code),
-                                          e.lineno,
-                                          e.offset)
-                                       )
+                self.output.print(self.debug_base
+                                  % (self.file_path,
+                                     ErrorString(e.code),
+                                     e.lineno,
+                                     e.offset)
+                                  )
             # except BaseException as e:
             #     # Whatever could happen here ...
-            #     self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+            #     self.output.print(self.debug_base % (self.file_path, str(e), 0, 0))
             else:
                 return data
         else:
@@ -379,13 +386,13 @@ class PlistLoader(LoaderProto):
             try:
                 data = plist_parser.parse_string(text)
             except plist_parser.PropertyListParseError as e:
-                self.output.write_line(self.debug_base % (self.file_path, str(e), 0, 0))
+                self.output.print(self.debug_base % (self.file_path, str(e), 0, 0))
             except SAXReaderNotAvailable:
                 # https://github.com/SublimeText/AAAPackageDev/issues/48
-                self.output.write_line("Unable to parse Property List because of missing XML "
-                                       "parsers in your Python environment.\n"
-                                       "Please use Sublime Text 3 or reinstall Python 2.6 "
-                                       "on your system.")
+                self.output.print("Unable to parse Property List because of missing XML "
+                                  "parsers in your Python environment.\n"
+                                  "Please use Sublime Text 3 or reinstall Python 2.6 "
+                                  "on your system.")
             else:
                 return data
 
@@ -404,9 +411,9 @@ class YAMLLoader(LoaderProto):
             data = yaml.safe_load(text)
         except yaml.YAMLError as e:
             out = self.debug_base % str(e).replace("<unicode string>", self.file_path)
-            self.output.write_line(out)
+            self.output.print(out)
         except IOError as e:
-            self.output.write_line('Error opening "%s": %s' % (self.file_path, str(e)))
+            self.output.print('Error opening "%s": %s' % (self.file_path, str(e)))
         else:
             return data
 
