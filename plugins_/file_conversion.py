@@ -7,7 +7,7 @@ from sublime_lib import OutputPanel
 
 from .lib.sublime_lib import WindowAndTextCommand
 from .lib.sublime_lib.path import file_path_tuple
-from .lib.sublime_lib.view import get_text
+from .lib.view_utils import get_text
 
 from .lib.fileconv import dumpers, loaders
 

@@ -11,8 +11,7 @@ import sublime_plugin
 
 from sublime_lib import OutputPanel
 
-from .lib.sublime_lib.view import (base_scope, get_viewport_coords, set_viewport,
-                                   extract_selector)
+from .lib.view_utils import base_scope, get_viewport_coords, set_viewport, extract_selector
 
 from .lib.fileconv import dumpers, loaders
 from .lib.scope_data import COMPILED_HEADS

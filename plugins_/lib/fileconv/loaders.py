@@ -9,7 +9,7 @@ import sublime
 
 from sublime_lib import OutputPanel
 
-from ..sublime_lib.view import coorded_substr, base_scope, get_text
+from ..view_utils import coorded_substr, base_scope, get_text
 from ..sublime_lib.path import file_path_tuple
 
 

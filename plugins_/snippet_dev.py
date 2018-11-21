@@ -3,7 +3,7 @@ from xml.etree import ElementTree as ET
 from sublime import Region
 import sublime_plugin
 
-from .lib.sublime_lib.view import has_file_ext, get_text
+from .lib.view_utils import has_file_ext, get_text
 from .lib import syntax_paths
 
 __all__ = (
