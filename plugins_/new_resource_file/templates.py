@@ -90,7 +90,7 @@ TEMPLATES = dict(
               { "caption": "README",
                 "command": "open_file",
                 "args": {
-                  "target": "\${packages}/$1/README.md"
+                  "file": "\${packages}/$1/README.md"
                 }
               },
               { "caption": "-" },
