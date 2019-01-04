@@ -264,6 +264,23 @@ contexts: !mytag
 #          ^^^^^^ storage.type.tag-handle.yaml
 #                 ^^^^ constant.language.boolean.yaml
 
+    - match: foo
+#   ^ meta.block.contexts.sublime-syntax punctuation.definition.block.sequence.item.yaml
+#     ^^^^^ meta.block.contexts.sublime-syntax string.unquoted.plain.out.yaml keyword.other.match.sublime-syntax
+      push:
+#     ^^^^ meta.block.contexts.sublime-syntax string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
+        - context-name-3
+#       ^^^^^^^^^^^^^^^^^ meta.block.contexts.sublime-syntax meta.expect-include-list meta.include-list.sublime-syntax meta.flow-sequence.yaml
+#       ^ punctuation.definition.block.sequence.yaml
+#         ^^^^^^^^^^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.sublime-syntax
+        - context-name-2
+#       ^^^^^^^^^^^^^^^^^ meta.block.contexts.sublime-syntax meta.expect-include-list meta.include-list.sublime-syntax meta.flow-sequence.yaml
+#       ^ punctuation.definition.block.sequence.yaml
+#         ^^^^^^^^^^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.sublime-syntax
+    - match: foo
+#   ^ meta.block.contexts.sublime-syntax punctuation.definition.block.sequence.item.yaml
+#     ^^^^^ meta.block.contexts.sublime-syntax string.unquoted.plain.out.yaml keyword.other.match.sublime-syntax
+
       pop:not a key
 #     ^^^ - keyword
 variables:also not a key

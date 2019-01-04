@@ -330,6 +330,15 @@ contexts:
         - include: comment
         - include: yaml-tags-anchors
         - include: include
+    - match: \-(?=\s*{{plain_scalar_but_not_block_key}})
+      scope: punctuation.definition.block.sequence.yaml
+      push:
+        - meta_scope: meta.include-list.sublime-syntax meta.flow-sequence.yaml
+        - match: $\n?
+          pop: true
+        - include: comment
+        - include: yaml-tags-anchors
+        - include: include
     - include: expect_include
 
   include:
