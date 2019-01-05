@@ -310,13 +310,13 @@ contexts:
     - include: comment
     - include: yaml-tags-anchors
     - include: include
-    - match: '{{block_key_lookahead_bol}}'
-      pop: true
-    - match: (?=\S)
+    - match: $|(?=\S)
       pop: true
 
   expect_include_list:
     - meta_content_scope: meta.expect-include-list
+    - include: comment
+    - include: yaml-tags-anchors
     - match: \[
       scope: punctuation.definition.array.begin.sublime-syntax
       set:
@@ -346,7 +346,8 @@ contexts:
         # limit context to the current line
         - match: $|(?=\S)
           pop: true
-    - include: expect_include
+    - match: (?=\S)
+      set: expect_include
 
   include_list_content:
     - include: comment
