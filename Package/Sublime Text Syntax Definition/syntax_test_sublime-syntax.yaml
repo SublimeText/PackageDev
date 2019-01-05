@@ -158,12 +158,20 @@ contexts:
 #                   ^ punctuation.definition.scope-include.sublime-syntax
 #                                           ^ punctuation.separator.context-name.sublime-syntax - comment
 #                                            ^^^^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
+
     - push: [main, Packages/JSON/JSON.sublime-syntax#comment]
 #<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #     ^^^^ string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
+#           ^ punctuation.definition.array.begin.sublime-syntax
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include-list meta.flow-sequence.yaml
-#            ^^^^ meta.include.sublime-syntax string
+#            ^^^^ meta.include.sublime-syntax string variable
+#                ^ punctuation.separator.array-element.sublime-syntax
+#                 ^ - punctuation - string - support.module.file-path
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
+#                                                   ^ punctuation.separator.context-name.sublime-syntax
+#                                                    ^^^^^^^ variable.other.sublime-syntax
+#                                                           ^ punctuation.definition.array.end.sublime-syntax
       set: Packages/JSON/JSON.sublime-syntax#comment
 #    ^ - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #     ^^^ string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
