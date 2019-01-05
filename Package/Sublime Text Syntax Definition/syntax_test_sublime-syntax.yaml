@@ -265,18 +265,53 @@ contexts: !mytag
 #                 ^^^^ constant.language.boolean.yaml
 
     - match: foo
-#   ^ meta.block.contexts.sublime-syntax punctuation.definition.block.sequence.item.yaml
-#     ^^^^^ meta.block.contexts.sublime-syntax string.unquoted.plain.out.yaml keyword.other.match.sublime-syntax
       push:
-#     ^^^^ meta.block.contexts.sublime-syntax string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
-        - context-name-3
-#       ^^^^^^^^^^^^^^^^^ meta.block.contexts.sublime-syntax meta.expect-include-list meta.include-list.sublime-syntax meta.flow-sequence.yaml
-#       ^ punctuation.definition.block.sequence.yaml
-#         ^^^^^^^^^^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.sublime-syntax
-        - context-name-2
-#       ^^^^^^^^^^^^^^^^^ meta.block.contexts.sublime-syntax meta.expect-include-list meta.include-list.sublime-syntax meta.flow-sequence.yaml
-#       ^ punctuation.definition.block.sequence.yaml
-#         ^^^^^^^^^^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.sublime-syntax
+        -
+#       ^ meta.expect-include-list-or-content punctuation.definition.block.sequence.item.yaml
+
+    - match: foo
+      push:   # comment
+        -
+#       ^ meta.expect-include-list-or-content punctuation.definition.block.sequence.item.yaml
+
+    - match: foo
+      push:
+        - match
+#^^^^^^^^^^^^^^^ meta.expect-include-list-or-content
+#       ^^ meta.include-list - meta.include
+#         ^^^^^ meta.include-list meta.include.sublime-syntax
+#              ^ meta.include-list.sublime-syntax - meta.include
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
+        - match
+#<- meta.include-list.sublime-syntax - meta.include - meta.expect-include-list-or-content
+#       ^^ meta.include-list.sublime-syntax - meta.include
+#         ^^^^^ meta.include-list meta.include.sublime-syntax
+#              ^ meta.include-list.sublime-syntax - meta.include
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
+        - scope:source.yaml
+#       ^^ meta.include-list.sublime-syntax - meta.include
+#         ^^^^^^^^^^^^^^^^^ meta.include-list meta.include.sublime-syntax
+#                          ^ meta.include-list.sublime-syntax - meta.include
+        - YAML.sublime-syntax#property
+#       ^^ meta.include-list.sublime-syntax - meta.include
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include-list meta.include.sublime-syntax
+#                                     ^ meta.include-list.sublime-syntax - meta.include
+        - match: test
+#       ^^^^^^^^^^^^^^ meta.include-list.sublime-syntax - meta.include
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^^^^^^^ invalid.illegal.include.sublime-syntax
+          scope: invalid
+#         ^ string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
+
+    - match: foo
+      push:
+        - meta_scope: meta
+  #<- meta.expect-include-list-or-content
+  #^^^^^^^ meta.expect-include-list-or-content - meta.expect-include-list - meta.include-list
+  #       ^^^^^^^^^^^^^^^^^ - meta.expect-include-list-or-content - meta.expect-include-list - meta.include-list
+
     - match: foo
 #   ^ meta.block.contexts.sublime-syntax punctuation.definition.block.sequence.item.yaml
 #     ^^^^^ meta.block.contexts.sublime-syntax string.unquoted.plain.out.yaml keyword.other.match.sublime-syntax
