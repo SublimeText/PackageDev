@@ -177,27 +177,27 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         # Auto-completion for include values using the 'contexts' keys and for
         if verify_scope("meta.expect-include-list-or-content", -1):
-            return self._complete_keywords(prefix, locations) + \
-                   self._complete_contexts(prefix, locations)
+            return self._complete_keyword(prefix, locations) + \
+                self._complete_context(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys
         if verify_scope("meta.expect-include-list | meta.expect-include"
-                        " | meta.include | meta.include-list"):
-            return self._complete_contexts(prefix, locations)
+                        " | meta.include | meta.include-list", -1):
+            return self._complete_context(prefix, locations)
 
         # Auto-completion for variables in match patterns using 'variables' keys
         if verify_scope("keyword.other.variable"):
             return self._complete_variable()
 
         # Standard completions for unmatched regions
-        return self._complete_keywords(prefix, locations)
+        return self._complete_keyword(prefix, locations)
 
     def _line_prefix(self, point):
         _, col = self.view.rowcol(point)
         line = self.view.substr(self.view.line(point))
         return line[:col]
 
-    def _complete_contexts(self, prefix, locations):
+    def _complete_context(self, prefix, locations):
         # Verify that we're not looking for an external include
         for point in locations:
             line_prefix = self._line_prefix(point)
@@ -214,7 +214,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         )
         return [(ctx + "\tcontext", ctx) for ctx in context_names]
 
-    def _complete_keywords(self, prefix, locations):
+    def _complete_keyword(self, prefix, locations):
 
         def verify_scope(selector, offset=0):
             """Verify scope for each location."""
