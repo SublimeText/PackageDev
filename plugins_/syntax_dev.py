@@ -156,6 +156,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
     base_suffix = None
 
     @classmethod
+    def applies_to_primary_view_only(cls):
+        return False
+
+    @classmethod
     def is_applicable(cls, settings):
         return settings.get('syntax') == syntax_paths.SYNTAX_DEF
 
