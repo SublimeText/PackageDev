@@ -138,7 +138,7 @@ def _build_completions(base_keys=(), dict_keys=(), list_keys=()):
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     base_completions_root = _build_completions(
-        base_keys=('scope', 'name'),
+        base_keys=('name', 'scope', 'first_line_match'),
         dict_keys=('variables', 'contexts'),
         list_keys=('file_extensions',),
     )
