@@ -81,6 +81,7 @@ variables:
       | dark | horizonzal # stat_bar_control
       | pressed | confirm | highlighted # button_control
       | left | right # icon_button_control
+      | untracked | modified | staged | added | unmerged | ignored # file_system_entry
     )
 
 contexts:

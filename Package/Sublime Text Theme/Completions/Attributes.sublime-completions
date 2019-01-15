@@ -20,5 +20,11 @@
         { "trigger": "highlighted\tattribute", "contents": "\"highlighted\"" },
         { "trigger": "left\tattribute", "contents": "\"left\"" },
         { "trigger": "right\tattribute", "contents": "\"right\"" },
+        { "trigger": "untracked\tattribute", "contents": "\"untracked\"" },
+        { "trigger": "modified\tattribute", "contents": "\"modified\"" },
+        { "trigger": "staged\tattribute", "contents": "\"staged\"" },
+        { "trigger": "added\tattribute", "contents": "\"added\"" },
+        { "trigger": "unmerged\tattribute", "contents": "\"unmerged\"" },
+        { "trigger": "ignored\tattribute", "contents": "\"ignored\"" },
     ]
 }
