@@ -6,8 +6,9 @@ from os import path
 import sublime
 import sublime_plugin
 
+from sublime_lib.flags import RegionOption
+
 from .lib import get_setting
-from .lib.flags import style_flags_from_list
 
 __all__ = (
     'SyntaxTestHighlighterListener',
@@ -183,7 +184,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
 
         scope = get_setting('syntax_test.highlight_scope', 'text')
         styles = get_setting('syntax_test.highlight_styles', ['DRAW_NO_FILL'])
-        style_flags = style_flags_from_list(styles)
+        style_flags = RegionOption(*styles)
 
         self.view.add_regions('current_syntax_test', [region], scope, '', style_flags)
 

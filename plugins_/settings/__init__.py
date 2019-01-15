@@ -5,8 +5,9 @@ import os
 import sublime
 import sublime_plugin
 
+from sublime_lib.flags import RegionOption
+
 from ..lib import get_setting
-from ..lib.flags import style_flags_from_list
 from ..lib.weakmethod import WeakMethodProxy
 
 from .region_math import (VALUE_SCOPE, KEY_SCOPE, KEY_COMPLETIONS_SCOPE,
@@ -237,7 +238,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
                 unknown_regions,
                 scope=get_setting('settings.highlight_scope', "text"),
                 icon='dot',
-                flags=style_flags_from_list(styles)
+                flags=RegionOption(*styles)
             )
         else:
             self.view.erase_regions('unknown_settings_keys')

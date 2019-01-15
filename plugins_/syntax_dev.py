@@ -5,7 +5,8 @@ import re
 import sublime
 import sublime_plugin
 
-from .lib.flags import style_flags_from_list
+from sublime_lib.flags import RegionOption
+
 from .lib.scope_data import COMPILED_HEADS
 from .lib import syntax_paths
 
@@ -36,7 +37,7 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
         scope = prefs.get('syntax_captures_highlight_scope', 'text')
         styles = prefs.get('syntax_captures_highlight_styles', ['DRAW_NO_FILL'])
 
-        style_flags = style_flags_from_list(styles)
+        style_flags = RegionOption(*styles)
 
         self.view.add_regions(
             key='captures',
