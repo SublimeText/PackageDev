@@ -1,0 +1,26 @@
+v3.2.2 (2019-01-15)
+-------------------
+
+* Added a command to edit the currently active color scheme in a User override (#200)
+* Auto-completions now work in cloned files (#142)
+* Syntax: Fixed highlighting of multi-push statements and provide completions (@deathaxe, #209)
+* Syntax: Added input helpers for `:` and `-` (@deathaxe, #212)
+* Settings: Added proper setting sources for widget settings (#206)
+
+Small changes:
+
+* The bundled sublime_lib has been removed and replaced with an actual dependency:
+  <https://github.com/SublimeText/sublime_lib#readme>
+* Fixed wrong arg in the menu template (@calculuswhiz, #207)
+* Syntax Tests: Extend test range in completions as far as possible (@Thom1729, #202)
+* Syntax: Added `first_line_match` completion (@deathaxe, #214)
+* Settings: Added more undocumented settings hints
+* Themes: Support new attributes for VCS-aware sidebar
+
+
+Notes from earlier releases that weren't shown:
+
+* Themes: Allow more values for certain keys (#198, #199)
+* Themes: `highlight_colour` was an upstream misspelling of `highlight_color`
+* Settings: Consider `Base File.sublime-settings` files for default Preferences (#196)
+* Schemes: Fix mis-scoped completions (@deathaxe, #194)
