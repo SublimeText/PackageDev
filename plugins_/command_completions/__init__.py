@@ -134,10 +134,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         loc = locations[0]
-        python_arg_scope = (
-            "source.python meta.function-call.python "
-            "meta.function-call.arguments.python string.quoted"
-        )
+        python_arg_scope = ("source.python meta.function-call.arguments.python string.quoted")
         if not view.score_selector(loc, python_arg_scope):
             return
         if sublime.packages_path() not in (view.file_name() or ""):
@@ -152,6 +149,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
             return
         # get the command type
         caller_var = m.group('callervar')
+        l.debug("caller_var: %s", caller_var)
         if "view" in caller_var or caller_var == "v":
             command_type = 'text'
         elif caller_var == "sublime":
