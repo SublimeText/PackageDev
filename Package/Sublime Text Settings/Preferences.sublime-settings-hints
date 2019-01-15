@@ -25,6 +25,10 @@
 	// Disabling this allows dragging the minimap from anywhere.
 	"minimap_scroll_to_clicked_text": true,
 
+	// Path to the syntax definition for a view.
+	// To be used in widget settings files.
+	"syntax": "Packages/Text/Plain text.tmLanguage",
+
 	// Check for updates on startup (hidden setting)
 	// Only available to registered users.
 	"update_check": true,
