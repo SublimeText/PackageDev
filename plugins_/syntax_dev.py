@@ -133,7 +133,7 @@ def _build_completions(base_keys=(), dict_keys=(), list_keys=()):
         (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),
         (("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)
     )
-    return tuple(sorted(generator))
+    return sorted(generator)
 
 
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
@@ -157,13 +157,136 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
     base_suffix = None
 
     @classmethod
+    def applies_to_primary_view_only(cls):
+        return False
+
+    @classmethod
     def is_applicable(cls, settings):
         return settings.get('syntax') == syntax_paths.SYNTAX_DEF
+
+    @_inhibit_word_completions
+    def on_query_completions(self, prefix, locations):
+
+        def verify_scope(selector, offset=0):
+            """Verify scope for each location."""
+            return all(self.view.match_selector(point + offset, selector)
+                       for point in locations)
+
+        # None of our business
+        if not verify_scope("- comment - (source.regexp - keyword.other.variable)"):
+            return None
+
+        # Scope name completions based on our scope_data database
+        if verify_scope("meta.expect-scope, meta.scope", -1):
+            return self._complete_scope(prefix, locations)
+
+        # Auto-completion for include values using the 'contexts' keys and for
+        if verify_scope("meta.expect-include-list-or-content", -1):
+            return self._complete_keyword(prefix, locations) + \
+                self._complete_context(prefix, locations)
+
+        # Auto-completion for include values using the 'contexts' keys
+        if verify_scope("meta.expect-include-list | meta.expect-include"
+                        " | meta.include | meta.include-list", -1):
+            return self._complete_context(prefix, locations)
+
+        # Auto-completion for variables in match patterns using 'variables' keys
+        if verify_scope("keyword.other.variable"):
+            return self._complete_variable()
+
+        # Standard completions for unmatched regions
+        return self._complete_keyword(prefix, locations)
 
     def _line_prefix(self, point):
         _, col = self.view.rowcol(point)
         line = self.view.substr(self.view.line(point))
         return line[:col]
+
+    def _complete_context(self, prefix, locations):
+        # Verify that we're not looking for an external include
+        for point in locations:
+            line_prefix = self._line_prefix(point)
+            real_prefix = re.search(r"[^,\[ ]*$", line_prefix).group(0)
+            if real_prefix.startswith("scope:") or "/" in real_prefix:
+                return []  # Don't show any completions here
+            elif real_prefix != prefix:
+                # print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
+                return []
+
+        context_names = (
+            self.view.substr(r)
+            for r in self.view.find_by_selector("entity.name.context")
+        )
+        return [(ctx + "\tcontext", ctx) for ctx in context_names]
+
+    def _complete_keyword(self, prefix, locations):
+
+        def verify_scope(selector, offset=0):
+            """Verify scope for each location."""
+            return all(self.view.match_selector(point + offset, selector)
+                       for point in locations)
+
+        prefixes = set()
+        for point in locations:
+            # Ensure that we are completing a key name everywhere
+            line_prefix = self._line_prefix(point)
+            real_prefix = re.sub(r"^ +(- +)?", " ", line_prefix)  # collapse leading whitespace
+            prefixes.add(real_prefix)
+
+        if len(prefixes) != 1:
+            return None
+        else:
+            real_prefix = next(iter(prefixes))
+
+        # (Supposedly) all keys start their own line
+        match = re.match(r"^(\s*)[\w-]*$", real_prefix)
+        if not match:
+            return None
+        elif not match.group(1):
+            return self.base_completions_root
+        elif verify_scope("meta.block.contexts"):
+            return self.base_completions_contexts
+        else:
+            return None
+
+    def _complete_scope(self, prefix, locations):
+        # Determine entire prefix
+        prefixes = set()
+        for point in locations:
+            *_, real_prefix = self._line_prefix(point).rpartition(" ")
+            prefixes.add(real_prefix)
+
+        if len(prefixes) > 1:
+            return None
+        else:
+            real_prefix = next(iter(prefixes))
+
+        # Tokenize the current selector
+        tokens = real_prefix.split(".")
+        if len(tokens) <= 1:
+            # No work to be done here, just return the heads
+            return COMPILED_HEADS.to_completion()
+
+        base_scope_completion = self._complete_base_scope(tokens[-1])
+        # Browse the nodes and their children
+        nodes = COMPILED_HEADS
+        for i, token in enumerate(tokens[:-1]):
+            node = nodes.find(token)
+            if not node:
+                status("`%s` not found in scope naming conventions" % '.'.join(tokens[:i + 1]))
+                break
+            nodes = node.children
+            if not nodes:
+                status("No nodes available in scope naming conventions after `%s`"
+                       % '.'.join(tokens[:-1]))
+                break
+        else:
+            # Offer to complete from conventions or base scope
+            return nodes.to_completion() + base_scope_completion
+
+        # Since we don't have anything to offer,
+        # just complete the base scope appendix/suffix.
+        return base_scope_completion
 
     def _complete_base_scope(self, last_token):
         regions = self.view.find_by_selector("meta.scope string - meta.block")
@@ -184,108 +307,12 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         return [(base_suffix + "\tbase suffix", base_suffix)]
 
-    @_inhibit_word_completions
-    def on_query_completions(self, prefix, locations):
-
-        def verify_scope(selector, offset=0):
-            """Verify scope for each location."""
-            return all(self.view.match_selector(point + offset, selector)
-                       for point in locations)
-
-        # None of our business
-        if not verify_scope("- comment - (source.regexp - keyword.other.variable)"):
-            return None
-
-        # Scope name completions based on our scope_data database
-        elif verify_scope("meta.expect-scope, meta.scope", -1):
-
-            # Determine entire prefix
-            prefixes = set()
-            for point in locations:
-                *_, real_prefix = self._line_prefix(point).rpartition(" ")
-                prefixes.add(real_prefix)
-
-            if len(prefixes) > 1:
-                return None
-            else:
-                real_prefix = next(iter(prefixes))
-
-            # Tokenize the current selector
-            tokens = real_prefix.split(".")
-            if len(tokens) <= 1:
-                # No work to be done here, just return the heads
-                return COMPILED_HEADS.to_completion()
-
-            base_scope_completion = self._complete_base_scope(tokens[-1])
-            # Browse the nodes and their children
-            nodes = COMPILED_HEADS
-            for i, token in enumerate(tokens[:-1]):
-                node = nodes.find(token)
-                if not node:
-                    status("`%s` not found in scope naming conventions" % '.'.join(tokens[:i + 1]))
-                    break
-                nodes = node.children
-                if not nodes:
-                    status("No nodes available in scope naming conventions after `%s`"
-                           % '.'.join(tokens[:-1]))
-                    break
-            else:
-                # Offer to complete from conventions or base scope
-                return nodes.to_completion() + base_scope_completion
-
-            # Since we don't have anything to offer,
-            # just complete the base scope appendix/suffix.
-            return base_scope_completion
-
-        # Auto-completion for include values using the 'contexts' keys
-        elif verify_scope("meta.expect-include-list | meta.expect-include"
-                          " | meta.include | meta.include-list"):
-            # Verify that we're not looking for an external include
-            for point in locations:
-                line_prefix = self._line_prefix(point)
-                real_prefix = re.search(r"[^,\[ ]*$", line_prefix).group(0)
-                if real_prefix.startswith("scope:") or "/" in real_prefix:
-                    return []  # Don't show any completions here
-                elif real_prefix != prefix:
-                    # print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
-                    return []
-
-            context_names = [self.view.substr(r)
-                             for r in self.view.find_by_selector("entity.name.context")]
-
-            return [(ctx + "\tcontext", ctx) for ctx in context_names]
-
-        # Auto-completion for variables in match patterns using 'variables' keys
-        elif verify_scope("keyword.other.variable"):
-            variable_names = [self.view.substr(r)
-                              for r in self.view.find_by_selector("entity.name.constant")]
-
-            return [(var + "\tvariable", var) for var in variable_names]
-
-        # Standard completions for unmatched regions
-        else:
-            prefixes = set()
-            for point in locations:
-                # Ensure that we are completing a key name everywhere
-                line_prefix = self._line_prefix(point)
-                real_prefix = re.sub(r"^ +(- +)?", " ", line_prefix)  # collapse leading whitespace
-                prefixes.add(real_prefix)
-
-            if len(prefixes) != 1:
-                return None
-            else:
-                real_prefix = next(iter(prefixes))
-
-            # (Supposedly) all keys start their own line
-            match = re.match(r"^(\s*)[\w-]*$", real_prefix)
-            if not match:
-                return None
-            elif not match.group(1):
-                return self.base_completions_root
-            elif verify_scope("meta.block.contexts"):
-                return self.base_completions_contexts
-            else:
-                return None
+    def _complete_variable(self):
+        variable_names = (
+            self.view.substr(r)
+            for r in self.view.find_by_selector("entity.name.constant")
+        )
+        return [(var + "\tvariable", var) for var in variable_names]
 
 
 class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):

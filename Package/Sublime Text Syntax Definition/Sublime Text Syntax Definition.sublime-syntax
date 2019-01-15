@@ -310,14 +310,13 @@ contexts:
     - include: comment
     - include: yaml-tags-anchors
     - include: include
-    - match: '{{block_key_lookahead_bol}}'
-      pop: true
-    - match: (?=\S)
+    - match: $|(?=\S)
       pop: true
 
   expect_include_list:
-    # only flow list for now, or plain string
     - meta_content_scope: meta.expect-include-list
+    - include: comment
+    - include: yaml-tags-anchors
     - match: \[
       scope: punctuation.definition.array.begin.sublime-syntax
       set:
@@ -330,7 +329,35 @@ contexts:
         - include: comment
         - include: yaml-tags-anchors
         - include: include
-    - include: expect_include
+    - match: ^
+      set:
+        - meta_scope: meta.expect-include-list-or-content
+        - include: comment
+        - include: yaml-block-sequence
+        # first item after push/set looks like an included context
+        - match: ^([ ]+)(?=-\s*{{plain_scalar_but_not_block_key}})
+          set:
+            - meta_content_scope: meta.expect-include-list-or-content meta.include-list.sublime-syntax
+            - include: include_list_content
+            - match: ^(?=([ ]+)-)
+              set:
+                - meta_scope: meta.include-list.sublime-syntax
+                - include: include_list_content
+        # limit context to the current line
+        - match: $|(?=\S)
+          pop: true
+    - match: (?=\S)
+      set: expect_include
+
+  include_list_content:
+    - include: comment
+    - include: include
+    - include: yaml-block-sequence
+    # pop off at none-empty line with different indention than first include item
+    - match: ^(?!(\s*$|\1-))
+      pop: true
+    - match: \S.+$
+      scope: invalid.illegal.include.sublime-syntax
 
   include:
     - match: '{{plain_scalar_but_not_block_key}}'
@@ -351,7 +378,7 @@ contexts:
               scope: punctuation.separator.context-name.sublime-syntax
               set: expect_include
         # absolute includes
-        - match: \w((?!\s#|:\s).)+\.sublime-syntax(?=\s*(#|$))
+        - match: \w((?!\s#|:\s)[^{{c_flow_indicator}}])+\.sublime-syntax(?=\s*(#|$))
           scope: support.module.file-path.sublime-syntax
           set:
             - match: '{{_flow_scalar_end_plain_in}}'
@@ -574,6 +601,9 @@ contexts:
     - include: Oniguruma RegExp.sublime-syntax#quantifiers
     - match: ''
       pop: true
+
+  yaml-block-sequence:
+    - include: YAML.sublime-syntax#block-sequence
 
   yaml-tags-anchors:
     - include: YAML.sublime-syntax#property

@@ -121,6 +121,9 @@ contexts:
 # ^^^^ entity.name.context.sublime-syntax
     - include: scope:source.json
 #     ^^^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
+    - match:
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
+
   context_name:
 # ^^^^^^^^^^^^ entity.name.context.sublime-syntax
     - captures:
@@ -135,31 +138,46 @@ contexts:
     # Context mangling (also includes)
     - include: "Packages/JSON/JSON.sublime-syntax"
     - include: Packages/JSON/JSON.sublime-syntax#comment
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
 #              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
 #                                               ^ punctuation.separator.context-name.sublime-syntax - comment
 #                                                ^^^^^^^ variable.other.sublime-syntax
     - include: JSON.sublime-syntax#comments
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #              ^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
 #                                 ^ punctuation.separator.context-name.sublime-syntax
 #                                  ^^^^^^^ variable.other.sublime-syntax
 
     - include: Packages/JSON/ #JSON.sublime-syntax#comment
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #                             ^^ comment
     - include: scope:source.regexp.oniguruma#base-group-extended
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #              ^^^^^^ support.type.include.sublime-syntax
 #                   ^ punctuation.definition.scope-include.sublime-syntax
 #                                           ^ punctuation.separator.context-name.sublime-syntax - comment
 #                                            ^^^^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
+
     - push: [main, Packages/JSON/JSON.sublime-syntax#comment]
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #     ^^^^ string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
+#           ^ punctuation.definition.array.begin.sublime-syntax
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include-list meta.flow-sequence.yaml
-#            ^^^^ meta.include.sublime-syntax string
+#            ^^^^ meta.include.sublime-syntax string variable
+#                ^ punctuation.separator.array-element.sublime-syntax
+#                 ^ - punctuation - string - support.module.file-path
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
+#                                                   ^ punctuation.separator.context-name.sublime-syntax
+#                                                    ^^^^^^^ variable.other.sublime-syntax
+#                                                           ^ punctuation.definition.array.end.sublime-syntax
       set: Packages/JSON/JSON.sublime-syntax#comment
+#    ^ - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #     ^^^ string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
     - set: Packages/JSON/JSON.sublime-syntax XX#comment
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string - meta.include
 
     - comment: this is a comment
@@ -230,6 +248,7 @@ contexts:
 #     ^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
 #            ^^^^^ support.type.include.sublime-syntax
     - embed_scope: meta.embedded.source.test
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
 #     ^^^^^^^^^^^ storage.type.scope-name.sublime-syntax
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.sublime-syntax string.unquoted.plain.out.yaml
     - escape: foo(.)bar
@@ -263,6 +282,70 @@ contexts: !mytag
 #     ^^^ keyword.control.flow.pop.sublime-syntax
 #          ^^^^^^ storage.type.tag-handle.yaml
 #                 ^^^^ constant.language.boolean.yaml
+
+    - match: foo
+      push:
+        -
+#       ^ meta.expect-include-list-or-content punctuation.definition.block.sequence.item.yaml
+
+    - match: foo
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
+      push:   # comment
+        -
+#       ^ meta.expect-include-list-or-content punctuation.definition.block.sequence.item.yaml
+
+    - match: foo
+      push:   # comment
+        -
+    - match: foo
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
+      push:   # comment
+        - context-name
+
+    - match: foo
+#<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
+      push:
+        - match
+#^^^^^^^^^^^^^^^ meta.expect-include-list-or-content
+#       ^^ meta.include-list - meta.include
+#         ^^^^^ meta.include-list meta.include.sublime-syntax
+#              ^ meta.include-list.sublime-syntax - meta.include
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
+        - match
+#<- meta.include-list.sublime-syntax - meta.include - meta.expect-include-list-or-content
+#       ^^ meta.include-list.sublime-syntax - meta.include
+#         ^^^^^ meta.include-list meta.include.sublime-syntax
+#              ^ meta.include-list.sublime-syntax - meta.include
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
+        - scope:source.yaml
+#       ^^ meta.include-list.sublime-syntax - meta.include
+#         ^^^^^^^^^^^^^^^^^ meta.include-list meta.include.sublime-syntax
+#                          ^ meta.include-list.sublime-syntax - meta.include
+        - YAML.sublime-syntax#property
+#       ^^ meta.include-list.sublime-syntax - meta.include
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include-list meta.include.sublime-syntax
+#                                     ^ meta.include-list.sublime-syntax - meta.include
+        - match: test
+#       ^^^^^^^^^^^^^^ meta.include-list.sublime-syntax - meta.include
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^^^^^^^ invalid.illegal.include.sublime-syntax
+          scope: invalid
+#<- - meta.include-list.sublime-syntax - meta.include
+#         ^ string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
+
+    - match: foo
+      push:
+        - meta_scope: meta
+  #<- meta.expect-include-list-or-content
+  #^^^^^^^ meta.expect-include-list-or-content - meta.expect-include-list - meta.include-list
+  #       ^^^^^^^^^^^^^^^^^ - meta.expect-include-list-or-content - meta.expect-include-list - meta.include-list
+
+    - match: foo
+#<- - meta.include-list.sublime-syntax - meta.include
+#   ^ meta.block.contexts.sublime-syntax punctuation.definition.block.sequence.item.yaml
+#     ^^^^^ meta.block.contexts.sublime-syntax string.unquoted.plain.out.yaml keyword.other.match.sublime-syntax
 
       pop:not a key
 #     ^^^ - keyword
