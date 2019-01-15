@@ -53,6 +53,9 @@
                 "command": "packagedev_new_resource",
                 "args": {"kind": "color_scheme"}
               },
+              { "caption": "Edit Current Color Scheme…",
+                "command": "packagedev_edit_scheme",
+              },
               { "caption": "New Commands File…",
                 "command": "packagedev_new_resource",
                 "args": {"kind": "commands"}

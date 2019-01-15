@@ -10,7 +10,25 @@ from .lib import syntax_paths
 
 __all__ = (
     'ColorSchemeCompletionsListener',
+    'PackagedevEditSchemeCommand',
 )
+
+SCHEME_TEMPLATE = """\
+{
+  // http://www.sublimetext.com/docs/3/color_schemes.html
+  "variables": {
+    // "green": "#FF0000",
+  },
+  "globals": {
+    // "foreground": "var(green)",
+  },
+  "rules": [
+    {
+      // "scope": "string",
+      // "foreground": "#00FF00",
+    },
+  ],
+}""".replace("  ", "\t")
 
 l = logging.getLogger(__name__)
 
@@ -97,3 +115,22 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
 
         else:
             return None
+
+
+class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
+
+    """Like syntax-specific settings but for the currently used color scheme."""
+
+    def run(self):
+        view = self.window.active_view()
+        if not view:
+            return
+        scheme_parts = view.settings().get('color_scheme').split('/')
+        self.window.run_command(
+            'edit_settings',
+            {
+                "base_file": '/'.join(["${packages}"] + scheme_parts[1:]),
+                "user_file": scheme_parts[-1].rpartition('.')[0] + '.sublime-color-scheme',
+                "default": SCHEME_TEMPLATE,
+            },
+        )
