@@ -470,6 +470,7 @@ contexts:
     - include: expect-string
 
   expect-texture-mapping-value:
+    - include: Sublime JSON.sublime-syntax#expect-null-value-only
     - include: var-value
     - match: (?=\{)
       set: [mapping-value-meta, texture-mapping-pop]

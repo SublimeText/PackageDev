@@ -183,7 +183,9 @@
                 "unknown": null
 //               ^^^^^^^ meta.texture-key.sublime-theme string.quoted.double.json - keyword.other.texture.sublime-theme
 //                         ^^^^ constant.language.null.json
-            }
+            },
+            "layer0.texture": null,
+//                            ^^^^ constant.language.null.json
         }
     ],
 }
