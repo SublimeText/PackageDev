@@ -28,6 +28,8 @@ def status(msg, console=False):
 
 class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
 
+    # TODO multiple views into the same file
+
     @classmethod
     def is_applicable(cls, settings):
         return settings.get('syntax') == syntax_paths.SYNTAX_DEF

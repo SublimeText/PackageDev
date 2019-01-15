@@ -94,6 +94,10 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     is_completing_key = False
 
     @classmethod
+    def applies_to_primary_view_only(cls):
+        return False
+
+    @classmethod
     def is_applicable(cls, settings):
         """Enable the listener for Sublime Settings syntax only."""
         syntax = settings.get('syntax') or ""

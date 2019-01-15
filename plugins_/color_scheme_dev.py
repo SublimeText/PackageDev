@@ -37,6 +37,10 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
     """
 
     @classmethod
+    def applies_to_primary_view_only(cls):
+        return False
+
+    @classmethod
     def is_applicable(cls, settings):
         return settings.get('syntax') in (syntax_paths.COLOR_SCHEME, syntax_paths.THEME)
 

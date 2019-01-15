@@ -54,6 +54,8 @@ def get_syntax_test_tokens(view):
 
 class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
 
+    # TODO multiple views into the same file
+
     @classmethod
     def is_applicable(cls, settings):
         """Disable the listener completely when tabs are used."""
