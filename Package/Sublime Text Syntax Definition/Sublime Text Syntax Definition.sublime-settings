@@ -11,5 +11,6 @@
     "auto_complete_selector": "source - comment - (source.regexp - keyword.other.variable)",
     "tab_size": 2,
     "translate_tabs_to_spaces": true,
+    "trim_trailing_white_space_on_save": true,
     "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?" // default without '-'
 }
