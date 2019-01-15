@@ -286,13 +286,13 @@ contexts: !mytag
     - match: foo
       push:
         -
-#       ^ meta.expect-include-list-or-content punctuation.definition.block.sequence.item.yaml
+#       ^ meta.include-list punctuation.definition.block.sequence.item.yaml
 
     - match: foo
 #<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
       push:   # comment
         -
-#       ^ meta.expect-include-list-or-content punctuation.definition.block.sequence.item.yaml
+#       ^ meta.include-list punctuation.definition.block.sequence.item.yaml
 
     - match: foo
       push:   # comment
@@ -306,7 +306,7 @@ contexts: !mytag
 #<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
       push:
         - match
-#^^^^^^^^^^^^^^^ meta.expect-include-list-or-content
+#^^^^^^^ meta.expect-include-list-or-content
 #       ^^ meta.include-list - meta.include
 #         ^^^^^ meta.include-list meta.include.sublime-syntax
 #              ^ meta.include-list.sublime-syntax - meta.include

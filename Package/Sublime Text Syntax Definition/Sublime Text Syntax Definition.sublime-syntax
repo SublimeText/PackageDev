@@ -335,14 +335,8 @@ contexts:
         - include: comment
         - include: yaml-block-sequence
         # first item after push/set looks like an included context
-        - match: ^([ ]+)(?=-\s*{{plain_scalar_but_not_block_key}})
-          set:
-            - meta_content_scope: meta.expect-include-list-or-content meta.include-list.sublime-syntax
-            - include: include_list_content
-            - match: ^(?=([ ]+)-)
-              set:
-                - meta_scope: meta.include-list.sublime-syntax
-                - include: include_list_content
+        - match: ^([ ]+)(?=-\s*(?:{{plain_scalar_but_not_block_key}}|\s*$))
+          set: include_list_content
         # limit context to the current line
         - match: $|(?=\S)
           pop: true
@@ -350,6 +344,7 @@ contexts:
       set: expect_include
 
   include_list_content:
+    - meta_content_scope: meta.include-list.sublime-syntax
     - include: comment
     - include: include
     - include: yaml-block-sequence
