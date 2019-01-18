@@ -30,18 +30,25 @@
             { "key": "selector", "operand": "source.yaml.sublime.syntax" },
         ]
     },
+    {   // auto-insert space after double-colon (variables)
+        "keys": [":"], "command": "insert", "args": { "characters": ": " }, "context": [
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^ *[^\\s:]+$", "match_all": true },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operand": "meta.block.variables.sublime-syntax" },
+        ]
+    },
     {   // auto-insert space after double-colon (rules)
         "keys": [":"], "command": "insert", "args": { "characters": ": " }, "context": [
             { "key": "preceding_text", "operator": "regex_match", "operand": "^ {4,}(- *)?[^\\s:]+$", "match_all": true },
             { "key": "selection_empty", "match_all": true },
-            { "key": "selector", "operand": "source.yaml.sublime.syntax" },
+            { "key": "selector", "operand": "meta.block.contexts.sublime-syntax" },
         ]
     },
     {   // auto-insert newline after double-colon (contexts) and 'captures'
         "keys": [":"], "command": "insert", "args": { "characters": ":\n" }, "context": [
             { "key": "preceding_text", "operator": "regex_match", "operand": "^ {0,2}[^\\s:]+$|^ {4,}(- *)?(captures)+$", "match_all": true },
             { "key": "selection_empty", "match_all": true },
-            { "key": "selector", "operand": "source.yaml.sublime.syntax" },
+            { "key": "selector", "operand": "meta.block.contexts.sublime-syntax" },
         ]
     },
     /* end of syntax_dev keys */
