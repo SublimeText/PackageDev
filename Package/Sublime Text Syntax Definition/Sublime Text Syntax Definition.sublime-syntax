@@ -335,6 +335,7 @@ contexts:
         - include: comment
         - include: yaml-block-sequence
         # first item after push/set looks like an included context
+        # maintain the 'expect' context to provide completions for both (context references and keys)
         - match: ^([ ]+)(?=-\s*{{plain_scalar_but_not_block_key}})
           set:
             - meta_content_scope: meta.expect-include-list-or-content meta.include-list.sublime-syntax
