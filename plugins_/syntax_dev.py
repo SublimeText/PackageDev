@@ -233,7 +233,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         for point in locations:
             # Ensure that we are completing a key name everywhere
             line_prefix = self._line_prefix(point)
-            real_prefix = re.sub(r"^ +(- +)?", " ", line_prefix)  # collapse leading whitespace
+            real_prefix = re.sub(r"^ +(- +)*", " ", line_prefix)  # collapse leading whitespace
             prefixes.add(real_prefix)
 
         if len(prefixes) != 1:
@@ -242,7 +242,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             real_prefix = next(iter(prefixes))
 
         # (Supposedly) all keys start their own line
-        match = re.match(r"^(\s*)[\w-]*.*$", real_prefix)
+        match = re.match(r"^(\s*)[\w-]*$", real_prefix)
         if not match:
             return None
         elif not match.group(1):
