@@ -306,14 +306,14 @@ contexts: !mytag
 #<- - meta.expect-include - meta.expect-include-list-or-content - meta.expect-include-list
       push:
         - match
-#^^^^^^^^^^^^^^^ meta.expect-include-list-or-content
-#       ^^ meta.include-list - meta.include
-#         ^^^^^ meta.include-list meta.include.sublime-syntax
-#              ^ meta.include-list.sublime-syntax - meta.include
+#^^^^^^^ meta.expect-include-list-or-content
+#       ^^ meta.include-list-or-content - meta.expect-include-list-or-content - meta.include
+#         ^^^^^ meta.include-list-or-content meta.include.sublime-syntax - meta.expect-include-list-or-content
+#              ^ meta.include-list-or-content.sublime-syntax - meta.expect-include-list-or-content - meta.include
 #       ^ punctuation.definition.block.sequence.item.yaml
 #         ^^^^^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
         - match
-#<- meta.include-list.sublime-syntax - meta.include - meta.expect-include-list-or-content
+#<- meta.include-list.sublime-syntax - meta.include - meta.expect-include-list-or-content - meta.include-list-or-content
 #       ^^ meta.include-list.sublime-syntax - meta.include
 #         ^^^^^ meta.include-list meta.include.sublime-syntax
 #              ^ meta.include-list.sublime-syntax - meta.include
@@ -334,6 +334,48 @@ contexts: !mytag
           scope: invalid
 #<- - meta.include-list.sublime-syntax - meta.include
 #         ^ string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
+
+    - match: foo
+      push:
+        - - meta_scope: meta
+#      ^ - meta.anonymous-context
+#       ^^^^^^^^^^^^^^^^^^^^^ meta.anonymous-context.sublime-syntax
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^ punctuation.definition.block.sequence.item.yaml
+#           ^^^^^^^^^^ storage.type.scope-name.meta.sublime-syntax
+          - include: context
+#        ^^^^^^^^^^^^^^^^^^^^ meta.anonymous-context.sublime-syntax
+#         ^ punctuation.definition.block.sequence.item.yaml
+#           ^^^^^^^ keyword.operator.include.sublime-syntax
+        - context-1
+#<- - meta.anonymous-context
+#      ^ meta.expect-include-list-or-content
+#       ^^ meta.include-list-or-content.sublime-syntax
+#         ^^^^^^^^^ meta.include-list-or-content.sublime-syntax meta.include.sublime-syntax
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^^^^^ variable.other.sublime-syntax
+        - - meta_scope: meta
+#      ^ - meta.anonymous-context
+#       ^^^^^^^^^^^^^^^^^^^^^ meta.anonymous-context.sublime-syntax
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^ punctuation.definition.block.sequence.item.yaml
+#           ^^^^^^^^^^ storage.type.scope-name.meta.sublime-syntax
+          - include: context
+#        ^^^^^^^^^^^^^^^^^^^^ meta.anonymous-context.sublime-syntax
+#         ^ punctuation.definition.block.sequence.item.yaml
+#           ^^^^^^^ keyword.operator.include.sublime-syntax
+        - context-2
+#<- - meta.anonymous-context
+#      ^^^ meta.include-list.sublime-syntax
+#         ^^^^^^^^^ meta.include-list.sublime-syntax meta.include.sublime-syntax
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^^^^^ variable.other.sublime-syntax
+        - context-3
+#<- - meta.anonymous-context
+#      ^^^ meta.include-list.sublime-syntax
+#         ^^^^^^^^^ meta.include-list.sublime-syntax meta.include.sublime-syntax
+#       ^ punctuation.definition.block.sequence.item.yaml
+#         ^^^^^^^^^ variable.other.sublime-syntax
 
     - match: foo
       push:

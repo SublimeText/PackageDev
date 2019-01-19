@@ -317,6 +317,7 @@ contexts:
     - meta_content_scope: meta.expect-include-list
     - include: comment
     - include: yaml-tags-anchors
+    # array-like include list
     - match: \[
       scope: punctuation.definition.array.begin.sublime-syntax
       set:
@@ -329,17 +330,23 @@ contexts:
         - include: comment
         - include: yaml-tags-anchors
         - include: include
+    # multi-line include list
     - match: ^
       set:
         - meta_scope: meta.expect-include-list-or-content
         - include: comment
         - include: yaml-block-sequence
+        - include: include_anonymous
         # first item after push/set looks like an included context
-        # maintain the 'expect' context to provide completions for both (context references and keys)
+        # -> maybe include, maybe incomplete key
+        # -> provide completions for both (context references and keys)
         - match: ^([ ]+)(?=-\s*{{plain_scalar_but_not_block_key}})
           set:
-            - meta_content_scope: meta.expect-include-list-or-content meta.include-list.sublime-syntax
+            - meta_content_scope: meta.include-list-or-content.sublime-syntax
             - include: include_list_content
+            # if the first line contains a context reference
+            # -> provide completions for context references only,
+            #    beginning from the second line
             - match: ^(?=([ ]+)-)
               set:
                 - meta_scope: meta.include-list.sublime-syntax
@@ -347,6 +354,7 @@ contexts:
         # limit context to the current line
         - match: $|(?=\S)
           pop: true
+    # maybe single include
     - match: (?=\S)
       set: expect_include
 
@@ -354,11 +362,23 @@ contexts:
     - include: comment
     - include: include
     - include: yaml-block-sequence
+    - include: include_anonymous
     # pop off at none-empty line with different indention than first include item
     - match: ^(?!(\s*$|\1-))
       pop: true
     - match: \S.+$
       scope: invalid.illegal.include.sublime-syntax
+
+  include_anonymous:
+    # a line with two (or more) hyphons after each other indicates the start
+    # of an anonymous context block embedded into an include list
+    - match: ^([ ]+)(?=- -)
+      push:
+        - clear_scopes: 1  # remove include-list... meta scopes
+        - meta_content_scope: meta.anonymous-context.sublime-syntax
+        - include: contexts_block
+        - match: ^(?!(\s*$|\1 +))
+          pop: true
 
   include:
     - match: '{{plain_scalar_but_not_block_key}}'
