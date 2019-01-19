@@ -1,0 +1,7 @@
+v3.2.4 (2019-01-19)
+-------------------
+
+(Notes not shown on release)
+
+* Syntax: support nested anonymous contexts in push/set (@deathaxe, #218)
+* Scheme: Add `line_diff_modified` support
