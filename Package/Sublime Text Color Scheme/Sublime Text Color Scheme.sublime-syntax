@@ -209,7 +209,18 @@ contexts:
         - include: expect-key-rest
 
   globals-mapping-key:
-    - match: (")(accent|shadow|invisibles|caret|line_highlight|foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground|highlight|find_highlight|find_highlight_foreground|stack_guide|active_guide|guide|misspelling|brackets_foreground|bracket_contents_foreground|tags_foreground|minimap_border|gutter|gutter_foreground|rulers|fold_marker)(")
+    - match: |-
+        (?x)
+        (")(
+          accent|shadow|invisibles|caret|line_highlight
+          |foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground
+          |highlight|find_highlight|find_highlight_foreground
+          |stack_guide|active_guide|guide
+          |misspelling
+          |brackets_foreground|bracket_contents_foreground|tags_foreground
+          |minimap_border|gutter|gutter_foreground|rulers|fold_marker
+          |line_diff_modified # added in 3186
+        )(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
