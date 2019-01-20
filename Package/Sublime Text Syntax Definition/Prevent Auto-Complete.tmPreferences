@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- We need this because `-` has been removed from the word separators list
+        and thus causes the panel to open by default. -->
+    <key>scope</key>
+    <string>meta.block.contexts.sublime-syntax</string>
+    <key>settings</key>
+    <dict>
+        <key>cancelCompletion</key>
+        <string>^\s{2,}-$</string>
+    </dict>
+</dict>
+</plist>
