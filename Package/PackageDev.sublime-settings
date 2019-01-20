@@ -55,4 +55,13 @@
     // Whether to skip whitespace after the previous line's test assertions when
     // pressing the Tab key on a new syntax test line
     "syntax_test.skip_whitespace": true,
+
+
+    /// GLOBAL SETTINGS ///////////////////////////////////////////////////////////////////////////
+    // The following settings need to be placed in your User "Preferences.sublime-settings" file
+    // (or specified in project settings, etc.).
+    //
+    // // Enable input helpers for syntax definitions.
+    // // Input helpers automatically insert whitespace after a `-` or `:`.
+    // "packagedev.syntax.input_helpers": false,
 }

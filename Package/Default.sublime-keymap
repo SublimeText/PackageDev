@@ -22,33 +22,37 @@
             { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
         ]
     },
-    {   // auto-insert space and trigger auto completion after hyphon (rules)
+    {   // [optional] auto-insert space and trigger auto completion after hyphon (rules)
         "keys": ["-"], "command": "run_macro_file", "args": {"file": "res://Packages/PackageDev/Package/Sublime Text Syntax Definition/Add Syntax Rule.sublime-macro"}, "context": [
             { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*$", "match_all": true },
             { "key": "following_text", "operator": "regex_match", "operand": "^$" },
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "source.yaml.sublime.syntax" },
+            { "key": "setting.packagedev.syntax.input_helpers" },
         ]
     },
-    {   // auto-insert space after double-colon (variables)
+    {   // [optional] auto-insert space after double-colon (variables)
         "keys": [":"], "command": "insert", "args": { "characters": ": " }, "context": [
             { "key": "preceding_text", "operator": "regex_match", "operand": "^ *[^\\s:]+$", "match_all": true },
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "meta.block.variables.sublime-syntax" },
+            { "key": "setting.packagedev.syntax.input_helpers" },
         ]
     },
-    {   // auto-insert space after double-colon (rules)
+    {   // [optional] auto-insert space after double-colon (rules)
         "keys": [":"], "command": "insert", "args": { "characters": ": " }, "context": [
             { "key": "preceding_text", "operator": "regex_match", "operand": "^ {4,}(- *)?[^\\s:]+$", "match_all": true },
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "meta.block.contexts.sublime-syntax" },
+            { "key": "setting.packagedev.syntax.input_helpers" },
         ]
     },
-    {   // auto-insert newline after double-colon (contexts) and 'captures'
+    {   // [optional] auto-insert newline after double-colon (contexts) and 'captures'
         "keys": [":"], "command": "insert", "args": { "characters": ":\n" }, "context": [
             { "key": "preceding_text", "operator": "regex_match", "operand": "^ {0,2}[^\\s:]+$|^ {4,}(- *)?(captures)+$", "match_all": true },
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "meta.block.contexts.sublime-syntax" },
+            { "key": "setting.packagedev.syntax.input_helpers" },
         ]
     },
     /* end of syntax_dev keys */
