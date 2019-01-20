@@ -22,6 +22,14 @@
             { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
         ]
     },
+    {   // trigger auto completion on space after hyphen (rules)
+        "keys": [" "], "command": "run_macro_file", "args": {"file": "res://Packages/PackageDev/Package/Sublime Text Syntax Definition/Add Syntax Rule (space).sublime-macro"}, "context": [
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s{2,}-$", "match_all": true },
+            { "key": "following_text", "operator": "regex_match", "operand": "^$" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operand": "source.yaml.sublime.syntax" },
+        ]
+    },
     {   // [optional] auto-insert space and trigger auto completion after hyphon (rules)
         "keys": ["-"], "command": "run_macro_file", "args": {"file": "res://Packages/PackageDev/Package/Sublime Text Syntax Definition/Add Syntax Rule.sublime-macro"}, "context": [
             { "key": "preceding_text", "operator": "regex_match", "operand": "^\\s*$", "match_all": true },
