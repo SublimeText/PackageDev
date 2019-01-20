@@ -9,7 +9,7 @@
     <key>settings</key>
     <dict>
         <key>cancelCompletion</key>
-        <string>^\s{2,}-$</string>
+        <string>^\s{2,}(?:- )*-$</string>
     </dict>
 </dict>
 </plist>
