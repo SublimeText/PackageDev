@@ -1,0 +1,5 @@
+{
+    // Enable input helpers for syntax definitions.
+    // Input helpers automatically insert whitespace after a `-` or `:`.
+    "packagedev.syntax.input_helpers": false,
+}
