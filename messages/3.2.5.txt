@@ -1,0 +1,7 @@
+v3.2.5 (2019-01-21)
+-------------------
+
+(Notes not shown on release)
+
+* Syntax: Made input helpers optional
+* Syntax: Better handling of hyphens in empty lines wrt completions
