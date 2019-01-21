@@ -1,0 +1,6 @@
+v3.2.6 (2019-01-21)
+-------------------
+
+(Notes not shown on release)
+
+* Syntax: Another input helper fix (@deathaxe, #220)
