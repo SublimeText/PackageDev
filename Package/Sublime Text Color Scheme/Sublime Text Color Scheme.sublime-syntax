@@ -219,7 +219,7 @@ contexts:
           |misspelling
           |brackets_foreground|bracket_contents_foreground|tags_foreground
           |minimap_border|gutter|gutter_foreground|rulers|fold_marker
-          |line_diff_modified # added in 3186
+          |line_diff_(?:modified|added|deleted) # added in 3186 & 3189
         )(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
@@ -234,7 +234,7 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-string-value, expect-colon]
-    - match: (")(shadow_width|selection_corner_radius|selection_border_width)(")
+    - match: (")(shadow_width|selection_corner_radius|selection_border_width|line_diff_width)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
