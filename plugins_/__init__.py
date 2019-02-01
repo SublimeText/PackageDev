@@ -11,6 +11,7 @@ from .snippet_dev import *  # noqa
 from .syntax_dev import *  # noqa
 from .syntax_dev_legacy import *  # noqa
 from .syntaxtest_dev import *  # noqa
+from .theme_dev import *  # noqa
 
 from . import xml_hidden_extensions_hotfix
 
