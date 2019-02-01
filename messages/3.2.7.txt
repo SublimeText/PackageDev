@@ -1,0 +1,8 @@
+v3.2.7 (2019-02-01)
+-------------------
+
+(Notes not shown on release)
+
+* Scheme: Fixed "Edit Current Color Scheme" command
+* Scheme: Added new global keys for line diffs (3189)
+* Theme: Added "Edit Current Theme" command
