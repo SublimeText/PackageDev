@@ -5,6 +5,8 @@ import re
 import sublime
 import sublime_plugin
 
+from sublime_lib import ResourcePath
+
 from .lib.scope_data import completions_from_prefix
 from .lib import syntax_paths
 
@@ -125,12 +127,12 @@ class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
         view = self.window.active_view()
         if not view:
             return
-        scheme_parts = view.settings().get('color_scheme').split('/')
+        scheme_path = ResourcePath(view.settings().get('color_scheme'))
         self.window.run_command(
             'edit_settings',
             {
-                "base_file": '/'.join(["${packages}"] + scheme_parts[1:]),
-                "user_file": scheme_parts[-1].rpartition('.')[0] + '.sublime-color-scheme',
+                "base_file": '/'.join(("${packages}",) + scheme_path.parts[1:]),
+                "user_file": "${packages}/User/" + scheme_path.stem + '.sublime-color-scheme',
                 "default": SCHEME_TEMPLATE,
             },
         )
