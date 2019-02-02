@@ -43,6 +43,15 @@ copy:
 cut:
   command_type: text
   doc_string: Cut the selected text to the clipboard.
+delete_word:
+  command_type: text
+  doc_string: Delete the (sub-)word in front of or after each caret.
+  args:
+    forward: true
+    sub_words: false
+duplicate_line:
+  command_type: text
+  doc_string: Create a copy of each caret's line.
 expand_selection:
   args:
     to: line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets
@@ -309,6 +318,12 @@ soft_undo:
 split_selection_into_lines:
   command_type: text
   doc_string: Split each selection into individual lines.
+swap_line_down:
+  command_type: text
+  doc_string: Move each caret's line down by one.
+swap_line_up:
+  command_type: text
+  doc_string: Move each caret's line up by one.
 toggle_bookmark:
   command_type: text
   doc_string: For each selection, toggle it's bookmarked state.
