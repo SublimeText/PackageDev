@@ -79,5 +79,7 @@
         { "trigger": "title_label_control\telement", "contents": "title_label_control" },
         { "trigger": "tool_tip_control\telement", "contents": "tool_tip_control" },
         { "trigger": "tool_tip_label_control\telement", "contents": "tool_tip_label_control" },
+        { "trigger": "vcs_branch_icon\telement", "contents": "vcs_branch_icon" },
+        { "trigger": "vcs_changes_annotation\telement", "contents": "vcs_changes_annotation" },
     ]
 }
