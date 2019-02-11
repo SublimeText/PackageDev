@@ -13,7 +13,8 @@ variables:
     )
   color_key: |-
     (?x:
-        line_selection(?:_border)?_color
+        border_color
+      | line_selection(?:_border)?_color
       | highlight(?:_border)?_color
       | headline_color
       | (?:selected_)?(?:match_)?fg

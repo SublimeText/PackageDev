@@ -11,6 +11,7 @@
         { "trigger": "font.face\tproperty", "contents": "\"font.face\": \"$0\"," },
 
         // colors
+        { "trigger": "border_color\tproperty", "contents": "\"border_color\": \"$0\"," },
         { "trigger": "line_selection_color\tproperty", "contents": "\"line_selection_color\": \"$0\"," },
         { "trigger": "line_selection_border_color\tproperty", "contents": "\"line_selection_border_color\": \"$0\"," },
         { "trigger": "highlight_color\tproperty", "contents": "\"highlight_color\": \"$0\"," },
