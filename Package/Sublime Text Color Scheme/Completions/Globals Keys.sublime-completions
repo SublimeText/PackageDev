@@ -4,6 +4,7 @@
         { "trigger": "accent\tglobals key", "contents": "\"accent\": \"$1\"," },
         { "trigger": "active_guide\tglobals key", "contents": "\"active_guide\": \"$1\"," },
         { "trigger": "background\tglobals key", "contents": "\"background\": \"$1\"," },
+        { "trigger": "block_caret\tglobals key", "contents": "\"block_caret\": \"$1\"," },
         { "trigger": "bracket_contents_foreground\tglobals key", "contents": "\"bracket_contents_foreground\": \"$1\"," },
         { "trigger": "bracket_contents_options\tglobals key", "contents": "\"bracket_contents_options\": \"$1\"," },
         { "trigger": "brackets_foreground\tglobals key", "contents": "\"brackets_foreground\": \"$1\"," },

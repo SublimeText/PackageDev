@@ -4,6 +4,7 @@
         { "trigger": "accent\tglobals key", "contents": "accent" },
         { "trigger": "active_guide\tglobals key", "contents": "active_guide" },
         { "trigger": "background\tglobals key", "contents": "background" },
+        { "trigger": "block_caret\tglobals key", "contents": "block_caret" },
         { "trigger": "bracket_contents_foreground\tglobals key", "contents": "bracket_contents_foreground" },
         { "trigger": "bracket_contents_options\tglobals key", "contents": "bracket_contents_options" },
         { "trigger": "brackets_foreground\tglobals key", "contents": "brackets_foreground" },
