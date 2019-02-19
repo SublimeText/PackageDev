@@ -18,12 +18,16 @@
 	"ignored_words": [],
 
 	// Emulates a block caret (hidden setting)
+	// Deprecated by `block_caret` (3190).
 	"inverse_caret_state": false,
 
 	// Scroll to the clicked location
 	// instead of using the minimap as an extension of the scrollbar.
 	// Disabling this allows dragging the minimap from anywhere.
 	"minimap_scroll_to_clicked_text": true,
+
+	// Scroll over the tab bar to switch tabs.
+	"mouse_wheel_switches_tabs": false,
 
 	// Path to the syntax definition for a view.
 	// To be used in widget settings files.
