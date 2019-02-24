@@ -403,13 +403,13 @@ contexts:
         - match: \(
           scope: punctuation.definition.group.begin.sublime-color-scheme
           push:
-          - meta_scope: meta.group.sublime-color-scheme
-          - match: (?=\))
-            pop: true
-          - match: (?:--)?[\w-]+
-            scope: variable.other.color-scheme
-          - match: (?=")  # embed this here so we don't have to "with_prototype"
-            pop: true
+            - meta_scope: meta.group.sublime-color-scheme
+            - match: (?=\))
+              pop: true
+            - match: (?:--)?[\w-]+
+              scope: variable.other.color-scheme
+            - match: (?=")  # embed this here so we don't have to "with_prototype"
+              pop: true
         - match: (?=")
           pop: true
   color-list-pop:
