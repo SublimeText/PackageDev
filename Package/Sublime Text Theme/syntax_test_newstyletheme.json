@@ -186,6 +186,12 @@
             },
             "layer0.texture": null,
 //                            ^^^^ constant.language.null.json
+        },
+        {
+            "class": "scroll_area_control",
+            "attributes": ["scrollable", "hscrollable"],
+//                          ^^^^^^^^^^ entity.other.attribute-name.sublime-theme
+//                                        ^^^^^^^^^^^ entity.other.attribute-name.sublime-theme
         }
     ],
 }

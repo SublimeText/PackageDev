@@ -6,6 +6,8 @@
         { "trigger": "file_medium\tattribute", "contents": "\"file_medium\"" },
         { "trigger": "file_medium_dark\tattribute", "contents": "\"file_medium_dark\"" },
         { "trigger": "file_dark\tattribute", "contents": "\"file_dark\"" },
+        { "trigger": "hscrollable\tattribute", "contents": "\"hscrollable\"" },
+        { "trigger": "scrollable\tattribute", "contents": "\"scrollable\"" },
         { "trigger": "selectable\tattribute", "contents": "\"selectable\"" },
         { "trigger": "selected\tattribute", "contents": "\"selected\"" },
         { "trigger": "expandable\tattribute", "contents": "\"expandable\"" },
