@@ -192,6 +192,30 @@
             "attributes": ["scrollable", "hscrollable"],
 //                          ^^^^^^^^^^ entity.other.attribute-name.sublime-theme
 //                                        ^^^^^^^^^^^ entity.other.attribute-name.sublime-theme
+            "top_shadow": "black",
+//           ^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                         ^^^^^ support.constant.color.w3c-standard-color-name.css
+            "top_shadow_size": 6,
+//           ^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                             ^ constant.numeric.json
+            "bottom_shadow": "black",
+//           ^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                            ^^^^^ support.constant.color.w3c-standard-color-name.css
+            "bottom_shadow_size": 6,
+//           ^^^^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                                ^ constant.numeric.json
+            "left_shadow": "black",
+//           ^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                          ^^^^^ support.constant.color.w3c-standard-color-name.css
+            "left_shadow_size": 6,
+//           ^^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                              ^ constant.numeric.json
+            "right_shadow": "black",
+//           ^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                           ^^^^^ support.constant.color.w3c-standard-color-name.css
+            "right_shadow_size": 6,
+//           ^^^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                               ^ constant.numeric.json
         }
     ],
 }

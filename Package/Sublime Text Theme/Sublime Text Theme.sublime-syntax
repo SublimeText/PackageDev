@@ -24,7 +24,8 @@ variables:
       | viewport_color
       | color_scheme_tint(?:_2)?
       | color\d+
-      | link_color # from Sublime Merge
+      | link_color # from Sublime Merge,
+      | (?:left|right|top|bottom)_shadow
     )
   integer_key: |-
     (?x:
@@ -37,6 +38,7 @@ variables:
       | border_size
       | spacing
       | inside_spacing | outside_vspacing | outside_hspacing
+      | (?:left|right|top|bottom)_shadow_size
     )
   padding_and_margin_key: |-
     (?x:

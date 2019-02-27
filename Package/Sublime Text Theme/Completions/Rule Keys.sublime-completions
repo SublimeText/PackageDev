@@ -29,6 +29,10 @@
         { "trigger": "color_scheme_tint\tproperty", "contents": "\"color_scheme_tint\": \"$0\"," },
         { "trigger": "color_scheme_tint_2\tproperty", "contents": "\"color_scheme_tint_2\": \"$0\"," },
         { "trigger": "link_color\tproperty", "contents": "\"link_color\": \"$0\"," },
+        { "trigger": "left_shadow\tproperty", "contents": "\"left_shadow\": \"$0\"," },
+        { "trigger": "right_shadow\tproperty", "contents": "\"right_shadow\": \"$0\"," },
+        { "trigger": "top_shadow\tproperty", "contents": "\"top_shadow\": \"$0\"," },
+        { "trigger": "bottom_shadow\tproperty", "contents": "\"bottom_shadow\": \"$0\"," },
 
         // numbers
         { "trigger": "num_colors\tproperty", "contents": "\"num_colors\": ${0:0}," },
@@ -43,6 +47,10 @@
         { "trigger": "inside_spacing\tproperty", "contents": "\"inside_spacing\": ${0:0}," },
         { "trigger": "outside_vspacing\tproperty", "contents": "\"outside_vspacing\": ${0:0}," },
         { "trigger": "outside_hspacing\tproperty", "contents": "\"outside_hspacing\": ${0:0}," },
+        { "trigger": "left_shadow_size\tproperty", "contents": "\"left_shadow_size\": ${0:0}," },
+        { "trigger": "right_shadow_size\tproperty", "contents": "\"right_shadow_size\": ${0:0}," },
+        { "trigger": "top_shadow_size\tproperty", "contents": "\"top_shadow_size\": ${0:0}," },
+        { "trigger": "bottom_shadow_size\tproperty", "contents": "\"bottom_shadow_size\": ${0:0}," },
 
         // number sequences (optional)
         { "trigger": "inner_margin\tproperty", "contents": "\"inner_margin\": [${0:0}]," },
