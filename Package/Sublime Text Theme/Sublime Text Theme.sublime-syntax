@@ -25,6 +25,7 @@ variables:
       | color_scheme_tint(?:_2)?
       | color\d+
       | link_color # from Sublime Merge
+      | (?:accent_)?tint_modifier
     )
   integer_key: |-
     (?x:
@@ -49,9 +50,7 @@ variables:
     (?x:
         min_size
       | icon_spacing
-      | tint_modifier
       | shadow_offset
-      | accent_tint_modifier
     )
   float_key: |-
     (?x:

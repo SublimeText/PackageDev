@@ -81,6 +81,9 @@
 //           ^^^^^^^^^ meta.rule-key.string.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
         },
         { // colors
+            "tint_modifier": "rgba(235, 237, 239, 0.1)",
+//           ^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                            ^^^^ meta.function-call.css support.function.color.css
             "layer0.tint": "var(--background)"
 //          ^^^^^^^^^^^^^ meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
 //           ^^^^^^^^^^^ keyword.other.rule.sublime-theme
@@ -147,7 +150,7 @@
 //           ^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                      ^^ invalid.illegal.expected-sequence.sublime
             "tint_modifier": [12, 11],
-//           ^^^^^^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//           ^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                            ^^ constant.numeric.json
             "random_key": null
 //          ^^^^^^^^^^^^ meta.rule-key.sublime-theme
