@@ -30,6 +30,10 @@
         { "trigger": "color_scheme_tint\tproperty", "contents": "color_scheme_tint" },
         { "trigger": "color_scheme_tint_2\tproperty", "contents": "color_scheme_tint_2" },
         { "trigger": "link_color\tproperty", "contents": "link_color" },
+        { "trigger": "left_shadow\tproperty", "contents": "left_shadow" },
+        { "trigger": "right_shadow\tproperty", "contents": "right_shadow" },
+        { "trigger": "top_shadow\tproperty", "contents": "top_shadow" },
+        { "trigger": "bottom_shadow\tproperty", "contents": "bottom_shadow" },
 
         // numbers
         { "trigger": "num_colors\tproperty", "contents": "num_colors" },
@@ -44,6 +48,10 @@
         { "trigger": "inside_spacing\tproperty", "contents": "inside_spacing" },
         { "trigger": "outside_vspacing\tproperty", "contents": "outside_vspacing" },
         { "trigger": "outside_hspacing\tproperty", "contents": "outside_hspacing" },
+        { "trigger": "left_shadow_size\tproperty", "contents": "left_shadow_size" },
+        { "trigger": "right_shadow_size\tproperty", "contents": "right_shadow_size" },
+        { "trigger": "top_shadow_size\tproperty", "contents": "top_shadow_size" },
+        { "trigger": "bottom_shadow_size\tproperty", "contents": "bottom_shadow_size" },
 
         // number sequences (optional)
         { "trigger": "inner_margin\tproperty", "contents": "inner_margin" },
