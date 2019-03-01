@@ -366,7 +366,31 @@ contexts:
               pop: true
             - include: string-escape
             - include: color-var-function
+            - include: color-min-contrast-function
         - include: string-escape
+
+  color-min-contrast-function:
+    - match: \b(min-contrast)(?=\()
+      scope: support.function.min-contrast.sublime-color-scheme
+      push:
+        - meta_scope: meta.function-call.min-contrast.sublime-color-scheme
+        - match: \)
+          scope: meta.group.sublime-color-scheme punctuation.definition.group.end.sublime-color-scheme
+          pop: true
+        - match: \(
+          scope: punctuation.definition.group.begin.sublime-color-scheme
+          push:
+            - meta_scope: meta.group.sublime-color-scheme
+            - match: (?=\))
+              pop: true
+            - match: (?=")  # embed this here so we don't have to "with_prototype"
+              pop: true
+            - include: color-var-function
+            - include: CSS.sublime-syntax#color-values
+            - include: CSS.sublime-syntax#percentage-type
+            - include: CSS.sublime-syntax#numeric-values
+        - match: (?=")
+          pop: true
 
   color-var-function:
     - match: \b(var)(?=\()
@@ -379,13 +403,13 @@ contexts:
         - match: \(
           scope: punctuation.definition.group.begin.sublime-color-scheme
           push:
-          - meta_scope: meta.group.sublime-color-scheme
-          - match: (?=\))
-            pop: true
-          - match: (?:--)?[\w-]+
-            scope: variable.other.color-scheme
-          - match: (?=")  # embed this here so we don't have to "with_prototype"
-            pop: true
+            - meta_scope: meta.group.sublime-color-scheme
+            - match: (?=\))
+              pop: true
+            - match: (?:--)?[\w-]+
+              scope: variable.other.color-scheme
+            - match: (?=")  # embed this here so we don't have to "with_prototype"
+              pop: true
         - match: (?=")
           pop: true
   color-list-pop:
