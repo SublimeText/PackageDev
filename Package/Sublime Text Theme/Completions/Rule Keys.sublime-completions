@@ -5,6 +5,7 @@
         { "trigger": "class\tselector", "contents": "\"class\": \"$0\"," },
         { "trigger": "settings\tselector", "contents": "\"settings\": [\"$0\"]," },
         { "trigger": "parents\tselector", "contents": "\"parents\": [$0]," },
+        { "trigger": "platforms\tselector", "contents": "\"platforms\": [$0]," },
         { "trigger": "attributes\tselector", "contents": "\"attributes\": [\"$0\"]," },
 
         // strings
@@ -65,14 +66,14 @@
         { "trigger": "accent_tint_modifier\tproperty", "contents": "\"accent_tint_modifier\": [${0:0}]," },
 
         // floats
-        { "trigger": "line_selection_border_radius\tproperty", "contents": "\"line_selection_border_radius\": [${0:0.0}]," },
-        { "trigger": "line_selection_border_width\tproperty", "contents": "\"line_selection_border_width\": [${0:0.0}]," },
-        { "trigger": "indent\tproperty", "contents": "\"indent\": [${0:0.0}]," },
-        { "trigger": "indent_offset\tproperty", "contents": "\"indent_offset\": [${0:0.0}]," },
-        { "trigger": "opacity\tproperty", "contents": "\"opacity\": [${0:1.0}]," },
-        { "trigger": "viewport_opacity\tproperty", "contents": "\"viewport_opacity\": [${0:0.0}]," },
-        { "trigger": "hit_test_level\tproperty", "contents": "\"hit_test_level\": [${0:0.0}]," },
-        { "trigger": "font.size\tproperty", "contents": "\"font.size\": [${0:11.0}]," },
+        { "trigger": "line_selection_border_radius\tproperty", "contents": "\"line_selection_border_radius\": ${0:0.0}," },
+        { "trigger": "line_selection_border_width\tproperty", "contents": "\"line_selection_border_width\": ${0:0.0}," },
+        { "trigger": "indent\tproperty", "contents": "\"indent\": ${0:0.0}," },
+        { "trigger": "indent_offset\tproperty", "contents": "\"indent_offset\": ${0:0.0}," },
+        { "trigger": "opacity\tproperty", "contents": "\"opacity\": ${0:1.0}," },
+        { "trigger": "viewport_opacity\tproperty", "contents": "\"viewport_opacity\": ${0:0.0}," },
+        { "trigger": "hit_test_level\tproperty", "contents": "\"hit_test_level\": ${0:0.0}," },
+        { "trigger": "font.size\tproperty", "contents": "\"font.size\": ${0:11.0}," },
 
         // booleans TODO set opposite of defaults
         { "trigger": "dark_content\tproperty", "contents": "\"dark_content\": ${0:true}," },

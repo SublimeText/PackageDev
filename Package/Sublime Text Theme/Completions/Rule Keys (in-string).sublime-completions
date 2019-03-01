@@ -5,6 +5,7 @@
         { "trigger": "class\tselector", "contents": "class" },
         { "trigger": "settings\tselector", "contents": "settings" },
         { "trigger": "parents\tselector", "contents": "parents" },
+        { "trigger": "platforms\tselector", "contents": "platforms" },
         { "trigger": "attributes\tselector", "contents": "attributes" },
 
         // strings
