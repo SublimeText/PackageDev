@@ -66,7 +66,7 @@
 //                                         ^^^^^^^^^^^^^^^^^^ variable.other.setting.sublime-theme
 //                                         ^^^^^^^^^^^ keyword.other.namespace.sublime-theme
 //                                                   ^ punctuation.separator.namespace.sublime-theme
-            "parents": [{"class": "button_control", "attributes": ["!selected"]}]
+            "parents": [{"class": "button_control", "attributes": ["!selected"]}],
 //           ^^^^^^^ meta.rule-key.parents.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.parents-sequence.sublime-theme
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parent-mapping.sublime-theme meta.mapping
@@ -75,6 +75,12 @@
 //                                                   ^^^^^^^^^^ meta.rule-key.attributes.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                                                                  ^ keyword.operator.logical.sublime-theme
 //                                                                   ^^^^^^^^ entity.other.attribute-name.sublime-theme
+            "platforms": ["windows", "osx", "linux"],
+//           ^^^^^^^^^ meta.rule-key.platforms.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.platforms-sequence.sublime-theme
+//                         ^^^^^^^ support.constant.plaform-name.sublime-theme
+//                                    ^^^ support.constant.plaform-name.sublime-theme
+//                                           ^^^^^ support.constant.plaform-name.sublime-theme
         },
         { // strings
             "font.face": "Random Font"

@@ -84,6 +84,8 @@ variables:
       | left | right # icon_button_control
       | untracked | modified | staged | added | unmerged | ignored # file_system_entry
     )
+  platform: |-
+    (?x: linux | osx | windows )
 
 contexts:
   main:
@@ -210,6 +212,13 @@ contexts:
         2: storage.modifier.selector.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-parents-sequence-value, expect-colon]
+    - match: (")(platforms)(")
+      scope: meta.mapping.key.json meta.rule-key.platforms.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: storage.modifier.selector.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-platforms-sequence-value, expect-colon]
 
     # color values
     - match: (")({{color_key}})(")
@@ -391,6 +400,34 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.operator.logical.sublime-theme
         3: entity.other.attribute-name.sublime-theme # I hate this name, but it's fairly standard
+        4: punctuation.definition.string.end.json
+      pop: true
+    - include: expect-string
+
+  expect-platforms-sequence-value:
+    - match: (?=\[)
+      set: [mapping-value-meta, platforms-sequence-pop]
+    - include: expect-sequence-rest
+
+  platforms-sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.sequence.json meta.platforms-sequence.sublime-theme
+        - include: comments
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\S)
+          push: [in-sequence-expect-comma, expect-platform-string]
+
+  expect-platform-string:
+    - match: (")(!?)({{platform}})(")
+      scope: string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.operator.logical.sublime-theme
+        3: support.constant.plaform-name.sublime-theme
         4: punctuation.definition.string.end.json
       pop: true
     - include: expect-string
