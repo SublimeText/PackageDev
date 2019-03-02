@@ -32,6 +32,20 @@ SCHEME_TEMPLATE = """\
   ],
 }""".replace("  ", "\t")
 
+VARIABLES = [
+    ("--background\tbuiltin color", "--background"),
+    ("--foreground\tbuiltin color", "--foreground"),
+    ("--accent\tbuiltin color", "--accent"),
+    ("--bluish\tbuiltin color", "--bluish"),
+    ("--cyanish\tbuiltin color", "--cyanish"),
+    ("--greenish\tbuiltin color", "--greenish"),
+    ("--orangish\tbuiltin color", "--orangish"),
+    ("--pinkish\tbuiltin color", "--pinkish"),
+    ("--purplish\tbuiltin color", "--purplish"),
+    ("--redish\tbuiltin color", "--redish"),
+    ("--yellowish\tbuiltin color", "--yellowish"),
+]
+
 l = logging.getLogger(__name__)
 
 
@@ -74,7 +88,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
                                                       "entity.name.variable.sublime-theme")
         variables = set(self.view.substr(r) for r in variable_regions)
         l.debug("Found %d variables to complete: %r", len(variables), sorted(variables))
-        return sorted(("{}\tvariable".format(var), var) for var in variables)
+        return VARIABLES + sorted(("{}\tvariable".format(var), var) for var in variables)
 
     def _scope_prefix(self, locations):
         # Determine entire prefix
