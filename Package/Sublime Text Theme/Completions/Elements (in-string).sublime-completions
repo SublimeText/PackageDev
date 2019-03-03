@@ -11,6 +11,7 @@
         { "trigger": "sidebar_tree\telement", "contents": "sidebar_tree" },
         { "trigger": "tree_row\telement", "contents": "tree_row" },
         { "trigger": "sidebar_heading\telement", "contents": "sidebar_heading" },
+        { "trigger": "file_system_entry\telement", "contents": "file_system_entry" },
         { "trigger": "sidebar_label\telement", "contents": "sidebar_label" },
         { "trigger": "close_button\telement", "contents": "close_button" },
         { "trigger": "disclosure_button_control\telement", "contents": "disclosure_button_control" },
@@ -18,6 +19,7 @@
         { "trigger": "icon_folder_loading\telement", "contents": "icon_folder_loading" },
         { "trigger": "icon_folder_dup\telement", "contents": "icon_folder_dup" },
         { "trigger": "icon_file_type\telement", "contents": "icon_file_type" },
+        { "trigger": "vcs_status_badge\telement", "contents": "vcs_status_badge" },
         { "trigger": "tabset_control\telement", "contents": "tabset_control" },
         { "trigger": "tab_control\telement", "contents": "tab_control" },
         { "trigger": "tab_label\telement", "contents": "tab_label" },
@@ -53,6 +55,9 @@
         { "trigger": "panel_button_control\telement", "contents": "panel_button_control" },
         { "trigger": "status_container\telement", "contents": "status_container" },
         { "trigger": "status_button\telement", "contents": "status_button" },
+        { "trigger": "vcs_status\telement", "contents": "vcs_status" },
+        { "trigger": "vcs_branch_icon\telement", "contents": "vcs_branch_icon" },
+        { "trigger": "vcs_changes_annotation\telement", "contents": "vcs_changes_annotation" },
         { "trigger": "dialog\telement", "contents": "dialog" },
         { "trigger": "progress_bar_control\telement", "contents": "progress_bar_control" },
         { "trigger": "progress_gauge_control\telement", "contents": "progress_gauge_control" },
@@ -79,7 +84,5 @@
         { "trigger": "title_label_control\telement", "contents": "title_label_control" },
         { "trigger": "tool_tip_control\telement", "contents": "tool_tip_control" },
         { "trigger": "tool_tip_label_control\telement", "contents": "tool_tip_label_control" },
-        { "trigger": "vcs_branch_icon\telement", "contents": "vcs_branch_icon" },
-        { "trigger": "vcs_changes_annotation\telement", "contents": "vcs_changes_annotation" },
     ]
 }
