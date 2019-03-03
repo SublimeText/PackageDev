@@ -10,6 +10,7 @@
 
         // strings
         { "trigger": "font.face\tproperty", "contents": "\"font.face\": \"$0\"," },
+        { "trigger": "case\tproperty", "contents": "\"case\": \"${0:upper}\"," },
 
         // colors
         { "trigger": "border_color\tproperty", "contents": "\"border_color\": \"$0\"," },
