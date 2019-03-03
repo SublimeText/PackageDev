@@ -9,7 +9,8 @@ scope: source.json.sublime.theme
 variables:
   string_key: |-
     (?x:
-      font\.face
+        case # sidebar heading
+      | font\.face
     )
   color_key: |-
     (?x:

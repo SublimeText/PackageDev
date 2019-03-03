@@ -8,7 +8,9 @@
         { "trigger": "platforms\tselector", "contents": "\"platforms\": [$0]," },
         { "trigger": "attributes\tselector", "contents": "\"attributes\": [\"$0\"]," },
 
+
         // strings
+        { "trigger": "case\tproperty", "contents": "\"case\": \"$0\"," },
         { "trigger": "font.face\tproperty", "contents": "\"font.face\": \"$0\"," },
 
         // colors

@@ -9,6 +9,7 @@
         { "trigger": "attributes\tselector", "contents": "attributes" },
 
         // strings
+        { "trigger": "case\tproperty", "contents": "case" },
         { "trigger": "font.face\tproperty", "contents": "font.face" },
 
         // colors
