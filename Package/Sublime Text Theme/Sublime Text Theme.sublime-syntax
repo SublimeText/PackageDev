@@ -85,7 +85,7 @@ variables:
       | pressed | confirm | highlighted # button_control
       | left | right # icon_button_control
       | h?scrollable # scroll_area_control
-      | untracked | modified | staged | added | unmerged | ignored # file_system_entry
+      | ignored | untracked | modified | missing | added | staged | deleted | unmerged # file_system_entry
     )
   platform: |-
     (?x: linux | osx | windows )

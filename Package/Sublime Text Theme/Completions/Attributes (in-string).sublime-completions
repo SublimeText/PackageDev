@@ -22,11 +22,13 @@
         { "trigger": "highlighted\tattribute", "contents": "highlighted" },
         { "trigger": "left\tattribute", "contents": "left" },
         { "trigger": "right\tattribute", "contents": "right" },
+        { "trigger": "ignored\tattribute", "contents": "ignored" },
         { "trigger": "untracked\tattribute", "contents": "untracked" },
         { "trigger": "modified\tattribute", "contents": "modified" },
-        { "trigger": "staged\tattribute", "contents": "staged" },
+        { "trigger": "missing\tattribute", "contents": "missing" },
         { "trigger": "added\tattribute", "contents": "added" },
+        { "trigger": "staged\tattribute", "contents": "staged" },
+        { "trigger": "deleted\tattribute", "contents": "deleted" },
         { "trigger": "unmerged\tattribute", "contents": "unmerged" },
-        { "trigger": "ignored\tattribute", "contents": "ignored" },
     ]
 }
