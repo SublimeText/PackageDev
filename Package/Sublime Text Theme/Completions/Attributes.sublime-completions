@@ -16,7 +16,7 @@
         { "trigger": "transient\tattribute", "contents": "\"transient\"" },
         { "trigger": "panel_visible\tattribute", "contents": "\"panel_visible\"" },
         { "trigger": "dark\tattribute", "contents": "\"dark\"" },
-        { "trigger": "horizonzal\tattribute", "contents": "\"horizonzal\"" },
+        { "trigger": "horizontal\tattribute", "contents": "\"horizontal\"" },
         { "trigger": "pressed\tattribute", "contents": "\"pressed\"" },
         { "trigger": "confirm\tattribute", "contents": "\"confirm\"" },
         { "trigger": "highlighted\tattribute", "contents": "\"highlighted\"" },
