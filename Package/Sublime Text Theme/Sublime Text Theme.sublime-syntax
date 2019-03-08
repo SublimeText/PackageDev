@@ -81,7 +81,7 @@ variables:
       | selectable | selected | expandable | expanded # tree_row
       | dirty | transient # tab_control
       | panel_visible # status_bar
-      | dark | horizonzal # stat_bar_control
+      | dark | horizontal # stat_bar_control
       | pressed | confirm | highlighted # button_control
       | left | right # icon_button_control
       | h?scrollable # scroll_area_control
