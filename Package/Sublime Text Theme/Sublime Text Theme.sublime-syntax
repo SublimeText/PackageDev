@@ -4,6 +4,7 @@
 name: Sublime Text Theme (JSON)
 file_extensions:
   - sublime-theme
+  - hidden-theme
 scope: source.json.sublime.theme
 
 variables:
