@@ -1,7 +1,7 @@
 {
     "scope": "(meta.build.collection.sublime-build | meta.variant.sublime-build) - string - comment",
     "completions": [
-        { "trigger": "cmd\texec key", "contents": "\"cmd\": \"$1\",$0" },
+        { "trigger": "cmd\texec key", "contents": "\"cmd\": [\"$1\"],$0" },
         { "trigger": "shell_cmd\texec key", "contents": "\"shell_cmd\": \"$1\",$0" },
         { "trigger": "file_regex\texec key", "contents": "\"file_regex\": \"$1\",$0" },
         { "trigger": "line_regex\texec key", "contents": "\"line_regex\": \"$1\",$0" },
