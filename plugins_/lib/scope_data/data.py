@@ -56,8 +56,14 @@ DATA = """
             flow
             import
         declaration
-            extends
-            throws
+            function
+            class
+            struct
+            enum
+            union
+            trait
+            interface
+            impl
         operator
             assignment
             arithmetic
@@ -90,12 +96,16 @@ DATA = """
         union
         trait
         interface
+        impl
         type
         function
             parameters
             return-type
         namespace
         preprocessor
+        annotation
+            identifier
+            parameters
         path
         function-call
         block
@@ -107,15 +117,19 @@ DATA = """
         tag
         paragraph
         toc-list
+        string
+        interpolation
         sequence
         mapping
             key
             value
-        annotation
         set
 
     punctuation
         definition
+            annotation
+                begin
+                end
             string
                 begin
                 end
@@ -123,10 +137,15 @@ DATA = """
                 begin
                 end
             keyword
+                begin
+                end
             generic
                 begin
                 end
             placeholder
+                begin
+                end
+            variable
                 begin
                 end
         section
@@ -155,6 +174,7 @@ DATA = """
                 begin
                 end
         separator
+            continuation
             sequence
             mapping
                 key-value
@@ -171,6 +191,14 @@ DATA = """
 
     storage
         type
+            function
+            class
+            struct
+            enum
+            union
+            trait
+            interface
+            impl
         modifier
 
     string
@@ -200,4 +228,5 @@ DATA = """
         other
             constant
             member
+            readwrite
 """
