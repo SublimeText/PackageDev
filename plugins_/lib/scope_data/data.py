@@ -33,6 +33,7 @@ DATA = """
             union
             trait
             interface
+            impl
             type
             function
                 constructor
