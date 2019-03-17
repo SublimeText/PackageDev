@@ -14,10 +14,20 @@ DATA = """
     constant
         numeric
             integer
+                binary
+                octal
+                decimal
+                hexadecimal
+                other
             float
-            hex
-            octal
+                binary
+                octal
+                decimal
+                hexadecimal
+                other
             complex
+                real
+                imaginary
         character
             escape
         language
