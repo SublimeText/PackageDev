@@ -124,6 +124,9 @@ DATA = """
         raw
             inline
             block
+        info
+        warning
+        error
         other
 
     meta
