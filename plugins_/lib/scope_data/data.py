@@ -64,7 +64,31 @@ DATA = """
     keyword
         control
             conditional
+                end
+                case
+                else
+                elseif
+                if
+                select
+                switch
+            exception
+                end
+                finally
+                try
+                catch
+            loop
+                end
+                do-while
+                for
+                repeat-until
+                while
             flow
+                break
+                continue
+                goto
+                return
+                throw
+                yield
             import
         declaration
             function
@@ -75,6 +99,8 @@ DATA = """
             trait
             interface
             impl
+        import
+            from
         operator
             assignment
             arithmetic
