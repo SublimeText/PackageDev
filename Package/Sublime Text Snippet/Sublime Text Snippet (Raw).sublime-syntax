@@ -67,7 +67,9 @@ contexts:
                 - match: (?=/)
                   pop: true
         - match: ''
-          push: scope:source.regexp
-          with_prototype:
+          push:
+            # Will not work if extended mode is enabled in the regex
+            - meta_scope: source.regexp.embedded
             - match: (?=/)
               pop: true
+            - include: scope:source.regexp#base-literal

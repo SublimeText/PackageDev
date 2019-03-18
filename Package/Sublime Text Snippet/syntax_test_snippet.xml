@@ -206,6 +206,11 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #^ keyword.other.regex.end
 # ^ keyword.other.block.end
 
+
+${TM_CURRENT_LINE/^\\s*((?:\\/\\/[\\/!]?|#|%|--|::|(?i:rem)|'|;)\\s*).*/$1/}
+#                            ^ meta.group.regexp meta.group.regexp meta.literal.regexp
+#                                                                      ^ keyword.other.regex.mid.snippet
+
  ]]>snippet<</content>
 #^^^ meta.tag.cdata punctuation.definition.tag.end
 #   ^^^^^^^ source.sublime.snippet
