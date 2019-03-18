@@ -213,6 +213,9 @@ DATA = """
             set
                 begin
                 end
+            interpolation
+                begin
+                end
         separator
             continuation
             sequence
@@ -249,7 +252,6 @@ DATA = """
             other
         unquoted
         regexp
-        interpolated
         other
 
     support
@@ -269,4 +271,7 @@ DATA = """
             constant
             member
             readwrite
+
+    source
+    text
 """
