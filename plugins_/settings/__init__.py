@@ -130,7 +130,6 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         filepath = view.file_name()
         l.debug("initializing SettingsListener for %r", view.file_name())
 
-        is_widget_file(filepath)
         self.known_settings = None
         if filepath:
             filename = os.path.basename(filepath)
