@@ -1,0 +1,34 @@
+v3.2.8 (2019-03-18)
+-------------------
+
+## TL;DR
+
+  - Fixed a couple bugs
+  - Added support for new theme and scheme attributes
+
+
+## Details
+
+  * Misc: Added new built-in commands to command completions (@deathaxe)
+  * Settings: Added a couple (new) undocumented settings
+  * Snippet: Fix forward slashes in regex replacements
+  * Syntax: Fixed test completions for `<-` assertions in the first line
+  * Syntax: Updated scope name database
+  * Scheme: Support `block_caret`
+  * Theme/Scheme: Added completions for colorish variables (@deathaxe)
+  * Theme/Scheme: Enabled Goto Definition/Reference (@deathaxe)
+  * Theme/Scheme: Support the min-contrast color adjuster (@deathaxe)
+  * Theme: Support many new attributes and elements (@deathaxe)
+  * Theme: Support platform keys (and values) (@deathaxe)
+  * Theme: Fixed float rule value completions (@deathaxe)
+  * Theme: Fixed completions in parent mappings (@deathaxe)
+
+  Notes from earlier releases that weren't shown:
+
+  * Scheme: Support `line_diff_modified`
+  * Scheme: Fixed "Edit Current Color Scheme" command
+  * Scheme: Added new global keys for line diffs
+  * Syntax: Made input helpers optional and a couple fixes (@deathaxe, @FichteFoll)
+  * Syntax: Support nested anonymous contexts in push/set (@deathaxe, #218)
+  * Syntax: Better handling of hyphens in empty lines wrt completions
+  * Theme: Added "Edit Current Theme" command
