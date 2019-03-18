@@ -239,7 +239,7 @@ def find_common_scopes(scopes, skip_syntax_suffix):
     # as any scopes that doesn't appear in this index aren't worth checking, they can't be common
 
     # skip the base scope i.e. `source.python`
-    check_scopes = scopes[0].split()[1:]
+    check_scopes = next(iter(scopes)).split()[1:]
 
     shared_scopes = ''
     # stop as soon as at least one shared scope was found
@@ -328,6 +328,7 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         view = self.view
         view.replace(edit, view.sel()[0], character)
         insert_at = view.sel()[0].begin()
+        _, col = view.rowcol(insert_at)
 
         listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
         if not listener.header:
@@ -341,43 +342,15 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         else:
             end_token = ''
 
-        scopes = []
-        length = 0
-        # find the following columns on the line to be tested where the scopes don't change
-        test_at_start_of_comment = False
-        col = view.rowcol(insert_at)[1]
-        assertion_colrange = lines[0].assertion_colrange or (-1, -1)
-        if assertion_colrange[0] == assertion_colrange[1]:
-            col = assertion_colrange[1]
-            test_at_start_of_comment = True
-            lines = lines[1:]
-
-        col_start, col_end = lines[0].assertion_colrange
-        base_scope = path.commonprefix([
-            view.scope_name(pos)
-            for pos in range(line.begin() + col_start, line.begin() + col_end)
-        ])
-
-        for pos in range(line.begin() + col, line.end() + 1):
-            scope = view.scope_name(pos)
-            if len(scopes) == 0:
-                scopes.append(scope)
-            elif not scope.startswith(base_scope):
-                break
-            length += 1
-            if test_at_start_of_comment:
-                break
-
-        # find the unique scopes at each existing assertion position
-        if lines and not test_at_start_of_comment:
-            col_start, col_end = lines[0].assertion_colrange
-            for pos in range(line.begin() + col_start, line.begin() + col_end):
-                scope = view.scope_name(pos)
-                if scope not in scopes:
-                    scopes.append(scope)
+        if character == '-':
+            length = 1
+            scopes = {view.scope_name(line.begin() + col)}
+        elif character == '^':
+            length, scopes = self.determine_test_extends(lines, line, col)
+        else:
+            return
 
         suggest_suffix = get_setting('syntax_test.suggest_scope_suffix', True)
-
         scope = find_common_scopes(scopes, not suggest_suffix)
 
         # delete the existing selection
@@ -393,6 +366,29 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             insert_at + length,
             insert_at + length + len(' ' + scope + end_token)
         ))
+
+    def determine_test_extends(self, lines, line, start_col):
+        """Determine extend of token(s) to test and return lenght and scope set.
+
+        To be precise, increase column as long as the selector wouldn't change
+        and collect the scopes.
+        """
+        view = self.view
+        col_start, col_end = lines[0].assertion_colrange
+        scopes = {
+            view.scope_name(pos)
+            for pos in range(line.begin() + col_start, line.begin() + col_end)
+        }
+        base_scope = path.commonprefix(list(scopes))
+
+        length = 0
+        for pos in range(line.begin() + col_end - 1, line.end() + 1):
+            scope = view.scope_name(pos)
+            if scope.startswith(base_scope):
+                scopes.add(scope)
+                length += 1
+
+        return length, scopes
 
 
 class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
