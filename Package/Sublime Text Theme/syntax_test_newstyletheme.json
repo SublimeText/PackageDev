@@ -141,6 +141,9 @@
 //                            ^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme meta.group.sublime-color-scheme variable.other.color-scheme
         },
         { // integer (sequences)
+            "min_size": 0,
+//                      ^ constant.numeric.json
+
             "inner_margin": 12,
 //           ^^^^^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                          ^^ constant.numeric.json
@@ -158,9 +161,9 @@
         },
 //      ^ invalid.illegal.expected-comma.inside-sequence.json
         { // integer sequences
-            "min_size": 12,
+            "icon_spacing": 12,
 //           ^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
-//                      ^^ invalid.illegal.expected-sequence.sublime
+//                          ^^ invalid.illegal.expected-sequence.sublime
             "tint_modifier": [12, 11],
 //           ^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                            ^^ constant.numeric.json

@@ -49,11 +49,11 @@ variables:
       | content_margin
       | row_padding
       | max_margin_trim
+      | min_size  # also accepts numbers (undocumented)
     )
   number_sequence_key: |-
     (?x:
-        min_size
-      | icon_spacing
+        icon_spacing
       | shadow_offset
     )
   float_key: |-
