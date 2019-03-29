@@ -37,6 +37,7 @@
         { "trigger": "selection_border_width\tglobals key", "contents": "selection_border_width" },
         { "trigger": "selection_corner_radius\tglobals key", "contents": "selection_corner_radius" },
         { "trigger": "selection_corner_style\tglobals key", "contents": "selection_corner_style" },
+        { "trigger": "selection_foreground\tglobals key", "contents": "selection_foreground" },
         { "trigger": "shadow\tglobals key", "contents": "shadow" },
         { "trigger": "shadow_width\tglobals key", "contents": "shadow_width" },
         { "trigger": "stack_guide\tglobals key", "contents": "stack_guide" },

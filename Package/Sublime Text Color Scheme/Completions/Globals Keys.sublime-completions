@@ -37,6 +37,7 @@
         { "trigger": "selection_border_width\tglobals key", "contents": "\"selection_border_width\": \"${1:1}\"," },
         { "trigger": "selection_corner_radius\tglobals key", "contents": "\"selection_corner_radius\": \"${1:2}\"," },
         { "trigger": "selection_corner_style\tglobals key", "contents": "\"selection_corner_style\": \"${1:round}\"," },
+        { "trigger": "selection_foreground\tglobals key", "contents": "\"selection_foreground\": \"$1\"," },
         { "trigger": "shadow\tglobals key", "contents": "\"shadow\": \"$1\"," },
         { "trigger": "shadow_width\tglobals key", "contents": "\"shadow_width\": \"$1\"," },
         { "trigger": "stack_guide\tglobals key", "contents": "\"stack_guide\": \"$1\"," },

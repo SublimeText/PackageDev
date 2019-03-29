@@ -213,7 +213,7 @@ contexts:
         (?x)
         (")(
           accent|shadow|invisibles|caret|line_highlight
-          |foreground|background|selection|selection_border|inactive_selection|inactive_selection_foreground
+          |foreground|background|selection|selection_border|inactive_selection|(?:inactive_)?selection_foreground
           |highlight|find_highlight|find_highlight_foreground
           |stack_guide|active_guide|guide
           |misspelling
