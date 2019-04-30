@@ -335,6 +335,8 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             return
 
         lines, line = listener.get_details_of_line_being_tested()
+        if not lines[-1].assertion_colrange:
+            return
         end_token = listener.header.comment_end
         # don't duplicate the end token if it is on the line but not selected
         if end_token and view.sel()[0].end() == lines[0].line_region.end():
