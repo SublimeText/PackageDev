@@ -1,0 +1,10 @@
+v3.2.8 (2019-04-30)
+-------------------
+
+(Notes not shown on release)
+
+- Syntax: Fixed test range detection on `^` key (#248)
+- Syntax: Fixed exception when inserting `^` on an almost test line
+- Syntax: Now match ST's text file criteria more precisely (#247)
+- Scheme: Recognize selection_foreground globals key (#246)
+- Theme: `min_size` also accepts numbers
