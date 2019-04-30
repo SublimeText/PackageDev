@@ -381,7 +381,8 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             view.scope_name(pos)
             for pos in range(line.begin() + col_start, line.begin() + col_end)
         }
-        base_scope = path.commonprefix(list(scopes))
+        base_scope = path.commonprefix(list(scopes)).strip()
+        l.debug("Original base scope: %r", base_scope)
 
         length = 0
         for pos in range(line.begin() + col_end - 1, line.end() + 1):
@@ -389,7 +390,10 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             if scope.startswith(base_scope):
                 scopes.add(scope)
                 length += 1
+            else:
+                break
 
+        l.debug("Total scopes covered: %r", scopes)
         return length, scopes
 
 
