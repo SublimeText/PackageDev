@@ -140,7 +140,7 @@
             "font.size": "var(default_size)"
 //                            ^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme meta.group.sublime-color-scheme variable.other.color-scheme
         },
-        { // integer (sequences)
+        { // integer sequences
             "min_size": 0,
 //                      ^ constant.numeric.json
 
@@ -157,18 +157,18 @@
             "inner_margin": "var
 //                          ^^^^ - invalid.illegal.expected-sequence.sublime
 //                              ^ invalid.illegal.unclosed-string.json
-        }
-        },
-//      ^ invalid.illegal.expected-comma.inside-sequence.json
-        { // integer sequences
-            "icon_spacing": 12,
-//           ^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
-//                          ^^ invalid.illegal.expected-sequence.sublime
+            , "icon_spacing": 12,
+//             ^^^^^^^^^^^^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                            ^^ constant.numeric.json
             "tint_modifier": [12, 11],
 //           ^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                            ^^ constant.numeric.json
             "random_key": null
 //          ^^^^^^^^^^^^ meta.rule-key.sublime-theme
+        }
+        },
+//      ^ invalid.illegal.expected-comma.inside-sequence.json
+        { // integer sequences
         },
         {
             "attributes": ["selected", "!expanded", "unknown", 12],

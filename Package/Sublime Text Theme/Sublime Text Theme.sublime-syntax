@@ -43,17 +43,14 @@ variables:
       | inside_spacing | outside_vspacing | outside_hspacing
       | (?:left|right|top|bottom)_shadow_size
     )
-  padding_and_margin_key: |-
+  number_sequence_key: |-
     (?x:
         inner_margin
       | content_margin
       | row_padding
       | max_margin_trim
-      | min_size  # also accepts numbers (undocumented)
-    )
-  number_sequence_key: |-
-    (?x:
-        icon_spacing
+      | min_size
+      | icon_spacing
       | shadow_offset
     )
   float_key: |-
@@ -247,20 +244,14 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-number-value, expect-colon]
-    - match: (")({{padding_and_margin_key}})(")
-      scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        2: keyword.other.rule.sublime-theme
-        3: punctuation.definition.string.end.json
-      set: [expect-number-or-number-sequence-value, expect-colon]
     - match: (")({{number_sequence_key}})(")
       scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
-      set: [expect-sequence-value, expect-colon] # actually number sequence
+      # All sequences also accept a single number that is expanded
+      set: [expect-number-or-number-sequence-value, expect-colon]
     # boolean values
     - match: (")({{boolean_key}})(")
       scope: meta.mapping.key.json meta.rule-key.string.sublime-theme string.quoted.double.json
