@@ -1,5 +1,5 @@
 {
-    "scope": "meta.build.collection.sublime-build - meta.mapping meta.mapping - string - comment",
+    "scope": "meta.build.collection.sublime-build - meta.build.collection.sublime-build meta.mapping meta - string - comment",
     "completions": [
         { "trigger": "selector\tmain key", "contents": "\"selector\": \"$1\",$0" },
         { "trigger": "variants\tmain key", "contents": "\"variants\": [\n\t$0\n]," },

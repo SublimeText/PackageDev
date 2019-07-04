@@ -1,9 +1,6 @@
 {
-    "scope": "meta.project.build.sublime-project -  meta.sequence meta.mapping meta.mapping - string - comment",
+    "scope": "meta.project.build.sublime-project - meta.project.build.sublime-project meta.mapping meta - string - comment",
     "completions": [
         { "trigger": "name\tmain key", "contents": "\"name\": \"$1\"," },
-        { "trigger": "selector\tmain key", "contents": "\"selector\": \"$1\",$0" },
-        { "trigger": "variants\tmain key", "contents": "\"variants\": [\n\t$0\n]," },
-        { "trigger": "keyfiles\tmain key", "contents": "\"keyfiles\": [\"$0\"]," },
     ],
 }
