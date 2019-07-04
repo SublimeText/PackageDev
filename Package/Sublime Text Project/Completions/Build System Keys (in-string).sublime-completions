@@ -1,0 +1,9 @@
+{
+    "scope": "meta.project.build.sublime-project meta.main-key.sublime-build - meta.sequence meta.mapping meta.mapping - comment",
+    "completions": [
+        { "trigger": "name\tmain key", "contents": "name" },
+        { "trigger": "selector\tmain key", "contents": "selector" },
+        { "trigger": "variants\tmain key", "contents": "variants" },
+        { "trigger": "keyfiles\tmain key", "contents": "keyfiles" },
+    ]
+}
