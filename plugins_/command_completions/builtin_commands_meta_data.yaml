@@ -330,6 +330,12 @@ toggle_bookmark:
 toggle_full_screen:
   command_type: window
   doc_string: Toggle whether the current Sublime Text window is in full screen mode.
+toggle_menubar:
+  command_type: window
+  doc_string: Toggle the visibility of the menu bar.
+toggle_minimap:
+  command_type: window
+  doc_string: Toggle the visibility of the minimap.
 toggle_overwrite:
   command_type: text
   doc_string: Toggle whether the caret is in insert mode or overwrite mode.
@@ -344,6 +350,12 @@ toggle_setting:
 toggle_side_bar:
   command_type: window
   doc_string: Toggle the visibility of the side bar.
+toggle_status_bar:
+  command_type: window
+  doc_string: Toggle the visibility of the status bar.
+toggle_tabs:
+  command_type: window
+  doc_string: Toggle the visibility of the tab controls.
 undo:
   command_type: text
   doc_string: Undo the last action.
