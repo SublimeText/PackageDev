@@ -45,11 +45,22 @@
     "build_systems": true [
 //   ^^^^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-project string.quoted.double.json keyword.other.main.sublime-project
 //                   ^^^^ invalid.illegal.expected-sequence.sublime
-//                        ^  meta.mapping.value.json meta.variants.collection.sublime-build meta.sequence.json punctuation.section.sequence.begin.json
+//                        ^  meta.mapping.value.json meta.project.build.collection.sublime-project meta.sequence.json punctuation.section.sequence.begin.json
         {
             "name": "Test Build",
+//           ^^^^ meta.main-key.sublime-build string.quoted.double.json keyword.other.main.sublime-build
             "shell_cmd": "sh $file",
 //                            ^^^^ meta.placeholder-name.sublime-build constant.other.placeholder.sublime-build
+            "selector": "source.html",
+//           ^^^^^^^^ meta.main-key.sublime-build string.quoted.double.json keyword.other.main.sublime-build
+            "variants": [
+                {
+                    "name": "Variant",
+//                   ^^^^ meta.variant.sublime-build meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json keyword.other.main.sublime-build
+                    "selector": "invalid",
+//                   ^^^^^^^^ meta.main-key.sublime-build string.quoted.double.json - keyword.other.main.sublime-build
+                },
+            ],
         },
     ],
 

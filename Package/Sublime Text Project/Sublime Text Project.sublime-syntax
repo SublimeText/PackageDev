@@ -165,7 +165,39 @@ contexts:
         - include: string-escape
 
   expect-build-systems-sequence-value:
-    - include: Sublime Text Build System.sublime-syntax#expect-variants-sequence-value
+    - match: (?=\[)
+      set: [mapping-value-meta, build-systems-sequence-pop]
+    - include: expect-sequence-rest
+
+  build-systems-sequence-pop:
+    - match: \[
+      scope: punctuation.section.sequence.begin.json
+      set:
+        - meta_scope: meta.project.build.collection.sublime-project meta.sequence.json
+        - match: \]
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - match: (?=\{)
+          push: [in-sequence-expect-comma, build-system-mapping-pop]
+        - include: comments
+        - match: \S
+          scope: invalid.illegal.expected-mapping.sublime-build
+
+  build-system-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.project.build.sublime-project meta.build.collection.sublime-build meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, in-build-system-main-key]
+        - include: expect-key-rest
+
+  in-build-system-main-key:
+    - include: Sublime Text Build System.sublime-syntax#name-key
+    - include: Sublime Text Build System.sublime-syntax#main-key
 
   expect-settings-mapping-value:
     - match: (?=\{)

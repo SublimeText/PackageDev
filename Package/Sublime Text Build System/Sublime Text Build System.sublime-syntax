@@ -59,6 +59,15 @@ contexts:
     - include: platform-key
     - include: in-dictionary-main-key
 
+  name-key:
+    - match: (")(name)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-build
+        3: punctuation.definition.string.end.json
+      set: [expect-variant-name-string-value, expect-colon]
+
   platform-key:
     - match: (")(linux|osx|windows)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
@@ -205,13 +214,7 @@ contexts:
     - include: target-key
     - include: exec-args-key
     - include: platform-key
-    - match: (")(name)(")
-      scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
-      captures:
-        1: punctuation.definition.string.begin.json
-        2: keyword.other.main.sublime-build
-        3: punctuation.definition.string.end.json
-      set: [expect-variant-name-string-value, expect-colon]
+    - include: name-key
     - include: in-dictionary-main-key
 
   expect-platform-mapping-value:
