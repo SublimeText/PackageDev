@@ -1,6 +1,7 @@
+dist: trusty
 sudo: false
-language: python
 
+language: python
 python:
   - "3.3"  # ST3 uses this internally, so we do as well for flake8
 
@@ -9,7 +10,7 @@ python:
 #     - /^v\d/
 
 install:
-  - pip install flake8==3.5.0
+  - pip install flake8==3.7.8
   # fetch syntax testing binary
   - wget --content-disposition https://download.sublimetext.com/latest/dev/linux/x64/syntax_tests
   - tar xf "$(ls st3_syntax_tests_build_*_x64.tar.bz2)"
