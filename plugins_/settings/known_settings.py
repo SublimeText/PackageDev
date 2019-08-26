@@ -660,7 +660,7 @@ class KnownSettings(object):
             {(trigger, contents), ...}
                 A set of all completions.
         """
-        if default is None or default is "":
+        if default is None or default == "":
             return set()
         elif isinstance(default, bool):
             return {format_completion_item(True), format_completion_item(False)}
