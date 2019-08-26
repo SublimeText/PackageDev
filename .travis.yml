@@ -1,9 +1,11 @@
-dist: trusty
+dist: xenial
 sudo: false
 
 language: python
 python:
-  - "3.3"  # ST3 uses this internally, so we do as well for flake8
+  # ST3 uses 3.3 internally, but flake8 (pyflakes) requires 3.4,
+  # which is also the last image available on xenial.
+  - "3.4"
 
 # branches:
 #   except:
