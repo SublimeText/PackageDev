@@ -120,14 +120,14 @@ contexts:
         - match: (")(<character>)(")
           scope: string.quoted.double.json
           captures:
-            1: punctuation.definition.string.start.json
+            1: punctuation.definition.string.begin.json
             2: meta.key-chord.sublime-keymap support.constant.key.captured.sublime-keymap
             3: punctuation.definition.string.end.json
           push: in-sequence-expect-comma
         - match: (")((\\.)|([^"]))(")
           scope: string.quoted.double.json
           captures:
-            1: punctuation.definition.string.start.json
+            1: punctuation.definition.string.begin.json
             2: meta.key-chord.sublime-keymap
             3: constant.character.escape.json
             4: constant.character.key.literal.sublime-keymap
