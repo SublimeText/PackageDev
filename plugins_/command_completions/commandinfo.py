@@ -10,6 +10,7 @@ import sublime_plugin
 from .yaml_omap import SaveOmapLoader
 
 BUILTIN_METADATA_FILENAME = "builtin_commands_meta_data.yaml"
+BUILTIN_METADATA_BUILD = 3208
 
 l = logging.getLogger(__name__)
 
@@ -88,16 +89,20 @@ def get_builtin_commands(command_type=""):
         result = frozenset(k for k, v in meta.items()
                            if v['command_type'] == command_type)
 
+    should_check_outdated = int(sublime.version()) >= BUILTIN_METADATA_BUILD
     for c in iter_python_command_classes(command_type):
         name = get_command_name(c)
         module = c.__module__
         package = module.split(".")[0]
-        if package == 'Default':
-            if name in result:
-                l.warning(
-                    'command "{name}" in the {package} package is defined in the built-in '
-                    'metadata file, probably it should not be'.format(name=name, package=package)
-                )
+        if (
+            should_check_outdated
+            and package == 'Default'
+            and name in result
+        ):
+            l.warning(
+                'command "{name}" in the {package} package is defined in the built-in'
+                ' metadata file. Probably it should not be'.format(name=name, package=package)
+            )
 
     return result
 
