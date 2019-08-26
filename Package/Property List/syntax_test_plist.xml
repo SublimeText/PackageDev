@@ -33,22 +33,22 @@
 <!--     ^^^^ entity.name.tag.localname.xml constant.language.boolean.plist -->
 <!--          ^^ meta.tag.xml punctuation.definition.tag.end.xml -->
         <key>abc</key><string>&amp; & hello <key></key></string>
-<!--                          ^^^^^ meta.inside-value.string.plist constant.character.entity.xml -->
+<!--                          ^^^^^ meta.inside-value.string.plist constant.character.entity.named.xml -->
 <!--                                ^ invalid.illegal.bad-ampersand.xml -->
 <!--                                         ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
 <!--                                              ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
 <!--                                                     ^ - invalid.illegal.unknown-or-unexpected-tag.plist -->
         <key>abc</key><string><![CDATA[&amp; & hello <key></key></string>]]>test&amp;<![CDATA[cool]]></string>
 <!--                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
-<!--                          ^^^^^^^^^ string.unquoted.cdata.xml punctuation.definition.string.begin.xml -->
+<!--                          ^^^ punctuation.definition.tag.begin.xml -->
 <!--                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml -->
-<!--                                                                     ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
+<!--                                                                     ^^^ punctuation.definition.tag.end.xml -->
 <!--                                                                        ^^^^^^^^^ - string.unquoted.cdata.xml -->
-<!--                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character.entity.xml - invalid.illegal - meta.tag - punctuation -->
-<!--                                                                            ^ punctuation.definition.constant.xml -->
-<!--                                                                                ^ punctuation.definition.constant.xml -->
-<!--                                                                                 ^^^^^^^^^ string.unquoted.cdata.xml punctuation.definition.string.begin.xml -->
-<!--                                                                                              ^^^ string.unquoted.cdata.xml punctuation.definition.string.end.xml -->
+<!--                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.character.entity.xml - invalid.illegal - punctuation -->
+<!--                                                                            ^ punctuation.definition.entity.xml -->
+<!--                                                                                ^ punctuation.terminator.entity.xml -->
+<!--                                                                                 ^^^ punctuation.definition.tag.begin.xml -->
+<!--                                                                                              ^^^ punctuation.definition.tag.end.xml -->
 <!--                                                                                                 ^^^^^^^^^ meta.tag.xml - invalid -->
         <string>test</string>
 <!--    ^ punctuation.definition.tag.begin.xml -->

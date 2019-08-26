@@ -109,7 +109,7 @@
 <!--                     ^^^^^^^ invalid.deprecated.expected-name-or-value.tmPreferences -->
                     <string>&amp;</string>
 <!--                 ^^^^^^ - invalid -->
-<!--                        ^^^^^ constant.character.entity.xml -->
+<!--                        ^^^^^ constant.character.entity.named.xml -->
                 </dict>
                 <dict>
                     <key>name</key>
@@ -172,7 +172,7 @@
 <!--                 ^^^^^^^^^^^^^ comment.block.xml -->
 <!--                              ^^ keyword - invalid - comment -->
 <!--                                ^^^^^^^^^^^^^^^^ comment.block.xml -->
-<!--                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.deprecated.ignored-after-comment-or-cdata - meta.tag -->
+<!--                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.deprecated.ignored-after-comment-or-cdata -->
 <!--                                                                                          ^^^^^^^^^ meta.tag.xml -->
             <key>cancelCompletion</key>
             <string> <![CDATA[.*]]>ignored by ST<![CDATA[<!-- test --> </string>]]>test<!-- still ignored -->here   </string>
