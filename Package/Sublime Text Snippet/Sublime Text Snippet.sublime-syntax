@@ -84,7 +84,7 @@ contexts:
         - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: scope:text.xml#tag-stuff
+        - include: scope:text.xml
     - include: scope:text.xml
 
   inside_content:
