@@ -1,0 +1,12 @@
+v3.2.10 (2019-08-27)
+--------------------
+
+(Notes not shown on release)
+
+- Misc: Add some built-in commands to the default metadata (@deathaxe, #251)
+- Project: Fix highlighting of project-specific build systems (@deathaxe, #250)
+- Theme: All number sequences are expanded from numbers (for syntax
+  highlighting)
+- Builds: Increase accuracy of completions, i.e. when they are active (#250)
+- Keymap: Fix inconsistent string punctuation scope (@seanCodes, #253)
+- Misc: Don't check for outdated command metadata on older builds (#252)
