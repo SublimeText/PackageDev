@@ -25,6 +25,9 @@ contexts:
           pop: true
         - match: '\s+\('
           scope: invalid.illegal.operator-required-between-scope-and-group.scope-selector
+        - match: '\s+(?=\w)'
+          scope: keyword.operator.right.scope-selector
+          pop: true
         - match: ''
           pop: true
     - match: '-'
@@ -44,5 +47,3 @@ contexts:
             - match: '\s*'
               pop: true
         - include: base
-    - match: ' '
-      scope: keyword.operator.right.scope-selector

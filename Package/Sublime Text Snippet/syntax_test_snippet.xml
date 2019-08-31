@@ -301,7 +301,6 @@ ${TM_CURRENT_LINE/^\\s*((?:\\/\\/[\\/!]?|#|%|--|::|(?i:rem)|'|;)\\s*).*/$1/}
 #                          ^ invalid.illegal.newline-not-supported-here.sublime-snippet
 </scope>
 
-
 <scope>(source.c | source.c++) &amp; entity, (&amp;) | entity</scope>
 #      ^ punctuation.section.group.begin.scope-selector
 #       ^^^^^^ string.unquoted.scope-segment.scope-selector
