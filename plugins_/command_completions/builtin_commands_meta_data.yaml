@@ -236,7 +236,7 @@ prompt_select_workspace:
   doc_string: Quick Switch Project.
 prompt_switch_project_or_workspace:
   command_type: window
-  doc_string: Show the OS' native save as dialog, so the user can choose what project they
+  doc_string: Show the OS' native open dialog, so the user can choose what project they
     want to switch to.
 quick_diff:
   command_type: window
@@ -282,10 +282,10 @@ save_all:
   doc_string: Save all the open documents in the active window.
 save_project_and_workspace_as:
   command_type: window
-  doc_string: Save active project and worspace as ....
+  doc_string: Save active project and workspace as ....
 save_workspace_as:
   command_type: window
-  doc_string: Save active worspace as ....
+  doc_string: Save active workspace as ....
 scroll_lines:
   args:
     amount: 1.0
