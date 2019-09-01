@@ -31,6 +31,12 @@ clear_fields:
 close_file:
   command_type: window
   doc_string: Close the active file.
+close_folder_list:
+  command_type: window
+  doc_string: Remove all folders from the sidebar and hide it.
+close_workspace:
+  command_type: window
+  doc_string: Close the active workspace.
 commit_completion:
   command_type: text
   doc_string: Insert the selected item into the text and close completion panel.
@@ -137,6 +143,9 @@ new_file:
 new_window:
   command_type: application
   doc_string: Open a new ST window.
+new_window_for_project:
+  command_type: window
+  doc_string: Clone project into a new workspace.
 next_bookmark:
   command_type: text
   doc_string: Navigate to the next bookmark in the document.
@@ -202,6 +211,10 @@ prev_view:
 prev_view_in_stack:
   command_type: window
   doc_string: Set the focus to the previous view in the stack of recent edited view.
+prompt_add_folder:
+  command_type: window
+  doc_string: Show the OS' native open dialog, so the user can choose what folder they
+    want to add to the sidebar.
 prompt_open_file:
   command_type: window
   doc_string: Show the OS' native open dialog, so the user can choose what file they
@@ -210,10 +223,21 @@ prompt_open_folder:
   command_type: window
   doc_string: Show the OS' native open dialog, so the user can choose what folder they
     want to open.
+prompt_open_project_or_workspace:
+  command_type: window
+  doc_string: Show the OS' native open dialog, so the user can choose what project they
+    want to open.
 prompt_save_as:
   command_type: window
   doc_string: Show the OS' native save as dialog, so the user can choose the path
     where they want the file to be saved.
+prompt_select_workspace:
+  command_type: window
+  doc_string: Quick Switch Project.
+prompt_switch_project_or_workspace:
+  command_type: window
+  doc_string: Show the OS' native open dialog, so the user can choose what project they
+    want to switch to.
 quick_diff:
   command_type: window
   doc_string: Show a diff of the file currently in buffer compared to its saved state.
@@ -223,6 +247,9 @@ redo:
 redo_or_repeat:
   command_type: text
   doc_string: Redo the last undo or repeat the last action if there is no undo to revert.
+refresh_folder_list:
+  command_type: window
+  doc_string: Refresh the folder list in the sidebar from the filesystem.
 reindent:
   args:
     single_line: false
@@ -253,6 +280,12 @@ save:
 save_all:
   command_type: window
   doc_string: Save all the open documents in the active window.
+save_project_and_workspace_as:
+  command_type: window
+  doc_string: Save active project and workspace as ....
+save_workspace_as:
+  command_type: window
+  doc_string: Save active workspace as ....
 scroll_lines:
   args:
     amount: 1.0
