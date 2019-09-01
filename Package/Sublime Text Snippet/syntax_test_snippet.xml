@@ -301,6 +301,25 @@ ${TM_CURRENT_LINE/^\\s*((?:\\/\\/[\\/!]?|#|%|--|::|(?i:rem)|'|;)\\s*).*/$1/}
 #                          ^ invalid.illegal.newline-not-supported-here.sublime-snippet
 </scope>
 
+<scope>(source.c | source.c++) &amp; entity, (&amp;) | entity</scope>
+#      ^ punctuation.section.group.begin.scope-selector
+#       ^^^^^^ string.unquoted.scope-segment.scope-selector
+#             ^ punctuation.separator.scope-segments.scope-selector
+#              ^ string.unquoted.scope-segment.scope-selector
+#                ^ keyword.operator.or.scope-selector
+#                  ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                        ^ punctuation.separator.scope-segments.scope-selector
+#                         ^^^ string.unquoted.scope-segment.scope-selector
+#                            ^ punctuation.section.group.end.scope-selector
+#                              ^^^^^ keyword.operator.with.scope-selector
+#                                    ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                                          ^ keyword.operator.or.scope-selector
+#                                            ^ punctuation.section.group.begin.scope-selector
+#                                             ^^^^^ keyword.operator.with.scope-selector
+#                                                  ^ punctuation.section.group.end.scope-selector
+#                                                    ^ keyword.operator.or.scope-selector
+#                                                      ^^^^^^ string.unquoted.scope-segment.scope-selector
+
 <tabTrigger> </tabTrigger>
 #^^^^^^^^^^ meta.tag.xml entity.name.tag.localname.xml meta.toc-list.trigger.sublime-snippet
 

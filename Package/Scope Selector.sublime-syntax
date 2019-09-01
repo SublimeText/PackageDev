@@ -25,29 +25,25 @@ contexts:
           pop: true
         - match: '\s+\('
           scope: invalid.illegal.operator-required-between-scope-and-group.scope-selector
+        - match: '\s+(?=\w)'
+          scope: keyword.operator.right.scope-selector
+          pop: true
         - match: ''
           pop: true
-    - match: '\s*(-)\s*'
-      captures:
-        1: keyword.operator.without.scope-selector
-    - match: '\s*(&)\s*'
-      captures:
-        1: keyword.operator.with.scope-selector
-    - match: '\s*([,|])\s*'
-      captures:
-        1: keyword.operator.or.scope-selector
-    - match: '\s*(\()\s*'
-      captures:
-        1: punctuation.section.group.begin.scope-selector
+    - match: '-'
+      scope: keyword.operator.without.scope-selector
+    - match: '&'
+      scope: keyword.operator.with.scope-selector
+    - match: '[,|]'
+      scope: keyword.operator.or.scope-selector
+    - match: '\('
+      scope: punctuation.section.group.begin.scope-selector
       push:
-        - match: '\s*(\))'
-          captures:
-            1: punctuation.section.group.end.scope-selector
+        - match: '\)'
+          scope: punctuation.section.group.end.scope-selector
           set:
             - match: '(\s*{{scope_segment}}|\.)+'
               scope: invalid.illegal.operator-required-after-group.scope-selector
             - match: '\s*'
               pop: true
         - include: base
-    - match: ' '
-      scope: keyword.operator.right.scope-selector
