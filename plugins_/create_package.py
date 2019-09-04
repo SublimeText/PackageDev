@@ -5,10 +5,10 @@ import os
 import sublime
 import sublime_plugin
 
+logger = logging.getLogger(__name__)
+
 
 __all__ = ('PackagedevCreatePackageCommand',)
-
-l = logging.getLogger(__name__)
 
 
 def _archived_packages_in_path(path):
@@ -17,18 +17,17 @@ def _archived_packages_in_path(path):
             for p in paths}
 
 
-def _get_default_packages():
+def get_default_packages():
     default_path = os.path.join(os.path.dirname(sublime.executable_path()), "Packages")
     return _archived_packages_in_path(default_path)
 
 
-def _get_installed_packages():
+def get_installed_packages():
     return _archived_packages_in_path(sublime.installed_packages_path())
 
 
 def _is_override_package(name):
-    existing_packages = _get_default_packages() | _get_installed_packages()
-    l.debug("existing packages: %r", existing_packages)
+    existing_packages = get_default_packages() | get_installed_packages()
     return name in existing_packages
 
 
@@ -37,15 +36,15 @@ def _create_package(name):
     try:
         os.mkdir(path)
     except FileExistsError:
-        l.error("Path exists already: %r", path)
+        logger.error("Path exists already: %r", path)
     except Exception:
-        l.exception("Unknown error while creating path %r", path)
+        logger.exception("Unknown error while creating path %r", path)
     else:
         return path
     return None
 
 
-def _open_folder_in_st(path):
+def open_folder_in_st(path):
     sublime.run_command('new_window')
     new_window = sublime.active_window()
     new_window.set_project_data({'folders': [{'path': path}]})
@@ -69,14 +68,14 @@ class PackagedevCreatePackageCommand(sublime_plugin.WindowCommand):
                                               " Do you want to create an override package?"
                                               .format(name))
             if not result:
-                l.debug("Aborted creation of override package for %r", name)
+                logger.debug("Aborted creation of override package for %r", name)
                 return
 
         path = _create_package(name)
         if not path:
             self.window.status_message("Could not create directory for package {!r}".format(name))
             return
-        new_window = _open_folder_in_st(path)
+        new_window = open_folder_in_st(path)
 
         new_window.run_command('show_overlay',
                                {'overlay': 'command_palette', 'text': "PackageDev: New"})
