@@ -7,6 +7,8 @@ import time
 import weakref
 
 import sublime
+from sublime_lib import encodings
+
 
 from ..lib.weakmethod import WeakMethodProxy
 from ..lib import get_setting, sorted_completions
@@ -568,6 +570,7 @@ class KnownSettings(object):
             default = self.defaults.get(key)
             l.debug("default value: %r", default)
             completions = self._completions_from_comment(key)
+            completions |= self._known_completions(key)
             completions |= self._completions_from_default(key, default)
             completions = self._marked_default_completions(completions, default)
         return completions
@@ -670,6 +673,14 @@ class KnownSettings(object):
             return set()  # TODO can't complete these yet
         else:
             return {format_completion_item(default)}
+
+    def _known_completions(self, key):
+        if (
+            self.filename == "Preferences.sublime-settings"
+            and key in ('fallback_encoding', 'default_encoding')
+        ):
+            return set(map(format_completion_item, encodings.SUBLIME_TO_STANDARD.keys()))
+        return set()
 
     @staticmethod
     def _color_scheme_completions():
