@@ -325,6 +325,7 @@ show_overlay:
     - overlay: goto|command_palette
     - text:
     - show_files:
+    - command:
   command_type: window
   doc_string: Show the overlay from the argument.
 show_panel:
