@@ -710,13 +710,23 @@ class KnownSettings(object):
         completions = set()
         for scheme_path in sublime.find_resources("*.sublime-color-scheme"):
             if not any(hide in scheme_path for hide in hidden):
-                _, package, *_, name = scheme_path.split("/")
+                try:
+                    root, package, *_, name = scheme_path.split("/")
+                except ValueError:
+                    continue
+                if root == 'Cache':
+                    continue
                 completions.add(format_completion_item(
                     value=name, is_default=name == default, description=package))
 
         for scheme_path in sublime.find_resources("*.tmTheme"):
             if not any(hide in scheme_path for hide in hidden):
-                _, package, *_, name = scheme_path.split("/")
+                try:
+                    root, package, *_, name = scheme_path.split("/")
+                except ValueError:
+                    continue
+                if root == 'Cache':
+                    continue
                 completions.add(format_completion_item(
                     value=scheme_path, is_default=scheme_path == default,
                     label=name, description=package))
