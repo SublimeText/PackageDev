@@ -708,12 +708,18 @@ class KnownSettings(object):
         """
         hidden = get_setting('settings.exclude_color_scheme_patterns') or []
         completions = set()
+        for scheme_path in sublime.find_resources("*.sublime-color-scheme"):
+            if not any(hide in scheme_path for hide in hidden):
+                _, package, *_, name = scheme_path.split("/")
+                completions.add(format_completion_item(
+                    value=name, is_default=name == default, description=package))
+
         for scheme_path in sublime.find_resources("*.tmTheme"):
             if not any(hide in scheme_path for hide in hidden):
-                _, package, *_, file_name = scheme_path.split("/")
+                _, package, *_, name = scheme_path.split("/")
                 completions.add(format_completion_item(
                     value=scheme_path, is_default=scheme_path == default,
-                    label=file_name, description=package))
+                    label=name, description=package))
         return completions
 
     @staticmethod
