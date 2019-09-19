@@ -578,11 +578,11 @@ class KnownSettings(object):
         l.debug("default value: %r", default)
 
         if key == 'color_scheme':
-            completions = self._color_scheme_completions()
+            completions = self._color_scheme_completions(default)
         elif key in ('default_encoding', 'fallback_encoding'):
             completions = self._encoding_completions(default)
         elif key == 'theme':
-            completions = self._theme_completions()
+            completions = self._theme_completions(default)
         else:
             completions = self._completions_from_comment(key)
             completions |= self._completions_from_default(key, default)
@@ -691,25 +691,29 @@ class KnownSettings(object):
             return {format_completion_item(default)}
 
     @staticmethod
-    def _color_scheme_completions():
+    def _color_scheme_completions(default):
         """Create completions of all visible color schemes.
 
         The set will not include color schemes matching at least one entry of
         `"settings.exclude_color_scheme_patterns": []`.
 
+        default (string):
+            The default `color_scheme` value.
+
         Returns:
             {(trigger, contents], ...}
                 A set of all completions.
                 - trigger (string): base file name of the color scheme
-                - contents (string): the path to commit to the settings
+                - contents (string): the value to commit to the settings
         """
         hidden = get_setting('settings.exclude_color_scheme_patterns') or []
         completions = set()
         for scheme_path in sublime.find_resources("*.tmTheme"):
             if not any(hide in scheme_path for hide in hidden):
                 _, package, *_, file_name = scheme_path.split("/")
-                completions.add((
-                    "{0}  \t{1}".format(file_name, package), scheme_path))
+                completions.add(format_completion_item(
+                    value=scheme_path, is_default=scheme_path == default,
+                    label=file_name, description=package))
         return completions
 
     @staticmethod
@@ -732,8 +736,11 @@ class KnownSettings(object):
         ))
 
     @staticmethod
-    def _theme_completions():
+    def _theme_completions(default):
         """Create completions of all visible themes.
+
+        default (string):
+            The default `theme` value.
 
         The set will not include color schemes matching at least one entry of
         `"settings.exclude_theme_patterns": []` setting.
@@ -749,5 +756,6 @@ class KnownSettings(object):
         for theme in sublime.find_resources("*.sublime-theme"):
             theme = os.path.basename(theme)
             if not any(hide in theme for hide in hidden):
-                completions.add(("{0}  \ttheme".format(theme), theme))
+                completions.add(format_completion_item(
+                    value=theme, is_default=theme == default, description="theme"))
         return completions
