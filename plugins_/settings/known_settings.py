@@ -30,15 +30,27 @@ def html_encode(string):
                  .replace("\n", "<br>") if string else ""
 
 
-def format_completion_item(value, default=False):
-    """Create a completion item with its type as description."""
+def format_completion_item(value, is_default=False, label=None, description=None):
+    """Create a completion item with its type as description.
+
+    Arguments:
+        value (any):
+            The value which is added when completions are committed.
+            If `label` is none, the `value` is used as label, too.
+        is_default (bool):
+            If `True` the completion item is marked '(default)'.
+        label (str):
+            An alternative label to use to present the `value`
+            in the completions panel.
+        description (str):
+            An optional description to display after the label.
+            If `None` is provided, the data type of `value` is displayed.
+    """
     if isinstance(value, dict):
         raise ValueError("Cannot format dictionary value", value)
-    default_str = "(default) " if default else ""
-    return ("{0}  \t{2}{1}".format(sublime.encode_value(value).strip('"'),
-                                   type(value).__name__,
-                                   default_str),
-            value)
+    return (("{0}  \t(default) {1}" if is_default else "{0}  \t{1}").format(
+            sublime.encode_value(label or value).strip('"'),
+            description or type(value).__name__), value)
 
 
 def decode_value(string):
@@ -561,16 +573,18 @@ class KnownSettings(object):
             {(trigger, contents), ...}
                 A set of all completions.
         """
+        l.debug("building completions for key %r", key)
+        default = self.defaults.get(key)
+        l.debug("default value: %r", default)
+
         if key == 'color_scheme':
             completions = self._color_scheme_completions()
+        elif key in ('default_encoding', 'fallback_encoding'):
+            completions = self._encoding_completions(default)
         elif key == 'theme':
             completions = self._theme_completions()
         else:
-            l.debug("building completions for key %r", key)
-            default = self.defaults.get(key)
-            l.debug("default value: %r", default)
             completions = self._completions_from_comment(key)
-            completions |= self._known_completions(key)
             completions |= self._completions_from_default(key, default)
             completions = self._marked_default_completions(completions, default)
         return completions
@@ -597,7 +611,7 @@ class KnownSettings(object):
         for item in completions:
             value = item[1]
             if is_list and value in default or value == default:
-                item = format_completion_item(value, default=True)
+                item = format_completion_item(value, is_default=True)
             default_completions.add(item)
         return default_completions
 
@@ -676,15 +690,6 @@ class KnownSettings(object):
         else:
             return {format_completion_item(default)}
 
-    def _known_completions(self, key):
-        """Provide known completions for select settings."""
-        if (
-            self.filename == "Preferences.sublime-settings"
-            and key in ('fallback_encoding', 'default_encoding')
-        ):
-            return set(map(format_completion_item, encodings.SUBLIME_TO_STANDARD.keys()))
-        return set()
-
     @staticmethod
     def _color_scheme_completions():
         """Create completions of all visible color schemes.
@@ -706,6 +711,25 @@ class KnownSettings(object):
                 completions.add((
                     "{0}  \t{1}".format(file_name, package), scheme_path))
         return completions
+
+    @staticmethod
+    def _encoding_completions(default):
+        """Create completions of all available encoding values.
+
+        default (string):
+            The default `encoding` value.
+
+        Returns:
+            {(trigger, contents), ...}
+                A set of all completions.
+                - trigger (string): the encoding in sublime format
+                - contents (string): the encoding in sublime format
+        """
+        return set(map(
+            lambda x: format_completion_item(
+                x, is_default=x == default, description="encoding"),
+            encodings.SUBLIME_TO_STANDARD.keys()
+        ))
 
     @staticmethod
     def _theme_completions():
