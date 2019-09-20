@@ -30,13 +30,15 @@ def html_encode(string):
                  .replace("\n", "<br>") if string else ""
 
 
-def format_completion_item(value, is_default=False, label=None, description=None):
+def format_completion_item(value, default=None, is_default=False, label=None, description=None):
     """Create a completion item with its type as description.
 
     Arguments:
         value (any):
             The value which is added when completions are committed.
             If `label` is none, the `value` is used as label, too.
+        default (any):
+            Sets is_default if equals `value`.
         is_default (bool):
             If `True` the completion item is marked '(default)'.
         label (str):
@@ -48,6 +50,7 @@ def format_completion_item(value, is_default=False, label=None, description=None
     """
     if isinstance(value, dict):
         raise ValueError("Cannot format dictionary value", value)
+    is_default = is_default or default == value
     return (("{0}  \t(default) {1}" if is_default else "{0}  \t{1}")
             .format(sublime.encode_value(label or value).strip('"'),
                     description or type(value).__name__),
@@ -587,34 +590,7 @@ class KnownSettings(object):
         else:
             completions = self._completions_from_comment(key)
             completions |= self._completions_from_default(key, default)
-            completions = self._marked_default_completions(completions, default)
         return completions
-
-    @staticmethod
-    def _marked_default_completions(completions, default):
-        """Mark completion items as default.
-
-        For a list as default value, mark all of its values as default.
-
-        Arguments:
-            completions (set):
-                The set with the completion items.
-
-            default (Any):
-                The default value (can also be a list).
-
-        Returns:
-            {(trigger, contents), ...}
-                A set of all completions with defaults marked.
-        """
-        default_completions = set()
-        is_list = isinstance(default, list)
-        for item in completions:
-            value = item[1]
-            if is_list and value in default or value == default:
-                item = format_completion_item(value, is_default=True)
-            default_completions.add(item)
-        return default_completions
 
     def _completions_from_comment(self, key):
         """Parse settings comments and return all possible values.
@@ -683,13 +659,13 @@ class KnownSettings(object):
         if default is None or default == "":
             return set()
         elif isinstance(default, bool):
-            return {format_completion_item(True), format_completion_item(False)}
+            return set(format_completion_item(value, default=default) for value in [True, False])
         elif isinstance(default, list):
-            return {format_completion_item(value) for value in default}
+            return {format_completion_item(value, default=default) for value in default}
         elif isinstance(default, dict):
             return set()  # TODO can't complete these yet
         else:
-            return {format_completion_item(default)}
+            return {format_completion_item(default, is_default=True)}
 
     @staticmethod
     def _color_scheme_completions(default):
@@ -718,7 +694,7 @@ class KnownSettings(object):
                 if root == 'Cache':
                     continue
                 completions.add(format_completion_item(
-                    value=name, is_default=(name == default), description=package
+                    value=name, default=default, description=package
                 ))
 
         for scheme_path in sublime.find_resources("*.tmTheme"):
@@ -730,8 +706,7 @@ class KnownSettings(object):
                 if root == 'Cache':
                     continue
                 completions.add(format_completion_item(
-                    value=scheme_path, is_default=(scheme_path == default),
-                    label=name, description=package
+                    value=scheme_path, default=default, label=name, description=package
                 ))
         return completions
 
@@ -748,7 +723,7 @@ class KnownSettings(object):
                 - trigger (string): the encoding in sublime format
                 - contents (string): the encoding in sublime format
         """
-        return {format_completion_item(enc, is_default=(enc == default), description="encoding")
+        return {format_completion_item(enc, default=default, description="encoding")
                 for enc in encodings.SUBLIME_TO_STANDARD.keys()}
 
     @staticmethod
@@ -773,6 +748,6 @@ class KnownSettings(object):
             theme = os.path.basename(theme)
             if not any(hide in theme for hide in hidden):
                 completions.add(format_completion_item(
-                    value=theme, is_default=(theme == default), description="theme"
+                    value=theme, default=default, description="theme"
                 ))
         return completions
