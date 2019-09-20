@@ -7,7 +7,7 @@ import time
 import weakref
 
 import sublime
-from sublime_lib import encodings
+from sublime_lib import encodings, ResourcePath
 
 
 from ..lib.weakmethod import WeakMethodProxy
@@ -743,10 +743,9 @@ class KnownSettings(object):
         """
         hidden = get_setting('settings.exclude_theme_patterns') or []
         completions = set()
-        for theme in sublime.find_resources("*.sublime-theme"):
-            theme = os.path.basename(theme)
-            if not any(hide in theme for hide in hidden):
+        for theme_path in ResourcePath.glob_resources("*.sublime-theme"):
+            if not any(hide in theme_path.name for hide in hidden):
                 completions.add(format_completion_item(
-                    value=theme, default=default, description="theme"
+                    value=theme_path.name, default=default, description="theme"
                 ))
         return completions
