@@ -141,7 +141,14 @@ class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
         view = self.window.active_view()
         if not view:
             return
-        scheme_path = ResourcePath(view.settings().get('color_scheme'))
+
+        # Be lazy here and don't consider invalid values
+        scheme_setting = view.settings().get('color_scheme')
+        if '/' not in scheme_setting:
+            scheme_path = ResourcePath.glob_resources(scheme_setting)[0]
+        else:
+            scheme_path = ResourcePath(scheme_setting)
+
         self.window.run_command(
             'edit_settings',
             {
