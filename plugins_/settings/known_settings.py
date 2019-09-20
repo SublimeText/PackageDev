@@ -48,9 +48,10 @@ def format_completion_item(value, is_default=False, label=None, description=None
     """
     if isinstance(value, dict):
         raise ValueError("Cannot format dictionary value", value)
-    return (("{0}  \t(default) {1}" if is_default else "{0}  \t{1}").format(
-            sublime.encode_value(label or value).strip('"'),
-            description or type(value).__name__), value)
+    return (("{0}  \t(default) {1}" if is_default else "{0}  \t{1}")
+            .format(sublime.encode_value(label or value).strip('"'),
+                    description or type(value).__name__),
+            value)
 
 
 def decode_value(string):
@@ -497,11 +498,11 @@ class KnownSettings(object):
             l.debug("no completions to offer")
             return None
 
-        is_str = any(bool(
-            isinstance(value, str)
-            or isinstance(value, list) and value and isinstance(value[0], str)
-        ) for _, value in completions)
-        # cursor already within quotes
+        is_str = any(
+            bool(isinstance(value, str)
+                 or isinstance(value, list) and value and isinstance(value[0], str)
+                 ) for _, value in completions
+        )
         in_str = view.match_selector(point, "string")
         l.debug("completing a string (%s) within a string (%s)", is_str, in_str)
         # 'meta.structure.array' is used in the default JSON syntax
@@ -717,7 +718,8 @@ class KnownSettings(object):
                 if root == 'Cache':
                     continue
                 completions.add(format_completion_item(
-                    value=name, is_default=name == default, description=package))
+                    value=name, is_default=(name == default), description=package
+                ))
 
         for scheme_path in sublime.find_resources("*.tmTheme"):
             if not any(hide in scheme_path for hide in hidden):
@@ -728,8 +730,9 @@ class KnownSettings(object):
                 if root == 'Cache':
                     continue
                 completions.add(format_completion_item(
-                    value=scheme_path, is_default=scheme_path == default,
-                    label=name, description=package))
+                    value=scheme_path, is_default=(scheme_path == default),
+                    label=name, description=package
+                ))
         return completions
 
     @staticmethod
@@ -745,11 +748,8 @@ class KnownSettings(object):
                 - trigger (string): the encoding in sublime format
                 - contents (string): the encoding in sublime format
         """
-        return set(map(
-            lambda x: format_completion_item(
-                x, is_default=x == default, description="encoding"),
-            encodings.SUBLIME_TO_STANDARD.keys()
-        ))
+        return {format_completion_item(enc, is_default=(enc == default), description="encoding")
+                for enc in encodings.SUBLIME_TO_STANDARD.keys()}
 
     @staticmethod
     def _theme_completions(default):
@@ -773,5 +773,6 @@ class KnownSettings(object):
             theme = os.path.basename(theme)
             if not any(hide in theme for hide in hidden):
                 completions.add(format_completion_item(
-                    value=theme, is_default=theme == default, description="theme"))
+                    value=theme, is_default=(theme == default), description="theme"
+                ))
         return completions
