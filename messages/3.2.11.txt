@@ -1,0 +1,13 @@
+v3.2.11 (2019-09-20)
+--------------------
+
+(Notes not shown on release)
+
+- Settings: Provide completions for encoding settings
+- Settings: Actually provide completions for .sublime-color-scheme files
+  (@deathaxe, #258)
+- Settings: Fix default item of theme and scheme completions losing its type
+  annotation (@deathaxe, #258)
+- Snippets: More minor fixes for theme and scheme completions
+- Misc: Add more completions for built-in commands (@deathaxe, #254)
+- Misc: Improve performance when iterating packages in "Open Package" command
