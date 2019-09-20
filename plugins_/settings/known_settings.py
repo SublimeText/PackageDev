@@ -50,7 +50,8 @@ def format_completion_item(value, default=None, is_default=False, label=None, de
     """
     if isinstance(value, dict):
         raise ValueError("Cannot format dictionary value", value)
-    is_default = is_default or default == value
+    if not is_default:
+        is_default = value in default if isinstance(default, list) else value == default
     return (("{0}  \t(default) {1}" if is_default else "{0}  \t{1}")
             .format(sublime.encode_value(label or value).strip('"'),
                     description or type(value).__name__),
@@ -587,11 +588,11 @@ class KnownSettings(object):
         elif key == 'theme':
             completions = self._theme_completions(default)
         else:
-            completions = self._completions_from_comment(key)
+            completions = self._completions_from_comment(key, default)
             completions |= self._completions_from_default(key, default)
         return completions
 
-    def _completions_from_comment(self, key):
+    def _completions_from_comment(self, key, default):
         """Parse settings comments and return all possible values.
 
         Many settings are commented with a list of quoted words representing
@@ -601,6 +602,9 @@ class KnownSettings(object):
         Arguments:
             key (string):
                 the settings key name to read comments from
+            default (any):
+                the default value of the setting used to mark completion items
+                as "default".
 
         Returns:
             {(trigger, contents), ...}
@@ -623,13 +627,13 @@ class KnownSettings(object):
                 # Suggest list items as completions instead of a string
                 # representation of the list.
                 # Unless it's a dict.
-                completions.update(format_completion_item(v) for v in value
-                                   if not isinstance(v, dict))
+                completions.update(format_completion_item(v, default)
+                                   for v in value if not isinstance(v, dict))
             elif isinstance(value, dict):
                 # TODO what should we do with dicts?
                 pass
             else:
-                completions.add(format_completion_item(value))
+                completions.add(format_completion_item(value, default))
 
         for match in re.finditer(r'"([\.\w]+)"', comment):
             # quotation marks either wrap a string, a numeric or a boolean
@@ -639,7 +643,7 @@ class KnownSettings(object):
                 value = decode_value(value)
             except ValueError:
                 pass
-            completions.add(format_completion_item(value))
+            completions.add(format_completion_item(value, default))
 
         return completions
 
@@ -660,7 +664,7 @@ class KnownSettings(object):
         elif isinstance(default, bool):
             return set(format_completion_item(value, default=default) for value in [True, False])
         elif isinstance(default, list):
-            return {format_completion_item(value, default=default) for value in default}
+            return {format_completion_item(value, is_default=True) for value in default}
         elif isinstance(default, dict):
             return set()  # TODO can't complete these yet
         else:
