@@ -508,10 +508,9 @@ class KnownSettings(object):
         )
         in_str = view.match_selector(point, "string")
         l.debug("completing a string (%s) within a string (%s)", is_str, in_str)
-        # 'meta.structure.array' is used in the default JSON syntax
-        # (PR pending: https://github.com/sublimehq/Packages/pull/862)
+
         is_list = isinstance(self.defaults.get(key), list)
-        in_list = view.match_selector(point, "meta.sequence | meta.structure.array")
+        in_list = view.match_selector(point, "meta.sequence")
         l.debug("completing a list item (%s) within a list (%s)", is_list, in_list)
 
         if in_str and not is_str:
