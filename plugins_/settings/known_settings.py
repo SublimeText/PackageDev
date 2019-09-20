@@ -160,7 +160,7 @@ class KnownSettings(object):
         # look for settings files asynchronously
         sublime.set_timeout_async(self._load_settings, 0)
 
-    def _load_settings(self, on_loaded_once=None):
+    def _load_settings(self):
         """Load and merge settings and their comments from all base files.
 
         The idea is each package which wants to add a valid entry to the
