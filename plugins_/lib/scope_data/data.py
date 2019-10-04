@@ -64,41 +64,46 @@ DATA = """
     keyword
         control
             conditional
-                end
                 case
                 else
                 elseif
+                end
                 if
                 select
                 switch
             exception
+                assert
+                catch
+                defer
                 end
                 finally
                 try
-                catch
-            loop
-                end
-                do-while
-                for
-                repeat-until
-                while
             flow
+                await
                 break
                 continue
                 goto
+                panic
                 return
                 throw
                 yield
+            loop
+                do-while
+                end
+                for
+                repeat-until
+                while
+            resource
             import
         declaration
-            function
             class
-            struct
             enum
-            union
-            trait
+            function
             interface
             impl
+            struct
+            trait
+            union
         import
             from
         operator
