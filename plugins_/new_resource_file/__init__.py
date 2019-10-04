@@ -10,7 +10,7 @@ from .templates import TEMPLATES
 
 __all__ = ('PackagedevNewResourceCommand',)
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def _syntax_path_for_kind(kind):
@@ -59,12 +59,12 @@ class PackagedevNewResourceCommand(sublime_plugin.WindowCommand):
 
     def run(self, kind, suffix=None):
         if kind not in TEMPLATES:
-            l.error("Unknown resource file kind %r", kind)
+            logger.error("Unknown resource file kind %r", kind)
             return
 
         package_dir = self._guess_folder()
         package_name = self._guess_package_name(package_dir)
-        l.debug("Guessed package name %r from path %r", package_name, package_dir)
+        logger.debug("Guessed package name %r from path %r", package_name, package_dir)
 
         v = self.window.new_file()
 

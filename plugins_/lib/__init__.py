@@ -4,7 +4,7 @@ import sublime
 
 SETTINGS_FILE = "PackageDev.sublime-settings"
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def package_settings():
@@ -12,7 +12,7 @@ def package_settings():
     try:
         return package_settings.settings
     except AttributeError:
-        l.debug("Loading %s", SETTINGS_FILE)
+        logger.debug("Loading %s", SETTINGS_FILE)
         package_settings.settings = sublime.load_settings(SETTINGS_FILE)
         return package_settings.settings
 

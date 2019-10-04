@@ -4,7 +4,7 @@ from .data import DATA
 
 __all__ = ["COMPILED_NODES", "COMPILED_HEADS", "completions_from_prefix"]
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class NodeSet(set):
@@ -135,12 +135,12 @@ def completions_from_prefix(prefix):
     for i, token in enumerate(tokens[:-1]):
         node = nodes.find(token)
         if not node:
-            l.info("`%s` not found in scope naming conventions" % '.'.join(tokens[:i + 1]))
+            logger.info("`%s` not found in scope naming conventions", '.'.join(tokens[:i + 1]))
             break
         nodes = node.children
         if not nodes:
-            l.info("No nodes available in scope naming conventions after `%s`"
-                   % '.'.join(tokens[:-1]))
+            logger.info("No nodes available in scope naming conventions after `%s`",
+                        '.'.join(tokens[:-1]))
             break
     else:
         # Offer to complete from conventions or base scope

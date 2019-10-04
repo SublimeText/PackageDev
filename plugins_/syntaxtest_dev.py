@@ -17,7 +17,7 @@ __all__ = (
     'AssignSyntaxTestSyntaxListener',
 )
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 AssertionLineDetails = namedtuple(
     'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
@@ -382,7 +382,7 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             for pos in range(line.begin() + col_start, line.begin() + col_end)
         }
         base_scope = path.commonprefix(list(scopes)).strip()
-        l.debug("Original base scope: %r", base_scope)
+        logger.debug("Original base scope: %r", base_scope)
 
         length = 0
         for pos in range(line.begin() + col_end - 1, line.end() + 1):
@@ -393,7 +393,7 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             else:
                 break
 
-        l.debug("Total scopes covered: %r", scopes)
+        logger.debug("Total scopes covered: %r", scopes)
         return length, scopes
 
 
@@ -416,18 +416,18 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
             if test_syntax in sublime.find_resources(file_name):
                 view.assign_syntax(test_syntax)
             else:  # file doesn't exist
-                l.info("Couldn't find a file at %r", test_syntax)
+                logger.info("Couldn't find a file at %r", test_syntax)
                 view.assign_syntax(self.PLAIN_TEXT)
 
         # just base name specified
         elif not current_syntax.endswith(test_syntax):
             syntax_candidates = sublime.find_resources(test_syntax)
             if syntax_candidates:
-                l.debug("Found the following candidates for %r: %r",
-                        test_syntax, syntax_candidates)
+                logger.debug("Found the following candidates for %r: %r",
+                             test_syntax, syntax_candidates)
                 view.assign_syntax(syntax_candidates[0])
             else:
-                l.info("Couldn't find a syntax matching %r", test_syntax)
+                logger.info("Couldn't find a syntax matching %r", test_syntax)
                 view.assign_syntax(self.PLAIN_TEXT)
 
         # warn user if they try to do something stupid

@@ -14,7 +14,7 @@ from ..lib.weakmethod import WeakMethodProxy
 from ..lib import get_setting, sorted_completions
 from .region_math import VALUE_SCOPE, get_value_region_at, get_last_key_name_from
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 PREF_FILE = "Preferences.sublime-settings"
 PREF_FILE_ALIAS = "Base File.sublime-settings"
@@ -95,7 +95,7 @@ class KnownSettings(object):
         # __init__ will be called on the return value
         obj = cls.cache.get(filename)
         if obj:
-            l.debug("cache hit %r", filename)
+            logger.debug("cache hit %r", filename)
             return cls.cache[filename]
         else:
             obj = super().__new__(cls, **kwargs)
@@ -151,7 +151,7 @@ class KnownSettings(object):
             self.on_loaded_once_callbacks.append(WeakMethodProxy(on_loaded))
 
     def __del__(self):
-        l.debug("deleting KnownSettings instance for %r", self.filename)
+        logger.debug("deleting KnownSettings instance for %r", self.filename)
 
     def __iter__(self):
         """Iterate over default keys."""
@@ -174,31 +174,31 @@ class KnownSettings(object):
 
         # TODO project settings include "Preferences",
         # but we don't have a syntax def for those yet
-        l.debug("loading defaults and comments for %r", self.filename)
+        logger.debug("loading defaults and comments for %r", self.filename)
         start_time = time.time()
         resources = sublime.find_resources(self.filename)
         resources += sublime.find_resources(self.filename + "-hints")
         if self.filename == PREF_FILE:
             resources += sublime.find_resources(PREF_FILE_ALIAS)
-        l.debug("found %d %r files", len(resources), self.filename)
+        logger.debug("found %d %r files", len(resources), self.filename)
 
         for resource in resources:
             if any(ignored in resource for ignored in ignored_patterns):
-                l.debug("ignoring %r", resource)
+                logger.debug("ignoring %r", resource)
                 continue
 
             try:
-                l.debug("parsing %r", resource)
+                logger.debug("parsing %r", resource)
                 lines = sublime.load_resource(resource).splitlines()
                 for key, value in self._parse_settings(lines).items():
                     # merge settings without overwriting existing ones
                     self.defaults.setdefault(key, value)
             except Exception as e:
-                l.error("error parsing %r - %s%s",
-                        resource, e.__class__.__name__, e.args)
+                logger.error("error parsing %r - %s%r",
+                             resource, e.__class__.__name__, e.args)
 
         duration = time.time() - start_time
-        l.debug("loading took %.3fs", duration)
+        logger.debug("loading took %.3fs", duration)
 
         # include general settings if we're in a syntax-specific file
         is_syntax_specific = self._is_syntax_specific()
@@ -232,7 +232,7 @@ class KnownSettings(object):
             try:
                 callback()
             except ReferenceError:
-                l.debug("removing gone-away weak on_loaded_callback reference")
+                logger.debug("removing gone-away weak on_loaded_callback reference")
                 self.on_loaded_callbacks.remove(callback)
 
     def _is_syntax_specific(self):
@@ -247,7 +247,7 @@ class KnownSettings(object):
             syntax_file_name = name_no_ext + ext
             resources = sublime.find_resources(syntax_file_name)
             if resources:
-                l.debug("syntax-specific settings file for %r", resources[0])
+                logger.debug("syntax-specific settings file for %r", resources[0])
                 return True
         return False
 
@@ -489,17 +489,17 @@ class KnownSettings(object):
         """
         value_region = get_value_region_at(view, point)
         if not value_region:
-            l.debug("unable to find current key region")
+            logger.debug("unable to find current key region")
             return None
 
         key = get_last_key_name_from(view, value_region.begin())
         if not key:
-            l.debug("unable to find current key")
+            logger.debug("unable to find current key")
             return None
 
         completions = self._value_completions_for(key)
         if not completions:
-            l.debug("no completions to offer")
+            logger.debug("no completions to offer")
             return None
 
         is_str = any(
@@ -508,18 +508,18 @@ class KnownSettings(object):
                  ) for _, value in completions
         )
         in_str = view.match_selector(point, "string")
-        l.debug("completing a string (%s) within a string (%s)", is_str, in_str)
+        logger.debug("completing a string (%s) within a string (%s)", is_str, in_str)
 
         is_list = isinstance(self.defaults.get(key), list)
         in_list = view.match_selector(point, "meta.sequence")
-        l.debug("completing a list item (%s) within a list (%s)", is_list, in_list)
+        logger.debug("completing a list item (%s) within a list (%s)", is_list, in_list)
 
         if in_str and not is_str:
             # We're within a string but don't have a string value to complete.
             # Complain about this in the status bar, I guess.
             msg = "Cannot complete value set within a string"
             view.window().status_message(msg)
-            l.warning(msg)
+            logger.warning(msg)
             return None
 
         if in_str and is_str:
@@ -577,9 +577,9 @@ class KnownSettings(object):
             {(trigger, contents), ...}
                 A set of all completions.
         """
-        l.debug("building completions for key %r", key)
+        logger.debug("building completions for key %r", key)
         default = self.defaults.get(key)
-        l.debug("default value: %r", default)
+        logger.debug("default value: %r", default)
 
         if key == 'color_scheme':
             completions = self._color_scheme_completions(default)

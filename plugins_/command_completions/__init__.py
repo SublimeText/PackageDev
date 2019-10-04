@@ -23,7 +23,7 @@ __all__ = (
     "SublimeTextCommandCompletionListener",
 )
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def _escape_in_snippet(v):
@@ -149,7 +149,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
             return
         # get the command type
         caller_var = m.group('callervar')
-        l.debug("caller_var: %s", caller_var)
+        logger.debug("caller_var: %s", caller_var)
         if "view" in caller_var or caller_var == "v":
             command_type = 'text'
         elif caller_var == "sublime":
@@ -203,7 +203,7 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
             return self._default_args
 
         command_name = results[-1]
-        l.debug("building args completions for command %r", command_name)
+        logger.debug("building args completions for command %r", command_name)
         command_args = get_args_from_command_name(command_name)
         if not command_args:
             return self._default_args
@@ -236,7 +236,7 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
         if not m:
             return
         quote_char, command_name = m.groups()
-        l.debug("building args completions for command %r", command_name)
+        logger.debug("building args completions for command %r", command_name)
 
         command_args = get_args_from_command_name(command_name)
         if command_args is None:

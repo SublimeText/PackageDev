@@ -46,7 +46,7 @@ VARIABLES = [
     ("--yellowish\tbuiltin color", "--yellowish"),
 ]
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def _inhibit_word_completions(func):
@@ -88,7 +88,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
                                                       "entity.name.variable.sublime-theme")
         variables = set(self.view.substr(r) for r in variable_regions)
         sorted_variables = sorted(variables)
-        l.debug("Found %d variables to complete: %r", len(variables), sorted_variables)
+        logger.debug("Found %d variables to complete: %r", len(variables), sorted_variables)
         variable_completions = [("{}\tvariable".format(var), var) for var in sorted_variables]
         if self.view.match_selector(locations[0], "source.json.sublime.theme"):
             variable_completions += VARIABLES
@@ -109,7 +109,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
 
     def scope_completions(self, prefix, locations):
         real_prefix = self._scope_prefix(locations)
-        l.debug("Full prefix: %r", real_prefix)
+        logger.debug("Full prefix: %r", real_prefix)
         if real_prefix is None:
             return None
         else:

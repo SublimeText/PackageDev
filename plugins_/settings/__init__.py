@@ -93,7 +93,7 @@ WIDGET_SETTINGS_NAMES = {
 # user package pattern
 USER_PATH = "{0}Packages{0}User{0}".format(os.sep)
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def is_widget_file(filename):
@@ -128,7 +128,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         sublime_plugin.ViewEventListener.__init__(self, view)
 
         filepath = view.file_name()
-        l.debug("initializing SettingsListener for %r", view.file_name())
+        logger.debug("initializing SettingsListener for %r", view.file_name())
 
         self.known_settings = None
         if filepath:
@@ -141,14 +141,14 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         if self.known_settings:
             self.known_settings.add_on_loaded(self.do_linting)
         else:
-            l.error("Not a Sublime Text Settings or Project file: %r", filepath)
+            logger.error("Not a Sublime Text Settings or Project file: %r", filepath)
 
         self.phantom_set = sublime.PhantomSet(self.view, "sublime-settings-edit")
         if self._is_base_settings_view():
             self.build_phantoms()
 
     def __del__(self):
-        l.debug("deleting SettingsListener instance for %r", self.view.file_name())
+        logger.debug("deleting SettingsListener instance for %r", self.view.file_name())
         self.view.erase_regions('unknown_settings_keys')
         self.phantom_set.update([])
 
@@ -270,7 +270,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         if self.view.is_loading():
             sublime.set_timeout(self.build_phantoms, 20)
             return
-        l.debug("Building phantom set for view %r", self.view.file_name())
+        logger.debug("Building phantom set for view %r", self.view.file_name())
         key_regions = self.view.find_by_selector(KEY_SCOPE)
         phantoms = []
         for region in key_regions:
@@ -285,7 +285,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
                 # to allow for phantoms to be cleaned up in __del__
                 on_navigate=WeakMethodProxy(self.on_navigate),
             ))
-        l.debug("Made %d phantoms", len(phantoms))
+        logger.debug("Made %d phantoms", len(phantoms))
 
         self.phantom_set.update(phantoms)
 
@@ -316,7 +316,7 @@ class GlobalSettingsListener(sublime_plugin.EventListener):
             key_region = get_last_key_region(view, point)
             if key_region:
                 key = view.substr(key_region)
-                l.debug("showing popup after inserting key completion for %r", key)
+                logger.debug("showing popup after inserting key completion for %r", key)
                 listener.show_popup_for(key_region)
 
     def on_post_save(self, view):

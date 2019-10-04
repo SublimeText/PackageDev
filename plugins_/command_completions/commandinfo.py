@@ -12,7 +12,7 @@ from .yaml_omap import SaveOmapLoader
 BUILTIN_METADATA_FILENAME = "builtin_commands_meta_data.yaml"
 BUILTIN_METADATA_BUILD = 3208
 
-l = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def get_command_name(command_class):
@@ -52,7 +52,7 @@ def get_builtin_command_meta_data():
     Returns (dict)
         The stored meta data for each command, keyed by their names.
     """
-    l.debug("Loading built-in command meta data")
+    logger.debug("Loading built-in command meta data")
 
     res_paths = sublime.find_resources(BUILTIN_METADATA_FILENAME)
     result = {}
@@ -61,7 +61,7 @@ def get_builtin_command_meta_data():
             res_raw = sublime.load_resource(res_path)
             res_content = yaml.load(res_raw, Loader=SaveOmapLoader)
         except (OSError, ValueError):
-            l.exception("couldn't load resource: %s", res_path)
+            logger.exception("couldn't load resource: %s", res_path)
         else:
             result.update(res_content)
 
@@ -99,7 +99,7 @@ def get_builtin_commands(command_type=""):
             and package == 'Default'
             and name in result
         ):
-            l.warning(
+            logger.warning(
                 'command "{name}" in the {package} package is defined in the built-in'
                 ' metadata file. Probably it should not be'.format(name=name, package=package)
             )
@@ -146,8 +146,8 @@ def extract_command_class_args(command_class):
     args = spec.args
     defaults = spec.defaults or ()
     num_non_default_args = len(args) - len(defaults)
-    l.debug("Args for command %r: %s; defaults: %s",
-            get_command_name(command_class), args, defaults)
+    logger.debug("Args for command %r: %s; defaults: %s",
+                 get_command_name(command_class), args, defaults)
 
     arg_dict = OrderedDict()
     for i, arg in enumerate(args):
@@ -155,7 +155,8 @@ def extract_command_class_args(command_class):
             continue
         elif i == 1 and issubclass(command_class, sublime_plugin.TextCommand):  # and 'edit'
             if arg != "edit":
-                l.warning("Second argument for TextCommand is not named 'edit'. Ignoring anyway")
+                logger.warning("Second argument for TextCommand is not named 'edit'."
+                               " Ignoring anyway")
             continue
         elif i < num_non_default_args:
             value = None
