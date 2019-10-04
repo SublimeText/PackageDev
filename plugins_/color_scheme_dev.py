@@ -87,8 +87,12 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         variable_regions = self.view.find_by_selector("entity.name.variable.sublime-color-scheme, "
                                                       "entity.name.variable.sublime-theme")
         variables = set(self.view.substr(r) for r in variable_regions)
-        l.debug("Found %d variables to complete: %r", len(variables), sorted(variables))
-        return VARIABLES + sorted(("{}\tvariable".format(var), var) for var in variables)
+        sorted_variables = sorted(variables)
+        l.debug("Found %d variables to complete: %r", len(variables), sorted_variables)
+        variable_completions = [("{}\tvariable".format(var), var) for var in sorted_variables]
+        if self.view.match_selector(locations[0], "source.json.sublime.theme"):
+            variable_completions += VARIABLES
+        return variable_completions
 
     def _scope_prefix(self, locations):
         # Determine entire prefix
