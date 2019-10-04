@@ -4,5 +4,6 @@
     [
         {"characters": ".", "selector": "meta.scope-selector.sublime"}
     ],
+    "extensions": ["sublime-color-scheme"],
     "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?" // default without '-'
 }
