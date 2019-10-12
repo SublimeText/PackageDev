@@ -279,4 +279,14 @@ DATA = """
 
     source
     text
+
+    color
+        bluish
+        cyanish
+        greenish
+        orangish
+        pinkish
+        purplish
+        redish
+        yellowish
 """
