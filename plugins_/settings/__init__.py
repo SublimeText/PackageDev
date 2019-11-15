@@ -100,8 +100,8 @@ def is_widget_file(filename):
     basename, ext = os.path.splitext(filename)
     return (
         ext == ".sublime-settings"
-        and filename in WIDGET_SETTINGS_NAMES
-        or any(filename.startswith(name + " - ") for name in WIDGET_SETTINGS_NAMES)
+        and basename in WIDGET_SETTINGS_NAMES
+        or any(basename.startswith(name + " - ") for name in WIDGET_SETTINGS_NAMES)
     )
 
 
@@ -134,6 +134,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         if filepath:
             filename = os.path.basename(filepath)
             if filepath.endswith(".sublime-project") or is_widget_file(filename):
+                logger.debug("Opening a widget settings or project file")
                 self.known_settings = KnownSettings(PREF_FILE)
             elif filepath.endswith(".sublime-settings"):
                 self.known_settings = KnownSettings(filename)
