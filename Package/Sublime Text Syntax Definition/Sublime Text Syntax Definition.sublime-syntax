@@ -208,7 +208,7 @@ contexts:
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
         2: punctuation.separator.key-value.yaml
-      push: expect_include_list
+      push: expect_context_list
       # can also be a normal context mapping (in which case the context pops)
 
     - match: (with_prototype)\s*(:)(?=\s|$)
@@ -268,7 +268,7 @@ contexts:
       set:
         - meta_scope: meta.scope.sublime-syntax string.unquoted.plain.out.yaml
         - match: '{{_flow_scalar_end_plain_in}}'
-          # use plain-in for when inside of an 'include-list', although not always accurate
+          # use plain-in for when inside of an 'context-list', although not always accurate
           set:
             - match: \n?
               scope: meta.scope.sublime-syntax
@@ -306,22 +306,22 @@ contexts:
           scope: invalid.illegal.expected-comment-or-newline.yaml
 
   expect_include:
-    - meta_content_scope: meta.expect-include
+    - meta_content_scope: meta.expect-context
     - include: comment
     - include: yaml-tags-anchors
     - include: include
     - match: $|(?=\S)
       pop: true
 
-  expect_include_list:
-    - meta_content_scope: meta.expect-include-list
+  expect_context_list:
+    - meta_content_scope: meta.expect-context.list
     - include: comment
     - include: yaml-tags-anchors
-    # array-like include list
+    # array-like context list
     - match: \[
       scope: punctuation.definition.array.begin.sublime-syntax
       set:
-        - meta_scope: meta.include-list.sublime-syntax meta.flow-sequence.yaml
+        - meta_scope: meta.context-list.sublime-syntax meta.flow-sequence.yaml
         - match: \]
           scope: punctuation.definition.array.end.sublime-syntax
           pop: true
@@ -330,10 +330,10 @@ contexts:
         - include: comment
         - include: yaml-tags-anchors
         - include: include
-    # multi-line include list
+    # multi-line context list
     - match: ^
       set:
-        - meta_scope: meta.expect-include-list-or-content
+        - meta_scope: meta.expect-context-list-or-content
         - include: comment
         - include: yaml-block-sequence
         - include: include_anonymous
@@ -342,15 +342,15 @@ contexts:
         # -> provide completions for both (context references and keys)
         - match: ^([ ]+)(?=-\s*{{plain_scalar_but_not_block_key}})
           set:
-            - meta_content_scope: meta.include-list-or-content.sublime-syntax
-            - include: include_list_content
+            - meta_content_scope: meta.context-list-or-content.sublime-syntax
+            - include: context_list_content
             # if the first line contains a context reference
             # -> provide completions for context references only,
             #    beginning from the second line
             - match: ^(?=([ ]+)-)
               set:
-                - meta_scope: meta.include-list.sublime-syntax
-                - include: include_list_content
+                - meta_scope: meta.context-list.sublime-syntax
+                - include: context_list_content
         # limit context to the current line
         - match: $|(?=\S)
           pop: true
@@ -358,7 +358,7 @@ contexts:
     - match: (?=\S)
       set: expect_include
 
-  include_list_content:
+  context_list_content:
     - include: comment
     - include: include
     - include: yaml-block-sequence
@@ -371,10 +371,10 @@ contexts:
 
   include_anonymous:
     # a line with two (or more) hyphons after each other indicates the start
-    # of an anonymous context block embedded into an include list
+    # of an anonymous context block embedded into a context list
     - match: ^([ ]+)(?=- -)
       push:
-        - clear_scopes: 1  # remove include-list... meta scopes
+        - clear_scopes: 1  # remove context-list... meta scopes
         - meta_content_scope: meta.anonymous-context.sublime-syntax
         - include: contexts_block
         - match: ^(?!(\s*$|\1 +))
@@ -403,7 +403,7 @@ contexts:
           scope: support.module.file-path.sublime-syntax
           set:
             - match: '{{_flow_scalar_end_plain_in}}'
-              # use plain-in for when inside of an 'include-list', although not always accurate
+              # use plain-in for when inside of a 'context-list', although not always accurate
               pop: true
             - match: '#'
               scope: meta.include.sublime-syntax

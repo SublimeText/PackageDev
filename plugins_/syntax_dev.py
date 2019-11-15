@@ -183,14 +183,14 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             return self._complete_scope(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys and for
-        if verify_scope("meta.expect-include-list-or-content"
-                        " | meta.include-list-or-content", -1):
+        if verify_scope("meta.expect-context-list-or-content"
+                        " | meta.context-list-or-content", -1):
             return self._complete_keyword(prefix, locations) + \
                 self._complete_context(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys
-        if verify_scope("meta.expect-include-list | meta.expect-include"
-                        " | meta.include | meta.include-list", -1):
+        if verify_scope("meta.expect-context-list | meta.expect-context"
+                        " | meta.include | meta.context-list", -1):
             return self._complete_context(prefix, locations)
 
         # Auto-completion for variables in match patterns using 'variables' keys
