@@ -1,3 +1,7 @@
+---
+# Metadata about the described commands.
+build: 4052
+---
 append:
   args: !!omap
     - characters:
@@ -404,3 +408,4 @@ undo:
 unindent:
   command_type: text
   doc_string: Unindent the selection by one level.
+...

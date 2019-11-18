@@ -10,7 +10,6 @@ import sublime_plugin
 from .yaml_omap import SaveOmapLoader
 
 BUILTIN_METADATA_FILENAME = "builtin_commands_meta_data.yaml"
-BUILTIN_METADATA_BUILD = 3208
 
 logger = logging.getLogger(__name__)
 
@@ -55,17 +54,18 @@ def get_builtin_command_meta_data():
     logger.debug("Loading built-in command meta data")
 
     res_paths = sublime.find_resources(BUILTIN_METADATA_FILENAME)
-    result = {}
+    meta, data = {}, {}
     for res_path in res_paths:
         try:
             res_raw = sublime.load_resource(res_path)
-            res_content = yaml.load(res_raw, Loader=SaveOmapLoader)
+            res_meta, res_data = yaml.load_all(res_raw, Loader=SaveOmapLoader)
         except (OSError, ValueError):
             logger.exception("couldn't load resource: %s", res_path)
         else:
-            result.update(res_content)
+            meta.update(res_meta)
+            data.update(res_data)
 
-    return result
+    return meta, data
 
 
 @functools.lru_cache()
@@ -82,14 +82,14 @@ def get_builtin_commands(command_type=""):
     Returns (frozenset of str)
         The command names for the type.
     """
-    meta = get_builtin_command_meta_data()
+    meta, data = get_builtin_command_meta_data()
     if not command_type:
-        result = frozenset(meta.keys())
+        result = frozenset(data.keys())
     else:
-        result = frozenset(k for k, v in meta.items()
+        result = frozenset(k for k, v in data.items()
                            if v['command_type'] == command_type)
 
-    should_check_outdated = int(sublime.version()) >= BUILTIN_METADATA_BUILD
+    should_check_outdated = int(sublime.version()) >= meta.get('build', 1e10)
     for c in iter_python_command_classes(command_type):
         name = get_command_name(c)
         module = c.__module__
@@ -195,7 +195,7 @@ def get_args_from_command_name(command_name):
     Returns (dict with arg mapping)
         Maps arguments to their default value (or None).
     """
-    builtin_meta_data = get_builtin_command_meta_data()
+    _, builtin_meta_data = get_builtin_command_meta_data()
     if command_name in builtin_meta_data:
         return builtin_meta_data[command_name].get("args", {})
     else:
