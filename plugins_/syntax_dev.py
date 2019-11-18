@@ -193,6 +193,11 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                         " | meta.include | meta.context-list", -1):
             return self._complete_context(prefix, locations)
 
+        # Auto-completion for branch points with 'fail' key
+        if verify_scope("meta.expect-branch-point-reference"
+                        " | meta.branch-point-reference", -1):
+            return self._complete_branch_point()
+
         # Auto-completion for variables in match patterns using 'variables' keys
         if verify_scope("keyword.other.variable"):
             return self._complete_variable()
@@ -316,6 +321,13 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             for r in self.view.find_by_selector("entity.name.constant")
         )
         return [(var + "\tvariable", var) for var in variable_names]
+
+    def _complete_branch_point(self):
+        branch_names = (
+            self.view.substr(r)
+            for r in self.view.find_by_selector("entity.name.label.branch-point")
+        )
+        return [(var + "\tbranch point", var) for var in branch_names]
 
 
 class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
