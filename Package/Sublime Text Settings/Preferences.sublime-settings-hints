@@ -2,12 +2,12 @@
 	// A list of valid spell checker words added by the user.
 	"added_words": [],
 
-	// UI scaling factor (hidden setting) (deprecated)
+	// UI scaling factor (deprecated)
 	// Removed in 3181.
-	// Common values are: "1.0", "1.25", "1.5", "1.75", "2.0"
 	"dpi_scale": 1.0,
 
-	// Draw UI shadows (hidden setting)
+	// Draw UI shadows
+	// when the buffer doesn't fit into the view horizontally.
 	"draw_shadows": true,
 
 	// Show hex values for unicode white space characters,
@@ -24,7 +24,7 @@
 	// A list of words ignored by spell checker.
 	"ignored_words": [],
 
-	// Emulates a block caret (hidden setting)
+	// Emulate a block caret.
 	// Deprecated by `block_caret` (3190).
 	"inverse_caret_state": false,
 
@@ -40,7 +40,7 @@
 	// To be used in widget settings files.
 	"syntax": "Packages/Text/Plain text.tmLanguage",
 
-	// Check for updates on startup (hidden setting)
+	// Check for updates on startup.
 	// Only available to registered users.
 	"update_check": true,
 
