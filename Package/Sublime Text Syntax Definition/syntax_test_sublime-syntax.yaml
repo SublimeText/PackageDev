@@ -118,22 +118,22 @@ contexts:
 # <- meta.block.contexts keyword.control.flow.contexts.sublime-syntax - meta.block.variables
 
   main:
-# ^^^^ entity.name.context.sublime-syntax
+# ^^^^ entity.name.function.context.sublime-syntax
     - include: scope:source.json
 #     ^^^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
     - match:
 #<- - meta.expect-include - meta.expect-context-list-or-content - meta.expect-context-list
 
   context_name:
-# ^^^^^^^^^^^^ entity.name.context.sublime-syntax
+# ^^^^^^^^^^^^ entity.name.function.context.sublime-syntax
     - captures:
 #     ^^^^^^^^ string.unquoted.plain.out.yaml storage.type.captures.sublime-syntax
         1: name
   another_context_name:
-# ^ entity.name.context.sublime-syntax
+# ^ entity.name.function.context.sublime-syntax
     - captures:
   another_context_name:
-# ^ entity.name.context.sublime-syntax
+# ^ entity.name.function.context.sublime-syntax
 
     # Context mangling (also includes)
     - include: "Packages/JSON/JSON.sublime-syntax"
@@ -268,7 +268,7 @@ contexts: !mytag
 #^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.contexts.sublime-syntax
 #         ^^^^^^ storage.type.tag-handle.yaml
   main: !mytag
-# ^^^^ entity.name.context.sublime-syntax
+# ^^^^ entity.name.function.context.sublime-syntax
 #       ^^^^^^ storage.type.tag-handle.yaml
     - match: !mytag abc+
 #     ^^^^^ keyword.other.match.sublime-syntax
