@@ -258,7 +258,7 @@ contexts:
       push: expect_branch_point_reference
 
   expect_captures:
-    - meta_content_scope: meta.expect-captures.yaml
+    - meta_content_scope: meta.expect-captures
     - include: comment
     - include: yaml-tags-anchors
     - match: (\d+)\s*(:)(?=\s|$)

@@ -258,7 +258,7 @@ contexts:
     - escape_captures:
 #     ^^^^^^^^^^^^^^^ storage.type.captures.sublime-syntax
         1: keyword.other
-#          ^^^^^^^ meta.expect-captures.yaml meta.scope.sublime-syntax string.unquoted.plain.out.yaml
+#          ^^^^^^^ meta.expect-captures meta.scope.sublime-syntax string.unquoted.plain.out.yaml
 #                 ^ punctuation.separator.scope-segments.sublime-syntax
 
 variables:
