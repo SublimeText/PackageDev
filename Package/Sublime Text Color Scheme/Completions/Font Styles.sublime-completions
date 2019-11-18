@@ -2,6 +2,7 @@
     "scope": "meta.font-style.sublime-color-scheme, meta.underline-style.sublime-color-scheme",
     "completions": [
         { "trigger": "bold\tfont style", "contents": "bold" },
+        { "trigger": "glow\tfont style", "contents": "glow" },
         { "trigger": "italic\tfont style", "contents": "italic" },
     ]
 }

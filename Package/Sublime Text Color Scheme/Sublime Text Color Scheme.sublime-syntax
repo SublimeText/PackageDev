@@ -468,7 +468,7 @@ contexts:
         - include: string-escape
 
   font-style:
-    - match: \b(bold|italic)\b
+    - match: \b(bold|glow|italic)\b
       scope: support.constant.font-style.color-scheme
 
   expect-underlinestyle-string-value:
