@@ -166,14 +166,14 @@
                 "hsl(100, 100%, 56%)",
 //              ^^^^^^^^^^^^^^^^^^^^^ meta.foreground.color-list.sublime-color-scheme string.quoted.double.json meta.color.sublime-color-scheme
 //               ^^^ support.function.color.css
-//                   ^^^ constant.numeric.css
+//                   ^^^ constant.numeric
 //              ^ punctuation.definition.string.begin.json
 //                                  ^ punctuation.definition.string.end.json
 //                                   ^ punctuation.separator.sequence.json
                 "hsl(200, 100%, 56%)",
 //              ^^^^^^^^^^^^^^^^^^^^^ meta.foreground.color-list.sublime-color-scheme string.quoted.double.json meta.color.sublime-color-scheme
 //               ^^^ support.function.color.css
-//                   ^^^ constant.numeric.css
+//                   ^^^ constant.numeric
 //              ^ punctuation.definition.string.begin.json
 //                                  ^ punctuation.definition.string.end.json
 //                                   ^ punctuation.separator.sequence.json
@@ -191,7 +191,7 @@
 //                                ^ support.function.color.css
 //                                 ^ punctuation.definition.group.begin.css
 //                                  ^ keyword.operator.css
-//                                    ^^ constant.numeric.css
+//                                    ^^ constant.numeric
 //                                      ^ keyword.other.unit.css
 //                                       ^ punctuation.definition.group.end.css
         }

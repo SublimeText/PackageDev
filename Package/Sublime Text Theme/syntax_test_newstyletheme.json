@@ -110,7 +110,7 @@
 //                                ^^^ support.function.var.sublime-color-scheme
 //                                              ^^^^^^^^^^^^ support.function.min-contrast.sublime-color-scheme
 //                                                           ^^^ support.function.color.css
-//                                                                              ^^^ constant.numeric.css
+//                                                                              ^^^ constant.numeric
         },
         { // floats
             "line_selection_border_width": "abc" 2.0,
