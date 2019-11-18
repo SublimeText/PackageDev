@@ -50,7 +50,7 @@ class WeakMethod: # noqa: D
     def __eq__(self, other):
         return (
             type(self) is type(other)
-            and self._obj == other._obj
+            and self._obj is other._obj
             and self._meth == other._meth
         )
 
