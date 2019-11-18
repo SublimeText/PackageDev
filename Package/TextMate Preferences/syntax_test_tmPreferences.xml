@@ -205,7 +205,7 @@
                 s/(\[[^\]]*\])|\b_\b\s*|\(.*|(\s{2,})/$1(?2 )/g; (?# this is a regex transformation
 <!--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.regex.transformation.tmPreferences source.regexp.oniguruma -->
 <!--            ^^ meta.inside-plist.plist meta.inside-dict.plist meta.inside-value.string.plist meta.regex.transformation.tmPreferences punctuation.definition.substitute-what.tmPreferences -->
-<!--                                                 ^ punctuation.definition.substitute-with.tmPreferences -->
+<!--                                                 ^ punctuation.definition.substitute-with.tmPreferences - source -->
 <!--                                                     ^^ keyword.other.backref-and-recursion.conditional.regexp-replacement -->
 <!--                                                         ^ punctuation.definition.substitute-flags.tmPreferences -->
 <!--                                                          ^ storage.modifier.mode.regexp.transformation.tmPreferences -->

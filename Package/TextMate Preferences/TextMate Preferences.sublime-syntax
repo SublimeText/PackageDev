@@ -321,16 +321,18 @@ contexts:
       scope: punctuation.definition.substitute-what.tmPreferences
       push:
         - meta_content_scope: source.regexp.oniguruma
-        - match: '/'
-          scope: punctuation.definition.substitute-with.tmPreferences
+        - match: (?=/)
           set:
-            - match: '(/)([gimsx-]*)(;|$)'
-              captures:
-                1: punctuation.definition.substitute-flags.tmPreferences
-                2: storage.modifier.mode.regexp.transformation.tmPreferences
-                3: punctuation.definition.substitution.end.tmPreferences
-              pop: true
-            - include: scope:source.regexp-replacement
+            - match: '/'
+              scope: punctuation.definition.substitute-with.tmPreferences
+              set:
+                - match: '(/)([gimsx-]*)(;|$)'
+                  captures:
+                    1: punctuation.definition.substitute-flags.tmPreferences
+                    2: storage.modifier.mode.regexp.transformation.tmPreferences
+                    3: punctuation.definition.substitution.end.tmPreferences
+                  pop: true
+                - include: scope:source.regexp-replacement
         - include: Oniguruma RegExp.sublime-syntax#base-literal
     - include: Oniguruma RegExp.sublime-syntax#group-comment
     - include: Oniguruma RegExp.sublime-syntax#extended-patterns
