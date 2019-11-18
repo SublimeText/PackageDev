@@ -22,7 +22,7 @@ install:
 before_script:
   # setup portable testing env & fetch default packages
   - mkdir ../st3_syntax_tests/Data
-  - git clone --depth=1 https://github.com/sublimehq/Packages.git ../st3_syntax_tests/Data/Packages  # --branch=v3157
+  - git clone --depth=1 https://github.com/sublimehq/Packages.git ../st3_syntax_tests/Data/Packages --branch=st3
   - ln -s "$PWD" ../st3_syntax_tests/Data/Packages/PackageDev
 
 script:
