@@ -3,6 +3,7 @@ append:
     - characters:
     - force: false
     - scroll_to_end: false
+    - disable_tab_translation: false
   command_type: text
   doc_string: Append the given text to the end of the document.
 auto_complete:
@@ -181,6 +182,13 @@ open_file:
   command_type: window
   doc_string: Open the specified file, and if it doesn't exist, prefill the default
     contents.
+open_project_or_workspace:
+  command_type: window
+  doc_string: Open the specified project or workspace file, in a new window by default.
+  args:
+    file:
+    new_window: true
+  added: 4050
 paste:
   command_type: text
   doc_string: Paste the text on the clipboard at the text selection location(s), replacing
