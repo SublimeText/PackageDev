@@ -1,0 +1,19 @@
+v3.2.12 (2019-11-18)
+--------------------
+
+(Notes not shown on release)
+
+- Settings: Fix for ST build 4050 (beta)
+- Settings: Provide hints for new hidden settings
+- Syntax: Support non-deterministic branching keywords; highlighting, indexing
+  and completions
+- Scheme: Support 'glow' font style
+- Misc: Add completions for new built-in commands and/or arguments
+
+- Settings: Fix duplicated settings completions in some situations (@deathaxe,
+  #259)
+- TMPrefs: Fix 'source' scope extending too far in symbol transformations
+  (#262)
+- Scheme: Don't show colorish scopes in completions (#260)
+- Misc: Small updates to scope name completions (like adding colorish scopes)
+- Settings: Fix widget setting file recognition for hints and linting
