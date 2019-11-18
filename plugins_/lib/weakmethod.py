@@ -54,6 +54,9 @@ class WeakMethod: # noqa: D
             and self._meth == other._meth
         )
 
+    def __hash__(self):
+        return hash((id(self._obj), self._meth))
+
 
 class WeakMethodProxy(WeakMethod):
 
