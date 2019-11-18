@@ -391,10 +391,18 @@ contexts: !mytag
 
     - match: x
       branch_point: point
+#     ^ string.unquoted.plain.out.yaml keyword.declaration.branch-point.sublime-syntax
+#                  ^ meta.expect-branch-point
+#                   ^^^^^ meta.branch-point.sublime-syntax string.unquoted.plain.out.yaml entity.name.label.branch-point.sublime-syntax
       branch:
+#     ^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
         - a
+#         ^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
         - b
       fail: point
+#     ^ string.unquoted.plain.out.yaml keyword.control.flow.break.sublime-syntax
+#          ^ meta.expect-branch-point-reference
+#           ^ meta.branch-point-reference.sublime-syntax string.unquoted.plain.out.yaml variable.other.branch-point.sublime-syntax
 
       pop:not a key
 #     ^^^ - keyword

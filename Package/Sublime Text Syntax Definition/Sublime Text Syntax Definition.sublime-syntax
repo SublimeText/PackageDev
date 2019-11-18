@@ -204,7 +204,7 @@ contexts:
         2: punctuation.separator.key-value.yaml
       push: expect_include
 
-    - match: (push|set)\s*(:)(?=\s|$)
+    - match: (branch|push|set)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
         2: punctuation.separator.key-value.yaml
@@ -244,6 +244,18 @@ contexts:
       captures:
         1: string.unquoted.plain.out.yaml storage.modifier.clear-scopes.sublime-syntax
         2: punctuation.separator.key-value.yaml
+
+    - match: (branch_point)\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml keyword.declaration.branch-point.sublime-syntax
+        2: punctuation.separator.key-value.yaml
+      push: expect_branch_point
+
+    - match: (fail)\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml keyword.control.flow.break.sublime-syntax
+        2: punctuation.separator.key-value.yaml
+      push: expect_branch_point_reference
 
   expect_captures:
     - meta_content_scope: meta.expect-captures.yaml
@@ -304,6 +316,34 @@ contexts:
         - include: yaml-tags-anchors
         - match: .+
           scope: invalid.illegal.expected-comment-or-newline.yaml
+
+  expect_branch_point:
+    - meta_content_scope: meta.expect-branch-point
+    - include: comment
+    - include: yaml-tags-anchors
+    - match: (?={{ns_plain_first_plain_out}})
+      set:
+        - meta_scope: meta.branch-point.sublime-syntax
+            string.unquoted.plain.out.yaml
+            entity.name.label.branch-point.sublime-syntax
+        - match: '{{_flow_scalar_end_plain_out}}'
+          pop: true
+    - match: $|(?=\S)
+      pop: true
+
+  expect_branch_point_reference:
+    - meta_content_scope: meta.expect-branch-point-reference
+    - include: comment
+    - include: yaml-tags-anchors
+    - match: (?={{ns_plain_first_plain_out}})
+      set:
+        - meta_scope: meta.branch-point-reference.sublime-syntax
+            string.unquoted.plain.out.yaml
+            variable.other.branch-point.sublime-syntax
+        - match: '{{_flow_scalar_end_plain_out}}'
+          pop: true
+    - match: $|(?=\S)
+      pop: true
 
   expect_include:
     - meta_content_scope: meta.expect-context
