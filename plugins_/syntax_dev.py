@@ -224,7 +224,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         context_names = (
             self.view.substr(r)
-            for r in self.view.find_by_selector("entity.name.context")
+            for r in self.view.find_by_selector("entity.name.function.context")
         )
         return [(ctx + "\tcontext", ctx) for ctx in context_names]
 

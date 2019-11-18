@@ -169,7 +169,7 @@ contexts:
           pop: true
         - match: ''
           set:
-            - meta_scope: string.unquoted.plain.out.yaml entity.name.context.sublime-syntax
+            - meta_scope: string.unquoted.plain.out.yaml entity.name.function.context.sublime-syntax
             - match: '{{_flow_scalar_end_plain_out}}'
               pop: true
 
