@@ -10,10 +10,6 @@
 	// when the buffer doesn't fit into the view horizontally.
 	"draw_shadows": true,
 
-	// Show hex values for unicode white space characters,
-	// such as the zero-width space (​) (ZWSP) character.
-	"draw_unicode_white_space": true,
-
 	// List of extensions that should be opened with a corresponding syntax.
 	// Only makes sense in syntax-specific settings.
 	"extensions": [],
