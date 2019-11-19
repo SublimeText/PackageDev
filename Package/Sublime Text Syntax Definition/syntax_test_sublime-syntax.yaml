@@ -16,7 +16,8 @@ first_line_match: azx
 
 hidden: false
 #^^^^^ storage.modifier.hidden.sublime-syntax
-#       ^^^^^ meta.expect-bool constant.language.boolean.yaml
+#      ^ meta.expect-bool
+#       ^^^^^ constant.language.boolean.yaml
 
 variables:
   x1: (?<element> \g<stag> \g<content>* \g<etag> ){0}
@@ -236,7 +237,8 @@ contexts:
 
     - meta_include_prototype: false
 #     ^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
-#                             ^^^^^ meta.expect-bool constant.language.boolean.yaml
+#                            ^ meta.expect-bool
+#                             ^^^^^ constant.language.boolean.yaml
 
     - scope: >-
         long.scope.name
@@ -282,6 +284,8 @@ contexts: !mytag
 #     ^^^ keyword.control.flow.pop.sublime-syntax
 #          ^^^^^^ storage.type.tag-handle.yaml
 #                 ^^^^ constant.language.boolean.yaml
+      pop: 3
+#          ^ constant.numeric.integer
 
     - match: foo
       push:

@@ -220,7 +220,7 @@ contexts:
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.pop.sublime-syntax
         2: punctuation.separator.key-value.yaml
-      push: expect_bool
+      push: expect_bool_or_int
 
     - match: (meta_(?:content_)?scope)\s*(:)(?=\s|$)
       captures:
@@ -466,8 +466,16 @@ contexts:
     - include: yaml-tags-anchors
     - match: \b(true|false){{_flow_scalar_end_plain_out}}
       scope: constant.language.boolean.yaml
+      pop: true
     - match: $
       pop: true
+
+  expect_bool_or_int:
+    - meta_content_scope: meta.expect-bool-or-int
+    - match: (?:0|[1-9][0-9_]*){{_flow_scalar_end_plain_out}}
+      scope: constant.numeric.integer.decimal.yaml
+      pop: true
+    - include: expect_bool
 
   expect_comment:
     - meta_content_scope: meta.expect-comment

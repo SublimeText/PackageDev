@@ -153,7 +153,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                    'meta_scope', 'meta_content_scope', 'meta_include_prototype', 'clear_scopes'),
         dict_keys=('captures', 'escape_captures'),
     )
-    base_completions_contexts += (("pop\tpop: true", "pop: true"),)
+    base_completions_contexts += (("pop\tpop: true", "pop: ${1:true}"),)
 
     # These instance variables are for communicating
     # with our PostCompletionsListener instance.
