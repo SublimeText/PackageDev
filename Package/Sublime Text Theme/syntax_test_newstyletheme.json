@@ -137,6 +137,9 @@
 //                          ^^^^^^^^^^^^^^^^^^^ variable.other.color-scheme
             "font.size": "",
 //                       ^^ string.quoted.double.json
+            "font.size": "0.9rem",
+//                        ^^^ source.css-size constant.numeric.float
+//                           ^^^ source.css-size keyword.other.unit.css
             "font.size": "var(default_size)"
 //                            ^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme meta.group.sublime-color-scheme variable.other.color-scheme
         },

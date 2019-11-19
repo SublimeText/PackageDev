@@ -60,8 +60,9 @@ variables:
       | opacity
       | viewport_opacity
       | hit_test_level
-      | font\.size
     )
+  font_size_key: |-
+    font\.size
   boolean_key: |-
     (?x:
         dark_content
@@ -87,6 +88,8 @@ variables:
     )
   platform: |-
     (?x: linux | osx | windows )
+  # From CSS.sublime-syntax
+  float: (?:[-+]?\d*(\.)\d+(?:[eE][-+]?\d+)?)
 
 contexts:
   main:
@@ -252,6 +255,13 @@ contexts:
         3: punctuation.definition.string.end.json
       # All sequences also accept a single number that is expanded
       set: [expect-number-or-number-sequence-value, expect-colon]
+    - match: (")({{font_size_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-font-size-value, expect-colon]
     # boolean values
     - match: (")({{boolean_key}})(")
       scope: meta.mapping.key.json meta.rule-key.string.sublime-theme string.quoted.double.json
@@ -638,6 +648,28 @@ contexts:
     - include: Sublime JSON.sublime-syntax#number-pop
     # Be a bit lazy here
     - include: expect-sequence-value
+
+  expect-font-size-value:
+    - include: var-value
+    - include: Sublime JSON.sublime-syntax#number-pop
+    - match: (?=")
+      push: [mapping-value-meta, font-size-string-value]
+    - include: expect-string-value
+
+  font-size-string-value:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json
+        - meta_content_scope: source.css-size
+        - include: Sublime JSON.sublime-syntax#inside-string
+        - match: '{{float}}(r?em)?'
+          scope: constant.numeric.float.decimal.css
+          captures:
+            1: punctuation.separator.decimal.css
+            2: keyword.other.unit.css
+        - match: .
+          scope: invalid.illegal.expected-font-size.sublime-theme
 
   var-value:
     - match: (?=\"var\(|\"(v(a(r)?)?)?(\"|$)) # improve ux while typing
