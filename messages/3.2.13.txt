@@ -1,0 +1,7 @@
+v3.2.13 (2019-11-19)
+--------------------
+
+(Notes not shown on release)
+
+- Syntax: Support popping multiple contexts
+- Theme: Support font size units (#263)
