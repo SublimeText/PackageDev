@@ -89,7 +89,13 @@ variables:
   platform: |-
     (?x: linux | osx | windows )
   # From CSS.sublime-syntax
-  float: (?:[-+]?\d*(\.)\d+(?:[eE][-+]?\d+)?)
+  css_integer: '(?:[-+]?\d+)'
+  css_exponent: '(?:[eE]{{css_integer}})'
+  css_float: |-
+    (?x:
+      [-+]? \d* (\.) \d+ {{css_exponent}}?
+    | [-+]? \d+          {{css_exponent}}
+    )
 
 contexts:
   main:
@@ -663,11 +669,13 @@ contexts:
         - meta_scope: string.quoted.double.json
         - meta_content_scope: source.css-size
         - include: Sublime JSON.sublime-syntax#inside-string
-        - match: '{{float}}(r?em)?'
+        - match: '(?:({{css_integer}})|({{css_float}}))(r?em)?'
           scope: constant.numeric.float.decimal.css
           captures:
-            1: punctuation.separator.decimal.css
-            2: keyword.other.unit.css
+            1: constant.numeric.integer.decimal.css
+            2: constant.numeric.float.decimal.css
+            3: punctuation.separator.decimal.css
+            4: keyword.other.unit.css
         - match: .
           scope: invalid.illegal.expected-font-size.sublime-theme
 
