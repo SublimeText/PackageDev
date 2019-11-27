@@ -75,7 +75,6 @@ expand_selection:
   doc_string: Expand the current text caret selection(s) to the specified location.
 expand_snippet:
   command_type: text
-  doc_string: --
 find_all_under:
   command_type: text
   doc_string: Seach and select all text matches, which are the same as the text selected text or the word under the caret.
