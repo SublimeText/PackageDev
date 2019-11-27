@@ -84,6 +84,7 @@
         { "trigger": "title_label_control\telement", "contents": "title_label_control" },
         { "trigger": "tool_tip_control\telement", "contents": "tool_tip_control" },
         { "trigger": "tool_tip_label_control\telement", "contents": "tool_tip_label_control" },
+        // The following have been added manually until the docs are updated
         { "trigger": "annotation_close_button\telement", "contents": "annotation_close_button" },
         { "trigger": "auto_complete_details\telement", "contents": "auto_complete_details" },
         { "trigger": "auto_complete_info\telement", "contents": "auto_complete_info" },
