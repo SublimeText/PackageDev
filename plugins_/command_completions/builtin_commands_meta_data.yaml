@@ -39,6 +39,11 @@ close_file:
 close_folder_list:
   command_type: window
   doc_string: Remove all folders from the sidebar and hide it.
+close_tag:
+  args:
+    insert_slash: true
+  command_type: window
+  doc_string: Close an HTML/XML tag.
 close_workspace:
   command_type: window
   doc_string: Close the active workspace.
@@ -65,9 +70,11 @@ duplicate_line:
   doc_string: Create a copy of each caret's line.
 expand_selection:
   args:
-    to: line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets
+    to: line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets|smart
   command_type: text
   doc_string: Expand the current text caret selection(s) to the specified location.
+expand_snippet:
+  command_type: text
 find_all_under:
   command_type: text
   doc_string: Seach and select all text matches, which are the same as the text selected text or the word under the caret.
@@ -126,6 +133,7 @@ left_delete:
 move:
   args: !!omap
     - by: chars|pages|lines|characters|words|word_ends|subwords|subword_ends|stops
+    - empty_line: false  # used by "stops"
     - forward: true
     - extend: false
     - lines: false
@@ -145,6 +153,9 @@ move_to_group:
 new_file:
   command_type: window
   doc_string: Create a new empty tab in the active window.
+new_os_tab:
+  command_type: window
+  doc_string: Create a new empty window in the os tab.
 new_window:
   command_type: application
   doc_string: Open a new ST window.
@@ -163,10 +174,15 @@ next_misspelling:
 next_modification:
   command_type: text
   doc_string: Navigate to the next modification in the document.
+next_os_tab:
+  command_type: window
+  doc_string: Set the focus to the next window in the os tab.
 next_result:
   command_type: window
   doc_string: Jump to the next build result.
 next_view:
+  args:
+    extend: true
   command_type: window
   doc_string: Set the focus to the next view tab bar.
 next_view_in_stack:
@@ -214,10 +230,15 @@ prev_misspelling:
 prev_modification:
   command_type: text
   doc_string: Navigate to the previous modification in the document.
+prev_os_tab:
+  command_type: window
+  doc_string: Set the focus to the previous window in the os tab.
 prev_result:
   command_type: window
   doc_string: Jump to the previous build result.
 prev_view:
+  args:
+    extend: true
   command_type: window
   doc_string: Set the focus to the previous view tab bar.
 prev_view_in_stack:
@@ -273,6 +294,13 @@ resize_window:
     - height:
   command_type: window
   doc_string: Resize the window('s external bounds) to the width and height specified.
+revert_hunk:
+  command_type: text
+  doc_string: Revert a diff hunk.
+  added: 4053
+revert_modification:
+  command_type: text
+  doc_string: Revert a single modification.
 right_delete:
   command_type: text
   doc_string: Delete the character to the right of the text selection caret(s).
@@ -286,6 +314,7 @@ run_macro_file:
   doc_string: Run a macro saved in a macro file.
 save:
   args:
+    async: true
     encoding:
   command_type: text
   doc_string: Save the active document.
@@ -376,6 +405,11 @@ toggle_bookmark:
 toggle_full_screen:
   command_type: window
   doc_string: Toggle whether the current Sublime Text window is in full screen mode.
+toggle_inline_diff:
+  args:
+    prefer_hide: false
+  command_type: text
+  doc_string: Toggle whether the inline diff of the modifications under the cursor is displayed.
 toggle_menubar:
   command_type: window
   doc_string: Toggle the visibility of the menu bar.
