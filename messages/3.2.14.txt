@@ -1,0 +1,9 @@
+v3.2.14 (2019-11-28)
+--------------------
+
+(Notes not shown on release)
+
+- Theme: Add completions for new elements in ST4050 (@deathaxe, #265)
+- Theme: Support font size units (#263)
+- Misc: Update list of builtin commands (@deathaxe, #264)
+- Syntax: Fix regression where capture hints didn't work (#266)
