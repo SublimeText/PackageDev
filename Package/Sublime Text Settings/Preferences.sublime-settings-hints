@@ -32,6 +32,10 @@
 	// Scroll over the tab bar to switch tabs.
 	"mouse_wheel_switches_tabs": false,
 
+	// Renders all characters as dots.
+	// Only useful for password input panels.
+	"password": false,
+
 	// Path to the syntax definition for a view.
 	// To be used in widget settings files.
 	"syntax": "Packages/Text/Plain text.tmLanguage",
