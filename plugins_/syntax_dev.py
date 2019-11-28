@@ -54,7 +54,7 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
             for selection in self.view.sel()
             if self.view.match_selector(
                 selection.begin(),
-                'source.yaml.sublime.syntax meta.expect-captures.yaml'
+                'source.yaml.sublime.syntax meta.expect-captures'
             )
             for region in self.view.split_by_newlines(selection)
         ]
