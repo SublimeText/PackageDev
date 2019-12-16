@@ -36,8 +36,8 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
 
     def on_selection_modified(self):
         prefs = sublime.load_settings('PackageDev.sublime-settings')
-        scope = prefs.get('syntax_captures_highlight_scope', 'text')
-        styles = prefs.get('syntax_captures_highlight_styles', ['DRAW_NO_FILL'])
+        scope = prefs.get('syntax.captures_highlight_scope', "text")
+        styles = prefs.get('syntax.captures_highlight_styles', ['DRAW_NO_FILL'])
 
         style_flags = RegionOption(*styles)
 

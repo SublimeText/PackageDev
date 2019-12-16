@@ -28,8 +28,7 @@
 
     /// ADVANCED SETTINGS /////////////////////////////////////////////////////////////////////////
 
-    // Underline unknown keys in Sublime Settings.
-    // What scope to use to draw the highlighting of unknown settings keys.
+    // Scope for highlighting unknown settings keys.
     "settings.highlight_scope": "markup.warning.unknown-key.sublime-settings",
 
     // What add_region styles to use for highlighting of unknown settings keys.
@@ -40,8 +39,7 @@
     // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
     "settings.highlight_styles": ["DRAW_SOLID_UNDERLINE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE"],
 
-
-    // What scope to use to draw the highlighting of the line/positions being tested.
+    // Scope for highlighting the line/positions being tested.
     "syntax_test.highlight_scope": "markup.info.test.sublime-syntax",
 
     // What add_region styles to use for highlighting of the line/positions being tested.
@@ -51,6 +49,17 @@
     // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
     // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
     "syntax_test.highlight_styles": ["DRAW_NO_FILL"],
+
+    // Scope for highlighting capture group for the current scope line.
+    "syntax.captures_highlight_scope": "markup.info.capture.sublime-syntax",
+
+    // What add_region styles to use for highlighting of the capture group.
+    //
+    // Valid values are:
+    // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
+    // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
+    // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
+    "syntax.captures_highlight_styles": ["DRAW_NO_FILL"],
 
     // Whether to skip whitespace after the previous line's test assertions when
     // pressing the Tab key on a new syntax test line
