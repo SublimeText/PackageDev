@@ -31,9 +31,13 @@ def _escape_in_snippet(v):
 
 
 def is_plugin(view):
-    """Use some heuristics to determine whether a Python view shows a plugin."""
+    """Use some heuristics to determine whether a Python view shows a plugin.
+
+    Or the console input widget, should it be using the Python syntax.
+    """
     return (view.find("import sublime", 0, sublime.LITERAL) is not None
-            or sublime.packages_path() in (view.file_name() or ""))
+            or sublime.packages_path() in (view.file_name() or "")
+            or view.settings().get('is_widget'))
 
 
 def create_args_snippet_from_command_args(command_args, quote_char='"', for_json=True):
