@@ -2,6 +2,16 @@
 	// A list of valid spell checker words added by the user.
 	"added_words": [],
 
+	// Disable auto completion entirely, even when explictly requested.
+	// Added in 405x.
+	"auto_complete_disabled": false,
+
+	// Set the context menu for this view (type).
+	// Expects a ".sublime-menu" file name.
+	// Useful for plugins that create widget-like views or output panels.
+	// Added in 405x.
+	"context_menu": null,
+
 	// UI scaling factor (deprecated)
 	// Removed in 3181.
 	"dpi_scale": 1.0,
@@ -23,6 +33,10 @@
 	// Emulate a block caret.
 	// Deprecated by `block_caret` (3190).
 	"inverse_caret_state": false,
+
+	// Show the first completion candidate as a phantom.
+	// Experimental setting in 4057+ builds.
+	"mini_auto_complete": false,
 
 	// Scroll to the clicked location
 	// instead of using the minimap as an extension of the scrollbar.
