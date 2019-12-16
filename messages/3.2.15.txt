@@ -1,0 +1,9 @@
+v3.2.15 (2019-12-16)
+--------------------
+
+(Notes not shown on release)
+
+- Plugin: Fix regression where command completions in plugins stopped working (#271)
+- Plugin: Relax plugin detection for command completions
+- Settings: More hints for undocumented settings (#269)
+- Syntax: Add/Document settings for captures highlighting (#267)
