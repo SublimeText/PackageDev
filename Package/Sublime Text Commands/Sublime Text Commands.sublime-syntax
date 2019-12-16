@@ -106,4 +106,3 @@ contexts:
 
   expect-key-rest:
     - include: Sublime JSON.sublime-syntax#expect-key-rest
-
