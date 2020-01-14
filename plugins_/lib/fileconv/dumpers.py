@@ -29,7 +29,7 @@ class DumperProto(object):
             default_params (dict; optional)
                 Just a dict of the default params for self.write().
 
-            allowed_params (set/tuple; optional)
+            allowed_params (set; optional)
                 A collection of strings defining the allowed parameters for
                 self.write(). Other keys in the kwargs dict will be removed.
 
@@ -70,7 +70,7 @@ class DumperProto(object):
     ext  = ""
     output_panel_name = "package_dev"
     default_params = {}
-    allowed_params = ()
+    allowed_params = set()
 
     def __init__(self, window, view, new_file_path, output=None, file_path=None, *args, **kwargs):
         """Guess what this does.
@@ -189,7 +189,7 @@ class JSONDumper(DumperProto):
         check_circular=False,  # there won't be references here, hopefully
         indent=4
     )
-    allowed_params = (
+    allowed_params = {
         'skipkeys',
         'ensure_ascii',
         'check_circular',
@@ -198,7 +198,7 @@ class JSONDumper(DumperProto):
         'indent',
         'separators',
         'encoding'
-    )
+    }
 
     def validate_data(self, data):
         return self._validate_data(data, (
@@ -288,8 +288,11 @@ class PlistDumper(DumperProto):
 class YAMLDumper(DumperProto):
     name = "YAML"
     ext  = "yaml"
-    default_params = dict(Dumper=yaml.SafeDumper)
-    allowed_params = (
+    default_params = dict(
+        Dumper=yaml.SafeDumper,
+        allow_unicode=True
+    )
+    allowed_params = {
         'default_style',
         'default_flow_style',
         'canonical',
@@ -303,7 +306,7 @@ class YAMLDumper(DumperProto):
         'version',
         'tags',
         'Dumper'
-    )
+    }
 
     def validate_data(self, data):
         return self._validate_data(data, (
