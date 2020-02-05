@@ -229,13 +229,13 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-color-string-value, expect-colon]
-    - match: (")(popup_css|phantom_css)(")
+    - match: (")((?:phantom|popup|sheet)_css)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
-      set: [expect-string-value, expect-colon]
+      set: [expect-css-string-value, expect-colon]
     - match: (")(shadow_width|selection_corner_radius|selection_border_width|line_diff_width)(")
       scope: meta.mapping.key.json meta.globals-key.sublime-color-scheme string.quoted.double.json
       captures:
@@ -448,6 +448,34 @@ contexts:
           scope: invalid.illegal.unclosed-string.json
           pop: true
         - include: CSS.sublime-syntax#color-adjuster-functions
+
+  expect-css-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, css-string-pop]
+    - include: expect-string-rest
+
+  css-string-pop:
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: string.quoted.double.json meta.css.sublime-color-scheme
+        - meta_content_scope: source.css
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - match: ''
+          push:
+            - include: scope:source.css
+          with_prototype:
+            - match: (?="|$)
+              pop: true
+            - include: string-escape
+            - include: color-var-function
+            - include: color-min-contrast-function
+
 
   expect-fontstyle-string-value:
     - match: (?=")

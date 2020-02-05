@@ -40,6 +40,7 @@
         { "trigger": "selection_foreground\tglobals key", "contents": "selection_foreground" },
         { "trigger": "shadow\tglobals key", "contents": "shadow" },
         { "trigger": "shadow_width\tglobals key", "contents": "shadow_width" },
+        { "trigger": "sheet_css\tglobals key", "contents": "sheet_css" },
         { "trigger": "stack_guide\tglobals key", "contents": "stack_guide" },
         { "trigger": "tags_foreground\tglobals key", "contents": "tags_foreground" },
         { "trigger": "tags_options\tglobals key", "contents": "tags_options" },

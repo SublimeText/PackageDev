@@ -101,6 +101,11 @@
         "fold_marker": "#ffcc00",
 //       ^^^^^^^^^^^ entity.name.globals.sublime-color-scheme
 //                      ^^^^^^^ constant.other.color.rgb-value.css
+
+        "sheet_css": "html { background: blue; }",
+//       ^^^^^^^^^ entity.name.globals.sublime-color-scheme
+//                   ^ string.quoted.double.json meta.css.sublime-color-scheme punctuation.definition.string.begin.json
+//                    ^^^^ source.css entity.name.tag.css
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json
