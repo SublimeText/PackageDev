@@ -20,10 +20,14 @@ auto_complete:
   doc_string: Show the auto-completion pop-up.
 build:
   args: !!omap
-    - variant: ""
     - select: false
+    - build_system: ""
+    - variant: ""
+    - choice_build_system: false
+    - choice_variant: false
   command_type: window
-  doc_string: Execute the relevant build system.
+  doc_string: Execute the provided build system or prompt for selection (select: true) and choose a default.
+    build_system should be a resource path to a build system file or the name of a project-specific build system.
 cancel_build:
   command_type: window
   doc_string: Cancel the current build.
