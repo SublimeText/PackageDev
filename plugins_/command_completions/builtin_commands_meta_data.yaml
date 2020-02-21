@@ -2,6 +2,12 @@
 # Metadata about the described commands.
 build: 4052
 ---
+add_directory:
+  command_type: find
+  doc_string: Opens a dialog box to prompt for a folder to the Where Input in the Find in Files panel.
+add_where_snippet:
+  command_type: find
+  doc_string: Adds a snippet to the 'Where' field in the Find in Files panel.
 append:
   args: !!omap
     - characters:
@@ -37,6 +43,9 @@ clear_bookmarks:
 clear_fields:
   command_type: text
   doc_string: Clear the fields of the current snippet.
+clear_location:
+  command_type: find
+  doc_string: Clears the 'Where' field in the Find in Files panel.
 clear_recent_files:
   command_type: window
   doc_string: Clears the list of recently opened files.
@@ -446,9 +455,15 @@ reopen:
 reopen_last_file:
   command_type: window
   doc_string: Reopen the most recently closed file.
+replace_all:
+  command_type: find
+  doc_string: Replace all tokens in the view, which match the pattern in the Find Input Field.
 replace_completion_with_auto_complete:
   command_type: text
   doc_string: Replace the most recently inserted completion with the next result provided by the auto completion engine.
+replace_next:
+  command_type: find
+  doc_string: Replace the next token in the view, which matches the pattern in the Find Input Field.
 resize_window:
   args: !!omap
     - width:
@@ -631,6 +646,9 @@ swap_line_up:
 toggle_bookmark:
   command_type: text
   doc_string: For each selection, toggle it's bookmarked state.
+toggle_case_sensitive:
+  command_type: find
+  doc_string: Toggle case sensitive search in the Find/Replace panel.
 toggle_distraction_free:
   command_type: window
   doc_string: Toggle distraction free mode.
@@ -652,9 +670,15 @@ toggle_minimap:
 toggle_overwrite:
   command_type: text
   doc_string: Toggle whether the caret is in insert mode or overwrite mode.
+toggle_preserve_case:
+  command_type: find
+  doc_string: Toggle preserve case flag in the Replace panel.
 toggle_record_macro:
   command_type: text
   doc_string: Start or stop to record a macro.
+toggle_regex:
+  command_type: find
+  doc_string: Toggle regular expression mode in the Find/Replace panel.
 toggle_save_all_on_build:
   command_type: window
   doc_string: Enable/Disable saving all open files before running a build command.
@@ -675,6 +699,9 @@ toggle_status_bar:
 toggle_tabs:
   command_type: window
   doc_string: Toggle the visibility of the tab controls.
+toggle_whole_word:
+  command_type: find
+  doc_string: Toggle find whole word flag in the Find/Replace panel.
 trim_trailing_white_space:
   command_type: text
   doc_string: Delete trailing whitespace from all lines.
