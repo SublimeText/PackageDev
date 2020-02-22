@@ -28,11 +28,8 @@
         "id": ["file"],
 //      ^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //       ^^ keyword.other.main.sublime-menu
-//            ^ invalid.illegal.expected-string.sublime
-//             ^^^^^^ meta.id.sublime-menu
-//              ^^^^ entity.name.id.sublime-menu
-//                   ^ invalid.illegal.expected-comma - invalid.illegal.expected-string.sublime
-//                    ^ punctuation.separator.mapping.pair.json
+//            ^^^^^^^^ invalid.illegal.expected-string.sublime
+//                    ^ punctuation.separator.mapping.pair.json - invalid
         "children"  :
 //      ^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //       ^^^^^^^^ keyword.other.main.sublime-menu

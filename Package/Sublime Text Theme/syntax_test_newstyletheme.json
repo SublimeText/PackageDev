@@ -75,6 +75,12 @@
 //                                                   ^^^^^^^^^^ meta.rule-key.attributes.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                                                                  ^ keyword.operator.logical.sublime-theme
 //                                                                   ^^^^^^^^ entity.other.attribute-name.sublime-theme
+            "parents": [["class": "button_control", "attributes": ["!selected"]]],
+//           ^^^^^^^ meta.rule-key.parents.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.parents-sequence.sublime-theme
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.expected-mapping.sublime
+//                                                                              ^ - invalid
+//
             "platforms": ["windows", "osx", "linux"],
 //           ^^^^^^^^^ meta.rule-key.platforms.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.platforms-sequence.sublime-theme
@@ -207,6 +213,10 @@
             },
             "layer0.texture": null,
 //                            ^^^^ constant.language.null.json
+
+            "layer0.texture": [255, 255, 255, 255],
+//                            ^^^^^^^^^^^^^^^^^^^^ invalid.illegal.expected-string.sublime
+//                                                ^ - invalid
         },
         {
             "class": "scroll_area_control",
@@ -234,6 +244,13 @@
             "right_shadow": "black",
 //           ^^^^^^^^^^^^ keyword.other.rule.sublime-theme
 //                           ^^^^^ support.constant.color.w3c-standard-color-name.css
+            "right_shadow": [0, 0, 0, 255],
+//           ^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                          ^^^^^^^^^^^^^^ meta.sequence.json
+            "right_shadow": {"key": "value"},
+//           ^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                          ^^^^^^^^^^^^^^^^ invalid.illegal.expected-sequence.sublime
+//                                          ^ - invalid
             "right_shadow_size": 6,
 //           ^^^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
 //                               ^ constant.numeric.json
