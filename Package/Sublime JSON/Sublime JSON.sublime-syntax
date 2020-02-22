@@ -160,6 +160,14 @@ contexts:
 
   expect-string-rest:
     - include: comments
+    - match: \{
+      set:
+        - meta_scope: invalid.illegal.expected-string.sublime
+        - include: in-mapping-ignored
+    - match: \[
+      set:
+        - meta_scope: invalid.illegal.expected-string.sublime
+        - include: in-sequence-ignored
     - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-string.sublime
       pop: true
@@ -281,6 +289,10 @@ contexts:
 
   expect-sequence-rest:
     - include: comments
+    - match: \{
+      set:
+        - meta_scope: invalid.illegal.expected-sequence.sublime
+        - include: in-mapping-ignored
     - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-sequence.sublime
       pop: true
@@ -312,6 +324,11 @@ contexts:
     - match: \S
       scope: invalid.illegal.expected-comma.inside-sequence.json
 
+  in-sequence-ignored:
+    - match: \]
+      pop: true
+    - match: \[
+      push: in-sequence-ignored
 
 #################################################
 # Mapping
@@ -338,6 +355,10 @@ contexts:
 
   expect-mapping-rest:
     - include: comments
+    - match: \[
+      set:
+        - meta_scope: invalid.illegal.expected-mapping.sublime
+        - include: in-sequence-ignored
     - match: \s*(?=[},\]])
       scope: invalid.illegal.expected-mapping.sublime
       pop: true
@@ -422,6 +443,11 @@ contexts:
     - match: ''
       pop: true
 
+  in-mapping-ignored:
+    - match: \}
+      pop: true
+    - match: \{
+      push: in-mapping-ignored
 
 #################################################
 # Special Values
