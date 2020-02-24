@@ -195,6 +195,8 @@ DATA = """
             variable
                 begin
                 end
+            numeric
+                base
         section
             block
                 begin
