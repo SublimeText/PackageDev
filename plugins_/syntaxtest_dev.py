@@ -42,7 +42,7 @@ def get_syntax_test_tokens(view):
     match = None
     if line.size() < 1000:  # no point checking longer lines as they are unlikely to match
         first_line = view.substr(line)
-        match = re.match(r'^(?P<comment_start>\s*\S+)'
+        match = re.match(r'^(?P<comment_start>\s*.+)'
                          r'\s+SYNTAX TEST\s+'
                          r'"(?P<syntax_file>[^"]+)"'
                          r'\s*(?P<comment_end>\S+)?$', first_line)
