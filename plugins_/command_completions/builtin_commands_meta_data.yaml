@@ -2,6 +2,12 @@
 # Metadata about the described commands.
 build: 4052
 ---
+add_directory:
+  command_type: find
+  doc_string: Opens a dialog box to prompt for a folder to the Where Input in the Find in Files panel.
+add_where_snippet:
+  command_type: find
+  doc_string: Adds a snippet to the 'Where' field in the Find in Files panel.
 append:
   args: !!omap
     - characters:
@@ -37,23 +43,99 @@ clear_bookmarks:
 clear_fields:
   command_type: text
   doc_string: Clear the fields of the current snippet.
+clear_location:
+  command_type: find
+  doc_string: Clears the 'Where' field in the Find in Files panel.
+clear_recent_files:
+  command_type: window
+  doc_string: Clears the list of recently opened files.
+clear_recent_projects_and_workspaces:
+  command_type: window
+  doc_string: Clears the list of recently opened projects and workspaces.
+close:
+  command_type: window
+  doc_string: Close the active view.
+clone_file:
+  command_type: window
+  doc_string: Create a new view into the file.
+close_all:
+  command_type: window
+  doc_string: Close all views.
+close_by_index:
+  args:
+    group: -1
+    index: -1
+  command_type: window
+  doc_string: Close a view of a group by index. A value of -1 means active group/view.
+close_deleted_files:
+  args:
+    group: -1
+  command_type: window
+  doc_string: Close all views into deleted files.
+  added: 4050
 close_file:
   command_type: window
   doc_string: Close the active file.
 close_folder_list:
   command_type: window
   doc_string: Remove all folders from the sidebar and hide it.
+close_others_by_index:
+  args:
+    group: -1
+    index: -1
+  command_type: window
+  doc_string: Close all views of a group but the one identified by group and index. A value of -1 means active group/view.
+close_selected:
+  args:
+    group: -1
+  command_type: window
+  doc_string: Close all selected views ov a group. A value of -1 means active group.
+  added: 4050
 close_tag:
   args:
     insert_slash: true
   command_type: window
   doc_string: Close an HTML/XML tag.
+close_to_right_by_index:
+  args:
+    group: -1
+    index: -1
+  command_type: window
+  doc_string: Close all views of a group right of the one identified by index. A value of -1 means active group/view.
+close_transient:
+  command_type: window
+  doc_string: Close all transient sheets and views.
+  added: 4050
+close_unmodified:
+  args:
+    group: -1
+    index: -1
+  command_type: window
+  doc_string: Close all unmodified views of a group. A value of -1 means active group.
+  added: 4050
+close_unmodified_to_right_by_index:
+  args:
+    group: -1
+    index: -1
+  command_type: window
+  doc_string: Close all unmodified views of a group right of the one identified by index. A value of -1 means active group/view.
+  added: 4050
+close_window:
+  command_type: window
+  doc_string: Close the active window.
 close_workspace:
   command_type: window
   doc_string: Close the active workspace.
 commit_completion:
   command_type: text
   doc_string: Insert the selected item into the text and close completion panel.
+console_python_version:
+  args: !!omap
+    - version: "3.8"
+    - checkbox: true
+  command_type: window
+  doc_string: Switch python interpreter version in debug console.
+  added: 4050
 context_menu:
   command_type: window
   doc_string: Show the context menu.
@@ -69,16 +151,32 @@ delete_word:
   args:
     forward: true
     sub_words: false
+detect_indentation:
+  args:
+    show_message: false
+  command_type: text
+  doc_string: Guess indentation settings from the text content.
+  added: 4050
 duplicate_line:
   command_type: text
   doc_string: Create a copy of each caret's line.
+exit:
+  command_type: application
+  doc_string: Close all windows and exit Sublime Text.
 expand_selection:
   args:
     to: line|scope|brackets|indentation|tag|bol|hardbol|eol|hardeol|bof|eof|brackets|smart
   command_type: text
   doc_string: Expand the current text caret selection(s) to the specified location.
+expand_selection_to_paragraph:
+  command_type: text
+  doc_string: Expand the current text caret selection(s) to the paragraph(s).
 expand_snippet:
   command_type: text
+  added: 4050
+find_all:
+  command_type: find
+  doc_string: Find all tokens which match the find pattern.
 find_all_under:
   command_type: text
   doc_string: Seach and select all text matches, which are the same as the text selected text or the word under the caret.
@@ -100,11 +198,26 @@ find_under_expand_skip:
 find_under_prev:
   command_type: text
   doc_string: Finds the previous occurrence of the current selection or the current word.
+focus_by_index:
+  args:
+    index:
+  command_type: window
+  doc_string: Focus one of multiple selected views in the active group by its index.
+  added: 4050
 focus_group:
   args:
     group: 0
   command_type: window
   doc_string: Set the focus to a view in an other group.
+focus_side_bar:
+  command_type: window
+  doc_string: Focus the sidebar to enable navigation by keyboard.
+fold_tag_attributes:
+  command_type: text
+  doc_string: Fold all html/xml tag attributes.
+goto_symbol_in_project:
+  command_type: window
+  doc_string: Open the Goto Symbol In Project Quick Panel
 hide_auto_complete:
   command_type: text
   doc_string: Hide the auto-completion pop-up.
@@ -114,6 +227,12 @@ hide_overlay:
 hide_panel:
   command_type: window
   doc_string: Hide the current visible panel.
+hide_popup:
+  command_type: text
+  doc_string: Hide the current popup window.
+hot_exit:
+  command_type: application
+  doc_string: Save session and exit Sublime Text even if "hot_exit" is disabled in preferences.
 indent:
   command_type: text
   doc_string: Increase the indentation level of the text selection(s).
@@ -160,6 +279,7 @@ new_file:
 new_os_tab:
   command_type: window
   doc_string: Create a new empty window in the os tab.
+  added: 4050
 new_window:
   command_type: application
   doc_string: Open a new ST window.
@@ -181,6 +301,7 @@ next_modification:
 next_os_tab:
   command_type: window
   doc_string: Set the focus to the next window in the os tab.
+  added: 4050
 next_result:
   command_type: window
   doc_string: Jump to the next build result.
@@ -188,7 +309,7 @@ next_view:
   args:
     extend: true
   command_type: window
-  doc_string: Set the focus to the next view tab bar.
+  doc_string: Set the focus to the next view by index.
 next_view_in_stack:
   command_type: window
   doc_string: Set the focus to the next view in the stack of recent edited view.
@@ -213,6 +334,24 @@ open_project_or_workspace:
     file:
     new_window: true
   added: 4050
+open_recent_file:
+  command_type: window
+  doc_string: Open a recently opened file.
+open_recent_folder:
+  args:
+    index: 0
+  command_type: window
+  doc_string: Open a recently opened folder.
+open_recent_project_or_workspace:
+  args:
+    index: 0
+  command_type: window
+  doc_string: Open a recently opened project or workspace.
+open_url:
+  args:
+    url:
+  command_type: application
+  doc_string: Open the web browser to display the URL or the default application associated with the file/folder represented by the URL.
 paste:
   command_type: text
   doc_string: Paste the text on the clipboard at the text selection location(s), replacing
@@ -237,6 +376,7 @@ prev_modification:
 prev_os_tab:
   command_type: window
   doc_string: Set the focus to the previous window in the os tab.
+  added: 4050
 prev_result:
   command_type: window
   doc_string: Jump to the previous build result.
@@ -244,7 +384,7 @@ prev_view:
   args:
     extend: true
   command_type: window
-  doc_string: Set the focus to the previous view tab bar.
+  doc_string: Set the focus to the previous view by index.
 prev_view_in_stack:
   command_type: window
   doc_string: Set the focus to the previous view in the stack of recent edited view.
@@ -252,6 +392,10 @@ prompt_add_folder:
   command_type: window
   doc_string: Show the OS' native open dialog, so the user can choose what folder they
     want to add to the sidebar.
+prompt_open:
+  command_type: window
+  doc_string: Show the MacOS' native open dialog, so the user can choose what file they
+    want to open.
 prompt_open_file:
   command_type: window
   doc_string: Show the OS' native open dialog, so the user can choose what file they
@@ -275,6 +419,9 @@ prompt_switch_project_or_workspace:
   command_type: window
   doc_string: Show the OS' native open dialog, so the user can choose what project they
     want to switch to.
+purchase_license:
+  command_type: application
+  doc_string: Open the purchase license dialog.
 quick_diff:
   command_type: window
   doc_string: Show a diff of the file currently in buffer compared to its saved state.
@@ -292,12 +439,48 @@ reindent:
     single_line: false
   command_type: text
   doc_string: Reindent the lines.
+remove_folder:
+  args:
+    dirs: []
+  command_type: window
+  doc_string: Remove dirs from sidebar.
+remove_license:
+  command_type: application
+  doc_string:
+reopen:
+  args:
+    encoding:
+  command_type: text
+  doc_string: Reopen the file with a given encoding.
+reopen_last_file:
+  command_type: window
+  doc_string: Reopen the most recently closed file.
+replace_all:
+  command_type: find
+  doc_string: Replace all tokens in the view, which match the pattern in the Find Input Field.
+replace_completion_with_auto_complete:
+  command_type: text
+  doc_string: Replace the most recently inserted completion with the next result provided by the auto completion engine.
+replace_next:
+  command_type: find
+  doc_string: Replace the next token in the view, which matches the pattern in the Find Input Field.
 resize_window:
   args: !!omap
     - width:
     - height:
   command_type: window
   doc_string: Resize the window('s external bounds) to the width and height specified.
+reveal_link_source:
+  args:
+    dirs: []
+  command_type: window
+  doc_string: Resolve a symlink to expand the folder it represents.
+reveal_in_side_bar:
+  command_type: window
+  doc_string: Reveals the active view's file in the sidebar.
+revert:
+  command_type: view
+  doc_string: Reload the file.
 revert_hunk:
   command_type: text
   doc_string: Revert a diff hunk.
@@ -325,6 +508,9 @@ save:
 save_all:
   command_type: window
   doc_string: Save all the open documents in the active window.
+save_macro:
+  command_type: window
+  doc_string: Save recorded macro to a file.
 save_project_and_workspace_as:
   command_type: window
   doc_string: Save active project and workspace as ....
@@ -348,11 +534,19 @@ select_bookmark:
     index:
   command_type: text
   doc_string: Select a specific bookmark (by index) in the current document.
+select_by_index:
+  args:
+    index:
+  command_type: window
+  doc_string: Focus one view in the active group by its index.
 select_lines:
   args:
     forward: true
   command_type: text
   doc_string: Select the current or next line, if the full current line is selected.
+set_build_system:
+  command_type: window
+  doc_string: Set selected build system.
 set_layout:
   args: !!omap
     - cols: [0.0, 1.0]
@@ -365,6 +559,26 @@ set_file_type:
     syntax: Packages/Foo/Bar.sublime-syntax
   command_type: text
   doc_string: Set the syntax file for the view.
+set_line_ending:
+  args:
+    type: linux|osx|windows
+  command_type: text
+  doc_string:
+set_setting:
+  args:
+    setting: ""
+    value:
+  command_type: text
+  doc_string: Modifies a view setting.
+show_about_window:
+  command_type: application
+  doc_string: Display the About dialog.
+show_changelog:
+  command_type: application
+  doc_string: Display the Changelog dialog.
+show_license_window:
+  command_type: application
+  doc_string: Display the License dialog.
 show_overlay:
   args: !!omap
     - overlay: goto|command_palette
@@ -379,6 +593,9 @@ show_panel:
     reverse: false
   command_type: window
   doc_string: Show the panel from the argument.
+show_progress_window:
+  command_type: application
+  doc_string: Display the indexing status dialog.
 single_selection:
   command_type: text
   doc_string: Switch to only the first selection.
@@ -397,6 +614,29 @@ soft_undo:
 split_selection_into_lines:
   command_type: text
   doc_string: Split each selection into individual lines.
+sublime_merge_blame_file:
+  args:
+    files: []
+  command_type: window
+  doc_string: Git Blame selected files with Sublime Merge.
+sublime_merge_file_history:
+  args:
+    files: []
+  command_type: window
+  doc_string: Show the history of the selected file in Sublime Merge
+sublime_merge_folder_history:
+  args:
+    paths: []
+  command_type: window
+  doc_string: Show the history of the selected folder in Sublime Merge
+sublime_merge_line_history:
+  command_type: text
+  doc_string: Show the history of the selected line(s) in Sublime Merge
+sublime_merge_open_repo:
+  args:
+    paths: []
+  command_type: window
+  doc_string: Open the repository of the selected file/folder in Sublime Merge.
 swap_line_down:
   command_type: text
   doc_string: Move each caret's line down by one.
@@ -406,6 +646,12 @@ swap_line_up:
 toggle_bookmark:
   command_type: text
   doc_string: For each selection, toggle it's bookmarked state.
+toggle_case_sensitive:
+  command_type: find
+  doc_string: Toggle case sensitive search in the Find/Replace panel.
+toggle_distraction_free:
+  command_type: window
+  doc_string: Toggle distraction free mode.
 toggle_full_screen:
   command_type: window
   doc_string: Toggle whether the current Sublime Text window is in full screen mode.
@@ -414,7 +660,8 @@ toggle_inline_diff:
     prefer_hide: false
   command_type: text
   doc_string: Toggle whether the inline diff of the modifications under the cursor is displayed.
-toggle_menubar:
+  added: 3206
+toggle_menu:
   command_type: window
   doc_string: Toggle the visibility of the menu bar.
 toggle_minimap:
@@ -423,14 +670,26 @@ toggle_minimap:
 toggle_overwrite:
   command_type: text
   doc_string: Toggle whether the caret is in insert mode or overwrite mode.
+toggle_preserve_case:
+  command_type: find
+  doc_string: Toggle preserve case flag in the Replace panel.
 toggle_record_macro:
   command_type: text
   doc_string: Start or stop to record a macro.
+toggle_regex:
+  command_type: find
+  doc_string: Toggle regular expression mode in the Find/Replace panel.
+toggle_save_all_on_build:
+  command_type: window
+  doc_string: Enable/Disable saving all open files before running a build command.
 toggle_setting:
   args:
     setting:
   command_type: text
   doc_string: Toggle the specified boolean setting.
+toggle_show_open_files:
+  command_type: window
+  doc_string: Toggle visibility of the list of open files in the sidebar.
 toggle_side_bar:
   command_type: window
   doc_string: Toggle the visibility of the side bar.
@@ -440,10 +699,26 @@ toggle_status_bar:
 toggle_tabs:
   command_type: window
   doc_string: Toggle the visibility of the tab controls.
+toggle_whole_word:
+  command_type: find
+  doc_string: Toggle find whole word flag in the Find/Replace panel.
+trim_trailing_white_space:
+  command_type: text
+  doc_string: Delete trailing whitespace from all lines.
+  added: 4050
 undo:
   command_type: text
   doc_string: Undo the last action.
 unindent:
   command_type: text
   doc_string: Unindent the selection by one level.
+update_check:
+  command_type: application
+  doc_string: Look for updates of Sublime Text.
+upgrade_license:
+  command_type: application
+  doc_string: Upgrade license of Sublime Text.
+wrap_lines:
+  command_type: text
+  doc_string: Hard-wrap all lines at the ruler.
 ...
