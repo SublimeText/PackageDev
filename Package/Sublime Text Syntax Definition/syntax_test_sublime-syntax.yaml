@@ -289,6 +289,21 @@ contexts: !mytag
 
     - match: foo
       push:
+        !mytag scope
+#       ^^^^^^ storage.type.tag-handle.yaml
+#              ^^^^^ variable.other.sublime-syntax
+
+    - match: foo
+      push: scope
+#           ^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.sublime-syntax
+
+    - match: foo
+      push:
+        scope
+#       ^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.sublime-syntax
+
+    - match: foo
+      push:
         -
 #       ^ meta.expect-context-list-or-content punctuation.definition.block.sequence.item.yaml
 
