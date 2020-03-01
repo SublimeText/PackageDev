@@ -393,7 +393,7 @@ contexts:
                 - include: context_list_content
         # limit context to the current line
         - match: $|(?=\S)
-          pop: true
+          set: expect_include
     # maybe single include
     - match: (?=\S)
       set: expect_include
