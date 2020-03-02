@@ -1,0 +1,11 @@
+v3.2.16 (2020-03-02)
+--------------------
+
+(Notes not shown on release)
+
+- Convert: Allow Unicode in YAML dumper by default (#276)
+- Scheme: Highlight `sheet_css` key and *_css values as embedded CSS
+- Data: Provide completions for pretty much all built-in commands (#280, @deathaxe)
+- Theme: Be less strict about unrecognized data types for values (#274, @deathaxe)
+- Syntax: Support syntax test tokens with whitespace (#283, @keith-hall)
+- Syntax: Match plain scalar context specifications in the next line (#285, @deathaxe)
