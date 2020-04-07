@@ -15,12 +15,12 @@ import sublime
 
 
 DEFAULT_VALUE = ["rss", "sublime-snippet", "vcproj", "tmLanguage", "tmTheme", "tmSnippet",
-                 "tmPreferences", "dae"]
-MODIFIED_VALUE = ["rss", "vcproj", "tmLanguage", "tmTheme", "tmSnippet", "dae"]
+                 "tmPreferences", "dae", "csproj"]
+MODIFIED_VALUE = ["rss", "vcproj", "tmLanguage", "tmTheme", "tmSnippet", "dae", "csproj"]
 
 # Encode ST build and date of last change (of this file) into the bootstrap value.
 # I'm not sure what exactly I'm gonna do with it, so just include info I might find useful later.
-BOOTSTRAP_VALUE = [3126, 2017, 3, 13]
+BOOTSTRAP_VALUE = [3210, 2020, 4, 7]
 
 
 def plugin_loaded():
