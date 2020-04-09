@@ -35,6 +35,7 @@
         { "trigger": "right_shadow\tproperty", "contents": "right_shadow" },
         { "trigger": "top_shadow\tproperty", "contents": "top_shadow" },
         { "trigger": "bottom_shadow\tproperty", "contents": "bottom_shadow" },
+        { "trigger": "monospace_background_color\tproperty", "contents": "monospace_background_color" },
 
         // numbers
         { "trigger": "num_colors\tproperty", "contents": "num_colors" },

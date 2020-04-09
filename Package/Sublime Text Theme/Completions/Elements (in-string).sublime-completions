@@ -85,7 +85,9 @@
         { "trigger": "tool_tip_control\telement", "contents": "tool_tip_control" },
         { "trigger": "tool_tip_label_control\telement", "contents": "tool_tip_label_control" },
         // The following have been added manually until the docs are updated
+        { "trigger": "popup_control annotation_popup\telement", "contents": "popup_control annotation_popup" },
         { "trigger": "annotation_close_button\telement", "contents": "annotation_close_button" },
+        { "trigger": "auto_complete_detail_pane\telement", "contents": "auto_complete_detail_pane" },
         { "trigger": "auto_complete_details\telement", "contents": "auto_complete_details" },
         { "trigger": "auto_complete_info\telement", "contents": "auto_complete_info" },
         { "trigger": "auto_complete_kind_name_label\telement", "contents": "auto_complete_kind_name_label" },
@@ -105,5 +107,6 @@
         { "trigger": "symbol_container\telement", "contents": "symbol_container" },
         { "trigger": "trigger_container\telement", "contents": "trigger_container" },
         { "trigger": "sidebar_button_control\telement", "contents": "sidebar_button_control" },
+        { "trigger": "icon_use_gitignore\telement", "contents": "icon_use_gitignore" },
     ]
 }

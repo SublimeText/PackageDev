@@ -22,6 +22,7 @@ variables:
       | (?:selected_)?(?:match_)?fg
       | fg | color # alias
       | bg | background_color # alias?
+      | monospace_background_color
       | shadow_color
       | viewport_color
       | color_scheme_tint(?:_2)?
