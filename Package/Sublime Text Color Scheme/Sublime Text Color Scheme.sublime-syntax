@@ -497,7 +497,7 @@ contexts:
         - include: string-escape
 
   font-style:
-    - match: \b(bold|glow|italic)\b
+    - match: \b(bold|glow|italic|underline)\b  # glow & underline added in 4050 and 4074
       scope: support.constant.font-style.color-scheme
 
   expect-underlinestyle-string-value:

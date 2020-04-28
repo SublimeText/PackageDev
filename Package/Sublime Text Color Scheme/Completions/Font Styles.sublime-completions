@@ -4,5 +4,6 @@
         { "trigger": "bold\tfont style", "contents": "bold" },
         { "trigger": "glow\tfont style", "contents": "glow" },
         { "trigger": "italic\tfont style", "contents": "italic" },
+        { "trigger": "underline\tfont style", "contents": "underline" },
     ]
 }
