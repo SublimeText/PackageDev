@@ -20,6 +20,7 @@
         { "trigger": "highlight\tglobals key", "contents": "highlight" },
         { "trigger": "implicit_selection_foreground\tglobals key", "contents": "implicit_selection_foreground" },
         { "trigger": "inactive_selection\tglobals key", "contents": "inactive_selection" },
+        { "trigger": "inactive_selection_border\tglobals key", "contents": "inactive_selection_border" },
         { "trigger": "inactive_selection_foreground\tglobals key", "contents": "inactive_selection_foreground" },
         { "trigger": "invisibles\tglobals key", "contents": "invisibles" },
         { "trigger": "line_diff_added\tglobals key", "contents": "line_diff_added" },

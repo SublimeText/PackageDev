@@ -20,6 +20,7 @@
         { "trigger": "highlight\tglobals key", "contents": "\"highlight\": \"$1\"," },
         { "trigger": "implicit_selection_foreground\tglobals key", "contents": "\"implicit_selection_foreground\": \"$1\"," },
         { "trigger": "inactive_selection\tglobals key", "contents": "\"inactive_selection\": \"$1\"," },
+        { "trigger": "inactive_selection_border\tglobals key", "contents": "\"inactive_selection_border\": \"$1\"," },
         { "trigger": "inactive_selection_foreground\tglobals key", "contents": "\"inactive_selection_foreground\": \"$1\"," },
         { "trigger": "invisibles\tglobals key", "contents": "\"invisibles\": \"$1\"," },
         { "trigger": "line_diff_added\tglobals key", "contents": "\"line_diff_added\": \"${1}\"," },
