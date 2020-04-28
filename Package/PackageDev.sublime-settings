@@ -6,11 +6,6 @@
     // Underline unknown keys in Sublime Settings.
     "settings.linting": true,
 
-    // Whether or not to keep the scope suffix in the suggested test scopes
-    // i.e. if the base scope is text.html.markdown
-    // then suggest meta.example.markdown (true) vs meta.example (false).
-    "syntax_test.suggest_scope_suffix": true,
-
     // List of patterns for color schemes not to be displayed in completions.
     // Each color scheme containing one of the list's strings is hidden.
     "settings.exclude_color_scheme_patterns": [
@@ -24,6 +19,11 @@
     // List of patterns for themes not to be displayed in completions.
     // Each theme containing one of the list's strings is hidden.
     "settings.exclude_theme_patterns": [],
+
+    // Whether or not to keep the scope suffix in the suggested test scopes
+    // i.e. if the base scope is text.html.markdown
+    // then suggest meta.example.markdown (true) vs meta.example (false).
+    "syntax_test.suggest_scope_suffix": true,
 
 
     /// ADVANCED SETTINGS /////////////////////////////////////////////////////////////////////////
@@ -39,17 +39,6 @@
     // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
     "settings.highlight_styles": ["DRAW_SOLID_UNDERLINE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE"],
 
-    // Scope for highlighting the line/positions being tested.
-    "syntax_test.highlight_scope": "markup.info.test.sublime-syntax",
-
-    // What add_region styles to use for highlighting of the line/positions being tested.
-    //
-    // Valid values are:
-    // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
-    // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
-    // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
-    "syntax_test.highlight_styles": ["DRAW_NO_FILL"],
-
     // Scope for highlighting capture group for the current scope line.
     "syntax.captures_highlight_scope": "markup.info.capture.sublime-syntax",
 
@@ -60,6 +49,17 @@
     // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
     // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
     "syntax.captures_highlight_styles": ["DRAW_NO_FILL"],
+
+    // Scope for highlighting the line/positions being tested.
+    "syntax_test.highlight_scope": "markup.info.test.sublime-syntax",
+
+    // What add_region styles to use for highlighting of the line/positions being tested.
+    //
+    // Valid values are:
+    // "DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL",
+    // "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE",
+    // "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"
+    "syntax_test.highlight_styles": ["DRAW_NO_FILL"],
 
     // Whether to skip whitespace after the previous line's test assertions when
     // pressing the Tab key on a new syntax test line
