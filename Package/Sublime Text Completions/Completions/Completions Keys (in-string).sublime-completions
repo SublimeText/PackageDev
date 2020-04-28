@@ -2,7 +2,10 @@
     "scope": "meta.completions-key.sublime-completions",
 
     "completions": [
+        { "trigger": "annotation\tcompletions key", "contents": "annotation" },
+        { "trigger": "contents\tcompletions key", "contents": "contents" },
+        { "trigger": "details\tcompletions key", "contents": "details" },
+        { "trigger": "kind\tcompletions key", "contents": "kind" },
         { "trigger": "trigger\tcompletions key", "contents": "trigger" },
-        { "trigger": "contents\tcompletions key", "contents": "contents" }
     ]
 }

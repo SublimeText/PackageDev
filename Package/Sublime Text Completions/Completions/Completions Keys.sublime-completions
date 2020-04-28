@@ -1,7 +1,10 @@
 {
-    "scope": "meta.completions.sublime-completions - string - comment",
+    "scope": "meta.completions.sublime-completions meta.mapping - string - comment",
     "completions": [
-        { "trigger": "trigger\tmain key", "contents": "\"trigger\": \"$1\",$0" },
+        { "trigger": "annotation\tmain key", "contents": "\"annotation\": \"$1\",$0" },
         { "trigger": "contents\tmain key", "contents": "\"contents\": \"$1\",$0" },
+        { "trigger": "details\tmain key", "contents": "\"details\": \"$1\",$0" },
+        { "trigger": "kind\tmain key", "contents": "\"kind\": \"$1\",$0" },
+        { "trigger": "trigger\tmain key", "contents": "\"trigger\": \"$1\",$0" },
     ]
 }
