@@ -17,8 +17,4 @@ else:
         for module_name in modules_to_clear:
             del sys.modules[module_name]
 
-# Must be named "plugins_"
-# because sublime_plugin claims a plugin module's `plugin` attribute for itself.
-# Fixed in 3153 https://github.com/SublimeTextIssues/Core/issues/1991.
-
-from .plugins_ import *  # noqa
+from .plugins import *  # noqa
