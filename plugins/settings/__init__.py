@@ -175,6 +175,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             tuple ([ [trigger, content], [trigger, content] ], flags):
                 the tuple with content ST needs to display completions
         """
+        if not get_setting('settings.auto_complete'):
+            return
         if self.known_settings and len(locations) == 1:
             point = locations[0]
             self.is_completing_key = False
@@ -189,6 +191,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     def on_hover(self, point, hover_zone):
         """Sublime Text hover event handler to show tooltip if needed."""
+        if not get_setting('settings.tooltip'):
+            return
         # not a settings file or not hovering text
         if not self.known_settings or hover_zone != sublime.HOVER_TEXT:
             return
