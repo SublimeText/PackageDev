@@ -6,6 +6,12 @@
     // Underline unknown keys in Sublime Settings.
     "settings.linting": true,
 
+    // Auto complete keys and values in Sublime Settings.
+    "settings.auto_complete": true,
+
+    // Show tooltip with setting description on hovering keys and values.
+    "settings.tooltip": true,
+
     // List of patterns for color schemes not to be displayed in completions.
     // Each color scheme containing one of the list's strings is hidden.
     "settings.exclude_color_scheme_patterns": [
