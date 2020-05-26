@@ -214,7 +214,7 @@ contexts:
         (")(
           accent|shadow|invisibles|caret|line_highlight
           |foreground|background|selection|selection_border|selection_foreground
-          |inactive_selection(?:_border|_foreground|)?  # *_foreground added in 4050, *_border in 4074
+          |inactive_selection(?:_border|_foreground)?  # *_foreground added in 4050, *_border in 4074
           |highlight|find_highlight|find_highlight_foreground
           |stack_guide|active_guide|guide
           |misspelling
