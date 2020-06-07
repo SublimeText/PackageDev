@@ -1,5 +1,5 @@
 {
-    "scope": "meta.keybinding-context.sublime-keymap - meta.keybinding-context meta - string - comment",
+    "scope": "meta.keybinding-context.sublime-keymap - meta.keybinding-context meta.mapping.value - string - comment",
     "completions": [
         {"trigger": "key\tkey", "contents": "\"key\": \"$1\","},
         {"trigger": "operator\tkey", "contents": "\"operator\": \"$1\","},
