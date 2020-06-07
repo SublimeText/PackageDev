@@ -33,8 +33,7 @@ TEMPLATES = dict(
         },
     ]
 }""".replace("    ", "\t"),
-    commands=R"""\
-[
+    commands=R"""[
   { "caption": "Preferences: ${1:${package_name:PackageName}}",
     "command": "edit_settings",
     "args": {
