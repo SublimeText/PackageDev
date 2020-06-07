@@ -5,7 +5,7 @@
 // <- comment.line
 
 s
-// <- invalid.illegal.expected-mapping.sublime
+// <- - invalid.illegal.expected-mapping.sublime
 
 { // comment
 // <- meta.mapping.json punctuation.section.mapping.begin.json
