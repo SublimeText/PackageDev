@@ -2,7 +2,7 @@
     /* start of snippet_dev keys */
     { "keys": ["ctrl+s"], "command": "packagedev_snippet_from_raw_snippet", "context":
         [
-            { "key": "selector", "operator": "equal", "operand": "source.sublime.snippet - source.json - text.xml.sublime.snippet" }
+            { "key": "selector", "operand": "source.sublime.snippet - source.json - text.xml.sublime.snippet" }
         ]
     },
     /* end of snippet_dev keys */
@@ -11,15 +11,15 @@
     {
         "keys": ["enter"], "command": "packagedev_commit_scope_completion", "context": [
             { "key": "auto_complete_visible" },
-            { "key": "setting.auto_complete_commit_on_tab", "operator": "equal", "operand": false },
-            { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
+            { "key": "setting.auto_complete_commit_on_tab", "operand": false },
+            { "key": "selector", "operand": "meta.scope.sublime-syntax" }
         ]
     },
     {
         "keys": ["tab"], "command": "packagedev_commit_scope_completion", "context": [
             { "key": "auto_complete_visible" },
-            { "key": "setting.auto_complete_commit_on_tab", "operator": "equal", "operand": true },
-            { "key": "selector", "operator": "equal", "operand": "meta.scope.sublime-syntax" }
+            { "key": "setting.auto_complete_commit_on_tab" },
+            { "key": "selector", "operand": "meta.scope.sublime-syntax" }
         ]
     },
     {   // trigger auto completion on space after hyphen (rules)
