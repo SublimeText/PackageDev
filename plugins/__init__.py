@@ -21,12 +21,11 @@ def plugin_loaded():
 
 
 def _is_plugin_class(obj):
-    if not hasattr(obj, '__bases__'):
-        return False
-
-    for base in obj.__bases__:
-        if base.__module__ == 'sublime_plugin':
-            return True
+    if hasattr(obj, '__bases__'):
+        for base in obj.__bases__:
+            if base.__module__ == 'sublime_plugin':
+                return True
+    return False
 
 
 def _check_missing():
@@ -34,7 +33,7 @@ def _check_missing():
 
     Only works outside of a .sublime-package file.
 
-    from PackageDev.plugins_ import _check_missing; _check_missing()
+    from PackageDev.plugins import _check_missing; _check_missing()
     """
     import os
     import importlib
