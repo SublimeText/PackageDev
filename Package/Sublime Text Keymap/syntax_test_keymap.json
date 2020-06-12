@@ -42,6 +42,9 @@
 //             ^ constant.character.key.literal.sublime-keymap
 //                  ^^^^^ support.constant.key.named.sublime-keymap
 //                                       ^^^^^^^^^^^^^ meta.command-name.sublime-keymap support.constant.command-name.sublime-keymap
+
+        "keys": ["alt"],
+//                ^^^ support.constant.key.modifier.sublime-keymap
         "context":
         [
             // context entries with a 'selector' key have their operand highlighted,

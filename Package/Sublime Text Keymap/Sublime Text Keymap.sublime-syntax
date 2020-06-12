@@ -6,6 +6,9 @@ file_extensions:
   - sublime-keymap
 scope: source.json.sublime.keymap
 
+variables:
+  modifiers: (?:shift|ctrl|alt|altgr|super|command|option|primary)
+
 contexts:
   main:
     - include: comments
@@ -143,7 +146,7 @@ contexts:
               set: in-sequence-expect-comma
             - match: ''
               push: # match modifier keys first
-                - match: (shift|ctrl|alt|altgr|super|command|option|primary)(\+)
+                - match: ({{modifiers}})(\+)
                   captures:
                     1: support.function.modifier.key.sublime-keymap
                     2: keyword.operator.modifier.connector.sublime-keymap
@@ -169,6 +172,8 @@ contexts:
                           |f(20|1[0-9]|[1-9])
                         )\b
                       scope: support.constant.key.named.sublime-keymap
+                    - match: ({{modifiers}})
+                      scope: support.constant.key.modifier.sublime-keymap
                     - match: \p{Upper}
                       scope: invalid.deprecated.key.upper-case.sublime-keymap
                     - match: '[^"\\]{2,}'
