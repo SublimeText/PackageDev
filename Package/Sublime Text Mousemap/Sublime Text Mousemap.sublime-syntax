@@ -89,7 +89,7 @@ contexts:
 
   button-name-string-pop:
     - clear_scopes: 1
-    - match: (\")(?:(button[1-5]|scroll_(?:down|up)))(\")
+    - match: (\")(?:(button(?:[1-9]|1[0-6])|scroll_(?:down|up)))(\")
       scope: meta.mapping.value.json string.quoted.double.json meta.button-name.sublime-mousemap
       captures:
         1: punctuation.definition.string.begin.json
