@@ -5,6 +5,15 @@
             { "key": "selector", "operand": "source.sublime.snippet - source.json - text.xml.sublime.snippet" }
         ]
     },
+    { "keys": ["{"], "command": "insert_snippet", "args": {"contents": "{$0}"}, "context":
+        [
+            { "key": "selector", "operand": "source.sublime.snippet - meta.text-substitution.snippet" },
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\$$", "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\\W|$)", "match_all": true },
+        ]
+    },
     /* end of snippet_dev keys */
 
     /* start of build system keys */
