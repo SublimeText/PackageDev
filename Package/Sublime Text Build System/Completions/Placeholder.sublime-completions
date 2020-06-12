@@ -1,5 +1,5 @@
 {
-    "scope": "meta.placeholder-name.sublime-build",
+    "scope": "meta.placeholder-name.sublime-build | keyword.other.block.end.placeholder.sublime-build",
 
     "completions": [
         { "trigger": "file_path\tplaceholder", "contents": "file_path" },
