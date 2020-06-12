@@ -1,5 +1,9 @@
 {
     "extensions": ["sublime-theme"],
     "auto_complete_selector": "- string - comment - constant | meta.main-key | meta.rule-key | meta.interpolation-key | meta.animation-key | meta.attributes-sequence - comment | meta.class-selector | meta.function-call.var meta.group",
+    "auto_complete_triggers": [
+        { "selector": "meta.mapping.key punctuation.definition.string.begin - meta.variables" },
+        { "selector": "(meta.class-selector.sublime-theme | meta.attributes-sequence.sublime-theme) & punctuation.definition.string.begin.json" },
+    ],
     "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?" // default without '-'
 }

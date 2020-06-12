@@ -1,4 +1,7 @@
 {
     "extensions": ["sublime-completions"],
     "auto_complete_selector": "- comment - string | meta.main-key | meta.completions-key",
+    "auto_complete_triggers": [
+        { "selector": "meta.mapping.key punctuation.definition.string.begin" },
+    ],
 }

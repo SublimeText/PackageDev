@@ -3,10 +3,7 @@
         "sublime-syntax"
     ],
     "auto_complete_triggers": [
-        {
-            "characters": ".",
-            "selector": "source.yaml.sublime.syntax - comment - meta.expect-regexp - meta.expect-include-lìst"
-        }
+        { "selector": "punctuation.separator.scope-segments.sublime-syntax" },
     ],
     "auto_complete_selector": "source - comment - (source.regexp - keyword.other.variable)",
     "tab_size": 2,

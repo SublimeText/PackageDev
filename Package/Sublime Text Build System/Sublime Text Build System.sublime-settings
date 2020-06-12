@@ -1,4 +1,8 @@
 {
   "extensions": ["sublime-build"],
   "auto_complete_selector": "source.json - comment - string | meta.placeholder-name | meta.command-name | meta.main-key | keyword.other.block.end.placeholder",
+  "auto_complete_triggers": [
+    { "selector": "meta.mapping.key punctuation.definition.string.begin" },
+    { "selector": "keyword.other.block.start.placeholder.sublime-build" },
+  ],
 }

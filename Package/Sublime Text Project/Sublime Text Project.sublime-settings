@@ -1,4 +1,7 @@
 {
     "extensions": ["sublime-project"],
     "auto_complete_selector": "- string - comment | meta.main-key | meta.folder-key | meta.settings-mapping - comment - meta.setting-value",
+    "auto_complete_triggers": [
+        { "selector": "meta.mapping.key punctuation.definition.string.begin - meta.setting-value.sublime-settings meta.mapping.value" },
+    ],
 }

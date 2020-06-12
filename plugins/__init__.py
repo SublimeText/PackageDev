@@ -1,5 +1,6 @@
 # import ST-interfacing classes from sub-modules
 
+from .ac_triggers_workaround import *  # noqa
 from .color_scheme_dev import *  # noqa
 from .command_completions import *  # noqa
 from .create_package import *  # noqa

@@ -1,4 +1,8 @@
 {
 	"extensions": ["sublime-settings"],
 	"auto_complete_selector": "meta.mapping - comment - meta.setting-value",
+    "auto_complete_triggers": [
+        { "selector": "meta.mapping.key punctuation.definition.string.begin - meta.mapping.value" },
+        { "characters": " ", "selector": "meta.expect-value.sublime-settings" },
+    ],
 }

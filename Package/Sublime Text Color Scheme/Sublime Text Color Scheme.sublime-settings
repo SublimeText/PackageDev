@@ -1,8 +1,8 @@
 {
     "auto_complete_selector": "meta.function-call.var meta.group | meta.font-style.sublime-color-scheme | meta.underline-style.sublime-color-scheme | meta.scope-selector.sublime | - string - comment",
-    "auto_complete_triggers":
-    [
-        {"characters": ".", "selector": "meta.scope-selector.sublime"}
+    "auto_complete_triggers": [
+        { "selector": "punctuation.separator.scope-segments.scope-selector" },
+        { "selector": "meta.mapping.key punctuation.definition.string.begin - meta.variables" },
     ],
     "extensions": ["sublime-color-scheme"],
     "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?" // default without '-'
