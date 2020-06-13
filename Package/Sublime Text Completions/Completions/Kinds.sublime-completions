@@ -1,0 +1,15 @@
+{
+    "scope": "meta.kind.sublime-completions",
+
+    "completions": [
+        { "trigger": "ambiguous\tcompletion kind", "contents": "ambiguous" },
+        { "trigger": "function\tcompletion kind", "contents": "function" },
+        { "trigger": "keyword\tcompletion kind", "contents": "keyword" },
+        { "trigger": "markup\tcompletion kind", "contents": "markup" },
+        { "trigger": "namespace\tcompletion kind", "contents": "namespace" },
+        { "trigger": "navigation\tcompletion kind", "contents": "navigation" },
+        { "trigger": "snippet\tcompletion kind", "contents": "snippet" },
+        { "trigger": "type\tcompletion kind", "contents": "type" },
+        { "trigger": "variable\tcompletion kind", "contents": "variable" },
+    ]
+}

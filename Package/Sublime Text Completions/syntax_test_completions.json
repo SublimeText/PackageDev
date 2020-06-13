@@ -43,17 +43,30 @@
 //                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
 //                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.sublime.snippet.embedded.json-string
         { "other": "none", "trigger": "foo\tbar", "contents": "foo bar" },
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping meta.sequence meta.mapping - meta.mapping meta.mapping meta.mapping
 //      ^^^^^^^^^^^ meta.mapping meta.sequence meta.mapping - meta.mapping meta.mapping meta.mapping
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping meta.sequence meta.mapping - meta.mapping meta.mapping meta.mapping
 //        ^^^^^^^ meta.completions-key.sublime-completions string.quoted.double.json - support.function.completions.key.sublime-completions
 //         ^^^^^ - support.function.completions.key.sublime-completions
 //               ^ punctuation.separator.mapping.key-value.json
 //                 ^^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json - meta.completions-key.sublime-completions
 //                         ^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
 //                          ^^^^^^^ support.function.completions.key.sublime-completions
-
-// TODO "Sublime Text Keymap.sublime-syntax#expect-colon-value" doesn't follow the meta.mapping stack yet
-
+        { "kind": ["variable", "v", "Variable"] },
+//        ^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
+//         ^^^^ support.function.completions.key.sublime-completions
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping meta.mapping meta.sequence meta.kind-tuple.sublime-completions
+        { "kind": "ambiguous", "kind": "x" },
+//                ^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.kind.sublime-completions
+//                 ^^^^^^^^^ constant.language.kind.sublime-completions
+//                                      ^ - constant.language.kind.sublime-completions
+        { "details": "text" },
+//        ^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
+//         ^^^^^^^ support.function.completions.key.sublime-completions
+//                   ^^^^^^ meta.mapping meta.sequence meta.mapping.value.json string.quoted.double.json meta.details.sublime-completions
+        { "annotation": "text" },
+//        ^^^^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
+//         ^^^^^^^^^^ support.function.completions.key.sublime-completions
+//                      ^^^^^^ meta.mapping meta.sequence meta.mapping.value.json string.quoted.double.json
     ]
 //  ^ meta.completions.collection.sublime-completions meta.mapping.value.json meta.sequence.json meta.completions.sublime-completions punctuation.section.sequence.end.json
 }
