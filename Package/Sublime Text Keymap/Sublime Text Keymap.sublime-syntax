@@ -165,11 +165,11 @@ contexts:
                            up|down|right|left
                           |insert|delete|home|end|pageup|pagedown
                           |backspace|tab|enter|pause|escape|space
-                          |keypad[0-9]|keypad_(period|divide|multiply|minus|plus|enter)
+                          |keypad[0-9]|keypad_(?:period|divide|multiply|minus|plus|enter)
                           |clear|sysreq|break|context_menu
-                          |browser_(back|forward|refresh|stop|search|favorites|home)
+                          |browser_(?:back|forward|refresh|stop|search|favorites|home)
                           |forward_slash|backquote|plus|equals|minus
-                          |f(20|1[0-9]|[1-9])
+                          |f(?:20|1[0-9]|[1-9])
                         )\b
                       scope: support.constant.key.named.sublime-keymap
                     - match: ({{modifiers}})
