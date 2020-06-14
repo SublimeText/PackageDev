@@ -128,15 +128,19 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
             variable_completions += VARIABLES
         return variable_completions
 
-    def variable_definition_completions(self):
+    def variable_definition_completions(self, with_key=False):
         variables = self._inherited_variables()
         if not variables:
             return None
         sorted_variables = sorted(variables)
         logger.debug("Found %d inherited variables to complete: %r",
                      len(variables), sorted_variables)
-        variable_completions = [("{}\toverride".format(var), var) for var in sorted_variables]
-        return variable_completions
+        if with_key:
+            # TODO complete and select previous value
+            return [("{}\toverride".format(var), '"{}": "$0",'.format(var))
+                    for var in sorted_variables]
+        else:
+            return [("{}\toverride".format(var), var) for var in sorted_variables]
 
     def _scope_prefix(self, locations):
         # Determine entire prefix
@@ -179,6 +183,9 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
 
         elif verify_scope("meta.variable-name"):
             return self.variable_definition_completions()
+
+        elif verify_scope("meta.variables - string - comment"):
+            return self.variable_definition_completions(with_key=True)
 
         else:
             return None
