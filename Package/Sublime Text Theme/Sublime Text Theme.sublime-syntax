@@ -379,32 +379,31 @@ contexts:
             - in-mapping-expect-comma
             - expect-color-or-any-value
             - expect-colon
-            - variable-mapping-key
+            - variable-mapping-key-meta
+            - variable-mapping-key-string
         - include: expect-key-rest
 
-  variable-mapping-key:
+  variable-mapping-key-meta:
+    - clear_scopes: 1
+    - meta_scope:
+        meta.mapping.key.json
+        string.quoted.double.json
+        meta.variable-name.sublime-theme
     - match: ''
+      pop: true
+  
+  variable-mapping-key-string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.json
       set:
-        - - clear_scopes: 1
-          - meta_scope:
-              meta.mapping.key.json
-              string.quoted.double.json
-              meta.variable-name.sublime-theme
-          - match: ''
-            pop: true
-        - - match: \"
-            scope: punctuation.definition.string.begin.json
-            set:
-              - meta_content_scope: entity.name.variable.sublime-theme
-              - match: (?=")  # unset meta_content_scope
-                set:
-                  - match: '"'
-                    scope: punctuation.definition.string.end.json
-                    pop: true
-              - match: $\n?
-                scope: invalid.illegal.unclosed-string.json
-                pop: true
-              - include: string-escape
+        - meta_content_scope: entity.name.variable.sublime-theme
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
+        - include: string-escape
 
   expect-attributes-sequence-value:
     - match: (?=\[)
