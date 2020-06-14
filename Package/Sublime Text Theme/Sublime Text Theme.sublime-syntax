@@ -154,7 +154,13 @@ contexts:
 
   expect-extends-string-value:
     - match: (?=\")
-      set: [mapping-value-meta, string-pop]
+      set: [extends-value-meta, string-pop]
+
+  extends-value-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.value.json meta.extends.sublime-theme
+    - match: ''
+      pop: true
 
   expect-rules-sequence-value:
     - match: (?=\[)
