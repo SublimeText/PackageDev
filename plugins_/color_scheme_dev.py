@@ -49,7 +49,7 @@ VARIABLES = [
 logger = logging.getLogger(__name__)
 
 
-def _inhibit_word_completions(func):
+def inhibit_word_completions(func):
     """Decorator that inhibits ST's word completions if non-None value is returned."""
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -159,7 +159,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         else:
             return completions_from_prefix(real_prefix)
 
-    @_inhibit_word_completions
+    @inhibit_word_completions
     def on_query_completions(self, prefix, locations):
 
         def verify_scope(selector, offset=0):
