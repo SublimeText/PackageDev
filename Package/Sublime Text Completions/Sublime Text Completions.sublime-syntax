@@ -9,6 +9,16 @@ scope: source.json.sublime.completions
 variables:
   kinds: (?:ambiguous|function|keyword|markup|namespace|navigation|snippet|type|variable)
 
+  # Excerpts from HTML.sublime-syntax
+  ascii_space: '\t\n\f '
+  attribute_name_char: '[{{ascii_space}}=/>]'
+  attribute_name_start: (?=[^{{attribute_name_char}}])
+  attribute_name_break: (?={{attribute_name_char}})
+  unquoted_attribute_start: (?=[^{{ascii_space}}=>])
+  unquoted_attribute_break: (?=[{{ascii_space}}]|/?>)
+  tag_name_char: '[^{{ascii_space}}/<>]'
+  tag_name_break: (?=[^{{tag_name_char}}])
+
 contexts:
   main:
     - match: (?=\{)
@@ -161,6 +171,8 @@ contexts:
       set:
         - meta_scope: string.quoted.double.json meta.details.sublime-completions
         - include: string-escape
+        - include: html-entities
+        - include: html-tag
         # TODO: match simple HTML tags
         # a|b|i|u|em|strong|code|tt
         - match: '"'
@@ -216,6 +228,124 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.json
           pop: true
+
+  #############################################
+  # Modified excepts from HTML.sublime-syntax
+
+  html-tag:
+    - match: (</?)((?:b|i|u|em|strong|code|tt){{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.inline.any.html
+      push:
+        - meta_scope: meta.tag.inline.any.html
+        - include: tag-end-maybe-self-closing
+        - include: tag-generic-attributes
+    - match: (</?)(?i:a{{tag_name_break}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.inline.a.html
+      scope: punctuation.definition.tag.begin.html
+      push:
+        - meta_scope: meta.tag.inline.a.html
+        - include: tag-end-maybe-self-closing
+        - include: tag-generic-attributes
+
+  tag-end-maybe-self-closing:
+    - match: (?=")
+      pop: true
+    - match: /?>
+      scope: punctuation.definition.tag.end.html
+      pop: true
+
+  tag-generic-attributes:
+    - match: '{{attribute_name_start}}'
+      push:
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-equals
+        - tag-generic-attribute-name
+
+  tag-generic-attribute-meta:
+    - meta_scope: meta.attribute-with-value.html
+    - include: immediately-pop
+
+  tag-generic-attribute-name:
+    - meta_scope: entity.other.attribute-name.html
+    - match: (?=")
+      pop: true
+    - match: '{{attribute_name_break}}'
+      pop: true
+    - match: '["''`<]'
+      scope: invalid.illegal.attribute-name.html
+
+  tag-generic-attribute-equals:
+    - match: '='
+      scope: punctuation.separator.key-value.html
+      set: tag-generic-attribute-value
+    - include: else-pop
+
+  tag-generic-attribute-value:
+    - match: (?=")
+      pop: true
+    - match: \\"
+      scope: punctuation.definition.string.begin.html
+      set:
+        - meta_scope: string.quoted.double.html
+        - match: (?=")
+          pop: true
+        - match: \\"
+          scope: punctuation.definition.string.end.html
+          pop: true
+        - include: html-entities
+    - match: "'"
+      scope: punctuation.definition.string.begin.html
+      set:
+        - meta_scope: string.quoted.single.html
+        - match: (?=")
+          pop: true
+        - match: "'"
+          scope: punctuation.definition.string.end.html
+          pop: true
+        - include: html-entities
+    - match: '{{unquoted_attribute_start}}'
+      set:
+        - meta_scope: string.unquoted.html
+        - match: (?=")
+          pop: true
+        - match: '{{unquoted_attribute_break}}'
+          pop: true
+        - match: '["''`<]'
+          scope: invalid.illegal.attribute-value.html
+        - include: html-entities
+    - include: else-pop
+
+  html-entities:
+    - match: (&#[xX])\h+(;)
+      scope: constant.character.entity.hexadecimal.html
+      captures:
+        1: punctuation.definition.entity.html
+        2: punctuation.terminator.entity.html
+    - match: (&#)[0-9]+(;)
+      scope: constant.character.entity.decimal.html
+      captures:
+        1: punctuation.definition.entity.html
+        2: punctuation.terminator.entity.html
+    - match: (&)[a-zA-Z0-9]+(;)
+      scope: constant.character.entity.named.html
+      captures:
+        1: punctuation.definition.entity.html
+        2: punctuation.terminator.entity.html
+
+
+  immediately-pop:
+    - match: ''
+      pop: true
+
+  else-pop:
+    - match: (?=\S|")
+      pop: true
+
+  #############################################
 
   comments:
     - include: Sublime JSON.sublime-syntax#comments

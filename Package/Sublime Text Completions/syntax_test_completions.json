@@ -59,14 +59,35 @@
 //                ^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.kind.sublime-completions
 //                 ^^^^^^^^^ constant.language.kind.sublime-completions
 //                                      ^ - constant.language.kind.sublime-completions
-        { "details": "text" },
-//        ^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
-//         ^^^^^^^ support.function.completions.key.sublime-completions
-//                   ^^^^^^ meta.mapping meta.sequence meta.mapping.value.json string.quoted.double.json meta.details.sublime-completions
         { "annotation": "text" },
 //        ^^^^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
 //         ^^^^^^^^^^ support.function.completions.key.sublime-completions
 //                      ^^^^^^ meta.mapping meta.sequence meta.mapping.value.json string.quoted.double.json
+        { "details": "text" },
+//        ^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
+//         ^^^^^^^ support.function.completions.key.sublime-completions
+//                   ^^^^^^ meta.mapping meta.sequence meta.mapping.value.json string.quoted.double.json meta.details.sublime-completions
+        { "details": "Details with <a id=1 href=\"s&gt;\">:&lt;a&gt; tag</a>"},
+//                                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html
+//                                 ^^ punctuation.definition.tag.begin.html
+//                                    ^^^^ meta.attribute-with-value.html
+//                                    ^^ entity.other.attribute-name.html
+//                                      ^ punctuation.separator.key-value.html
+//                                       ^ string.unquoted.html
+//                                         ^^^^^^^^^^^^^^ meta.attribute-with-value.html
+//                                         ^^^^ entity.other.attribute-name.html
+//                                             ^ punctuation.separator.key-value.html
+//                                              ^^^^^^^^^ string.quoted.double.html
+//                                              ^^ punctuation.definition.string.begin.html
+//                                                 ^^^^ constant.character.entity.named.html
+//                                                     ^^ punctuation.definition.string.end.html
+//                                                       ^ punctuation.definition.tag.end.html
+//                                                         ^^^^ constant.character.entity.named.html
+//                                                                      ^^^^ meta.tag.inline.a.html
+        { "details": "<a ", "details": "<a hre", "details": "<a href=\"a", }
+//                       ^ punctuation.definition.string.end.json
+//                                            ^ punctuation.definition.string.end.json
+//                                                                      ^ punctuation.definition.string.end.json
     ]
 //  ^ meta.completions.collection.sublime-completions meta.mapping.value.json meta.sequence.json meta.completions.sublime-completions punctuation.section.sequence.end.json
 }
