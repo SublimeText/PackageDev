@@ -82,8 +82,8 @@ class Variable(namedtuple("_Varible", "name value source")):
             return ("{}\t{}".format(self.name, self.source), self.name)
 
 
-def _inherited_variables_for(name=None, extends=None, excludes=set()):
-    """Collect inherited variables from overridden and extended files.
+def _collect_inherited_variables(name=None, extends=None, excludes=set()):
+    """Collect inherited variables from overridden and extended theme files.
 
     Builds a Set[Variable] hashed on the variable's name
     and goes through files in FILO order
@@ -112,7 +112,7 @@ def _inherited_variables_for(name=None, extends=None, excludes=set()):
 
     for extended_name in extends.keys():
         logger.debug("Recursing into extended theme '%s'", extended_name)
-        variables |= _inherited_variables_for(extended_name, excludes=excludes)
+        variables |= _collect_inherited_variables(extended_name, excludes=excludes)
 
     return variables
 
@@ -141,7 +141,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         return line[:col]
 
     def _inherited_variables(self):
-        """Wraps _inherited_variables_for for the current view."""
+        """Wraps _collect_inherited_variables for the current view."""
         name, extends, excludes = None, OrderedDict(), set()
         if self.view.file_name():
             this_resource = ResourcePath.from_file_path(self.view.file_name())
@@ -155,7 +155,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
             if extends_regions:
                 logger.warning('Found more than 1 "extends" key for theme')
 
-        return _inherited_variables_for(name, extends, excludes)
+        return _collect_inherited_variables(name, extends, excludes)
 
     def variable_completions(self, locations):
         variable_regions = self.view.find_by_selector("entity.name.variable.sublime-color-scheme"
