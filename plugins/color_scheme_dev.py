@@ -177,7 +177,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         elif verify_scope("meta.scope-selector.sublime"):
             return self.scope_completions(locations)
 
-        elif verify_scope("source.json.sublime meta.variable-name"):
+        elif verify_scope("meta.variable-name"):
             return self.variable_definition_completions()
 
         else:
