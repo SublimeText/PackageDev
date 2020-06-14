@@ -70,13 +70,13 @@ class ThemeCompletionsListener(sublime_plugin.ViewEventListener):
             return self.extends_completions()
 
     def extends_completions(self):
-        names = {res.rsplit("/", 1)[-1] for res in sublime.find_resources("*.sublime-theme")}
-        try:
-            this_resource = ResourcePath.from_file_path(self.view.file_name())
-        except TypeError:
-            pass
-        else:
-            names -= {this_resource.name}
+        resources = sublime.find_resources("*.sublime-theme")
+        resources += sublime.find_resources("*.hidden-theme")
+        names = {res.rsplit("/", 1)[-1] for res in resources}
+
+        if self.view.file_name():
+            names -= {ResourcePath.from_file_path(self.view.file_name()).name}
+        
         sorted_names = sorted(names)
         logger.debug("Found %d themes to complete: %r", len(names), sorted_names)
         return [("{}\ttheme".format(name), name) for name in sorted_names]
