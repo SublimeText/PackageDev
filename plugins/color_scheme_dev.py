@@ -83,15 +83,9 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         line = self.view.substr(self.view.line(point))
         return line[:col]
 
-    def _inherited_variables(self):
-        try:
-            this_resource = ResourcePath.from_file_path(self.view.file_name())
-        except TypeError:
-            return set()
-
+    def _inherited_variables_for(self, name, excludes=set()):
         variables = set()
-        resources = (r for r in sublime.find_resources(this_resource.name)
-                     if r != str(this_resource))
+        resources = {r for r in sublime.find_resources(name)} - excludes
         for resource in resources:
             try:
                 contents = sublime.decode_value(sublime.load_resource(resource))
@@ -101,14 +95,34 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
                 logger.error("Unable to read variables in %s [%s]", resource, e)
         return variables
 
+    def _inherited_variables(self):
+        variables = set()
+        try:
+            this_resource = ResourcePath.from_file_path(self.view.file_name())
+        except TypeError:
+            pass
+        else:
+            variables |= self._inherited_variables_for(this_resource.name, {str(this_resource)})
+
+        extends_regions = self.view.find_by_selector("meta.extends.sublime-theme")
+        if extends_regions:
+            extends_name = sublime.decode_value(self.view.substr(extends_regions.pop()))
+            logger.debug("Fetching inherited variables from extended theme %s", extends_name)
+            variables |= self._inherited_variables_for(extends_name)
+            if extends_regions:
+                logger.warning('Found more than 1 "extends" key for theme')
+
+        return variables
+
     def variable_completions(self, locations):
         variable_regions = self.view.find_by_selector("entity.name.variable.sublime-color-scheme, "
                                                       "entity.name.variable.sublime-theme")
-        variables = set(self.view.substr(r) for r in variable_regions)
+        variables = {self.view.substr(r) for r in variable_regions}
         inherited_variables = self._inherited_variables()
         sorted_variables = sorted(variables | inherited_variables)
         logger.debug("Found %d (+%d inherited) variables to complete: %r",
                      len(variables), len(inherited_variables), sorted_variables)
+        # TODO mention source of variable
         variable_completions = [("{}\tvariable".format(var), var) for var in sorted_variables]
         if self.view.match_selector(locations[0], "source.json.sublime.theme"):
             variable_completions += VARIABLES
