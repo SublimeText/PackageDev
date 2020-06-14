@@ -171,25 +171,36 @@ contexts:
           scope: punctuation.section.mapping.end.json
           pop: true
         - match: (?=")
-          push: [in-mapping-expect-comma, variable-mapping-key]
+          push:
+            - in-mapping-expect-comma
+            - expect-color-string-value
+            - expect-colon
+            - variable-mapping-key
         - include: expect-key-rest
 
   variable-mapping-key:
-    - match: \"
-      scope: punctuation.definition.string.begin.json
+    - match: ''
       set:
-        - meta_scope: string.quoted.double.json meta.variable-name.sublime-color-scheme
-        - meta_content_scope: entity.name.variable.sublime-color-scheme
-        - match: (?=")
-          set:
-            - match: '"'
-              scope: string.quoted.double.json meta.variable-name.sublime-color-scheme punctuation.definition.string.end.json
-              set: [expect-color-string-value, expect-colon]
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          set: [expect-color-string-value, expect-colon]
-        - include: string-escape
-    - include: in-dictionary-main-key
+        - - clear_scopes: 1
+          - meta_scope:
+              meta.mapping.key.json
+              string.quoted.double.json
+              meta.variable-name.sublime-color-scheme
+          - match: ''
+            pop: true
+        - - match: \"
+            scope: punctuation.definition.string.begin.json
+            set:
+              - meta_content_scope: entity.name.variable.sublime-color-scheme
+              - match: (?=")  # unset meta_content_scope
+                set:
+                  - match: '"'
+                    scope: punctuation.definition.string.end.json
+                    pop: true
+              - match: $\n?
+                scope: invalid.illegal.unclosed-string.json
+                pop: true
+              - include: string-escape
 
   expect-globals-mapping-value:
     - match: (?=\{)
