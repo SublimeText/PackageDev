@@ -1,3 +1,4 @@
+from collections import OrderedDict, namedtuple
 import functools
 import logging
 import re
@@ -33,17 +34,17 @@ SCHEME_TEMPLATE = """\
 }""".replace("  ", "\t")
 
 VARIABLES = [
-    ("--background\tbuiltin color", "--background"),
-    ("--foreground\tbuiltin color", "--foreground"),
-    ("--accent\tbuiltin color", "--accent"),
-    ("--bluish\tbuiltin color", "--bluish"),
-    ("--cyanish\tbuiltin color", "--cyanish"),
-    ("--greenish\tbuiltin color", "--greenish"),
-    ("--orangish\tbuiltin color", "--orangish"),
-    ("--pinkish\tbuiltin color", "--pinkish"),
-    ("--purplish\tbuiltin color", "--purplish"),
-    ("--redish\tbuiltin color", "--redish"),
-    ("--yellowish\tbuiltin color", "--yellowish"),
+    ("--background\tbuiltin", "--background"),
+    ("--foreground\tbuiltin", "--foreground"),
+    ("--accent\tbuiltin", "--accent"),
+    ("--bluish\tbuiltin", "--bluish"),
+    ("--cyanish\tbuiltin", "--cyanish"),
+    ("--greenish\tbuiltin", "--greenish"),
+    ("--orangish\tbuiltin", "--orangish"),
+    ("--pinkish\tbuiltin", "--pinkish"),
+    ("--purplish\tbuiltin", "--purplish"),
+    ("--redish\tbuiltin", "--redish"),
+    ("--yellowish\tbuiltin", "--yellowish"),
 ]
 
 logger = logging.getLogger(__name__)
@@ -58,6 +59,62 @@ def inhibit_word_completions(func):
             return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
 
     return wrapper
+
+
+def _escape_in_snippet(v):
+    return v.replace("}", "\\}").replace("$", "\\$")
+
+
+class Variable(namedtuple("_Varible", "name value source")):
+    def __eq__(self, other):
+        return self.name == other.name
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def as_completion(self, with_key=False):
+        if with_key:
+            # TODO doesn't escape json chars
+            formatted_value = _escape_in_snippet(sublime.encode_value(self.value))
+            contents = '"{}": ${{0:{}}},'.format(self.name, formatted_value)
+            return ("{}\t{}".format(self.name, self.source), contents)
+        else:
+            return ("{}\t{}".format(self.name, self.source), self.name)
+
+
+def _inherited_variables_for(name=None, extends=None, excludes=set()):
+    """Collect inherited variables from overridden and extended files.
+
+    Builds a Set[Variable] hashed on the variable's name
+    and goes through files in FILO order
+    while collecting the variables' value
+    and which file they were found in.
+    The result is a collection of variables that follows
+    ST's internal override algorithm.
+    """
+    variables = set()
+    extends = extends or OrderedDict()  # preserve order & deduplicate
+    if name:
+        resources = (r for r in reversed(sublime.find_resources(name)) if r not in excludes)
+        for resource in resources:
+            try:
+                contents = sublime.decode_value(sublime.load_resource(resource))
+                if isinstance(contents, list):
+                    logger.debug("Skipping old-style theme '%s'", resource)
+                    continue
+                if 'variables' in contents:
+                    for k, v in contents['variables'].items():
+                        variables.add(Variable(k, v, name))
+                if 'extends' in contents:
+                    extends[contents['extends']] = True
+            except Exception as e:
+                logger.error("Unable to read variables in '%s' [%s]", resource, e)
+
+    for extended_name in extends.keys():
+        logger.debug("Recursing into extended theme '%s'", extended_name)
+        variables |= _inherited_variables_for(extended_name, excludes=excludes)
+
+    return variables
 
 
 class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
@@ -83,49 +140,36 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         line = self.view.substr(self.view.line(point))
         return line[:col]
 
-    def _inherited_variables_for(self, name, excludes=set()):
-        variables = set()
-        resources = {r for r in sublime.find_resources(name)} - excludes
-        for resource in resources:
-            try:
-                contents = sublime.decode_value(sublime.load_resource(resource))
-                if isinstance(contents, dict) and 'variables' in contents:
-                    variables |= set(contents['variables'].keys())
-            except Exception as e:
-                logger.error("Unable to read variables in %s [%s]", resource, e)
-        return variables
-
     def _inherited_variables(self):
-        variables = set()
-        try:
+        """Wraps _inherited_variables_for for the current view."""
+        name, extends, excludes = None, OrderedDict(), set()
+        if self.view.file_name():
             this_resource = ResourcePath.from_file_path(self.view.file_name())
-        except TypeError:
-            pass
-        else:
-            variables |= self._inherited_variables_for(this_resource.name, {str(this_resource)})
+            name = this_resource.name
+            excludes.add(str(this_resource))
 
         extends_regions = self.view.find_by_selector("meta.extends.sublime-theme")
         if extends_regions:
-            extends_name = sublime.decode_value(self.view.substr(extends_regions.pop()))
-            logger.debug("Fetching inherited variables from extended theme %s", extends_name)
-            variables |= self._inherited_variables_for(extends_name)
+            extended_name = sublime.decode_value(self.view.substr(extends_regions.pop()))
+            extends[extended_name] = True
             if extends_regions:
                 logger.warning('Found more than 1 "extends" key for theme')
 
-        return variables
+        return _inherited_variables_for(name, extends, excludes)
 
     def variable_completions(self, locations):
-        variable_regions = self.view.find_by_selector("entity.name.variable.sublime-color-scheme, "
-                                                      "entity.name.variable.sublime-theme")
-        variables = {self.view.substr(r) for r in variable_regions}
+        variable_regions = self.view.find_by_selector("entity.name.variable.sublime-color-scheme"
+                                                      "| entity.name.variable.sublime-theme")
+        variables = {Variable(self.view.substr(r), None, "current file") for r in variable_regions}
         inherited_variables = self._inherited_variables()
         sorted_variables = sorted(variables | inherited_variables)
         logger.debug("Found %d (+%d inherited) variables to complete: %r",
                      len(variables), len(inherited_variables), sorted_variables)
-        # TODO mention source of variable
-        variable_completions = [("{}\tvariable".format(var), var) for var in sorted_variables]
+        variable_completions = [var.as_completion() for var in sorted_variables]
+
         if self.view.match_selector(locations[0], "source.json.sublime.theme"):
             variable_completions += VARIABLES
+
         return variable_completions
 
     def variable_definition_completions(self, with_key=False):
@@ -135,12 +179,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         sorted_variables = sorted(variables)
         logger.debug("Found %d inherited variables to complete: %r",
                      len(variables), sorted_variables)
-        if with_key:
-            # TODO complete and select previous value
-            return [("{}\toverride".format(var), '"{}": "$0",'.format(var))
-                    for var in sorted_variables]
-        else:
-            return [("{}\toverride".format(var), var) for var in sorted_variables]
+        return [var.as_completion(with_key) for var in sorted_variables]
 
     def _scope_prefix(self, locations):
         # Determine entire prefix
