@@ -83,7 +83,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         line = self.view.substr(self.view.line(point))
         return line[:col]
 
-    def variable_completions(self, prefix, locations):
+    def variable_completions(self, locations):
         variable_regions = self.view.find_by_selector("entity.name.variable.sublime-color-scheme, "
                                                       "entity.name.variable.sublime-theme")
         variables = set(self.view.substr(r) for r in variable_regions)
@@ -92,6 +92,28 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         variable_completions = [("{}\tvariable".format(var), var) for var in sorted_variables]
         if self.view.match_selector(locations[0], "source.json.sublime.theme"):
             variable_completions += VARIABLES
+        return variable_completions
+
+    def variable_definition_completions(self):
+        try:
+            this_resource = ResourcePath.from_file_path(self.view.file_name())
+        except TypeError:
+            return None
+
+        variables = set()
+        resources = (r for r in sublime.find_resources(this_resource.name)
+                     if r != str(this_resource))
+        for resource in resources:
+            try:
+                contents = sublime.decode_value(sublime.load_resource(resource))
+                if isinstance(contents, dict) and 'variables' in contents:
+                    variables |= set(contents['variables'].keys())
+            except Exception as e:
+                logger.error("Unable to read variables in %s [%s]", resource, e)
+
+        sorted_variables = sorted(variables)
+        logger.debug("Found %d variable names to complete: %r", len(variables), sorted_variables)
+        variable_completions = [("{}\toverride".format(var), var) for var in sorted_variables]
         return variable_completions
 
     def _scope_prefix(self, locations):
@@ -107,7 +129,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         else:
             return next(iter(prefixes))
 
-    def scope_completions(self, prefix, locations):
+    def scope_completions(self, locations):
         real_prefix = self._scope_prefix(locations)
         logger.debug("Full prefix: %r", real_prefix)
         if real_prefix is None:
@@ -128,10 +150,13 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
             or (verify_scope("meta.function-call.var.sublime-color-scheme", -1)
                 and verify_scope("punctuation.definition.string.end.json"))
         ):
-            return self.variable_completions(prefix, locations)
+            return self.variable_completions(locations)
 
         elif verify_scope("meta.scope-selector.sublime"):
-            return self.scope_completions(prefix, locations)
+            return self.scope_completions(locations)
+
+        elif verify_scope("source.json.sublime meta.variable-name"):
+            return self.variable_definition_completions()
 
         else:
             return None
