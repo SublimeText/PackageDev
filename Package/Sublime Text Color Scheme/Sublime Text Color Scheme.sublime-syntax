@@ -171,25 +171,35 @@ contexts:
           scope: punctuation.section.mapping.end.json
           pop: true
         - match: (?=")
-          push: [in-mapping-expect-comma, variable-mapping-key]
+          push:
+            - in-mapping-expect-comma
+            - expect-color-string-value
+            - expect-colon
+            - variable-mapping-key-meta
+            - variable-mapping-key-string
         - include: expect-key-rest
 
-  variable-mapping-key:
-    - match: \"
+  variable-mapping-key-meta:
+    - clear_scopes: 1
+    - meta_scope:
+        meta.mapping.key.json
+        string.quoted.double.json
+        meta.variable-name.sublime-color-scheme
+    - match: ''
+      pop: true
+
+  variable-mapping-key-string:
+    - match: '"'
       scope: punctuation.definition.string.begin.json
       set:
-        - meta_scope: string.quoted.double.json meta.variable-name.sublime-color-scheme
         - meta_content_scope: entity.name.variable.sublime-color-scheme
-        - match: (?=")
-          set:
-            - match: '"'
-              scope: string.quoted.double.json meta.variable-name.sublime-color-scheme punctuation.definition.string.end.json
-              set: [expect-color-string-value, expect-colon]
+        - match: '"'
+          scope: punctuation.definition.string.end.json
+          pop: true
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
-          set: [expect-color-string-value, expect-colon]
+          pop: true
         - include: string-escape
-    - include: in-dictionary-main-key
 
   expect-globals-mapping-value:
     - match: (?=\{)
