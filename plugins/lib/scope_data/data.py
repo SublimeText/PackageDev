@@ -112,6 +112,7 @@ DATA = """
             assignment
             arithmetic
             bitwise
+            comparison
             logical
             word
         other
