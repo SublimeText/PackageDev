@@ -141,16 +141,17 @@ def _build_completions(base_keys=(), dict_keys=(), list_keys=()):
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     base_completions_root = _build_completions(
-        base_keys=('name', 'scope', 'first_line_match'),
+        base_keys=('name', 'scope', 'version', 'extends', 'first_line_match'),
         dict_keys=('variables', 'contexts'),
-        list_keys=('file_extensions',),
+        list_keys=('file_extensions', 'hidden_extensions'),
     )
 
     base_completions_contexts = _build_completions(
         base_keys=('scope', 'match', 'include', 'push', 'with_prototype',  # 'pop',
                    'embed', 'embed_scope', 'escape',
                    'branch_point', 'fail',
-                   'meta_scope', 'meta_content_scope', 'meta_include_prototype', 'clear_scopes'),
+                   'meta_scope', 'meta_content_scope', 'clear_scopes',
+                   'meta_include_prototype', 'include_prototype'),
         dict_keys=('captures', 'escape_captures'),
     )
     base_completions_contexts += (("pop\tpop: true", "pop: ${1:true}"),)
