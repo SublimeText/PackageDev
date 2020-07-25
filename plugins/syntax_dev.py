@@ -1,5 +1,4 @@
 import functools
-import itertools
 import re
 
 import sublime
@@ -123,38 +122,163 @@ def _inhibit_word_completions(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         ret = func(*args, **kwargs)
-        if ret is not None:
-            return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
+        return (ret, sublime.INHIBIT_WORD_COMPLETIONS) if ret else ret
 
     return wrapper
 
 
-def _build_completions(base_keys=(), dict_keys=(), list_keys=()):
-    generator = itertools.chain(
-        (("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys),
-        (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),
-        (("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)
-    )
-    return sorted(generator)
+HAVE_KINDS = hasattr(sublime, 'CompletionItem')
+if HAVE_KINDS:
+
+    # a list of kinds used to denote the different kinds of completions
+    KIND_HEADER_BASE = (sublime.KIND_ID_NAMESPACE, 'K', 'Header Key')
+    KIND_HEADER_DICT = (sublime.KIND_ID_NAMESPACE, 'D', 'Header Dict')
+    KIND_HEADER_LIST = (sublime.KIND_ID_NAMESPACE, 'L', 'Header List')
+    KIND_BRANCH = (sublime.KIND_ID_NAVIGATION, 'b', 'Branch Point')
+    KIND_CONTEXT = (sublime.KIND_ID_KEYWORD, 'c', 'Context')
+    KIND_FUNCTION = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
+    KIND_CAPTURUE = (sublime.KIND_ID_FUNCTION, 'c', 'Captures')
+    KIND_SCOPE = (sublime.KIND_ID_NAMESPACE, 's', 'Scope')
+    KIND_VARIABLE = (sublime.KIND_ID_VARIABLE, 'v', 'Variable')
+
+    def format_static_completions(templates):
+
+        def format_item(trigger, kind, details):
+            if kind in (KIND_HEADER_DICT, KIND_CAPTURUE, KIND_CONTEXT):
+                completion_format = sublime.COMPLETION_FORMAT_SNIPPET
+                suffix = ":\n  "
+            elif kind is KIND_HEADER_LIST:
+                completion_format = sublime.COMPLETION_FORMAT_SNIPPET
+                suffix = ":\n  - "
+            else:
+                completion_format = sublime.COMPLETION_FORMAT_TEXT
+                suffix = ": "
+
+            return sublime.CompletionItem(
+                trigger=trigger, kind=kind, details=details,
+                completion=trigger + suffix, completion_format=completion_format
+            )
+
+        return [format_item(*template) for template in templates]
+
+    def format_completions(items, annotation="", kind=sublime.KIND_AMBIGUOUS):
+        format_string = "Defined at line <a href='subl:goto_line {{\"line\": \"{0}\"}}'>{0}</a>"
+        return [
+            sublime.CompletionItem(
+                trigger=trigger, annotation=annotation, kind=kind,
+                details=format_string.format(row) if row is not None else ""
+            )
+            for trigger, row in items
+        ]
+
+    def format_branch_completions(items):
+        return format_completions(items, "", KIND_BRANCH)
+
+    def format_context_completions(items):
+        return format_completions(items, "", KIND_CONTEXT)
+
+    def format_base_completion(item):
+        return format_completions([[item, None], ], "base suffix", KIND_SCOPE)
+
+    def format_scope_completions(items):
+        return format_completions(items, "convention", KIND_SCOPE)
+
+    def format_variable_completions(items):
+        return format_completions(items, "", KIND_VARIABLE)
+
+else:
+
+    KIND_HEADER_BASE = ''
+    KIND_HEADER_DICT = ''
+    KIND_HEADER_LIST = ''
+    KIND_BRANCH = ''
+    KIND_CONTEXT = ''
+    KIND_FUNCTION = ''
+    KIND_CAPTURUE = ''
+    KIND_VARIABLE = ''
+
+    def format_static_completions(templates):
+
+        def format_item(trigger, kind, details):
+            if kind in (KIND_HEADER_DICT, KIND_CAPTURUE, KIND_CONTEXT):
+                suffix = ":\n  "
+            elif kind is KIND_HEADER_LIST:
+                suffix = ":\n  - "
+            else:
+                suffix = ": "
+
+            return ("{0}\t{1}".format(trigger, details), trigger + suffix)
+
+        return [format_item(*template) for template in templates]
+
+    def format_completions(items, kind):
+        return [trigger + kind for trigger, _ in items]
+
+    def format_base_completion(item):
+        return [item + "\tbase suffix"]
+
+    def format_branch_completions(items):
+        return format_completions(items, "\tbranch point")
+
+    def format_context_completions(items):
+        return format_completions(items, "\tcontext")
+
+    def format_scope_completions(items):
+        return format_completions(items, "\tconvention")
+
+    def format_variable_completions(items):
+        return format_completions(items, "\tvariable")
 
 
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
-    base_completions_root = _build_completions(
-        base_keys=('name', 'scope', 'version', 'extends', 'first_line_match'),
-        dict_keys=('variables', 'contexts'),
-        list_keys=('file_extensions', 'hidden_extensions'),
-    )
+    base_completions_root = format_static_completions(templates=(
+        # base keys
+        ('name', KIND_HEADER_BASE, 'The display name of the syntax.'),
+        ('scope', KIND_HEADER_BASE, 'The main scope of the syntax.'),
+        ('version', KIND_HEADER_BASE, 'The sublime-syntax version.'),
+        ('extends', KIND_HEADER_BASE, 'The syntax which is to be extended.'),
+        ('name', KIND_HEADER_BASE, 'The display name of the syntax.'),
+        ('first_line_match', KIND_HEADER_BASE, 'The pattern to identify a file by content.'),
+        # dict keys
+        ('variables', KIND_HEADER_DICT, 'The variables definitions.'),
+        ('contexts', KIND_HEADER_DICT, 'The syntax contexts.'),
+        # list keys
+        ('file_extensions', KIND_HEADER_LIST, 'The list of file extensions.'),
+        ('hidden_extensions', KIND_HEADER_LIST, 'The list of hidden file extensions.')
+    ))
 
-    base_completions_contexts = _build_completions(
-        base_keys=('include', 'match', 'scope', 'push', 'set',  # 'pop',
-                   'embed', 'embed_scope', 'escape',
-                   'branch', 'branch_point', 'fail',
-                   'meta_scope', 'meta_content_scope', 'clear_scopes',
-                   'meta_append', 'meta_prepend',
-                   'apply_prototype', 'meta_include_prototype', 'with_prototype'),
-        dict_keys=('captures', 'escape_captures'),
-    )
+    base_completions_contexts = format_static_completions(templates=(
+        # meta functions
+        ('meta_append', KIND_FUNCTION, 'Add rules to the end of the inherit context.'),
+        ('meta_content_scope', KIND_FUNCTION, 'A scope to apply to the content of a context.'),
+        ('meta_include_prototype', KIND_FUNCTION, 'Flag to include/exclude `prototype`'),
+        ('meta_prepend', KIND_FUNCTION, 'Add rules to the beginning of the inherit context.'),
+        ('meta_scope', KIND_FUNCTION, 'A scope to apply to the full context.'),
+        ('clear_scopes', KIND_FUNCTION, 'Clear meta scopes.'),
+        # matching tokens
+        ('match', KIND_FUNCTION, 'Pattern to match tokens.'),
+        # scoping
+        ('scope', KIND_FUNCTION, 'The scope to apply if a token matches'),
+        ('captures', KIND_CAPTURUE, 'Assigns scopes to the capture groups.'),
+        # contexts
+        ('push', KIND_FUNCTION, 'Push a context onto the stack.'),
+        ('set', KIND_FUNCTION, 'Set a context onto the stack.'),
+        ('with_prototype', KIND_FUNCTION, 'Rules to prepend to each context.'),
+        # branching
+        ('branch_point', KIND_FUNCTION, 'Name of the point to rewind to if a branch fails.'),
+        ('branch', KIND_FUNCTION, 'Push branches onto the stack.'),
+        ('fail', KIND_FUNCTION, 'Fail the current branch.'),
+        # embedding
+        ('embed', KIND_FUNCTION, 'A context or syntax to embed.'),
+        ('embed_scope', KIND_FUNCTION, 'A scope to apply to the embedded syntax.'),
+        ('escape', KIND_FUNCTION, 'A pattern to denote the end of the embedded syntax.'),
+        ('escape_captures', KIND_CAPTURUE, 'Assigns scopes to the capture groups.'),
+        # including
+        ('include', KIND_FUNCTION, 'Includes a context.'),
+        ('apply_prototype', KIND_FUNCTION, 'If `true` apply prototype of included syntax.'),
+    ))
+
     base_completions_contexts += (("pop\tpop: true", "pop: ${1:true}"),)
 
     # These instance variables are for communicating
@@ -224,11 +348,13 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 # print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
                 return []
 
-        context_names = (
-            self.view.substr(r)
+        return format_context_completions(
+            [
+                self.view.substr(r),
+                self.view.rowcol(r.begin())[0] + 1
+            ]
             for r in self.view.find_by_selector("entity.name.function.context")
         )
-        return [(ctx + "\tcontext", ctx) for ctx in context_names]
 
     def _complete_keyword(self, prefix, locations):
 
@@ -316,21 +442,25 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         self.base_suffix = base_suffix
 
-        return [(base_suffix + "\tbase suffix", base_suffix)]
+        return format_base_completion(base_suffix)
 
     def _complete_variable(self):
-        variable_names = (
-            self.view.substr(r)
+        return format_variable_completions(
+            [
+                self.view.substr(r),
+                self.view.rowcol(r.begin())[0] + 1
+            ]
             for r in self.view.find_by_selector("entity.name.constant")
         )
-        return [(var + "\tvariable", var) for var in variable_names]
 
     def _complete_branch_point(self):
-        branch_names = (
-            self.view.substr(r)
+        return format_branch_completions(
+            [
+                self.view.substr(r),
+                self.view.rowcol(r.begin())[0] + 1
+            ]
             for r in self.view.find_by_selector("entity.name.label.branch-point")
         )
-        return [(var + "\tbranch point", var) for var in branch_names]
 
 
 class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
