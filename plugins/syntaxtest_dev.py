@@ -347,7 +347,7 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
 
         if character == '-':
             length = 1
-            scopes = {view.scope_name(line.begin() + col)}
+            scopes = {view.scope_name(line.begin() + lines[0].assertion_colrange[0])}
         elif character == '^':
             length, scopes = self.determine_test_extends(lines, line, col)
         else:
