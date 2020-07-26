@@ -264,7 +264,7 @@ move:
   doc_string: Move the selection caret(s) by the specified units.
 move_to:
   args: !!omap
-    - to: eol|bol|eof|bof|brackets
+    - to: eol|bol|eof|bof|brackets|hardbol|hardeol
     - extend: false
   command_type: text
   doc_string: Move the selection caret(s) to the specified relative location.
