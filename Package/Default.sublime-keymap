@@ -100,14 +100,6 @@
             { "key": "setting.packagedev.syntax.input_helpers" },
         ]
     },
-    {   // [optional] move caret to the next line and indent by one level.
-        "keys": ["enter"], "command": "insert", "args": {"characters": "\n  "}, "context": [
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^ {4,}-\\s*match:.*$", "match_all": true },
-            { "key": "selection_empty", "match_all": true },
-            { "key": "selector", "operand": "source.yaml.sublime.syntax" },
-            { "key": "setting.packagedev.syntax.input_helpers" },
-        ]
-    },
     /* end of syntax_dev keys */
 
     /* start of syntax_test_dev keys */
