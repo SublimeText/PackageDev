@@ -134,10 +134,10 @@ contexts:
 # ^^^^ entity.name.function.context.sublime-syntax
     - include: scope:source.json
 #     ^^^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
-      include_prototype: true
-#     ^^^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
-#                      ^ punctuation.separator.key-value.yaml
-#                        ^^^^ constant.language.boolean.yaml
+      apply_prototype: true
+#     ^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
+#                    ^ punctuation.separator.key-value.yaml
+#                      ^^^^ constant.language.boolean.yaml
     - match:
 #<- - meta.expect-include - meta.expect-context-list-or-content - meta.expect-context-list
 
@@ -151,6 +151,15 @@ contexts:
     - captures:
   another_context_name:
 # ^ entity.name.function.context.sublime-syntax
+
+    - meta_append: true
+#     ^^^^^^^^^^^ storage.modifier.context-extension.sublime-syntax
+#                ^ punctuation.separator.key-value.yaml
+#                  ^^^^ constant.language.boolean.yaml
+    - meta_prepend: true
+#     ^^^^^^^^^^^^ storage.modifier.context-extension.sublime-syntax
+#                 ^ punctuation.separator.key-value.yaml
+#                   ^^^^ constant.language.boolean.yaml
 
     # Context mangling (also includes)
     - include: "Packages/JSON/JSON.sublime-syntax"
