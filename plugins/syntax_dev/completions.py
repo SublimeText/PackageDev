@@ -189,10 +189,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             line_prefix = self._line_prefix(point)
             real_prefix = re.search(r"[^,\[ ]*$", line_prefix).group(0)
             if real_prefix.startswith("scope:") or "/" in real_prefix:
-                return []  # Don't show any completions here
+                return None  # Don't show any completions here
             elif real_prefix != prefix:
                 # print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
-                return []
+                return None
 
         return format_completions(
             (
@@ -280,7 +280,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         if len(regions) != 1:
             status("Warning: Could not determine base scope uniquely", console=True)
             self.base_suffix = None
-            return []
+            return None
 
         base_scope = self.view.substr(regions[0])
         *_, base_suffix = base_scope.rpartition(".")
@@ -288,7 +288,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # In this case it is even useful to inhibit other completions completely
         if last_token == base_suffix:
             self.base_suffix = None
-            return []
+            return None
 
         self.base_suffix = base_suffix
         return format_completions([[base_suffix, None], ], "base suffix", KIND_SCOPE)
