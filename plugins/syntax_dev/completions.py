@@ -76,26 +76,6 @@ def format_completions(items, annotation="", kind=sublime.KIND_AMBIGUOUS):
     ]
 
 
-def format_branch_completions(items):
-    return format_completions(items, "", KIND_BRANCH)
-
-
-def format_context_completions(items):
-    return format_completions(items, "", KIND_CONTEXT)
-
-
-def format_base_completion(item):
-    return format_completions([[item, None], ], "base suffix", KIND_SCOPE)
-
-
-def format_scope_completions(items):
-    return format_completions(items, "convention", KIND_SCOPE)
-
-
-def format_variable_completions(items):
-    return format_completions(items, "", KIND_VARIABLE)
-
-
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     base_completions_root = format_static_completions(templates=(
@@ -214,12 +194,16 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 # print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
                 return []
 
-        return format_context_completions(
-            [
-                self.view.substr(r),
-                self.view.rowcol(r.begin())[0] + 1
-            ]
-            for r in self.view.find_by_selector("entity.name.function.context")
+        return format_completions(
+            (
+                [
+                    self.view.substr(r),
+                    self.view.rowcol(r.begin())[0] + 1
+                ]
+                for r in self.view.find_by_selector("entity.name.function.context")
+            ),
+            annotation="",
+            kind=KIND_CONTEXT
         )
 
     def _complete_keyword(self, prefix, locations):
@@ -307,25 +291,32 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             return []
 
         self.base_suffix = base_suffix
-
-        return format_base_completion(base_suffix)
+        return format_completions([[base_suffix, None], ], "base suffix", KIND_SCOPE)
 
     def _complete_variable(self):
-        return format_variable_completions(
-            [
-                self.view.substr(r),
-                self.view.rowcol(r.begin())[0] + 1
-            ]
-            for r in self.view.find_by_selector("entity.name.constant")
+        return format_completions(
+            (
+                [
+                    self.view.substr(r),
+                    self.view.rowcol(r.begin())[0] + 1
+                ]
+                for r in self.view.find_by_selector("entity.name.constant")
+            ),
+            annotation="",
+            kind=KIND_VARIABLE
         )
 
     def _complete_branch_point(self):
-        return format_branch_completions(
-            [
-                self.view.substr(r),
-                self.view.rowcol(r.begin())[0] + 1
-            ]
-            for r in self.view.find_by_selector("entity.name.label.branch-point")
+        return format_completions(
+            (
+                [
+                    self.view.substr(r),
+                    self.view.rowcol(r.begin())[0] + 1
+                ]
+                for r in self.view.find_by_selector("entity.name.label.branch-point")
+            ),
+            annotation="",
+            kind=KIND_BRANCH
         )
 
 
