@@ -142,37 +142,37 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
     @_inhibit_word_completions
     def on_query_completions(self, prefix, locations):
 
-        def verify_scope(selector, offset=0):
+        def match_selector(selector, offset=0):
             """Verify scope for each location."""
             return all(self.view.match_selector(point + offset, selector)
                        for point in locations)
 
         # None of our business
-        if not verify_scope("- comment - (source.regexp - keyword.other.variable)"):
+        if not match_selector("- comment - (source.regexp - keyword.other.variable)"):
             return None
 
         # Scope name completions based on our scope_data database
-        if verify_scope("meta.expect-scope, meta.scope", -1):
+        if match_selector("meta.expect-scope, meta.scope", -1):
             return self._complete_scope(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys and for
-        if verify_scope("meta.expect-context-list-or-content"
-                        " | meta.context-list-or-content", -1):
+        if match_selector("meta.expect-context-list-or-content"
+                          " | meta.context-list-or-content", -1):
             return self._complete_keyword(prefix, locations) + \
                 self._complete_context(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys
-        if verify_scope("meta.expect-context-list | meta.expect-context"
-                        " | meta.include | meta.context-list", -1):
+        if match_selector("meta.expect-context-list | meta.expect-context"
+                          " | meta.include | meta.context-list", -1):
             return self._complete_context(prefix, locations)
 
         # Auto-completion for branch points with 'fail' key
-        if verify_scope("meta.expect-branch-point-reference"
-                        " | meta.branch-point-reference", -1):
+        if match_selector("meta.expect-branch-point-reference"
+                          " | meta.branch-point-reference", -1):
             return self._complete_branch_point()
 
         # Auto-completion for variables in match patterns using 'variables' keys
-        if verify_scope("keyword.other.variable"):
+        if match_selector("keyword.other.variable"):
             return self._complete_variable()
 
         # Standard completions for unmatched regions
@@ -208,7 +208,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     def _complete_keyword(self, prefix, locations):
 
-        def verify_scope(selector, offset=0):
+        def match_selector(selector, offset=0):
             """Verify scope for each location."""
             return all(self.view.match_selector(point + offset, selector)
                        for point in locations)
@@ -231,7 +231,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             return None
         elif not match.group(1):
             return self.base_completions_root
-        elif verify_scope("meta.block.contexts"):
+        elif match_selector("meta.block.contexts"):
             return self.base_completions_contexts
         else:
             return None
