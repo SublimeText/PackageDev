@@ -129,11 +129,13 @@ def _inhibit_word_completions(func):
     return wrapper
 
 
-def _build_completions(base_keys=(), dict_keys=(), list_keys=()):
+def _build_completions(base_keys=(), dict_keys=(), list_keys=(), true_keys=(), false_keys=()):
     generator = itertools.chain(
         (("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys),
         (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),
-        (("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)
+        (("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys),
+        (("{0}\t{0}: true".format(s), "%s: ${1:true}" % s) for s in true_keys),
+        (("{0}\t{0}: false".format(s), "%s: ${1:false}" % s) for s in false_keys),
     )
     return sorted(generator)
 
@@ -151,11 +153,11 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                    'embed', 'embed_scope', 'escape',
                    'branch', 'branch_point', 'fail',
                    'meta_scope', 'meta_content_scope', 'clear_scopes',
-                   'meta_append', 'meta_prepend',
-                   'apply_prototype', 'meta_include_prototype', 'with_prototype'),
+                   'with_prototype'),
         dict_keys=('captures', 'escape_captures'),
+        true_keys=('pop', 'apply_prototype', 'meta_append', 'meta_prepend'),
+        false_keys=('meta_include_prototype',),
     )
-    base_completions_contexts += (("pop\tpop: true", "pop: ${1:true}"),)
 
     # These instance variables are for communicating
     # with our PostCompletionsListener instance.
