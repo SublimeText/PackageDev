@@ -76,7 +76,7 @@ class ThemeCompletionsListener(sublime_plugin.ViewEventListener):
 
         if self.view.file_name():
             names -= {ResourcePath.from_file_path(self.view.file_name()).name}
-        
+
         sorted_names = sorted(names)
         logger.debug("Found %d themes to complete: %r", len(names), sorted_names)
         return [("{}\ttheme".format(name), name) for name in sorted_names]
