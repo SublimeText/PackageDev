@@ -3,13 +3,25 @@
 #^^^^ keyword.other.directive.yaml.yaml
 ---
 name: foo
-#^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
+#^^^ string.unquoted.plain.out.yaml storage.type.display-name.sublime-syntax
 scope: source.foo
-#^^^^ storage.type.scope-name.sublime-syntax
+#^^^^ string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
+version: 2
+#^^^^^^ string.unquoted.plain.out.yaml storage.type.version.sublime-syntax
+#      ^ punctuation.separator.key-value.yaml
+#        ^ constant.numeric.integer.decimal.yaml
+extends: Packages/Default/Text.sublime-syntax
+#^^^^^^ string.unquoted.plain.out.yaml storage.type.extends.sublime-syntax
+#      ^ punctuation.separator.key-value.yaml
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml
 file_extensions: [a, b]
 #^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
 #                ^^^^^^ meta.flow-sequence.yaml
 #                 ^ string
+hidden_extension: [a, b]
+#^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
+#                 ^^^^^^ meta.flow-sequence.yaml
+#                  ^ string
 first_line_match: azx
 #^^^^^^^^^^^^^^^ keyword.other.first_line_match.sublime-syntax
 #                 ^^^ meta.expect-regexp source.regexp
@@ -122,6 +134,10 @@ contexts:
 # ^^^^ entity.name.function.context.sublime-syntax
     - include: scope:source.json
 #     ^^^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
+      apply_prototype: true
+#     ^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
+#                    ^ punctuation.separator.key-value.yaml
+#                      ^^^^ constant.language.boolean.yaml
     - match:
 #<- - meta.expect-include - meta.expect-context-list-or-content - meta.expect-context-list
 
@@ -135,6 +151,15 @@ contexts:
     - captures:
   another_context_name:
 # ^ entity.name.function.context.sublime-syntax
+
+    - meta_append: true
+#     ^^^^^^^^^^^ storage.modifier.context-extension.sublime-syntax
+#                ^ punctuation.separator.key-value.yaml
+#                  ^^^^ constant.language.boolean.yaml
+    - meta_prepend: true
+#     ^^^^^^^^^^^^ storage.modifier.context-extension.sublime-syntax
+#                 ^ punctuation.separator.key-value.yaml
+#                   ^^^^ constant.language.boolean.yaml
 
     # Context mangling (also includes)
     - include: "Packages/JSON/JSON.sublime-syntax"

@@ -2,6 +2,7 @@
 ---
 name: Sublime Text Syntax Definition (YAML)
 scope: source.yaml.sublime.syntax
+
 file_extensions:
   - sublime-syntax
 
@@ -90,23 +91,10 @@ contexts:
     - include: Packages/YAML/YAML.sublime-syntax#comment
 
   main:
-    - match: (first_line_match)\s*(:)(?=\s|$)
+    - match: (name)\s*(:)(?=\s|$)
       captures:
-        1: string.unquoted.plain.out.yaml keyword.other.first_line_match.sublime-syntax
+        1: string.unquoted.plain.out.yaml storage.type.display-name.sublime-syntax
         2: punctuation.separator.key-value.yaml
-      push: expect_regexp
-
-    - match: (contexts)\s*(:)(?=\s|$)
-      captures:
-        1: string.unquoted.plain.out.yaml keyword.control.flow.contexts.sublime-syntax
-        2: punctuation.separator.key-value.yaml
-      push: contexts_block
-
-    - match: (variables)\s*(:)(?=\s|$)
-      captures:
-        1: string.unquoted.plain.out.yaml keyword.control.flow.variables.sublime-syntax
-        2: punctuation.separator.key-value.yaml
-      push: variables_block
 
     - match: (scope)\s*(:)(?=\s|$)
       captures:
@@ -114,16 +102,45 @@ contexts:
         2: punctuation.separator.key-value.yaml
       push: expect_scope
 
-    - match: (file_extensions)\s*(:)(?=\s|$)
+    - match: (version)\s*(:)(?=\s|$)
       captures:
-        1: string.unquoted.plain.out.yaml entity.name.tag.yaml
+        1: string.unquoted.plain.out.yaml storage.type.version.sublime-syntax
         2: punctuation.separator.key-value.yaml
+      push: expect_int
 
     - match: (hidden)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml storage.modifier.hidden.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_bool
+
+    - match: (extends)\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml storage.type.extends.sublime-syntax
+        2: punctuation.separator.key-value.yaml
+
+    - match: ((?:file|hidden)_extensions)\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml entity.name.tag.yaml
+        2: punctuation.separator.key-value.yaml
+
+    - match: (first_line_match)\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml keyword.other.first_line_match.sublime-syntax
+        2: punctuation.separator.key-value.yaml
+      push: expect_regexp
+
+    - match: (variables)\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml keyword.control.flow.variables.sublime-syntax
+        2: punctuation.separator.key-value.yaml
+      push: variables_block
+
+    - match: (contexts)\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml keyword.control.flow.contexts.sublime-syntax
+        2: punctuation.separator.key-value.yaml
+      push: contexts_block
 
     - include: comment
     - include: yaml-tags-anchors
@@ -228,9 +245,15 @@ contexts:
         2: punctuation.separator.key-value.yaml
       push: expect_scope
 
-    - match: (meta_include_prototype)\s*(:)(?=\s|$)
+    - match: ((?:meta_include|apply)_prototype)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml keyword.control.flow.include-prototype.sublime-syntax
+        2: punctuation.separator.key-value.yaml
+      push: expect_bool
+
+    - match: (meta_(?:append|prepend))\s*(:)(?=\s|$)
+      captures:
+        1: string.unquoted.plain.out.yaml storage.modifier.context-extension.sublime-syntax
         2: punctuation.separator.key-value.yaml
       push: expect_bool
 
@@ -460,22 +483,40 @@ contexts:
             - match: '{{_flow_scalar_end_plain_in}}'
               pop: true
 
+  expect_bool_or_int:
+    - meta_content_scope: meta.expect-bool-or-int
+    - include: comment
+    - include: yaml-tags-anchors
+    - include: expect_bool_value
+    - include: expect_int_value
+    - match: $
+      pop: true
+
   expect_bool:
     - meta_content_scope: meta.expect-bool
     - include: comment
     - include: yaml-tags-anchors
-    - match: \b(true|false){{_flow_scalar_end_plain_out}}
-      scope: constant.language.boolean.yaml
-      pop: true
+    - include: expect_bool_value
     - match: $
       pop: true
 
-  expect_bool_or_int:
-    - meta_content_scope: meta.expect-bool-or-int
+  expect_bool_value:
+    - match: \b(true|false){{_flow_scalar_end_plain_out}}
+      scope: constant.language.boolean.yaml
+      pop: true
+
+  expect_int:
+    - meta_content_scope: meta.expect-int
+    - include: comment
+    - include: yaml-tags-anchors
+    - include: expect_int_value
+    - match: $
+      pop: true
+
+  expect_int_value:
     - match: (?:0|[1-9][0-9_]*){{_flow_scalar_end_plain_out}}
       scope: constant.numeric.integer.decimal.yaml
       pop: true
-    - include: expect_bool
 
   expect_comment:
     - meta_content_scope: meta.expect-comment
