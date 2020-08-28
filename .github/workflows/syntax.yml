@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: SublimeText/syntax-test-action@v1
+      - uses: SublimeText/syntax-test-action@v2
         with:
           build: ${{ matrix.build }}
           default_packages: ${{ matrix.packages }}
