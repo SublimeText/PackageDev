@@ -5,5 +5,5 @@
 	"interpolation": "${3:smoothstep}"
 },]]></content>
 	<tabTrigger>interpolation</tabTrigger>
-	<scope>(meta.variables.sublime-theme | meta.rules.collection.sublime-theme) - comment - string - constant</scope>
+	<scope>(meta.variables.sublime-theme | meta.rules.collection.sublime-theme) - meta.rule meta.mapping.value meta.sequence - meta.rule meta.mapping.value meta.mapping - comment - string - constant</scope>
 </snippet>
