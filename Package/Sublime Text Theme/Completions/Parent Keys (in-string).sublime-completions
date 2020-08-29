@@ -1,0 +1,7 @@
+{
+    "scope": "meta.parent-key.sublime-theme",
+    "completions": [
+        { "trigger": "class\tselector", "contents": "class" },
+        { "trigger": "attributes\tselector", "contents": "attributes" },
+    ]
+}

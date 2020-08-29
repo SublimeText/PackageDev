@@ -1,0 +1,5 @@
+<snippet>
+	<content><![CDATA[{"class": "$1"${2:, "attributes": ["$3"]}},]]></content>
+	<tabTrigger>e</tabTrigger>
+	<scope>meta.parents-sequence.sublime-theme - meta.parent-mapping.sublime-theme - comment - string</scope>
+</snippet>

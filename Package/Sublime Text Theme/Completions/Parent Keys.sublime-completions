@@ -1,0 +1,8 @@
+{
+    "scope": "meta.parent-mapping.sublime-theme - meta.parent-mapping.sublime-theme meta meta - string - comment",
+    "completions": [
+        // selectors
+        { "trigger": "class\tselector", "contents": "\"class\": \"$0\"," },
+        { "trigger": "attributes\tselector", "contents": "\"attributes\": [\"$0\"]," },
+    ]
+}
