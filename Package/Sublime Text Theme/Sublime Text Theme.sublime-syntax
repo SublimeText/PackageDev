@@ -541,7 +541,7 @@ contexts:
     - include: var-value
     - match: (?=\{)
       set: [mapping-value-meta, texture-mapping-pop]
-    - include: expect-string
+    - include: expect-string-value
 
   texture-mapping-pop:
     - match: \{
