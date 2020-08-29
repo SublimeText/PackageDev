@@ -1,0 +1,75 @@
+v3.2.17 (2020-08-29)
+--------------------
+
+## TL;DR
+
+  - Completions for variable definitions in Themes and Schemes
+    based on overridden or extended files
+  - New settings for better interoperability with LSP-json
+  - Support new keys in various resource files (highlighting and completions)
+  - Lots of completion and scoping fixes or additions
+
+You can now sponsor the development of this package
+through Github's Sponsors program
+or through a one-time donation via ko-fi.
+See the sidebar at https://github.com/SublimeText/PackageDev for details.
+
+Special thanks to @deathaxe for fixing many smaller issues.
+
+
+## Details
+
+  - Build&Snippet: Auto-match `${}`
+  - Build: Enable completions in empty `${}` placeholders
+  - Keymap: Support `altgr` modifier and plain modifiers as keys
+  - Mousemap: Highlight and complete buttons up to 16
+  - Settings: Allow disabling completions and tooltips
+    for better interoperability with LSP-json (@rchl, #286)
+  - Syntax: Fix test completions for `<-` indicator (@deathaxe, #302)
+  - Theme&Scheme: Provide completions for inherited and overridden variable names
+  - Theme: Complete themes for the `extends` value
+  - Theme: Completions for variables of extended themes
+  - Theme: Provide proper completions for `parents` selectors
+  - Misc: Minor scoping and completion fixes (partly @deathaxe)
+
+  Notes from earlier releases that weren't shown (since 2019-03-18):
+
+  - Build: Increase accuracy of completions, i.e. when they are active (#250)
+  - Convert: Allow Unicode in YAML dumper by default (#276)
+  - Data: Provide completions for pretty much all built-in commands (#280, @deathaxe)
+  - Keymap: Fix inconsistent string punctuation scope (@seanCodes, #253)
+  - Plugin: Relax plugin detection for command completions
+  - Project: Fix highlighting of project-specific build systems (@deathaxe, #250)
+  - Scheme: Don't show colorish scopes in completions (#260)
+  - Scheme: Highlight `sheet_css` key and *_css values as embedded CSS
+  - Scheme: Recognize selection_foreground globals key (#246)
+  - Scheme: Support 'glow' and 'underline' font style
+  - Settings: Actually provide completions for .sublime-color-scheme files (@deathaxe, #258)
+  - Settings: Fix duplicated settings completions in some situations (@deathaxe, #259)
+  - Settings: Fix for ST build 4050 (beta)
+  - Settings: Fix widget setting file recognition for hints and linting
+  - Settings: More hints for undocumented settings (#269)
+  - Settings: Provide completions for encoding settings
+  - Settings: Provide hints for new hidden settings
+  - Snippets: More minor fixes for theme and scheme completions
+  - Syntax: Add/Document settings for captures highlighting (#267)
+  - Syntax: Fixed exception when inserting `^` on an almost test line
+  - Syntax: Fixed test range detection on `^` key (#248)
+  - Syntax: Match plain scalar context specifications in the next line (#285, @deathaxe)
+  - Syntax: Now match ST's text file criteria more precisely (#247)
+  - Syntax: Support non-deterministic branching keywords; highlighting, indexing and completions
+  - Syntax: Support popping multiple contexts
+  - Syntax: Support syntax test tokens with whitespace (#283, @keith-hall)
+  - Theme: `min_size` also accepts numbers
+  - Theme: Add completions for new elements in ST4050 (@deathaxe, #265)
+  - Theme: All number sequences are expanded from numbers (for syntax highlighting)
+  - Theme: Be less strict about unrecognized data types for values (#274, @deathaxe)
+  - Theme: Support font size units (#263)
+  - TMPrefs: Fix 'source' scope extending too far in symbol transformations (#262)
+  - Misc: Add completions for new built-in commands and/or arguments
+  - Misc: Add more completions for built-in commands (@deathaxe, #254)
+  - Misc: Add some built-in commands to the default metadata (@deathaxe, #251)
+  - Misc: Don't check for outdated command metadata on older builds (#252)
+  - Misc: Improve performance when iterating packages in "Open Package" command
+  - Misc: Small updates to scope name completions (like adding colorish scopes)
+  - Misc: Update list of builtin commands (@deathaxe, #264)
