@@ -391,7 +391,7 @@ contexts:
         meta.variable-name.sublime-theme
     - match: ''
       pop: true
-  
+
   variable-mapping-key-string:
     - match: '"'
       scope: punctuation.definition.string.begin.json
@@ -542,7 +542,7 @@ contexts:
     - include: var-value
     - match: (?=\{)
       set: [mapping-value-meta, texture-mapping-pop]
-    - include: expect-string
+    - include: expect-string-value
 
   texture-mapping-pop:
     - match: \{

@@ -195,6 +195,7 @@
 //                                                   ^^^^^^^ string - entity.other.attribute-name.sublime-theme
 //                                                             ^^ invalid.illegal.expected-string.sublime
             "texture": "String",
+//                     ^^^^^^^^ meta.rule.sublime-theme meta.mapping.value.json string.quoted.double.json
             "texture": {
 //           ^^^^^^^ meta.rule-key.string.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
 //                     ^ meta.texture-mapping.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
