@@ -1,0 +1,4 @@
+[
+    { "command": "delete_word", "args": {"forward": false} },
+    { "command": "insert", "args": {"characters": ":\n"} }
+]

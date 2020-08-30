@@ -84,11 +84,19 @@
             { "key": "setting.packagedev.syntax.input_helpers" },
         ]
     },
-    {   // [optional] auto-insert newline after double-colon (contexts) and 'captures'
+    {   // [optional] auto-insert newline after double-colon of 'captures'
         "keys": [":"], "command": "insert", "args": { "characters": ":\n" }, "context": [
-            { "key": "preceding_text", "operator": "regex_match", "operand": "^ {0,2}[^\\s:]+$|^ {4,}(- *)?(captures)+$", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^ {4,}(- *)?(captures)+$", "match_all": true },
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "meta.block.contexts.sublime-syntax" },
+            { "key": "setting.packagedev.syntax.input_helpers" },
+        ]
+    },
+    {   // [optional] trim space after colon and insert newline.
+        "keys": ["enter"],  "command": "run_macro_file", "args": {"file": "res://Packages/PackageDev/Package/Sublime Text Syntax Definition/Trim Add Newline.sublime-macro"}, "context": [
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^ {4,}(?:- )?[^\\s:]+:\\s+$", "match_all": true },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operand": "source.yaml.sublime.syntax" },
             { "key": "setting.packagedev.syntax.input_helpers" },
         ]
     },
