@@ -59,6 +59,10 @@
 //                ^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.kind.sublime-completions
 //                 ^^^^^^^^^ constant.language.kind.sublime-completions
 //                                      ^ - constant.language.kind.sublime-completions
+        { "kind": ["keyword", ], },
+//                            ^ meta.sequence.json meta.kind-tuple.sublime-completions punctuation.section.sequence.end.json
+//                               ^ punctuation.section.mapping.end.json
+//                                ^ punctuation.separator.sequence.json - meta.mapping meta.mapping
         { "annotation": "text" },
 //        ^^^^^^^^^^^^ meta.mapping.key.json meta.completions-key.sublime-completions string.quoted.double.json
 //         ^^^^^^^^^^ support.function.completions.key.sublime-completions

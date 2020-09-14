@@ -199,13 +199,15 @@ contexts:
           - include: comments
           - include: expect-string-rest
         - in-sequence-expect-comma
-        - string-pop  # description/tooltip
+        - in-sequence-string-pop  # description/tooltip
         - in-sequence-expect-comma
-        - string-pop  # symbol
+        - in-sequence-string-pop  # symbol
         - in-sequence-expect-comma
         - kind-string-pop
 
   kind-string-pop:
+    - match: (?=\])
+      pop: true
     - match: '"'
       scope: punctuation.definition.string.begin.json
       set:
@@ -375,6 +377,11 @@ contexts:
     - include: Sublime JSON.sublime-syntax#expect-any-value
 
   string-pop:
+    - include: Sublime JSON.sublime-syntax#string-pop
+
+  in-sequence-string-pop:
+    - match: (?=\])
+      pop: true
     - include: Sublime JSON.sublime-syntax#string-pop
 
   expect-string-rest:
