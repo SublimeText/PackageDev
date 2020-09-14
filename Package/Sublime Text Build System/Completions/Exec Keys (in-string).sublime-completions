@@ -1,19 +1,70 @@
 {
     "scope": "meta.main-key.sublime-build",
     "completions": [
-        { "trigger": "cmd\texec key", "contents": "cmd" },
-        { "trigger": "shell_cmd\texec key", "contents": "shell_cmd" },
-        { "trigger": "file_regex\texec key", "contents": "file_regex" },
-        { "trigger": "line_regex\texec key", "contents": "line_regex" },
-        { "trigger": "working_dir\texec key", "contents": "working_dir" },
-        { "trigger": "encoding\texec key", "contents": "encoding" },
-        { "trigger": "env\texec key", "contents": "env" },
-        { "trigger": "quiet\texec key", "contents": "quiet" },
-        { "trigger": "kill\texec key", "contents": "kill" },
-        { "trigger": "update_phantoms_only\texec key", "contents": "update_phantoms_only" },
-        { "trigger": "hide_phantoms_only\texec key", "contents": "hide_phantoms_only" },
-        { "trigger": "word_wrap\texec key", "contents": "word_wrap" },
-        { "trigger": "syntax\texec key", "contents": "syntax" },
-        { "trigger": "path\texec key", "contents": "path" },
+        {
+            "trigger": "cmd",
+            "details": "Executable & arguments to run",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "shell_cmd",
+            "details": "Command line for the shell",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "file_regex",
+            "details": "Regular expression for build output",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "line_regex",
+            "details": "Regular expression for build output",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "working_dir",
+            "details": "Directory to run in",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "encoding",
+            "details": "Encoding of the build output",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "env",
+            "details": "Environment variable overrides",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "quiet",
+            "details": "Silence debug output",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "kill",
+            "details": "Kill the running process",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "update_phantoms_only",
+            "details": "Just update phantoms",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "word_wrap",
+            "details": "Enable word wrapping for output panel",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "syntax",
+            "details": "Set syntax for output panel",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "path",
+            "details": "Override PATH variable",
+            "kind": ["keyword", "k", "exec"],
+        },
     ],
 }

@@ -1,8 +1,20 @@
 {
     "scope": "meta.main-key.sublime-build - meta.main-key.sublime-build meta.mapping",
     "completions": [
-        { "trigger": "selector\tmain key", "contents": "selector" },
-        { "trigger": "variants\tmain key", "contents": "variants" },
-        { "trigger": "keyfiles\tmain key", "contents": "keyfiles" },
+        {
+            "trigger": "selector",
+            "details": "Scope selector for activation",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "variants",
+            "details": "Build variants",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "keyfiles",
+            "details": "File names for activation",
+            "kind": ["keyword", "k", "main"],
+        },
     ]
 }

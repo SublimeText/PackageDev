@@ -1,7 +1,15 @@
 {
     "scope": "meta.main-key.sublime-build",
     "completions": [
-        { "trigger": "target\tmain key", "contents": "target" },
-        { "trigger": "cancel\tmain key", "contents": "cancel" },
+        {
+            "trigger": "target",
+            "details": "ST command to run",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "cancel",
+            "details": "Arguments to the command for canceling",
+            "kind": ["keyword", "k", "main"],
+        },
     ],
 }

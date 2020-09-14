@@ -1,8 +1,20 @@
 {
     "scope": "meta.main-key.sublime-build - meta.os.sublime-build",
     "completions": [
-        { "trigger": "linux\tplatform key", "contents": "linux" },
-        { "trigger": "osx\tplatform key", "contents": "osx" },
-        { "trigger": "windows\tplatform key", "contents": "windows" },
+        {
+            "trigger": "linux",
+            "details": "Overrides for Linux",
+            "kind": ["keyword", "k", "platform"],
+        },
+        {
+            "trigger": "osx",
+            "details": "Overrides for macOS",
+            "kind": ["keyword", "k", "platform"],
+        },
+        {
+            "trigger": "windows",
+            "details": "Overrides for Windows",
+            "kind": ["keyword", "k", "platform"],
+        },
     ]
 }

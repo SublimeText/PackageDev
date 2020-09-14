@@ -1,8 +1,23 @@
 {
     "scope": "meta.build.collection.sublime-build - meta.build.collection.sublime-build meta.mapping meta - string - comment",
     "completions": [
-        { "trigger": "selector\tmain key", "contents": "\"selector\": \"$1\",$0" },
-        { "trigger": "variants\tmain key", "contents": "\"variants\": [\n\t$0\n]," },
-        { "trigger": "keyfiles\tmain key", "contents": "\"keyfiles\": [\"$0\"]," },
+        {
+            "trigger": "selector",
+            "contents": "\"selector\": \"$1\",$0",
+            "details": "Scope selector for activation",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "variants",
+            "contents": "\"variants\": [\n\t$0\n],",
+            "details": "Build variants",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "keyfiles",
+            "contents": "\"keyfiles\": [\"$0\"],",
+            "details": "File names for activation",
+            "kind": ["keyword", "k", "main"],
+        },
     ]
 }

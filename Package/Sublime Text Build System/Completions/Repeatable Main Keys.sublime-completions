@@ -1,7 +1,17 @@
 {
     "scope": "(meta.build.collection.sublime-build | meta.variant.sublime-build) - meta.cmd - string - comment",
     "completions": [
-        { "trigger": "target\tmain key", "contents": "\"target\": \"$1\",$0" },
-        { "trigger": "cancel\tmain key", "contents": "\"cancel\": \"$1\",$0" },
+        {
+            "trigger": "target",
+            "contents": "\"target\": \"$1\",$0",
+            "details": "ST command to run",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "cancel",
+            "contents": "\"cancel\": \"$1\",$0",
+            "details": "Arguments to the command for canceling",
+            "kind": ["keyword", "k", "main"],
+        },
     ],
 }

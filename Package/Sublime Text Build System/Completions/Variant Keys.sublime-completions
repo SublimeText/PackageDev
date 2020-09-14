@@ -1,6 +1,11 @@
 {
     "scope": "meta.variant.sublime-build - meta.variant.sublime-build meta.mapping meta - string - comment",
     "completions": [
-        { "trigger": "name\tvariant key", "contents": "\"name\": \"$1\"," },
+        {
+            "trigger": "name",
+            "contents": "\"name\": \"$1\",",
+            "details": "Variant name",
+            "kind": ["keyword", "k", "variant"],
+        },
     ],
 }

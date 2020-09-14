@@ -2,17 +2,65 @@
     "scope": "meta.placeholder-name.sublime-build | keyword.other.block.end.placeholder.sublime-build",
 
     "completions": [
-        { "trigger": "file_path\tplaceholder", "contents": "file_path" },
-        { "trigger": "file\tplaceholder", "contents": "file" },
-        { "trigger": "file_name\tplaceholder", "contents": "file_name" },
-        { "trigger": "file_extension\tplaceholder", "contents": "file_extension" },
-        { "trigger": "file_base_name\tplaceholder", "contents": "file_base_name" },
-        { "trigger": "folder\tplaceholder", "contents": "folder" },
-        { "trigger": "project\tplaceholder", "contents": "project" },
-        { "trigger": "project_path\tplaceholder", "contents": "project_path" },
-        { "trigger": "project_name\tplaceholder", "contents": "project_name" },
-        { "trigger": "project_extension\tplaceholder", "contents": "project_extension" },
-        { "trigger": "project_base_name\tplaceholder", "contents": "project_base_name" },
-        { "trigger": "packages\tplaceholder", "contents": "packages" },
+        {
+            "trigger": "file_path",
+            "details": "Path to file's folder",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "file",
+            "details": "File's full path",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "file_name",
+            "details": "File's name",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "file_extension",
+            "details": "File's extension",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "file_base_name",
+            "details": "File's name without extension",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "folder",
+            "details": "Full path of first sidebar folder",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "project",
+            "details": "Project file's full path",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "project_path",
+            "details": "Project file's directory",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "project_name",
+            "details": "Project file's name",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "project_extension",
+            "details": "Project file's extension",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "project_base_name",
+            "details": "Project file's base name",
+            "kind": ["variable", "p", "placeholder"],
+        },
+        {
+            "trigger": "packages",
+            "details": "Path to packages folder",
+            "kind": ["variable", "p", "placeholder"],
+        },
     ]
 }
