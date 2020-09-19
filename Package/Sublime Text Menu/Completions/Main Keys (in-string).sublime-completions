@@ -1,12 +1,40 @@
 {
     "scope": "meta.main-key.sublime-menu",
     "completions": [
-        { "trigger": "caption\tmain key", "contents": "caption" },
-        { "trigger": "id\tmain key", "contents": "id" },
-        { "trigger": "mnemonic\tmain key", "contents": "mnemonic" },
-        { "trigger": "command\tmain key", "contents": "command" },
-        { "trigger": "args\tmain key", "contents": "args" },
-        { "trigger": "children\tmain key", "contents": "children" },
-        { "trigger": "platform\tmain key", "contents": "platform" },
+        {
+            "trigger": "caption",
+            "details": "Menu caption",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "id",
+            "details": "Id",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "mnemonic",
+            "details": "Mnemonic",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "command",
+            "details": "Command name",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "args",
+            "details": "Command arguments",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "children",
+            "details": "Sub-menu children",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "platform",
+            "details": "Platform selector",
+            "kind": ["keyword", "k", "main"],
+        },
     ]
 }

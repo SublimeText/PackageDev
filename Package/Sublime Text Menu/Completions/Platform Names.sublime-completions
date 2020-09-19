@@ -1,8 +1,17 @@
 {
     "scope": "meta.platform-name.sublime-menu",
     "completions": [
-        { "trigger": "Linux\tplatform", "contents": "Linux" },
-        { "trigger": "OSX\tplatform", "contents": "OSX" },
-        { "trigger": "Windows\tplatform", "contents": "Windows" },
+        {
+            "trigger": "Linux",
+            "kind": ["snippet", "p", "Platform"],
+        },
+        {
+            "trigger": "OSX",
+            "kind": ["snippet", "p", "Platform"],
+        },
+        {
+            "trigger": "Windows",
+            "kind": ["snippet", "p", "Platform"],
+        },
     ]
 }
