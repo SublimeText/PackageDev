@@ -2,11 +2,29 @@
 	"scope": "meta.context.key-value.operator.unknown.sublime-keymap",
 
 	"completions": [
-		{"trigger": "equal\tvalue", "contents": "equal" },
-		{"trigger": "not_equal\tvalue", "contents": "not_equal" },
-		{"trigger": "regex_match\tvalue", "contents": "regex_match" },
-		{"trigger": "not_regex_match\tvalue", "contents": "not_regex_match" },
-		{"trigger": "regex_contains\tvalue", "contents": "regex_contains" },
-		{"trigger": "not_regex_contains\tvalue", "contents": "not_regex_contains" }
+		{
+			"trigger": "equal",
+			"kind": ["function", "o", "operator"],
+		},
+		{
+			"trigger": "not_equal",
+			"kind": ["function", "o", "operator"],
+		},
+		{
+			"trigger": "regex_match",
+			"kind": ["function", "o", "operator"],
+		},
+		{
+			"trigger": "not_regex_match",
+			"kind": ["function", "o", "operator"],
+		},
+		{
+			"trigger": "regex_contains",
+			"kind": ["function", "o", "operator"],
+		},
+		{
+			"trigger": "not_regex_contains",
+			"kind": ["function", "o", "operator"],
+		}
 	]
 }

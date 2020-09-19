@@ -2,23 +2,95 @@
 	"scope": "meta.context.key-value.key.unknown.sublime-keymap",
 
 	"completions": [
-		{"trigger": "num_selections\tvalue", "contents": "num_selections" },
-		{"trigger": "auto_complete_visible\tvalue", "contents": "auto_complete_visible" },
-		{"trigger": "selection_empty\tvalue", "contents": "selection_empty" },
-		{"trigger": "preceding_text\tvalue", "contents": "preceding_text" },
-		{"trigger": "following_text\tvalue", "contents": "following_text" },
-		{"trigger": "has_prev_field\tvalue", "contents": "has_prev_field" },
-		{"trigger": "has_next_field\tvalue", "contents": "has_next_field" },
-		{"trigger": "panel_visible\tvalue", "contents": "panel_visible" },
-		{"trigger": "overlay_visible\tvalue", "contents": "overlay_visible" },
-		{"trigger": "setting.\tvalue", "contents": "setting." },
-		{"trigger": "popup_visible\tvalue", "contents": "popup_visible" },
-		{"trigger": "last_command\tvalue", "contents": "last_command" },
-		{"trigger": "text\tvalue", "contents": "text" },
-		{"trigger": "indented_block\tvalue", "contents": "indented_block" },
-		{"trigger": "panel\tvalue", "contents": "panel" },
-		{"trigger": "panel_has_focus\tvalue", "contents": "panel_has_focus" },
-		{"trigger": "selector\tvalue", "contents": "selector" },
-		{"trigger": "eol_selector\tvalue", "contents": "eol_selector" },
+		{
+			"trigger": "num_selections",
+			"details": "Number of selections",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "auto_complete_visible",
+			"details": "Completion popup visibility",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "selection_empty",
+			"details": "Selection is empty",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "preceding_text",
+			"details": "Text prededing the caret",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "following_text",
+			"details": "Text following the caret",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "has_prev_field",
+			"details": "Availibility of a preceding snippet field",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "has_next_field",
+			"details": "Availibility of a following snippet field",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "panel_visible",
+			"details": "Panel visibility",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "overlay_visible",
+			"details": "Overlay visibility",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "setting.",
+			"details": "View setting value",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "popup_visible",
+			"details": "Popup visibility",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "last_command",
+			"details": "Name of last command",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "text",
+			"details": "Selection text",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "indented_block",
+			// "details": "TODO",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "panel",
+			"details": "Name of the current panel",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "panel_has_focus",
+			"details": "Panel is visible and has focus",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "selector",
+			"details": "Match the caret's scope",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "eol_selector",
+			"details": "Match the scope at the end of the line",
+			"kind": ["variable", "k", "key"],
+		},
 	]
 }

@@ -1,9 +1,24 @@
 {
     "scope": "source.json.sublime.keymap meta.mapping - meta.mapping meta - string - comment",
     "completions": [
-        {"trigger": "keys\tkey", "contents": "\"keys\": [\"$1\"],"},
-        {"trigger": "command\tkey", "contents": "\"command\": \"$1\","},
-        {"trigger": "context\tkey", "contents": "\"context\": [\n\t$0\n],"},
+        {
+            "trigger": "keys",
+            "contents": "\"keys\": [\"$1\"],",
+            "details": "Key chors",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "command",
+            "contents": "\"command\": \"$1\",",
+            "details": "Command name",
+            "kind": ["keyword", "k", "main"],
+        },
         // args provided by plugin
+        {
+            "trigger": "context",
+            "contents": "\"context\": [\n\t$0\n],",
+            "details": "Activation context",
+            "kind": ["keyword", "k", "main"],
+        },
     ]
 }

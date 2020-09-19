@@ -1,9 +1,25 @@
 {
     "scope": "meta.unknown-main-key.sublime-keymap",
     "completions": [
-        {"trigger": "keys\tkey", "contents": "keys"},
-        {"trigger": "command\tkey", "contents": "command"},
-        {"trigger": "args\tkey", "contents": "args"},
-        {"trigger": "context\tkey", "contents": "context"},
+        {
+            "trigger": "keys",
+            "details": "Key chors",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "command",
+            "details": "Command name",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "args",
+            "details": "Command arguments",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "context",
+            "details": "Activation context",
+            "kind": ["keyword", "k", "main"],
+        },
     ]
 }

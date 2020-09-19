@@ -1,9 +1,29 @@
 {
     "scope": "meta.keybinding-context.sublime-keymap - meta.keybinding-context meta.mapping.value - string - comment",
     "completions": [
-        {"trigger": "key\tkey", "contents": "\"key\": \"$1\","},
-        {"trigger": "operator\tkey", "contents": "\"operator\": \"$1\","},
-        {"trigger": "operand\tkey", "contents": "\"operand\": \"$1\","},
-        {"trigger": "match_all\tkey", "contents": "\"match_all\": ${1:true},"},
+        {
+            "trigger": "key",
+            "contents": "\"key\": \"$1\",",
+            "details": "Key",
+            "kind": ["keyword", "k", "context"],
+        },
+        {
+            "trigger": "operator",
+            "contents": "\"operator\": \"$1\",",
+            "details": "Operator",
+            "kind": ["keyword", "k", "context"],
+        },
+        {
+            "trigger": "operand",
+            "contents": "\"operand\": \"$1\",",
+            "details": "Operand",
+            "kind": ["keyword", "k", "context"],
+        },
+        {
+            "trigger": "match_all",
+            "contents": "\"match_all\": ${1:true},",
+            "details": "Match all selections?",
+            "kind": ["keyword", "k", "context"],
+        },
     ]
 }
