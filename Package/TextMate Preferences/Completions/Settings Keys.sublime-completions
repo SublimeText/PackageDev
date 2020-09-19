@@ -2,23 +2,87 @@
 	"scope": "meta.inside-dict.settings.tmPreferences - meta.inside-array - meta.inside-dict-key - meta.inside-value - meta.tag - comment",
 
 	"completions": [
-		{ "trigger": "decreaseIndentPattern\tsettings key", "contents": "<key>decreaseIndentPattern</key>\n<string>$1</string>" },
 		//{ "trigger": "batchDecreaseIndentPattern\tsettings key", "contents": "<key>batchDecreaseIndentPattern</key>\n<string>$1</string>" },
-		{ "trigger": "increaseIndentPattern\tsettings key", "contents": "<key>increaseIndentPattern</key>\n<string>$1</string>" },
 		//{ "trigger": "batchIncreaseIndentPattern\tsettings key", "contents": "<key>batchIncreaseIndentPattern</key>\n<string>$1</string>" },
-		{ "trigger": "disableIndentNextLinePattern\tsettings key", "contents": "<key>disableIndentNextLinePattern</key>\n<string>$1</string>" },
-		{ "trigger": "bracketIndentNextLinePattern\tsettings key", "contents": "<key>bracketIndentNextLinePattern</key>\n<string>$1</string>" },
-		{ "trigger": "unIndentedLinePattern\tsettings key", "contents": "<key>unIndentedLinePattern</key>\n<string>$1</string>" },
-		{ "trigger": "cancelCompletion\tsettings key", "contents": "<key>cancelCompletion</key>\n<string>$1</string>" },
-		{ "trigger": "shellVariables\tsettings key", "contents": "<key>shellVariables</key>\n<array>\n\t$0\n</array>" },
-		{ "trigger": "showInSymbolList\tsettings key", "contents": "<key>showInSymbolList</key>\n<integer>${1:1}</integer>" },
-		{ "trigger": "showInIndexedReferenceList\tsettings key", "contents": "<key>showInIndexedReferenceList</key>\n<integer>${1:1}</integer>" },
-		{ "trigger": "showInIndexedSymbolList\tsettings key", "contents": "<key>showInIndexedSymbolList</key>\n<integer>${1:1}</integer>" },
-		{ "trigger": "symbolTransformation\tsettings key", "contents": "<key>symbolTransformation</key>\n<string>$1</string>" },
-		{ "trigger": "symbolIndexTransformation\tsettings key", "contents": "<key>symbolIndexTransformation</key>\n<string>$1</string>" },
-		{ "trigger": "indentParens\tsettings key", "contents": "<key>indentParens</key>\n<string>$1</string>" },
-		{ "trigger": "indentSquareBrackets\tsettings key", "contents": "<key>indentSquareBrackets</key>\n<string>$1</string>" },
-		{ "trigger": "preserveIndent\tsettings key", "contents": "<key>preserveIndent</key>\n<string>$1</string>" },
-		{ "trigger": "icon\tsettings key", "contents": "<key>icon</key>\n<string>$1</string>" },
+		{
+			"trigger": "decreaseIndentPattern",
+			"contents": "<key>decreaseIndentPattern</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "increaseIndentPattern",
+			"contents": "<key>increaseIndentPattern</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "disableIndentNextLinePattern",
+			"contents": "<key>disableIndentNextLinePattern</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "bracketIndentNextLinePattern",
+			"contents": "<key>bracketIndentNextLinePattern</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "unIndentedLinePattern",
+			"contents": "<key>unIndentedLinePattern</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "cancelCompletion",
+			"contents": "<key>cancelCompletion</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "shellVariables",
+			"contents": "<key>shellVariables</key>\n<array>\n\t$0\n</array>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "showInSymbolList",
+			"contents": "<key>showInSymbolList</key>\n<integer>${1:1}</integer>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "showInIndexedReferenceList",
+			"contents": "<key>showInIndexedReferenceList</key>\n<integer>${1:1}</integer>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "showInIndexedSymbolList",
+			"contents": "<key>showInIndexedSymbolList</key>\n<integer>${1:1}</integer>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "symbolTransformation",
+			"contents": "<key>symbolTransformation</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "symbolIndexTransformation",
+			"contents": "<key>symbolIndexTransformation</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "indentParens",
+			"contents": "<key>indentParens</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "indentSquareBrackets",
+			"contents": "<key>indentSquareBrackets</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "preserveIndent",
+			"contents": "<key>preserveIndent</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "icon",
+			"contents": "<key>icon</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+		},
 	]
 }

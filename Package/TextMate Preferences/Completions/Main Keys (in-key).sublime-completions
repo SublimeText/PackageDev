@@ -2,9 +2,25 @@
 	"scope": "meta.main-key-wrapper.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
 
 	"completions": [
-		{ "trigger": "name\tmain key", "contents": "name" },
-		{ "trigger": "scope\tmain key", "contents": "scope" },
-		{ "trigger": "settings\tmain key", "contents": "settings" },
-		{ "trigger": "uuid\tmain key", "contents": "uuid" },
+		{
+			"trigger": "name",
+			"details": "Name (redundant)",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "scope",
+			"details": "Scope selector",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "settings",
+			"details": "Settings section",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "uuid",
+			"details": "UUID (redundant)",
+			"kind": ["keyword", "k", "main"],
+		},
 	]
 }
