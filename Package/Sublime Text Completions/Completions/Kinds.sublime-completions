@@ -2,14 +2,50 @@
     "scope": "meta.kind.sublime-completions",
 
     "completions": [
-        { "trigger": "ambiguous\tcompletion kind", "contents": "ambiguous" },
-        { "trigger": "function\tcompletion kind", "contents": "function" },
-        { "trigger": "keyword\tcompletion kind", "contents": "keyword" },
-        { "trigger": "markup\tcompletion kind", "contents": "markup" },
-        { "trigger": "namespace\tcompletion kind", "contents": "namespace" },
-        { "trigger": "navigation\tcompletion kind", "contents": "navigation" },
-        { "trigger": "snippet\tcompletion kind", "contents": "snippet" },
-        { "trigger": "type\tcompletion kind", "contents": "type" },
-        { "trigger": "variable\tcompletion kind", "contents": "variable" },
+        {
+            "trigger": "ambiguous",
+            "details": "Ambiguous",
+            "kind": ["type", "k", "kind"],
+        },
+        {
+            "trigger": "function",
+            "details": "Function",
+            "kind": ["type", "ks", "kind"],
+        },
+        {
+            "trigger": "keyword",
+            "details": "Keyword",
+            "kind": ["type", "k", "kind"],
+        },
+        {
+            "trigger": "markup",
+            "details": "Markup",
+            "kind": ["type", "k", "kind"],
+        },
+        {
+            "trigger": "namespace",
+            "details": "Namespace",
+            "kind": ["type", "k", "kind"],
+        },
+        {
+            "trigger": "navigation",
+            "details": "Navigation",
+            "kind": ["type", "k", "kind"],
+        },
+        {
+            "trigger": "snippet",
+            "details": "Snippet",
+            "kind": ["type", "k", "kind"],
+        },
+        {
+            "trigger": "type",
+            "details": "Type",
+            "kind": ["type", "k", "kind"],
+        },
+        {
+            "trigger": "variable",
+            "details": "Variable",
+            "kind": ["type", "k", "kind"],
+        },
     ]
 }

@@ -1,10 +1,35 @@
 {
     "scope": "meta.completions.sublime-completions meta.mapping - string - comment",
     "completions": [
-        { "trigger": "annotation\tmain key", "contents": "\"annotation\": \"$1\",$0" },
-        { "trigger": "contents\tmain key", "contents": "\"contents\": \"$1\",$0" },
-        { "trigger": "details\tmain key", "contents": "\"details\": \"$1\",$0" },
-        { "trigger": "kind\tmain key", "contents": "\"kind\": \"$1\",$0" },
-        { "trigger": "trigger\tmain key", "contents": "\"trigger\": \"$1\",$0" },
+        {
+            "trigger": "annotation",
+            "contents": "\"annotation\": \"$1\",$0",
+            "details": "Right-side annotation",
+            "kind": ["keyword", "k", "completion"],
+        },
+        {
+            "trigger": "contents",
+            "contents": "\"contents\": \"$1\",$0",
+            "details": "Snippet contents",
+            "kind": ["keyword", "k", "completion"],
+        },
+        {
+            "trigger": "details",
+            "contents": "\"details\": \"$1\",$0",
+            "details": "Description",
+            "kind": ["keyword", "k", "completion"],
+        },
+        {
+            "trigger": "kind",
+            "contents": "\"kind\": \"$1\",$0",
+            "details": "Kind metadata",
+            "kind": ["keyword", "k", "completion"],
+        },
+        {
+            "trigger": "trigger",
+            "contents": "\"trigger\": \"$1\",$0",
+            "details": "Snippet trigger",
+            "kind": ["keyword", "k", "completion"],
+        },
     ]
 }

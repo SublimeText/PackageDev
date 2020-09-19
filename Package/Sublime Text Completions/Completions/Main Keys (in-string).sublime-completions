@@ -2,7 +2,15 @@
     "scope": "meta.main-key.sublime-completions",
 
     "completions": [
-        { "trigger": "scope\tmain key", "contents": "scope" },
-        { "trigger": "completions\tmain key", "contents": "completions" }
+        {
+            "trigger": "scope",
+            "details": "Scope selector",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "completions",
+            "details": "Completions collection",
+            "kind": ["keyword", "k", "main"],
+        },
     ]
 }
