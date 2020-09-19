@@ -21,8 +21,14 @@
         },
         {
             "trigger": "kind",
+            "contents": "\"kind\": [\"$1\", \"$2\", \"$3\"],$0",
+            "details": "Kind metadata (tupel)",
+            "kind": ["keyword", "k", "completion"],
+        },
+        {
+            "trigger": "kinds",
             "contents": "\"kind\": \"$1\",$0",
-            "details": "Kind metadata",
+            "details": "Kind metadata (string)",
             "kind": ["keyword", "k", "completion"],
         },
         {
