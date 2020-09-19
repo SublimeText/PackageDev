@@ -1,15 +1,55 @@
 {
     "scope": "meta.folder-key.sublime-project",
     "completions": [
-        { "trigger": "name\tfolder key", "contents": "name" },
-        { "trigger": "path\tfolder key", "contents": "path" },
-        { "trigger": "file_include_patterns\tfolder key", "contents": "file_include_patterns" },
-        { "trigger": "file_exclude_patterns\tfolder key", "contents": "file_exclude_patterns" },
-        { "trigger": "folder_include_patterns\tfolder key", "contents": "folder_include_patterns" },
-        { "trigger": "folder_exclude_patterns\tfolder key", "contents": "folder_exclude_patterns" },
-        { "trigger": "index_include_patterns\tfolder key", "contents": "index_include_patterns" },
-        { "trigger": "index_exclude_patterns\tfolder key", "contents": "index_exclude_patterns" },
-        { "trigger": "binary_file_patterns\tfolder key", "contents": "binary_file_patterns" },
-        { "trigger": "follow_symlinks\tfolder key", "contents": "follow_symlinks" },
+        {
+            "trigger": "name",
+            "details": "Name shown in sidebar",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "path",
+            "details": "Folder path",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "file_include_patterns",
+            "details": "Patterns for files to include",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "file_exclude_patterns",
+            "details": "Patterns for files to exclude",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "folder_include_patterns",
+            "details": "Patterns for folders to include",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "folder_exclude_patterns",
+            "details": "Patterns for folders to exclude",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "index_include_patterns",
+            "details": "Patterns for files to index",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "index_exclude_patterns",
+            "details": "Patterns for files not to index",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "binary_file_patterns",
+            "details": "Patterns binary files",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "follow_symlinks",
+            "details": "Follow symlinks",
+            "kind": ["keyword", "k", "folder"],
+        },
     ]
 }

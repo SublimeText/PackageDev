@@ -1,6 +1,11 @@
 {
     "scope": "meta.project.build.sublime-project - meta.project.build.sublime-project meta.mapping meta - string - comment",
     "completions": [
-        { "trigger": "name\tmain key", "contents": "\"name\": \"$1\"," },
+        {
+            "trigger": "name",
+            "contents": "\"name\": \"$1\",",
+            "details": "Build system name",
+            "kind": ["keyword", "k", "main (project)"],
+        },
     ],
 }

@@ -1,15 +1,65 @@
 {
     "scope": "meta.project.folder.sublime-project - meta.project.folder.sublime-project meta.sequence - string - comment",
     "completions": [
-        { "trigger": "name\tfolder key", "contents": "\"name\": \"$1\"," },
-        { "trigger": "path\tfolder key", "contents": "\"path\": \"$1\"," },
-        { "trigger": "file_include_patterns\tfolder key", "contents": "\"file_include_patterns\": [\"$1\"]," },
-        { "trigger": "file_exclude_patterns\tfolder key", "contents": "\"file_exclude_patterns\": [\"$1\"]," },
-        { "trigger": "folder_include_patterns\tfolder key", "contents": "\"folder_include_patterns\": [\"$1\"]," },
-        { "trigger": "folder_exclude_patterns\tfolder key", "contents": "\"folder_exclude_patterns\": [\"$1\"]," },
-        { "trigger": "index_include_patterns\tfolder key", "contents": "\"index_include_patterns\": [\"$1\"]," },
-        { "trigger": "index_exclude_patterns\tfolder key", "contents": "\"index_exclude_patterns\": [\"$1\"]," },
-        { "trigger": "binary_file_patterns\tfolder key", "contents": "\"binary_file_patterns\": [\"$1\"]," },
-        { "trigger": "follow_symlinks\tfolder key", "contents": "\"follow_symlinks\": true," },
+        {
+            "trigger": "name",
+            "contents": "\"name\": \"$1\",",
+            "details": "Name shown in sidebar",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "path",
+            "contents": "\"path\": \"$1\",",
+            "details": "Folder path",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "file_include_patterns",
+            "contents": "\"file_include_patterns\": [\"$1\"],",
+            "details": "Patterns for files to include",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "file_exclude_patterns",
+            "contents": "\"file_exclude_patterns\": [\"$1\"],",
+            "details": "Patterns for files to exclude",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "folder_include_patterns",
+            "contents": "\"folder_include_patterns\": [\"$1\"],",
+            "details": "Patterns for folders to include",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "folder_exclude_patterns",
+            "contents": "\"folder_exclude_patterns\": [\"$1\"],",
+            "details": "Patterns for folders to exclude",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "index_include_patterns",
+            "contents": "\"index_include_patterns\": [\"$1\"],",
+            "details": "Patterns for files to index",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "index_exclude_patterns",
+            "contents": "\"index_exclude_patterns\": [\"$1\"],",
+            "details": "Patterns for files not to index",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "binary_file_patterns",
+            "contents": "\"binary_file_patterns\": [\"$1\"],",
+            "details": "Patterns binary files",
+            "kind": ["keyword", "k", "folder"],
+        },
+        {
+            "trigger": "follow_symlinks",
+            "contents": "\"follow_symlinks\": true,",
+            "details": "Follow symlinks",
+            "kind": ["keyword", "k", "folder"],
+        },
     ]
 }
