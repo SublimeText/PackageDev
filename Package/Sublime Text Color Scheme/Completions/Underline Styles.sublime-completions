@@ -1,9 +1,25 @@
 {
     "scope": "meta.underline-style.sublime-color-scheme",
     "completions": [
-        { "trigger": "underline\toptions value", "contents": "underline" },
-        { "trigger": "stippled_underline\toptions value", "contents": "stippled_underline" },
-        { "trigger": "squiggly_underline\toptions value", "contents": "squiggly_underline" },
-        { "trigger": "foreground\toptions value", "contents": "foreground" },
+        {
+            "trigger": "underline",
+            "details": "Solid",
+            "kind": ["type", "u", "underline style"],
+        },
+        {
+            "trigger": "stippled_underline",
+            "details": "Stippled",
+            "kind": ["type", "u", "underline style"],
+        },
+        {
+            "trigger": "squiggly_underline",
+            "details": "Squiggly",
+            "kind": ["type", "u", "underline style"],
+        },
+        {
+            "trigger": "foreground",
+            "details": "Apply color to foreground",
+            "kind": ["type", "u", "underline style"],
+        },
     ]
 }

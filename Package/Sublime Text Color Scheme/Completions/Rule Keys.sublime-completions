@@ -1,11 +1,41 @@
 {
     "scope": "meta.rule.sublime-color-scheme - meta.sequence meta.sequence - string - comment",
     "completions": [
-        { "trigger": "scope\trule key", "contents": "\"scope\": \"$1\"," },
-        { "trigger": "foreground\trule key", "contents": "\"foreground\": \"$1\"," },
-        { "trigger": "foreground_adjust\trule key", "contents": "\"foreground_adjust\": \"$1\"," },
-        { "trigger": "background\trule key", "contents": "\"background\": \"$1\"," },
-        { "trigger": "font_style\trule key", "contents": "\"font_style\": \"$1\"," },
-        { "trigger": "selection_foreground\trule key", "contents": "\"selection_foreground\": \"$1\"," },
+        {
+            "trigger": "scope",
+            "contents": "\"scope\": \"$1\",",
+            "details": "Scope selector",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "foreground",
+            "contents": "\"foreground\": \"$1\",",
+            "details": "Foreground color",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "foreground_adjust",
+            "contents": "\"foreground_adjust\": \"$1\",",
+            "details": "Foreground color adjustment",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "background",
+            "contents": "\"background\": \"$1\",",
+            "details": "Background color",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "font_style",
+            "contents": "\"font_style\": \"$1\",",
+            "details": "Font style options",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "selection_foreground",
+            "contents": "\"selection_foreground\": \"$1\",",
+            "details": "Foreground color in selection",
+            "kind": ["keyword", "k", "rule"],
+        },
     ]
 }

@@ -1,11 +1,35 @@
 {
     "scope": "meta.rule-key.sublime-color-scheme",
     "completions": [
-        { "trigger": "scope\trule key", "contents": "scope" },
-        { "trigger": "foreground\trule key", "contents": "foreground" },
-        { "trigger": "foreground_adjust\trule key", "contents": "foreground_adjust" },
-        { "trigger": "background\trule key", "contents": "background" },
-        { "trigger": "font_style\trule key", "contents": "font_style" },
-        { "trigger": "selection_foreground\trule key", "contents": "selection_foreground" },
+        {
+            "trigger": "scope",
+            "details": "Scope selector",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "foreground",
+            "details": "Foreground color",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "foreground_adjust",
+            "details": "Foreground color adjustment",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "background",
+            "details": "Background color",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "font_style",
+            "details": "Font style options",
+            "kind": ["keyword", "k", "rule"],
+        },
+        {
+            "trigger": "selection_foreground",
+            "details": "Foreground color in selection",
+            "kind": ["keyword", "k", "rule"],
+        },
     ]
 }

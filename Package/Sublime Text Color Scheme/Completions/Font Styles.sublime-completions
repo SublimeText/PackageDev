@@ -1,9 +1,25 @@
 {
     "scope": "meta.font-style.sublime-color-scheme, meta.underline-style.sublime-color-scheme",
     "completions": [
-        { "trigger": "bold\tfont style", "contents": "bold" },
-        { "trigger": "glow\tfont style", "contents": "glow" },
-        { "trigger": "italic\tfont style", "contents": "italic" },
-        { "trigger": "underline\tfont style", "contents": "underline" },
+        {
+            "trigger": "bold",
+            "details": "Bold",
+            "kind": ["type", "f", "font style"],
+        },
+        {
+            "trigger": "glow",
+            "details": "Glow",
+            "kind": ["type", "f", "font style"],
+        },
+        {
+            "trigger": "italic",
+            "details": "Italic",
+            "kind": ["type", "f", "font style"],
+        },
+        {
+            "trigger": "underline",
+            "details": "Underline",
+            "kind": ["type", "f", "font style"],
+        },
     ]
 }

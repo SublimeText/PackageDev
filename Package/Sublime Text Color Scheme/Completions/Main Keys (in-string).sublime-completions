@@ -1,8 +1,20 @@
 {
     "scope": "meta.main-key.sublime-color-scheme",
     "completions": [
-        { "trigger": "variables\tmain key", "contents": "variables" },
-        { "trigger": "globals\tmain key", "contents": "globals" },
-        { "trigger": "rules\tmain key", "contents": "rules" },
+        {
+            "trigger": "variables",
+            "details": "Variables section",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "globals",
+            "details": "Globals section",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "rules",
+            "details": "Rules section",
+            "kind": ["keyword", "k", "main"],
+        },
     ]
 }
