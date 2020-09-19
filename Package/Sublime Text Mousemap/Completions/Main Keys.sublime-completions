@@ -1,12 +1,42 @@
 {
-	"scope": "meta.mousebinding.collection.sublime-mousemap meta.mapping - meta.mapping meta.mapping",
-	"completions": [
-        { "trigger": "button\tmain key", "contents": "\"button\": \"$1\",$0" },
-        { "trigger": "modifiers\tmain key", "contents": "\"modifiers\": \"$1\",$0" },
-        { "trigger": "command\tmain key", "contents": "\"command\": \"$1\",$0" },
-        { "trigger": "press_command\tmain key", "contents": "\"press_command\": \"$1\",$0" },
-        { "trigger": "press_args\tmain key", "contents": "\"press_args\": {\n\t$0\n}," },
-        { "trigger": "count\tmain key", "contents": "\"count\": ${1:2},$0" },
+    "scope": "meta.mousebinding.collection.sublime-mousemap meta.mapping - meta.mapping meta.mapping",
+    "completions": [
+        {
+            "trigger": "button",
+            "contents": "\"button\": \"$1\",$0",
+            "details": "Button identifier",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "modifiers",
+            "contents": "\"modifiers\": \"$1\",$0",
+            "details": "Active modifiers",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "command",
+            "contents": "\"command\": \"$1\",$0",
+            "details": "Command name",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "press_command",
+            "contents": "\"press_command\": \"$1\",$0",
+            "details": "Drag command name",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "press_args",
+            "contents": "\"press_args\": {\n\t$0\n},",
+            "details": "Drag command arguments",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
+            "trigger": "count",
+            "contents": "\"count\": ${1:2},$0",
+            "details": "Number of button presses",
+            "kind": ["keyword", "k", "main"],
+        },
         // args provided by plugin
-	]
+    ]
 }

@@ -1,12 +1,40 @@
 {
 	"scope": "meta.main-key.sublime-mousemap",
 	"completions": [
-		{ "trigger": "button\tmain key", "contents": "button"},
-		{ "trigger": "modifiers\tmain key", "contents": "modifiers"},
-		{ "trigger": "command\tmain key", "contents": "command"},
-		{ "trigger": "press_command\tmain key", "contents": "press_command"},
-		{ "trigger": "args\tmain key", "contents": "args"},
-		{ "trigger": "press_args\tmain key", "contents": "press_args"},
-		{ "trigger": "count\tmain key", "contents": "count"},
+		{
+			"trigger": "button",
+			"details": "Button identifier",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "modifiers",
+			"details": "Active modifiers",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "command",
+			"details": "Command name",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "args",
+			"details": "Command arguments",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "press_command",
+			"details": "Drag command name",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "press_args",
+			"details": "Drag command arguments",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
+			"trigger": "count",
+			"details": "Number of button presses",
+			"kind": ["keyword", "k", "main"],
+		},
 	]
 }
