@@ -1,8 +1,23 @@
 {
     "scope": "meta.interpolation-mapping.sublime-theme - string - comment",
     "completions": [
-        { "trigger": "target\tinterpolation key", "contents": "\"target\": ${0:1.0}," },
-        { "trigger": "speed\tinterpolation key", "contents": "\"speed\": ${0:1.0}," },
-        { "trigger": "interpolation\tinterpolation key", "contents": "\"interpolation\": \"${0:smoothstep}\"," },
+        {
+            "trigger": "target",
+            "contents": "\"target\": ${0:1.0},",
+            "details": "Destination value",
+            "kind": ["keyword", "k", "interpolation"],
+        },
+        {
+            "trigger": "speed",
+            "contents": "\"speed\": ${0:1.0},",
+            "details": "Relative animation speed",
+            "kind": ["keyword", "k", "interpolation"],
+        },
+        {
+            "trigger": "interpolation",
+            "contents": "\"interpolation\": \"${0:smoothstep}\",",
+            "details": "Interpolation method",
+            "kind": ["keyword", "k", "interpolation"],
+        },
     ]
 }

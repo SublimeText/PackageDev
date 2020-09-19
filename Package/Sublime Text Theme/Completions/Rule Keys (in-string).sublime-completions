@@ -2,100 +2,339 @@
     "scope": "meta.rule-key.sublime-theme",
     "completions": [
         // selectors
-        { "trigger": "class\tselector", "contents": "class" },
-        { "trigger": "settings\tselector", "contents": "settings" },
-        { "trigger": "parents\tselector", "contents": "parents" },
-        { "trigger": "platforms\tselector", "contents": "platforms" },
-        { "trigger": "attributes\tselector", "contents": "attributes" },
+        {
+            "trigger": "class",
+            "details": "Class selector",
+            "kind": ["keyword", "k", "selector"],
+        },
+        {
+            "trigger": "settings",
+            "details": "Setting setting selector",
+            "kind": ["keyword", "k", "selector"],
+        },
+        {
+            "trigger": "parents",
+            "details": "Parent selector",
+            "kind": ["keyword", "k", "selector"],
+        },
+        {
+            "trigger": "platforms",
+            "details": "Platform selector",
+            "kind": ["keyword", "k", "selector"],
+        },
+        {
+            "trigger": "attributes",
+            "details": "Attribute selector",
+            "kind": ["keyword", "k", "selector"],
+        },
 
         // strings
-        { "trigger": "font.face\tproperty", "contents": "font.face" },
-        { "trigger": "case\tproperty", "contents": "case" },
+        {
+            "trigger": "font.face",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "case",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // colors
-        { "trigger": "border_color\tproperty", "contents": "border_color" },
-        { "trigger": "line_selection_color\tproperty", "contents": "line_selection_color" },
-        { "trigger": "line_selection_border_color\tproperty", "contents": "line_selection_border_color" },
-        { "trigger": "highlight_color\tproperty", "contents": "highlight_color" },
-        { "trigger": "highlight_border_color\tproperty", "contents": "highlight_border_color" },
-        { "trigger": "headline_color\tproperty", "contents": "headline_color" },
-        { "trigger": "match_fg\tproperty", "contents": "match_fg" },
-        { "trigger": "selected_fg\tproperty", "contents": "selected_fg" },
-        { "trigger": "selected_match_fg\tproperty", "contents": "selected_match_fg" },
-        { "trigger": "fg\tproperty", "contents": "fg" },
-        { "trigger": "color\tproperty", "contents": "color" },
-        { "trigger": "bg\tproperty", "contents": "bg" },
-        { "trigger": "background_color\tproperty", "contents": "background_color" },
-        { "trigger": "shadow_color\tproperty", "contents": "shadow_color" },
-        { "trigger": "viewport_color\tproperty", "contents": "viewport_color" },
-        { "trigger": "color_scheme_tint\tproperty", "contents": "color_scheme_tint" },
-        { "trigger": "color_scheme_tint_2\tproperty", "contents": "color_scheme_tint_2" },
-        { "trigger": "link_color\tproperty", "contents": "link_color" },
-        { "trigger": "left_shadow\tproperty", "contents": "left_shadow" },
-        { "trigger": "right_shadow\tproperty", "contents": "right_shadow" },
-        { "trigger": "top_shadow\tproperty", "contents": "top_shadow" },
-        { "trigger": "bottom_shadow\tproperty", "contents": "bottom_shadow" },
-        { "trigger": "monospace_background_color\tproperty", "contents": "monospace_background_color" },
+        {
+            "trigger": "border_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "line_selection_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "line_selection_border_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "highlight_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "highlight_border_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "headline_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "match_fg",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "selected_fg",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "selected_match_fg",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "fg",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "bg",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "background_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "shadow_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "viewport_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "color_scheme_tint",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "color_scheme_tint_2",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "link_color",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "left_shadow",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "right_shadow",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "top_shadow",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "bottom_shadow",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "monospace_background_color",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // numbers
-        { "trigger": "num_colors\tproperty", "contents": "num_colors" },
-        { "trigger": "tab_overlap\tproperty", "contents": "tab_overlap" },
-        { "trigger": "tab_width\tproperty", "contents": "tab_width" },
-        { "trigger": "tab_min_width\tproperty", "contents": "tab_min_width" },
-        { "trigger": "tab_height\tproperty", "contents": "tab_height" },
-        { "trigger": "tint_index\tproperty", "contents": "tint_index" },
-        { "trigger": "accent_tint_index\tproperty", "contents": "accent_tint_index" },
-        { "trigger": "border_size\tproperty", "contents": "border_size" },
-        { "trigger": "spacing\tproperty", "contents": "spacing" },
-        { "trigger": "inside_spacing\tproperty", "contents": "inside_spacing" },
-        { "trigger": "outside_vspacing\tproperty", "contents": "outside_vspacing" },
-        { "trigger": "outside_hspacing\tproperty", "contents": "outside_hspacing" },
-        { "trigger": "left_shadow_size\tproperty", "contents": "left_shadow_size" },
-        { "trigger": "right_shadow_size\tproperty", "contents": "right_shadow_size" },
-        { "trigger": "top_shadow_size\tproperty", "contents": "top_shadow_size" },
-        { "trigger": "bottom_shadow_size\tproperty", "contents": "bottom_shadow_size" },
+        {
+            "trigger": "num_colors",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "tab_overlap",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "tab_width",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "tab_min_width",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "tab_height",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "tint_index",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "accent_tint_index",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "border_size",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "spacing",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "inside_spacing",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "outside_vspacing",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "outside_hspacing",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "left_shadow_size",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "right_shadow_size",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "top_shadow_size",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "bottom_shadow_size",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // number sequences (optional)
-        { "trigger": "inner_margin\tproperty", "contents": "inner_margin" },
-        { "trigger": "content_margin\tproperty", "contents": "content_margin" },
-        { "trigger": "row_padding\tproperty", "contents": "row_padding" },
-        { "trigger": "max_margin_trim\tproperty", "contents": "max_margin_trim" },
+        {
+            "trigger": "inner_margin",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "content_margin",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "row_padding",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "max_margin_trim",
+            "kind": ["keyword", "k", "property"],
+        },
         // number sequences (always)
-        { "trigger": "min_size\tproperty", "contents": "min_size" },
-        { "trigger": "icon_spacing\tproperty", "contents": "icon_spacing" },
-        { "trigger": "tint_modifier\tproperty", "contents": "tint_modifier" },
-        { "trigger": "shadow_offset\tproperty", "contents": "shadow_offset" },
-        { "trigger": "accent_tint_modifier\tproperty", "contents": "accent_tint_modifier" },
+        {
+            "trigger": "min_size",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "icon_spacing",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "tint_modifier",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "shadow_offset",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "accent_tint_modifier",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // floats
-        { "trigger": "line_selection_border_radius\tproperty", "contents": "line_selection_border_radius" },
-        { "trigger": "line_selection_border_width\tproperty", "contents": "line_selection_border_width" },
-        { "trigger": "indent\tproperty", "contents": "indent" },
-        { "trigger": "indent_offset\tproperty", "contents": "indent_offset" },
-        { "trigger": "opacity\tproperty", "contents": "opacity" },
-        { "trigger": "viewport_opacity\tproperty", "contents": "viewport_opacity" },
-        { "trigger": "hit_test_level\tproperty", "contents": "hit_test_level" },
-        { "trigger": "font.size\tproperty", "contents": "font.size" },
+        {
+            "trigger": "line_selection_border_radius",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "line_selection_border_width",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "indent",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "indent_offset",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "opacity",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "viewport_opacity",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "hit_test_level",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "font.size",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // booleans
-        { "trigger": "dark_content\tproperty", "contents": "dark_content" },
-        { "trigger": "indent_top_level\tproperty", "contents": "indent_top_level" },
-        { "trigger": "spacer_rows\tproperty", "contents": "spacer_rows" },
-        { "trigger": "font.bold\tproperty", "contents": "font.bold" },
-        { "trigger": "font.italic\tproperty", "contents": "font.italic" },
-        { "trigger": "mouse_wheel_switch\tproperty", "contents": "mouse_wheel_switch" },
-        { "trigger": "fg_blend\tproperty", "contents": "fg_blend" },
-        { "trigger": "overlay\tproperty", "contents": "overlay" },
+        {
+            "trigger": "dark_content",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "indent_top_level",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "spacer_rows",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "font.bold",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "font.italic",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "mouse_wheel_switch",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "fg_blend",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "overlay",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // layer*.
-        { "trigger": "layer.tint\tproperty", "contents": "layer${1:0}.tint" },
-        { "trigger": "layer.draw_center\tproperty", "contents": "layer${1:0}.draw_center" },
-        { "trigger": "layer.repeat\tproperty", "contents": "layer${1:0}.repeat" },
-        { "trigger": "layer.opacity\tproperty", "contents": "layer${1:0}.opacity" },
-        { "trigger": "layer.inner_margin\tproperty", "contents": "layer${1:0}.inner_margin" },
-        { "trigger": "layer.texture\tproperty", "contents": "layer${1:0}.texture" },
+        {
+            "trigger": "layer.tint",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "layer.draw_center",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "layer.repeat",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "layer.opacity",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "layer.inner_margin",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "layer.texture",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // other
-        { "trigger": "texture\tproperty", "contents": "texture" },
+        {
+            "trigger": "texture",
+            "kind": ["keyword", "k", "property"],
+        },
     ]
 }

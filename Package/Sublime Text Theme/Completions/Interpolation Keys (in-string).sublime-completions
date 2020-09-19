@@ -1,8 +1,20 @@
 {
     "scope": "meta.interpolation-key.sublime-theme",
     "completions": [
-        { "trigger": "target\tinterpolation key", "contents": "target" },
-        { "trigger": "speed\tinterpolation key", "contents": "speed" },
-        { "trigger": "interpolation\tinterpolation key", "contents": "interpolation" },
+        {
+            "trigger": "target",
+            "details": "Destination value",
+            "kind": ["keyword", "k", "interpolation"],
+        },
+        {
+            "trigger": "speed",
+            "details": "Relative animation speed",
+            "kind": ["keyword", "k", "interpolation"],
+        },
+        {
+            "trigger": "interpolation",
+            "details": "Interpolation method",
+            "kind": ["keyword", "k", "interpolation"],
+        },
     ]
 }

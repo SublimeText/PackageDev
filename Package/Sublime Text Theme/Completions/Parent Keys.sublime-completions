@@ -2,7 +2,17 @@
     "scope": "meta.parent-mapping.sublime-theme - meta.parent-mapping.sublime-theme meta meta - string - comment",
     "completions": [
         // selectors
-        { "trigger": "class\tselector", "contents": "\"class\": \"$0\"," },
-        { "trigger": "attributes\tselector", "contents": "\"attributes\": [\"$0\"]," },
+        {
+            "trigger": "class",
+            "contents": "\"class\": \"$0\",",
+            "details": "Parent class",
+            "kind": ["keyword", "k", "selector"],
+        },
+        {
+            "trigger": "attributes",
+            "contents": "\"attributes\": [\"$0\"],",
+            "details": "Parent attributes",
+            "kind": ["keyword", "k", "selector"],
+        },
     ]
 }
