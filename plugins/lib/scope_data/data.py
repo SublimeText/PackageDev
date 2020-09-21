@@ -141,13 +141,24 @@ DATA = """
             return-type
         namespace
         number
-            integer
-                decimal
-                hexadecimal
-                octal
             float
+                binary
+                octal
                 decimal
                 hexadecimal
+                other
+            imaginary
+                binary
+                octal
+                decimal
+                hexadecimal
+                other
+            integer
+                binary
+                octal
+                decimal
+                hexadecimal
+                other
         preprocessor
         annotation
             identifier
