@@ -13,24 +13,14 @@ DATA = """
 
     constant
         numeric
-            integer
-                binary
-                octal
-                decimal
-                hexadecimal
-                other
-            float
-                binary
-                octal
-                decimal
-                hexadecimal
-                other
-            complex
-                real
-                imaginary
+            base
+            value
+            suffix
         character
             escape
         language
+            infinity
+            nan
         other
             placeholder
 
@@ -150,6 +140,14 @@ DATA = """
             parameters
             return-type
         namespace
+        number
+            integer
+                decimal
+                hexadecimal
+                octal
+            float
+                decimal
+                hexadecimal
         preprocessor
         annotation
             identifier
