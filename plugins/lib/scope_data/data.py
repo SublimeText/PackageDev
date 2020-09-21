@@ -137,8 +137,12 @@ DATA = """
         impl
         type
         function
+            identifier
             parameters
             return-type
+        function-call
+            identifier
+            arguments
         namespace
         number
             float
@@ -164,7 +168,6 @@ DATA = """
             identifier
             parameters
         path
-        function-call
         block
         braces
         group
