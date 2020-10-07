@@ -271,6 +271,9 @@ contexts:
 #       ^^^^^^^^^^^^^^^^^^^ meta.scope.sublime-syntax string.unquoted.block.yaml
 #           ^ punctuation.separator.scope-segments.sublime-syntax
 
+      scope: meta.interface.xxx, entity.name.xxx, etc.xxx
+#                              ^ string.unquoted.plain.out.yaml
+
     - embed: scope:source.test
 #     ^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
 #            ^^^^^ support.type.include.sublime-syntax

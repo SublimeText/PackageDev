@@ -302,8 +302,7 @@ contexts:
     - match: (?={{ns_plain_first_plain_out}})
       set:
         - meta_scope: meta.scope.sublime-syntax string.unquoted.plain.out.yaml
-        - match: '{{_flow_scalar_end_plain_in}}'
-          # use plain-in for when inside of an 'context-list', although not always accurate
+        - match: '{{_flow_scalar_end_plain_out}}'
           set:
             - match: \n?
               scope: meta.scope.sublime-syntax
