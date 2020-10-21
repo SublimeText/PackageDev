@@ -393,7 +393,6 @@ contexts:
               pop: true
             - include: color-var-function
             - include: CSS.sublime-syntax#color-values
-            - include: CSS.sublime-syntax#percentage-type
             - include: CSS.sublime-syntax#numeric-values
         - match: (?=")
           pop: true
