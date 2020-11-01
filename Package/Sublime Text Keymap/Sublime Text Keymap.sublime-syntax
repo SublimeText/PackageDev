@@ -277,7 +277,7 @@ contexts:
         2: support.constant.command-name.sublime-keymap
         3: punctuation.definition.string.end.json
       set: [keymap-entry-insert-snippet, in-mapping-expect-comma]
-    - match: (\")([a-z_\d]+)(\")
+    - match: (\")([a-z_\d]*)(\")
       scope: meta.mapping.value.json string.quoted.double.json meta.command-name.sublime-keymap
       captures:
         1: punctuation.definition.string.begin.json
