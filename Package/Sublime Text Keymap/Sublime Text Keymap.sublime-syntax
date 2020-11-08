@@ -169,7 +169,8 @@ contexts:
                           |clear|sysreq|break|context_menu
                           |browser_(?:back|forward|refresh|stop|search|favorites|home)
                           |forward_slash|backquote|plus|equals|minus
-                          |f(?:20|1[0-9]|[1-9])
+                          |f(?:20|1[0-9]|[1-9])|
+                          open|save|close|undo|redo|cut|copy|paste|find  # new in some ST4 build
                         )\b
                       scope: support.constant.key.named.sublime-keymap
                     - match: ({{modifiers}})
