@@ -154,7 +154,7 @@ contexts:
     # (based on YAML.sublime-syntax#block-pair)
     - match: '^ +{{block_key_lookahead}}'
       push:
-        - include: Packages/YAML/YAML.sublime-syntax#flow-scalar-plain-out-implicit-type
+        - include: Packages/YAML/YAML.sublime-syntax#flow-scalar-plain-out-implicit-type-12
         - match: :(?=\s|$)
           scope: punctuation.separator.mapping.key-value.yaml
           set: expect_regexp
@@ -180,7 +180,7 @@ contexts:
     # (based on YAML.sublime-syntax#block-pair)
     - match: ^ {1,2}{{block_key_lookahead}}
       push:
-        - include: Packages/YAML/YAML.sublime-syntax#flow-scalar-plain-out-implicit-type
+        - include: Packages/YAML/YAML.sublime-syntax#flow-scalar-plain-out-implicit-type-12
         - match: :(?=\s|$)
           scope: punctuation.separator.mapping.key-value.yaml
           pop: true
