@@ -66,8 +66,11 @@ def format_static_completions(templates):
             suffix = ": "
 
         return sublime.CompletionItem(
-            trigger=trigger, kind=kind, details=details,
-            completion=trigger + suffix, completion_format=completion_format
+            trigger=trigger,
+            kind=kind,
+            details=details,
+            completion=trigger + suffix,
+            completion_format=completion_format,
         )
 
     return [format_item(*template) for template in templates]
@@ -77,8 +80,10 @@ def format_completions(items, annotation="", kind=sublime.KIND_AMBIGUOUS):
     format_string = "Defined at line <a href='subl:goto_line {{\"line\": \"{0}\"}}'>{0}</a>"
     return [
         sublime.CompletionItem(
-            trigger=trigger, annotation=annotation, kind=kind,
-            details=format_string.format(row) if row is not None else ""
+            trigger=trigger,
+            annotation=annotation,
+            kind=kind,
+            details=format_string.format(row) if row is not None else "",
         )
         for trigger, row in items
     ]
@@ -202,15 +207,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 return None
 
         return format_completions(
-            (
-                [
-                    self.view.substr(r),
-                    self.view.rowcol(r.begin())[0] + 1
-                ]
-                for r in self.view.find_by_selector("entity.name.function.context")
-            ),
+            [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
+             for r in self.view.find_by_selector("entity.name.function.context")],
             annotation="",
-            kind=KIND_CONTEXT
+            kind=KIND_CONTEXT,
         )
 
     def _complete_keyword(self, prefix, locations):
@@ -298,32 +298,22 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             return None
 
         self.base_suffix = base_suffix
-        return format_completions([[base_suffix, None], ], "base suffix", KIND_SCOPE)
+        return format_completions([(base_suffix, None)], "base suffix", KIND_SCOPE)
 
     def _complete_variable(self):
         return format_completions(
-            (
-                [
-                    self.view.substr(r),
-                    self.view.rowcol(r.begin())[0] + 1
-                ]
-                for r in self.view.find_by_selector("entity.name.constant")
-            ),
+            [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
+             for r in self.view.find_by_selector("entity.name.constant")],
             annotation="",
-            kind=KIND_VARIABLE
+            kind=KIND_VARIABLE,
         )
 
     def _complete_branch_point(self):
         return format_completions(
-            (
-                [
-                    self.view.substr(r),
-                    self.view.rowcol(r.begin())[0] + 1
-                ]
-                for r in self.view.find_by_selector("entity.name.label.branch-point")
-            ),
+            [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
+             for r in self.view.find_by_selector("entity.name.label.branch-point")],
             annotation="",
-            kind=KIND_BRANCH
+            kind=KIND_BRANCH,
         )
 
 
