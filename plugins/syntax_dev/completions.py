@@ -88,50 +88,50 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     base_completions_root = format_static_completions(templates=(
         # base keys
-        ('name', KIND_HEADER_BASE, 'The display name of the syntax.'),
-        ('scope', KIND_HEADER_BASE, 'The main scope of the syntax.'),
-        ('version', KIND_HEADER_BASE, 'The sublime-syntax version.'),
-        ('extends', KIND_HEADER_BASE, 'The syntax which is to be extended.'),
-        ('name', KIND_HEADER_BASE, 'The display name of the syntax.'),
-        ('first_line_match', KIND_HEADER_BASE, 'The pattern to identify a file by content.'),
+        ('name', KIND_HEADER_BASE, "The display name of the syntax."),
+        ('scope', KIND_HEADER_BASE, "The main scope of the syntax."),
+        ('version', KIND_HEADER_BASE, "The sublime-syntax version."),
+        ('extends', KIND_HEADER_BASE, "The syntax which is to be extended."),
+        ('name', KIND_HEADER_BASE, "The display name of the syntax."),
+        ('first_line_match', KIND_HEADER_BASE, "The pattern to identify a file by content."),
         # dict keys
         ('variables', KIND_HEADER_DICT, 'The variables definitions.'),
         ('contexts', KIND_HEADER_DICT, 'The syntax contexts.'),
         # list keys
-        ('file_extensions', KIND_HEADER_LIST, 'The list of file extensions.'),
-        ('hidden_extensions', KIND_HEADER_LIST, 'The list of hidden file extensions.')
+        ('file_extensions', KIND_HEADER_LIST, "The list of file extensions."),
+        ('hidden_extensions', KIND_HEADER_LIST, "The list of hidden file extensions.")
     ))
 
     base_completions_contexts = format_static_completions(templates=(
         # meta functions
-        ('meta_append', KIND_FUNCTION_TRUE, 'Add rules to the end of the inherit context.'),
-        ('meta_content_scope', KIND_FUNCTION, 'A scope to apply to the content of a context.'),
-        ('meta_include_prototype', KIND_FUNCTION_FALSE, 'Flag to in-/exclude `prototype`'),
-        ('meta_prepend', KIND_FUNCTION_TRUE, 'Add rules to the beginning of the inherit context.'),
-        ('meta_scope', KIND_FUNCTION, 'A scope to apply to the full context.'),
-        ('clear_scopes', KIND_FUNCTION, 'Clear meta scopes.'),
+        ('meta_append', KIND_FUNCTION_TRUE, "Add rules to the end of the inherit context."),
+        ('meta_content_scope', KIND_FUNCTION, "A scope to apply to the content of a context."),
+        ('meta_include_prototype', KIND_FUNCTION_FALSE, "Flag to in-/exclude `prototype`"),
+        ('meta_prepend', KIND_FUNCTION_TRUE, "Add rules to the beginning of the inherit context."),
+        ('meta_scope', KIND_FUNCTION, "A scope to apply to the full context."),
+        ('clear_scopes', KIND_FUNCTION, "Clear meta scopes."),
         # matching tokens
-        ('match', KIND_FUNCTION, 'Pattern to match tokens.'),
+        ('match', KIND_FUNCTION, "Pattern to match tokens."),
         # scoping
-        ('scope', KIND_FUNCTION, 'The scope to apply if a token matches'),
-        ('captures', KIND_CAPTURUE, 'Assigns scopes to the capture groups.'),
+        ('scope', KIND_FUNCTION, "The scope to apply if a token matches"),
+        ('captures', KIND_CAPTURUE, "Assigns scopes to the capture groups."),
         # contexts
-        ('push', KIND_FUNCTION, 'Push a context onto the stack.'),
-        ('set', KIND_FUNCTION, 'Set a context onto the stack.'),
+        ('push', KIND_FUNCTION, "Push a context onto the stack."),
+        ('set', KIND_FUNCTION, "Set a context onto the stack."),
         ('pop', KIND_FUNCTION_TRUE, 'Pop context(s) from the stack.'),
-        ('with_prototype', KIND_FUNCTION, 'Rules to prepend to each context.'),
+        ('with_prototype', KIND_FUNCTION, "Rules to prepend to each context."),
         # branching
-        ('branch_point', KIND_FUNCTION, 'Name of the point to rewind to if a branch fails.'),
-        ('branch', KIND_FUNCTION, 'Push branches onto the stack.'),
-        ('fail', KIND_FUNCTION, 'Fail the current branch.'),
+        ('branch_point', KIND_FUNCTION, "Name of the point to rewind to if a branch fails."),
+        ('branch', KIND_FUNCTION, "Push branches onto the stack."),
+        ('fail', KIND_FUNCTION, "Fail the current branch."),
         # embedding
-        ('embed', KIND_FUNCTION, 'A context or syntax to embed.'),
-        ('embed_scope', KIND_FUNCTION, 'A scope to apply to the embedded syntax.'),
-        ('escape', KIND_FUNCTION, 'A pattern to denote the end of the embedded syntax.'),
-        ('escape_captures', KIND_CAPTURUE, 'Assigns scopes to the capture groups.'),
+        ('embed', KIND_FUNCTION, "A context or syntax to embed."),
+        ('embed_scope', KIND_FUNCTION, "A scope to apply to the embedded syntax."),
+        ('escape', KIND_FUNCTION, "A pattern to denote the end of the embedded syntax."),
+        ('escape_captures', KIND_CAPTURUE, "Assigns scopes to the capture groups."),
         # including
-        ('include', KIND_FUNCTION, 'Includes a context.'),
-        ('apply_prototype', KIND_FUNCTION_TRUE, 'Apply prototype of included syntax.'),
+        ('include', KIND_FUNCTION, "Includes a context."),
+        ('apply_prototype', KIND_FUNCTION_TRUE, "Apply prototype of included syntax."),
     ))
 
     # These instance variables are for communicating
