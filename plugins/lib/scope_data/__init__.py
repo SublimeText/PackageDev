@@ -1,13 +1,15 @@
 import logging
+
 import sublime
 
 from .data import DATA
 
 __all__ = ["COMPILED_NODES", "COMPILED_HEADS", "completions_from_prefix"]
 
-HAVE_KINDS = hasattr(sublime, 'CompletionItem')
-
 logger = logging.getLogger(__name__)
+
+
+SCOPE_KIND = (sublime.KIND_ID_NAMESPACE, "s", "Scope")
 
 
 class NodeSet(set):
@@ -32,10 +34,8 @@ class NodeSet(set):
         return res
 
     def to_completion(self):
-        if HAVE_KINDS:
-            kind = (sublime.KIND_ID_NAMESPACE, "s", "Scope")
-            return [sublime.CompletionItem(n.name, annotation="convention", kind=kind) for n in self]
-        return sorted((n.name + "\tconvention", n.name) for n in self)
+        return [sublime.CompletionItem(n.name, annotation="convention", kind=SCOPE_KIND)
+                for n in sorted(self)]
 
 
 class ScopeNode(object):
