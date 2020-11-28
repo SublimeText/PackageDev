@@ -1,20 +1,28 @@
 import functools
-import itertools
 import re
 
 import sublime
 import sublime_plugin
 
-from sublime_lib.flags import RegionOption
-
-from .lib.scope_data import COMPILED_HEADS
-from .lib import syntax_paths
+from ..lib.scope_data import COMPILED_HEADS
+from ..lib import syntax_paths
 
 __all__ = (
-    'SyntaxDefRegexCaptureGroupHighlighter',
     'SyntaxDefCompletionsListener',
     'PackagedevCommitScopeCompletionCommand'
 )
+
+
+# a list of kinds used to denote the different kinds of completions
+KIND_HEADER_BASE = (sublime.KIND_ID_NAMESPACE, 'K', 'Header Key')
+KIND_HEADER_DICT = (sublime.KIND_ID_NAMESPACE, 'D', 'Header Dict')
+KIND_HEADER_LIST = (sublime.KIND_ID_NAMESPACE, 'L', 'Header List')
+KIND_BRANCH = (sublime.KIND_ID_NAVIGATION, 'b', 'Branch Point')
+KIND_CONTEXT = (sublime.KIND_ID_KEYWORD, 'c', 'Context')
+KIND_FUNCTION = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
+KIND_CAPTURUE = (sublime.KIND_ID_FUNCTION, 'c', 'Captures')
+KIND_SCOPE = (sublime.KIND_ID_NAMESPACE, 's', 'Scope')
+KIND_VARIABLE = (sublime.KIND_ID_VARIABLE, 'v', 'Variable')
 
 PACKAGE_NAME = __package__.split('.')[0]
 
@@ -26,138 +34,98 @@ def status(msg, console=False):
         print(msg)
 
 
-class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
-
-    # TODO multiple views into the same file
-
-    @classmethod
-    def is_applicable(cls, settings):
-        return settings.get('syntax') == syntax_paths.SYNTAX_DEF
-
-    def on_selection_modified(self):
-        prefs = sublime.load_settings('PackageDev.sublime-settings')
-        scope = prefs.get('syntax.captures_highlight_scope', "text")
-        styles = prefs.get('syntax.captures_highlight_styles', ['DRAW_NO_FILL'])
-
-        style_flags = RegionOption(*styles)
-
-        self.view.add_regions(
-            key='captures',
-            regions=list(self.get_regex_regions()),
-            scope=scope,
-            flags=style_flags,
-        )
-
-    def get_regex_regions(self):
-        locations = [
-            region.begin()
-            for selection in self.view.sel()
-            if self.view.match_selector(
-                selection.begin(),
-                'source.yaml.sublime.syntax meta.expect-captures'
-            )
-            for region in self.view.split_by_newlines(selection)
-        ]
-
-        for loc in locations:
-            # Find the line number.
-            match = re.search(r'(\d+):', self.view.substr(self.view.line(loc)))
-            if not match:
-                continue
-            n = int(match.group(1))
-
-            # Find the associated regexp. Assume it's the preceding one.
-            try:
-                regexp_region = [
-                    region
-                    for region in self.view.find_by_selector('source.regexp.oniguruma')
-                    if region.end() < loc
-                ][-1]
-            except IndexError:
-                continue
-
-            if n == 0:
-                yield regexp_region
-                continue
-
-            # Find parens that define capture groups.
-            regexp_offset = regexp_region.begin()
-            parens = iter(
-                (match.group(), match.start() + regexp_offset)
-                for match in re.finditer(r'\(\??|\)', self.view.substr(regexp_region))
-                if self.view.match_selector(
-                    match.start() + regexp_offset,
-                    'keyword.control.group'
-                )
-            )
-
-            # Find the start of the nth capture group.
-            start = None
-            count = 0
-            for p, i in parens:
-                if p == '(':  # Not (?
-                    count += 1
-                    if count == n:
-                        start = i
-                        break
-
-            # Find the end of that capture group
-            end   = None
-            depth = 0
-            for p, i in parens:
-                if p in {'(', '(?'}:
-                    depth += 1
-                else:
-                    if depth == 0:
-                        end = i + 1
-                        break
-                    else:
-                        depth -= 1
-
-            if end is not None:
-                yield sublime.Region(start, end)
-
-
 def _inhibit_word_completions(func):
     """Decorator that inhibits ST's word completions if non-None value is returned."""
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         ret = func(*args, **kwargs)
-        if ret is not None:
-            return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
+        return (ret, sublime.INHIBIT_WORD_COMPLETIONS) if ret else ret
 
     return wrapper
 
 
-def _build_completions(base_keys=(), dict_keys=(), list_keys=(), true_keys=(), false_keys=()):
-    generator = itertools.chain(
-        (("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys),
-        (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),
-        (("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys),
-        (("{0}\t{0}: true".format(s), "%s: ${1:true}" % s) for s in true_keys),
-        (("{0}\t{0}: false".format(s), "%s: ${1:false}" % s) for s in false_keys),
-    )
-    return sorted(generator)
+def format_static_completions(templates):
+
+    def format_item(trigger, kind, details):
+        if kind in (KIND_HEADER_DICT, KIND_CAPTURUE, KIND_CONTEXT):
+            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
+            suffix = ":\n  "
+        elif kind is KIND_HEADER_LIST:
+            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
+            suffix = ":\n  - "
+        else:
+            completion_format = sublime.COMPLETION_FORMAT_TEXT
+            suffix = ": "
+
+        return sublime.CompletionItem(
+            trigger=trigger, kind=kind, details=details,
+            completion=trigger + suffix, completion_format=completion_format
+        )
+
+    return [format_item(*template) for template in templates]
+
+
+def format_completions(items, annotation="", kind=sublime.KIND_AMBIGUOUS):
+    format_string = "Defined at line <a href='subl:goto_line {{\"line\": \"{0}\"}}'>{0}</a>"
+    return [
+        sublime.CompletionItem(
+            trigger=trigger, annotation=annotation, kind=kind,
+            details=format_string.format(row) if row is not None else ""
+        )
+        for trigger, row in items
+    ]
 
 
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
-    base_completions_root = _build_completions(
-        base_keys=('name', 'scope', 'version', 'extends', 'first_line_match'),
-        dict_keys=('variables', 'contexts'),
-        list_keys=('file_extensions', 'hidden_extensions'),
-    )
+    base_completions_root = format_static_completions(templates=(
+        # base keys
+        ('name', KIND_HEADER_BASE, 'The display name of the syntax.'),
+        ('scope', KIND_HEADER_BASE, 'The main scope of the syntax.'),
+        ('version', KIND_HEADER_BASE, 'The sublime-syntax version.'),
+        ('extends', KIND_HEADER_BASE, 'The syntax which is to be extended.'),
+        ('name', KIND_HEADER_BASE, 'The display name of the syntax.'),
+        ('first_line_match', KIND_HEADER_BASE, 'The pattern to identify a file by content.'),
+        # dict keys
+        ('variables', KIND_HEADER_DICT, 'The variables definitions.'),
+        ('contexts', KIND_HEADER_DICT, 'The syntax contexts.'),
+        # list keys
+        ('file_extensions', KIND_HEADER_LIST, 'The list of file extensions.'),
+        ('hidden_extensions', KIND_HEADER_LIST, 'The list of hidden file extensions.')
+    ))
 
-    base_completions_contexts = _build_completions(
-        base_keys=('include', 'match', 'scope', 'push', 'set',  # 'pop',
-                   'embed', 'embed_scope', 'escape',
-                   'branch', 'branch_point', 'fail',
-                   'meta_scope', 'meta_content_scope', 'clear_scopes',
-                   'with_prototype'),
-        dict_keys=('captures', 'escape_captures'),
-        true_keys=('pop', 'apply_prototype', 'meta_append', 'meta_prepend'),
-        false_keys=('meta_include_prototype',),
-    )
+    base_completions_contexts = format_static_completions(templates=(
+        # meta functions
+        ('meta_append', KIND_FUNCTION, 'Add rules to the end of the inherit context.'),
+        ('meta_content_scope', KIND_FUNCTION, 'A scope to apply to the content of a context.'),
+        ('meta_include_prototype', KIND_FUNCTION, 'Flag to include/exclude `prototype`'),
+        ('meta_prepend', KIND_FUNCTION, 'Add rules to the beginning of the inherit context.'),
+        ('meta_scope', KIND_FUNCTION, 'A scope to apply to the full context.'),
+        ('clear_scopes', KIND_FUNCTION, 'Clear meta scopes.'),
+        # matching tokens
+        ('match', KIND_FUNCTION, 'Pattern to match tokens.'),
+        # scoping
+        ('scope', KIND_FUNCTION, 'The scope to apply if a token matches'),
+        ('captures', KIND_CAPTURUE, 'Assigns scopes to the capture groups.'),
+        # contexts
+        ('push', KIND_FUNCTION, 'Push a context onto the stack.'),
+        ('set', KIND_FUNCTION, 'Set a context onto the stack.'),
+        ('with_prototype', KIND_FUNCTION, 'Rules to prepend to each context.'),
+        # branching
+        ('branch_point', KIND_FUNCTION, 'Name of the point to rewind to if a branch fails.'),
+        ('branch', KIND_FUNCTION, 'Push branches onto the stack.'),
+        ('fail', KIND_FUNCTION, 'Fail the current branch.'),
+        # embedding
+        ('embed', KIND_FUNCTION, 'A context or syntax to embed.'),
+        ('embed_scope', KIND_FUNCTION, 'A scope to apply to the embedded syntax.'),
+        ('escape', KIND_FUNCTION, 'A pattern to denote the end of the embedded syntax.'),
+        ('escape_captures', KIND_CAPTURUE, 'Assigns scopes to the capture groups.'),
+        # including
+        ('include', KIND_FUNCTION, 'Includes a context.'),
+        ('apply_prototype', KIND_FUNCTION, 'If `true` apply prototype of included syntax.'),
+    ))
+
+    base_completions_contexts += (("pop\tpop: true", "pop: ${1:true}"),)
 
     # These instance variables are for communicating
     # with our PostCompletionsListener instance.
@@ -174,37 +142,37 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
     @_inhibit_word_completions
     def on_query_completions(self, prefix, locations):
 
-        def verify_scope(selector, offset=0):
+        def match_selector(selector, offset=0):
             """Verify scope for each location."""
             return all(self.view.match_selector(point + offset, selector)
                        for point in locations)
 
         # None of our business
-        if not verify_scope("- comment - (source.regexp - keyword.other.variable)"):
+        if not match_selector("- comment - (source.regexp - keyword.other.variable)"):
             return None
 
         # Scope name completions based on our scope_data database
-        if verify_scope("meta.expect-scope, meta.scope", -1):
+        if match_selector("meta.expect-scope, meta.scope", -1):
             return self._complete_scope(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys and for
-        if verify_scope("meta.expect-context-list-or-content"
-                        " | meta.context-list-or-content", -1):
+        if match_selector("meta.expect-context-list-or-content"
+                          " | meta.context-list-or-content", -1):
             return self._complete_keyword(prefix, locations) + \
                 self._complete_context(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys
-        if verify_scope("meta.expect-context-list | meta.expect-context"
-                        " | meta.include | meta.context-list", -1):
+        if match_selector("meta.expect-context-list | meta.expect-context"
+                          " | meta.include | meta.context-list", -1):
             return self._complete_context(prefix, locations)
 
         # Auto-completion for branch points with 'fail' key
-        if verify_scope("meta.expect-branch-point-reference"
-                        " | meta.branch-point-reference", -1):
+        if match_selector("meta.expect-branch-point-reference"
+                          " | meta.branch-point-reference", -1):
             return self._complete_branch_point()
 
         # Auto-completion for variables in match patterns using 'variables' keys
-        if verify_scope("keyword.other.variable"):
+        if match_selector("keyword.other.variable"):
             return self._complete_variable()
 
         # Standard completions for unmatched regions
@@ -221,20 +189,26 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             line_prefix = self._line_prefix(point)
             real_prefix = re.search(r"[^,\[ ]*$", line_prefix).group(0)
             if real_prefix.startswith("scope:") or "/" in real_prefix:
-                return []  # Don't show any completions here
+                return None  # Don't show any completions here
             elif real_prefix != prefix:
                 # print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
-                return []
+                return None
 
-        context_names = (
-            self.view.substr(r)
-            for r in self.view.find_by_selector("entity.name.function.context")
+        return format_completions(
+            (
+                [
+                    self.view.substr(r),
+                    self.view.rowcol(r.begin())[0] + 1
+                ]
+                for r in self.view.find_by_selector("entity.name.function.context")
+            ),
+            annotation="",
+            kind=KIND_CONTEXT
         )
-        return [(ctx + "\tcontext", ctx) for ctx in context_names]
 
     def _complete_keyword(self, prefix, locations):
 
-        def verify_scope(selector, offset=0):
+        def match_selector(selector, offset=0):
             """Verify scope for each location."""
             return all(self.view.match_selector(point + offset, selector)
                        for point in locations)
@@ -257,7 +231,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             return None
         elif not match.group(1):
             return self.base_completions_root
-        elif verify_scope("meta.block.contexts"):
+        elif match_selector("meta.block.contexts"):
             return self.base_completions_contexts
         else:
             return None
@@ -306,7 +280,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         if len(regions) != 1:
             status("Warning: Could not determine base scope uniquely", console=True)
             self.base_suffix = None
-            return []
+            return None
 
         base_scope = self.view.substr(regions[0])
         *_, base_suffix = base_scope.rpartition(".")
@@ -314,25 +288,36 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # In this case it is even useful to inhibit other completions completely
         if last_token == base_suffix:
             self.base_suffix = None
-            return []
+            return None
 
         self.base_suffix = base_suffix
-
-        return [(base_suffix + "\tbase suffix", base_suffix)]
+        return format_completions([[base_suffix, None], ], "base suffix", KIND_SCOPE)
 
     def _complete_variable(self):
-        variable_names = (
-            self.view.substr(r)
-            for r in self.view.find_by_selector("entity.name.constant")
+        return format_completions(
+            (
+                [
+                    self.view.substr(r),
+                    self.view.rowcol(r.begin())[0] + 1
+                ]
+                for r in self.view.find_by_selector("entity.name.constant")
+            ),
+            annotation="",
+            kind=KIND_VARIABLE
         )
-        return [(var + "\tvariable", var) for var in variable_names]
 
     def _complete_branch_point(self):
-        branch_names = (
-            self.view.substr(r)
-            for r in self.view.find_by_selector("entity.name.label.branch-point")
+        return format_completions(
+            (
+                [
+                    self.view.substr(r),
+                    self.view.rowcol(r.begin())[0] + 1
+                ]
+                for r in self.view.find_by_selector("entity.name.label.branch-point")
+            ),
+            annotation="",
+            kind=KIND_BRANCH
         )
-        return [(var + "\tbranch point", var) for var in branch_names]
 
 
 class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
