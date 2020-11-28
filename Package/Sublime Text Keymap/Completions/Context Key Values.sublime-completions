@@ -92,5 +92,35 @@
 			"details": "Match the scope at the end of the line",
 			"kind": ["variable", "k", "key"],
 		},
+		{
+			"trigger": "overlay_has_focus",
+			"details": "Overlay has focus",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "overlay_name",
+			"details": "Name of the overlay open",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "group_has_multiselect",
+			"details": "Group has multiselected tabs",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "group_has_transient_sheet",
+			"details": "Group has a transient sheet",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "has_snippet",
+			"details": "Word before cursor expands to a snippet",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "is_javadoc",
+			// "details": "TODO",
+			"kind": ["variable", "k", "key"],
+		}
 	]
 }

@@ -425,8 +425,10 @@ contexts:
     - match: |-
         (?x)(")((?:preceding_|following_)?text|num_selections|selection_empty
                 |has_(?:next|prev)_field
-                |(?:panel|overlay|auto_complete|popup)_visible|panel|panel_has_focus
-                |last_command|indented_block
+                |(?:panel|auto_complete|popup)_visible|panel|panel_has_focus
+                |last_command|indented_block|has_snippet|is_javadoc
+                |overlay_(?:has_focus|visible|name)
+                |group_has_(?:multiselect|transient_sheet)
                )(")
       scope: meta.context.key-value.key.other.sublime-keymap string.quoted.double.json
       captures:
