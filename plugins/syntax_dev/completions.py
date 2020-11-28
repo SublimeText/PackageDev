@@ -20,6 +20,8 @@ KIND_HEADER_LIST = (sublime.KIND_ID_NAMESPACE, 'L', 'Header List')
 KIND_BRANCH = (sublime.KIND_ID_NAVIGATION, 'b', 'Branch Point')
 KIND_CONTEXT = (sublime.KIND_ID_KEYWORD, 'c', 'Context')
 KIND_FUNCTION = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
+KIND_FUNCTION_TRUE = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
+KIND_FUNCTION_FALSE = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
 KIND_CAPTURUE = (sublime.KIND_ID_FUNCTION, 'c', 'Captures')
 KIND_SCOPE = (sublime.KIND_ID_NAMESPACE, 's', 'Scope')
 KIND_VARIABLE = (sublime.KIND_ID_VARIABLE, 'v', 'Variable')
@@ -53,6 +55,12 @@ def format_static_completions(templates):
         elif kind is KIND_HEADER_LIST:
             completion_format = sublime.COMPLETION_FORMAT_SNIPPET
             suffix = ":\n  - "
+        elif kind is KIND_FUNCTION_TRUE:
+            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
+            suffix = ": ${1:true}"
+        elif kind is KIND_FUNCTION_FALSE:
+            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
+            suffix = ": ${1:false}"
         else:
             completion_format = sublime.COMPLETION_FORMAT_TEXT
             suffix = ": "
@@ -96,10 +104,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     base_completions_contexts = format_static_completions(templates=(
         # meta functions
-        ('meta_append', KIND_FUNCTION, 'Add rules to the end of the inherit context.'),
+        ('meta_append', KIND_FUNCTION_TRUE, 'Add rules to the end of the inherit context.'),
         ('meta_content_scope', KIND_FUNCTION, 'A scope to apply to the content of a context.'),
-        ('meta_include_prototype', KIND_FUNCTION, 'Flag to include/exclude `prototype`'),
-        ('meta_prepend', KIND_FUNCTION, 'Add rules to the beginning of the inherit context.'),
+        ('meta_include_prototype', KIND_FUNCTION_FALSE, 'Flag to in-/exclude `prototype`'),
+        ('meta_prepend', KIND_FUNCTION_TRUE, 'Add rules to the beginning of the inherit context.'),
         ('meta_scope', KIND_FUNCTION, 'A scope to apply to the full context.'),
         ('clear_scopes', KIND_FUNCTION, 'Clear meta scopes.'),
         # matching tokens
@@ -110,6 +118,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # contexts
         ('push', KIND_FUNCTION, 'Push a context onto the stack.'),
         ('set', KIND_FUNCTION, 'Set a context onto the stack.'),
+        ('pop', KIND_FUNCTION_TRUE, 'Pop context(s) from the stack.'),
         ('with_prototype', KIND_FUNCTION, 'Rules to prepend to each context.'),
         # branching
         ('branch_point', KIND_FUNCTION, 'Name of the point to rewind to if a branch fails.'),
@@ -122,10 +131,8 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         ('escape_captures', KIND_CAPTURUE, 'Assigns scopes to the capture groups.'),
         # including
         ('include', KIND_FUNCTION, 'Includes a context.'),
-        ('apply_prototype', KIND_FUNCTION, 'If `true` apply prototype of included syntax.'),
+        ('apply_prototype', KIND_FUNCTION_TRUE, 'Apply prototype of included syntax.'),
     ))
-
-    base_completions_contexts += (("pop\tpop: true", "pop: ${1:true}"),)
 
     # These instance variables are for communicating
     # with our PostCompletionsListener instance.
