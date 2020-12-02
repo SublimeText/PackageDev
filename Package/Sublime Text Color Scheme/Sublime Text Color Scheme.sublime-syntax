@@ -233,7 +233,7 @@ contexts:
           |brackets_foreground|bracket_contents_foreground|tags_foreground
           |minimap_border|gutter|gutter_foreground|rulers|fold_marker
           |line_diff_(?:modified|added|deleted) # added in 3186 & 3189
-          |block_caret(?:_(?:corner_style|border|underline)) # block_caret added in 3190, others in 4086.
+          |block_caret(?:_(?:corner_style|border|underline|corner_radius))? # block_caret added in 3190, others in 4086.
         )(")
       captures:
         1: punctuation.definition.string.begin.json
