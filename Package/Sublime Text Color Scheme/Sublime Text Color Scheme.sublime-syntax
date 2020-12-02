@@ -233,7 +233,7 @@ contexts:
           |brackets_foreground|bracket_contents_foreground|tags_foreground
           |minimap_border|gutter|gutter_foreground|rulers|fold_marker
           |line_diff_(?:modified|added|deleted) # added in 3186 & 3189
-          |block_caret(?:_(?:corner_style|border|underline|corner_radius))? # block_caret added in 3190, others in 4086.
+          |block_caret(?:_(?:border|underline))? # block_caret added in 3190, others in 4086.
         )(")
       captures:
         1: punctuation.definition.string.begin.json
@@ -246,7 +246,7 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-css-string-value, expect-colon]
-    - match: (")(shadow_width|selection_corner_radius|selection_border_width|line_diff_width)(")
+    - match: (")(shadow_width|(?:selection|block_caret)_corner_radius|selection_border_width|line_diff_width)(")
       captures:
         1: punctuation.definition.string.begin.json
         2: entity.name.globals.sublime-color-scheme
@@ -264,7 +264,7 @@ contexts:
         2: entity.name.globals.sublime-color-scheme
         3: punctuation.definition.string.end.json
       set: [expect-underlinestyle-string-value, expect-colon]
-    - match: (")(selection_corner_style)(")
+    - match: (")((?:selection|block_caret)_corner_style)(")
       captures:
         1: punctuation.definition.string.begin.json
         2: entity.name.globals.sublime-color-scheme
