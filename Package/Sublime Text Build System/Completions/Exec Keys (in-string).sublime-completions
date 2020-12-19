@@ -52,6 +52,11 @@
             "kind": ["keyword", "k", "exec"],
         },
         {
+            "trigger": "update_annotations_only",
+            "details": "Update annotations only",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
             "trigger": "word_wrap",
             "details": "Enable word wrapping for output panel",
             "kind": ["keyword", "k", "exec"],
