@@ -62,12 +62,6 @@
             "kind": ["keyword", "k", "exec"],
         },
         {
-            "trigger": "update_phantoms_only",
-            "contents": "\"update_phantoms_only\": true,$0",
-            "details": "Just update phantoms",
-            "kind": ["keyword", "k", "exec"],
-        },
-        {
             "trigger": "word_wrap",
             "contents": "\"word_wrap\": \"$1\",$0",
             "details": "Enable word wrapping for output panel",
