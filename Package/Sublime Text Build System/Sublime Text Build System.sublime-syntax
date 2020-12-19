@@ -133,7 +133,7 @@ contexts:
         2: support.function.exec-arg.sublime-build
         3: punctuation.definition.string.end.json
       set: [expect-regex-string-value, expect-colon]
-    - match: (")(shell|quiet|kill|update_phantoms_only|hide_phantoms_only|word_wrap)(")
+    - match: (")(shell|quiet|kill(?:_previous)?|update_annotations_only|word_wrap)(")
       scope: meta.mapping.key.json meta.main-key.sublime-build string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
