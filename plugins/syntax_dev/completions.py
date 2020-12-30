@@ -170,13 +170,13 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # Auto-completion for include values using the 'contexts' keys and for
         if match_selector("meta.expect-context-list-or-content"
                           " | meta.context-list-or-content", -1):
-            return self._complete_keyword(prefix, locations) + \
-                self._complete_context(prefix, locations)
+            return (self._complete_keyword(prefix, locations)
+                    + self._complete_context(prefix, locations))
 
         # Auto-completion for include values using the 'contexts' keys
         if match_selector("meta.expect-context-list | meta.expect-context"
                           " | meta.include | meta.context-list", -1):
-            return self._complete_context(prefix, locations)
+            return self._complete_context(prefix, locations) or None
 
         # Auto-completion for branch points with 'fail' key
         if match_selector("meta.expect-branch-point-reference"
@@ -201,10 +201,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             line_prefix = self._line_prefix(point)
             real_prefix = re.search(r"[^,\[ ]*$", line_prefix).group(0)
             if real_prefix.startswith("scope:") or "/" in real_prefix:
-                return None  # Don't show any completions here
+                return []  # Don't show any completions here
             elif real_prefix != prefix:
                 # print("Unexpected prefix mismatch: {} vs {}".format(real_prefix, prefix))
-                return None
+                return []
 
         return format_completions(
             [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
@@ -287,7 +287,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         if len(regions) != 1:
             status("Warning: Could not determine base scope uniquely", console=True)
             self.base_suffix = None
-            return None
+            return []
 
         base_scope = self.view.substr(regions[0])
         *_, base_suffix = base_scope.rpartition(".")
@@ -295,7 +295,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # In this case it is even useful to inhibit other completions completely
         if last_token == base_suffix:
             self.base_suffix = None
-            return None
+            return []
 
         self.base_suffix = base_suffix
         return format_completions([(base_suffix, None)], "base suffix", KIND_SCOPE)
