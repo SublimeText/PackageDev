@@ -96,7 +96,7 @@
         { // colors
             "tint_modifier": "rgba(235, 237, 239, 0.1)",
 //           ^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
-//                            ^^^^ meta.function-call.css support.function.color.css
+//                            ^^^^ source.css-color meta.function-call
             "layer0.tint": "var(--background)"
 //          ^^^^^^^^^^^^^ meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
 //           ^^^^^^^^^^^ keyword.other.rule.sublime-theme
@@ -227,25 +227,25 @@
 //                                        ^^^^^^^^^^^ entity.other.attribute-name.sublime-theme
             "top_shadow": "black",
 //           ^^^^^^^^^^ keyword.other.rule.sublime-theme
-//                         ^^^^^ support.constant.color.w3c-standard-color-name.css
+//                         ^^^^^ source.css-color support.constant
             "top_shadow_size": 6,
 //           ^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
 //                             ^ constant.numeric.json
             "bottom_shadow": "black",
 //           ^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
-//                            ^^^^^ support.constant.color.w3c-standard-color-name.css
+//                            ^^^^^ source.css-color support.constant
             "bottom_shadow_size": 6,
 //           ^^^^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
 //                                ^ constant.numeric.json
             "left_shadow": "black",
 //           ^^^^^^^^^^^ keyword.other.rule.sublime-theme
-//                          ^^^^^ support.constant.color.w3c-standard-color-name.css
+//                          ^^^^^ source.css-color support.constant
             "left_shadow_size": 6,
 //           ^^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
 //                              ^ constant.numeric.json
             "right_shadow": "black",
 //           ^^^^^^^^^^^^ keyword.other.rule.sublime-theme
-//                           ^^^^^ support.constant.color.w3c-standard-color-name.css
+//                           ^^^^^ source.css-color support.constant
             "right_shadow": [0, 0, 0, 255],
 //           ^^^^^^^^^^^^ keyword.other.rule.sublime-theme
 //                          ^^^^^^^^^^^^^^ meta.sequence.json
