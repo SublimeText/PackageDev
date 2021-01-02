@@ -23,4 +23,4 @@ def get_setting(key, default=None):
 
 def sorted_completions(completions):
     """Sort completions case insensitively."""
-    return list(sorted(completions, key=lambda x: x[0].lower()))
+    return list(sorted(completions, key=lambda x: x.trigger.lower()))

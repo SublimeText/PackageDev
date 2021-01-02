@@ -19,6 +19,8 @@ logger = logging.getLogger(__name__)
 PREF_FILE = "Preferences.sublime-settings"
 PREF_FILE_ALIAS = "Base File.sublime-settings"
 
+KIND_SETTING = (sublime.KIND_ID_VARIABLE, "S", "Setting")
+
 
 def html_encode(string):
     """Encode some critical characters to html entities."""
@@ -30,7 +32,7 @@ def html_encode(string):
                  .replace("\n", "<br>") if string else ""
 
 
-def format_completion_item(value, default=None, is_default=False, label=None, description=None):
+def format_completion_item(value, default=None, is_default=False, label=None, annotation=None):
     """Create a completion item with its type as description.
 
     Arguments:
@@ -44,18 +46,21 @@ def format_completion_item(value, default=None, is_default=False, label=None, de
         label (str):
             An alternative label to use to present the `value`
             in the completions panel.
-        description (str):
-            An optional description to display after the label.
-            If `None` is provided, the data type of `value` is displayed.
+        annotation (str):
+            An optional annotation to display after the label.
     """
     if isinstance(value, dict):
         raise ValueError("Cannot format dictionary value", value)
     if not is_default:
         is_default = value in default if isinstance(default, list) else value == default
-    return (("{0}  \t(default) {1}" if is_default else "{0}  \t{1}")
-            .format(sublime.encode_value(label or value).strip('"'),
-                    description or type(value).__name__),
-            value)
+    type_ = type(value).__name__
+    return sublime.CompletionItem(
+        trigger=sublime.encode_value(label or value).strip('"'),
+        annotation=("(default) {}" if is_default else "{}").format(annotation or ""),
+        completion=value,
+        completion_format=sublime.COMPLETION_FORMAT_TEXT,
+        kind=(sublime.KIND_ID_SNIPPET, type_[0], type_),
+    )
 
 
 def decode_value(string):
@@ -401,18 +406,32 @@ class KnownSettings(object):
         if view.match_selector(point - 1, "string"):
             # we are within quotations, return words only
             completions = [
-                ["{0}  \tsetting".format(key), '{0}'.format(key)]
+                sublime.CompletionItem(
+                    trigger=key,
+                    completion=key,
+                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                    kind=KIND_SETTING,
+                    # TODO link to show full description
+                    # details=,
+                )
                 for key in self.defaults
             ]
         else:
             line = view.substr(view.line(point)).strip()
             # don't add newline after snippet if user starts on empty line
-            eol = "," if len(line) == len(prefix) else ',\n'
+            eol = "," if len(line) == len(prefix) else ",\n"
             # no quotations -> return full snippet
-            completions = sorted_completions((
-                "{0}  \tsetting".format(key),
-                self._key_snippet(key, value, eol=eol)
-            ) for key, value in self.defaults.items())
+            completions = sorted_completions(
+                sublime.CompletionItem(
+                    trigger=key,
+                    completion=self._key_snippet(key, value, eol=eol),
+                    completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                    kind=KIND_SETTING,
+                    # TODO link to show full description
+                    # details=,
+                )
+                for key, value in self.defaults.items()
+            )
 
         return completions, sublime.INHIBIT_WORD_COMPLETIONS
 
@@ -497,15 +516,19 @@ class KnownSettings(object):
             logger.debug("unable to find current key")
             return None
 
-        completions = self._value_completions_for(key)
+        # Use a map to deduplicate completions by trigger; latter overrides
+        completions_map = {c.trigger: c for c in self._value_completions_for(key)}
+        completions = list(completions_map.values())
         if not completions:
             logger.debug("no completions to offer")
             return None
 
         is_str = any(
-            bool(isinstance(value, str)
-                 or isinstance(value, list) and value and isinstance(value[0], str)
-                 ) for _, value in completions
+            bool(isinstance(c.completion, str)
+                 or (isinstance(c.completion, list)
+                     and c.completion
+                     and isinstance(c.completion[0], str)))
+            for c in completions
         )
         in_str = view.match_selector(point, "string")
         logger.debug("completing a string (%s) within a string (%s)", is_str, in_str)
@@ -524,18 +547,18 @@ class KnownSettings(object):
 
         if in_str and is_str:
             # Strip completions of non-strings. Don't need quotation marks.
-            results = {
-                (trigger, value) for trigger, value in completions
-                if isinstance(value, str)
-            }
+            completions = [
+                c for c in completions
+                if isinstance(c.completion, str)
+            ]
         else:
             # JSON-ify completion values with special handling for floats.
             #
             # the value typed so far, which may differ from prefix for floats
             typed_region = sublime.Region(value_region.begin(), point)
             typed = view.substr(typed_region).lstrip()
-            results = set()
-            for trigger, value in completions:
+            for c in completions:
+                value = c.completion
                 # unroll dicts
                 if isinstance(value, frozenset):
                     value = dict(value)
@@ -560,11 +583,10 @@ class KnownSettings(object):
 
                 # escape snippet markers
                 value_str = value_str.replace("$", "\\$")
-
-                results.add((trigger, value_str))
+                c.completion = value_str
 
         # disable word completion to prevent stupid suggestions
-        return sorted_completions(results), sublime.INHIBIT_WORD_COMPLETIONS
+        return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
 
     def _value_completions_for(self, key):
         """Collect and return value completions from matching source.
@@ -582,15 +604,14 @@ class KnownSettings(object):
         logger.debug("default value: %r", default)
 
         if key == 'color_scheme':
-            completions = self._color_scheme_completions(default)
+            yield from self._color_scheme_completions(default)
         elif key in ('default_encoding', 'fallback_encoding'):
-            completions = self._encoding_completions(default)
+            yield from self._encoding_completions(default)
         elif key == 'theme':
-            completions = self._theme_completions(default)
+            yield from self._theme_completions(default)
         else:
-            completions = self._completions_from_comment(key, default)
-            completions |= self._completions_from_default(key, default)
-        return completions
+            yield from self._completions_from_comment(key, default)
+            yield from self._completions_from_default(key, default)
 
     def _completions_from_comment(self, key, default):
         """Parse settings comments and return all possible values.
@@ -610,15 +631,14 @@ class KnownSettings(object):
             {(trigger, contents), ...}
                 A set of all completions.
         """
-        completions = set()
         comment = self.comments.get(key)
         if not comment:
-            return completions
+            return
 
         for match in re.finditer(r"`([^`\n]+)`", comment):
             # backticks should wrap the value in JSON representation,
             # so we try to decode it
-            value, = match.groups()
+            value = match.group(1)
             try:
                 value = sublime.decode_value(value)
             except ValueError:
@@ -627,13 +647,14 @@ class KnownSettings(object):
                 # Suggest list items as completions instead of a string
                 # representation of the list.
                 # Unless it's a dict.
-                completions.update(format_completion_item(v, default)
-                                   for v in value if not isinstance(v, dict))
+                for v in value:
+                    if not isinstance(v, dict):
+                        yield format_completion_item(v, default)
             elif isinstance(value, dict):
                 # TODO what should we do with dicts?
                 pass
             else:
-                completions.add(format_completion_item(value, default))
+                yield format_completion_item(value, default)
 
         for match in re.finditer(r'"([\.\w]+)"', comment):
             # quotation marks either wrap a string, a numeric or a boolean
@@ -643,9 +664,7 @@ class KnownSettings(object):
                 value = decode_value(value)
             except ValueError:
                 pass
-            completions.add(format_completion_item(value, default))
-
-        return completions
+            yield format_completion_item(value, default)
 
     @staticmethod
     def _completions_from_default(key, default):
@@ -660,15 +679,17 @@ class KnownSettings(object):
                 A set of all completions.
         """
         if default is None or default == "":
-            return set()
+            return
         elif isinstance(default, bool):
-            return set(format_completion_item(value, default=default) for value in [True, False])
+            for value in [True, False]:
+                yield format_completion_item(value, default=default)
         elif isinstance(default, list):
-            return {format_completion_item(value, is_default=True) for value in default}
+            for value in default:
+                yield format_completion_item(value, is_default=True)
         elif isinstance(default, dict):
-            return set()  # TODO can't complete these yet
+            return  # TODO can't complete these yet
         else:
-            return {format_completion_item(default, is_default=True)}
+            yield format_completion_item(default, is_default=True)
 
     @staticmethod
     def _color_scheme_completions(default):
@@ -687,7 +708,6 @@ class KnownSettings(object):
                 - contents (string): the value to commit to the settings
         """
         hidden = get_setting('settings.exclude_color_scheme_patterns') or []
-        completions = set()
         for scheme_path in sublime.find_resources("*.sublime-color-scheme"):
             if not any(hide in scheme_path for hide in hidden):
                 try:
@@ -696,9 +716,7 @@ class KnownSettings(object):
                     continue
                 if root == 'Cache':
                     continue
-                completions.add(format_completion_item(
-                    value=name, default=default, description=package
-                ))
+                yield format_completion_item(value=name, default=default, annotation=package)
 
         for scheme_path in sublime.find_resources("*.tmTheme"):
             if not any(hide in scheme_path for hide in hidden):
@@ -708,10 +726,9 @@ class KnownSettings(object):
                     continue
                 if root == 'Cache':
                     continue
-                completions.add(format_completion_item(
-                    value=scheme_path, default=default, label=name, description=package
-                ))
-        return completions
+                yield format_completion_item(
+                    value=scheme_path, default=default, label=name, annotation=package
+                )
 
     @staticmethod
     def _encoding_completions(default):
@@ -726,8 +743,8 @@ class KnownSettings(object):
                 - trigger (string): the encoding in sublime format
                 - contents (string): the encoding in sublime format
         """
-        return {format_completion_item(enc, default=default, description="encoding")
-                for enc in encodings.SUBLIME_TO_STANDARD.keys()}
+        for enc in encodings.SUBLIME_TO_STANDARD.keys():
+            yield format_completion_item(value=enc, default=default, annotation="encoding")
 
     @staticmethod
     def _theme_completions(default):
@@ -746,10 +763,8 @@ class KnownSettings(object):
                 - contents (string): the file name to commit to the settings
         """
         hidden = get_setting('settings.exclude_theme_patterns') or []
-        completions = set()
         for theme_path in ResourcePath.glob_resources("*.sublime-theme"):
             if not any(hide in theme_path.name for hide in hidden):
-                completions.add(format_completion_item(
-                    value=theme_path.name, default=default, description="theme"
-                ))
-        return completions
+                yield format_completion_item(
+                    value=theme_path.name, default=default, annotation="theme"
+                )

@@ -23,6 +23,16 @@ __all__ = (
     "SublimeTextCommandCompletionListener",
 )
 
+KIND_APPLICATION = (sublime.KIND_ID_FUNCTION, "A", "Application Command")
+KIND_WINDOW = (sublime.KIND_ID_FUNCTION, "W", "Window Command")
+KIND_TEXT = (sublime.KIND_ID_FUNCTION, "T", "Text Command")
+KIND_MAP = {
+    'application': KIND_APPLICATION,
+    'window': KIND_WINDOW,
+    'text': KIND_TEXT,
+}
+KIND_COMMAND = (sublime.KIND_ID_FUNCTION, "C", "Command")  # fallback
+
 logger = logging.getLogger(__name__)
 
 
@@ -87,27 +97,64 @@ def create_args_snippet_from_command_args(command_args, quote_char='"', for_json
     return args_snippet
 
 
-class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
+def _builtin_completions(names):
+    _, data = get_builtin_command_meta_data()
+    for name in names:
+        yield sublime.CompletionItem(
+            trigger=name,
+            annotation="built-in",
+            completion=name,
+            completion_format=sublime.COMPLETION_FORMAT_TEXT,
+            kind=KIND_MAP.get(data[name].get("command_type"), KIND_COMMAND),
+            details=data[name].get('doc_string') or "",
+            # TODO link to show full description
+        )
 
-    @staticmethod
-    def _create_completion(c):
-        name = get_command_name(c)
-        module = c.__module__
-        package = module.split(".")[0]
-        show = "{name}\t{package}".format(**locals())
-        return show, name
+
+def _plugin_completions(cmd_classes):
+    for cmd_class in cmd_classes:
+        name = get_command_name(cmd_class)
+        module = cmd_class.__module__
+        package_name = module.split(".")[0]
+        if issubclass(cmd_class, sublime_plugin.TextCommand):
+            kind = KIND_TEXT
+        elif issubclass(cmd_class, sublime_plugin.WindowCommand):
+            kind = KIND_WINDOW
+        elif issubclass(cmd_class, sublime_plugin.ApplicationCommand):
+            kind = KIND_APPLICATION
+        else:
+            kind = KIND_COMMAND
+
+        yield sublime.CompletionItem(
+            trigger=name,
+            annotation=package_name,
+            completion=name,
+            completion_format=sublime.COMPLETION_FORMAT_TEXT,
+            kind=kind,
+            details=(cmd_class.__doc__ or "").strip(),
+            # TODO link to show full description
+        )
+
+
+def _create_completions(command_type=""):
+    completions = sorted_completions(
+        itertools.chain(
+            _builtin_completions(get_builtin_commands(command_type)),
+            _plugin_completions(iter_python_command_classes(command_type)),
+        )
+    )
+    logger.debug("Collected %d command completions", len(completions))
+    return completions
+
+
+class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         keymap_scope = "source.json.sublime meta.command-name"
         loc = locations[0]
         if not view.score_selector(loc, keymap_scope):
             return
-        command_classes = iter_python_command_classes()
-
-        completions = set()
-        completions.update((c + "\tbuilt-in", c) for c in get_builtin_commands())
-        completions.update(self._create_completion(c) for c in command_classes)
-        return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
+        return _create_completions(), sublime.INHIBIT_WORD_COMPLETIONS
 
 
 class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
@@ -118,35 +165,11 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
         re.MULTILINE
     )
 
-    @staticmethod
-    def _create_builtin_completion(c):
-        _, data = get_builtin_command_meta_data()
-        show = ("{c}\t({stype}) built-in"
-                .format(c=c, stype=data[c].get("command_type", " ")[:1].upper()))
-        return show, c
-
-    @staticmethod
-    def _create_completion(c):
-        name = get_command_name(c)
-        module = c.__module__
-        package = module.split(".")[0]
-        if issubclass(c, sublime_plugin.TextCommand):
-            stype = "T"
-        elif issubclass(c, sublime_plugin.WindowCommand):
-            stype = "W"
-        elif issubclass(c, sublime_plugin.ApplicationCommand):
-            stype = "A"
-        else:
-            stype = "?"
-
-        show = "{name}\t({stype}) {package}".format(**locals())
-        return show, name
-
     def on_query_completions(self, view, prefix, locations):
         loc = locations[0]
         python_arg_scope = ("source.python meta.function-call.arguments.python string.quoted")
         if not view.score_selector(loc, python_arg_scope) or not is_plugin(view):
-            return
+            return None
 
         before_region = sublime.Region(view.line(loc).a, loc)
         lines = view.line(sublime.Region(view.line(locations[0]).a - 1, loc))
@@ -154,7 +177,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
         before = view.substr(before_region)
         m = self._RE_LINE_BEFORE.search(before)
         if not m:
-            return
+            return None
         # get the command type
         caller_var = m.group('callervar')
         logger.debug("caller_var: %s", caller_var)
@@ -166,14 +189,8 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
             # window.run_command allows all command types
             command_type = ''
 
-        command_classes = iter_python_command_classes(command_type)
-        completions = set()
-        completions.update(
-            self._create_builtin_completion(c)
-            for c in get_builtin_commands(command_type)
-        )
-        completions.update(self._create_completion(c) for c in command_classes)
-        return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
+        return _create_completions(command_type), sublime.INHIBIT_WORD_COMPLETIONS
+        view.run_command("")
 
 
 class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
