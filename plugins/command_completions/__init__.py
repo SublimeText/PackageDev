@@ -7,7 +7,6 @@ import itertools
 import sublime
 import sublime_plugin
 
-from ..lib import sorted_completions
 from .commandinfo import (
     get_command_name,
     get_builtin_command_meta_data,
@@ -137,12 +136,9 @@ def _plugin_completions(cmd_classes):
 
 
 def _create_completions(command_type=""):
-    completions = sorted_completions(
-        itertools.chain(
-            _builtin_completions(get_builtin_commands(command_type)),
-            _plugin_completions(iter_python_command_classes(command_type)),
-        )
-    )
+    completions = []
+    completions.extend(_builtin_completions(get_builtin_commands(command_type)))
+    completions.extend(_plugin_completions(iter_python_command_classes(command_type)))
     logger.debug("Collected %d command completions", len(completions))
     return completions
 

@@ -11,7 +11,7 @@ from sublime_lib import encodings, ResourcePath
 
 
 from ..lib.weakmethod import WeakMethodProxy
-from ..lib import get_setting, sorted_completions
+from ..lib import get_setting
 from .region_math import VALUE_SCOPE, get_value_region_at, get_last_key_name_from
 
 logger = logging.getLogger(__name__)
@@ -421,7 +421,7 @@ class KnownSettings(object):
             # don't add newline after snippet if user starts on empty line
             eol = "," if len(line) == len(prefix) else ",\n"
             # no quotations -> return full snippet
-            completions = sorted_completions(
+            completions = [
                 sublime.CompletionItem(
                     trigger=key,
                     completion=self._key_snippet(key, value, eol=eol),
@@ -431,7 +431,7 @@ class KnownSettings(object):
                     # details=,
                 )
                 for key, value in self.defaults.items()
-            )
+            ]
 
         return completions, sublime.INHIBIT_WORD_COMPLETIONS
 
@@ -586,7 +586,7 @@ class KnownSettings(object):
                 c.completion = value_str
 
         # disable word completion to prevent stupid suggestions
-        return sorted_completions(completions), sublime.INHIBIT_WORD_COMPLETIONS
+        return completions, sublime.INHIBIT_WORD_COMPLETIONS
 
     def _value_completions_for(self, key):
         """Collect and return value completions from matching source.
