@@ -26,6 +26,30 @@
             "kind": ["keyword", "k", "globals"],
         },
         {
+            "trigger": "block_caret_corner_style",
+            "details": "Block caret corner style",
+            "contents": "\"block_caret_corner_style\": \"$1\",",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "block_caret_border",
+            "details": "Block caret border color",
+            "contents": "\"block_caret_border\": \"$1\",",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "block_caret_underline",
+            "details": "Color of the block caret in selection",
+            "contents": "\"block_caret_underline\": \"$1\",",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "block_caret_corner_radius",
+            "details": "Block caret corner radius",
+            "contents": "\"block_caret_corner_radius\": \"$1\",",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
             "trigger": "bracket_contents_foreground",
             "details": "Foreground color of highlighted brackets (inside)",
             "contents": "\"bracket_contents_foreground\": \"$1\",",
