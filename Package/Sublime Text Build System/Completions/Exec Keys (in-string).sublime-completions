@@ -47,8 +47,13 @@
             "kind": ["keyword", "k", "exec"],
         },
         {
-            "trigger": "update_phantoms_only",
-            "details": "Just update phantoms",
+            "trigger": "kill_previous",
+            "details": "Kill the previously runnning build",
+            "kind": ["keyword", "k", "exec"],
+        },
+        {
+            "trigger": "update_annotations_only",
+            "details": "Update annotations only",
             "kind": ["keyword", "k", "exec"],
         },
         {
