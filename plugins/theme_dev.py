@@ -6,7 +6,7 @@ import sublime_plugin
 from sublime_lib import ResourcePath
 
 from .lib import syntax_paths
-from .color_scheme_dev import inhibit_word_completions
+from .lib import inhibit_word_completions
 
 __all__ = (
     'PackagedevEditThemeCommand',
@@ -22,6 +22,8 @@ THEME_TEMPLATE = """\
   "rules": [
   ],
 }""".replace("  ", "\t")
+
+KIND_THEME = (sublime.KIND_ID_VARIABLE, "t", "Theme")
 
 logger = logging.getLogger(__name__)
 
@@ -79,4 +81,11 @@ class ThemeCompletionsListener(sublime_plugin.ViewEventListener):
 
         sorted_names = sorted(names)
         logger.debug("Found %d themes to complete: %r", len(names), sorted_names)
-        return [("{}\ttheme".format(name), name) for name in sorted_names]
+        return [
+            sublime.CompletionItem(
+                trigger=name,
+                completion=name,
+                kind=KIND_THEME,
+            )
+            for name in sorted_names
+        ]

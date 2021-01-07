@@ -33,18 +33,28 @@ SCHEME_TEMPLATE = """\
   ],
 }""".replace("  ", "\t")
 
-VARIABLES = [
-    ("--background\tbuiltin", "--background"),
-    ("--foreground\tbuiltin", "--foreground"),
-    ("--accent\tbuiltin", "--accent"),
-    ("--bluish\tbuiltin", "--bluish"),
-    ("--cyanish\tbuiltin", "--cyanish"),
-    ("--greenish\tbuiltin", "--greenish"),
-    ("--orangish\tbuiltin", "--orangish"),
-    ("--pinkish\tbuiltin", "--pinkish"),
-    ("--purplish\tbuiltin", "--purplish"),
-    ("--redish\tbuiltin", "--redish"),
-    ("--yellowish\tbuiltin", "--yellowish"),
+KIND_VARIABLE = (sublime.KIND_ID_VARIABLE, 'v', 'Variable')
+
+BUILTIN_VARIABLES = [
+    sublime.CompletionItem(
+        trigger=var,
+        annotation="built-in",
+        completion=var,
+        kind=KIND_VARIABLE,
+    )
+    for var in (
+        "--background",
+        "--foreground",
+        "--accent",
+        "--bluish",
+        "--cyanish",
+        "--greenish",
+        "--orangish",
+        "--pinkish",
+        "--purplish",
+        "--redish",
+        "--yellowish",
+    )
 ]
 
 logger = logging.getLogger(__name__)
@@ -66,9 +76,18 @@ class Variable(namedtuple("_Varible", "name value source")):
             # TODO doesn't escape json chars
             formatted_value = _escape_in_snippet(sublime.encode_value(self.value))
             contents = '"{}": ${{0:{}}},'.format(self.name, formatted_value)
-            return ("{}\t{}".format(self.name, self.source), contents)
+            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
         else:
-            return ("{}\t{}".format(self.name, self.source), self.name)
+            contents = self.name
+            completion_format = sublime.COMPLETION_FORMAT_TEXT
+
+        return sublime.CompletionItem(
+            trigger=self.name,
+            annotation=self.source,
+            completion=contents,
+            completion_format=completion_format,
+            kind=KIND_VARIABLE,
+        )
 
 
 def _collect_inherited_variables(name=None, extends=None, excludes=set()):
@@ -81,7 +100,6 @@ def _collect_inherited_variables(name=None, extends=None, excludes=set()):
     The result is a collection of variables that follows
     ST's internal override algorithm.
     """
-    variables = set()
     extends = extends or OrderedDict()  # preserve order & deduplicate
     if name:
         resources = (r for r in reversed(sublime.find_resources(name)) if r not in excludes)
@@ -93,7 +111,7 @@ def _collect_inherited_variables(name=None, extends=None, excludes=set()):
                     continue
                 if 'variables' in contents:
                     for k, v in contents['variables'].items():
-                        variables.add(Variable(k, v, name))
+                        yield Variable(k, v, name)
                 if 'extends' in contents:
                     extends[contents['extends']] = True
             except Exception as e:
@@ -101,9 +119,7 @@ def _collect_inherited_variables(name=None, extends=None, excludes=set()):
 
     for extended_name in extends.keys():
         logger.debug("Recursing into extended theme '%s'", extended_name)
-        variables |= _collect_inherited_variables(extended_name, excludes=excludes)
-
-    return variables
+        yield from _collect_inherited_variables(extended_name, excludes=excludes)
 
 
 class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
@@ -144,20 +160,20 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
             if extends_regions:
                 logger.warning('Found more than 1 "extends" key for theme')
 
-        return _collect_inherited_variables(name, extends, excludes)
+        return set(_collect_inherited_variables(name, extends, excludes))
 
     def variable_completions(self, locations):
         variable_regions = self.view.find_by_selector("entity.name.variable.sublime-color-scheme"
                                                       "| entity.name.variable.sublime-theme")
-        variables = {Variable(self.view.substr(r), None, "current file") for r in variable_regions}
+        variables = {Variable(self.view.substr(r), None, "") for r in variable_regions}
         inherited_variables = self._inherited_variables()
-        sorted_variables = sorted(variables | inherited_variables)
-        logger.debug("Found %d (+%d inherited) variables to complete: %r",
-                     len(variables), len(inherited_variables), sorted_variables)
-        variable_completions = [var.as_completion() for var in sorted_variables]
+        variables |= inherited_variables
+        logger.debug("Found %d (%d inherited) variables to complete: %r",
+                     len(variables), len(inherited_variables), variables)
+        variable_completions = [var.as_completion() for var in variables]
 
         if self.view.match_selector(locations[0], "source.json.sublime.theme"):
-            variable_completions += VARIABLES
+            variable_completions += BUILTIN_VARIABLES
 
         return variable_completions
 
