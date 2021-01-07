@@ -6,6 +6,7 @@ import sublime_plugin
 
 from ..lib.scope_data import COMPILED_HEADS
 from ..lib import syntax_paths
+from ..lib import inhibit_word_completions
 
 __all__ = (
     'SyntaxDefCompletionsListener',
@@ -34,16 +35,6 @@ def status(msg, console=False):
     sublime.status_message(msg)
     if console:
         print(msg)
-
-
-def _inhibit_word_completions(func):
-    """Decorator that inhibits ST's word completions if non-None value is returned."""
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        ret = func(*args, **kwargs)
-        return (ret, sublime.INHIBIT_WORD_COMPLETIONS) if ret else ret
-
-    return wrapper
 
 
 def format_static_completions(templates):
@@ -151,7 +142,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
     def is_applicable(cls, settings):
         return settings.get('syntax') == syntax_paths.SYNTAX_DEF
 
-    @_inhibit_word_completions
+    @inhibit_word_completions
     def on_query_completions(self, prefix, locations):
 
         def match_selector(selector, offset=0):

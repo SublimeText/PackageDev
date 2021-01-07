@@ -1,5 +1,4 @@
 from collections import OrderedDict, namedtuple
-import functools
 import logging
 import re
 
@@ -10,6 +9,7 @@ from sublime_lib import ResourcePath
 
 from .lib.scope_data import completions_from_prefix
 from .lib import syntax_paths
+from .lib import inhibit_word_completions
 
 __all__ = (
     'ColorSchemeCompletionsListener',
@@ -48,17 +48,6 @@ VARIABLES = [
 ]
 
 logger = logging.getLogger(__name__)
-
-
-def inhibit_word_completions(func):
-    """Decorator that inhibits ST's word completions if non-None value is returned."""
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        ret = func(*args, **kwargs)
-        if ret is not None:
-            return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
-
-    return wrapper
 
 
 def _escape_in_snippet(v):

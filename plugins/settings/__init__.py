@@ -7,7 +7,7 @@ import sublime_plugin
 
 from sublime_lib.flags import RegionOption
 
-from ..lib import get_setting
+from ..lib import get_setting, inhibit_word_completions
 from ..lib.weakmethod import WeakMethodProxy
 
 from .region_math import (VALUE_SCOPE, KEY_SCOPE, KEY_COMPLETIONS_SCOPE,
@@ -160,6 +160,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             # This may only occur for unpacked packages
             self.build_phantoms()
 
+    @inhibit_word_completions
     def on_query_completions(self, prefix, locations):
         """Sublime Text query completions event handler.
 

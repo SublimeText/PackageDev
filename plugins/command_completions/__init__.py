@@ -7,6 +7,7 @@ import itertools
 import sublime
 import sublime_plugin
 
+from ..lib import inhibit_word_completions
 from .commandinfo import (
     get_command_name,
     get_builtin_command_meta_data,
@@ -145,12 +146,13 @@ def _create_completions(command_type=""):
 
 class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
 
+    @inhibit_word_completions
     def on_query_completions(self, view, prefix, locations):
         keymap_scope = "source.json.sublime meta.command-name"
         loc = locations[0]
         if not view.score_selector(loc, keymap_scope):
             return
-        return _create_completions(), sublime.INHIBIT_WORD_COMPLETIONS
+        return _create_completions()
 
 
 class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
@@ -161,6 +163,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
         re.MULTILINE
     )
 
+    @inhibit_word_completions
     def on_query_completions(self, view, prefix, locations):
         loc = locations[0]
         python_arg_scope = ("source.python meta.function-call.arguments.python string.quoted")
@@ -185,8 +188,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
             # window.run_command allows all command types
             command_type = ''
 
-        return _create_completions(command_type), sublime.INHIBIT_WORD_COMPLETIONS
-        view.run_command("")
+        return _create_completions(command_type)
 
 
 class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):

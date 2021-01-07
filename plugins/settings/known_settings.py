@@ -433,7 +433,7 @@ class KnownSettings(object):
                 for key, value in self.defaults.items()
             ]
 
-        return completions, sublime.INHIBIT_WORD_COMPLETIONS
+        return completions
 
     @staticmethod
     def _key_snippet(key, value, bol="", eol=",\n"):
@@ -586,7 +586,7 @@ class KnownSettings(object):
                 c.completion = value_str
 
         # disable word completion to prevent stupid suggestions
-        return completions, sublime.INHIBIT_WORD_COMPLETIONS
+        return completions
 
     def _value_completions_for(self, key):
         """Collect and return value completions from matching source.
