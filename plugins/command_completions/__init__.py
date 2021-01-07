@@ -104,7 +104,6 @@ def _builtin_completions(names):
             trigger=name,
             annotation="built-in",
             completion=name,
-            completion_format=sublime.COMPLETION_FORMAT_TEXT,
             kind=KIND_MAP.get(data[name].get("command_type"), KIND_COMMAND),
             details=data[name].get('doc_string') or "",
             # TODO link to show full description
@@ -129,7 +128,6 @@ def _plugin_completions(cmd_classes):
             trigger=name,
             annotation=package_name,
             completion=name,
-            completion_format=sublime.COMPLETION_FORMAT_TEXT,
             kind=kind,
             details=(cmd_class.__doc__ or "").strip(),
             # TODO link to show full description

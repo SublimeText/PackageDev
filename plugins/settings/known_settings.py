@@ -58,7 +58,6 @@ def format_completion_item(value, default=None, is_default=False, label=None, an
         trigger=sublime.encode_value(label or value).strip('"'),
         annotation=("(default) {}" if is_default else "{}").format(annotation or ""),
         completion=value,
-        completion_format=sublime.COMPLETION_FORMAT_TEXT,
         kind=(sublime.KIND_ID_SNIPPET, type_[0], type_),
     )
 
@@ -409,7 +408,6 @@ class KnownSettings(object):
                 sublime.CompletionItem(
                     trigger=key,
                     completion=key,
-                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
                     kind=KIND_SETTING,
                     # TODO link to show full description
                     # details=,
