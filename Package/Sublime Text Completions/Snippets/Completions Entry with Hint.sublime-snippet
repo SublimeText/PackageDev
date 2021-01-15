@@ -1,5 +1,11 @@
 <snippet>
-	<content><![CDATA[{ "trigger": "$1\t$2", "contents": "${3:1}" },]]></content>
+	<content><![CDATA[{
+	"trigger": "$1",
+	"contents": "${2:$1}",
+	"annotation": "$3",
+	"kind": ["$4", "${5:${4/^(.).*/\1/}}", "$6"],
+	"details": "$7",
+},]]></content>
 	<scope>source.json.sublime.completions meta.completions.sublime-completions - string - meta.mapping meta.mapping</scope>
 	<tabTrigger>ee</tabTrigger>
 </snippet>
