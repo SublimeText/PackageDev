@@ -10,7 +10,7 @@
         {
             "trigger": "function",
             "details": "Function",
-            "kind": ["type", "ks", "kind"],
+            "kind": ["type", "k", "kind"],
         },
         {
             "trigger": "keyword",
