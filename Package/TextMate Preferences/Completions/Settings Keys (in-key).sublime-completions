@@ -2,8 +2,6 @@
 	"scope": "meta.settings-key-wrapper.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
 
 	"completions": [
-		//{ "trigger": "batchDecreaseIndentPattern\tsettings key", "contents": "batchDecreaseIndentPattern" },
-		//{ "trigger": "batchIncreaseIndentPattern\tsettings key", "contents": "batchIncreaseIndentPattern" },
 		{
 			"trigger": "decreaseIndentPattern",
 			"kind": ["snippet", "s", "setting"],
