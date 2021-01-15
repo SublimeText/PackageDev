@@ -32,6 +32,7 @@ KIND_MAP = {
     'text': KIND_TEXT,
 }
 KIND_COMMAND = (sublime.KIND_ID_FUNCTION, "C", "Command")  # fallback
+KIND_SNIPPET = sublime.KIND_SNIPPET
 
 logger = logging.getLogger(__name__)
 
@@ -228,16 +229,28 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
         command_args = get_args_from_command_name(command_name)
         if not command_args:
             return self._default_args
-        args = create_args_snippet_from_command_args(command_args, for_json=True)
+        completion = create_args_snippet_from_command_args(command_args, for_json=True)
 
-        completions = [("args\tauto-detected arguments", args)]
-        return completions
+        return [sublime.CompletionItem(
+            trigger="args",
+            annotation="auto-detected",
+            completion=completion,
+            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+            kind=KIND_SNIPPET,
+        )]
 
 
 class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListener):
 
-    _default_args_dict = {q: [("args\targuments", "{{{q}$1{q}: {q}$2{q}$0}}".format(q=q))]
-                          for q in "'\""}
+    _default_args_dict = {
+        c: sublime.CompletionItem(
+            trigger="args",
+            completion="{{{q}$1{q}: $0}}".format(q=c),
+            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+            kind=KIND_SNIPPET,
+        )
+        for c in "'\""
+    }
     _RE_LINE_BEFORE = re.compile(
         r"\w+\s*\.\s*run_command\s*\("
         r"\s*(['\"])(\w+)\1,\s*\w*$"
@@ -260,7 +273,12 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
         command_args = get_args_from_command_name(command_name)
         if command_args is None:
             return self._default_args_dict[quote_char]
-        args = create_args_snippet_from_command_args(command_args, quote_char, for_json=False)
+        completion = create_args_snippet_from_command_args(command_args, quote_char, for_json=False)
 
-        completions = [("args\tauto-detected arguments", args)]
-        return completions
+        return [sublime.CompletionItem(
+            trigger="args",
+            annotation="auto-detected",
+            completion=completion,
+            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+            kind=KIND_SNIPPET,
+        )]
