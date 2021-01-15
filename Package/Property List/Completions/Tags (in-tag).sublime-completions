@@ -1,16 +1,49 @@
 {
-    "scope": "text.xml.plist.textmate.preferences meta.tag.xml - punctuation.definition.tag.begin.xml",
+    "scope": "text.xml.plist meta.tag.xml - punctuation.definition.tag.begin.xml",
     "completions": [
-        { "trigger": "array\tplist tag", "contents": "array" },
-        { "trigger": "data\tplist tag", "contents": "data" },
-        { "trigger": "date\tplist tag", "contents": "date" },
-        { "trigger": "dict\tplist tag", "contents": "dict" },
-        { "trigger": "false\tplist tag", "contents": "false" },
-        { "trigger": "integer\tplist tag", "contents": "integer" },
-        { "trigger": "key\tplist tag", "contents": "key" },
-        { "trigger": "plist\tplist tag", "contents": "plist" },
-        { "trigger": "real\tplist tag", "contents": "real" },
-        { "trigger": "string\tplist tag", "contents": "string" },
-        { "trigger": "true\tplist tag", "contents": "true" },
+        {
+            "trigger": "array",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "data",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "date",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "dict",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "false",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "integer",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "key",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "plist",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "real",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "string",
+            "kind": ["type", "t", "tag"],
+        },
+        {
+            "trigger": "true",
+            "kind": ["type", "t", "tag"],
+        },
     ]
 }
