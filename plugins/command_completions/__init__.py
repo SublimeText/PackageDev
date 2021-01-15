@@ -200,7 +200,8 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
                     for suffix in ("commands", "keymap", "macro", "menu", "mousemap"))
         + ")"
         "  & "
-        "  meta.sequence.json meta.mapping.json"
+        "  meta.sequence meta.mapping"
+        "  - meta.sequence meta.mapping meta.mapping"
         ")"
         "- string "
         "- comment "
