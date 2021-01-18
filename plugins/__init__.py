@@ -4,6 +4,7 @@ from .ac_triggers_workaround import *  # noqa
 from .color_scheme_dev import *  # noqa
 from .command_completions import *  # noqa
 from .create_package import *  # noqa
+from .inhibit_word_completions import *  # noqa
 from .file_conversion import *  # noqa
 from .new_resource_file import *  # noqa
 from .open_package import *  # noqa
