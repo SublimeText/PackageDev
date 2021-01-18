@@ -1,5 +1,5 @@
 {
-    "scope": "(meta.rule.sublime-theme - meta.rule.sublime-theme meta meta) - string - comment",
+    "scope": "meta.rule.sublime-theme - meta.rule.sublime-theme meta meta - string - comment",
     "completions": [
         // selectors
         {
