@@ -274,7 +274,8 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
         command_args = get_args_from_command_name(command_name)
         if command_args is None:
             return self._default_args_dict[quote_char]
-        completion = create_args_snippet_from_command_args(command_args, quote_char, for_json=False)
+        completion = create_args_snippet_from_command_args(command_args, quote_char,
+                                                           for_json=False)
 
         return [sublime.CompletionItem(
             trigger="args",

@@ -34,7 +34,8 @@ class NodeSet(set):
         return res
 
     def to_completion(self):
-        return [sublime.CompletionItem(n.name, annotation="convention", kind=SCOPE_KIND) for n in self]
+        return [sublime.CompletionItem(n.name, annotation="convention", kind=SCOPE_KIND)
+                for n in self]
 
 
 class ScopeNode(object):

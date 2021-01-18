@@ -1,2 +1,2 @@
-from .completions import *
-from .highlighter import *
+from .completions import *  # noqa
+from .highlighter import *  # noqa
