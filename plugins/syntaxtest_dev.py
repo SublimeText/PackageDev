@@ -27,11 +27,6 @@ SyntaxTestHeader = namedtuple(
 )
 
 
-def _show_tab_warning():
-    sublime.error_message("Syntax tests do not work properly with tabs as indentation."
-                          "\n\nYou MUST use spaces!")
-
-
 def get_syntax_test_tokens(view):
     """Parse the first line of the given view into a SyntaxTestHeader.
 
@@ -73,7 +68,8 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         # or plugin was unloaded.
         # Complain about the former, if we have a test file.
         if self.header and not self.is_applicable(self.view.settings()):
-            _show_tab_warning()
+            sublime.error_message("Syntax tests do not work properly with tabs as indentation."
+                                  "\n\nYou MUST use spaces!")
 
     def on_modified_async(self):
         """If the view has a filename, and that file name starts with
@@ -411,8 +407,11 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
         current_syntax = view.settings().get('syntax', None)
         test_syntax = test_header.syntax_file
 
-        # resource-relative path specified
-        if "/" in test_syntax and current_syntax != test_syntax:
+        if current_syntax != test_syntax:
+            pass
+
+        # resource path specified
+        elif "/" in test_syntax:
             *_, file_name = test_syntax.rpartition("/")
             if test_syntax in sublime.find_resources(file_name):
                 view.assign_syntax(test_syntax)
@@ -431,8 +430,14 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
                 logger.info("Couldn't find a syntax matching %r", test_syntax)
                 view.assign_syntax(self.PLAIN_TEXT)
 
-        # warn user if they try to do something stupid
+        # offer user to fix settings if they try to do something stupid
         if not view.settings().get('translate_tabs_to_spaces', False):
-            _show_tab_warning()
+            if sublime.ok_cancel_dialog(
+                "This view is configured to use tabs for indentation."
+                "Syntax tests do not work properly with tabs.\n"
+                "Do you want to change this view's settings to use spaces?",
+                "Change setting"
+            ):
+                view.settings().set('translate_tabs_to_spaces', True)
 
     on_post_save_async = on_load
