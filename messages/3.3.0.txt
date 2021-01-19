@@ -1,0 +1,22 @@
+v3.3.0 (2021-01-19)
+-------------------
+
+This is the first ST4-only release.
+
+## Minor change
+
+- All provided completions now use the new rich completions (#292)
+
+## Trivial changes
+
+- Keymap: Support new context keys (#315, @Ultra-Instinct-05)
+- Keymap: Support new keys for highlighting
+- Keymap: Support new keys for highlighting
+- Keymap: Fix local symbol list for multi-line key bindings
+- Keymap: Allow empty command names (#311)
+- Color Scheme: Support new `block_caret_*` globals (#317, @Ultra-Instinct-05)
+- Completions: Update long snippet with the new supported keys
+- Syntax Test: Offer to adjust `translate_tabs_to_spaces` setting when loading
+  (#308)
+- Various small bugfixes in syntax highlighting (#307, #311, #316, #320)
+- Updates to scope data for completions (#319, @deathaxe)
