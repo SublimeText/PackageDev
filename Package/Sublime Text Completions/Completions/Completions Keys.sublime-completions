@@ -22,7 +22,7 @@
         {
             "trigger": "kind",
             "contents": "\"kind\": [\"$1\", \"$2\", \"$3\"],$0",
-            "details": "Kind metadata (tupel)",
+            "details": "Kind metadata (tuple)",
             "kind": ["keyword", "k", "completion"],
         },
         {
