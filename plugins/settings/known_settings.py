@@ -602,11 +602,11 @@ class KnownSettings(object):
         logger.debug("default value: %r", default)
 
         if key in ('color_scheme', 'dark_color_scheme', 'light_color_scheme'):
-            yield from self._color_scheme_completions(default)
+            yield from self._color_scheme_completions(key, default)
         elif key in ('default_encoding', 'fallback_encoding'):
             yield from self._encoding_completions(default)
         elif key in ('theme', 'dark_theme', 'light_theme'):
-            yield from self._theme_completions(default)
+            yield from self._theme_completions(key, default)
         else:
             yield from self._completions_from_comment(key, default)
             yield from self._completions_from_default(key, default)
@@ -690,7 +690,7 @@ class KnownSettings(object):
             yield format_completion_item(default, is_default=True)
 
     @staticmethod
-    def _color_scheme_completions(default):
+    def _color_scheme_completions(key, default):
         """Create completions of all visible color schemes.
 
         The set will not include color schemes matching at least one entry of
@@ -705,6 +705,9 @@ class KnownSettings(object):
                 - trigger (string): base file name of the color scheme
                 - contents (string): the value to commit to the settings
         """
+        if int(sublime.version()) >= 4095 and key == 'color_scheme':
+            yield format_completion_item(value="auto", annotation="dark-/light switching")
+
         hidden = get_setting('settings.exclude_color_scheme_patterns') or []
         for scheme_path in sublime.find_resources("*.sublime-color-scheme"):
             if not any(hide in scheme_path for hide in hidden):
@@ -745,7 +748,7 @@ class KnownSettings(object):
             yield format_completion_item(value=enc, default=default, annotation="encoding")
 
     @staticmethod
-    def _theme_completions(default):
+    def _theme_completions(key, default):
         """Create completions of all visible themes.
 
         default (string):
@@ -761,6 +764,8 @@ class KnownSettings(object):
                 - contents (string): the file name to commit to the settings
         """
         hidden = get_setting('settings.exclude_theme_patterns') or []
+        if int(sublime.version()) >= 4095 and key == 'theme':
+            yield format_completion_item(value="auto", annotation="dark-/light switching")
         for theme_path in ResourcePath.glob_resources("*.sublime-theme"):
             if not any(hide in theme_path.name for hide in hidden):
                 yield format_completion_item(
