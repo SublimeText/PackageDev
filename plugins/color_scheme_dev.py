@@ -33,6 +33,7 @@ SCHEME_TEMPLATE = """\
   ],
 }""".replace("  ", "\t")
 
+KIND_SCHEME = (sublime.KIND_ID_VARIABLE, "s", "Scheme")
 KIND_VARIABLE = (sublime.KIND_ID_VARIABLE, 'v', 'Variable')
 
 BUILTIN_VARIABLES = [
@@ -56,6 +57,9 @@ BUILTIN_VARIABLES = [
         "--yellowish",
     )
 ]
+
+# Copied from 'Default/ui.py'
+DEFAULT_CS = 'Packages/Color Scheme - Default/Mariana.sublime-color-scheme'
 
 logger = logging.getLogger(__name__)
 
@@ -244,18 +248,43 @@ class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
         if not view:
             return
 
-        # Be lazy here and don't consider invalid values
-        scheme_setting = view.settings().get('color_scheme')
-        if '/' not in scheme_setting:
-            scheme_path = ResourcePath.glob_resources(scheme_setting)[0]
+        scheme_path = self.get_scheme_path(view, 'color_scheme')
+        if scheme_path != 'auto':
+            self.open_scheme(scheme_path)
         else:
-            scheme_path = ResourcePath(scheme_setting)
+            paths = [
+                (setting, self.get_scheme_path(view, setting))
+                for setting in ('dark_color_scheme', 'light_color_scheme')
+            ]
+            choices = [
+                sublime.QuickPanelItem(setting, details=str(path), kind=KIND_SCHEME)
+                for setting, path in paths
+            ]
 
+            def on_done(i):
+                if i >= 0:
+                    self.open_scheme(paths[i][1])
+
+            self.window.show_quick_panel(choices, on_done)
+
+    @staticmethod
+    def get_scheme_path(view, setting_name):
+        # Be lazy here and don't consider invalid values
+        scheme_setting = view.settings().get(setting_name, DEFAULT_CS)
+        if scheme_setting == 'auto':
+            return 'auto'
+        elif "/" not in scheme_setting:
+            return ResourcePath.glob_resources(scheme_setting)[0]
+        else:
+            return ResourcePath(scheme_setting)
+
+    def open_scheme(self, scheme_path):
+        # theme_path = ResourcePath(sublime.find_resources(scheme_path)[0])
         self.window.run_command(
             'edit_settings',
             {
-                "base_file": '/'.join(("${packages}",) + scheme_path.parts[1:]),
-                "user_file": "${packages}/User/" + scheme_path.stem + '.sublime-color-scheme',
-                "default": SCHEME_TEMPLATE,
+                'base_file': '/'.join(("${packages}",) + scheme_path.parts[1:]),
+                'user_file': "${packages}/User/" + scheme_path.stem + '.sublime-color-scheme',
+                'default': SCHEME_TEMPLATE,
             },
         )

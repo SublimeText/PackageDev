@@ -25,22 +25,46 @@ THEME_TEMPLATE = """\
 
 KIND_THEME = (sublime.KIND_ID_VARIABLE, "t", "Theme")
 
+# Copied from 'Default/ui.py'
+DEFAULT_THEME = 'Default.sublime-theme'
+
 logger = logging.getLogger(__name__)
 
 
 class PackagedevEditThemeCommand(sublime_plugin.WindowCommand):
 
-    """Like syntax-specific settings but for the currently used color scheme."""
+    """Like syntax-specific settings but for the currently used theme."""
 
     def run(self):
-        theme_name = sublime.load_settings('Preferences.sublime-settings').get('theme')
+        settings = sublime.load_settings('Preferences.sublime-settings')
+        theme_name = settings.get('theme', DEFAULT_THEME)
+
+        if theme_name != 'auto':
+            self.open_theme(theme_name)
+        else:
+            choices = [
+                sublime.QuickPanelItem(
+                    setting,
+                    details=settings.get(setting, DEFAULT_THEME),
+                    kind=KIND_THEME,
+                )
+                for setting in ('dark_theme', 'light_theme')
+            ]
+
+            def on_done(i):
+                if i >= 0:
+                    self.open_theme(choices[i].details)
+
+            self.window.show_quick_panel(choices, on_done)
+
+    def open_theme(self, theme_name):
         theme_path = ResourcePath(sublime.find_resources(theme_name)[0])
         self.window.run_command(
             'edit_settings',
             {
-                "base_file": '/'.join(("${packages}",) + theme_path.parts[1:]),
-                "user_file": "${packages}/User/" + theme_path.name,
-                "default": THEME_TEMPLATE,
+                'base_file': "/".join(("${packages}",) + theme_path.parts[1:]),
+                'user_file': "${packages}/User/" + theme_path.name,
+                'default': THEME_TEMPLATE,
             },
         )
 
