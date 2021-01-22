@@ -162,6 +162,13 @@
             "kind": ["keyword", "k", "property"],
         },
 
+        // color adjusters
+        {
+            "trigger": "background_modifier",
+            "contents": "\"background_modifier\": \"$0\",",
+            "kind": ["keyword", "k", "property"],
+        },
+
         // numbers
         {
             "trigger": "num_colors",

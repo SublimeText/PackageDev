@@ -31,6 +31,10 @@ variables:
       | (?:accent_)?tint_modifier
       | (?:left|right|top|bottom)_shadow
     )
+  color_adjuster_key: |-
+    (?x:
+        background_modifier # 4095
+    )
   integer_key: |-
     (?x:
         num_colors
@@ -245,6 +249,14 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-color-value, expect-colon]
+    # color adjuster values
+    - match: (")({{color_adjuster_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.color-adjuster.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-color-adjuster-value, expect-colon]
     # numeric values
     - match: (")({{float_key}})(")
       scope: meta.mapping.key.json meta.rule-key.number.sublime-theme string.quoted.double.json
@@ -702,6 +714,9 @@ contexts:
     #   https://www.sublimetext.com/docs/3/themes.html#color_values
     #   https://www.sublimetext.com/docs/3/themes.html#deprecated
     - include: expect-sequence-value
+
+  expect-color-adjuster-value:
+    - include: Sublime Text Color Scheme.sublime-syntax#expect-color-adjuster-value
 
   expect-color-or-any-value:
     - match: (?="|\[)

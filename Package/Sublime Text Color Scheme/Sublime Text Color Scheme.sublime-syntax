@@ -471,7 +471,7 @@ contexts:
         - meta_scope: string.quoted.double.json meta.color-adjuster.sublime-color-scheme
         # Set a fake source scope so it's recognized as "embedded code",
         # but don't set "source.css" to avoid completions provided by shipped package.
-        - meta_content_scope: source.css-color
+        - meta_content_scope: source.css-color-adjuster
         - match: '"'
           scope: punctuation.definition.string.end.json
           pop: true

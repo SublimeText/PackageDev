@@ -129,6 +129,14 @@
 //                                                           ^^^ support.function.color.css
 //                                                                              ^^^ constant.numeric
         },
+        { // color adjusters
+            "background_modifier": "blend(white 97.5%)"
+//           ^^^^^^^^^^^^^^^^^^^ meta.rule-key.color-adjuster.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                                  ^^^^^^^^^^^^^^^^^^ meta.rule.sublime-theme meta.mapping.value.json string.quoted.double.json meta.color-adjuster.sublime-color-scheme source.css-color-adjuster
+//                                  ^^^^^ support.function.color.css
+//                                       ^ punctuation.section.group.begin.css
+//                                        ^^^^^ support.constant
+        },
         { // floats
             "line_selection_border_width": "abc" 2.0,
 //           ^ meta.rule-key.number.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
