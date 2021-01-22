@@ -10,7 +10,7 @@
         },
         {
             "trigger": "settings",
-            "contents": "\"settings\": [\"$0\"],",
+            "contents": "\"settings\": $0,",
             "details": "Setting setting selector",
             "kind": ["keyword", "k", "selector"],
         },

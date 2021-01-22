@@ -67,6 +67,16 @@
 //                                         ^^^^^^^^^^^^^^^^^^ variable.other.setting.sublime-theme
 //                                         ^^^^^^^^^^^ keyword.other.namespace.sublime-theme
 //                                                   ^ punctuation.separator.namespace.sublime-theme
+            "settings": {"!inactive_sheet_dimming": true, "any.setting": "any value"},
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.rule.sublime-theme meta.mapping.value.json meta.settings-mapping.sublime-theme
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.settings-mapping.sublime-theme meta.mapping.key.json meta.settings-key.sublime-theme string.quoted.double.json
+//                        ^ keyword.operator.logical.sublime-theme
+//                         ^^^^^^^^^^^^^^^^^^^^^^ variable.other.setting.sublime-theme
+//                                                ^ punctuation.separator.mapping.key-value.json
+//                                                  ^^^^ constant.language.boolean.json
+//                                                         ^^^^ keyword.other.namespace.sublime-theme
+//                                                             ^^^^^^^ variable.other.setting.sublime-theme
+//                                                                       ^ meta.settings-mapping.sublime-theme meta.mapping.value.json string.quoted.double.json punctuation.definition.string.begin.json
             "parents": [{"class": "button_control", "attributes": ["!selected"]}],
 //           ^^^^^^^ meta.rule-key.parents.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.parents-sequence.sublime-theme

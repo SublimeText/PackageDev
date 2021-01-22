@@ -221,7 +221,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: storage.modifier.selector.sublime-theme
         3: punctuation.definition.string.end.json
-      set: [expect-settings-sequence-value, expect-colon]
+      set: [expect-settings-value, expect-colon]
     - match: (")(parents)(")
       scope: meta.mapping.key.json meta.rule-key.parents.sublime-theme string.quoted.double.json
       captures:
@@ -461,6 +461,13 @@ contexts:
       pop: true
     - include: expect-string
 
+  expect-settings-value:
+    - match: (?=\[)
+      set: [mapping-value-meta, settings-sequence-pop]
+    - match: (?=\{)
+      set: [mapping-value-meta, settings-mapping-pop]
+    - include: expect-sequence-rest
+
   expect-settings-sequence-value:
     - match: (?=\[)
       set: [mapping-value-meta, settings-sequence-pop]
@@ -477,6 +484,18 @@ contexts:
           pop: true
         - match: (?=\S)
           push: [in-sequence-expect-comma, expect-setting-string]
+
+  settings-mapping-pop:
+    - match: \{
+      scope: punctuation.section.mapping.begin.json
+      set:
+        - meta_scope: meta.settings-mapping.sublime-theme meta.mapping.json
+        - match: \}
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: (?=")
+          push: [in-mapping-expect-comma, settings-mapping-key]
+        - include: expect-key-rest
 
   expect-parents-sequence-value:
     - match: (?=\[)
@@ -521,21 +540,43 @@ contexts:
           set: [expect-any-value, expect-colon]
         - include: string-escape
 
+  settings-mapping-key:
+    - clear_scopes: 1
+    - match: (\")(!?)
+      scope:
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.operator.logical.sublime-theme
+      set:
+        - expect-any-value
+        - expect-colon
+        - setting-key-meta
+        - inside-setting-string
+    - include: expect-key-rest
+
   expect-setting-string:
     - match: (\")(!?)
       captures:
         1: punctuation.definition.string.begin.json
         2: keyword.operator.logical.sublime-theme
       scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: string.quoted.double.json
-        - meta_content_scope: variable.other.setting.sublime-theme
-        - include: Sublime JSON.sublime-syntax#inside-string
-        - match: '[\w]+(\.)'
-          scope: keyword.other.namespace.sublime-theme
-          captures:
-            1: punctuation.separator.namespace.sublime-theme
+      set: inside-setting-string
     - include: expect-string
+
+  inside-setting-string:
+    - meta_scope: string.quoted.double.json
+    - meta_content_scope: variable.other.setting.sublime-theme
+    - include: Sublime JSON.sublime-syntax#inside-string
+    - match: '[\w]+(\.)'
+      scope: keyword.other.namespace.sublime-theme
+      captures:
+        1: punctuation.separator.namespace.sublime-theme
+
+  setting-key-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.key.json meta.settings-key.sublime-theme
+    - match: ''
+      pop: true
 
   expect-texture-mapping-value:
     - include: Sublime JSON.sublime-syntax#expect-null-value-only
@@ -737,6 +778,9 @@ contexts:
 
   expect-any-value:
     - include: Sublime JSON.sublime-syntax#expect-any-value
+
+  expect-key:
+    - include: Sublime JSON.sublime-syntax#expect-key
 
   expect-key-rest:
     - include: Sublime JSON.sublime-syntax#expect-key-rest
