@@ -32,7 +32,7 @@
 //                            ^ punctuation.definition.constant.css
 //                             ^^^^^^ constant.other.color.rgb-value.css
         "color_pear_green": "color(var(color_radical_red) alpha(0.02))",
-//                                     ^^^^^^^^^^^^^^^^^ variable.other.color-scheme
+//                                     ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
         "icon_button_opacity":
         {
             "target": 0.6,
@@ -115,17 +115,17 @@
 //                      ^ punctuation.definition.string.end.json
 //                       ^ punctuation.separator.mapping.key-value.json
 //                         ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
-//                              ^^^^^^^^^^^^ variable.other.color-scheme
+//                              ^^^^^^^^^^^^ variable.other.sublime-color-scheme
             "line_selection_color": "color(var(blue) alpha(0.05))",
 // <- invalid.illegal.expected-comma.inside-mapping.json
 //          ^^^^^^^^^^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme
-//                                         ^^^ support.function.var.sublime-color-scheme
+//                                         ^^^ support.function.var.css
             "layer1.tint": null,
 //                         ^^^^ meta.mapping.value.json constant.language.null.json
             "layer2.tint": "color(var(--bluish) min-contrast(rgb(235, 237, 239) 2.5))",
 //                          ^^^^^ support.function.color.css
-//                                ^^^ support.function.var.sublime-color-scheme
-//                                              ^^^^^^^^^^^^ support.function.min-contrast.sublime-color-scheme
+//                                ^^^ support.function.var.css
+//                                              ^^^^^^^^^^^^ support.function.min-contrast.css
 //                                                           ^^^ support.function.color.css
 //                                                                              ^^^ constant.numeric
         },
@@ -150,15 +150,15 @@
 //              ^^^^^^^^^^^^ meta.interpolation-key.sublime-theme
             },
             "opacity": "var(icon_button_opacity)",
-//                      ^^^ string.quoted.double.json source.css-color meta.function-call.var.sublime-color-scheme support.function.var.sublime-color-scheme
-//                          ^^^^^^^^^^^^^^^^^^^ variable.other.color-scheme
+//                      ^^^ string.quoted.double.json source.css-color meta.function-call.var.css support.function.var.css
+//                          ^^^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
             "font.size": "",
 //                       ^^ string.quoted.double.json
             "font.size": "0.9rem",
 //                        ^^^ source.css-size constant.numeric.float
 //                           ^^^ source.css-size keyword.other.unit.css
             "font.size": "var(default_size)"
-//                            ^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme meta.group.sublime-color-scheme variable.other.color-scheme
+//                            ^^^^^^^^^^^^ source.css-color meta.function-call.var.css meta.group.css variable.other.sublime-color-scheme
         },
         { // integer sequences
             "min_size": 0,

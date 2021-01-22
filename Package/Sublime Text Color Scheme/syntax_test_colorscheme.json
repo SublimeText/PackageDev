@@ -50,17 +50,17 @@
 //              ^ punctuation.separator.mapping.key-value.json
 //                ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
 //                ^ punctuation.definition.string.begin.json
-//                 ^^^ support.function.var.sublime-color-scheme
-//                    ^ punctuation.definition.group.begin.sublime-color-scheme
-//                     ^^^^^^^^^^^^^^^^ variable.other.color-scheme
-//                                     ^ punctuation.definition.group.end.sublime-color-scheme
+//                 ^^^ support.function.var.css
+//                    ^ punctuation.definition.group.begin.css
+//                     ^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
+//                                     ^ punctuation.definition.group.end.css
 //                                      ^ punctuation.definition.string.end.json
 //                                       ^ punctuation.separator.mapping.pair.json
         "stack_guide": "#9D550FB0",
         "shadow_width": "12",
         "shadow": "#cccccc",
         "caret": "var(unclosed_var",
-//                    ^^^^^^^^^^^^ variable.other.color-scheme
+//                    ^^^^^^^^^^^^ variable.other.sublime-color-scheme
 //                                ^ punctuation.definition.string.end.json
         "invisibles": "#F8F8F239",
         "brackets_options": "squiggly_underline stippled_underline",
@@ -136,12 +136,12 @@
 //          ^ punctuation.definition.string.begin.json
 //           ^^^^^^^^^^ keyword.other.rule.sublime-color-scheme
 //                     ^ punctuation.definition.string.end.json
-//                         ^^^^^^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme
-//                         ^^^ support.function.var.sublime-color-scheme
-//                             ^^^^^^^^^^^^^^^^^ variable.other.color-scheme
+//                         ^^^^^^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.css
+//                         ^^^ support.function.var.css
+//                             ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
 //                                               ^ punctuation.definition.string.end.json
             "foreground": "color(var(color_radical_red) tint(20%))",
-//                                   ^^^^^^^^^^^^^^^^^ variable.other.color-scheme
+//                                   ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
             "foreground": "#F8F8F0",
         },
         {
@@ -192,7 +192,13 @@
         {
             "scope": "variable.other.readwrite",
             "background": "color(var(color_radical_red) blend(#FFF 50% hsl))",
-//                               ^^^ support.function.var.sublime-color-scheme
+//                               ^^^ support.function.var.css
+//                                                           ^^^^^^^^^^^^^^ source.css-color meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css
+//                                                           ^ punctuation.section.group.begin.css
+//                                                            ^^^^ constant.other.color.rgb-value.css
+//                                                                 ^^^ meta.number.integer.decimal.css
+//                                                                     ^^^ keyword.other.color-space.css
+//                                                                        ^^ punctuation.section.group.end.css
             "foreground_adjust": "l(+ 50%)",
 //                               ^^^^^^^^^^ meta.color-adjuster.sublime-color-scheme
 //                                ^^^^^^^^ source.css-color meta.function-call

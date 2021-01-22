@@ -371,22 +371,30 @@ contexts:
             - match: (?=")
               pop: true
             - include: string-escape
-            - include: color-var-function
-            - include: color-min-contrast-function
+            - include: color-custom-functions
         - include: string-escape
 
+  color-custom-functions:
+    # Collection of functions that differ in behavior from the CSS syntax
+    # due to the ST implementation being based on a draft that has since evolved.
+    # https://www.sublimetext.com/docs/minihtml.html#css:ver-dev
+    - include: color-var-function
+    - include: color-min-contrast-function
+    - include: color-blend-function
+
   color-min-contrast-function:
-    - match: \b(min-contrast)(?=\()
-      scope: support.function.min-contrast.sublime-color-scheme
+    # Custom function of ST
+    - match: \b(?i:min-contrast)(?=\()
+      scope: support.function.min-contrast.css
       push:
-        - meta_scope: meta.function-call.min-contrast.sublime-color-scheme
+        - meta_scope: meta.function-call.min-contrast.css
         - match: \)
-          scope: meta.group.sublime-color-scheme punctuation.definition.group.end.sublime-color-scheme
+          scope: meta.group.css punctuation.definition.group.end.css
           pop: true
         - match: \(
-          scope: punctuation.definition.group.begin.sublime-color-scheme
+          scope: punctuation.definition.group.begin.css
           push:
-            - meta_scope: meta.group.sublime-color-scheme
+            - meta_scope: meta.group.css
             - match: (?=\))
               pop: true
             - match: (?=")  # embed this here so we don't have to "with_prototype"
@@ -397,26 +405,45 @@ contexts:
         - match: (?=")
           pop: true
 
-  color-var-function:
-    - match: \b(var)(?=\()
-      scope: support.function.var.sublime-color-scheme
+  color-blend-function:
+    # Different syntax
+    - match: \b(?i:blenda?)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
       push:
-        - meta_scope: meta.function-call.var.sublime-color-scheme
-        - match: \)
-          scope: meta.group.sublime-color-scheme punctuation.definition.group.end.sublime-color-scheme
-          pop: true
+        - meta_scope: meta.function-call.blend.css
         - match: \(
-          scope: punctuation.definition.group.begin.sublime-color-scheme
-          push:
-            - meta_scope: meta.group.sublime-color-scheme
-            - match: (?=\))
-              pop: true
-            - match: (?:--)?[\w-]+
-              scope: variable.other.color-scheme
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
             - match: (?=")  # embed this here so we don't have to "with_prototype"
               pop: true
+            - include: color-var-function
+            - include: CSS.sublime-syntax#function-arguments-common  # matches 'var' function
+            - include: CSS.sublime-syntax#color-values
+            - include: CSS.sublime-syntax#percentage-constants
+            - match: \b(?i:rgb|hsl|hwb)\b
+              scope: keyword.other.color-space.css
         - match: (?=")
           pop: true
+
+  color-var-function:
+    # Supports identifiers without leading `--`
+    - match: \b(?i:var)(?=\()
+      scope: support.function.var.css
+      push:
+        - meta_scope: meta.function-call.var.css
+        - match: \(
+          scope: punctuation.definition.group.begin.css
+          set:
+            - meta_scope: meta.function-call.var.css meta.group.css
+            - match: \)
+              scope: meta.group.css punctuation.definition.group.end.css
+              pop: true
+            - match: (?:--)?[\w-]+
+              scope: variable.other.sublime-color-scheme
+            - match: (?=")  # embed this here so we don't have to "with_prototype"
+              pop: true
+
   color-list-pop:
     - match: \[
       scope: meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.begin.json
@@ -477,8 +504,7 @@ contexts:
             - match: (?="|$)
               pop: true
             - include: string-escape
-            - include: color-var-function
-            - include: color-min-contrast-function
+            - include: color-custom-functions
 
 
   expect-fontstyle-string-value:
