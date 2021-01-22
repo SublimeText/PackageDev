@@ -601,11 +601,11 @@ class KnownSettings(object):
         default = self.defaults.get(key)
         logger.debug("default value: %r", default)
 
-        if key == 'color_scheme':
+        if key in ('color_scheme', 'dark_color_scheme', 'light_color_scheme'):
             yield from self._color_scheme_completions(default)
         elif key in ('default_encoding', 'fallback_encoding'):
             yield from self._encoding_completions(default)
-        elif key == 'theme':
+        elif key in ('theme', 'dark_theme', 'light_theme'):
             yield from self._theme_completions(default)
         else:
             yield from self._completions_from_comment(key, default)
