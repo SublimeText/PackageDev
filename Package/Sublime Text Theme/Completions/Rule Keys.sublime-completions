@@ -44,6 +44,11 @@
             "contents": "\"case\": \"${0:upper}\",",
             "kind": ["keyword", "k", "property"],
         },
+        {
+            "trigger": "style",
+            "contents": "\"style\": \"${0:light}\",",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // colors
         {

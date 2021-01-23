@@ -37,6 +37,10 @@
             "trigger": "case",
             "kind": ["keyword", "k", "property"],
         },
+        {
+            "trigger": "style",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // colors
         {

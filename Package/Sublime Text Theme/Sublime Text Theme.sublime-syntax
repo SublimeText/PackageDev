@@ -12,6 +12,7 @@ variables:
     (?x:
         font\.face
       | case # since 3179
+      | style # since 4050
     )
   color_key: |-
     (?x:
