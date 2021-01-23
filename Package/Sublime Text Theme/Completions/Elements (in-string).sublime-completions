@@ -1,7 +1,9 @@
 {
     "scope": "meta.class-selector.sublime-theme",
-    // https://www.sublimetext.com/docs/3/themes.html
-    // document.querySelectorAll(".enum:not(.attributes):not(.settings):not(.properties) > dt").forEach((e) => console.log(e.textContent))
+    // https://www.sublimetext.com/docs/themes.html
+    // document.querySelectorAll(".enum:not(.attributes):not(.settings):not(.properties) > dt .element").forEach((e) => console.log(e.textContent))
+    //
+    // 'kind_container' and 'kind_label' are documented twice.
     "completions": [
         {
             "trigger": "title_bar",
@@ -100,6 +102,10 @@
             "kind": ["snippet", "e", "Element"],
         },
         {
+            "trigger": "tab_connector",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
             "trigger": "overlay_control",
             "kind": ["snippet", "e", "Element"],
         },
@@ -116,11 +122,35 @@
             "kind": ["snippet", "e", "Element"],
         },
         {
+            "trigger": "kind_container",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "kind_label",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "symbol_container",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
             "trigger": "quick_panel_label",
             "kind": ["snippet", "e", "Element"],
         },
         {
             "trigger": "quick_panel_path_label",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "quick_panel_label hint",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "quick_panel_detail_label",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "sheet_contents",
             "kind": ["snippet", "e", "Element"],
         },
         {
@@ -140,11 +170,11 @@
             "kind": ["snippet", "e", "Element"],
         },
         {
-            "trigger": "popup_control auto_complete_popup",
+            "trigger": "popup_control html_popup",
             "kind": ["snippet", "e", "Element"],
         },
         {
-            "trigger": "popup_control html_popup",
+            "trigger": "popup_control auto_complete_popup",
             "kind": ["snippet", "e", "Element"],
         },
         {
@@ -156,7 +186,31 @@
             "kind": ["snippet", "e", "Element"],
         },
         {
+            "trigger": "trigger_container",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
             "trigger": "auto_complete_label",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "auto_complete_label auto_complete_hint",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "auto_complete_detail_pane",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "auto_complete_info",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "auto_complete_kind_name_label",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "auto_complete_details",
             "kind": ["snippet", "e", "Element"],
         },
         {
@@ -201,6 +255,10 @@
         },
         {
             "trigger": "panel_button_control",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "sidebar_button_control",
             "kind": ["snippet", "e", "Element"],
         },
         {
@@ -312,6 +370,10 @@
             "kind": ["snippet", "e", "Element"],
         },
         {
+            "trigger": "icon_use_gitignore",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
             "trigger": "label_control",
             "kind": ["snippet", "e", "Element"],
         },
@@ -327,7 +389,8 @@
             "trigger": "tool_tip_label_control",
             "kind": ["snippet", "e", "Element"],
         },
-        // The following have been added manually until the docs are updated
+
+        // The following have been added manually
         {
             "trigger": "popup_control annotation_popup",
             "kind": ["snippet", "e", "Element"],
@@ -337,88 +400,76 @@
             "kind": ["snippet", "e", "Element"],
         },
         {
-            "trigger": "auto_complete_detail_pane",
-            "kind": ["snippet", "e", "Element"],
-        },
-        {
-            "trigger": "auto_complete_details",
-            "kind": ["snippet", "e", "Element"],
-        },
-        {
-            "trigger": "auto_complete_info",
-            "kind": ["snippet", "e", "Element"],
-        },
-        {
-            "trigger": "auto_complete_kind_name_label",
-            "kind": ["snippet", "e", "Element"],
-        },
-        {
             "trigger": "auto_complete_description_label",
             "kind": ["snippet", "e", "Element"],
         },
         {
-            "trigger": "goto_symbol",
-            "kind": ["snippet", "o", "Overlay Type"],
-        },
-        {
-            "trigger": "goto_symbol_in_project",
-            "kind": ["snippet", "o", "Overlay Type"],
-        },
-        {
-            "trigger": "kind_container",
+            "trigger": "auto_complete_detail_pane",
             "kind": ["snippet", "e", "Element"],
         },
+
+        // overlay_control specializations
         {
-            "trigger": "kind_label",
-            "kind": ["snippet", "e", "Element"],
+            "trigger": "overlay_control goto_file",
+            "kind": ["snippet", "o", "overlay type"],
         },
         {
-            "trigger": "kind_function",
-            "kind": ["snippet", "k", "Kind type"],
+            "trigger": "overlay_control goto_symbol",
+            "kind": ["snippet", "o", "overlay type"],
         },
         {
-            "trigger": "kind_keyword",
-            "kind": ["snippet", "k", "Kind type"],
+            "trigger": "overlay_control goto_symbol_in_project",
+            "kind": ["snippet", "o", "overlay type"],
         },
         {
-            "trigger": "kind_markup",
-            "kind": ["snippet", "k", "Kind type"],
+            "trigger": "overlay_control goto_line",
+            "kind": ["snippet", "o", "overlay type"],
         },
         {
-            "trigger": "kind_namespace",
-            "kind": ["snippet", "k", "Kind type"],
+            "trigger": "overlay_control goto_word",
+            "kind": ["snippet", "o", "overlay type"],
         },
         {
-            "trigger": "kind_navigation",
-            "kind": ["snippet", "k", "Kind type"],
+            "trigger": "overlay_control command_palette",
+            "kind": ["snippet", "o", "overlay type"],
+        },
+
+        // kind_container specializations
+        {
+            "trigger": "kind_container kind_ambiguous",
+            "kind": ["snippet", "k", "kind type"],
         },
         {
-            "trigger": "kind_snippet",
-            "kind": ["snippet", "k", "Kind type"],
+            "trigger": "kind_container kind_function",
+            "kind": ["snippet", "k", "kind type"],
         },
         {
-            "trigger": "kind_type",
-            "kind": ["snippet", "k", "Kind type"],
+            "trigger": "kind_container kind_keyword",
+            "kind": ["snippet", "k", "kind type"],
         },
         {
-            "trigger": "kind_variable",
-            "kind": ["snippet", "k", "Kind type"],
+            "trigger": "kind_container kind_markup",
+            "kind": ["snippet", "k", "kind type"],
         },
         {
-            "trigger": "symbol_container",
-            "kind": ["snippet", "e", "Element"],
+            "trigger": "kind_container kind_namespace",
+            "kind": ["snippet", "k", "kind type"],
         },
         {
-            "trigger": "trigger_container",
-            "kind": ["snippet", "e", "Element"],
+            "trigger": "kind_container kind_navigation",
+            "kind": ["snippet", "k", "kind type"],
         },
         {
-            "trigger": "sidebar_button_control",
-            "kind": ["snippet", "e", "Element"],
+            "trigger": "kind_container kind_snippet",
+            "kind": ["snippet", "k", "kind type"],
         },
         {
-            "trigger": "icon_use_gitignore",
-            "kind": ["snippet", "e", "Element"],
+            "trigger": "kind_container kind_type",
+            "kind": ["snippet", "k", "kind type"],
+        },
+        {
+            "trigger": "kind_container kind_variable",
+            "kind": ["snippet", "k", "kind type"],
         },
     ]
 }
