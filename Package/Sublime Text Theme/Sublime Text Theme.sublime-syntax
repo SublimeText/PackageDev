@@ -796,9 +796,6 @@ contexts:
   expect-any-value:
     - include: Sublime JSON.sublime-syntax#expect-any-value
 
-  expect-key:
-    - include: Sublime JSON.sublime-syntax#expect-key
-
   expect-key-rest:
     - include: Sublime JSON.sublime-syntax#expect-key-rest
 
