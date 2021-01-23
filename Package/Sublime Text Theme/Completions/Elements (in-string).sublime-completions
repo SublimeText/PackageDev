@@ -403,10 +403,6 @@
             "trigger": "auto_complete_description_label",
             "kind": ["snippet", "e", "Element"],
         },
-        {
-            "trigger": "auto_complete_detail_pane",
-            "kind": ["snippet", "e", "Element"],
-        },
 
         // overlay_control specializations
         {
