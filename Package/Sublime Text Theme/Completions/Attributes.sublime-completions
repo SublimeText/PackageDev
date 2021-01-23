@@ -67,6 +67,56 @@
             "kind": ["snippet", "a", "Attribute"],
         },
         {
+            "trigger": "highlighted",
+            "contents": "\"highlighted\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "multiple",
+            "contents": "\"multiple\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "left",
+            "contents": "\"left\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "right",
+            "contents": "\"right\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "left_overhang",
+            "contents": "\"left_overhang\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "right_overhang",
+            "contents": "\"right_overhang\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "left_of_selected",
+            "contents": "\"left_of_selected\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "right_of_selected",
+            "contents": "\"right_of_selected\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "left_of_hover",
+            "contents": "\"left_of_hover\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "right_of_hover",
+            "contents": "\"right_of_hover\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
             "trigger": "panel_visible",
             "contents": "\"panel_visible\"",
             "kind": ["snippet", "a", "Attribute"],

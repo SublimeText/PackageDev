@@ -83,13 +83,14 @@ variables:
         hover # all
       | file_(?:light|medium|medium_dark|dark) # luminosity attributes
       | selectable | selected | expandable | expanded # tree_row
-      | dirty | transient # tab_control
+      | dirty | selected | transient | highlighted | multiple # tab_control
+      | (?:left|right)(?:_overhang|_of_(?:selected|hover))? # tab_control
       | panel_visible # status_bar
       | dark | horizontal # stat_bar_control
       | pressed | confirm | highlighted # button_control
       | left | right # icon_button_control
       | h?scrollable # scroll_area_control
-      | ignored | untracked | modified | missing | added | staged | deleted | unmerged # file_system_entry
+      | ignored | untracked | modified | missing | added | staged | deleted | unmerged # file_system_entry & vcs_status_badge
     )
   platform: |-
     (?x: linux | osx | windows )

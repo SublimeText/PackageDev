@@ -54,6 +54,46 @@
             "kind": ["snippet", "a", "Attribute"],
         },
         {
+            "trigger": "highlighted",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "multiple",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "left",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "right",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "left_overhang",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "right_overhang",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "left_of_selected",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "right_of_selected",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "left_of_hover",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
+            "trigger": "right_of_hover",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
             "trigger": "panel_visible",
             "kind": ["snippet", "a", "Attribute"],
         },
