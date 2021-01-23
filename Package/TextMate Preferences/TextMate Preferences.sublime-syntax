@@ -3,6 +3,7 @@
 name: TextMate Preferences (PList / XML)
 file_extensions:
   - tmPreferences
+  - hidden-tmPreferences
 scope: text.xml.plist.textmate.preferences
 
 contexts:
