@@ -18,6 +18,9 @@ file_extensions:
   - tmTheme
   - stTheme
   - tmLanguage
+  - hidden-tmTheme
+  - hidden-stTheme
+  - hidden-tmLanguage
 # first_line_match: ^\s*<!DOCTYPE plist|^\s*<plist version="1\.0">
 
 contexts:
