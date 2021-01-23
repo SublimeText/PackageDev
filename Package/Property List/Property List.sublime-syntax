@@ -15,9 +15,12 @@
 name: Property List (XML)
 scope: text.xml.plist
 file_extensions:
+  - plist
+  - tmSnippet
   - tmTheme
   - stTheme
   - tmLanguage
+  - hidden-tmSnippet
   - hidden-tmTheme
   - hidden-stTheme
   - hidden-tmLanguage
