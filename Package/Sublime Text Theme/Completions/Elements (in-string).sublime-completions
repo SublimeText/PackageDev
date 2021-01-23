@@ -467,5 +467,55 @@
             "trigger": "kind_container kind_variable",
             "kind": ["snippet", "k", "kind type"],
         },
+        {
+            "trigger": "kind_container kind_color_redish",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>redish</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_orangish",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>orangish</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_yellowish",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>yellowish</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_greenish",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>greenish</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_cyanish",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>cyanish</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_bluish",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>bluish</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_purplish",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>purplish</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_pinkish",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>pinkish</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_dark",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>dark</code> quick panel symbols",
+        },
+        {
+            "trigger": "kind_container kind_color_light",
+            "kind": ["snippet", "k", "kind color"],
+            "details": "<code>light</code> quick panel symbols",
+        },
     ]
 }
