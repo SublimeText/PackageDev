@@ -1,0 +1,13 @@
+v3.3.1 (2021-01-23)
+-------------------
+
+(Notes not shown on release)
+
+TL;DR: Updated for 4095
+
+- Theme: Support `style` and `background_modifier` rule keys
+- Theme: Support mappings/objects for `settings` selector
+- Theme: Update list of elements and attributes to 4095
+- Scheme & Theme: Fix highlighting of `blend` color modifier function
+- Scheme & Theme: Add support for "auto" value in "edit current theme/scheme" commands
+- Settings: Offer completions for dark and light color scheme and theme variants
