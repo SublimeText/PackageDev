@@ -389,10 +389,10 @@ contexts:
       push:
         - meta_scope: meta.function-call.min-contrast.css
         - match: \)
-          scope: meta.group.css punctuation.definition.group.end.css
+          scope: meta.group.css punctuation.section.group.end.css
           pop: true
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           push:
             - meta_scope: meta.group.css
             - match: (?=\))
@@ -433,11 +433,11 @@ contexts:
       push:
         - meta_scope: meta.function-call.var.css
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.var.css meta.group.css
             - match: \)
-              scope: meta.group.css punctuation.definition.group.end.css
+              scope: meta.group.css punctuation.section.group.end.css
               pop: true
             - match: (?:--)?[\w-]+
               scope: variable.other.sublime-color-scheme
@@ -478,6 +478,7 @@ contexts:
         - match: $\n?
           scope: invalid.illegal.unclosed-string.json
           pop: true
+        - include: color-var-function
         - include: CSS.sublime-syntax#color-adjuster-functions
 
   expect-css-string-value:

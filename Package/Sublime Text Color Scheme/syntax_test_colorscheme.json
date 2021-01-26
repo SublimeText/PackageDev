@@ -51,9 +51,9 @@
 //                ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
 //                ^ punctuation.definition.string.begin.json
 //                 ^^^ support.function.var.css
-//                    ^ punctuation.definition.group.begin.css
+//                    ^ punctuation.section.group.begin.css
 //                     ^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
-//                                     ^ punctuation.definition.group.end.css
+//                                     ^ punctuation.section.group.end.css
 //                                      ^ punctuation.definition.string.end.json
 //                                       ^ punctuation.separator.mapping.pair.json
         "stack_guide": "#9D550FB0",
