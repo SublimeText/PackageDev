@@ -136,6 +136,13 @@
 //                                  ^^^^^ support.function.color.css
 //                                       ^ punctuation.section.group.begin.css
 //                                        ^^^^^ support.constant
+            "background_modifier": "var(adjuster_variable)"
+//           ^^^^^^^^^^^^^^^^^^^ meta.rule-key.color-adjuster.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
+//                                  ^^^^^^^^^^^^^^^^^^^^^^ meta.rule.sublime-theme meta.mapping.value.json string.quoted.double.json meta.color-adjuster.sublime-color-scheme source.css-color-adjuster
+//                                  ^^^ support.function.var.css
+//                                     ^ punctuation.section.group.begin.css
+//                                      ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
+//                                                       ^ punctuation.section.group.end.css
         },
         { // floats
             "line_selection_border_width": "abc" 2.0,
