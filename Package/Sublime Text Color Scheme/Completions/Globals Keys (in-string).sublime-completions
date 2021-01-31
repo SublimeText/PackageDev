@@ -82,6 +82,11 @@
             "kind": ["keyword", "k", "globals"],
         },
         {
+            "trigger": "gutter_foreground_highlight",
+            "details": "Gutter foreground highlighted color",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
             "trigger": "highlight",
             "details": "Border color of inactive search results",
             "kind": ["keyword", "k", "globals"],
@@ -159,6 +164,16 @@
         {
             "trigger": "rulers",
             "details": "Ruler color",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "scroll_highlight",
+            "details": "Search results color on scroll bar",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "scroll_selected_highlight",
+            "details": "Search results color of selected on scroll bar",
             "kind": ["keyword", "k", "globals"],
         },
         {
