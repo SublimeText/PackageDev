@@ -122,6 +122,12 @@
             "kind": ["keyword", "k", "globals"],
         },
         {
+            "trigger": "gutter_foreground_highlight",
+            "details": "Gutter foreground highlighted color",
+            "contents": "\"gutter_foreground_highlight\": \"$1\",",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
             "trigger": "highlight",
             "details": "Border color of inactive search results",
             "contents": "\"highlight\": \"$1\",",

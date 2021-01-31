@@ -82,6 +82,11 @@
             "kind": ["keyword", "k", "globals"],
         },
         {
+            "trigger": "gutter_foreground_highlight",
+            "details": "Gutter foreground highlighted color",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
             "trigger": "highlight",
             "details": "Border color of inactive search results",
             "kind": ["keyword", "k", "globals"],
