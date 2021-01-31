@@ -262,16 +262,11 @@ class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
                 for setting, path in paths
             ]
 
+            selected_index = -1
             for idx, choice in enumerate(choices):
-                if current_os_mode == 'dark' and choice.trigger == 'dark_color_scheme':
+                if choice.trigger.startswith(current_os_mode):
                     choice.annotation = 'Active'
                     selected_index = idx
-                elif current_os_mode == 'light' and choice.trigger == 'light_color_scheme':
-                    choice.annotation = 'Active'
-                    selected_index = idx
-                else:
-                    choice.annotation = ''
-                    selected_index = -1
 
             def on_done(i):
                 if i >= 0:

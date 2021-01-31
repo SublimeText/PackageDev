@@ -50,17 +50,13 @@ class PackagedevEditThemeCommand(sublime_plugin.WindowCommand):
                 )
                 for setting in ('dark_theme', 'light_theme')
             ]
+
             current_os_mode = sublime.ui_info()['system']['style']
+            selected_index = -1
             for idx, choice in enumerate(choices):
-                if current_os_mode == 'dark' and choice.trigger == 'dark_theme':
+                if choice.trigger.startswith(current_os_mode):
                     choice.annotation = 'Active'
                     selected_index = idx
-                elif current_os_mode == 'light' and choice.trigger == 'light_theme':
-                    choice.annotation = 'Active'
-                    selected_index = idx
-                else:
-                    choice.annotation = ''
-                    selected_index = -1
 
             def on_done(i):
                 if i >= 0:
