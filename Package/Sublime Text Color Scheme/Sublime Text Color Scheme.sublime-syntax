@@ -231,7 +231,7 @@ contexts:
           |stack_guide|active_guide|guide
           |misspelling
           |brackets_foreground|bracket_contents_foreground|tags_foreground
-          |minimap_border|gutter|gutter_foreground|rulers|fold_marker
+          |minimap_border|gutter(?:_(?:foreground|foreground_highlight))?|rulers|fold_marker
           |line_diff_(?:modified|added|deleted) # added in 3186 & 3189
           |block_caret(?:_(?:border|underline))? # block_caret added in 3190, others in 4086.
         )(")
