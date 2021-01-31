@@ -50,12 +50,28 @@ class PackagedevEditThemeCommand(sublime_plugin.WindowCommand):
                 )
                 for setting in ('dark_theme', 'light_theme')
             ]
+            current_os_mode = sublime.ui_info()['system']['style']
+            for idx, choice in enumerate(choices):
+                if current_os_mode == 'dark' and choice.trigger == 'dark_theme':
+                    choice.annotation = 'Active'
+                    selected_index = idx
+                elif current_os_mode == 'light' and choice.trigger == 'light_theme':
+                    choice.annotation = 'Active'
+                    selected_index = idx
+                else:
+                    choice.annotation = ''
+                    selected_index = -1
 
             def on_done(i):
                 if i >= 0:
                     self.open_theme(choices[i].details)
 
-            self.window.show_quick_panel(choices, on_done)
+            self.window.show_quick_panel(
+                choices, 
+                on_done,
+                selected_index = selected_index,
+                placeholder = "Choose a theme to edit ..."
+            )
 
     def open_theme(self, theme_name):
         theme_path = ResourcePath(sublime.find_resources(theme_name)[0])
