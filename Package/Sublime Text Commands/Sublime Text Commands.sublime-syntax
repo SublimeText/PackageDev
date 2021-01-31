@@ -114,6 +114,12 @@ contexts:
   expect-colon:
     - include: Sublime JSON.sublime-syntax#expect-colon
 
+  expect-string-rest:
+    - include: Sublime JSON.sublime-syntax#expect-string-rest
+
+  string-escape:
+    - include: Sublime JSON.sublime-syntax#string-escape
+
   expect-string-value:
     - include: Sublime JSON.sublime-syntax#expect-string-value
 
