@@ -224,6 +224,18 @@
             "kind": ["keyword", "k", "globals"],
         },
         {
+            "trigger": "scroll_highlight",
+            "details": "Search results color on scroll bar",
+            "contents": "\"scroll_highlight\": \"$1\",",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "scroll_selected_highlight",
+            "details": "Search results color of selected on scroll bar",
+            "contents": "\"scroll_selected_highlight\": \"$1\",",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
             "trigger": "selection",
             "details": "Selection color",
             "contents": "\"selection\": \"$1\",",
