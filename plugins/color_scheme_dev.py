@@ -256,16 +256,33 @@ class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
                 (setting, self.get_scheme_path(view, setting))
                 for setting in ('dark_color_scheme', 'light_color_scheme')
             ]
+            current_os_mode = sublime.ui_info()['system']['style']
             choices = [
                 sublime.QuickPanelItem(setting, details=str(path), kind=KIND_SCHEME)
                 for setting, path in paths
             ]
 
+            for idx, choice in enumerate(choices):
+                if current_os_mode == 'dark' and choice.trigger == 'dark_color_scheme':
+                    choice.annotation = 'Active'
+                    selected_index = idx
+                elif current_os_mode == 'light' and choice.trigger == 'light_color_scheme':
+                    choice.annotation = 'Active'
+                    selected_index = idx
+                else:
+                    choice.annotation = ''
+                    selected_index = -1
+
             def on_done(i):
                 if i >= 0:
                     self.open_scheme(paths[i][1])
 
-            self.window.show_quick_panel(choices, on_done)
+            self.window.show_quick_panel(
+                choices, 
+                on_done,
+                selected_index = selected_index,
+                placeholder = 'Choose a color scheme to edit ...'
+            )
 
     @staticmethod
     def get_scheme_path(view, setting_name):
