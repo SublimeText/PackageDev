@@ -278,10 +278,10 @@ class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
                     self.open_scheme(paths[i][1])
 
             self.window.show_quick_panel(
-                choices, 
+                choices,
                 on_done,
-                selected_index = selected_index,
-                placeholder = 'Choose a color scheme to edit ...'
+                selected_index=selected_index,
+                placeholder='Choose a color scheme to edit ...'
             )
 
     @staticmethod

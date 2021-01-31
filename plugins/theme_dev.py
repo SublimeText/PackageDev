@@ -67,10 +67,10 @@ class PackagedevEditThemeCommand(sublime_plugin.WindowCommand):
                     self.open_theme(choices[i].details)
 
             self.window.show_quick_panel(
-                choices, 
+                choices,
                 on_done,
-                selected_index = selected_index,
-                placeholder = "Choose a theme to edit ..."
+                selected_index=selected_index,
+                placeholder="Choose a theme to edit ..."
             )
 
     def open_theme(self, theme_name):
