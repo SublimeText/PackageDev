@@ -22,6 +22,26 @@
             "kind": ["keyword", "k", "globals"],
         },
         {
+            "trigger": "block_caret_corner_style",
+            "details": "Block caret corner style",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "block_caret_border",
+            "details": "Block caret border color",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "block_caret_underline",
+            "details": "Color of the block caret in selection",
+            "kind": ["keyword", "k", "globals"],
+        },
+        {
+            "trigger": "block_caret_corner_radius",
+            "details": "Block caret corner radius",
+            "kind": ["keyword", "k", "globals"],
+        },        
+        {
             "trigger": "bracket_contents_foreground",
             "details": "Foreground color of highlighted brackets (inside)",
             "kind": ["keyword", "k", "globals"],
