@@ -60,6 +60,13 @@ contexts:
         2: keyword.other.main.sublime-commands
         3: punctuation.definition.string.end.json
       set: [expect-mapping-value, expect-colon]
+    - match: (")(platform)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-commands
+        3: punctuation.definition.string.end.json
+      set: [expect-platform-string-value, expect-colon]
     - match: (")(\w*)(")
       scope: meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
       captures:
@@ -67,6 +74,33 @@ contexts:
         # 2: invalid.unknown-key.sublime-commands
         3: punctuation.definition.string.end.json
       set: [expect-any-value, expect-colon]
+
+  expect-platform-string-value:
+    - match: (?=")
+      set: [mapping-value-meta, platform-name-string-pop]
+    - include: expect-string-rest
+
+  platform-name-string-pop:
+    - match: (\")(!)?(Windows|Linux|OSX)(\")
+      scope: meta.platform-name.sublime-commands string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.operator.logical.sublime-commands
+        3: support.constant.command-name.sublime-commands
+        4: punctuation.definition.string.end.json
+      pop: true
+    - match: \"
+      scope: punctuation.definition.string.begin.json
+      set:
+        - meta_scope: meta.platform-name.sublime-commands string.quoted.double.json
+        - meta_content_scope: invalid.illegal.invalid-platform.sublime-commands
+        - match: \"
+          scope: punctuation.definition.string.end.json
+          pop: true
+        - include: string-escape
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
 
   expect-command-name-value:
     - include: Sublime JSON.sublime-syntax#expect-command-name-value
@@ -79,6 +113,12 @@ contexts:
 
   expect-colon:
     - include: Sublime JSON.sublime-syntax#expect-colon
+
+  expect-string-rest:
+    - include: Sublime JSON.sublime-syntax#expect-string-rest
+
+  string-escape:
+    - include: Sublime JSON.sublime-syntax#string-escape
 
   expect-string-value:
     - include: Sublime JSON.sublime-syntax#expect-string-value
@@ -106,3 +146,9 @@ contexts:
 
   expect-key-rest:
     - include: Sublime JSON.sublime-syntax#expect-key-rest
+
+  mapping-value-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.mapping.value.json
+    - match: ''
+      pop: true

@@ -1,0 +1,17 @@
+{
+    "scope": "meta.platform-name.sublime-commands",
+    "completions": [
+        {
+            "trigger": "Linux",
+            "kind": ["snippet", "p", "Platform"],
+        },
+        {
+            "trigger": "OSX",
+            "kind": ["snippet", "p", "Platform"],
+        },
+        {
+            "trigger": "Windows",
+            "kind": ["snippet", "p", "Platform"],
+        },
+    ]
+}

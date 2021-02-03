@@ -25,7 +25,7 @@
 // ^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
 //  ^^^ - keyword.other.main.sublime-commands
 //        ^^^^^ meta.mapping.value.json string.quoted.double.json
-        "args": {"setting": "word_wrap"}
+        "args": {"setting": "word_wrap"},
 //      ^^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
 //       ^^^^ keyword.other.main.sublime-commands
 //            ^ punctuation.separator.mapping.key-value.json
@@ -35,6 +35,16 @@
 //               ^^^^^^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
 //                        ^ punctuation.separator.mapping.key-value.json
 //                          ^^^^^^^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
+    "platform": "!Windows"
+//  ^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
+//  ^ punctuation.definition.string.begin.json
+//   ^^^^^^^^ keyword.other.main.sublime-commands
+//            ^ punctuation.separator.mapping.key-value.json
+//              ^^^^^^^^^^ meta.mapping.value.json meta.platform-name.sublime-commands string.quoted.double.json
+//              ^ punctuation.definition.string.begin.json
+//               ^ keyword.operator.logical.sublime-commands
+//                ^^^^^^^ support.constant.command-name.sublime-commands
+//                       ^ punctuation.definition.string.end.json
     },
 
     abc
