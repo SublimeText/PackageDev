@@ -93,7 +93,7 @@ contexts:
       scope: punctuation.definition.string.begin.json
       set:
         - meta_scope: meta.platform-name.sublime-commands string.quoted.double.json
-        - meta_content_scope: invalid.illegal.invalid-command.sublime-commands
+        - meta_content_scope: invalid.illegal.invalid-platform.sublime-commands
         - match: \"
           scope: punctuation.definition.string.end.json
           pop: true

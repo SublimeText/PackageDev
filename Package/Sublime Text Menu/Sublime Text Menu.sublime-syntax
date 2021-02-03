@@ -140,7 +140,7 @@ contexts:
       scope: punctuation.definition.string.begin.json
       set:
         - meta_scope: meta.platform-name.sublime-menu string.quoted.double.json
-        - meta_content_scope: invalid.illegal.invalid-command.sublime-menu
+        - meta_content_scope: invalid.illegal.invalid-platform.sublime-menu
         - match: \"
           scope: punctuation.definition.string.end.json
           pop: true
