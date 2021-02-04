@@ -17,5 +17,10 @@
             "details": "Command argumnts",
             "kind": ["keyword", "k", "main"],
         },
+        {
+            "trigger": "platform",
+            "details": "Platform name",
+            "kind": ["keyword", "k", "main"],
+        }
     ]
 }

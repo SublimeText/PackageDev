@@ -40,7 +40,7 @@ class PackagedevSnippetFromRawSnippetCommand(sublime_plugin.TextCommand):
         _insert_unindented(self.view, content)
         self.view.run_command('next_field')
 
-        self.view.set_syntax_file(syntax_paths.SNIPPET)
+        self.view.assign_syntax(syntax_paths.SNIPPET)
 
 
 class PackagedevRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
@@ -53,5 +53,5 @@ class PackagedevRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
         content = content.replace("]]$UNDEFINED>", "]]>")  # undo defusing
 
         v = self.view.window().new_file()
-        v.set_syntax_file(syntax_paths.SNIPPET_RAW)
+        v.assign_syntax(syntax_paths.SNIPPET_RAW)
         _insert_unindented(v, content)

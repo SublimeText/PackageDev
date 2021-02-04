@@ -13,6 +13,12 @@
             "details": "Command name",
             "kind": ["keyword", "k", "main"],
         },
+        {
+            "trigger": "platform",
+            "contents": "\"platform\": \"$1\",$0",
+            "details": "Platform name",
+            "kind": ["keyword", "k", "main"],
+        }
         // args provided by plugin
     ]
 }

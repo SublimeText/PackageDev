@@ -25,9 +25,9 @@ __all__ = (
 PACKAGE_NAME = __package__.split('.')[0]
 
 
-def status(msg, console=False):
+def status(msg, window, console=False):
     msg = "[%s] %s" % (PACKAGE_NAME, msg)
-    sublime.status_message(msg)
+    window.status_message(msg)
     if console:
         print(msg)
 
@@ -192,6 +192,9 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 Forwarded to yaml.dump (if they are valid).
         """
         # Check the environment (view, args, ...)
+
+        window = self.view.window()
+
         if self.view.is_scratch():
             return
         if self.view.is_loading():
@@ -255,7 +258,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
             if not text:
                 output.print("Error re-dumping the data in file (no output).")
-                status("Error re-dumping the data (no output).", True)
+                status("Error re-dumping the data (no output).", window, True)
                 return
 
             # Replace the whole buffer (with default options)
@@ -333,6 +336,9 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         # We can't work with multiple selections here
+
+        window = view.window()
+
         if len(locations) > 1:
             return []
 
@@ -372,8 +378,11 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                     for i, token in enumerate(tokens):
                         node = nodes.find(token)
                         if not node:
-                            status("Warning: `%s` not found in scope naming conventions"
-                                   % '.'.join(tokens[:i + 1]))
+                            status(
+                                "Warning: `%s` not found in scope naming conventions"
+                                % '.'.join(tokens[:i + 1]),
+                                window
+                            )
                             break
                         nodes = node.children
                         if not nodes:
@@ -383,11 +392,11 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                         return inhibit(nodes.to_completion())
                     else:
                         status("No nodes available in scope naming conventions after `%s`"
-                               % '.'.join(tokens))
+                               % '.'.join(tokens), window)
                         # Search for the base scope appendix/suffix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:
-                            status("Warning: Could not find base scope")
+                            status("Warning: Could not find base scope", window)
                             return []
 
                         base_scope = view.substr(regs[0]).strip("\"'")
@@ -422,7 +431,10 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
 
             variables = [view.substr(r)
                          for r in view.find_by_selector("variable.other.repository-key")]
-            status("Found %d local repository keys to be used in includes" % len(variables))
+            status(
+                "Found %d local repository keys to be used in includes" % len(variables),
+                window
+            )
             return inhibit(zip(variables, variables))
 
         # Do not bother if the syntax def already matched the current position,

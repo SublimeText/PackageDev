@@ -69,7 +69,7 @@ class PackagedevNewResourceCommand(sublime_plugin.WindowCommand):
         v = self.window.new_file()
 
         # initialize settings (and syntax)
-        v.set_syntax_file(_syntax_path_for_kind(kind))
+        v.assign_syntax(_syntax_path_for_kind(kind))
         v.settings().set('default_dir', package_dir)
         name, extension = _default_file_name(kind, suffix, package_name)
         if name:

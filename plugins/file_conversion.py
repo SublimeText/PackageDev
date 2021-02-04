@@ -253,5 +253,5 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                                      {'save': True, '_output_text': output_text})
 
     def status(self, msg, file_path=None):
-        sublime.status_message(msg)
+        self.window.status_message(msg)
         print("[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else ""))
