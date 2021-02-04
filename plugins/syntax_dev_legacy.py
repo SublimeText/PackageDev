@@ -25,9 +25,9 @@ __all__ = (
 PACKAGE_NAME = __package__.split('.')[0]
 
 
-def status(msg, console=False):
+def status(msg, window, console=False):
     msg = "[%s] %s" % (PACKAGE_NAME, msg)
-    sublime.status_message(msg)
+    window.status_message(msg)
     if console:
         print(msg)
 

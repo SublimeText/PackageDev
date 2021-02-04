@@ -235,6 +235,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     def _complete_scope(self, prefix, locations):
         # Determine entire prefix
+        window = self.view.window()
         prefixes = set()
         for point in locations:
             *_, real_prefix = self._line_prefix(point).rpartition(" ")
@@ -257,12 +258,15 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         for i, token in enumerate(tokens[:-1]):
             node = nodes.find(token)
             if not node:
-                status("`%s` not found in scope naming conventions" % '.'.join(tokens[:i + 1]))
+                status(
+                    "`%s` not found in scope naming conventions" % '.'.join(tokens[:i + 1]),
+                    window
+                )
                 break
             nodes = node.children
             if not nodes:
                 status("No nodes available in scope naming conventions after `%s`"
-                       % '.'.join(tokens[:-1]))
+                       % '.'.join(tokens[:-1]), window)
                 break
         else:
             # Offer to complete from conventions or base scope
@@ -273,9 +277,14 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         return base_scope_completion
 
     def _complete_base_scope(self, last_token):
+        window = self.view.window()
         regions = self.view.find_by_selector("meta.scope string - meta.block")
         if len(regions) != 1:
-            status("Warning: Could not determine base scope uniquely", console=True)
+            status(
+                "Warning: Could not determine base scope uniquely",
+                window,
+                console=True
+            )
             self.base_suffix = None
             return []
 
