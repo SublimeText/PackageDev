@@ -479,10 +479,34 @@ class ScopeTreeNode:
 
             cls.append(forest[-1].children, region, rest)
 
-    def __init__(self, region, scope):
+    @classmethod
+    def compact_forest(cls, forest):
+        return [
+            node.compact()
+            for node in forest
+        ]
+
+    def __init__(self, region, scope, children=None):
         self.region = region
         self.scope = scope
-        self.children = []
+        self.children = (children or [])
+
+    def compact(self):
+        if (
+            len(self.children) == 1
+            and self.children[0].region == self.region
+        ):
+            return ScopeTreeNode(
+                self.region,
+                self.scope + ' ' + self.children[0].scope,
+                self.children[0].children
+            )
+        else:
+            return ScopeTreeNode(
+                self.region,
+                self.scope,
+                type(self).compact_forest(self.children)
+            )
 
 
 class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
@@ -500,9 +524,11 @@ class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
         for region in reversed(view.sel()):
             line = view.line(region.b)
 
-            forest = ScopeTreeNode.build_forest(
-                view.extract_tokens_with_scopes(line),
-                trim_suffix=not suggest_suffix
+            ScopeTreeNode.compact_forest(
+                ScopeTreeNode.build_forest(
+                    view.extract_tokens_with_scopes(line),
+                    trim_suffix=not suggest_suffix
+                )
             )
 
             tests = self.get_test_lines(forest, listener.header, line.begin())
