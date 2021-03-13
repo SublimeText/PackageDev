@@ -524,7 +524,7 @@ class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
         for region in reversed(view.sel()):
             line = view.line(region.b)
 
-            ScopeTreeNode.compact_forest(
+            forest = ScopeTreeNode.compact_forest(
                 ScopeTreeNode.build_forest(
                     view.extract_tokens_with_scopes(line),
                     trim_suffix=not suggest_suffix
