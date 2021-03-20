@@ -370,9 +370,9 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
                     scope_parts = scope.split(' ')
                     matched_count = -(-score.bit_length() // 3) - 1
 
-                    score_of_last_part = score >> matched_count*3
-                    maximum_possible_score_of_last_part = len(scope_parts[matched_count - 1].split('.'))
-                    if score_of_last_part != maximum_possible_score_of_last_part:
+                    score_of_last_part = score >> matched_count * 3
+                    possible_score_of_last_part = len(scope_parts[matched_count - 1].split('.'))
+                    if score_of_last_part != possible_score_of_last_part:
                         matched_count -= 1
 
                     scope = ' '.join(scope_parts[matched_count:])
