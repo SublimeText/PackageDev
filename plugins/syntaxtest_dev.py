@@ -365,8 +365,17 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
             ]
 
             for above_scope in reversed(above_scopes):
-                if scope.startswith(above_scope):
-                    scope = scope[len(above_scope):].strip()
+                score = sublime.score_selector(scope, above_scope)
+                if score > 0:
+                    scope_parts = scope.split(' ')
+                    matched_count = -(-score.bit_length() // 3) - 1
+
+                    score_of_last_part = score >> matched_count*3
+                    maximum_possible_score_of_last_part = len(scope_parts[matched_count - 1].split('.'))
+                    if score_of_last_part != maximum_possible_score_of_last_part:
+                        matched_count -= 1
+
+                    scope = ' '.join(scope_parts[matched_count:])
 
         # delete the existing selection
         if not view.sel()[0].empty():
