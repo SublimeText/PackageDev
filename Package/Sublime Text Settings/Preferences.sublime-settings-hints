@@ -6,6 +6,11 @@
 	// Added in 405x.
 	"auto_complete_disabled": false,
 
+	// Disable auto completions from (all third-party) plugins entirely,
+	// even when explictly requested. Mainly for plugin developers for testing.
+	// Added in 4057.
+	"auto_complete_enable_plugins": true,
+
 	// Set the context menu for this view (type).
 	// Expects a ".sublime-menu" file name.
 	// Useful for plugins that create widget-like views or output panels.
