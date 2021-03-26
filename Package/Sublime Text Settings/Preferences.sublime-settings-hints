@@ -11,6 +11,10 @@
 	// Added in 4057.
 	"auto_complete_enable_plugins": true,
 
+	// Shows auto complete when a completion is estimated to be likely.
+	// Allows disabling this logic.
+	"auto_complete_when_likely": true,
+
 	// Set the context menu for this view (type).
 	// Expects a ".sublime-menu" file name.
 	// Useful for plugins that create widget-like views or output panels.
