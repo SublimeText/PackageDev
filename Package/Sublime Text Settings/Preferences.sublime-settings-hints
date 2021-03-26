@@ -29,6 +29,11 @@
 	// Only makes sense in syntax-specific settings.
 	"extensions": [],
 
+	// Use the themed title bar. Disabled by default for non-gnome DE's
+	// or when `XDG_CURRENT_DESKTOP` is not set.
+	// Added in 4097.
+	"gtk_client_side_window_decorations": false,
+
 	// Hide the mouse pointer while typing.
 	"hide_pointer_while_typing": true,
 
