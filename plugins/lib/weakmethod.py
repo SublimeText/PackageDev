@@ -29,23 +29,28 @@ class WeakMethod: # noqa: D
     providing the same interface as a normal weak reference. """
 
     def __init__(self, fn):
+        if not callable(fn):
+            raise TypeError("Argument must be callable")
         try:
             self._obj = ref(fn.__self__)
-            self._meth = fn.__func__
+            self._meth = ref(fn.__func__)
         except AttributeError:
             # It's not a bound method.
             self._obj = None
-            self._meth = fn
+            self._meth = ref(fn)
 
     def __call__(self):
-        if self._obj is None:
-            return _weak_callable(None, self._meth)
+        meth = self._meth()
+        if meth is None:
+            return None
+        elif self._obj is None:
+            return _weak_callable(None, meth)
         else:
             obj = self._obj()
             if obj is None:
                 return None
             else:
-                return _weak_callable(obj, self._meth)
+                return _weak_callable(obj, meth)
 
     def __eq__(self, other):
         return (
