@@ -585,6 +585,7 @@ show_overlay:
     - text:
     - show_files:
     - command:
+    - args:
   command_type: window
   doc_string: Show the overlay from the argument.
 show_panel:
