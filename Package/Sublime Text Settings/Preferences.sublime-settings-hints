@@ -21,6 +21,10 @@
 	// Added in 405x.
 	"context_menu": null,
 
+	// The default extension to be showed as the file save type in the OS
+	// file save manager, for new untitled files.
+	"default_extension": "",
+
 	// UI scaling factor (deprecated)
 	// Removed in 3181.
 	"dpi_scale": 1.0,
