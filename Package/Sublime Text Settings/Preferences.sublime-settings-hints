@@ -72,6 +72,11 @@
 	// Only useful for password input panels.
 	"password": false,
 
+	// Choose a browser to print the current view based on
+	// https://docs.python.org/3/library/webbrowser.html#webbrowser.get
+	// Added in 4094.
+	"print_using_browser": null,
+
 	// Shows legacy color schemes in UI: Select Color Scheme.
 	// Added in 3136.
 	"show_legacy_color_schemes": false,
