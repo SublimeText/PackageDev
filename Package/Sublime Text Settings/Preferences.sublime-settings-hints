@@ -38,6 +38,10 @@
 	// Added in 4097.
 	"gtk_client_side_window_decorations": false,
 
+	// To disable the new key translation behavior
+	// Added in 4103.
+	"gtk_enable_key_translation": true,
+
 	// Hide the mouse pointer while typing.
 	"hide_pointer_while_typing": true,
 
