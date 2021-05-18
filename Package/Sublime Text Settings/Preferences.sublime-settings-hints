@@ -72,6 +72,10 @@
 	// Only useful for password input panels.
 	"password": false,
 
+	// Shows legacy color schemes in UI: Select Color Scheme.
+	// Added in 3136.
+	"show_legacy_color_schemes": false,
+
 	// Path to the syntax definition for a view.
 	// To be used in widget settings files.
 	"syntax": "Packages/Text/Plain text.tmLanguage",
