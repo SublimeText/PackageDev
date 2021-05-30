@@ -1,6 +1,6 @@
 ---
 # Metadata about the described commands.
-build: 4052
+build: 4106
 ---
 add_directory:
   command_type: find
@@ -18,7 +18,6 @@ append:
   doc_string: Append the given text to the end of the document.
 auto_complete:
   args:
-    api_completions_only: false
     disable_auto_insert: false
     next_completion_if_showing: false
     auto_complete_commit_on_tab: true
