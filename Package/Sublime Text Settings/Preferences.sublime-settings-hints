@@ -11,8 +11,8 @@
 	// Added in 4057.
 	"auto_complete_enable_plugins": true,
 
-	// Shows auto complete when a completion is estimated to be likely.
-	// Allows disabling this logic.
+	// Show the auto completion popup when a completion is likely to be requested.
+	// Added in 40xx.
 	"auto_complete_when_likely": true,
 
 	// Set the context menu for this view (type).
@@ -21,8 +21,8 @@
 	// Added in 405x.
 	"context_menu": null,
 
-	// The default extension to be showed as the file save type in the OS
-	// file save manager, for new untitled files.
+	// The default extension to be shown for new untitled files
+	// in the OS file save manager.
 	"default_extension": "",
 
 	// UI scaling factor (deprecated)
@@ -37,19 +37,19 @@
 	// Only makes sense in syntax-specific settings.
 	"extensions": [],
 
-	// Use the themed title bar. Disabled by default for non-gnome DE's
+	// Use the themed title bar on Linux. Disabled by default for non-gnome DE's
 	// or when `XDG_CURRENT_DESKTOP` is not set.
 	// Added in 4097.
 	"gtk_client_side_window_decorations": false,
 
-	// To disable the new key translation behavior
+	// Whether the new key translation behavior should be used.
 	// Added in 4103.
 	"gtk_enable_key_translation": true,
 
 	// Hide the mouse pointer while typing.
 	"hide_pointer_while_typing": true,
 
-	// A list of words ignored by spell checker.
+	// A list of words ignored by the spell checker.
 	"ignored_words": [],
 
 	// Emulate a block caret.
@@ -57,7 +57,7 @@
 	"inverse_caret_state": false,
 
 	// Show the first completion candidate as a phantom.
-	// Experimental setting in 4057+ builds.
+	// Experimental setting since 4057.
 	"mini_auto_complete": false,
 
 	// Scroll to the clicked location
@@ -89,7 +89,7 @@
 	// Only available to registered users.
 	"update_check": true,
 
-	// Increases width of the caret (deprecated)
+	// Increases width of the caret (deprecated).
 	// Use `caret_extra_width` instead.
 	"wide_caret": false,
 }
