@@ -352,9 +352,9 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         suggest_suffix = get_setting('syntax_test.suggest_scope_suffix', True)
         scope = find_common_scopes(scopes, not suggest_suffix)
 
-        trim_prefix = get_setting('syntax_test.suggest_trimmed_prefix', False)
+        trim_prefix = not get_setting('syntax_test.suggest_asserted_prefix', False)
         if trim_prefix:
-            above_scopes = [
+            scopes_above = [
                 self.view.substr(sublime.Region(
                     line.line_region.begin() + line.assertion_colrange[1],
                     line.line_region.end(),
@@ -364,8 +364,10 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
                 and line.assertion_colrange[1] >= lines[0].assertion_colrange[1]
             ]
 
-            for above_scope in reversed(above_scopes):
-                score = sublime.score_selector(scope, above_scope)
+            for scope_above in reversed(scopes_above):
+                # Determine the last scope segment matched by any previous assertion
+                # and trim that and everything preceding it.
+                score = sublime.score_selector(scope, scope_above)
                 if score > 0:
                     scope_parts = scope.split(' ')
                     matched_count = -(-score.bit_length() // 3) - 1

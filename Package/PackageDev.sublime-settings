@@ -33,7 +33,7 @@
 
     // Whether to trim leading scopes from suggestions
     // that are already part of previous assertions.
-    "syntax_test.suggest_trimmed_prefix": false,
+    "syntax_test.suggest_asserted_prefix": false,
 
 
     /// ADVANCED SETTINGS /////////////////////////////////////////////////////////////////////////
