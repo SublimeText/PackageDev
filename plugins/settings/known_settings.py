@@ -434,6 +434,14 @@ class KnownSettings(object):
         return completions
 
     @staticmethod
+    def _encode_snippet_field_default_content(content: str) -> str:
+        """Escape string for snippet's default content context."""
+        return content             \
+            .replace("\\", "\\\\") \
+            .replace("$", "\\$")   \
+            .replace("}", "\\}")
+
+    @staticmethod
     def _key_snippet(key, value, bol="", eol=",\n"):
         """Create snippet with default value depending on type.
 
@@ -450,10 +458,7 @@ class KnownSettings(object):
         Returns:
             string: the contents field to insert into completions entry
         """
-        encoded = sublime.encode_value(value)
-        encoded = encoded.replace("\\", "\\\\")  # escape snippet markers
-        encoded = encoded.replace("$", "\\$")
-        encoded = encoded.replace("}", "\\}")
+        encoded = sublime.encode_value(value, pretty=True).strip()
 
         if isinstance(value, str):
             # create the snippet for json strings and exclude quotation marks
@@ -461,8 +466,8 @@ class KnownSettings(object):
             #
             #   "key": "value"
             #
-            fmt = '{bol}"{key}": "${{1:{encoded}}}"{eol}'
-            encoded = encoded[1:-1]  # strip quotation
+            fmt = '{bol}"{key}": "${{1:{content}}}"{eol}'
+            encoded = encoded[1:-1]
         elif isinstance(value, list):
             # create the snippet for json lists and exclude brackets
             # from the input field {1:}
@@ -472,8 +477,8 @@ class KnownSettings(object):
             #      value
             #   ]
             #
-            fmt = '{bol}"{key}":\n[\n\t${{1:{encoded}}}\n]{eol}'
-            encoded = encoded[1:-1]  # strip brackets
+            fmt = '{bol}"{key}":\n[\n\t${{1:{content}}}\n]{eol}'
+            encoded = encoded[1:-1].strip()
         elif isinstance(value, dict):
             # create the snippet for json dictionaries braces
             # from the input field {1:}
@@ -483,11 +488,13 @@ class KnownSettings(object):
             #      value
             #   }
             #
-            fmt = '{bol}"{key}":\n{{\n\t${{1:{encoded}}}\n}}{eol}'
-            encoded = encoded[1:-1]  # strip braces
+            fmt = '{bol}"{key}":\n{{\n\t${{1:{content}}}\n}}{eol}'
+            encoded = encoded[1:-1].strip()
         else:
-            fmt = '{bol}"{key}": ${{1:{encoded}}}{eol}'
-        return fmt.format(**locals())
+            fmt = '{bol}"{key}": ${{1:{content}}}{eol}'
+        # `encoded` is like a JSON string, but with quotes/braces/brackets stripped.
+        content = KnownSettings._encode_snippet_field_default_content(encoded)
+        return fmt.format(key=key, content=content, bol=bol, eol=eol)
 
     def value_completions(self, view, prefix, point):
         """Create a list with completions for all known settings values.
