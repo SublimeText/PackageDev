@@ -431,6 +431,14 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
         test_header = get_syntax_test_tokens(view)
         if not test_header:
             return
+
+        # If the user navigates through syntax test files using Goto Anything,
+        # then the navigation is disrupted (because of the dialog) if the test
+        # files happens to use indentation. So, we just skip checking any files
+        # that are transiently opened by using Goto Anything.
+        if view.sheet().is_transient():
+            return
+
         current_syntax = view.settings().get('syntax', None)
         test_syntax = test_header.syntax_file
 
