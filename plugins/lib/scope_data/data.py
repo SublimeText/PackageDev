@@ -21,6 +21,8 @@ DATA = """
         language
             infinity
             nan
+            boolean
+            null
         other
             placeholder
 
