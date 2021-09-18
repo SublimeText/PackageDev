@@ -26,6 +26,10 @@
     // Each theme containing one of the list's strings is hidden.
     "settings.exclude_theme_patterns": [],
 
+    // Whether to enable the edit settings pencil icon. Close & reopen the 
+    // settings file for this to take effect.
+    "settings.enable_quick_edit_icon": true,
+
     // Whether or not to keep the scope suffix in the suggested test scopes
     // i.e. if the base scope is text.html.markdown
     // then suggest meta.example.markdown (true) vs meta.example (false).
