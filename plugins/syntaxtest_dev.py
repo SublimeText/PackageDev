@@ -23,7 +23,16 @@ AssertionLineDetails = namedtuple(
     'AssertionLineDetails', ['comment_marker_match', 'assertion_colrange', 'line_region']
 )
 SyntaxTestHeader = namedtuple(
-    'SyntaxTestHeader', ['comment_start', 'comment_end', 'syntax_file', 'reindent']
+    'SyntaxTestHeader', ['comment_start', 'comment_end', 'syntax_file', 'test_mode']
+)
+
+
+syntax_test_header_regex = re.compile(
+    r'^(?P<comment_start>\s*.+?)'
+    r'\s+SYNTAX TEST\s+'
+    r'(?P<test_mode>(?:partial-symbols|(?:reindent(?:-un(?:indented|changed))?)\s+)*)'
+    r'"(?P<syntax_file>[^"]+)"'
+    r'\s*(?P<comment_end>\S+)?$'
 )
 
 
@@ -37,11 +46,8 @@ def get_syntax_test_tokens(view):
     match = None
     if line.size() < 1000:  # no point checking longer lines as they are unlikely to match
         first_line = view.substr(line)
-        match = re.match(r'^(?P<comment_start>\s*.+?)'
-                         r'\s+SYNTAX TEST\s+'
-                         r'(?P<reindent>(?:reindent(?:-un(?:indented|changed))?\s+)*)'
-                         r'"(?P<syntax_file>[^"]+)"'
-                         r'\s*(?P<comment_end>\S+)?$', first_line)
+        match = syntax_test_header_regex.match(first_line)
+
     if not match:
         return None
     else:
