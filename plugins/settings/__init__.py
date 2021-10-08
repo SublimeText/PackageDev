@@ -145,7 +145,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             logger.error("Not a Sublime Text Settings or Project file: %r", filepath)
 
         self.phantom_set = sublime.PhantomSet(self.view, "sublime-settings-edit")
-        if self._is_base_settings_view() and get_setting("settings.enable_quick_edit_icon"):
+        if self._is_base_settings_view() and get_setting("settings.show_quick_edit_icon"):
             self.build_phantoms()
 
     def __del__(self):
@@ -156,7 +156,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def on_modified_async(self):
         """Sublime Text modified event handler to update linting."""
         self.do_linting()
-        if self._is_base_settings_view() and get_setting("settings.enable_quick_edit_icon"):
+        if self._is_base_settings_view() and get_setting("settings.show_quick_edit_icon"):
             # This may only occur for unpacked packages
             self.build_phantoms()
 
