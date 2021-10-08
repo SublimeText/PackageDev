@@ -208,7 +208,7 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 
 
 ${TM_CURRENT_LINE/^\\s*((?:\\/\\/[\\/!]?|#|%|--|::|(?i:rem)|'|;)\\s*).*/$1/}
-#                            ^ meta.group.regexp meta.group.regexp meta.literal.regexp
+#                            ^ meta.group.regexp meta.group.regexp
 #                                                                      ^ keyword.other.regex.mid.snippet
 
  ]]>snippet<</content>
