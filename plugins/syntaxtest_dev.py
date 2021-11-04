@@ -428,6 +428,13 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
     PLAIN_TEXT = "Packages/Text/Plain text.tmLanguage"
 
     def on_load(self, view):
+        if view.size() == 0 and view.file_name().startswith(sublime.packages_path() + '/'):
+            sublime.set_timeout(lambda: self.assign_syntax(view), 100)
+            return
+
+        self.assign_syntax(view)
+
+    def assign_syntax(self, view):
         test_header = get_syntax_test_tokens(view)
         if not test_header:
             return
@@ -447,7 +454,7 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
                 view.assign_syntax(self.PLAIN_TEXT)
 
         # just base name specified
-        elif not current_syntax.endswith(test_syntax):
+        elif not current_syntax.endswith('/' + test_syntax):
             syntax_candidates = sublime.find_resources(test_syntax)
             if syntax_candidates:
                 logger.debug("Found the following candidates for %r: %r",
