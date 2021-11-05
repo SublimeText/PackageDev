@@ -5,5 +5,5 @@
         { "selector": "meta.mapping.key punctuation.definition.string.begin" },
     ],
     "extensions": ["sublime-color-scheme"],
-    "word_separators": "./\\()\"':,.;<>~!@$%^&*|+=[]{}`~?" // default without '-'
+    "word_separators": "./\\()\"':,.;<>~!@$%^&*|+=[]{}`~?" // default without '-' and '#'
 }
