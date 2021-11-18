@@ -430,9 +430,8 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
     def on_load(self, view):
         if view.size() == 0 and view.file_name().startswith(sublime.packages_path() + '/'):
             sublime.set_timeout(lambda: self.assign_syntax(view), 100)
-            return
-
-        self.assign_syntax(view)
+        else:
+            self.assign_syntax(view)
 
     def assign_syntax(self, view):
         test_header = get_syntax_test_tokens(view)
