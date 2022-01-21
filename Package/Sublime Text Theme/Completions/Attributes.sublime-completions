@@ -137,6 +137,11 @@
             "kind": ["snippet", "a", "Attribute"],
         },
         {
+            "trigger": "disabled",
+            "contents": "\"disabled\"",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
             "trigger": "confirm",
             "contents": "\"confirm\"",
             "kind": ["snippet", "a", "Attribute"],
