@@ -114,6 +114,10 @@
             "kind": ["snippet", "a", "Attribute"],
         },
         {
+            "trigger": "checked",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
             "trigger": "confirm",
             "kind": ["snippet", "a", "Attribute"],
         },
