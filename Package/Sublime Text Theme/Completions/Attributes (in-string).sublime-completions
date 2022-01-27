@@ -110,6 +110,10 @@
             "kind": ["snippet", "a", "Attribute"],
         },
         {
+            "trigger": "disabled",
+            "kind": ["snippet", "a", "Attribute"],
+        },
+        {
             "trigger": "confirm",
             "kind": ["snippet", "a", "Attribute"],
         },
