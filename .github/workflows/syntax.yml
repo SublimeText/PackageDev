@@ -20,7 +20,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - build: 4094
+          - build: latest
             packages: master
     runs-on: ubuntu-latest
     steps:
