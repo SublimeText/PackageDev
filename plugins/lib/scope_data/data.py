@@ -240,11 +240,9 @@ DATA = """
                 end
         separator
             continuation
-            sequence
-            mapping
-                key-value
-                pair
             decimal
+            key-value
+            sequence
         terminator
         accessor
             arrow
