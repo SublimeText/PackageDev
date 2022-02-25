@@ -445,8 +445,27 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
 
 
 class ScopeTreeNode:
+
+    def __init__(self, region, scope, children=None):
+        self.region = region
+        self.scope = scope
+        self.children = children or []
+
     @classmethod
-    def split_scope(cls, scope, *, trim_suffix=False):
+    def build_forest(cls, tokens, *, trim_suffix=False):
+        tokens = [
+            (region, cls._split_scope(scope, trim_suffix=trim_suffix))
+            for region, scope in tokens
+        ]
+
+        forest = []
+        for region, scope in tokens:
+            cls._insert(forest, region, scope)
+
+        return [node.compacted() for node in forest]
+
+    @staticmethod
+    def _split_scope(scope, *, trim_suffix=False):
         ret = scope.strip().split(' ')
         ret = ret[1:]  # Trim root scope
         if trim_suffix:
@@ -457,19 +476,7 @@ class ScopeTreeNode:
         return ret
 
     @classmethod
-    def build_forest(cls, tokens, *, trim_suffix=False):
-        tokens = [
-            (region, cls.split_scope(scope, trim_suffix=trim_suffix))
-            for region, scope in tokens
-        ]
-
-        forest = []
-        for region, scope in tokens:
-            cls.append(forest, region, scope)
-        return forest
-
-    @classmethod
-    def append(cls, forest, region, scopes):
+    def _insert(cls, forest, region, scopes):
         if scopes:
             first, *rest = scopes
             if forest and forest[-1].scope == first:
@@ -477,36 +484,31 @@ class ScopeTreeNode:
             else:
                 forest.append(cls(region, first))
 
-            cls.append(forest[-1].children, region, rest)
+            cls._insert(forest[-1].children, region, rest)
 
-    @classmethod
-    def compact_forest(cls, forest):
-        return [
-            node.compact()
-            for node in forest
-        ]
-
-    def __init__(self, region, scope, children=None):
-        self.region = region
-        self.scope = scope
-        self.children = (children or [])
-
-    def compact(self):
+    def compacted(self):
         if (
             len(self.children) == 1
-            and self.children[0].region == self.region
+            and self.children[0].region.to_tuple() == self.region.to_tuple()
         ):
-            return ScopeTreeNode(
-                self.region,
-                self.scope + ' ' + self.children[0].scope,
-                self.children[0].children
-            )
+            replacement_node = self.children[0].compacted()
+            replacement_node.scope = self.scope + ' ' + replacement_node.scope
+            return replacement_node
         else:
             return ScopeTreeNode(
                 self.region,
                 self.scope,
-                type(self).compact_forest(self.children)
+                [node.compacted() for node in self.children],
             )
+
+    def __repr__(self):
+        from pprint import pformat
+        from textwrap import indent
+        return "ScopeTreeNode(\n\t{!r},\n\t{!r},\n{}\n)".format(
+            self.region,
+            self.scope,
+            indent(pformat(self.children), "\t"),
+        )
 
 
 class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
@@ -524,11 +526,9 @@ class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
         for region in reversed(view.sel()):
             line = view.line(region.b)
 
-            forest = ScopeTreeNode.compact_forest(
-                ScopeTreeNode.build_forest(
-                    view.extract_tokens_with_scopes(line),
-                    trim_suffix=not suggest_suffix
-                )
+            forest = ScopeTreeNode.build_forest(
+                view.extract_tokens_with_scopes(line),
+                trim_suffix=not suggest_suffix,
             )
 
             tests = self.get_test_lines(forest, listener.header, line.begin())
