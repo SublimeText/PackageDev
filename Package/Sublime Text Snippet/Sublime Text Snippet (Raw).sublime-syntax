@@ -1,24 +1,47 @@
 %YAML 1.2
 ---
 # See http://www.sublimetext.com/docs/3/syntax.html
-scope: source.sublime.snippet
 name: Sublime Text Snippet Content
+scope: source.sublime.snippet
 hidden: true
+
+variables:
+  known_variables: |-
+    (?x:
+      PARAM\d+
+    | SELECTION
+    | TM_CURRENT_LINE
+    | TM_CURRENT_WORD
+    | TM_FILENAME
+    | TM_FILEPATH
+    | TM_FULLNAME
+    | TM_LINE_INDEX
+    | TM_LINE_NUMBER
+    | TM_SELECTED_TEXT
+    | TM_SOFT_TABS
+    | TM_TAB_SIZE
+    )
+
 contexts:
   main:
-    - include: possible_caret
+    - include: carets
 
-  possible_caret:
-    - match: '\\[$}]'
+  carets:
+    - match: \\[$\\]
       scope: constant.character.escape.snippet
-    - match: '\$(?=\{|\w)'
+    - match: \$(\{)
       scope: meta.text-substitution.snippet keyword.other.block.start.snippet
-      push: caret
-    - match: '\$'
+      captures:
+        1: keyword.other.block.begin.snippet
+      push: [inside_caret, caret_name]
+    - match: \$(?=\w)
+      scope: meta.text-substitution.snippet keyword.other.block.start.snippet
+      push: caret_name
+    - match: \$
       scope: invalid.illegal.unescaped-dollar.snippet
 
-  caret:
-    - match: '(?:(\d+(?!\w))|(PARAM\d+|SELECTION|TM_CURRENT_LINE|TM_CURRENT_WORD|TM_FILENAME|TM_FILEPATH|TM_FULLNAME|TM_LINE_INDEX|TM_LINE_NUMBER|TM_SELECTED_TEXT|TM_SOFT_TABS|TM_TAB_SIZE)\b)'
+  caret_name:
+    - match: (\d+(?!\w))|({{known_variables}})\b
       comment: |
         http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippet#environment-variables
         note that USER_NAME is always blank in ST, so we don't highlight it here
@@ -26,32 +49,33 @@ contexts:
         1: constant.numeric.snippet
         2: constant.language.snippet
       pop: true
-    - match: '\{'
-      scope: keyword.other.block.begin.snippet
-      set: [inside_caret, caret]
-    - match: '\w+'
+    - match: \w+
       scope: meta.text-substitution.snippet constant.other.snippet
       pop: true
 
   inside_caret:
     - meta_scope: meta.text-substitution.snippet
-    - match: '\}'
+    - match: \}
       scope: keyword.other.block.end.snippet
       pop: true
-    - include: possible_caret
+    - include: carets
     - match: ':'
       scope: keyword.operator.alternation.snippet
-      push:
-        - meta_content_scope: string.unquoted.text-substitution.snippet
-        - include: possible_caret
-        - match: '(?=\})'
-          pop: true
-    - match: '/'
+      push: inside_caret_alternation
+    - match: /
       scope: keyword.other.regex.start.snippet
       push: inside_caret_pattern
 
+  inside_caret_alternation:
+    - meta_content_scope: string.unquoted.text-substitution.snippet
+    - match: \\\}
+      scope: constant.character.escape.snippet
+    - include: carets
+    - match: (?=\})
+      pop: true
+
   inside_caret_pattern:
-    - match: '/'
+    - match: /
       scope: keyword.other.regex.mid.snippet
       set: inside_caret_replacement
     - match: ''
@@ -59,12 +83,12 @@ contexts:
       escape: (?<=[^\\]|\\\\)(?=/)
 
   inside_caret_replacement:
-    - match: '/'
+    - match: /
       scope: keyword.other.regex.end.snippet
       set:
         - match: '[gims-]*'  # x mode doesn't seem to work properly in snippets
           scope: constant.other.regex-modifier.snippet
-        - match: '(?=\})'
+        - match: (?=\})
           pop: true
         - match: '[^}]+'
           scope: invalid.illegal.unexpected-token.snippet

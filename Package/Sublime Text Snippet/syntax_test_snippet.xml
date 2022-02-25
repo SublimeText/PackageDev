@@ -106,9 +106,11 @@ No braces: $1 $SELECTION
 #             ^ keyword.other.block
 #              ^^^^^^^^^ constant.language
 
-Literal dollar: \$5
+Literal dollar: \$5 \\ \}
 #               ^^ constant.character.escape - keyword
 #                 ^ - constant.numeric
+#                   ^^ constant.character.escape.snippet
+#                      ^^ - constant.character.escape
 
 \label{sec:${TM_FILENAME:${SELECTION/(?i:(?<example>á))|\\\w+\{(.*?)\}|\\(.)|(\w)|([^\w\\]+)/(?{5}_:\L$2${3}(?{example}a:\4)\E)/g}}}
 #     ^ - keyword
@@ -165,8 +167,9 @@ stray brackets:
 #                    ^ keyword.other.block
 #                     ^ constant.numeric
 
- $ 1.00
+ $ 1.00  $---
 #^ invalid.illegal.unescaped-dollar
+#        ^ invalid.illegal.unescaped-dollar
 
  ${0:$TM_SELECTED_TEXT\}}
 #  ^ constant
