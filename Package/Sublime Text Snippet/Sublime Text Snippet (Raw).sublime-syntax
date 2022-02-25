@@ -48,28 +48,26 @@ contexts:
           pop: true
     - match: '/'
       scope: keyword.other.regex.start.snippet
-      push:
-        - match: '/'
-          scope: keyword.other.regex.mid.snippet
-          set:
-            - match: '/'
-              scope: keyword.other.regex.end.snippet
-              set:
-                - match: '[gims-]*' # x mode doesn't seem to work properly in snippets
-                  scope: constant.other.regex-modifier.snippet
-                - match: '(?=\})'
-                  pop: true
-                - match: '[^}]+'
-                  scope: invalid.illegal.unexpected-token.snippet
-            - match: ''
-              push: scope:source.regexp-replacement
-              with_prototype:
-                - match: (?=/)
-                  pop: true
-        - match: ''
-          push:
-            # Will not work if extended mode is enabled in the regex
-            - meta_scope: source.regexp.embedded
-            - match: (?=/)
-              pop: true
-            - include: scope:source.regexp#base-literal
+      push: inside_caret_pattern
+
+  inside_caret_pattern:
+    - match: '/'
+      scope: keyword.other.regex.mid.snippet
+      set: inside_caret_replacement
+    - match: ''
+      embed: scope:source.regexp
+      escape: (?<=[^\\]|\\\\)(?=/)
+
+  inside_caret_replacement:
+    - match: '/'
+      scope: keyword.other.regex.end.snippet
+      set:
+        - match: '[gims-]*'  # x mode doesn't seem to work properly in snippets
+          scope: constant.other.regex-modifier.snippet
+        - match: '(?=\})'
+          pop: true
+        - match: '[^}]+'
+          scope: invalid.illegal.unexpected-token.snippet
+    - match: ''
+      embed: scope:source.regexp-replacement
+      escape: (?<=[^\\]|\\\\)(?=/)

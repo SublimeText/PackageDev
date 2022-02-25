@@ -46,7 +46,7 @@ Transformation: ${1/^(\w)|(?:_(\w))/(?1\u$1:)(?2 \u${2}:)/g}
 #               ^^ keyword.other.block
 #                 ^ constant.numeric
 #                  ^ keyword.other.regex.start
-#                   ^ keyword.control.anchors
+#                   ^ keyword.control.anchor
 #                    ^^^^ meta.group
 #                     ^^ keyword.control.character-class
 #                        ^ keyword.operator.alternation
@@ -207,10 +207,13 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 # ^ keyword.other.block.end
 
 
-${TM_CURRENT_LINE/^\\s*((?:\\/\\/[\\/!]?|#|%|--|::|(?i:rem)|'|;)\\s*).*/$1/}
-#                            ^ meta.group.regexp meta.group.regexp meta.literal.regexp
-#                                                                      ^ keyword.other.regex.mid.snippet
+${TM_CURRENT_LINE/^\\s*((?:\/\/[\/!]?|#|%|--|::|(?i:rem)|'|;)\\s*).*/$1/}
+#                          ^^^^ constant.character.escape.regexp
+#                               ^^ constant.character.escape.regexp
+#                                                                      ^ keyword.other.regex.end.snippet
 
+${TM_CURRENT_LINE/^\\s*((?:\\/\1/}
+#                            ^ keyword.other.regex.mid.snippet
  ]]>snippet<</content>
 #^^^ meta.tag.cdata punctuation.definition.tag.end
 #   ^^^^^^^ source.sublime.snippet
