@@ -22,6 +22,12 @@ jobs:
         include:
           - build: latest
             packages: master
+            continue_on_error: false
+          # earliest version supported by the current release branch
+          - build: 4094
+            packages: v4094
+            continue_on_error: true
+    continue-on-error: ${{ matrix.continue_on_error }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
