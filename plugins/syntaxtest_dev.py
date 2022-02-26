@@ -513,7 +513,14 @@ class ScopeTreeNode:
 
 class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
 
-    """Autogenerate syntax tests for the selected line of code."""
+    """Generate syntax tests for the selected line of code."""
+
+    def is_enabled(self):
+        listener = sublime_plugin.find_view_event_listener(
+            self.view,
+            SyntaxTestHighlighterListener,
+        )
+        return bool(listener and listener.header)
 
     def run(self, edit):
         view = self.view
