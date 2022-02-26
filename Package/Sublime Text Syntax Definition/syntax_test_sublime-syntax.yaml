@@ -88,7 +88,6 @@ variables:
   x14: '[x-'']+'
 #            ^ - keyword.control.set.regexp
 
-
  # [ BLOCKS ] #
 # <- comment.line.number-sign.yaml
 #^^^^^^^^^^^^^^^ comment.line.number-sign.yaml
@@ -133,6 +132,16 @@ variables:
         | {{resolution_units}} )\b
 #         ^^^^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
 #           ^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
+
+  'null': |-
+# ^^^^^^ string.quoted.single.yaml
+# ^ punctuation.definition.string.begin.yaml - entity
+#  ^^^^ entity.name.constant.sublime-syntax
+#      ^ punctuation.definition.string.end.yaml - entity
+#       ^ punctuation.separator.mapping.key-value.yaml
+#        ^ meta.expect-regexp
+
+# block scalar already terminated here
 
 contexts:
 # <- meta.block.contexts keyword.control.flow.contexts.sublime-syntax - meta.block.variables

@@ -2,6 +2,7 @@
 ---
 name: Sublime Text Syntax Definition (YAML)
 scope: source.yaml.sublime.syntax
+version: 2
 
 file_extensions:
   - sublime-syntax
@@ -36,15 +37,20 @@ variables:
       )
     )
 
+  # based on YAML.sublime-syntax's _flow_key_out_lookahead
   block_key_lookahead: |-
     (?x:
       (?=
-        {{ns_plain_first_plain_out}}
         (
-            [^\s:]
-          | : \S
-          | \s+ (?![#\s])
-        )*
+            {{ns_plain_first_plain_out}}
+            (
+                [^\s:]
+              | : \S
+              | \s+ (?![#\s])
+            )*
+          | \".*\" # simplified
+          | \'.*\'
+        )
         \s*
         :
         (\s|$)
@@ -160,20 +166,35 @@ contexts:
     - meta_scope: meta.block.variables.sublime-syntax
     - include: comment
     - include: yaml-tags-anchors
-    # (based on YAML.sublime-syntax#block-pair)
     - match: '^ +{{block_key_lookahead}}'
-      push:
-        - include: Packages/YAML/YAML.sublime-syntax#flow-scalar-plain-out-implicit-type-12
-        - match: :(?=\s|$)
-          scope: punctuation.separator.mapping.key-value.yaml
-          set: expect_regexp
-        - match: ''
-          push:
-            - meta_scope: string.unquoted.plain.out.yaml entity.name.constant.sublime-syntax
-            - match: '{{_flow_scalar_end_plain_out}}'
-              pop: true
+      push: variable
     - match: ^(?=\S)
       pop: true
+
+  variable:
+    # (based on YAML.sublime-syntax#block-pair)
+    - match: :(?=\s|$)
+      scope: punctuation.separator.mapping.key-value.yaml
+      set: expect_regexp
+    # http://yaml.org/spec/1.2/spec.html#style/flow/single-quoted
+    # c-single-quoted(n,c)
+    - match: "'"
+      scope: punctuation.definition.string.begin.yaml
+      push:
+        - meta_scope: string.quoted.single.yaml
+        - meta_content_scope: entity.name.constant.sublime-syntax
+        - meta_include_prototype: false
+        - match: "''"
+          scope: constant.character.escape.single-quoted.yaml
+        - match: "'"
+          scope: punctuation.definition.string.end.yaml
+          pop: true
+    - include: Packages/YAML/YAML.sublime-syntax#flow-scalar-plain-out-implicit-type-12
+    - match: ''
+      push:
+        - meta_scope: string.unquoted.plain.out.yaml entity.name.constant.sublime-syntax
+        - match: '{{_flow_scalar_end_plain_out}}'
+          pop: true
 
   contexts_block:
     - meta_scope: meta.block.contexts.sublime-syntax
@@ -597,7 +618,7 @@ contexts:
           scope: constant.character.escape.yaml
         - match: '"'
           scope: punctuation.definition.string.end.yaml
-          pop: true
+          pop: 2
 
     - match: "'"
       scope: punctuation.definition.string.begin.yaml
@@ -605,7 +626,7 @@ contexts:
         - meta_content_scope: source.regexp.oniguruma
         - match: "'(?!')"
           scope: punctuation.definition.string.end.yaml
-          pop: true
+          pop: 2
         - match: ''
           push: regexp
           with_prototype:
