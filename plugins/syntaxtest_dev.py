@@ -429,6 +429,7 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
 
     def on_load(self, view):
         if view.size() == 0 and view.file_name().startswith(sublime.packages_path() + '/'):
+            logger.debug("Late-assigning syntax because view was empty on load")
             sublime.set_timeout(lambda: self.assign_syntax(view), 100)
         else:
             self.assign_syntax(view)
