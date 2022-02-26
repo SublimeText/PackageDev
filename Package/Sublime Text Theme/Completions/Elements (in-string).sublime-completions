@@ -389,6 +389,18 @@
             "trigger": "tool_tip_label_control",
             "kind": ["snippet", "e", "Element"],
         },
+        {
+            "trigger": "radio_button_list_control",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "checkbox_control",
+            "kind": ["snippet", "e", "Element"],
+        },
+        {
+            "trigger": "checkbox_box_control",
+            "kind": ["snippet", "e", "Element"],
+        },
 
         // The following have been added manually
         {
