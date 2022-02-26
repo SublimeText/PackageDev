@@ -13,6 +13,7 @@ formatter = logging.Formatter(fmt="[{name}] {levelname}: {message}", style='{')
 handler.setFormatter(formatter)
 package_logger.addHandler(handler)
 package_logger.setLevel(DEFAULT_LOG_LEVEL)
+package_logger.propagate = False  # prevent root logger from catching this
 
 logger = logging.getLogger(__name__)
 
