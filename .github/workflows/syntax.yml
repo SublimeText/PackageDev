@@ -23,9 +23,13 @@ jobs:
           - build: latest
             packages: master
             continue_on_error: false
-          # earliest version supported by the current release branch
-          - build: 4094
-            packages: v4094
+          # latest stable build
+          - build: 4126
+            packages: v4126
+            continue_on_error: true
+          # earliest stable build supported by the current release branch
+          - build: 4107
+            packages: v4107
             continue_on_error: true
     continue-on-error: ${{ matrix.continue_on_error }}
     runs-on: ubuntu-latest
