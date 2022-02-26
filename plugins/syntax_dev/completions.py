@@ -1,3 +1,4 @@
+import logging
 import re
 
 import sublime
@@ -12,6 +13,7 @@ __all__ = (
     'PackagedevCommitScopeCompletionCommand'
 )
 
+logger = logging.getLogger(__name__)
 
 # a list of kinds used to denote the different kinds of completions
 KIND_HEADER_BASE = (sublime.KIND_ID_NAMESPACE, 'K', 'Header Key')
@@ -22,6 +24,7 @@ KIND_CONTEXT = (sublime.KIND_ID_KEYWORD, 'c', 'Context')
 KIND_FUNCTION = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
 KIND_FUNCTION_TRUE = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
 KIND_FUNCTION_FALSE = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
+KIND_FUNCTION_NUMERIC = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
 KIND_CAPTURUE = (sublime.KIND_ID_FUNCTION, 'c', 'Captures')
 KIND_SCOPE = (sublime.KIND_ID_NAMESPACE, 's', 'Scope')
 KIND_VARIABLE = (sublime.KIND_ID_VARIABLE, 'v', 'Variable')
@@ -39,6 +42,7 @@ def status(msg, console=False):
 def format_static_completions(templates):
 
     def format_item(trigger, kind, details):
+        # Compare identity because some values are equal
         if kind in (KIND_HEADER_DICT, KIND_CAPTURUE, KIND_CONTEXT):
             completion_format = sublime.COMPLETION_FORMAT_SNIPPET
             suffix = ":\n  "
@@ -51,6 +55,9 @@ def format_static_completions(templates):
         elif kind is KIND_FUNCTION_FALSE:
             completion_format = sublime.COMPLETION_FORMAT_SNIPPET
             suffix = ": ${1:false}"
+        elif kind is KIND_FUNCTION_NUMERIC:
+            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
+            suffix = ": ${1:1}"
         else:
             completion_format = sublime.COMPLETION_FORMAT_TEXT
             suffix = ": "
@@ -113,7 +120,6 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # contexts
         ('push', KIND_FUNCTION, "Push a context onto the stack."),
         ('set', KIND_FUNCTION, "Set a context onto the stack."),
-        ('pop', KIND_FUNCTION_TRUE, 'Pop context(s) from the stack.'),
         ('with_prototype', KIND_FUNCTION, "Rules to prepend to each context."),
         # branching
         ('branch_point', KIND_FUNCTION, "Name of the point to rewind to if a branch fails."),
@@ -128,6 +134,20 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         ('include', KIND_FUNCTION, "Includes a context."),
         ('apply_prototype', KIND_FUNCTION_TRUE, "Apply prototype of included syntax."),
     ))
+
+    base_completions_contexts_version_1 = (
+        base_completions_contexts
+        + format_static_completions(templates=(
+            ('pop', KIND_FUNCTION_TRUE, 'Pop context(s) from the stack.'),
+        ))
+    )
+
+    base_completions_contexts_version_2 = (
+        base_completions_contexts
+        + format_static_completions(templates=(
+            ('pop', KIND_FUNCTION_NUMERIC, 'Pop context(s) from the stack.'),
+        ))
+    )
 
     # These instance variables are for communicating
     # with our PostCompletionsListener instance.
@@ -229,7 +249,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         elif not match.group(1):
             return self.base_completions_root
         elif match_selector("meta.block.contexts"):
-            return self.base_completions_contexts
+            if self._determine_version() == 1:
+                return self.base_completions_contexts_version_1
+            else:
+                return self.base_completions_contexts_version_2
         else:
             return None
 
@@ -314,6 +337,20 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             annotation="",
             kind=KIND_BRANCH,
         )
+
+    def _determine_version(self):
+        version_regions = self.view.find_by_selector('storage.type.version.sublime-syntax')
+        if version_regions:
+            if len(version_regions) > 1:
+                logger.debug("Found multiple versions (%d), using last", len(version_regions))
+            version_line = self.view.substr(self.view.line(version_regions[-1]))
+            *_, version_str = version_line.partition(": ")
+            if version_str:
+                try:
+                    return int(version_str)
+                except ValueError:
+                    logger.debug("Unable to parse version string '%s'", version_str)
+        return 1
 
 
 class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
