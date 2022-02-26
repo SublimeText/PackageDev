@@ -89,7 +89,14 @@ variables:
 #            ^ - keyword.control.set.regexp
 
 
-# BLOCKS #
+ # [ BLOCKS ] #
+# <- comment.line.number-sign.yaml
+#^^^^^^^^^^^^^^^ comment.line.number-sign.yaml
+#^ punctuation.definition.comment.line.number-sign.yaml
+#  ^ punctuation.section.brackets.begin.sublime-syntax
+#    ^^^^^^ entity.name.section.sublime-syntax
+#           ^ punctuation.section.brackets.end.sublime-syntax
+#             ^ punctuation.definition.comment.line.number-sign.yaml
 
   b1: | # comment
 # ^^ entity.name.constant.sublime-syntax

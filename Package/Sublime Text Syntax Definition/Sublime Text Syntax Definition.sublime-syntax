@@ -88,6 +88,15 @@ variables:
 
 contexts:
   comment:
+    ###[ SECTION COMMENT ]######
+    - match: ^\s*(#+)\s*(\[)\s*([^#\]]+?)\s*(\])\s*(#+)\n?$
+      scope: comment.line.number-sign.yaml
+      captures:
+        1: punctuation.definition.comment.line.number-sign.yaml
+        2: punctuation.section.brackets.begin.sublime-syntax
+        3: entity.name.section.sublime-syntax
+        4: punctuation.section.brackets.end.sublime-syntax
+        5: punctuation.definition.comment.line.number-sign.yaml  # may be unusual
     - include: Packages/YAML/YAML.sublime-syntax#comment
 
   main:
