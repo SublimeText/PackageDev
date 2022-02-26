@@ -15,6 +15,7 @@ __all__ = (
     'PackagedevAlignSyntaxTestCommand',
     'PackagedevSuggestSyntaxTestCommand',
     'AssignSyntaxTestSyntaxListener',
+    'PackagedevGenerateSyntaxTestsForLineCommand',
 )
 
 logger = logging.getLogger(__name__)
@@ -481,3 +482,129 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
                 view.settings().set('translate_tabs_to_spaces', True)
 
     on_post_save_async = on_load
+
+
+class ScopeTreeNode:
+
+    def __init__(self, region, scope, children=None):
+        self.region = region
+        self.scope = scope
+        self.children = children or []
+
+    @classmethod
+    def build_forest(cls, tokens, *, trim_suffix=False):
+        tokens = [
+            (region, cls._split_scope(scope, trim_suffix=trim_suffix))
+            for region, scope in tokens
+        ]
+
+        forest = []
+        for region, scope in tokens:
+            cls._insert(forest, region, scope)
+
+        return [node.compacted() for node in forest]
+
+    @staticmethod
+    def _split_scope(scope, *, trim_suffix=False):
+        ret = scope.strip().split(' ')
+        ret = ret[1:]  # Trim root scope
+        if trim_suffix:
+            ret = [
+                '.'.join(part.split('.')[:-1])
+                for part in ret
+            ]
+        return ret
+
+    @classmethod
+    def _insert(cls, forest, region, scopes):
+        if scopes:
+            first, *rest = scopes
+            if forest and forest[-1].scope == first:
+                forest[-1].region = forest[-1].region.cover(region)
+            else:
+                forest.append(cls(region, first))
+
+            cls._insert(forest[-1].children, region, rest)
+
+    def compacted(self):
+        if (
+            len(self.children) == 1
+            and self.children[0].region.to_tuple() == self.region.to_tuple()
+        ):
+            replacement_node = self.children[0].compacted()
+            replacement_node.scope = self.scope + ' ' + replacement_node.scope
+            return replacement_node
+        else:
+            return ScopeTreeNode(
+                self.region,
+                self.scope,
+                [node.compacted() for node in self.children],
+            )
+
+    def __repr__(self):
+        from pprint import pformat
+        from textwrap import indent
+        return "ScopeTreeNode(\n\t{!r},\n\t{!r},\n{}\n)".format(
+            self.region,
+            self.scope,
+            indent(pformat(self.children), "\t"),
+        )
+
+
+class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
+
+    """Generate syntax tests for the selected line of code."""
+
+    def is_enabled(self):
+        listener = sublime_plugin.find_view_event_listener(
+            self.view,
+            SyntaxTestHighlighterListener,
+        )
+        return bool(listener and listener.header)
+
+    def run(self, edit):
+        view = self.view
+        listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
+        if not listener.header:
+            return
+
+        suggest_suffix = get_setting('syntax_test.suggest_scope_suffix', True)
+
+        for region in reversed(view.sel()):
+            line = view.line(region.b)
+
+            forest = ScopeTreeNode.build_forest(
+                view.extract_tokens_with_scopes(line),
+                trim_suffix=not suggest_suffix,
+            )
+
+            tests = self.get_test_lines(forest, listener.header, line.begin())
+
+            view.insert(edit, line.end(), ''.join(tests))
+
+    def get_test_lines(self, forest, header, line_start):
+        comment_start = header.comment_start
+        comment_start_len = len(comment_start)
+
+        if header.comment_end is None:
+            comment_end = ''
+        else:
+            comment_end = ' ' + header.comment_end
+
+        def recurse(forest):
+            for child in forest:
+                range_start = max(child.region.begin() - line_start, comment_start_len)
+                range_end = child.region.end() - line_start
+
+                if range_end > range_start:
+                    yield "\n{comment_start}{space}{range} {scope}{comment_end}".format(
+                        comment_start=comment_start,
+                        space=' ' * (range_start - comment_start_len),
+                        range='^' * (range_end - range_start),
+                        scope=child.scope,
+                        comment_end=comment_end,
+                    )
+
+                yield from recurse(child.children)
+
+        return list(recurse(forest))

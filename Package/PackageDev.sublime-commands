@@ -61,10 +61,13 @@
     }
   },
   { "caption": "PackageDev: Rearrange YAML Syntax Definition",
-    "command": "packagedev_rearrange_yaml_syntax_def"
+    "command": "packagedev_rearrange_yaml_syntax_def",
   },
 
   // Other
+  { "caption": "PackageDev: Generate Syntax Tests for Line",
+    "command": "packagedev_generate_syntax_tests_for_line",
+  },
   { "caption": "PackageDev: Edit Current Color Scheme",
     "command": "packagedev_edit_scheme",
   },

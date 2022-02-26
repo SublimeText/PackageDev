@@ -103,6 +103,14 @@
     /* end of syntax_dev keys */
 
     /* start of syntax_test_dev keys */
+    // replaces "Add Line" macro
+    { "keys": ["primary+enter"], "command": "packagedev_generate_syntax_tests_for_line", "context":
+        [
+            { "key": "file_contains_syntax_tests" },
+            { "key": "current_line_is_a_syntax_test", "operand": false },
+            { "key": "selection_empty", "match_all": true },
+        ]
+    },
     { "keys": ["tab"], "command": "packagedev_align_syntax_test", "context":
         [
             { "key": "num_selections", "operand": 1 },
