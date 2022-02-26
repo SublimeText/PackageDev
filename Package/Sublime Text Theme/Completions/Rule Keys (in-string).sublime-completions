@@ -41,6 +41,10 @@
             "trigger": "style",
             "kind": ["keyword", "k", "property"],
         },
+        {
+            "trigger": "close_button_side",
+            "kind": ["keyword", "k", "property"],
+        },
 
         // colors
         {
@@ -205,6 +209,10 @@
         },
         {
             "trigger": "bottom_shadow_size",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "connector_height",
             "kind": ["keyword", "k", "property"],
         },
 

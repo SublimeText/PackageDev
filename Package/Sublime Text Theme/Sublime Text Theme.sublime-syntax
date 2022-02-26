@@ -13,6 +13,7 @@ variables:
         font\.face
       | case # since 3179
       | style # since 4050
+      | close_button_side # from Sublime Merge
     )
   color_key: |-
     (?x:
@@ -48,6 +49,7 @@ variables:
       | spacing
       | inside_spacing | outside_vspacing | outside_hspacing
       | (?:left|right|top|bottom)_shadow_size
+      | connector_height # since pre 4.0
     )
   number_sequence_key: |-
     (?x:

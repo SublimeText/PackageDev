@@ -46,7 +46,12 @@
         },
         {
             "trigger": "style",
-            "contents": "\"style\": \"${0:light}\",",
+            "contents": "\"style\": \"${0:light}\",", // default: "system"
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "close_button_side",
+            "contents": "\"close_button_side\": \"${0:left}\",", // default: "right"
             "kind": ["keyword", "k", "property"],
         },
 
@@ -253,6 +258,11 @@
         {
             "trigger": "bottom_shadow_size",
             "contents": "\"bottom_shadow_size\": ${0:0},",
+            "kind": ["keyword", "k", "property"],
+        },
+        {
+            "trigger": "connector_height",
+            "contents": "\"connector_height\": ${0:0},",
             "kind": ["keyword", "k", "property"],
         },
 
