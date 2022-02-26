@@ -382,6 +382,8 @@ contexts:
     - include: color-var-function
     - include: color-min-contrast-function
     - include: color-blend-function
+    # Adjusters may be used directly (#327)
+    - include: CSS.sublime-syntax#color-adjuster-functions
 
   color-min-contrast-function:
     # Custom function of ST

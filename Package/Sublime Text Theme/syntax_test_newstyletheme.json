@@ -40,6 +40,9 @@
             "interpolation": "smoothstep"
 //           ^^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json
         },
+
+        "text_widget_dark_modifier": "l(- 5%)", // #327
+//                                    ^ support.function.color.css
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json - meta.variables.sublime-theme
