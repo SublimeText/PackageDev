@@ -436,10 +436,14 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
 
     def on_load(self, view):
         if view.size() == 0 and view.file_name().startswith(sublime.packages_path() + '/'):
-            logger.debug("Late-assigning syntax because view was empty on load")
-            sublime.set_timeout(lambda: self.assign_syntax(view), 100)
+            logger.debug("Delaying on_load because view was empty")
+            sublime.set_timeout(lambda: self._on_load(view), 100)
         else:
-            self.assign_syntax(view)
+            self._on_load(view)
+
+    def _on_load(self, view):
+        self.assign_syntax(view)
+        self.check_for_tabs(view)
 
     def assign_syntax(self, view):
         test_header = get_syntax_test_tokens(view)
@@ -471,15 +475,29 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
                 logger.info("Couldn't find a syntax matching %r", test_syntax)
                 view.assign_syntax(self.PLAIN_TEXT)
 
+    def check_for_tabs(self, view):
+        if not view.is_valid():
+            return
+
+        if view.settings().get('translate_tabs_to_spaces', False):
+            return
+
+        sheet = view.sheet()
+        if sheet.is_transient() or sheet.is_semi_transient():
+            # View was opened in the background by e.g. Go To Anything,
+            # so we wait for the view to be opened completely.
+            sublime.set_timeout(lambda: self.check_for_tabs(view), 100)
+            return
+
         # offer user to fix settings if they try to do something stupid
-        if not view.settings().get('translate_tabs_to_spaces', False):
-            if sublime.ok_cancel_dialog(
-                "This view is configured to use tabs for indentation."
-                "Syntax tests do not work properly with tabs.\n"
-                "Do you want to change this view's settings to use spaces?",
-                "Change setting"
-            ):
-                view.settings().set('translate_tabs_to_spaces', True)
+        if sublime.ok_cancel_dialog(
+            "This view is configured to use tabs for indentation. "
+            "Syntax tests do not work properly with tabs.\n"
+            "Do you want to change this view's settings to use spaces?\n"
+            "Note that existing tab characters are NOT automatically converted!",
+            "Change setting"
+        ):
+            view.settings().set('translate_tabs_to_spaces', True)
 
     on_post_save_async = on_load
 
