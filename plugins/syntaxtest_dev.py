@@ -435,7 +435,15 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
     PLAIN_TEXT = "Packages/Text/Plain text.tmLanguage"
 
     def on_load(self, view):
-        if view.size() == 0 and view.file_name().startswith(sublime.packages_path() + '/'):
+        file_name = view.file_name()
+        if not file_name:
+            return
+        folder_name, file_name = path.split(file_name)
+        if not file_name.startswith('syntax_test_'):
+            return
+        if not folder_name.startswith(sublime.packages_path()):
+            return
+        if view.size() == 0:
             logger.debug("Delaying on_load because view was empty")
             sublime.set_timeout(lambda: self._on_load(view), 100)
         else:
