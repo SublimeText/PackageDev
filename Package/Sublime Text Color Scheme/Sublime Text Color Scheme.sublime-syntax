@@ -381,7 +381,6 @@ contexts:
     # https://www.sublimetext.com/docs/minihtml.html#css:ver-dev
     - include: color-var-function
     - include: color-min-contrast-function
-    - include: color-blend-function
     # Adjusters may be used directly (#327)
     - include: CSS.sublime-syntax#color-adjuster-functions
 
@@ -405,27 +404,6 @@ contexts:
             - include: color-var-function
             - include: CSS.sublime-syntax#color-values
             - include: CSS.sublime-syntax#numeric-constants
-        - match: (?=")
-          pop: true
-
-  color-blend-function:
-    # Different syntax
-    - match: \b(?i:blenda?)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - meta_scope: meta.function-call.blend.css
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - match: (?=")  # embed this here so we don't have to "with_prototype"
-              pop: true
-            - include: color-var-function
-            - include: CSS.sublime-syntax#function-arguments-common  # matches 'var' function
-            - include: CSS.sublime-syntax#color-values
-            - include: CSS.sublime-syntax#percentage-constants
-            - match: \b(?i:rgb|hsl|hwb)\b
-              scope: keyword.other.color-space.css
         - match: (?=")
           pop: true
 

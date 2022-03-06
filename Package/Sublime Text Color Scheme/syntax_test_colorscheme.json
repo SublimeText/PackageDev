@@ -140,6 +140,11 @@
 //                         ^^^ support.function.var.css
 //                             ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
 //                                               ^ punctuation.definition.string.end.json
+            "foreground": "blend(hsl(219, 10%, 6%) 50%)",
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
+//                        ^ punctuation.definition.string.begin.json
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css-color meta.function-call
+//                               ^^^^^^^^^^^^^^^^^ meta.function-call meta.function-call
             "foreground": "color(var(color_radical_red) tint(20%))",
 //                                   ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
             "foreground": "#F8F8F0",
