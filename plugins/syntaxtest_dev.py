@@ -2,13 +2,14 @@ from collections import namedtuple
 import logging
 import re
 from os import path
+from pathlib import Path
 
 import sublime
 import sublime_plugin
 
 from sublime_lib.flags import RegionOption
 
-from .lib import get_setting
+from .lib import get_setting, path_is_relative_to
 
 __all__ = (
     'SyntaxTestHighlighterListener',
@@ -435,7 +436,17 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
     PLAIN_TEXT = "Packages/Text/Plain text.tmLanguage"
 
     def on_load(self, view):
-        if view.size() == 0 and view.file_name().startswith(sublime.packages_path() + '/'):
+        file_name = view.file_name()
+        if not file_name:
+            return
+        file_path = Path(file_name)
+        if (
+            not file_path.name.startswith("syntax_test_")
+            or not path_is_relative_to(file_path, sublime.packages_path())
+        ):
+            return
+
+        if view.size() == 0:
             logger.debug("Delaying on_load because view was empty")
             sublime.set_timeout(lambda: self._on_load(view), 100)
         else:

@@ -30,3 +30,15 @@ def inhibit_word_completions(func):
         return (ret, sublime.INHIBIT_WORD_COMPLETIONS) if ret is not None else None
 
     return wrapper
+
+
+def path_is_relative_to(path, *other):
+    """Check whether a `pathlib.Path` is relative to another Path-like.
+
+    Backport of Python 3.9's `pathlib.PurePath.is_relative_to`.
+    """
+    try:
+        path.relative_to(*other)
+        return True
+    except ValueError:
+        return False
