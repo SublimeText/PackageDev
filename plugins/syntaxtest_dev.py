@@ -463,8 +463,8 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
         current_syntax = view.settings().get('syntax', None)
         test_syntax = test_header.syntax_file
 
-        if current_syntax != test_syntax:
-            pass
+        if current_syntax == test_syntax:
+            return
 
         # resource path specified
         elif "/" in test_syntax:
