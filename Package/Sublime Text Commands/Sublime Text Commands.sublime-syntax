@@ -93,7 +93,8 @@ contexts:
       scope: punctuation.definition.string.begin.json
       set:
         - meta_scope: meta.platform-name.sublime-commands string.quoted.double.json
-        - meta_content_scope: invalid.illegal.invalid-platform.sublime-commands
+        # Don't mark as invalid while typing. We have completions anyway.
+        # - meta_content_scope: invalid.illegal.invalid-platform.sublime-commands
         - match: \"
           scope: punctuation.definition.string.end.json
           pop: true

@@ -35,7 +35,7 @@
 //               ^^^^^^^^^ meta.mapping.value.json meta.mapping.key.json string.quoted.double.json
 //                        ^ punctuation.separator.mapping.key-value.json
 //                          ^^^^^^^^^^^ meta.mapping.value.json meta.mapping.value.json string.quoted.double.json
-    "platform": "!Windows"
+    "platform": "!Windows", "platform": "Win",
 //  ^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-commands string.quoted.double.json
 //  ^ punctuation.definition.string.begin.json
 //   ^^^^^^^^ keyword.other.main.sublime-commands
@@ -45,6 +45,7 @@
 //               ^ keyword.operator.logical.sublime-commands
 //                ^^^^^^^ support.constant.command-name.sublime-commands
 //                       ^ punctuation.definition.string.end.json
+//                                      ^^^^^ string.quoted.double.json - invalid
     },
 
     abc
