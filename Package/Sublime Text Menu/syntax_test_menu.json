@@ -76,6 +76,8 @@
 //                                                                    ^^^^^^^^ keyword.other.main.sublime-menu
 //                                                                                ^ keyword.operator.logical.sublime-menu
 //                                                                                 ^^^^^ support.constant.command-name.sublime-menu - invalid
+            { "platform": "Win", },
+//                        ^^^^^ string.quoted.double.json - invalid
         ]
     },
 //   ^ punctuation.separator.sequence.json
