@@ -26,7 +26,7 @@
     // Each theme containing one of the list's strings is hidden.
     "settings.exclude_theme_patterns": [],
 
-    // Whether to show the edit settings pencil icon. Close & reopen the 
+    // Whether to show the edit settings pencil icon. Close & reopen the
     // settings file for this to take effect.
     "settings.show_quick_edit_icon": true,
 
