@@ -1,0 +1,54 @@
+v3.4.0 (2022-03-12)
+-------------------
+
+## Minor changes
+
+- Syntax Test: New syntax test generation feature.
+  Triggered via `ctrl+enter` while on a code line in a syntax test file
+  or via the command palette. (#341 @Thom1729)
+- Syntax Test: New setting to strip previously asserted scopes from test completions
+  (#340 @Thom1729)
+- Settings: Quick edit phantoms can now be disabled (#353 @Ultra-Instinct-05)
+- Consider new system-aware color scheme switching for "Edit current Color Scheme"
+  (#330 @Ultra-Instinct-05)
+
+## Trivial changes and fixes
+
+- Syntax: Defer tab check for (semi-)transient views (#177, #365, #368, @FichteFoll)
+- Syntax: Fix syntax assignment for some test files that loaded to slowly (#358 @keith-hall)
+- Syntax: Complete `pop: 1` for syntax version 2 (#354, @FichteFoll)
+- Syntax: Fix highlighting of quoted variable keys (#356, @FichteFoll)
+- Syntax: Highlight section headers as seen in the Packages repo (#296 @deathaxe)
+- Syntax: Fix settings completions for complex values (#347, #348 @ratijas)
+- Syntax: Recognize `partial-symbols` header (#355 @keith-hall)
+- Scheme: Remove `#` from `word_separators` (#357 @MattDMo)
+- Scheme: Support missing color scheme globals (#331 @Ultra-Instinct-05)
+- Scheme: Remove `blend()` matching since it's been added to the default CSS syntax
+  (#324, @FichteFoll)
+- Theme & Scheme: Highlight `var` function for color-adjuster properties (#326 @deathaxe)
+- Theme: Support radio and checkbox controls (#362 @AmjadHD)
+- Theme: Support `close_button_side` and `connector_height` properties (#339, @FichteFoll)
+- Theme: Support color adjuster functions in variables (#327, @FichteFoll)
+- Theme: Swap `layer.draw_center` value in completion (#359 @AmjadHD)
+- Theme: `disabled` attribute (#361 @AmjadHD)
+- Theme: Update completions with color kind quick panel symbols (#323 @deathaxe)
+- Snippet: Syntax highlighting corrections for slashes in substitutions and escape sequences
+  (@FichteFoll)
+- Settings: Add hints for more default preferences (#343 @jrappen, #344 @Ultra-Instinct-05)
+- Commands: Small tweaks to command completion metadata (various)
+- Commands: Add support for the platform key (#332 @Ultra-Instinct-05)
+- Commands & Menu: Remove `invalid` highlighting for unrecognized platform names (@FichteFoll)
+- PList: associate syntax with `.hidden-*` syntaxes & native PList extensions (#325 @deathaxe)
+- Misc: Scope Name completions have been updated
+  to follow recent discussions for the default Packages (#352 @Ultra-Instinct-05, #364 @deathaxe)
+
+## Trivial changes from v3.3.1 (2021-01-23)
+
+TL;DR: Updated for 4095
+
+- Theme: Support `style` and `background_modifier` rule keys
+- Theme: Support mappings/objects for `settings` selector
+- Theme: Update list of elements and attributes to 4095
+- Scheme & Theme: Fix highlighting of `blend` color modifier function
+- Scheme & Theme: Add support for "auto" value in "edit current theme/scheme" commands
+- Settings: Offer completions for dark and light color scheme and theme variants
