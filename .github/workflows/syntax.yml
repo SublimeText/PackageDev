@@ -16,13 +16,20 @@ on:
 
 jobs:
   main:
-    name: Syntax Tests (${{ matrix.build }})
+    name: Syntax Tests (${{ matrix.build }}, ${{ matrix.packages }})
     strategy:
       matrix:
         include:
+          # latest dev build
+          # This test must pass, the others are optional
+          # due to changes in the Packages repo that affect our tests.
+          - build: latest
+            packages: v4129
+            continue_on_error: false
+          # last dev & Packages `master`
           - build: latest
             packages: master
-            continue_on_error: false
+            continue_on_error: true
           # latest stable build
           - build: 4126
             packages: v4126
