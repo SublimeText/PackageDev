@@ -350,33 +350,19 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
-      set: end-of-shell-variables-array
+      set: inside-shell-variables-array
     - include: scope:text.xml.plist#whitespace-or-tag
 
-  end-of-shell-variables-array:
+  inside-shell-variables-array:
     - meta_content_scope: meta.inside-array.plist
-    - match: '(</)(array)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: true
-    - match: ''
-      push:
-        - match: '(?=</array\s*>)'
-          pop: true
-        - include: expect-shell-variable-dict
-
-  expect-shell-variable-dict:
-    - include: comments
+    - include: array-end
     - match: '(<)(dict)\s*(>)'
       scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
-      set: inside-shell-variables-dict
+      push: inside-shell-variables-dict
     - include: scope:text.xml.plist#whitespace-or-tag
 
   inside-shell-variables-dict:
@@ -394,23 +380,7 @@ contexts:
         7: punctuation.definition.tag.begin.xml
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
-      push:
-        - match: '((<)(string)\s*(>))(\s*((TM_COMMENT_(?:START|END|DISABLE_INDENT)(?:_[2-9])?)|(?:[^<]*))\s*)((</)(string)\s*(>))'
-          scope: meta.shellVariable-name.wrapper.tmPreferences
-          captures:
-            1: meta.tag.xml
-            2: punctuation.definition.tag.begin.xml
-            3: entity.name.tag.localname.xml
-            4: punctuation.definition.tag.end.xml
-            5: meta.inside-value.string.plist
-            6: entity.name.constant.shellVariable.tmPreferences
-            7: support.type.shellVariable.tmPreferences
-            8: meta.tag.xml
-            9: punctuation.definition.tag.begin.xml
-            10: entity.name.tag.localname.xml
-            11: punctuation.definition.tag.end.xml
-          pop: true
-        - include: scope:text.xml.plist#whitespace-or-tag
+      push: shell-variable-name-value
     - match: '((<)(key)\s*(>))(\s*value\s*)((</)(key)\s*(>))'
       captures:
         1: meta.tag.xml
@@ -430,6 +400,27 @@ contexts:
         3: entity.name.tag.localname.xml
         4: punctuation.definition.tag.end.xml
       push: [expect-string, shell-variables-key-expect-name-or-value]
+    - include: scope:text.xml.plist#whitespace-or-tag
+
+  shell-variable-name-value:
+    - match: '((<)(string)\s*(>))(\s*((TM_COMMENT_(?:START|END|DISABLE_INDENT)(?:_[2-9])?)|(?:[^<]*))\s*)((</)(string)\s*(>))'
+      scope: meta.shellVariable-name.wrapper.tmPreferences
+      captures:
+        1: meta.tag.xml
+        2: punctuation.definition.tag.begin.xml
+        3: entity.name.tag.localname.xml
+        4: punctuation.definition.tag.end.xml
+        5: meta.inside-value.string.plist
+        6: entity.name.constant.shellVariable.tmPreferences
+        7: support.type.shellVariable.tmPreferences
+        8: meta.tag.xml
+        9: punctuation.definition.tag.begin.xml
+        10: entity.name.tag.localname.xml
+        11: punctuation.definition.tag.end.xml
+      pop: true
+    # don't escalate illegal highlighting beyond array or dictionary boundaries
+    - match: (?=</(?:array|dict)\s*>)
+      pop: true
     - include: scope:text.xml.plist#whitespace-or-tag
 
   shell-variables-key-expect-name-or-value:
