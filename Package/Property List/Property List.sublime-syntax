@@ -78,6 +78,7 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       pop: true
+    - include: tag-end-missing-pop
 
   number:
     - match: '(<)(integer)\s*(>)'
@@ -248,3 +249,10 @@ contexts:
       pop: true
     - match: '(?=\S)'
       push: any-known-element
+
+  tag-end-missing-pop:
+    # pop, if the next opening tag is following, while scoping the
+    # preceding space to give a hint about the unclosed tag
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      pop: 1

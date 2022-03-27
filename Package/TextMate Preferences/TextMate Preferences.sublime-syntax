@@ -68,6 +68,16 @@ contexts:
       set: end-of-array
     - include: scope:text.xml.plist#whitespace-or-tag
 
+  array-end:
+    - include: comments
+    - match: '(</)(array)\s*(>)'
+      scope: meta.tag.xml
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      pop: true
+
   dict-end:
     - include: comments
     - match: '(</)(dict)\s*(>)'
@@ -81,6 +91,16 @@ contexts:
   key-end:
     - include: comments
     - match: '(</)(key)\s*(>)'
+      scope: meta.tag.xml
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      pop: true
+
+  string-end:
+    - include: comments
+    - match: '(</)(string)\s*(>)'
       scope: meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
@@ -139,6 +159,9 @@ contexts:
         - meta_scope: meta.settings-key-wrapper.tmPreferences
         - meta_content_scope: meta.inside-dict-key.plist
         - include: inside-dict-key
+        - match: 'foldScopes(?=\s*<)'
+          scope: keyword.other.foldScopes.tmPreferences
+          set: [fold-scopes, key-end]
         - match: 'shellVariables(?=\s*<)'
           scope: keyword.other.shellVariables.tmPreferences
           set: [shell-variables, key-end]
@@ -151,7 +174,7 @@ contexts:
         - match: '(?:showInSymbolList|showInIndexedSymbolList|showInIndexedReferenceList)(?=\s*<)'
           scope: entity.name.constant.setting.tmPreferences
           set: [expect-integer, key-end] # yes, integer - for some reason, booleans don't work here
-        - match: '(?:indentParens|indentSquareBrackets|preserveIndent)(?=\s*<)'
+        - match: '(?:indentParens|indentSquareBrackets|preserveIndent|indentationFoldingEnabled|scopeFoldingEnabled)(?=\s*<)'
           scope: entity.name.constant.setting.tmPreferences
           set: [expect-boolean, key-end]
         - match: 'icon(?=\s*<)'
@@ -341,6 +364,70 @@ contexts:
   regex-pattern:
     - meta_content_scope: meta.regex.tmPreferences source.regexp.oniguruma
     - include: scope:source.regexp.oniguruma
+
+  fold-scopes:
+    - include: comments
+    - match: '(<)(array)\s*(>)'
+      scope: meta.tag.xml
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      set: inside-fold-scopes-array
+    - include: scope:text.xml.plist#whitespace-or-tag
+
+  inside-fold-scopes-array:
+    - meta_content_scope: meta.inside-array.plist
+    - include: array-end
+    - include: fold-scopes-dict
+    - include: scope:text.xml.plist#whitespace-or-tag
+
+  fold-scopes-dict:
+    - match: '(<)(dict)\s*(>)'
+      scope: meta.tag.xml
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      push: inside-fold-scope-dict
+
+  inside-fold-scope-dict:
+    - meta_content_scope: meta.inside-dict.foldScopes.tmPreferences
+    - include: dict-end
+    - include: fold-scope-dict-keys
+    - include: scope:text.xml.plist#whitespace-or-tag
+
+  fold-scope-dict-keys:
+    - match: '((<)(key)\s*(>))(\s*(?:begin|end)\s*)((</)(key)\s*(>))'
+      captures:
+        1: meta.tag.xml
+        2: punctuation.definition.tag.begin.xml
+        3: entity.name.tag.localname.xml
+        4: punctuation.definition.tag.end.xml
+        5: meta.inside-dict-key.plist
+        6: meta.tag.xml
+        7: punctuation.definition.tag.begin.xml
+        8: entity.name.tag.localname.xml
+        9: punctuation.definition.tag.end.xml
+      push: fold-scope-value
+
+  fold-scope-value:
+    - match: '((<)(string)\s*(>))'
+      captures:
+        1: meta.tag.xml
+        2: punctuation.definition.tag.begin.xml
+        3: entity.name.tag.localname.xml
+        4: punctuation.definition.tag.end.xml
+      set: inside-fold-scope-value
+    - match: (?=</(?:array|dict)\s*>)
+      pop: true
+    - include: scope:text.xml.plist#whitespace-or-tag
+
+  inside-fold-scope-value:
+    - meta_scope: meta.scope-name.tmPreferences
+    - include: string-end
+    - include: scope:text.xml.plist#tag-end-missing-pop
+    - include: scope:source.scope-selector
 
   shell-variables:
     - include: comments

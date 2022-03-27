@@ -78,6 +78,21 @@
 			"kind": ["snippet", "s", "setting"],
 		},
 		{
+			"trigger": "indentationFoldingEnabled",
+			"contents": "<key>indentationFoldingEnabled</key>\n<false/>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "scopeFoldingEnabled",
+			"contents": "<key>scopeFoldingEnabled</key>\n<false/>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
+			"trigger": "foldScopes",
+			"contents": "<key>foldScopes</key>\n<array>\n\t$0\n</array>",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
 			"trigger": "icon",
 			"contents": "<key>icon</key>\n<string>$1</string>",
 			"kind": ["snippet", "s", "setting"],
