@@ -101,7 +101,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         ('contexts', KIND_HEADER_DICT, 'The syntax contexts.'),
         # list keys
         ('file_extensions', KIND_HEADER_LIST, "The list of file extensions."),
-        ('hidden_extensions', KIND_HEADER_LIST, "The list of hidden file extensions.")
+        ('hidden_file_extensions', KIND_HEADER_LIST, "The list of hidden file extensions.")
     ))
 
     base_completions_contexts = format_static_completions(templates=(

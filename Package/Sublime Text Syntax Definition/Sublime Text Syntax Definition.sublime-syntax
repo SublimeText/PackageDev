@@ -134,7 +134,7 @@ contexts:
         1: string.unquoted.plain.out.yaml storage.type.extends.sublime-syntax
         2: punctuation.separator.key-value.yaml
 
-    - match: ((?:file|hidden)_extensions)\s*(:)(?=\s|$)
+    - match: ((?:hidden_)?file_extensions)\s*(:)(?=\s|$)
       captures:
         1: string.unquoted.plain.out.yaml entity.name.tag.yaml
         2: punctuation.separator.key-value.yaml

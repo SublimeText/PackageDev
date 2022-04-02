@@ -18,10 +18,10 @@ file_extensions: [a, b]
 #^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
 #                ^^^^^^ meta.flow-sequence.yaml
 #                 ^ string
-hidden_extension: [a, b]
-#^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
-#                 ^^^^^^ meta.flow-sequence.yaml
-#                  ^ string
+hidden_file_extensions: [a, b]
+#^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
+#                       ^^^^^^ meta.flow-sequence.yaml
+#                        ^ string
 first_line_match: azx
 #^^^^^^^^^^^^^^^ keyword.other.first_line_match.sublime-syntax
 #                 ^^^ meta.expect-regexp source.regexp
