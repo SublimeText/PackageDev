@@ -38,7 +38,6 @@ jobs:
           - build: 4107
             packages: v4107
             continue_on_error: true
-    continue-on-error: ${{ matrix.continue_on_error }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -46,3 +45,7 @@ jobs:
         with:
           build: ${{ matrix.build }}
           default_packages: ${{ matrix.packages }}
+        # On the step level, this does not cause the entire job to fail
+        # and thus mark PRs as failing when only one of our tests failed.
+        # See also https://github.com/github/feedback/discussions/15452.
+        continue-on-error: ${{ matrix.continue_on_error }}
