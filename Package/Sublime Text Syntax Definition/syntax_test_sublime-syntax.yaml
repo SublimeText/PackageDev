@@ -63,6 +63,7 @@ variables:
 
 
   x9: '{{im_a_variable}}'
+#     ^^^^^^^^^^^^^^^^^^^ meta.string.yaml
 #      ^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
 #        ^^^^^^^^^^^^^ variable.other.sublime-syntax
 

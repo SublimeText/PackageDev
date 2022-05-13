@@ -623,6 +623,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.yaml
       push:
+        - meta_scope: meta.string.yaml
         - meta_content_scope: source.regexp.oniguruma
         - match: "'(?!')"
           scope: punctuation.definition.string.end.yaml
