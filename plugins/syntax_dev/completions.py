@@ -96,6 +96,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         ('extends', KIND_HEADER_BASE, "The syntax which is to be extended."),
         ('name', KIND_HEADER_BASE, "The display name of the syntax."),
         ('first_line_match', KIND_HEADER_BASE, "The pattern to identify a file by content."),
+        ('hidden', KIND_HEADER_BASE, "Hide this syntax from the menu."),
         # dict keys
         ('variables', KIND_HEADER_DICT, 'The variables definitions.'),
         ('contexts', KIND_HEADER_DICT, 'The syntax contexts.'),
