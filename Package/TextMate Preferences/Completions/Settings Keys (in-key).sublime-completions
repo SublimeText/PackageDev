@@ -75,6 +75,10 @@
 			"kind": ["snippet", "s", "setting"],
 		},
 		{
+			"trigger": "excludeTrailingNewline",
+			"kind": ["snippet", "s", "setting"],
+		},
+		{
 			"trigger": "icon",
 			"kind": ["snippet", "s", "setting"],
 		},

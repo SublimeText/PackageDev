@@ -93,6 +93,11 @@
 			"kind": ["snippet", "s", "setting"],
 		},
 		{
+			"trigger": "excludeTrailingNewline",
+			"kind": ["snippet", "s", "setting"],
+			"contents": "<key>excludeTrailingNewline</key>\n<true/>",
+		},
+		{
 			"trigger": "icon",
 			"contents": "<key>icon</key>\n<string>$1</string>",
 			"kind": ["snippet", "s", "setting"],

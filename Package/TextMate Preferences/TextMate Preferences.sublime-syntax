@@ -410,6 +410,18 @@ contexts:
         8: entity.name.tag.localname.xml
         9: punctuation.definition.tag.end.xml
       push: fold-scope-value
+    - match: '((<)(key)\s*(>))(\s*(?:excludeTrailingNewlines)\s*)((</)(key)\s*(>))'
+      captures:
+        1: meta.tag.xml
+        2: punctuation.definition.tag.begin.xml
+        3: entity.name.tag.localname.xml
+        4: punctuation.definition.tag.end.xml
+        5: meta.inside-dict-key.plist
+        6: meta.tag.xml
+        7: punctuation.definition.tag.begin.xml
+        8: entity.name.tag.localname.xml
+        9: punctuation.definition.tag.end.xml
+      push: expect-boolean
 
   fold-scope-value:
     - match: '((<)(string)\s*(>))'
