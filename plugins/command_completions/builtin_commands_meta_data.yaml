@@ -596,6 +596,8 @@ show_panel:
     - regex: false
     - in_selection: false
     - whole_word: false
+    - preserve_case: false,
+    - use_gitignore: true,
     - highlight: true
     - wrap: true
   command_type: window
