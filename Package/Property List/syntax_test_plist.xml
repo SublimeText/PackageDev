@@ -1,5 +1,14 @@
 <!-- SYNTAX TEST "Packages/PackageDev/Package/Property List/Property List.sublime-syntax" -->
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
+     <!DOCTYPE plist PUBLIC "plist" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype.xml -->
+<!-- ^^ punctuation.definition.tag.begin.xml -->
+<!--   ^^^^^^^ keyword.declaration.doctype.xml -->
+<!--           ^^^^^ variable.other.documentroot.localname.xml -->
+<!--                 ^^^^^^ storage.type.external-content.xml -->
+<!--                        ^^^^^^^ meta.string.xml string.quoted.double.xml -->
+<!--                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.xml string.quoted.double.xml -->
+<!--                                                                                ^ punctuation.definition.tag.end.xml -->
      <plist version="1.0">
 <!-- ^^^^^^^^^^^^^^^^^^^^^ meta.tag.xml -->
 <!--  ^^^^^ entity.name.tag.localname.xml -->
@@ -99,9 +108,13 @@ ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=</data>
     </dict>
 <!--  ^^^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->
 </plist>
-<!-- ^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->
+<!-- ^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
 test
 <!-- <- invalid.illegal.unexpected-text.plist -->
 <!--^ - invalid -->
 <!-- comment -->
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
+<plist>
+<!-- <- meta.tag.xml punctuation.definition.tag.begin.xml -->
+<!-- ^^ meta.tag.xml -->
+<!-- ^ invalid.illegal.unknown-or-unexpected-tag.plist -->

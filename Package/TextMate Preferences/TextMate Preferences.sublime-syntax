@@ -1,619 +1,704 @@
 %YAML 1.2
 ---
 name: TextMate Preferences (PList / XML)
+scope: text.xml.plist.textmate.preferences
+version: 2
+
+extends: Packages/PackageDev/Package/Property List/Property List.sublime-syntax
+
 file_extensions:
   - tmPreferences
   - hidden-tmPreferences
-scope: text.xml.plist.textmate.preferences
+
+variables:
+
+  boolean_settings: |-
+    (?x: indentParens
+    | indentationFoldingEnabled
+    | indentSquareBrackets
+    | preserveIndent
+    | scopeFoldingEnabled )
+  integer_settings: |-
+    (?x: showInSymbolList
+    | showInIndexedSymbolList
+    | showInIndexedReferenceList )
+  regexp_settings: |-
+    (?x: batchDecreaseIndentPattern
+    | batchIncreaseIndentPattern
+    | bracketIndentNextLinePattern
+    | cancelCompletion
+    | decreaseIndentPattern
+    | disableIndentNextLinePattern
+    | increaseIndentPattern
+    | unIndentedLinePattern )
+  string_settings: |-
+    (?x: icon )
+  transformation_settings: |-
+    (?x: symbolTransformation | symbolIndexTransformation )
 
 contexts:
 
-  main:
-    - include: scope:text.xml.plist#xml-declarations
-    - match: '(<)(plist)\s*(?:(version)\s*(=)\s*((")1.0(")))\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin
-        2: entity.name.tag.localname.xml
-        3: entity.other.attribute-name.localname.xml
-        4: punctuation.separator.key-value.xml
-        5: string.quoted.double.xml
-        6: punctuation.definition.string.begin.xml
-        7: punctuation.definition.string.end.xml
-        8: punctuation.definition.tag.end
-      push:
-        - meta_content_scope: meta.inside-plist.plist
-        - include: comments
-        - match: '(</)(plist)\s*(>)'
-          scope: meta.tag.xml
-          captures:
-            1: punctuation.definition.tag.begin.xml
-            2: entity.name.tag.localname.xml
-            3: punctuation.definition.tag.end.xml
-          set: scope:text.xml.plist#whitespace-or-tag
-        - match: '(<)(dict)\s*(>)'
-          scope: meta.tag.xml
-          captures:
-            1: punctuation.definition.tag.begin.xml
-            2: entity.name.tag.localname.xml
-            3: punctuation.definition.tag.end.xml
-          push: inside-outer-dict
-        # we only expect a dict
-        - match: '\S+'
-          scope: invalid.illegal.expected-dict.tmPreferences
-    - include: scope:text.xml.plist#whitespace-or-tag
+###[ PLIST OVERRIDES ]#########################################################
 
-  comments:
-    - include: scope:text.xml.plist#comments
+  maybe-comments:
+    - include: comments
+    - include: else-pop
 
-  any-known-element:
-    - include: scope:text.xml.plist#number
-    - include: scope:text.xml.plist#boolean
-    - include: scope:text.xml.plist#string
-    - include: scope:text.xml.plist#empty-array
+  inside-plist:
+    - meta_content_scope: meta.inside-plist.tmPreferences
+    - include: plist-end
+    - include: expect-main-dicts
+
+  any-element:
     # NOTE: we deliberately don't include "date", or "data" here as ST doesn't support them
-    - match: '(<)(dict)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      set: inside-any-dict
-    - match: '(<)(array)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      set: inside-array
-    - include: scope:text.xml.plist#whitespace-or-tag
+    - include: boolean
+    - include: number
+    - include: string
+    - include: dict
+    - include: array
+    - include: expect-value-end
 
-  array-end:
-    - include: comments
-    - match: '(</)(array)\s*(>)'
-      scope: meta.tag.xml
+###[ MAIN DICT ]###############################################################
+
+  expect-main-dicts:
+    - match: (<)(dict){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: true
+      push: inside-main-dict-tag
+    - include: whitespace-or-tags
 
-  dict-end:
-    - include: comments
-    - match: '(</)(dict)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: true
+  inside-main-dict-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      set: inside-main-dict
+    - include: tag-end-self-closing
 
-  key-end:
-    - include: comments
-    - match: '(</)(key)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: true
-
-  string-end:
-    - include: comments
-    - match: '(</)(string)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: true
-
-  inside-outer-dict:
-    - meta_content_scope: meta.inside-dict.plist
+  inside-main-dict:
+    - meta_content_scope: meta.inside-dict.main.tmPreferences
     - include: dict-end
+    - include: expect-main-dict-keys
 
-    - match: '(<)(key)\s*(>)'
-      scope: meta.tag.xml
+  expect-main-dict-keys:
+    - match: (<)(key){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      push:
-        - meta_scope: meta.main-key-wrapper.tmPreferences
-        - meta_content_scope: meta.inside-dict-key.plist
-        - include: key-end
-        - match: 'scope(?=\s*<)'
-          scope: keyword.other.scope.tmPreferences
-          set: [expect-scope-string, key-end]
-        - match: 'name(?=\s*<)'
-          scope: keyword.other.name.tmPreferences
-          set: [expect-string, key-end]
-        - match: 'settings(?=\s*<)'
-          scope: keyword.other.settings.tmPreferences
-          set: [settings, key-end]
-        - match: 'uuid(?=\s*<)'
-          scope: keyword.other.uuid.tmPreferences
-          set: [expect-string, key-end] # TODO validate uuid
+      push: inside-main-dict-key-tag
+    - include: whitespace-or-tags
 
-  settings:
-    - match: '(<)(dict)\s*(>)'
-      scope: meta.tag.xml
+  inside-main-dict-key-tag:
+    - meta_scope: meta.main-key-wrapper.tmPreferences meta.tag.xml
+    - match: (/?)(>)
+      captures:
+        1: invalid.illegal.self-closing.xml
+        2: punctuation.definition.tag.end.xml
+      set: inside-main-dict-key
+    - include: tag-end-missing-pop
+
+  inside-main-dict-key:
+    - meta_scope: meta.main-key-wrapper.tmPreferences
+    - meta_content_scope: meta.inside-dict-key.plist
+    - include: comments
+    - match: name\b
+      scope: meta.inside-dict-key.plist keyword.other.name.tmPreferences
+      set:
+        - expect-string
+        - main-dict-key-meta
+        - expect-key-end
+    - match: scope\b
+      scope: meta.inside-dict-key.plist keyword.other.scope.tmPreferences
+      set:
+        - expect-scope-string
+        - main-dict-key-meta
+        - expect-key-end
+    - match: settings\b
+      scope: meta.inside-dict-key.plist keyword.other.settings.tmPreferences
+      set:
+        - expect-settings-dict
+        - main-dict-key-meta
+        - expect-key-end
+    - match: uuid\b
+      scope: meta.inside-dict-key.plist keyword.other.uuid.tmPreferences
+      set:
+        - expect-string
+        - main-dict-key-meta
+        - expect-key-end
+    - match: (?=<)
+      set:
+        - any-element
+        - main-dict-key-meta
+        - expect-key-end
+
+  main-dict-key-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.main-key-wrapper.tmPreferences
+    - include: immediately-pop
+
+###[ SETTINGS DICT ]###########################################################
+
+  expect-settings-dict:
+    - match: (<)(dict){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
+      set: inside-settings-dict-tag
+    - include: whitespace-or-tags
+
+  inside-settings-dict-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
       set: inside-settings-dict
-    - include: scope:text.xml.plist#whitespace-or-tag
+    - include: tag-end-self-closing
 
   inside-settings-dict:
     - meta_content_scope: meta.inside-dict.settings.tmPreferences
     - include: dict-end
+    - include: expect-settings-dict-keys
 
-    - match: '(<)(key)\s*(>)'
-      scope: meta.tag.xml
+  expect-settings-dict-keys:
+    - match: (<)(key){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      push:
-        - meta_scope: meta.settings-key-wrapper.tmPreferences
-        - meta_content_scope: meta.inside-dict-key.plist
-        - include: inside-dict-key
-        - match: 'foldScopes(?=\s*<)'
-          scope: keyword.other.foldScopes.tmPreferences
-          set: [fold-scopes, key-end]
-        - match: 'shellVariables(?=\s*<)'
-          scope: keyword.other.shellVariables.tmPreferences
-          set: [shell-variables, key-end]
-        - match: '(?:decreaseIndentPattern|batchDecreaseIndentPattern|increaseIndentPattern|batchIncreaseIndentPattern|disableIndentNextLinePattern|bracketIndentNextLinePattern|unIndentedLinePattern|cancelCompletion)(?=\s*<)'
-          scope: entity.name.constant.setting.regex.tmPreferences
-          set: [expect-regex-string, key-end]
-        - match: '(?:symbolTransformation|symbolIndexTransformation)(?=\s*<)'
-          scope: entity.name.constant.setting.regex-transform.tmPreferences
-          set: [expect-transformation-string, key-end]
-        - match: '(?:showInSymbolList|showInIndexedSymbolList|showInIndexedReferenceList)(?=\s*<)'
-          scope: entity.name.constant.setting.tmPreferences
-          set: [expect-integer, key-end] # yes, integer - for some reason, booleans don't work here
-        - match: '(?:indentParens|indentSquareBrackets|preserveIndent|indentationFoldingEnabled|scopeFoldingEnabled)(?=\s*<)'
-          scope: entity.name.constant.setting.tmPreferences
-          set: [expect-boolean, key-end]
-        - match: 'icon(?=\s*<)'
-          scope: entity.name.setting.tmPreferences
-          set: [expect-string, key-end]
+      push: inside-settings-dict-key-tag
+    - include: whitespace-or-tags
 
-    - include: inside-any-dict
-
-  inside-any-dict:
-    - meta_content_scope: meta.inside-dict.plist
-    - include: dict-end
-
-    - match: '(<)(key)\s*(>)'
-      scope: meta.tag.xml
+  inside-settings-dict-key-tag:
+    - meta_scope: meta.settings-key-wrapper.tmPreferences meta.tag.xml
+    - match: (/?)(>)
       captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      push: inside-dict-key
-    - include: scope:text.xml.plist#whitespace-or-tag
+        1: invalid.illegal.self-closing.xml
+        2: punctuation.definition.tag.end.xml
+      set: inside-settings-dict-key
+    - include: tag-end-missing-pop
 
-  inside-dict-key:
-    - meta_content_scope: meta.inside-dict-key.plist meta.dict-key-unknown.tmPreferences
+  inside-settings-dict-key:
+    - meta_scope: meta.settings-key-wrapper.tmPreferences
+    - meta_content_scope: meta.inside-dict-key.plist
     - include: comments
-    - match: '(<)(/)(key)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: meta.close-unknown-dict-key-tag.tmPreferences punctuation.definition.tag.begin.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-      set: any-known-element
-    - match: '<'
-      scope: punctuation.definition.tag.begin.xml
-      push: scope:text.xml.plist#unknown-tag
-
-  expect-scope-string:
-    - match: '(<)(string)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
+    - match: foldScopes\b
+      scope: meta.inside-dict-key.plist keyword.other.foldScopes.tmPreferences
       set:
-        - meta_content_scope: meta.inside-value.string.plist
-        - match: (?=<!--)
-          push:
-            - match: (?!<!--)
-              pop: true
-            - include: scope:text.xml
-        - match: '(?=\S)'
-          set:
-            - meta_content_scope: meta.inside-value.string.plist meta.toc-list.scope.tmPreferences
-            - match: '<!\[CDATA\['
-              scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
-              push:
-                - match: ']]>'
-                  scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
-                  set: st-end-of-string-handling
-                - include: scope:source.scope-selector
-            - match: '(</)(string)\s*(>)'
-              scope: meta.tag.xml
-              captures:
-                1: punctuation.definition.tag.begin.xml
-                2: entity.name.tag.localname.xml
-                3: punctuation.definition.tag.end.xml
-              pop: true
-            - match: '(?=\S)'
-              push:
-                - include: scope:source.scope-selector
-              with_prototype:
-                - match: '\s*((&)amp(;))\s*'
-                  captures:
-                    1: constant.character.entity.xml keyword.operator.with.scope-selector
-                    2: punctuation.definition.constant.xml
-                    3: punctuation.definition.constant.xml
-                - include: until-end-of-string
-                - match: '\s*(&)\s*'
-                  captures:
-                    1: invalid.illegal.bad-ampersand.xml
-    - include: scope:text.xml.plist#whitespace-or-tag
-
-  expect-regex-string:
-    - match: '(<)(string)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
+        - expect-fold-scopes-array
+        - settings-dict-key-meta
+        - expect-key-end
+    - match: shellVariables\b
+      scope: meta.inside-dict-key.plist keyword.other.shellVariables.tmPreferences
       set:
-        - meta_content_scope: meta.inside-value.string.plist
-        - match: (?=<!--)
-          push:
-            - match: (?!<!--)
-              pop: true
-            - include: scope:text.xml
-        - match: '(?=\S)'
-          set:
-            - meta_content_scope: meta.inside-value.string.plist
-            - match: '(</)(string)\s*(>)'
-              scope: meta.tag.xml
-              captures:
-                1: punctuation.definition.tag.begin.xml
-                2: entity.name.tag.localname.xml
-                3: punctuation.definition.tag.end.xml
-              pop: true
-            - match: '(?=<!\[CDATA\[)'
-              push:
-                - match: ']]>'
-                  scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
-                  set: st-end-of-string-handling
-                - match: '<!\[CDATA\['
-                  scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
-                  push: regex-pattern
-                  with_prototype:
-                    - match: '(?=]]>)'
-                      pop: true
-            - match: '(?=\S)'
-              push: regex-pattern
-              with_prototype:
-                - include: until-end-of-string
-    - include: scope:text.xml.plist#whitespace-or-tag
-
-  expect-transformation-string:
-    - match: '(<)(string)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
+        - expect-shell-variables-array
+        - settings-dict-key-meta
+        - expect-key-end
+    - match: '{{regexp_settings}}\b'
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.regexp.tmPreferences
       set:
-        - meta_content_scope: meta.inside-value.string.plist
-        - match: (?=<!--)
-          push:
-            - match: (?!<!--)
-              pop: true
-            - include: scope:text.xml
-        - match: '(?=\S)'
-          set:
-            - meta_content_scope: meta.inside-value.string.plist
-            - match: '(</)(string)\s*(>)'
-              scope: meta.tag.xml
-              captures:
-                1: punctuation.definition.tag.begin.xml
-                2: entity.name.tag.localname.xml
-                3: punctuation.definition.tag.end.xml
-              pop: true
-            - match: '(?=<!\[CDATA\[)'
-              push:
-                - match: ']]>'
-                  scope: string.unquoted.cdata.xml punctuation.definition.string.end.xml
-                  set: st-end-of-string-handling
-                - match: '<!\[CDATA\['
-                  scope: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
-                  push: transformation
-                  with_prototype:
-                    - match: '(?=]]>)'
-                      pop: true
-            - match: '(?=\S)'
-              push: transformation
-              with_prototype:
-                - include: until-end-of-string
-    - include: scope:text.xml.plist#whitespace-or-tag
+        - expect-regexp-string
+        - settings-dict-key-meta
+        - expect-key-end
+    - match: '{{transformation_settings}}\b'
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.regexp-transform.tmPreferences
+      set:
+        - expect-transformation-string
+        - settings-dict-key-meta
+        - expect-key-end
+    - match: '{{integer_settings}}\b'
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
+      set:
+        - expect-integer
+        - settings-dict-key-meta
+        - expect-key-end
+    - match: '{{boolean_settings}}\b'
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
+      set:
+        - expect-boolean
+        - settings-dict-key-meta
+        - expect-key-end
+    - match: '{{string_settings}}\b'
+      scope: meta.inside-dict-key.plist entity.name.setting.tmPreferences
+      set:
+        - expect-string
+        - settings-dict-key-meta
+        - expect-key-end
+    - match: (?=<)
+      set:
+        - any-element
+        - settings-dict-key-meta
+        - expect-key-end
 
-  transformation:
-    - meta_content_scope: meta.regex.transformation.tmPreferences
-    - match: 's?/'
-      scope: punctuation.definition.substitute-what.tmPreferences
-      push:
-        - meta_content_scope: source.regexp.oniguruma
-        - match: (?=/)
-          set:
-            - match: '/'
-              scope: punctuation.definition.substitute-with.tmPreferences
-              set:
-                - match: '(/)([gimsx-]*)(;|$)'
-                  captures:
-                    1: punctuation.definition.substitute-flags.tmPreferences
-                    2: storage.modifier.mode.regexp.transformation.tmPreferences
-                    3: punctuation.definition.substitution.end.tmPreferences
-                  pop: true
-                - include: scope:source.regexp-replacement
-        - include: Oniguruma RegExp.sublime-syntax#base-literal
-    - include: Oniguruma RegExp.sublime-syntax#group-comment
-    - include: Oniguruma RegExp.sublime-syntax#extended-patterns
+  settings-dict-key-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.settings-key-wrapper.tmPreferences
+    - include: immediately-pop
 
-  regex-pattern:
-    - meta_content_scope: meta.regex.tmPreferences source.regexp.oniguruma
-    - include: scope:source.regexp.oniguruma
+###[ SETTINGS / FOLDSCOPES ARRAY ]#############################################
 
-  fold-scopes:
-    - include: comments
-    - match: '(<)(array)\s*(>)'
-      scope: meta.tag.xml
+  expect-fold-scopes-array:
+    - match: (<)(array){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
+      set: inside-fold-scopes-array-tag
+    - include: whitespace-or-tags
+
+  inside-fold-scopes-array-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
       set: inside-fold-scopes-array
-    - include: scope:text.xml.plist#whitespace-or-tag
+    - include: tag-end-self-closing
 
   inside-fold-scopes-array:
-    - meta_content_scope: meta.inside-array.plist
+    - meta_content_scope: meta.inside-array.foldScopes.tmPreferences
     - include: array-end
-    - include: fold-scopes-dict
-    - include: scope:text.xml.plist#whitespace-or-tag
+    - include: expect-fold-scopes-dicts
 
-  fold-scopes-dict:
-    - match: '(<)(dict)\s*(>)'
-      scope: meta.tag.xml
+  expect-fold-scopes-dicts:
+    - match: (<)(dict){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      push: inside-fold-scope-dict
+      push: inside-fold-scopes-dict-tag
+    - include: whitespace-or-tags
 
-  inside-fold-scope-dict:
+  inside-fold-scopes-dict-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      set: inside-fold-scopes-dict
+    - include: tag-end-self-closing
+
+  inside-fold-scopes-dict:
     - meta_content_scope: meta.inside-dict.foldScopes.tmPreferences
     - include: dict-end
-    - include: fold-scope-dict-keys
-    - include: scope:text.xml.plist#whitespace-or-tag
+    - include: expect-fold-scopes-dict-keys
 
-  fold-scope-dict-keys:
-    - match: '((<)(key)\s*(>))(\s*(?:begin|end)\s*)((</)(key)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: fold-scope-value
-    - match: '((<)(key)\s*(>))(\s*(?:excludeTrailingNewlines)\s*)((</)(key)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: expect-boolean
-
-  fold-scope-value:
-    - match: '((<)(string)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-      set: inside-fold-scope-value
-    - match: (?=</(?:array|dict)\s*>)
-      pop: true
-    - include: scope:text.xml.plist#whitespace-or-tag
-
-  inside-fold-scope-value:
-    - meta_scope: meta.scope-name.tmPreferences
-    - include: string-end
-    - include: scope:text.xml.plist#tag-end-missing-pop
-    - include: scope:source.scope-selector
-
-  shell-variables:
-    - include: comments
-    - match: '(<)(array)\s*(>)'
-      scope: meta.tag.xml
+  expect-fold-scopes-dict-keys:
+    - match: (<)(key){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
+      push: inside-fold-scopes-dict-key-tag
+    - include: whitespace-or-tags
+
+  inside-fold-scopes-dict-key-tag:
+    - meta_scope: meta.foldScopes-key-wrapper.tmPreferences meta.tag.xml
+    - match: (/?)(>)
+      captures:
+        1: invalid.illegal.self-closing.xml
+        2: punctuation.definition.tag.end.xml
+      set: inside-fold-scopes-dict-key
+    - include: tag-end-missing-pop
+
+  inside-fold-scopes-dict-key:
+    - meta_scope: meta.foldScopes-key-wrapper.tmPreferences
+    - meta_content_scope: meta.inside-dict-key.plist
+    - match: (?:begin|end)\b
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
+      set:
+        - expect-scope-string
+        - fold-scopes-dict-key-meta
+        - expect-key-end
+    - match: excludeTrailingNewlines\b
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
+      set:
+        - expect-boolean
+        - fold-scopes-dict-key-meta
+        - expect-key-end
+    - match: (?=<)
+      set:
+        - any-element
+        - fold-scopes-dict-key-meta
+        - expect-key-end
+
+  fold-scopes-dict-key-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.foldScopes-key-wrapper.tmPreferences
+    - include: immediately-pop
+
+###[ SETTINGS / SHELLVARIABLES ARRAY ]#########################################
+
+  expect-shell-variables-array:
+    - match: (<)(array){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+      set: inside-shell-variables-array-tag
+    - include: whitespace-or-tags
+
+  inside-shell-variables-array-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
       set: inside-shell-variables-array
-    - include: scope:text.xml.plist#whitespace-or-tag
+    - include: tag-end-self-closing
 
   inside-shell-variables-array:
-    - meta_content_scope: meta.inside-array.plist
+    - meta_content_scope: meta.inside-array.shellVariables.tmPreferences
     - include: array-end
-    - match: '(<)(dict)\s*(>)'
-      scope: meta.tag.xml
+    - include: expect-shell-variables-dicts
+
+  expect-shell-variables-dicts:
+    - match: (<)(dict){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      push: inside-shell-variables-dict
-    - include: scope:text.xml.plist#whitespace-or-tag
+      push: inside-shell-variables-dict-tag
+    - include: whitespace-or-tags
+
+  inside-shell-variables-dict-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      set: inside-shell-variables-dict
+    - include: tag-end-self-closing
 
   inside-shell-variables-dict:
     - meta_content_scope: meta.inside-dict.shellVariables.tmPreferences
     - include: dict-end
+    - include: expect-shell-variables-dict-keys
 
-    - match: '((<)(key)\s*(>))(\s*name\s*)((</)(key)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: shell-variable-name-value
-    - match: '((<)(key)\s*(>))(\s*value\s*)((</)(key)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist
-        6: meta.tag.xml
-        7: punctuation.definition.tag.begin.xml
-        8: entity.name.tag.localname.xml
-        9: punctuation.definition.tag.end.xml
-      push: expect-string
-    - match: '((<)(key)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-      push: [expect-string, shell-variables-key-expect-name-or-value]
-    - include: scope:text.xml.plist#whitespace-or-tag
-
-  shell-variable-name-value:
-    - match: '((<)(string)\s*(>))(\s*((TM_COMMENT_(?:START|END|DISABLE_INDENT)(?:_[2-9])?)|(?:[^<]*))\s*)((</)(string)\s*(>))'
-      scope: meta.shellVariable-name.wrapper.tmPreferences
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-value.string.plist
-        6: entity.name.constant.shellVariable.tmPreferences
-        7: support.type.shellVariable.tmPreferences
-        8: meta.tag.xml
-        9: punctuation.definition.tag.begin.xml
-        10: entity.name.tag.localname.xml
-        11: punctuation.definition.tag.end.xml
-      pop: true
-    # don't escalate illegal highlighting beyond array or dictionary boundaries
-    - match: (?=</(?:array|dict)\s*>)
-      pop: true
-    - include: scope:text.xml.plist#whitespace-or-tag
-
-  shell-variables-key-expect-name-or-value:
-    - meta_content_scope: invalid.deprecated.expected-name-or-value.tmPreferences
-    - include: key-end
-
-  expect-boolean:
-    - include: scope:text.xml.plist#boolean
-    - include: scope:text.xml.plist#whitespace-or-tag
-
-  expect-integer:
-    - include: scope:text.xml.plist#number
-    - match: '((<)(string)\s*(>))(\s*([01])\s*)((</)(string)\s*(>))'
-      captures:
-        1: meta.tag.xml
-        2: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.localname.xml
-        4: punctuation.definition.tag.end.xml
-        5: meta.inside-dict-key.plist
-        6: constant.numeric.tmPreferences
-        7: meta.tag.xml
-        8: punctuation.definition.tag.begin.xml
-        9: entity.name.tag.localname.xml
-        10: punctuation.definition.tag.end.xml
-      pop: true
-    - include: scope:text.xml.plist#whitespace-or-tag
-
-  expect-string:
-    - match: '(<)(string)\s*(>)'
-      scope: meta.tag.xml
+  expect-shell-variables-dict-keys:
+    - match: (<)(key){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
+      push: inside-shell-variables-dict-key-tag
+    - include: whitespace-or-tags
+
+  inside-shell-variables-dict-key-tag:
+    - meta_scope: meta.shellVariable-key-wrapper.tmPreferences meta.tag.xml
+    - match: (/?)(>)
+      captures:
+        1: invalid.illegal.self-closing.xml
+        2: punctuation.definition.tag.end.xml
+      set: inside-shell-variables-dict-key
+    - include: tag-end-missing-pop
+
+  inside-shell-variables-dict-key:
+    - meta_scope: meta.shellVariable-key-wrapper.tmPreferences
+    - meta_content_scope: meta.inside-dict-key.plist
+    - include: comments
+    - match: name\b
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
       set:
-        - meta_content_scope: meta.inside-value.string.plist
-        - match: (?=<!--)
-          push:
-            - match: (?!<!--)
-              pop: true
-            - include: scope:text.xml
-        - match: '(?=\S)'
-          set:
-            - meta_content_scope: meta.inside-value.string.plist
-            - include: handle-comments-until-end-of-string
-            - match: '(</)(string)\s*(>)'
-              scope: meta.tag.xml
-              captures:
-                1: punctuation.definition.tag.begin.xml
-                2: entity.name.tag.localname.xml
-                3: punctuation.definition.tag.end.xml
-              pop: true
-            - match: '<(?!!)'
-              scope: punctuation.definition.tag.begin.xml
-              push: scope:text.xml.plist#unknown-tag
-            - include: scope:text.xml
-    - include: scope:text.xml.plist#whitespace-or-tag
+        - expect-shell-variable-name
+        - shell-variables-dict-key-meta
+        - expect-key-end
+    - match: value\b
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
+      set:
+        - expect-string
+        - shell-variables-dict-key-meta
+        - expect-key-end
+    - match: (?=<)
+      set:
+        - any-element
+        - shell-variables-dict-key-meta
+        - expect-key-end
+
+  shell-variables-dict-key-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.shellVariable-key-wrapper.tmPreferences
+    - include: immediately-pop
+
+  expect-shell-variable-name:
+    - match: (<)(string){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+      set: shell-variable-name-tag
+    - include: expect-value-end
+
+  shell-variable-name-tag:
+    - meta_scope: meta.shellVariable-name.wrapper.tmPreferences meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      set: inside-shell-variable-name
+    - include: tag-end-self-closing
+
+  inside-shell-variable-name:
+    - meta_scope: meta.shellVariable-name.wrapper.tmPreferences
+    - meta_content_scope: meta.inside-value.string.plist
+    - include: string-end
+    - include: value-content
+    - include: comments
+    - match: \bTM_COMMENT_(?:START|END|DISABLE_INDENT)(?:_[2-9])?\b
+      scope: entity.name.constant.shellVariable.tmPreferences support.constant.shellVariable.tmPreferences
+      push: after-number
+    - match: \b\w+\b
+      scope: entity.name.constant.shellVariable.tmPreferences
+      push: after-number
+
+###[ SETTINGS / SCALAR VALUES ]################################################
+
+  expect-boolean:
+    - include: boolean
+    - include: expect-value-end
+
+  expect-integer:
+    - match: (<)(string){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+      set: inside-integer-string-tag
+    - include: integer
+    - include: expect-value-end
+
+  inside-integer-string-tag:
+    - meta_scope: meta.tag.xml
+    - match: (/?)(>)
+      captures:
+        1: invalid.illegal.self-closing.xml
+        2: punctuation.definition.tag.end.xml
+      set: inside-integer-string
+    - include: tag-end-missing-pop
+
+  inside-integer-string:
+    - meta_content_scope: meta.inside-value.string.plist
+    - include: string-end
+    - include: value-bailout
+    - match: '[01]'
+      scope: constant.numeric.tmPreferences
+      push: after-number
+    - match: '[^\s<]+'
+      scope: invalid.illegal.expected-number.tmPreferences
+
+###[ SETTINGS / SCOPE VALUES ]#################################################
+
+  expect-scope-string:
+    - match: (<)(string){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+      set: inside-scope-string-tag
+    - include: expect-value-end
+
+  inside-scope-string-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      set: inside-scope-string
+    - include: tag-end-self-closing
+
+  inside-scope-string:
+    - meta_content_scope: meta.inside-value.string.plist
+    - include: string-end
+    - include: value-bailout
+    - include: comments
+    - match: (<!\[)(CDATA)(\[)
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.declaration.cdata.xml
+        3: punctuation.definition.tag.begin.xml
+      push: inside-scope-selector-cdata
+    - match: (?=\S)
+      push: scope-selector
+      with_prototype:
+        - include: scope-selecotr-prototypes
+
+  inside-scope-selector-cdata:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.sgml.cdata.xml
+    - match: ']]>'
+      scope: punctuation.definition.tag.end.xml
+      set: st-end-of-string-handling
+    - match: ''
+      embed: scope-selector
+      escape: (?=]]>)
+
+  scope-selector:
+    - meta_content_scope: meta.string.selector.tmPreferences
+    - include: scope:source.scope-selector
+
+  scope-selecotr-prototypes:
+    - match: \s*((&)amp(;))\s*
+      captures:
+        1: constant.character.entity.xml keyword.operator.with.scope-selector
+        2: punctuation.definition.constant.xml
+        3: punctuation.definition.constant.xml
+    - match: \s*(&)\s*
+      captures:
+        1: invalid.illegal.bad-ampersand.xml
+    - include: until-end-of-string
+
+###[ SETTINGS / REGEXP VALUES ]################################################
+
+  expect-regexp-string:
+    - match: (<)(string){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+      set: inside-regexp-string-tag
+    - include: expect-value-end
+
+  inside-regexp-string-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      set: inside-regexp-string
+    - include: tag-end-self-closing
+
+  inside-regexp-string:
+    - meta_content_scope: meta.inside-value.string.plist
+    - include: string-end
+    - include: value-bailout
+    - include: comments
+    - match: (<!\[)(CDATA)(\[)
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.declaration.cdata.xml
+        3: punctuation.definition.tag.begin.xml
+      push: inside-regexp-cdata
+    - match: (?=\S)
+      push: regexp-pattern
+      with_prototype:
+        - include: until-end-of-string
+
+  inside-regexp-cdata:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.sgml.cdata.xml
+    - match: ']]>'
+      scope: punctuation.definition.tag.end.xml
+      set: st-end-of-string-handling
+    - match: ''
+      embed: regexp-pattern
+      escape: (?=]]>)
+
+  regexp-pattern:
+    - meta_content_scope: meta.string.regexp.tmPreferences source.regexp.oniguruma
+    - include: scope:source.regexp.oniguruma
+
+###[ SETTINGS / TRANSFORMATION VALUES ]########################################
+
+  expect-transformation-string:
+    - match: (<)(string){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+      set: inside-transformation-string-tag
+    - include: expect-value-end
+
+  inside-transformation-string-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      set: inside-transformation-string
+    - include: tag-end-self-closing
+
+  inside-transformation-string:
+    - meta_content_scope: meta.inside-value.string.plist
+    - include: string-end
+    - include: value-bailout
+    - include: comments
+    - match: (<!\[)(CDATA)(\[)
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.declaration.cdata.xml
+        3: punctuation.definition.tag.begin.xml
+      push: inside-transformation-cdata
+    - match: (?=\S)
+      push: transformations
+      with_prototype:
+        - include: until-end-of-string
+
+  inside-transformation-cdata:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.sgml.cdata.xml
+    - match: ']]>'
+      scope: punctuation.definition.tag.end.xml
+      set: st-end-of-string-handling
+    - match: ''
+      embed: transformations
+      escape: (?=]]>)
+
+  transformations:
+    - meta_content_scope: meta.string.regexp.transformation.tmPreferences
+    - match: s?/
+      scope: punctuation.definition.substitute-what.tmPreferences
+      push: transformation-subst-pattern
+    - include: Oniguruma RegExp.sublime-syntax#group-comment
+    - include: Oniguruma RegExp.sublime-syntax#extended-patterns
+
+  transformation-subst-pattern:
+    - meta_content_scope: source.regexp.oniguruma
+    - match: /
+      scope: punctuation.definition.substitute-with.tmPreferences
+      set: transformation-subst-replacement
+    - include: Oniguruma RegExp.sublime-syntax#base-literal
+
+  transformation-subst-replacement:
+    - match: (/)([gimsx-]*)(;|$)
+      captures:
+        1: punctuation.definition.substitute-flags.tmPreferences
+        2: storage.modifier.mode.regexp.transformation.tmPreferences
+        3: punctuation.definition.substitution.end.tmPreferences
+      pop: 1
+    - include: scope:source.regexp-replacement
+
+###[ SETTINGS / STRING VALUES ]################################################
+
+  expect-string:
+    - match: (<)(string){{tag_name_break}}
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+      set: inside-string-value-tag
+    - include: expect-value-end
+
+  inside-string-value-tag:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      set: [inside-string-value, maybe-comments]
+    - include: tag-end-self-closing
+
+  inside-string-value:
+    - meta_content_scope: meta.inside-value.string.plist
+    - include: handle-comments-until-end-of-string
+    - include: inside-string
 
   handle-comments-until-end-of-string:
-    - match: '(?=<!--)'
+    - match: (?=<!--)
       push: st-end-of-string-handling
 
   st-end-of-string-handling:
-    - match: '(?=</string\s*>)'
-      pop: true
-    - match: '(?=<!\[CDATA\[)'
-      push:
-        - meta_scope: invalid.deprecated.ignored-after-comment-or-cdata.tmPreferences
-        - match: '(?!<!\[CDATA\[)'
-          pop: true
-        - include: scope:text.xml
-    - match: '<(?!!)'
-      scope: punctuation.definition.tag.begin.xml
-      push: scope:text.xml.plist#unknown-tag
-    - include: scope:text.xml
-    - match: '[^<\s]+|\s+(?![\s<])'
-      scope: invalid.deprecated.ignored-after-comment-or-cdata.tmPreferences
+    - meta_content_scope: invalid.deprecated.ignored-after-comment-or-cdata.tmPreferences
+    - match: (?=\s*</string{{tag_name_break}})
+      pop: 1
+    - include: value-content
 
   until-end-of-string:
+    - match: (?=\s*</string{{tag_name_break}})
+      pop: 1
+    - include: value-bailout
     - include: handle-comments-until-end-of-string
-    - match: '(?=</string\s*>|<!\[CDATA\[)'
-      pop: true
-    - include: scope:text.xml#entity
-    - include: scope:text.xml#should-be-entity
-    - match: '(\\)([<>])'
+    - include: entity
+    - include: should-be-entity
+    - match: (\\)([<>])
       captures:
         1: constant.character.escape.regexp
         2: constant.character.escape.regexp invalid.illegal.missing-entity.xml
-    - match: '\(\?([<>])'
+    - match: \(\?([<>])
       captures:
         1: invalid.illegal.missing-entity.xml
 
-  inside-array:
-    - meta_content_scope: meta.inside-array.plist
-    - include: array-end
+###[ PROTOTYPES ]##############################################################
+
+  expect-key-end:
+    - meta_content_scope: meta.inside-dict-key.plist
+    - include: key-end
+    - include: expect-value-end
+
+  expect-value-end:
+    - include: value-bailout
+    - include: whitespace-or-tags
+
+  else-pop:
     - match: (?=\S)
-      push: any-known-element
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1

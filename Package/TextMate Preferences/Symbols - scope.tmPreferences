@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>meta.toc-list.scope.tmPreferences</string>
+	<string>meta.string.selector.tmPreferences - meta.inside-dict.settings</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
