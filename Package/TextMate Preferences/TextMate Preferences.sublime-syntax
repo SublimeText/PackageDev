@@ -65,8 +65,18 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
-      set: end-of-array
+      set: inside-array
     - include: scope:text.xml.plist#whitespace-or-tag
+
+  array-end:
+    - include: comments
+    - match: '(</)(array)\s*(>)'
+      scope: meta.tag.xml
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.localname.xml
+        3: punctuation.definition.tag.end.xml
+      pop: true
 
   dict-end:
     - include: comments
@@ -513,17 +523,8 @@ contexts:
       captures:
         1: invalid.illegal.missing-entity.xml
 
-  end-of-array:
+  inside-array:
     - meta_content_scope: meta.inside-array.plist
-    - match: '(</)(array)\s*(>)'
-      scope: meta.tag.xml
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: true
-    - match: ''
-      push:
-        - match: '(?=</array\s*>)'
-          pop: true
-        - include: any-known-element
+    - include: array-end
+    - match: (?=\S)
+      push: any-known-element
