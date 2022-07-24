@@ -588,9 +588,18 @@ show_overlay:
   command_type: window
   doc_string: Show the overlay from the argument.
 show_panel:
-  args:
-    panel:
-    reverse: false
+  args: !!omap
+    - panel: incremental_find|find|replace|find_in_files
+    - pattern: ""
+    - replace_pattern: ""
+    - reverse: false
+    - regex: false
+    - in_selection: false
+    - whole_word: false
+    - preserve_case: false,
+    - use_gitignore: true,
+    - highlight: true
+    - wrap: true
   command_type: window
   doc_string: Show the panel from the argument.
 show_progress_window:
