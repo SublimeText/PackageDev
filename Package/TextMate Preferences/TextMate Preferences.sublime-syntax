@@ -180,7 +180,7 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
         3: punctuation.definition.tag.end.xml
-      push: [any-known-element, inside-dict-key]
+      push: inside-dict-key
     - include: scope:text.xml.plist#whitespace-or-tag
 
   inside-dict-key:
