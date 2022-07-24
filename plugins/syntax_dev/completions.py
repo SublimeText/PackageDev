@@ -1,5 +1,6 @@
 import logging
 import re
+from collections import namedtuple
 
 import sublime
 import sublime_plugin
@@ -15,19 +16,76 @@ __all__ = (
 
 logger = logging.getLogger(__name__)
 
+CompletionTemplate = namedtuple('CompletionTemplate', ['kind', 'format', 'suffix'])
+
+Completion = namedtuple('Completion', ['trigger', 'template', 'details'])
+
 # a list of kinds used to denote the different kinds of completions
-KIND_HEADER_BASE = (sublime.KIND_ID_NAMESPACE, 'K', 'Header Key')
-KIND_HEADER_DICT = (sublime.KIND_ID_NAMESPACE, 'D', 'Header Dict')
-KIND_HEADER_LIST = (sublime.KIND_ID_NAMESPACE, 'L', 'Header List')
-KIND_BRANCH = (sublime.KIND_ID_NAVIGATION, 'b', 'Branch Point')
-KIND_CONTEXT = (sublime.KIND_ID_KEYWORD, 'c', 'Context')
-KIND_FUNCTION = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
-KIND_FUNCTION_TRUE = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
-KIND_FUNCTION_FALSE = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
-KIND_FUNCTION_NUMERIC = (sublime.KIND_ID_FUNCTION, 'f', 'Function')
-KIND_CAPTURUE = (sublime.KIND_ID_FUNCTION, 'c', 'Captures')
-KIND_SCOPE = (sublime.KIND_ID_NAMESPACE, 's', 'Scope')
-KIND_VARIABLE = (sublime.KIND_ID_VARIABLE, 'v', 'Variable')
+TPL_HEADER_BASE = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_TEXT,
+    kind=(sublime.KIND_ID_NAMESPACE, 'K', 'Header Key'),
+    suffix=": ",
+)
+TPL_HEADER_TRUE = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_NAMESPACE, 'K', 'Header Key'),
+    suffix=": ${1:true}",
+)
+TPL_HEADER_DICT = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_NAMESPACE, 'D', 'Header Dict'),
+    suffix=":\n  ",
+)
+TPL_HEADER_LIST = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_NAMESPACE, 'L', 'Header List'),
+    suffix=":\n  - ",
+)
+TPL_BRANCH = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_NAVIGATION, 'b', 'Branch Point'),
+    suffix=": ",
+)
+TPL_CONTEXT = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_KEYWORD, 'c', 'Context'),
+    suffix=":\n  ",
+)
+TPL_FUNCTION = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_FUNCTION, 'f', 'Function'),
+    suffix=": ",
+)
+TPL_FUNCTION_TRUE = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_FUNCTION, 'f', 'Function'),
+    suffix=": ${1:true}",
+)
+TPL_FUNCTION_FALSE = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_FUNCTION, 'f', 'Function'),
+    suffix=": ${1:false}",
+)
+TPL_FUNCTION_NUMERIC = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_FUNCTION, 'f', 'Function'),
+    suffix=": ${1:1}",
+)
+TPL_CAPTURUES = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_FUNCTION, 'c', 'Captures'),
+    suffix=":\n  ",
+)
+TPL_SCOPE = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_NAMESPACE, 's', 'Scope'),
+    suffix=": ",
+)
+TPL_VARIABLE = CompletionTemplate(
+    format=sublime.COMPLETION_FORMAT_SNIPPET,
+    kind=(sublime.KIND_ID_VARIABLE, 'v', 'Variable'),
+    suffix=": ",
+)
 
 PACKAGE_NAME = __package__.split('.')[0]
 
@@ -39,38 +97,18 @@ def status(msg, console=False):
         print(msg)
 
 
+def format_static_completion(completion):
+    return sublime.CompletionItem(
+        trigger=completion.trigger,
+        kind=completion.template.kind,
+        details=completion.details,
+        completion=completion.trigger + completion.template.suffix,
+        completion_format=completion.template.format,
+    )
+
+
 def format_static_completions(templates):
-
-    def format_item(trigger, kind, details):
-        # Compare identity because some values are equal
-        if kind in (KIND_HEADER_DICT, KIND_CAPTURUE, KIND_CONTEXT):
-            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
-            suffix = ":\n  "
-        elif kind is KIND_HEADER_LIST:
-            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
-            suffix = ":\n  - "
-        elif kind is KIND_FUNCTION_TRUE:
-            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
-            suffix = ": ${1:true}"
-        elif kind is KIND_FUNCTION_FALSE:
-            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
-            suffix = ": ${1:false}"
-        elif kind is KIND_FUNCTION_NUMERIC:
-            completion_format = sublime.COMPLETION_FORMAT_SNIPPET
-            suffix = ": ${1:1}"
-        else:
-            completion_format = sublime.COMPLETION_FORMAT_TEXT
-            suffix = ": "
-
-        return sublime.CompletionItem(
-            trigger=trigger,
-            kind=kind,
-            details=details,
-            completion=trigger + suffix,
-            completion_format=completion_format,
-        )
-
-    return [format_item(*template) for template in templates]
+    return list(map(format_static_completion, templates))
 
 
 def format_completions(items, annotation="", kind=sublime.KIND_AMBIGUOUS):
@@ -88,66 +126,67 @@ def format_completions(items, annotation="", kind=sublime.KIND_AMBIGUOUS):
 
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
-    base_completions_root = format_static_completions(templates=(
+    # noqa: E501
+    base_completions_root = format_static_completions([
         # base keys
-        ('name', KIND_HEADER_BASE, "The display name of the syntax."),
-        ('scope', KIND_HEADER_BASE, "The main scope of the syntax."),
-        ('version', KIND_HEADER_BASE, "The sublime-syntax version."),
-        ('extends', KIND_HEADER_BASE, "The syntax which is to be extended."),
-        ('name', KIND_HEADER_BASE, "The display name of the syntax."),
-        ('first_line_match', KIND_HEADER_BASE, "The pattern to identify a file by content."),
-        ('hidden', KIND_HEADER_BASE, "Hide this syntax from the menu."),
+        Completion('name', TPL_HEADER_BASE, "The display name of the syntax."),
+        Completion('scope', TPL_HEADER_BASE, "The main scope of the syntax."),
+        Completion('version', TPL_HEADER_BASE, "The sublime-syntax version."),
+        Completion('extends', TPL_HEADER_BASE, "The syntax which is to be extended."),
+        Completion('name', TPL_HEADER_BASE, "The display name of the syntax."),
+        Completion('first_line_match', TPL_HEADER_BASE, "The pattern to identify a file by content."),  # noqa: E501
+        Completion('hidden', TPL_HEADER_TRUE, "Hide this syntax from the menu."),
         # dict keys
-        ('variables', KIND_HEADER_DICT, 'The variables definitions.'),
-        ('contexts', KIND_HEADER_DICT, 'The syntax contexts.'),
+        Completion('variables', TPL_HEADER_DICT, 'The variables definitions.'),
+        Completion('contexts', TPL_HEADER_DICT, 'The syntax contexts.'),
         # list keys
-        ('file_extensions', KIND_HEADER_LIST, "The list of file extensions."),
-        ('hidden_extensions', KIND_HEADER_LIST, "The list of hidden file extensions.")
-    ))
+        Completion('file_extensions', TPL_HEADER_LIST, "The list of file extensions."),
+        Completion('hidden_extensions', TPL_HEADER_LIST, "The list of hidden file extensions.")
+    ])
 
-    base_completions_contexts = format_static_completions(templates=(
+    base_completions_contexts = format_static_completions([
         # meta functions
-        ('meta_append', KIND_FUNCTION_TRUE, "Add rules to the end of the inherit context."),
-        ('meta_content_scope', KIND_FUNCTION, "A scope to apply to the content of a context."),
-        ('meta_include_prototype', KIND_FUNCTION_FALSE, "Flag to in-/exclude `prototype`"),
-        ('meta_prepend', KIND_FUNCTION_TRUE, "Add rules to the beginning of the inherit context."),
-        ('meta_scope', KIND_FUNCTION, "A scope to apply to the full context."),
-        ('clear_scopes', KIND_FUNCTION, "Clear meta scopes."),
+        Completion('meta_append', TPL_FUNCTION_TRUE, "Add rules to the end of the inherit context."),  # noqa: E501
+        Completion('meta_content_scope', TPL_FUNCTION, "A scope to apply to the content of a context."),  # noqa: E501
+        Completion('meta_include_prototype', TPL_FUNCTION_FALSE, "Flag to in-/exclude `prototype`"),  # noqa: E501
+        Completion('meta_prepend', TPL_FUNCTION_TRUE, "Add rules to the beginning of the inherit context."),  # noqa: E501
+        Completion('meta_scope', TPL_FUNCTION, "A scope to apply to the full context."),
+        Completion('clear_scopes', TPL_FUNCTION, "Clear meta scopes."),
         # matching tokens
-        ('match', KIND_FUNCTION, "Pattern to match tokens."),
+        Completion('match', TPL_FUNCTION, "Pattern to match tokens."),
         # scoping
-        ('scope', KIND_FUNCTION, "The scope to apply if a token matches"),
-        ('captures', KIND_CAPTURUE, "Assigns scopes to the capture groups."),
+        Completion('scope', TPL_FUNCTION, "The scope to apply if a token matches"),
+        Completion('captures', TPL_CAPTURUES, "Assigns scopes to the capture groups."),
         # contexts
-        ('push', KIND_FUNCTION, "Push a context onto the stack."),
-        ('set', KIND_FUNCTION, "Set a context onto the stack."),
-        ('with_prototype', KIND_FUNCTION, "Rules to prepend to each context."),
+        Completion('push', TPL_FUNCTION, "Push a context onto the stack."),
+        Completion('set', TPL_FUNCTION, "Set a context onto the stack."),
+        Completion('with_prototype', TPL_FUNCTION, "Rules to prepend to each context."),
         # branching
-        ('branch_point', KIND_FUNCTION, "Name of the point to rewind to if a branch fails."),
-        ('branch', KIND_FUNCTION, "Push branches onto the stack."),
-        ('fail', KIND_FUNCTION, "Fail the current branch."),
+        Completion('branch_point', TPL_FUNCTION, "Name of the point to rewind to if a branch fails."),  # noqa: E501
+        Completion('branch', TPL_FUNCTION, "Push branches onto the stack."),
+        Completion('fail', TPL_FUNCTION, "Fail the current branch."),
         # embedding
-        ('embed', KIND_FUNCTION, "A context or syntax to embed."),
-        ('embed_scope', KIND_FUNCTION, "A scope to apply to the embedded syntax."),
-        ('escape', KIND_FUNCTION, "A pattern to denote the end of the embedded syntax."),
-        ('escape_captures', KIND_CAPTURUE, "Assigns scopes to the capture groups."),
+        Completion('embed', TPL_FUNCTION, "A context or syntax to embed."),
+        Completion('embed_scope', TPL_FUNCTION, "A scope to apply to the embedded syntax."),
+        Completion('escape', TPL_FUNCTION, "A pattern to denote the end of the embedded syntax."),
+        Completion('escape_captures', TPL_CAPTURUES, "Assigns scopes to the capture groups."),
         # including
-        ('include', KIND_FUNCTION, "Includes a context."),
-        ('apply_prototype', KIND_FUNCTION_TRUE, "Apply prototype of included syntax."),
-    ))
+        Completion('include', TPL_FUNCTION, "Includes a context."),
+        Completion('apply_prototype', TPL_FUNCTION_TRUE, "Apply prototype of included syntax."),
+    ])
 
     base_completions_contexts_version_1 = (
         base_completions_contexts
-        + format_static_completions(templates=(
-            ('pop', KIND_FUNCTION_TRUE, 'Pop context(s) from the stack.'),
-        ))
+        + format_static_completions([
+            Completion('pop', TPL_FUNCTION_TRUE, 'Pop context(s) from the stack.'),
+        ])
     )
 
     base_completions_contexts_version_2 = (
         base_completions_contexts
-        + format_static_completions(templates=(
-            ('pop', KIND_FUNCTION_NUMERIC, 'Pop context(s) from the stack.'),
-        ))
+        + format_static_completions([
+            Completion('pop', TPL_FUNCTION_NUMERIC, 'Pop context(s) from the stack.'),
+        ])
     )
 
     # These instance variables are for communicating
@@ -221,7 +260,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
              for r in self.view.find_by_selector("entity.name.function.context")],
             annotation="",
-            kind=KIND_CONTEXT,
+            kind=TPL_CONTEXT.kind,
         )
 
     def _complete_keyword(self, prefix, locations):
@@ -321,14 +360,14 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             return []
 
         self.base_suffix = base_suffix
-        return format_completions([(base_suffix, None)], "base suffix", KIND_SCOPE)
+        return format_completions([(base_suffix, None)], "base suffix", TPL_SCOPE.kind)
 
     def _complete_variable(self):
         return format_completions(
             [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
              for r in self.view.find_by_selector("entity.name.constant")],
             annotation="",
-            kind=KIND_VARIABLE,
+            kind=TPL_VARIABLE.kind,
         )
 
     def _complete_branch_point(self):
@@ -336,7 +375,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
              for r in self.view.find_by_selector("entity.name.label.branch-point")],
             annotation="",
-            kind=KIND_BRANCH,
+            kind=TPL_BRANCH.kind,
         )
 
     def _determine_version(self):
