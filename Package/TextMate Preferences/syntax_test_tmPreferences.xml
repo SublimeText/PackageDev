@@ -118,6 +118,89 @@
                 </dict>
             </array>
 
+            <key>indentationFoldingEnabled</key>
+<!--             ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
+            <false/>
+<!--         ^^^^^ entity.name.tag.localname.xml constant.language.boolean.plist -->
+
+            <key>scopeFoldingEnabled</key>
+<!--             ^^^^^^^^^^^^^^^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
+            <false/>
+<!--         ^^^^^ entity.name.tag.localname.xml constant.language.boolean.plist -->
+
+            <key>foldScopes</key>
+<!--             ^^^^^^^^^^ meta.inside-dict-key.plist keyword.other.foldScopes.tmPreferences -->
+            <array>
+                <dict>
+                        <key>begin<
+<!--                    ^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
+<!--                     ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                         ^^^^^ invalid.illegal.unexpected-text.plist -->
+<!--                              ^ punctuation.definition.tag.begin.xml -->
+                </dict>
+<!--            ^^^^^^^ meta.inside-array.plist meta.tag.xml - invalid -->
+            </array>
+<!--        ^^^^^^^^ meta.inside-dict.settings.tmPreferences meta.tag.xml - invalid -->
+
+            <key>foldScopes</key>
+            <array>
+                <dict>
+                        <key>begin</key>
+<!--                    ^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
+<!--                    ^^^^^ meta.tag.xml - meta.inside-dict-key -->
+<!--                     ^^^ entity.name.tag.localname.xml -->
+<!--                         ^^^^^ meta.inside-dict-key.plist -->
+<!--                              ^^^^^^ meta.tag.xml - meta.inside-dict-key -->
+<!--                                ^^^ entity.name.tag.localname.xml -->
+                </dict>
+<!--            ^^^^^^^ meta.inside-array.plist meta.tag.xml - invalid -->
+            </array>
+<!--        ^^^^^^^^ meta.inside-dict.settings.tmPreferences meta.tag.xml - invalid -->
+
+            <key>foldScopes</key>
+            <array>
+                <dict>
+                        <key>begin</key>
+<!--                    ^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
+<!--                    ^^^^^ meta.tag.xml - meta.inside-dict-key -->
+<!--                     ^^^ entity.name.tag.localname.xml -->
+<!--                         ^^^^^ meta.inside-dict-key.plist -->
+<!--                              ^^^^^^ meta.tag.xml - meta.inside-dict-key -->
+<!--                                ^^^ entity.name.tag.localname.xml -->
+                        <string>
+<!--                    ^^^^^^^^ meta.scope-name.tmPreferences meta.tag.xml -->
+                </dict>
+<!--           ^ invalid.illegal.missing-tag-end.xml -->
+<!--            ^^^^^^^ meta.inside-array.plist meta.tag.xml - invalid -->
+            </array>
+<!--        ^^^^^^^^ meta.inside-dict.settings.tmPreferences meta.tag.xml - invalid -->
+
+            <key>foldScopes</key>
+            <array>
+                <dict>
+                        <key>begin</key>
+<!--                    ^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
+<!--                    ^^^^^ meta.tag.xml - meta.inside-dict-key -->
+<!--                     ^^^ entity.name.tag.localname.xml -->
+<!--                         ^^^^^ meta.inside-dict-key.plist -->
+<!--                              ^^^^^^ meta.tag.xml - meta.inside-dict-key -->
+<!--                                ^^^ entity.name.tag.localname.xml -->
+                        <string>punctuation.section.group.begin</string>
+<!--                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences meta.scope-name.tmPreferences -->
+<!--                    ^^^^^^^^ meta.tag.xml -->
+<!--                            ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector -->
+<!--                                       ^ punctuation.separator.scope-segments.scope-selector -->
+<!--                                        ^^^^^^^ string.unquoted.scope-segment.scope-selector -->
+<!--                                               ^ punctuation.separator.scope-segments.scope-selector -->
+<!--                                                ^^^^^ string.unquoted.scope-segment.scope-selector -->
+<!--                                                     ^ punctuation.separator.scope-segments.scope-selector -->
+<!--                                                      ^^^^^ string.unquoted.scope-segment.scope-selector -->
+<!--                                                           ^^^^^^^^^ meta.tag.xml -->
+                </dict>
+<!--            ^^^^^^^ meta.inside-array.plist meta.tag.xml - invalid -->
+            </array>
+<!--        ^^^^^^^^ meta.inside-dict.settings.tmPreferences meta.tag.xml - invalid -->
+
             <key>preserveIndent</key>
 <!--             ^^^^^^^^^^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
             <false />
