@@ -126,7 +126,6 @@ def format_completions(items, annotation="", kind=sublime.KIND_AMBIGUOUS):
 
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
-    # noqa: E501
     base_completions_root = format_static_completions([
         # base keys
         Completion('name', TPL_HEADER_BASE, "The display name of the syntax."),
@@ -134,22 +133,47 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         Completion('version', TPL_HEADER_BASE, "The sublime-syntax version."),
         Completion('extends', TPL_HEADER_BASE, "The syntax which is to be extended."),
         Completion('name', TPL_HEADER_BASE, "The display name of the syntax."),
-        Completion('first_line_match', TPL_HEADER_BASE, "The pattern to identify a file by content."),  # noqa: E501
+        Completion(
+            "first_line_match",
+            TPL_HEADER_BASE,
+            "The pattern to identify a file by content.",
+        ),
+
         Completion('hidden', TPL_HEADER_TRUE, "Hide this syntax from the menu."),
         # dict keys
         Completion('variables', TPL_HEADER_DICT, 'The variables definitions.'),
         Completion('contexts', TPL_HEADER_DICT, 'The syntax contexts.'),
         # list keys
         Completion('file_extensions', TPL_HEADER_LIST, "The list of file extensions."),
-        Completion('hidden_file_extensions', TPL_HEADER_LIST, "The list of hidden file extensions.")
+        Completion(
+            'hidden_file_extensions',
+            TPL_HEADER_LIST,
+            "The list of hidden file extensions.",
+        ),
     ])
 
     base_completions_contexts = format_static_completions([
         # meta functions
-        Completion('meta_append', TPL_FUNCTION_TRUE, "Add rules to the end of the inherit context."),  # noqa: E501
-        Completion('meta_content_scope', TPL_FUNCTION, "A scope to apply to the content of a context."),  # noqa: E501
-        Completion('meta_include_prototype', TPL_FUNCTION_FALSE, "Flag to in-/exclude `prototype`"),  # noqa: E501
-        Completion('meta_prepend', TPL_FUNCTION_TRUE, "Add rules to the beginning of the inherit context."),  # noqa: E501
+        Completion(
+            'meta_append',
+            TPL_FUNCTION_TRUE,
+            "Add rules to the end of the inherit context.",
+        ),
+        Completion(
+            'meta_content_scope',
+            TPL_FUNCTION,
+            "A scope to apply to the content of a context.",
+        ),
+        Completion(
+            'meta_include_prototype',
+            TPL_FUNCTION_FALSE,
+            "Flag to in-/exclude `prototype`",
+        ),
+        Completion(
+            'meta_prepend',
+            TPL_FUNCTION_TRUE,
+            "Add rules to the beginning of the inherit context.",
+        ),
         Completion('meta_scope', TPL_FUNCTION, "A scope to apply to the full context."),
         Completion('clear_scopes', TPL_FUNCTION, "Clear meta scopes."),
         # matching tokens
@@ -162,7 +186,11 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         Completion('set', TPL_FUNCTION, "Set a context onto the stack."),
         Completion('with_prototype', TPL_FUNCTION, "Rules to prepend to each context."),
         # branching
-        Completion('branch_point', TPL_FUNCTION, "Name of the point to rewind to if a branch fails."),  # noqa: E501
+        Completion(
+            'branch_point',
+            TPL_FUNCTION,
+            "Name of the point to rewind to if a branch fails.",
+        ),
         Completion('branch', TPL_FUNCTION, "Push branches onto the stack."),
         Completion('fail', TPL_FUNCTION, "Fail the current branch."),
         # embedding
