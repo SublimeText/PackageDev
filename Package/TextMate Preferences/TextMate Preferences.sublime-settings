@@ -1,4 +1,4 @@
 {
     "extensions": ["tmPreferences"],
-    "auto_complete_selector": "meta.tag - punctuation.definition.tag.begin.xml | meta.settings.key | meta.inside-value.string.shellVariable-name | meta.main.key | meta.shellVariable.name | meta.inside-dict-settings | meta.inside-dict.settings.tmPreferences | meta.inside-dict - meta.inside-value - meta.inside-dict-key",
+    "auto_complete_selector": "text.xml.plist.textmate.preferences - comment - string - meta.inside-value, meta.shellVariable.name, meta.string.selector",
 }
