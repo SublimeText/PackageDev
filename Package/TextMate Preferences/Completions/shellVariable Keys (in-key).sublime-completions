@@ -1,5 +1,5 @@
 {
-	"scope": "meta.shellVariable-key-wrapper.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
+	"scope": "meta.shellVariable.key.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
 
 	"completions": [
 		{

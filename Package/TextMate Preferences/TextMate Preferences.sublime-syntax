@@ -89,7 +89,7 @@ contexts:
     - include: whitespace-or-tags
 
   inside-main-dict-key-tag:
-    - meta_scope: meta.main-key-wrapper.tmPreferences meta.tag.xml
+    - meta_scope: meta.main.key.tmPreferences meta.tag.xml
     - match: (/?)(>)
       captures:
         1: invalid.illegal.self-closing.xml
@@ -98,7 +98,7 @@ contexts:
     - include: tag-end-missing-pop
 
   inside-main-dict-key:
-    - meta_scope: meta.main-key-wrapper.tmPreferences
+    - meta_scope: meta.main.key.tmPreferences
     - meta_content_scope: meta.inside-dict-key.plist
     - include: comments
     - match: name\b
@@ -133,7 +133,7 @@ contexts:
 
   main-dict-key-meta:
     - meta_include_prototype: false
-    - meta_content_scope: meta.main-key-wrapper.tmPreferences
+    - meta_content_scope: meta.main.key.tmPreferences
     - include: immediately-pop
 
 ###[ SETTINGS DICT ]###########################################################
@@ -167,7 +167,7 @@ contexts:
     - include: whitespace-or-tags
 
   inside-settings-dict-key-tag:
-    - meta_scope: meta.settings-key-wrapper.tmPreferences meta.tag.xml
+    - meta_scope: meta.settings.key.tmPreferences meta.tag.xml
     - match: (/?)(>)
       captures:
         1: invalid.illegal.self-closing.xml
@@ -176,7 +176,7 @@ contexts:
     - include: tag-end-missing-pop
 
   inside-settings-dict-key:
-    - meta_scope: meta.settings-key-wrapper.tmPreferences
+    - meta_scope: meta.settings.key.tmPreferences
     - meta_content_scope: meta.inside-dict-key.plist
     - include: comments
     - match: foldScopes\b
@@ -229,7 +229,7 @@ contexts:
 
   settings-dict-key-meta:
     - meta_include_prototype: false
-    - meta_content_scope: meta.settings-key-wrapper.tmPreferences
+    - meta_content_scope: meta.settings.key.tmPreferences
     - include: immediately-pop
 
 ###[ SETTINGS / FOLDSCOPES ARRAY ]#############################################
@@ -283,7 +283,7 @@ contexts:
     - include: whitespace-or-tags
 
   inside-fold-scopes-dict-key-tag:
-    - meta_scope: meta.foldScopes-key-wrapper.tmPreferences meta.tag.xml
+    - meta_scope: meta.foldScopes.key.tmPreferences meta.tag.xml
     - match: (/?)(>)
       captures:
         1: invalid.illegal.self-closing.xml
@@ -292,7 +292,7 @@ contexts:
     - include: tag-end-missing-pop
 
   inside-fold-scopes-dict-key:
-    - meta_scope: meta.foldScopes-key-wrapper.tmPreferences
+    - meta_scope: meta.foldScopes.key.tmPreferences
     - meta_content_scope: meta.inside-dict-key.plist
     - match: (?:begin|end)\b
       scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
@@ -314,7 +314,7 @@ contexts:
 
   fold-scopes-dict-key-meta:
     - meta_include_prototype: false
-    - meta_content_scope: meta.foldScopes-key-wrapper.tmPreferences
+    - meta_content_scope: meta.foldScopes.key.tmPreferences
     - include: immediately-pop
 
 ###[ SETTINGS / SHELLVARIABLES ARRAY ]#########################################
@@ -368,7 +368,7 @@ contexts:
     - include: whitespace-or-tags
 
   inside-shell-variables-dict-key-tag:
-    - meta_scope: meta.shellVariable-key-wrapper.tmPreferences meta.tag.xml
+    - meta_scope: meta.shellVariable.key.tmPreferences meta.tag.xml
     - match: (/?)(>)
       captures:
         1: invalid.illegal.self-closing.xml
@@ -377,7 +377,7 @@ contexts:
     - include: tag-end-missing-pop
 
   inside-shell-variables-dict-key:
-    - meta_scope: meta.shellVariable-key-wrapper.tmPreferences
+    - meta_scope: meta.shellVariable.key.tmPreferences
     - meta_content_scope: meta.inside-dict-key.plist
     - include: comments
     - match: name\b
@@ -400,7 +400,7 @@ contexts:
 
   shell-variables-dict-key-meta:
     - meta_include_prototype: false
-    - meta_content_scope: meta.shellVariable-key-wrapper.tmPreferences
+    - meta_content_scope: meta.shellVariable.key.tmPreferences
     - include: immediately-pop
 
   expect-shell-variable-name:

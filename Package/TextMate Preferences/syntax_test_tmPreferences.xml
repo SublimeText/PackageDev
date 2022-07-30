@@ -6,23 +6,23 @@
      <dict>
         <key>name</key>
 <!--   ^^^^^^^^^^^^^^^^^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences -->
-<!--   ^ - meta.main-key-wrapper - meta.tag -->
-<!--    ^^^^^ meta.main-key-wrapper.tmPreferences meta.tag.xml -->
-<!--         ^^^^ meta.main-key-wrapper.tmPreferences meta.inside-dict-key.plist keyword.other.name.tmPreferences -->
-<!--             ^^^^^^ meta.main-key-wrapper.tmPreferences meta.tag.xml -->
-<!--                   ^ - meta.main-key-wrapper - meta.tag -->
+<!--   ^ - meta.main.key - meta.tag -->
+<!--    ^^^^^ meta.main.key.tmPreferences meta.tag.xml -->
+<!--         ^^^^ meta.main.key.tmPreferences meta.inside-dict-key.plist keyword.other.name.tmPreferences -->
+<!--             ^^^^^^ meta.main.key.tmPreferences meta.tag.xml -->
+<!--                   ^ - meta.main.key - meta.tag -->
         <string>useless name that ST ignores</string>
 <!--    ^^^^^^^^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences -->
 
         <key>
-<!--    ^^^^^ meta.main-key-wrapper.tmPreferences meta.tag.xml - meta.inside-dict-key -->
-<!--         ^ meta.main-key-wrapper.tmPreferences meta.inside-dict-key.plist - meta.tag -->
+<!--    ^^^^^ meta.main.key.tmPreferences meta.tag.xml - meta.inside-dict-key -->
+<!--         ^ meta.main.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
                 name
-<!--            ^^^^ meta.main-key-wrapper.tmPreferences meta.inside-dict-key.plist keyword.other.name.tmPreferences -->
+<!--            ^^^^ meta.main.key.tmPreferences meta.inside-dict-key.plist keyword.other.name.tmPreferences -->
         </key>
-<!--   ^ meta.main-key-wrapper.tmPreferences meta.inside-dict-key.plist - meta.tag -->
-<!--    ^^^^^^ meta.main-key-wrapper.tmPreferences meta.tag.xml - meta.inside-dict-key -->
-<!--          ^ - meta.main-key-wrapper - meta.tag -->
+<!--   ^ meta.main.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
+<!--    ^^^^^^ meta.main.key.tmPreferences meta.tag.xml - meta.inside-dict-key -->
+<!--          ^ - meta.main.key - meta.tag -->
 
         <string>useless name that ST ignores</string>
 <!--    ^^^^^^^^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences -->
@@ -70,26 +70,26 @@
 <!--          ^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences meta.inside-dict.settings.tmPreferences -->
             <key>
 <!--       ^^^^^^^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences meta.inside-dict.settings.tmPreferences -->
-<!--        ^^^^^ meta.settings-key-wrapper.tmPreferences meta.tag.xml - meta.inside-dict-key -->
-<!--             ^ meta.settings-key-wrapper.tmPreferences meta.inside-dict-key.plist - meta.tag -->
+<!--        ^^^^^ meta.settings.key.tmPreferences meta.tag.xml - meta.inside-dict-key -->
+<!--             ^ meta.settings.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
                 shellVariables
-<!--            ^^^^^^^^^^^^^^ meta.settings-key-wrapper.tmPreferences meta.inside-dict-key.plist keyword.other.shellVariables.tmPreferences -->
+<!--            ^^^^^^^^^^^^^^ meta.settings.key.tmPreferences meta.inside-dict-key.plist keyword.other.shellVariables.tmPreferences -->
             </key>
 <!--       ^^^^^^^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences meta.inside-dict.settings.tmPreferences -->
-<!--       ^ meta.settings-key-wrapper.tmPreferences meta.inside-dict-key.plist - meta.tag -->
-<!--        ^^^^^ meta.settings-key-wrapper.tmPreferences meta.tag.xml - meta.inside-dict-key -->
+<!--       ^ meta.settings.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
+<!--        ^^^^^ meta.settings.key.tmPreferences meta.tag.xml - meta.inside-dict-key -->
             <array>
 <!--               ^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences meta.inside-dict.settings.tmPreferences meta.inside-array.shellVariables.tmPreferences -->
                 <dict>
 <!--                  ^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences meta.inside-dict.settings.tmPreferences meta.inside-array.shellVariables.tmPreferences meta.inside-dict.shellVariables -->
                     <key>
-<!--                ^^^^^ meta.shellVariable-key-wrapper.tmPreferences meta.tag.xml -->
-<!--                     ^ meta.shellVariable-key-wrapper.tmPreferences meta.inside-dict-key.plist - meta.tag -->
+<!--                ^^^^^ meta.shellVariable.key.tmPreferences meta.tag.xml -->
+<!--                     ^ meta.shellVariable.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
                         name
-<!--                    ^^^^ meta.shellVariable-key-wrapper.tmPreferences meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
+<!--                    ^^^^ meta.shellVariable.key.tmPreferences meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
                     </key>
-<!--               ^ meta.shellVariable-key-wrapper.tmPreferences meta.inside-dict-key.plist - meta.tag -->
-<!--                ^^^^^^ meta.shellVariable-key-wrapper.tmPreferences meta.tag.xml -->
+<!--               ^ meta.shellVariable.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
+<!--                ^^^^^^ meta.shellVariable.key.tmPreferences meta.tag.xml -->
                     <string>
 <!--                ^^^^^^^^ meta.shellVariable-name.wrapper.tmPreferences meta.tag.xml - meta.inside-value.string -->
 <!--                        ^ meta.shellVariable-name.wrapper.tmPreferences meta.inside-value.string.plist - meta.tag -->
