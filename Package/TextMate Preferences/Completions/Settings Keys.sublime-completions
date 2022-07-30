@@ -64,17 +64,17 @@
 		},
 		{
 			"trigger": "indentParens",
-			"contents": "<key>indentParens</key>\n<string>$1</string>",
+			"contents": "<key>indentParens</key>\n<true/>",
 			"kind": ["snippet", "s", "setting"],
 		},
 		{
 			"trigger": "indentSquareBrackets",
-			"contents": "<key>indentSquareBrackets</key>\n<string>$1</string>",
+			"contents": "<key>indentSquareBrackets</key>\n<true/>",
 			"kind": ["snippet", "s", "setting"],
 		},
 		{
 			"trigger": "preserveIndent",
-			"contents": "<key>preserveIndent</key>\n<string>$1</string>",
+			"contents": "<key>preserveIndent</key>\n<true/>",
 			"kind": ["snippet", "s", "setting"],
 		},
 		{
