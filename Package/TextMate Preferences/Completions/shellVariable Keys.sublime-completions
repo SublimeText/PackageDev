@@ -1,0 +1,18 @@
+{
+	"scope": "meta.inside-dict.shellVariables.tmPreferences - meta.inside-dict-key - meta.inside-value - meta.tag - comment",
+
+	"completions": [
+		{
+			"trigger": "name",
+			"contents": "<key>name</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+			"details": "Shell variable's name",
+		},
+		{
+			"trigger": "value",
+			"contents": "<key>value</key>\n<string>$1</string>",
+			"kind": ["snippet", "s", "setting"],
+			"details": "Shell variable's value",
+		},
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"scope": "meta.shellVariable-key-wrapper.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
+
+	"completions": [
+		{
+			"trigger": "name",
+			"kind": ["keyword", "k", "setting"],
+			"details": "Shell variable's name",
+		},
+		{
+			"trigger": "value",
+			"kind": ["keyword", "k", "setting"],
+			"details": "Shell variable's value",
+		},
+	]
+}

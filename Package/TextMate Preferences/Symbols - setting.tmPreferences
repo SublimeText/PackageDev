@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>text.xml.plist.textmate.preferences entity.name.setting</string>
+	<string>text.xml.plist.textmate.preferences entity.name.constant.setting</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

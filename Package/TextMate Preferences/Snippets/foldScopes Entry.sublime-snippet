@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[<dict>
+	<key>begin</key>
+	<string>$1</string>
+	<key>end</key>
+	<string>$2</string>
+	<key>excludeTrailingNewlines</key>
+	<${3:false}/>
+</dict>]]></content>
+	<tabTrigger>fold</tabTrigger>
+	<scope>meta.inside-array.foldScopes.tmPreferences - (meta.inside-dict.foldScopes | comment | meta.tag)</scope>
+</snippet>

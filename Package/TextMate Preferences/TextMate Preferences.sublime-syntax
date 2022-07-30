@@ -216,7 +216,7 @@ contexts:
         - settings-dict-key-meta
         - expect-key-end
     - match: '{{string_settings}}\b'
-      scope: meta.inside-dict-key.plist entity.name.setting.tmPreferences
+      scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
       set:
         - expect-string
         - settings-dict-key-meta

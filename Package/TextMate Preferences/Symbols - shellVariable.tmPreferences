@@ -2,14 +2,14 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>entity.name.shellVariable.tmPreferences</string>
+	<string>entity.name.constant.shellVariable.tmPreferences</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string><![CDATA[
-		s/^/   /; # indent ShellVariables
+		s/^/  /; # indent ShellVariables
 		]]></string>
 	</dict>
 </dict>
