@@ -412,14 +412,14 @@ contexts:
     - include: expect-value-end
 
   shell-variable-name-tag:
-    - meta_scope: meta.shellVariable-name.wrapper.tmPreferences meta.tag.xml
+    - meta_scope: meta.shellVariable.name.tmPreferences meta.tag.xml
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-shell-variable-name
     - include: tag-end-self-closing
 
   inside-shell-variable-name:
-    - meta_scope: meta.shellVariable-name.wrapper.tmPreferences
+    - meta_scope: meta.shellVariable.name.tmPreferences
     - meta_content_scope: meta.inside-value.string.plist
     - include: string-end
     - include: value-content

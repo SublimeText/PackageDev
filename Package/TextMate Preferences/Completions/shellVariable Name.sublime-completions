@@ -1,5 +1,5 @@
 {
-    "scope": "meta.shellVariable-name.wrapper.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
+    "scope": "meta.shellVariable.name.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
     "completions": [
         {
             "trigger": "TM_COMMENT_DISABLE_INDENT",

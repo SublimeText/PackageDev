@@ -91,13 +91,13 @@
 <!--               ^ meta.shellVariable.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
 <!--                ^^^^^^ meta.shellVariable.key.tmPreferences meta.tag.xml -->
                     <string>
-<!--                ^^^^^^^^ meta.shellVariable-name.wrapper.tmPreferences meta.tag.xml - meta.inside-value.string -->
-<!--                        ^ meta.shellVariable-name.wrapper.tmPreferences meta.inside-value.string.plist - meta.tag -->
+<!--                ^^^^^^^^ meta.shellVariable.name.tmPreferences meta.tag.xml - meta.inside-value.string -->
+<!--                        ^ meta.shellVariable.name.tmPreferences meta.inside-value.string.plist - meta.tag -->
                         TM_COMMENT_START
-<!--                    ^^^^^^^^^^^^^^^^ meta.shellVariable-name.wrapper.tmPreferences meta.inside-value.string.plist support.constant.shellVariable.tmPreferences - meta.tag -->
+<!--                    ^^^^^^^^^^^^^^^^ meta.shellVariable.name.tmPreferences meta.inside-value.string.plist support.constant.shellVariable.tmPreferences - meta.tag -->
                     </string>
-<!--               ^ meta.shellVariable-name.wrapper.tmPreferences meta.inside-value.string.plist - meta.tag -->
-<!--                ^^^^^^^^^ meta.shellVariable-name.wrapper.tmPreferences meta.tag.xml - meta.inside-value.string -->
+<!--               ^ meta.shellVariable.name.tmPreferences meta.inside-value.string.plist - meta.tag -->
+<!--                ^^^^^^^^^ meta.shellVariable.name.tmPreferences meta.tag.xml - meta.inside-value.string -->
                     <key>value</key>
                     <string>TEST </string>
                 </dict>
