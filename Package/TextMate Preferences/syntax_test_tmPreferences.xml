@@ -183,11 +183,11 @@
 <!--             ^^^^^^^^^^ meta.inside-dict-key.plist keyword.other.foldScopes.tmPreferences -->
             <array>
                 <dict>
-                        <key>begin<
+                        <key>begin</
 <!--                    ^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
 <!--                     ^^^ entity.name.tag.localname.xml -->
 <!--                         ^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
-<!--                              ^ punctuation.definition.tag.begin.xml -->
+<!--                              ^^ invalid - meta.tag - punctuation.definition.tag -->
                 </dict>
 <!--            ^^^^^^^ meta.inside-array.foldScopes.tmPreferences meta.tag.xml - invalid -->
             </array>

@@ -368,6 +368,7 @@ contexts:
   whitespace-or-tags:
     - include: comments
     - include: unknown-tags
+    - include: should-be-entity
     - include: illegal-text
 
   illegal-text:
@@ -375,7 +376,7 @@ contexts:
       scope: invalid.illegal.unexpected-text.plist
 
   unknown-tags:
-    - match: (</?)([^\s<>]*)
+    - match: (</?)([[:alpha:]][^\s<>]*)
       captures:
         1: punctuation.definition.tag.begin.xml
         2: invalid.illegal.unknown-or-unexpected-tag.plist
