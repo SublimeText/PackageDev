@@ -6,25 +6,25 @@
 			"trigger": "name",
 			"contents": "<key>name</key>\n<string>$1</string>",
 			"details": "Name (redundant)",
-			"kind": ["keyword", "k", "main"],
+			"kind": ["snippet", "s", "main"],
 		},
 		{
 			"trigger": "scope",
 			"contents": "<key>scope</key>\n<string>$1</string>",
 			"details": "Scope selector",
-			"kind": ["keyword", "k", "main"],
+			"kind": ["snippet", "s", "main"],
 		},
 		{
 			"trigger": "settings",
 			"contents": "<key>settings</key>\n<dict>\n\t$0\n</dict>",
 			"details": "Settings section",
-			"kind": ["keyword", "k", "main"],
+			"kind": ["snippet", "s", "main"],
 		},
 		{
 			"trigger": "uuid",
 			"contents": "<key>uuid</key>\n<string>$1</string>",
 			"details": "UUID (redundant)",
-			"kind": ["keyword", "k", "main"],
+			"kind": ["snippet", "s", "main"],
 		},
 	]
 }
