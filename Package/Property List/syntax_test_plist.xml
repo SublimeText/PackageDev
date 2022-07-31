@@ -45,7 +45,7 @@
 <!--                          ^^^^^ meta.inside-value.string.plist constant.character.entity.named.xml -->
 <!--                                ^ invalid.illegal.bad-ampersand.xml -->
 <!--                                         ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
-<!--                                              ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                                               ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
 <!--                                                     ^ - invalid.illegal.unknown-or-unexpected-tag.plist -->
         <key>abc</key><string><![CDATA[&amp; & hello <key></key></string>]]>test&amp;<![CDATA[cool]]></string>
 <!--                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
@@ -60,13 +60,13 @@
 <!--                                                                                              ^^^ punctuation.definition.tag.end.xml -->
 <!--                                                                                                 ^^^^^^^^^ meta.tag.xml - invalid -->
         <string>test</string>
-<!--    ^ punctuation.definition.tag.begin.xml -->
-<!--     ^^^^^^  invalid.illegal.unknown-or-unexpected-tag.plist -->
-<!--           ^ punctuation.definition.tag.end.xml -->
+<!--    ^ punctuation.definition.tag.begin.xml - invalid -->
+<!--     ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--           ^ punctuation.definition.tag.end.xml - invalid -->
 <!--            ^^^^ invalid.illegal.unexpected-text.plist -->
-<!--                ^ punctuation.definition.tag.begin.xml -->
-<!--                 ^^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
-<!--                        ^ punctuation.definition.tag.end.xml -->
+<!--                ^^ punctuation.definition.tag.begin.xml - invalid -->
+<!--                  ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                        ^ punctuation.definition.tag.end.xml - invalid -->
         <key></key><integer>
 <!--                ^^^^^^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
             +123 456
@@ -74,8 +74,10 @@
 <!--             ^^^ meta.inside-value.integer.plist invalid.illegal.unexpected-text.plist -->
         </integer>
 <!--      ^^^^^^^ meta.tag - invalid -->
-        <key>array</array>
-<!--               ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+        <key>array</array  >
+<!--              ^^ - invalid -->
+<!--                ^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                     ^^ - invalid -->
         </key><array />
 <!--    ^^^^^^^^^^^^^^^ meta.tag.xml -->
 <!--           ^^^^^ entity.name.tag.localname.xml - invalid -->

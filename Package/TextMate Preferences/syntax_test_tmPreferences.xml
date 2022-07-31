@@ -146,16 +146,16 @@
 <!--              ^ - invalid -->
                 <string></string>
 <!--             ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
-<!--                     ^^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                      ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
                 <dict>
                     <string>fg</string>
 <!--                 ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
 <!--                        ^^ invalid.illegal.unexpected-text.plist -->
-<!--                           ^^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                            ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
                     <test>fg</test>
 <!--                 ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
 <!--                      ^^ invalid.illegal.unexpected-text.plist -->
-<!--                         ^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                          ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
                     <key>example</key>
 <!--                     ^^^^^^^ meta.inside-dict-key.plist - entity -->
                     <string>&amp;</string>

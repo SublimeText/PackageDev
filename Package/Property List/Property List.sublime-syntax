@@ -378,13 +378,14 @@ contexts:
       scope: invalid.illegal.unexpected-text.plist
 
   unknown-tags:
-    - match: <
-      scope: punctuation.definition.tag.begin.xml
-      push: inside-unknown-tag
+    - match: (</?)([^\s<>]*)
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: invalid.illegal.unknown-or-unexpected-tag.plist
+      push: inside-tag
 
-  inside-unknown-tag:
+  inside-tag:
     - meta_scope: meta.tag.xml
-    - meta_content_scope: invalid.illegal.unknown-or-unexpected-tag.plist
     - include: tag-end
 
   tag-end:
