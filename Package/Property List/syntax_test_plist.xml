@@ -109,6 +109,23 @@ ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=</data>
         </array>
     </dict>
 <!--  ^^^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->
+
+    <dict
+       <key name </key
+<!--  ^ meta.tag.xml invalid.illegal.missing-tag-end.xml -->
+<!--   ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml -->
+       <string>value</string>
+
+       <key name </key
+       <string value </string
+<!--  ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml invalid.illegal.missing-tag-end.xml -->
+<!--   ^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml -->
+
+       <key name </key
+       <string value </string
+    </dict
+   <!-- <- meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml invalid.illegal.missing-tag-end.xml -->
+
 </plist>
 <!-- ^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
 test

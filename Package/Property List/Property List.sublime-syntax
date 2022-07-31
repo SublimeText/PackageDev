@@ -72,13 +72,11 @@ contexts:
     - include: any-elements
 
   plist-end:
-    - match: (</)(plist)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(plist){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      set: whitespace-or-tags
+      set: [whitespace-or-tags, inside-tag]
 
   any-elements:
     - include: comments
@@ -108,6 +106,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-array
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-array
     - include: tag-end-self-closing
 
   inside-array:
@@ -116,13 +117,11 @@ contexts:
     - include: any-elements
 
   array-end:
-    - match: (</)(array)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(array){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: 1
+      set: inside-tag
 
   dict:
     - match: (<)(dict){{tag_name_break}}
@@ -136,6 +135,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-dict
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-dict
     - include: tag-end-self-closing
 
   inside-dict:
@@ -145,13 +147,11 @@ contexts:
     - include: whitespace-or-tags
 
   dict-end:
-    - match: (</)(dict)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(dict){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: 1
+      set: inside-tag
 
   dict-keys:
     - match: (<)(key){{tag_name_break}}
@@ -167,7 +167,9 @@ contexts:
         1: invalid.illegal.self-closing.xml
         2: punctuation.definition.tag.end.xml
       set: [any-element, inside-dict-key]
-    - include: tag-end-missing-pop
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: [any-element, inside-dict-key]
 
   inside-dict-key:
     - meta_content_scope: meta.inside-dict-key.plist
@@ -175,13 +177,11 @@ contexts:
     - include: value-content
 
   key-end:
-    - match: (</)(key)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(key){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: 1
+      set: inside-tag
 
   boolean:
     - match: (<)(true|false){{tag_name_break}}
@@ -193,6 +193,7 @@ contexts:
   inside-boolean:
     - meta_scope: meta.tag.xml
     - include: tag-end-self-closing
+    - include: tag-end
 
   data:
     - match: (<)(data){{tag_name_break}}
@@ -206,6 +207,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-data
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-data
     - include: tag-end-self-closing
 
   inside-data:
@@ -214,13 +218,11 @@ contexts:
     - include: value-content # TODO: expect base-64 only
 
   data-end:
-    - match: (</)(data)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(data){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: 1
+      set: inside-tag
 
   date:
     - match: (<)(date){{tag_name_break}}
@@ -244,13 +246,11 @@ contexts:
     - include: value-content # TODO: ISO 8601 format date i.e. "2007-04-05T14:30Z" or "2007-04-05T12:30-02:00"
 
   date-end:
-    - match: (</)(date)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(date){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: 1
+      set: inside-tag
 
   number:
     - include: integer
@@ -276,13 +276,11 @@ contexts:
 
   inside-integer:
     - meta_content_scope: meta.inside-value.integer.plist
-    - match: (</)(integer)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(integer){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: 1
+      set: inside-tag
     - match: '[-+]?\d+'
       scope: constant.numeric.plist
       push: after-number
@@ -309,13 +307,11 @@ contexts:
 
   inside-real:
     - meta_content_scope: meta.inside-value.real.plist
-    - match: (</)(real)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(real){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: 1
+      set: inside-tag
     - match: '[-+]?\d+(\.\d*)?(E[-+]\d+)?'
       scope: constant.numeric.plist
       push: after-number
@@ -338,6 +334,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-string
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-string
     - include: tag-end-self-closing
 
   inside-string:
@@ -346,13 +345,11 @@ contexts:
     - include: value-content
 
   string-end:
-    - match: (</)(string)\s*(>)
-      scope: meta.tag.xml
+    - match: (</)(string){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-        3: punctuation.definition.tag.end.xml
-      pop: 1
+      set: inside-tag
 
   value-content:
     - include: cdata
@@ -387,18 +384,18 @@ contexts:
   inside-tag:
     - meta_scope: meta.tag.xml
     - include: tag-end
+    - include: tag-end-self-closing
+    - include: tag-end-missing-pop
 
   tag-end:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       pop: 1
-    - include: tag-end-missing-pop
 
   tag-end-self-closing:
     - match: />
       scope: punctuation.definition.tag.end.xml
       pop: 1
-    - include: tag-end-missing-pop
 
   tag-end-missing-pop:
     # pop, if the next opening tag is following, while scoping the

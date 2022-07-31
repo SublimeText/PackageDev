@@ -73,6 +73,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-main-dict
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-main-dict
     - include: tag-end-self-closing
 
   inside-main-dict:
@@ -95,7 +98,9 @@ contexts:
         1: invalid.illegal.self-closing.xml
         2: punctuation.definition.tag.end.xml
       set: inside-main-dict-key
-    - include: tag-end-missing-pop
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-main-dict-key
 
   inside-main-dict-key:
     - meta_scope: meta.main.key.tmPreferences
@@ -151,6 +156,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-settings-dict
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-settings-dict
     - include: tag-end-self-closing
 
   inside-settings-dict:
@@ -173,7 +181,9 @@ contexts:
         1: invalid.illegal.self-closing.xml
         2: punctuation.definition.tag.end.xml
       set: inside-settings-dict-key
-    - include: tag-end-missing-pop
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-settings-dict-key
 
   inside-settings-dict-key:
     - meta_scope: meta.settings.key.tmPreferences
@@ -247,6 +257,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-fold-scopes-array
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-fold-scopes-array
     - include: tag-end-self-closing
 
   inside-fold-scopes-array:
@@ -266,6 +279,9 @@ contexts:
     - meta_scope: meta.tag.xml
     - match: '>'
       scope: punctuation.definition.tag.end.xml
+      set: inside-fold-scopes-dict
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
       set: inside-fold-scopes-dict
     - include: tag-end-self-closing
 
@@ -289,7 +305,9 @@ contexts:
         1: invalid.illegal.self-closing.xml
         2: punctuation.definition.tag.end.xml
       set: inside-fold-scopes-dict-key
-    - include: tag-end-missing-pop
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-fold-scopes-dict-key
 
   inside-fold-scopes-dict-key:
     - meta_scope: meta.foldScopes.key.tmPreferences
@@ -332,6 +350,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-shell-variables-array
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-shell-variables-array
     - include: tag-end-self-closing
 
   inside-shell-variables-array:
@@ -351,6 +372,9 @@ contexts:
     - meta_scope: meta.tag.xml
     - match: '>'
       scope: punctuation.definition.tag.end.xml
+      set: inside-shell-variables-dict
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
       set: inside-shell-variables-dict
     - include: tag-end-self-closing
 
@@ -374,7 +398,9 @@ contexts:
         1: invalid.illegal.self-closing.xml
         2: punctuation.definition.tag.end.xml
       set: inside-shell-variables-dict-key
-    - include: tag-end-missing-pop
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-shell-variables-dict-key
 
   inside-shell-variables-dict-key:
     - meta_scope: meta.shellVariable.key.tmPreferences
@@ -383,7 +409,7 @@ contexts:
     - match: name\b
       scope: meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences
       set:
-        - expect-shell-variable-name
+        - expect-shell-variable-name-value
         - shell-variables-dict-key-meta
         - expect-key-end
     - match: value\b
@@ -403,23 +429,32 @@ contexts:
     - meta_content_scope: meta.shellVariable.key.tmPreferences
     - include: immediately-pop
 
-  expect-shell-variable-name:
+  expect-shell-variable-name-value:
     - match: (<)(string){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.localname.xml
-      set: shell-variable-name-tag
+      set:
+        - shell-variables-name-value-meta
+        - shell-variable-name-value-tag
     - include: expect-value-end
 
-  shell-variable-name-tag:
-    - meta_scope: meta.shellVariable.name.tmPreferences meta.tag.xml
+  shell-variables-name-value-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.shellVariable.name.tmPreferences
+    - include: immediately-pop
+
+  shell-variable-name-value-tag:
+    - meta_scope: meta.tag.xml
     - match: '>'
       scope: punctuation.definition.tag.end.xml
-      set: inside-shell-variable-name
+      set: inside-shell-variable-name-value
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-shell-variable-name-value
     - include: tag-end-self-closing
 
-  inside-shell-variable-name:
-    - meta_scope: meta.shellVariable.name.tmPreferences
+  inside-shell-variable-name-value:
     - meta_content_scope: meta.inside-value.string.plist
     - include: string-end
     - include: value-content
@@ -453,7 +488,9 @@ contexts:
         1: invalid.illegal.self-closing.xml
         2: punctuation.definition.tag.end.xml
       set: inside-integer-string
-    - include: tag-end-missing-pop
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-integer-string
 
   inside-integer-string:
     - meta_content_scope: meta.inside-value.string.plist
@@ -479,6 +516,9 @@ contexts:
     - meta_scope: meta.tag.xml
     - match: '>'
       scope: punctuation.definition.tag.end.xml
+      set: inside-scope-string
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
       set: inside-scope-string
     - include: tag-end-self-closing
 
@@ -538,6 +578,9 @@ contexts:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
       set: inside-regexp-string
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
+      set: inside-regexp-string
     - include: tag-end-self-closing
 
   inside-regexp-string:
@@ -584,6 +627,9 @@ contexts:
     - meta_scope: meta.tag.xml
     - match: '>'
       scope: punctuation.definition.tag.end.xml
+      set: inside-transformation-string
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
       set: inside-transformation-string
     - include: tag-end-self-closing
 
@@ -651,6 +697,9 @@ contexts:
     - meta_scope: meta.tag.xml
     - match: '>'
       scope: punctuation.definition.tag.end.xml
+      set: [inside-string-value, maybe-comments]
+    - match: \s?(?=<)
+      scope: invalid.illegal.missing-tag-end.xml
       set: [inside-string-value, maybe-comments]
     - include: tag-end-self-closing
 
