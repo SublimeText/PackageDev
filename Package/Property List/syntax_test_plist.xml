@@ -1,14 +1,14 @@
 <!-- SYNTAX TEST "Packages/PackageDev/Package/Property List/Property List.sublime-syntax" -->
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
-     <!DOCTYPE plist PUBLIC "plist" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype.xml -->
+     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype.xml -->
 <!-- ^^ punctuation.definition.tag.begin.xml -->
 <!--   ^^^^^^^ keyword.declaration.doctype.xml -->
 <!--           ^^^^^ variable.other.documentroot.localname.xml -->
 <!--                 ^^^^^^ storage.type.external-content.xml -->
-<!--                        ^^^^^^^ meta.string.xml string.quoted.double.xml -->
-<!--                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.xml string.quoted.double.xml -->
-<!--                                                                                ^ punctuation.definition.tag.end.xml -->
+<!--                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.xml string.quoted.double.xml -->
+<!--                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.xml string.quoted.double.xml -->
+<!--                                                                                                      ^ punctuation.definition.tag.end.xml -->
      <plist version="1.0">
 <!-- ^^^^^^^^^^^^^^^^^^^^^ meta.tag.xml -->
 <!--  ^^^^^ entity.name.tag.localname.xml -->

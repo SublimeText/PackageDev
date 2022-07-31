@@ -1,9 +1,10 @@
 <snippet>
 	<content><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 $0
 </plist>
 ]]></content>
 	<tabTrigger>plist</tabTrigger>
-	<scope>text.xml.plist - text.xml.plist.textmate.preferences - meta.inside-plist - meta.tag</scope>
+	<scope>text.xml.plist - text.xml.plist.textmate.preferences - text.xml meta - comment - string</scope>
 </snippet>

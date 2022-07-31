@@ -7,5 +7,5 @@
 </plist>
 ]]></content>
 	<tabTrigger>plist</tabTrigger>
-	<scope>text.xml.plist.textmate.preferences - meta.inside-plist - meta.tag</scope>
+	<scope>text.xml.plist.textmate.preferences - text.xml meta - comment - string</scope>
 </snippet>
