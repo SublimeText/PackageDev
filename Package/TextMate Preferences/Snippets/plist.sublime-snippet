@@ -7,5 +7,5 @@
 </plist>
 ]]></content>
 	<tabTrigger>plist</tabTrigger>
-	<scope>text.xml.plist.textmate.preferences - text.xml meta - comment - string</scope>
+	<scope>text.xml.plist.textmate.preferences - text.xml meta - comment - string - invalid.illegal.missing-entity</scope>
 </snippet>
