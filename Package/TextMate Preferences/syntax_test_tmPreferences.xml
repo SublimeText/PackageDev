@@ -236,10 +236,10 @@
 <!--                         ^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
 <!--                              ^^^^^^ meta.tag.xml - meta.inside-dict-key -->
 <!--                                ^^^ entity.name.tag.localname.xml -->
-                        <string>punctuation.section.group.begin</string>
-<!--                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
+                        <string>punctuation.section.group.begin &amp; ( invalid </string>
+<!--                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
 <!--                    ^^^^^^^^ meta.tag.xml - meta.inside-value -->
-<!--                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
+<!--                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
 <!--                            ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector -->
 <!--                                       ^ punctuation.separator.scope-segments.scope-selector -->
 <!--                                        ^^^^^^^ string.unquoted.scope-segment.scope-selector -->
@@ -247,7 +247,29 @@
 <!--                                                ^^^^^ string.unquoted.scope-segment.scope-selector -->
 <!--                                                     ^ punctuation.separator.scope-segments.scope-selector -->
 <!--                                                      ^^^^^ string.unquoted.scope-segment.scope-selector -->
-<!--                                                           ^^^^^^^^^ meta.tag.xml - meta.inside-value -->
+<!--                                                            ^^^^^ constant.character.entity.xml keyword.operator.with.scope-selector -->
+<!--                                                                  ^ punctuation.section.group.begin.scope-selector -->
+<!--                                                                           ^ invalid.illegal.missing-group-end.scope-selector -->
+<!--                                                                            ^^^^^^^^^ meta.tag.xml - meta.inside-value -->
+                        <key>end</key>
+                        <string>( ( meta.group | meta.brackets ) &amp; string ) &amp; punctuation <!-- comment --> noscope </string>
+<!--                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
+<!--                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist meta.string.selector.tmPreferences -->
+<!--                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist invalid.deprecated.ignored-after-comment-or-cdata.tmPreferences -->
+<!--                                                                                                                      ^ meta.inside-value.string.plist - illegal -->
+<!--                            ^^ meta.group.scope-selector - meta.group meta.group -->
+<!--                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.scope-selector meta.group.scope-selector -->
+<!--                                                            ^^^^^^^^^^^^^^^ meta.group.scope-selector - meta.group meta.group -->
+<!--                            ^ punctuation.section.group.begin.scope-selector -->
+<!--                              ^ punctuation.section.group.begin.scope-selector -->
+<!--                                           ^ keyword.operator.or.scope-selector -->
+<!--                                                           ^ punctuation.section.group.end.scope-selector -->
+<!--                                                             ^^^^^ constant.character.entity.xml keyword.operator.with.scope-selector -->
+<!--                                                                   ^^^^^^ string.unquoted.scope-segment.scope-selector -->
+<!--                                                                          ^ punctuation.section.group.end.scope-selector -->
+<!--                                                                            ^^^^^ constant.character.entity.xml keyword.operator.with.scope-selector -->
+<!--                                                                                  ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector -->
+<!--                                                                                              ^^^^^^^^^^^^^^^^ comment.block.xml -->
                 </dict>
 <!--            ^^^^^^^ meta.inside-array.foldScopes.tmPreferences meta.tag.xml - invalid -->
             </array>

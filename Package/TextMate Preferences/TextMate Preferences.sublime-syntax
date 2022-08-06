@@ -534,34 +534,23 @@ contexts:
         3: punctuation.definition.tag.begin.xml
       push: inside-scope-selector-cdata
     - match: (?=\S)
-      push: scope-selector
-      with_prototype:
-        - include: scope-selecotr-prototypes
+      push: inside-scope-selector
 
   inside-scope-selector-cdata:
     - meta_include_prototype: false
     - meta_scope: meta.tag.sgml.cdata.xml
+    - meta_content_scope: meta.string.selector.tmPreferences
     - match: ']]>'
       scope: punctuation.definition.tag.end.xml
       set: st-end-of-string-handling
-    - match: ''
-      embed: scope-selector
-      escape: (?=]]>)
-
-  scope-selector:
-    - meta_content_scope: meta.string.selector.tmPreferences
     - include: scope:source.scope-selector
 
-  scope-selecotr-prototypes:
-    - match: \s*((&)amp(;))\s*
-      captures:
-        1: constant.character.entity.xml keyword.operator.with.scope-selector
-        2: punctuation.definition.constant.xml
-        3: punctuation.definition.constant.xml
-    - match: \s*(&)\s*
-      captures:
-        1: invalid.illegal.bad-ampersand.xml
-    - include: until-end-of-string
+  inside-scope-selector:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.string.selector.tmPreferences
+    - match: (?=\s*</|<!--)
+      set: st-end-of-string-handling
+    - include: scope:source.scope-selector.xml
 
 ###[ SETTINGS / REGEXP VALUES ]################################################
 
