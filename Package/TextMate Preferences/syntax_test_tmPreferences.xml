@@ -251,6 +251,11 @@
 <!--                                                                  ^ punctuation.section.group.begin.scope-selector -->
 <!--                                                                           ^ invalid.illegal.missing-group-end.scope-selector -->
 <!--                                                                            ^^^^^^^^^ meta.tag.xml - meta.inside-value -->
+
+                        <key>begin</key>
+                        <string><![CDATA[ punctuation.section.group.begin & ( invalid   ]]></string>
+<!--                                                                                   ^ invalid.illegal.missing-group-end.scope-selector-->
+<!--                                                                                    ^^^ meta.tag.sgml.cdata.xml punctuation.definition.tag.end.xml -->
                         <key>end</key>
                         <string>( ( meta.group | meta.brackets ) &amp; string ) &amp; punctuation <!-- comment --> noscope </string>
 <!--                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->

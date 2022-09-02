@@ -1,0 +1,16 @@
+%YAML 1.2
+---
+scope: source.scope-selector.xml-cdata
+hidden: true
+
+extends: Scope Selector.sublime-syntax
+
+contexts:
+
+  inside-group:
+    - meta_prepend: true
+    # CDATA end marker terminates scope selectors.
+    # Thus pop all contexts off stack.
+    - match: \s?(?=]]>)
+      scope: invalid.illegal.missing-group-end.scope-selector
+      pop: 1

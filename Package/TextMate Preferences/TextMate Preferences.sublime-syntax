@@ -543,7 +543,7 @@ contexts:
     - match: ']]>'
       scope: punctuation.definition.tag.end.xml
       set: st-end-of-string-handling
-    - include: scope:source.scope-selector
+    - include: scope:source.scope-selector.xml-cdata
 
   inside-scope-selector:
     - meta_include_prototype: false
