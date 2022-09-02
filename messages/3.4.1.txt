@@ -1,0 +1,14 @@
+v3.4.1 (2022-09-02)
+-------------------
+
+## Trivial changes and fixes
+
+- tmPreferences/Property List: Rewrite syntaxes, making them more robust regarding invalid
+  highlighting and embedded syntaxes like for scope selectors (#381, @deathaxe)
+- tmPreferences: Add highlighting and completions for `foldScopes` (#381, @deathaxe)
+- Theme: Support `null` value for `color_scheme_tint` (#370, @FichteFoll)
+- Syntax: Add completion for `hidden` key (#376, @jfcherng)
+- Syntax: Add `meta.string` scopes to non-double-quoted match strings (#375, @jfcherng)
+- Syntax: Fix `hidden_file_extensions` name in highlighting and completions (#374, @deathaxe)
+- Syntax: Use the proper non-default values for boolean key completions (@FichteFoll)
+- Commands: Add argument completions for `show_panel` command (#378, @deathaxe)
