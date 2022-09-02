@@ -86,7 +86,7 @@
 <!--                ^^^^^ meta.shellVariable.key.tmPreferences meta.tag.xml -->
 <!--                     ^ meta.shellVariable.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
                         name
-<!--                    ^^^^ meta.shellVariable.key.tmPreferences meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
+<!--                    ^^^^ meta.shellVariable.key.tmPreferences meta.inside-dict-key.plist keyword.other.name.tmPreferences -->
                     </key>
 <!--               ^ meta.shellVariable.key.tmPreferences meta.inside-dict-key.plist - meta.tag -->
 <!--                ^^^^^^ meta.shellVariable.key.tmPreferences meta.tag.xml -->
@@ -186,7 +186,7 @@
                         <key>begin</
 <!--                    ^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
 <!--                     ^^^ entity.name.tag.localname.xml -->
-<!--                         ^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
+<!--                         ^^^^^ meta.inside-dict-key.plist keyword.other.begin-end.tmPreferences -->
 <!--                              ^^ invalid - meta.tag - punctuation.definition.tag -->
                 </dict>
 <!--            ^^^^^^^ meta.inside-array.foldScopes.tmPreferences meta.tag.xml - invalid -->
@@ -200,7 +200,7 @@
 <!--                    ^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
 <!--                    ^^^^^ meta.tag.xml - meta.inside-dict-key -->
 <!--                     ^^^ entity.name.tag.localname.xml -->
-<!--                         ^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
+<!--                         ^^^^^ meta.inside-dict-key.plist keyword.other.begin-end.tmPreferences -->
 <!--                              ^^^^^^ meta.tag.xml - meta.inside-dict-key -->
 <!--                                ^^^ entity.name.tag.localname.xml -->
                 </dict>
@@ -215,7 +215,7 @@
 <!--                    ^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
 <!--                    ^^^^^ meta.tag.xml - meta.inside-dict-key -->
 <!--                     ^^^ entity.name.tag.localname.xml -->
-<!--                         ^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
+<!--                         ^^^^^ meta.inside-dict-key.plist keyword.other.begin-end.tmPreferences -->
 <!--                              ^^^^^^ meta.tag.xml - meta.inside-dict-key -->
 <!--                                ^^^ entity.name.tag.localname.xml -->
                         <string>
@@ -233,7 +233,7 @@
 <!--                    ^^^^^^^^^^^^^^^^ meta.inside-dict.foldScopes.tmPreferences -->
 <!--                    ^^^^^ meta.tag.xml - meta.inside-dict-key -->
 <!--                     ^^^ entity.name.tag.localname.xml -->
-<!--                         ^^^^^ meta.inside-dict-key.plist entity.name.constant.setting.tmPreferences -->
+<!--                         ^^^^^ meta.inside-dict-key.plist keyword.other.begin-end.tmPreferences -->
 <!--                              ^^^^^^ meta.tag.xml - meta.inside-dict-key -->
 <!--                                ^^^ entity.name.tag.localname.xml -->
                         <string>punctuation.section.group.begin &amp; ( invalid </string>
