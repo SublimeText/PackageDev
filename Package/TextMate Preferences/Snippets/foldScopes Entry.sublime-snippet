@@ -3,10 +3,10 @@
 	<key>begin</key>
 	<string>$1</string>
 	<key>end</key>
-	<string>$2</string>
+	<string>$2</string>${3:
 	<key>excludeTrailingNewlines</key>
-	<${3:false}/>
+	<true/>}
 </dict>]]></content>
-	<tabTrigger>fold</tabTrigger>
+	<tabTrigger>e</tabTrigger>
 	<scope>meta.inside-array.foldScopes.tmPreferences - (meta.inside-dict.foldScopes | comment | meta.tag)</scope>
 </snippet>
