@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+scope: source.scope-selector.xml
+hidden: true
+
+extends: Scope Selector.sublime-syntax
+
+contexts:
+
+  base:
+    - meta_append: true
+    - include: scope:text.xml#entity
+    - include: scope:text.xml#should-be-entity
+
+  inside-group:
+    - meta_prepend: true
+    # XML comments or end tags terminate scope selectors.
+    # Thus pop all contexts off stack.
+    - match: \s?(?=</|<!--)
+      scope: invalid.illegal.missing-group-end.scope-selector
+      pop: 1
+
+  operators:
+    - meta_prepend: true
+    - match: (&)amp(;)
+      scope: constant.character.entity.xml keyword.operator.with.scope-selector
+      captures:
+        1: punctuation.definition.constant.xml
+        2: punctuation.definition.constant.xml
+    - match: '&'
+      scope: invalid.illegal.bad-ampersand.xml

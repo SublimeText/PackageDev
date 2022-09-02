@@ -1,5 +1,5 @@
 {
-    "scope": "meta.inside-plist.plist - (comment | meta.tag | meta.inside-value | meta.inside-dict-key)",
+    "scope": "text.xml.plist meta.inside-plist - meta.tag - meta.inside-value - meta.inside-dict-key - comment - string",
     "completions": [
         {
             "trigger": "array",

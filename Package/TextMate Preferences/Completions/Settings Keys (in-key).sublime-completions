@@ -1,70 +1,86 @@
 {
-	"scope": "meta.settings-key-wrapper.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
+	"scope": "meta.settings.key.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
 
 	"completions": [
 		{
 			"trigger": "decreaseIndentPattern",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "increaseIndentPattern",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "disableIndentNextLinePattern",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "bracketIndentNextLinePattern",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "unIndentedLinePattern",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "cancelCompletion",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "shellVariables",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "showInSymbolList",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "showInIndexedReferenceList",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "showInIndexedSymbolList",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "symbolTransformation",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "symbolIndexTransformation",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "indentParens",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "indentSquareBrackets",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "preserveIndent",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
+		},
+		{
+			"trigger": "indentationFoldingEnabled",
+			"kind": ["keyword", "k", "setting"],
+		},
+		{
+			"trigger": "scopeFoldingEnabled",
+			"kind": ["keyword", "k", "setting"],
+		},
+		{
+			"trigger": "foldScopes",
+			"kind": ["keyword", "k", "setting"],
+		},
+		{
+			"trigger": "excludeTrailingNewline",
+			"kind": ["keyword", "k", "setting"],
 		},
 		{
 			"trigger": "icon",
-			"kind": ["snippet", "s", "setting"],
+			"kind": ["keyword", "k", "setting"],
 		},
 	]
 }

@@ -1,0 +1,21 @@
+{
+	"scope": "meta.foldScopes.key.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
+
+	"completions": [
+		{
+			"trigger": "begin",
+			"kind": ["keyword", "k", "setting"],
+			"details": "Fold region begin scope selector",
+		},
+		{
+			"trigger": "end",
+			"kind": ["keyword", "k", "setting"],
+			"details": "Fold region end scope selector",
+		},
+		{
+			"trigger": "excludeTrailingNewlines",
+			"kind": ["keyword", "k", "setting"],
+			"details": "Exclude trailing newlines from fold region",
+		},
+	]
+}

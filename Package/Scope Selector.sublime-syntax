@@ -5,45 +5,55 @@ scope: source.scope-selector
 hidden: true
 
 variables:
-  scope_segment: '\w+(?:[\w-]*\+*)' # \+* is for the non standard scope.c++ scopes
+  scope_segment: \w+(?:[\w-]*\+*) # \+* is for the non standard scope.c++ scopes
 
 contexts:
   main:
-    - match: '\)'
-      scope: invalid.illegal.stray-bracket.scope-selector
     - include: base
+    - match: \)
+      scope: invalid.illegal.stray-bracket.scope-selector
 
   base:
-    - match: '(?:^\s*)?({{scope_segment}})'
+    - match: (?:^\s*)?({{scope_segment}})
       captures:
         1: string.unquoted.scope-segment.scope-selector
-      push:
-        - match: '(\.)(\.+)?'
-          captures:
-            1: punctuation.separator.scope-segments.scope-selector
-            2: invalid.illegal.empty-scope-segment.scope-selector
-          pop: true
-        - match: '\s+\('
-          scope: invalid.illegal.operator-required-between-scope-and-group.scope-selector
-        - match: '\s+(?=\w)'
-          scope: keyword.operator.right.scope-selector
-          pop: true
-        - match: ''
-          pop: true
+      push: inside-scope-segment
+    - match: \(
+      scope: punctuation.section.group.begin.scope-selector
+      push: inside-group
+    - include: operators
+
+  inside-group:
+    - meta_scope: meta.group.scope-selector
+    - match: \)
+      scope: punctuation.section.group.end.scope-selector
+      set: after-group
+    - include: base
+
+  after-group:
+    - match: (?:\s*{{scope_segment}}|\.)+
+      scope: invalid.illegal.operator-required-after-group.scope-selector
+    - match: \s*
+      pop: true
+
+  inside-scope-segment:
+    - match: (\.)(\.+)?
+      captures:
+        1: punctuation.separator.scope-segments.scope-selector
+        2: invalid.illegal.empty-scope-segment.scope-selector
+      pop: true
+    - match: \s+\(
+      scope: invalid.illegal.operator-required-between-scope-and-group.scope-selector
+    - match: \s+(?=\w)
+      scope: keyword.operator.right.scope-selector
+      pop: true
+    - match: ''
+      pop: true
+
+  operators:
     - match: '-'
       scope: keyword.operator.without.scope-selector
     - match: '&'
       scope: keyword.operator.with.scope-selector
     - match: '[,|]'
       scope: keyword.operator.or.scope-selector
-    - match: '\('
-      scope: punctuation.section.group.begin.scope-selector
-      push:
-        - match: '\)'
-          scope: punctuation.section.group.end.scope-selector
-          set:
-            - match: '(\s*{{scope_segment}}|\.)+'
-              scope: invalid.illegal.operator-required-after-group.scope-selector
-            - match: '\s*'
-              pop: true
-        - include: base

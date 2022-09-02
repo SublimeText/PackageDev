@@ -1,5 +1,14 @@
 <!-- SYNTAX TEST "Packages/PackageDev/Package/Property List/Property List.sublime-syntax" -->
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
+     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype.xml -->
+<!-- ^^ punctuation.definition.tag.begin.xml -->
+<!--   ^^^^^^^ keyword.declaration.doctype.xml -->
+<!--           ^^^^^ variable.other.documentroot.localname.xml -->
+<!--                 ^^^^^^ storage.type.external-content.xml -->
+<!--                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.xml string.quoted.double.xml -->
+<!--                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.xml string.quoted.double.xml -->
+<!--                                                                                                      ^ punctuation.definition.tag.end.xml -->
      <plist version="1.0">
 <!-- ^^^^^^^^^^^^^^^^^^^^^ meta.tag.xml -->
 <!--  ^^^^^ entity.name.tag.localname.xml -->
@@ -36,7 +45,7 @@
 <!--                          ^^^^^ meta.inside-value.string.plist constant.character.entity.named.xml -->
 <!--                                ^ invalid.illegal.bad-ampersand.xml -->
 <!--                                         ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
-<!--                                              ^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                                               ^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
 <!--                                                     ^ - invalid.illegal.unknown-or-unexpected-tag.plist -->
         <key>abc</key><string><![CDATA[&amp; & hello <key></key></string>]]>test&amp;<![CDATA[cool]]></string>
 <!--                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist -->
@@ -51,13 +60,13 @@
 <!--                                                                                              ^^^ punctuation.definition.tag.end.xml -->
 <!--                                                                                                 ^^^^^^^^^ meta.tag.xml - invalid -->
         <string>test</string>
-<!--    ^ punctuation.definition.tag.begin.xml -->
-<!--     ^^^^^^  invalid.illegal.unknown-or-unexpected-tag.plist -->
-<!--           ^ punctuation.definition.tag.end.xml -->
+<!--    ^ punctuation.definition.tag.begin.xml - invalid -->
+<!--     ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--           ^ punctuation.definition.tag.end.xml - invalid -->
 <!--            ^^^^ invalid.illegal.unexpected-text.plist -->
-<!--                ^ punctuation.definition.tag.begin.xml -->
-<!--                 ^^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
-<!--                        ^ punctuation.definition.tag.end.xml -->
+<!--                ^^ punctuation.definition.tag.begin.xml - invalid -->
+<!--                  ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                        ^ punctuation.definition.tag.end.xml - invalid -->
         <key></key><integer>
 <!--                ^^^^^^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
             +123 456
@@ -65,8 +74,10 @@
 <!--             ^^^ meta.inside-value.integer.plist invalid.illegal.unexpected-text.plist -->
         </integer>
 <!--      ^^^^^^^ meta.tag - invalid -->
-        <key>array</array>
-<!--               ^^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+        <key>array</array  >
+<!--              ^^ - invalid -->
+<!--                ^^^^^ invalid.illegal.unknown-or-unexpected-tag.plist -->
+<!--                     ^^ - invalid -->
         </key><array />
 <!--    ^^^^^^^^^^^^^^^ meta.tag.xml -->
 <!--           ^^^^^ entity.name.tag.localname.xml - invalid -->
@@ -98,10 +109,31 @@ ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=</data>
         </array>
     </dict>
 <!--  ^^^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->
+
+    <dict
+       <key name </key
+<!--  ^ meta.tag.xml invalid.illegal.missing-tag-end.xml -->
+<!--   ^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml -->
+       <string>value</string>
+
+       <key name </key
+       <string value </string
+<!--  ^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml invalid.illegal.missing-tag-end.xml -->
+<!--   ^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml -->
+
+       <key name </key
+       <string value </string
+    </dict
+   <!-- <- meta.inside-plist.plist meta.inside-dict.plist meta.tag.xml invalid.illegal.missing-tag-end.xml -->
+
 </plist>
-<!-- ^^ meta.inside-plist.plist meta.tag.xml entity.name.tag.localname.xml - invalid -->
+<!-- ^^ meta.tag.xml entity.name.tag.localname.xml - invalid -->
 test
 <!-- <- invalid.illegal.unexpected-text.plist -->
 <!--^ - invalid -->
 <!-- comment -->
 <!-- <- comment.block.xml punctuation.definition.comment.begin.xml -->
+<plist>
+<!-- <- meta.tag.xml punctuation.definition.tag.begin.xml -->
+<!-- ^^ meta.tag.xml -->
+<!-- ^ invalid.illegal.unknown-or-unexpected-tag.plist -->
