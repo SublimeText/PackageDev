@@ -35,10 +35,10 @@ variables:
   x1: (?<element> \g<stag> \g<content>* \g<etag> ){0}
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.variables
 # ^^ entity.name.constant.sublime-syntax
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expect-regexp source.regexp
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expect-regexp meta.string source.regexp
   x2: '(?<stag> < \g<name> \s* > ){0}'
 # ^^ entity.name.constant.sublime-syntax
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expect-regexp
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expect-regexp meta.string
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
 #     ^ punctuation.definition.string.begin.yaml
 #                                    ^ punctuation.definition.string.end.yaml

@@ -623,6 +623,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.yaml
       push:
+        - meta_scope: meta.string.yaml
         - meta_content_scope: source.regexp.oniguruma
         - match: "'(?!')"
           scope: punctuation.definition.string.end.yaml
@@ -642,7 +643,7 @@ contexts:
 
     - match: '{{plain_scalar_but_not_block_key}}'
       push:
-        - meta_scope: source.regexp.oniguruma
+        - meta_scope: meta.string.yaml source.regexp.oniguruma
         - match: '{{_flow_scalar_end_plain_out}}'
           pop: true
         - include: regexp
