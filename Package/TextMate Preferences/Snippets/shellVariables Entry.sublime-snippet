@@ -5,6 +5,6 @@
 	<key>value</key>
 	<string>$2</string>
 </dict>]]></content>
-	<tabTrigger>var</tabTrigger>
+	<tabTrigger>e</tabTrigger>
 	<scope>meta.inside-array.shellVariables.tmPreferences - (meta.inside-dict.shellVariables | comment | meta.tag)</scope>
 </snippet>
