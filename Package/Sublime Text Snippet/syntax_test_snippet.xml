@@ -46,7 +46,7 @@ Transformation: ${1/^(\w)|(?:_(\w))/(?1\u$1:)(?2 \u${2}:)/g}
 #               ^^ keyword.other.block
 #                 ^ constant.numeric
 #                  ^ keyword.other.regex.start
-#                   ^ keyword.control.anchor
+#                   ^ keyword.control.anchor, keyword.control.anchors
 #                    ^^^^ meta.group
 #                     ^^ keyword.control.character-class
 #                        ^ keyword.operator.alternation
