@@ -27,11 +27,14 @@ variables:
       | monospace_background_color
       | shadow_color
       | viewport_color
-      | color_scheme_tint(?:_2)?
       | color\d+
       | link_color # from Sublime Merge
       | (?:accent_)?tint_modifier
       | (?:left|right|top|bottom)_shadow
+    )
+  tint_key: |-
+    (?x:
+        color_scheme_tint(?:_2)?
     )
   color_adjuster_key: |-
     (?x:
@@ -254,6 +257,14 @@ contexts:
         2: keyword.other.rule.sublime-theme
         3: punctuation.definition.string.end.json
       set: [expect-color-value, expect-colon]
+    # tint values
+    - match: (")({{tint_key}})(")
+      scope: meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.rule.sublime-theme
+        3: punctuation.definition.string.end.json
+      set: [expect-tint-value, expect-colon]
     # color adjuster values
     - match: (")({{color_adjuster_key}})(")
       scope: meta.mapping.key.json meta.rule-key.color-adjuster.sublime-theme string.quoted.double.json

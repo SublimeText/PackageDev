@@ -123,14 +123,18 @@
 // <- invalid.illegal.expected-comma.inside-mapping.json
 //          ^^^^^^^^^^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme
 //                                         ^^^ support.function.var.css
-            "layer1.tint": null,
-//                         ^^^^ meta.mapping.value.json constant.language.null.json
             "layer2.tint": "color(var(--bluish) min-contrast(rgb(235, 237, 239) 2.5))",
 //                          ^^^^^ support.function.color.css
 //                                ^^^ support.function.var.css
 //                                              ^^^^^^^^^^^^ support.function.min-contrast.css
 //                                                           ^^^ support.function.color.css
 //                                                                              ^^^ constant.numeric
+        },
+        { // tints (like colors but support `null`)
+            "color_scheme_tint": null,
+//                               ^^^^ meta.mapping.value.json constant.language.null.json
+            "layer1.tint": null,
+//                         ^^^^ meta.mapping.value.json constant.language.null.json
         },
         { // color adjusters
             "background_modifier": "blend(white 97.5%)"
