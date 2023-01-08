@@ -141,6 +141,20 @@ context_menu:
 copy:
   command_type: text
   doc_string: Copy the selected text to the clipboard.
+copy_as_html:
+  command_type: text
+  args:
+    regions: The region(s) to export.
+      By default it will export the whole view.
+      Can be given either a list of regions or a single region.
+    minihtml:
+      Whether the exported HTML should be compatible with the Sublime Text HTML implementation.
+    enclosing_tags: Whether to enclose the exported HTML in a tag with top-level styling.
+    font_size: Whether to include the font size in the top level styling.
+      Only applies when enclosing_tags=True is provided.
+    font_family: Whether to include the font family in the top level styling.
+      Only applies when enclosing_tags=True is provided.
+  added: 4092
 cut:
   command_type: text
   doc_string: Cut the selected text to the clipboard.
