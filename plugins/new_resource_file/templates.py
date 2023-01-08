@@ -34,7 +34,7 @@ TEMPLATES = dict(
     ]
 }""".replace("    ", "\t"),
     commands=R"""[
-  { "caption": "Preferences: ${1:${package_name:PackageName}}",
+  { "caption": "Preferences: ${1:${package_name:PackageName}} Settings",
     "command": "edit_settings",
     "args": {
       "base_file": "\${packages}/$1/$1.sublime-settings",
