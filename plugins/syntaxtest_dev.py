@@ -30,11 +30,18 @@ SyntaxTestHeader = namedtuple(
 
 
 syntax_test_header_regex = re.compile(
-    r'^(?P<comment_start>\s*.+?)'
-    r'\s+SYNTAX TEST\s+'
-    r'(?P<test_mode>(?:partial-symbols|(?:reindent(?:-un(?:indented|changed))?)\s+)*)'
-    r'"(?P<syntax_file>[^"]+)"'
-    r'\s*(?P<comment_end>\S+)?$'
+    r'''
+    ^(?P<comment_start>\s*.+?)
+    \s+SYNTAX[ ]TEST\s+
+    (?P<test_mode>(?:
+        (?:
+            partial-symbols
+        |   (?:reindent(?:-un(?:indented|changed))?)
+        )\s+)*
+    )
+    "(?P<syntax_file>[^"]+)"\s*
+    (?P<comment_end>\S+)?$''',
+    re.X
 )
 
 
