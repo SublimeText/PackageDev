@@ -2,11 +2,13 @@ name: Lint
 
 on:
   push:
-    paths: &paths
+    paths:
       - '.github/workflows/lint.yml'
       - '**.py'
   pull_request:
-    paths: *paths
+    paths:
+      - '.github/workflows/lint.yml'
+      - '**.py'
 
 jobs:
   flake8:
