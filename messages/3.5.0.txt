@@ -1,0 +1,13 @@
+v3.5.0 (2023-05-06)
+-------------------
+
+## Minor changes
+
+- Mousemap: Added support for `context` key added in build 4149 (#388, @FichteFoll)
+
+## Trivial changes and fixes
+
+- Commands: Add completions for `copy_as_html` command (@FichteFoll)
+- Commands: Add completions for new `open_file` command aguments (#387, @deathaxe)
+- Commands: Adjust caption of default commands file template (@FichteFoll)
+- Syntax: Fix recognition of `partial-symbols` syntax test files (#384, #385, @keith-hall)
