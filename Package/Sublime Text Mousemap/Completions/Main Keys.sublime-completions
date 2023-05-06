@@ -20,6 +20,12 @@
             "kind": ["keyword", "k", "main"],
         },
         {
+            "trigger": "context",
+            "contents": "\"context\": [\n\t$0\n],",
+            "details": "Context restrictions",
+            "kind": ["keyword", "k", "main"],
+        },
+        {
             "trigger": "press_command",
             "contents": "\"press_command\": \"$1\",$0",
             "details": "Drag command name",

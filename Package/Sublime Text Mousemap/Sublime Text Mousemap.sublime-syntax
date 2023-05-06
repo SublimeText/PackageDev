@@ -60,6 +60,13 @@ contexts:
         2: keyword.other.main.sublime-mousemap
         3: punctuation.definition.string.end.json
       set: [expect-command-name-value, expect-colon]
+    - match: (")(context)(")
+      scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+      captures:
+        1: punctuation.definition.string.begin.json
+        2: keyword.other.main.sublime-keymap
+        3: punctuation.definition.string.end.json
+      set: [in-mapping-expect-comma, expect-context-sequence-value, expect-colon]
     - match: (")((?:press_)?args)(")
       scope: meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
       captures:
@@ -196,6 +203,10 @@ contexts:
 
   in-mapping-expect-comma:
     - include: Sublime JSON.sublime-syntax#in-mapping-expect-comma
+
+  expect-context-sequence-value:
+    # This means we have keymap suffixes in the scopes, but I'm lazy enough not to care
+    - include: Sublime Text Keymap.sublime-syntax#expect-context-sequence-value
 
   mapping-value-meta:
     - clear_scopes: 1  # remove `meta.mapping.json`

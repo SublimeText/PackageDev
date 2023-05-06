@@ -101,6 +101,29 @@
 //          ^^ - invalid
 //            ^ punctuation.separator.sequence.json
 
+    {
+        "context": [
+//      ^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-mousemap string.quoted.double.json
+//      ^ punctuation.definition.string.begin.json
+//       ^^^^^^^ keyword.other.main.sublime-keymap
+//              ^ punctuation.definition.string.end.json
+//               ^ punctuation.separator.mapping.key-value.json
+//                 ^ meta.keybinding-context-collection.sublime-keymap punctuation.section.sequence.begin.json
+            { "key": "group_has_multiselect", "operator": "equal", "operand": "" },
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.keybinding-context-collection.sublime-keymap meta.keybinding-context.sublime-keymap meta.mapping
+//          ^ meta.mapping.json punctuation.section.mapping.begin.json
+//            ^^^^^ meta.mapping.key.json meta.context-key.sublime-keymap string.quoted.double.json
+//            ^ punctuation.definition.string.begin.json
+//             ^^^ support.function.context.sublime-keymap
+//                ^ punctuation.definition.string.end.json
+//                 ^ meta.mapping.json punctuation.separator.mapping.key-value.json
+//                   ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.context.key-value.key.other.sublime-keymap string.quoted.double.json
+//                   ^ punctuation.definition.string.begin.json
+//                    ^^^^^^^^^^^^^^^^^^^^^ storage.type.context.key-value.sublime-keymap
+//                                         ^ punctuation.definition.string.end.json
+// (we assume the rest will be matched correctly and is separately tested in the keymap syntax)
+        ],
+    }
 
     {
 

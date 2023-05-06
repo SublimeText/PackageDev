@@ -17,6 +17,11 @@
 			"kind": ["keyword", "k", "main"],
 		},
 		{
+			"trigger": "context",
+			"details": "Context restrictions",
+			"kind": ["keyword", "k", "main"],
+		},
+		{
 			"trigger": "args",
 			"details": "Command arguments",
 			"kind": ["keyword", "k", "main"],
