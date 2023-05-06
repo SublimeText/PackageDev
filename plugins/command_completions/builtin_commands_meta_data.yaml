@@ -342,6 +342,8 @@ open_file:
     - clear_to_right: true    # ST4149
     - force_clone: true       # ST4149
     - force_group: true       # ST4149
+    - replace_mru: true       # ST4149
+    - semi_transient: true    # ST4149
     - transient: true         # ST4149
   command_type: window
   doc_string: Open the specified file, and if it doesn't exist, prefill the default
