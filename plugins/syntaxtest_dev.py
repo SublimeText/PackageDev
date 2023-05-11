@@ -17,6 +17,7 @@ __all__ = (
     'PackagedevSuggestSyntaxTestCommand',
     'AssignSyntaxTestSyntaxListener',
     'PackagedevGenerateSyntaxTestsForLineCommand',
+    'PackagedevInsertSyntaxTestCommand',
 )
 
 logger = logging.getLogger(__name__)
@@ -339,6 +340,27 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
 
         view = self.view
         view.replace(edit, view.sel()[0], character)
+        # ST needs a moment to update scope names after content was updated.
+        # Hence need to call another command to really insert the tests.
+        sublime.set_timeout(
+            lambda: view.run_command("packagedev_insert_syntax_test", {"character": character}))
+
+
+class PackagedevInsertSyntaxTestCommand(sublime_plugin.TextCommand):
+    """Intelligently suggest where the syntax test assertions should be placed.
+
+    This is based on the scopes of the line being tested, and where they change.
+    """
+
+    def run(self, edit, character='^'):
+        """Available parameters:
+        edit (sublime.Edit)
+            The edit parameter from TextCommand.
+        character (str) = '^'
+            The character to insert when suggesting where the test assertions should go.
+        """
+
+        view = self.view
         insert_at = view.sel()[0].begin()
         _, col = view.rowcol(insert_at)
 
