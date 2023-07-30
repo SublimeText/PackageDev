@@ -611,7 +611,7 @@ show_overlay:
   doc_string: Show the overlay from the argument.
 show_panel:
   args: !!omap
-    - panel: incremental_find|find|replace|find_in_files
+    - panel: incremental_find|find|replace|find_in_files|console
     - pattern: ""
     - replace_pattern: ""
     - reverse: false
@@ -622,6 +622,8 @@ show_panel:
     - use_gitignore: true,
     - highlight: true
     - wrap: true
+    - toggle: true
+    - toggle_when_not_focused: true
   command_type: window
   doc_string: Show the panel from the argument.
 show_progress_window:
