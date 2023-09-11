@@ -1,5 +1,7 @@
 # https://www.sublimetext.com/docs/3/scope_naming.html
 # https://manual.macromates.com/en/language_grammars#naming_conventions
+#
+# constant.other.{path,wildcard}: https://github.com/sublimehq/Packages/pull/3803#issuecomment-1627711666
 DATA = """
     comment
         line
@@ -24,7 +26,12 @@ DATA = """
             boolean
             null
         other
-            placeholder
+            path
+                parent
+                self
+            wildcard
+                asterisk
+                questionmark
 
     entity
         name
