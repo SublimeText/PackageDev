@@ -141,7 +141,7 @@ def set_viewport(view, row, col=None):
     if col is None:
         pos = row
 
-    if type(row) == tuple:
+    if isinstance(row, tuple):
         pos = relative_point(view, p=row)
     else:
         pos = relative_point(view, row, col)
