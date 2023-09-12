@@ -27,6 +27,7 @@ DATA = """
             boolean
             null
         other
+            placeholder
             path
                 parent
                 self
