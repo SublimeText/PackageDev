@@ -2,6 +2,14 @@
     "scope": "meta.shellVariable.name.tmPreferences - (meta.tag - punctuation.definition.tag.begin.xml)",
     "completions": [
         {
+            "trigger": "TM_COMMENT_CASE_INSENSITIVE",
+            "kind": ["variable", "v", "shellVariable"],
+        },
+        {
+            "trigger": "TM_COMMENT_CASE_INSENSITIVE_2",
+            "kind": ["variable", "v", "shellVariable"],
+        },
+        {
             "trigger": "TM_COMMENT_DISABLE_INDENT",
             "kind": ["variable", "v", "shellVariable"],
         },

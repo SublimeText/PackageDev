@@ -136,6 +136,14 @@
                 <dict>
 <!--                  ^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences meta.inside-dict.settings.tmPreferences meta.inside-array.shellVariables.tmPreferences meta.inside-dict.shellVariables -->
                     <key>name</key>
+                    <string>TM_COMMENT_CASE_INSENSITIVE_2</string>
+<!--                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inside-value.string.plist support.constant.shellVariable.tmPreferences -->
+                    <key>value</key>
+                    <string>yes</string>
+                </dict>
+                <dict>
+<!--                  ^ meta.inside-plist.tmPreferences meta.inside-dict.main.tmPreferences meta.inside-dict.settings.tmPreferences meta.inside-array.shellVariables.tmPreferences meta.inside-dict.shellVariables -->
+                    <key>name</key>
                     <string>test</string>
 <!--                        ^^^^ meta.inside-value.string.plist entity.name.constant.shellVariable.tmPreferences - support -->
                     <key>value</key>
