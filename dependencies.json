@@ -1,8 +1,12 @@
 {
     "*": {
-        ">=3000": [
-            "pyyaml",
+        "<4000": [
             "pathlib",
+            "pyyaml",
+            "sublime_lib"
+        ],
+        ">=4000": [
+            "pyyaml",
             "sublime_lib"
         ]
     }
