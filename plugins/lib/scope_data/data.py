@@ -148,6 +148,9 @@ DATA = """
         impl
         type
         function
+            anonymous
+                parameters
+                return-type
             identifier
             parameters
             return-type
@@ -293,6 +296,7 @@ DATA = """
 
     variable
         language
+            anonymous
         parameter
         function
         annotation
