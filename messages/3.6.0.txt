@@ -1,0 +1,18 @@
+v3.6.0 (2024-01-28)
+-------------------
+
+## Minor changes
+
+- Declare support for Python 3.8. (#395, @deathaxe)
+  Big shoutouts to @deathaxe for making this possible via Package Control 4.0!
+
+## Trivial changes and fixes
+
+- Commands: Add missing `show_panel` arguments (#391, @deathaxe)
+- Scope Data: Small updates to the scope name conventions (@FichteFoll)
+- Syntax: Scope name completions use a more reliable mechanism to re-trigger completions (@FichteFoll)
+- Project: Added an `e` snippet for build systems (@FichteFoll)
+- Build: Improved behavior of auto-complete triggers for variables (@FichteFoll)
+- TM Preferences: Add support for `TM_COMMENT_CASE_INSENSITIVE` added in build 4153 (#392, #394, @mataha)
+- Color Scheme: Don't show `extends` suggestions for a color scheme (@FichteFoll)
+- Syntax: Tone down warning about tabs to a status message (#390, @FichteFoll)
