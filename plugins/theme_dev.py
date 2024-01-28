@@ -112,8 +112,8 @@ class ThemeCompletionsListener(sublime_plugin.ViewEventListener):
         resources += sublime.find_resources("*.hidden-theme")
         names = {res.rsplit("/", 1)[-1] for res in resources}
 
-        if self.view.file_name():
-            names -= {ResourcePath.from_file_path(self.view.file_name()).name}
+        if file_name := self.view.file_name():
+            names -= {ResourcePath.from_file_path(file_name).name}
 
         sorted_names = sorted(names)
         logger.debug("Found %d themes to complete: %r", len(names), sorted_names)

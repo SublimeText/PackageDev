@@ -113,6 +113,9 @@ def _collect_inherited_variables(name=None, extends=None, excludes=set()):
                 if isinstance(contents, list):
                     logger.debug("Skipping old-style theme '%s'", resource)
                     continue
+                if not isinstance(contents, dict):
+                    logger.warn("Unexpected root value in '%s': %s", resource, type(contents))
+                    continue
                 if 'variables' in contents:
                     for k, v in contents['variables'].items():
                         yield Variable(k, v, name)
@@ -152,8 +155,8 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
     def _inherited_variables(self):
         """Wraps _collect_inherited_variables for the current view."""
         name, extends, excludes = None, OrderedDict(), set()
-        if self.view.file_name():
-            this_resource = ResourcePath.from_file_path(self.view.file_name())
+        if file_name := self.view.file_name():
+            this_resource = ResourcePath.from_file_path(file_name)
             name = this_resource.name
             excludes.add(str(this_resource))
 
@@ -167,8 +170,10 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         return set(_collect_inherited_variables(name, extends, excludes))
 
     def variable_completions(self, locations):
-        variable_regions = self.view.find_by_selector("entity.name.variable.sublime-color-scheme"
-                                                      "| entity.name.variable.sublime-theme")
+        variable_regions = self.view.find_by_selector((
+            "entity.name.variable.sublime-color-scheme"
+            "| entity.name.variable.sublime-theme"
+        ))
         variables = {Variable(self.view.substr(r), None, "") for r in variable_regions}
         inherited_variables = self._inherited_variables()
         variables |= inherited_variables
