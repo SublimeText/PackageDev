@@ -7,15 +7,16 @@ SETTINGS_FILE = "PackageDev.sublime-settings"
 
 logger = logging.getLogger(__name__)
 
+_settings_object = None
+
 
 def package_settings():
     """Return global package settings object or load it first if required."""
-    try:
-        return package_settings.settings
-    except AttributeError:
+    global _settings_object
+    if _settings_object is None:
         logger.debug("Loading %s", SETTINGS_FILE)
-        package_settings.settings = sublime.load_settings(SETTINGS_FILE)
-        return package_settings.settings
+        _settings_object = sublime.load_settings(SETTINGS_FILE)
+    return _settings_object
 
 
 def get_setting(key, default=None):
