@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 import sublime
@@ -94,6 +96,8 @@ class ScopeNode(object):
             return (self.name == other.name
                     and self.parent == other.parent
                     and self.children == other.children)
+        else:
+            return NotImplemented
 
     def __str__(self):
         return self.name
@@ -117,7 +121,7 @@ lines = DATA.split("\n")
 # some variables
 indent = " " * 4
 indent_level = 0
-indents = {}
+indents: dict[int, ScopeNode] = {}
 
 # process lines
 # Note: expects sane indentation (such as only indent by 1 `indent` at a time)
