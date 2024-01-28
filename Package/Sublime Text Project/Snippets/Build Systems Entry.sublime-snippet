@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[
+{
+	"name": "$1",
+	"cmd": "$2",$0
+},
+]]></content>
+	<tabTrigger>e</tabTrigger>
+	<scope>meta.project.sublime-project meta.project.build.collection.sublime-project meta.sequence - meta.project.build.sublime-project - comment</scope>
+</snippet>
