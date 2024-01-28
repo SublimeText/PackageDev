@@ -8,6 +8,7 @@ import sublime_plugin
 from sublime_lib.flags import RegionOption
 
 from ..lib import get_setting, inhibit_word_completions
+from ..lib import syntax_paths
 from ..lib.weakmethod import WeakMethodProxy
 
 from .region_math import (VALUE_SCOPE, KEY_SCOPE, KEY_COMPLETIONS_SCOPE,
@@ -115,10 +116,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
     @classmethod
     def is_applicable(cls, settings):
-        """Enable the listener for Sublime Settings syntax only."""
-        syntax = settings.get('syntax') or ""
-        return (syntax.endswith("/Sublime Text Settings.sublime-syntax")
-                or syntax.endswith("/Sublime Text Project.sublime-syntax"))
+        """Enable the listener for Sublime Settings and Project syntax."""
+        return settings.get('syntax') in (syntax_paths.SETTINGS, syntax_paths.PROJECT)
 
     def __init__(self, view):
         """Initialize view event listener object."""
