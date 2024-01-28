@@ -29,20 +29,6 @@
     /* end of build system keys */
 
     /* start of syntax_dev keys */
-    {
-        "keys": ["enter"], "command": "packagedev_commit_scope_completion", "context": [
-            { "key": "auto_complete_visible" },
-            { "key": "setting.auto_complete_commit_on_tab", "operand": false },
-            { "key": "selector", "operand": "meta.scope.sublime-syntax" }
-        ]
-    },
-    {
-        "keys": ["tab"], "command": "packagedev_commit_scope_completion", "context": [
-            { "key": "auto_complete_visible" },
-            { "key": "setting.auto_complete_commit_on_tab" },
-            { "key": "selector", "operand": "meta.scope.sublime-syntax" }
-        ]
-    },
     {   // trigger auto completion on space after hyphen (rules)
         "keys": [" "], "command": "run_macro_file", "args": {"file": "res://Packages/PackageDev/Package/Sublime Text Syntax Definition/Add Syntax Rule (space).sublime-macro"}, "context": [
             { "key": "preceding_text", "operator": "regex_match", "operand": "^ {2,}(?:- )*-$", "match_all": true },

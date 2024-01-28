@@ -4,12 +4,32 @@ import sublime
 
 from .data import DATA
 
-__all__ = ["COMPILED_NODES", "COMPILED_HEADS", "completions_from_prefix"]
+__all__ = [
+    "COMPILED_NODES",
+    "COMPILED_HEADS",
+    "COMMIT_SCOPE_COMPLETION_CMD",
+    "completions_from_prefix",
+    "create_scope_suffix_completion",
+]
+
+SCOPE_KIND = (sublime.KIND_ID_NAMESPACE, "s", "Scope")
+COMMIT_SCOPE_COMPLETION_CMD = 'packagedev_commit_scope_completion'
 
 logger = logging.getLogger(__name__)
 
 
-SCOPE_KIND = (sublime.KIND_ID_NAMESPACE, "s", "Scope")
+def create_scope_completion(name: str, annotation="convention", is_base_suffix=False):
+    return sublime.CompletionItem.command_completion(
+        trigger=name,
+        command=COMMIT_SCOPE_COMPLETION_CMD,
+        args={'text': name, 'is_base_suffix': is_base_suffix},
+        annotation=annotation,
+        kind=SCOPE_KIND,
+    )
+
+
+def create_scope_suffix_completion(name: str):
+    return create_scope_completion(name, "base suffix", True)
 
 
 class NodeSet(set):
@@ -34,8 +54,7 @@ class NodeSet(set):
         return res
 
     def to_completion(self):
-        return [sublime.CompletionItem(n.name, annotation="convention", kind=SCOPE_KIND)
-                for n in self]
+        return [create_scope_completion(n.name) for n in self]
 
 
 class ScopeNode(object):

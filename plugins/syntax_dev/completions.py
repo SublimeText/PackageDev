@@ -5,7 +5,11 @@ from collections import namedtuple
 import sublime
 import sublime_plugin
 
-from ..lib.scope_data import COMPILED_HEADS
+from ..lib.scope_data import (
+    COMMIT_SCOPE_COMPLETION_CMD,
+    COMPILED_HEADS,
+    create_scope_suffix_completion
+)
 from ..lib import syntax_paths
 from ..lib import inhibit_word_completions
 
@@ -75,11 +79,6 @@ TPL_CAPTURUES = CompletionTemplate(
     format=sublime.COMPLETION_FORMAT_SNIPPET,
     kind=(sublime.KIND_ID_FUNCTION, 'c', 'Captures'),
     suffix=":\n  ",
-)
-TPL_SCOPE = CompletionTemplate(
-    format=sublime.COMPLETION_FORMAT_SNIPPET,
-    kind=(sublime.KIND_ID_NAMESPACE, 's', 'Scope'),
-    suffix=": ",
 )
 TPL_VARIABLE = CompletionTemplate(
     format=sublime.COMPLETION_FORMAT_SNIPPET,
@@ -216,10 +215,6 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             Completion('pop', TPL_FUNCTION_NUMERIC, 'Pop context(s) from the stack.'),
         ])
     )
-
-    # These instance variables are for communicating
-    # with our PostCompletionsListener instance.
-    base_suffix = None
 
     @classmethod
     def applies_to_primary_view_only(cls):
@@ -374,27 +369,23 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         return base_scope_completion
 
     def _complete_base_scope(self, last_token):
-        window = self.view.window()
         regions = self.view.find_by_selector("meta.scope string - meta.block")
         if len(regions) != 1:
             status(
                 "Warning: Could not determine base scope uniquely",
-                window,
                 console=True
             )
-            self.base_suffix = None
             return []
 
+        # TODO some syntaxes use a different suffix than the last segment of the base scope
         base_scope = self.view.substr(regions[0])
         *_, base_suffix = base_scope.rpartition(".")
         # Only useful when the base scope suffix is not already the last one
         # In this case it is even useful to inhibit other completions completely
         if last_token == base_suffix:
-            self.base_suffix = None
             return []
 
-        self.base_suffix = base_suffix
-        return format_completions([(base_suffix, None)], "base suffix", TPL_SCOPE.kind)
+        return [create_scope_suffix_completion(base_suffix)]
 
     def _complete_variable(self):
         return format_completions(
@@ -429,22 +420,20 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
 class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
 
-    def run(self, edit):
-        self.view.run_command("commit_completion")
+    """Insert a scope segment and re-open the completions popup when sensible."""
 
-        # Don't add duplicated dot, if scope is edited in the middle.
-        if self.view.substr(self.view.sel()[0].a) == ".":
+    def name(self):
+        return COMMIT_SCOPE_COMPLETION_CMD
+
+    def run(self, edit, text, is_base_suffix=False):
+        self.view.run_command("insert", {"characters": text})
+
+        if is_base_suffix:
             return
 
-        # Check if the completed value was the base suffix
-        # and don't re-open auto complete in that case.
-        listener = sublime_plugin.find_view_event_listener(self.view, SyntaxDefCompletionsListener)
-        if listener and listener.base_suffix:
-            point = self.view.sel()[0].a
-            region = sublime.Region(point - len(listener.base_suffix) - 1, point)
-            if self.view.substr(region) == "." + listener.base_suffix:
-                return
-
-        # Insert a . and trigger next completion
         self.view.run_command('insert', {'characters': "."})
-        self.view.run_command('auto_complete', {'disable_auto_insert': True})
+
+        # Allow ST to process our inserts (and work around a crash).
+        sublime.set_timeout(
+            lambda: self.view.run_command('auto_complete', {'disable_auto_insert': True}),
+        )
