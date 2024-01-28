@@ -90,9 +90,9 @@ TPL_VARIABLE = CompletionTemplate(
 PACKAGE_NAME = __package__.split('.')[0]
 
 
-def status(msg, console=False):
+def status(msg, window=None, console=False):
     msg = "[%s] %s" % (PACKAGE_NAME, msg)
-    sublime.status_message(msg)
+    (window or sublime).status_message(msg)
     if console:
         print(msg)
 
@@ -246,19 +246,25 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             return self._complete_scope(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys and for
-        if match_selector("meta.expect-context-list-or-content"
-                          " | meta.context-list-or-content", -1):
+        if match_selector(
+            "meta.expect-context-list-or-content | meta.context-list-or-content",
+            -1,
+        ):
             return ((self._complete_keyword(prefix, locations) or [])
                     + self._complete_context(prefix, locations))
 
         # Auto-completion for include values using the 'contexts' keys
-        if match_selector("meta.expect-context-list | meta.expect-context"
-                          " | meta.include | meta.context-list", -1):
+        if match_selector(
+            "meta.expect-context-list | meta.expect-context | meta.include | meta.context-list",
+            -1,
+        ):
             return self._complete_context(prefix, locations) or None
 
         # Auto-completion for branch points with 'fail' key
-        if match_selector("meta.expect-branch-point-reference"
-                          " | meta.branch-point-reference", -1):
+        if match_selector(
+            "meta.expect-branch-point-reference | meta.branch-point-reference",
+            -1,
+        ):
             return self._complete_branch_point()
 
         # Auto-completion for variables in match patterns using 'variables' keys
