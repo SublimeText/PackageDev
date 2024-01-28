@@ -96,7 +96,7 @@ class ThemeCompletionsListener(sublime_plugin.ViewEventListener):
 
     @classmethod
     def is_applicable(cls, settings):
-        return settings.get('syntax') in (syntax_paths.COLOR_SCHEME, syntax_paths.THEME)
+        return settings.get('syntax') == syntax_paths.THEME
 
     @inhibit_word_completions
     def on_query_completions(self, prefix, locations):
