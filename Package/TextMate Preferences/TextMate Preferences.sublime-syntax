@@ -459,7 +459,7 @@ contexts:
     - include: string-end
     - include: value-content
     - include: comments
-    - match: \bTM_COMMENT_(?:START|END|DISABLE_INDENT)(?:_[2-9])?\b
+    - match: \bTM_COMMENT_(?:START|END|DISABLE_INDENT|CASE_INSENSITIVE)(?:_[2-9])?\b
       scope: entity.name.constant.shellVariable.tmPreferences support.constant.shellVariable.tmPreferences
       push: after-number
     - match: \b\w+\b
