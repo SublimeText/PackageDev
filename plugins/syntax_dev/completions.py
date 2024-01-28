@@ -248,7 +248,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # Auto-completion for include values using the 'contexts' keys and for
         if match_selector("meta.expect-context-list-or-content"
                           " | meta.context-list-or-content", -1):
-            return (self._complete_keyword(prefix, locations)
+            return ((self._complete_keyword(prefix, locations) or [])
                     + self._complete_context(prefix, locations))
 
         # Auto-completion for include values using the 'contexts' keys

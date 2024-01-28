@@ -83,8 +83,10 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         # or plugin was unloaded.
         # Complain about the former, if we have a test file.
         if self.header and not self.is_applicable(self.view.settings()):
-            sublime.error_message("Syntax tests do not work properly with tabs as indentation."
-                                  "\n\nYou MUST use spaces!")
+            sublime.error_message((
+                "Syntax tests do not work properly with tabs as indentation."
+                "\n\nYou MUST use spaces!"
+            ))
 
     def on_modified_async(self):
         """If the view has a filename, and that file name starts with
@@ -172,7 +174,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
 
         lines, line = self.get_details_of_line_being_tested()
 
-        if not lines or not lines[0].assertion_colrange:
+        if not lines or not lines[0].assertion_colrange or not line:
             self.view.erase_regions('current_syntax_test')
             return
 
@@ -291,6 +293,8 @@ class PackagedevAlignSyntaxTestCommand(sublime_plugin.TextCommand):
         cursor = view.sel()[0]
 
         listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
+        if not listener:
+            return
 
         details = listener.get_details_of_test_assertion_line(cursor.begin())
         if not details.comment_marker_match:
@@ -343,7 +347,7 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         _, col = view.rowcol(insert_at)
 
         listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
-        if not listener.header:
+        if not listener or not listener.header:
             return
 
         lines, line = listener.get_details_of_line_being_tested()
@@ -509,10 +513,12 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
 
         # offer user to fix settings if they try to do something stupid
         if sublime.ok_cancel_dialog(
-            "This view is configured to use tabs for indentation. "
-            "Syntax tests do not work properly with tabs.\n"
-            "Do you want to change this view's settings to use spaces?\n"
-            "Note that existing tab characters are NOT automatically converted!",
+            (
+                "This view is configured to use tabs for indentation. "
+                "Syntax tests do not work properly with tabs.\n"
+                "Do you want to change this view's settings to use spaces?\n"
+                "Note that existing tab characters are NOT automatically converted!"
+            ),
             "Change setting"
         ):
             view.settings().set('translate_tabs_to_spaces', True)
@@ -601,7 +607,7 @@ class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view = self.view
         listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
-        if not listener.header:
+        if not listener or not listener.header:
             return
 
         suggest_suffix = get_setting('syntax_test.suggest_scope_suffix', True)
