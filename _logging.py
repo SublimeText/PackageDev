@@ -25,14 +25,14 @@ def _settings():
 def plugin_loaded():
     def on_settings_reload():
         cur_log_level = package_logger.getEffectiveLevel()
-        cur_log_level_name = logging.getLevelName(cur_log_level)
         new_log_level_name = _settings().get('log_level', DEFAULT_LOG_LEVEL_NAME).upper()
         new_log_level = getattr(logging, new_log_level_name, DEFAULT_LOG_LEVEL)
 
-        if new_log_level_name != cur_log_level_name:
+        if new_log_level != cur_log_level:
             if cur_log_level > EVENT_LEVEL and new_log_level <= EVENT_LEVEL:
                 # Only set level before emitting log event if it would not be seen otherwise
                 package_logger.setLevel(new_log_level)
+            cur_log_level_name = logging.getLevelName(cur_log_level)
             logger.log(EVENT_LEVEL,
                        "Changing log level from %r to %r",
                        cur_log_level_name, new_log_level_name)
