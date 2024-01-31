@@ -104,6 +104,7 @@ DATA = """
             function
             interface
             impl
+            import
             struct
             trait
             union
