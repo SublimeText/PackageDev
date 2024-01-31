@@ -107,6 +107,9 @@ DATA = """
             struct
             trait
             union
+            variable
+                constant
+                static
         import
             from
         operator
