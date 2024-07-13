@@ -3,6 +3,8 @@
 #
 # constant.other.{path,wildcard}:
 #   https://github.com/sublimehq/Packages/pull/3803#issuecomment-1627711666
+# constant.language.boolean.{true,false}:
+#   https://github.com/sublimehq/Packages/pull/4009
 DATA = """
     comment
         line
@@ -25,6 +27,8 @@ DATA = """
             infinity
             nan
             boolean
+                false
+                true
             null
         other
             placeholder
