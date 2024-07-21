@@ -294,7 +294,7 @@ repository:
     # multi-line (block style)
     - name: meta.match.block.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      begin: ^( *)(?:(?:-?( +)))((["']?)(match|begin|end)(\4))(:) +([|>](\d*)[-+]?)(?=, |,$| +#| *$)
+      begin: ^( *)-?( +)((["']?)(match|begin|end)(\4))(:) +([|>](\d*)[-+]?)(?=, |,$| +#| *$)
       beginCaptures:
         '3': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
         '4': {name: punctuation.definition.string.yaml-tmlanguage}

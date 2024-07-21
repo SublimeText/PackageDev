@@ -661,7 +661,7 @@ comment
 			<array>
 				<dict>
 					<key>begin</key>
-					<string>^( *)(?:(?:-?( +)))((["']?)(match|begin|end)(\4))(:) +([|&gt;](\d*)[-+]?)(?=, |,$| +#| *$)</string>
+					<string>^( *)-?( +)((["']?)(match|begin|end)(\4))(:) +([|&gt;](\d*)[-+]?)(?=, |,$| +#| *$)</string>
 					<key>beginCaptures</key>
 					<dict>
 						<key>3</key>
