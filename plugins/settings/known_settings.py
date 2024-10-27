@@ -712,7 +712,7 @@ class KnownSettings(object):
                 - trigger (string): base file name of the color scheme
                 - contents (string): the value to commit to the settings
         """
-        if int(sublime.version()) >= 4095 and key == 'color_scheme':
+        if key == 'color_scheme':
             yield format_completion_item(value="auto", annotation="dark-/light switching")
 
         hidden = get_setting('settings.exclude_color_scheme_patterns') or []
@@ -771,7 +771,7 @@ class KnownSettings(object):
                 - contents (string): the file name to commit to the settings
         """
         hidden = get_setting('settings.exclude_theme_patterns') or []
-        if int(sublime.version()) >= 4095 and key == 'theme':
+        if key == 'theme':
             yield format_completion_item(value="auto", annotation="dark-/light switching")
         for theme_path in ResourcePath.glob_resources("*.sublime-theme"):
             if not any(hide in theme_path.name for hide in hidden):
