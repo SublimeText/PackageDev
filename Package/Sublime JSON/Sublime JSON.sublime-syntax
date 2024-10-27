@@ -68,7 +68,6 @@ contexts:
 #################################################
 
   any:
-    - include: comments
     - include: number
     - include: string
     - include: boolean
@@ -77,7 +76,6 @@ contexts:
     - include: mapping
 
   expect-any:
-    - include: comments
     - include: number-pop
     - include: string-pop
     - include: boolean-pop
@@ -349,7 +347,6 @@ contexts:
     - include: expect-mapping-rest
 
   expect-mapping-value-only:
-    - include: comments
     - match: (?=\{)
       set: [mapping-value-meta, mapping-pop]
 
