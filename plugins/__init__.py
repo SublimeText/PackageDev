@@ -14,12 +14,6 @@ from .syntax_dev_legacy import *  # noqa
 from .syntaxtest_dev import *  # noqa
 from .theme_dev import *  # noqa
 
-from . import xml_hidden_extensions_hotfix
-
-
-def plugin_loaded():
-    xml_hidden_extensions_hotfix.plugin_loaded()
-
 
 def _is_plugin_class(obj):
     if hasattr(obj, '__bases__'):
