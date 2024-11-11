@@ -116,4 +116,4 @@ class PackagedevNewResourceCommand(sublime_plugin.WindowCommand):
             for fp in (real_file_path, file_path):
                 if fp.startswith(pp):
                     leaf = fp[len(pp):].strip(os.sep)
-                    return (os.sep not in leaf)
+                    return os.sep not in leaf
