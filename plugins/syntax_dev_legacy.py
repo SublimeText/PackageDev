@@ -122,7 +122,6 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         self.output.print("Dumping %s..." % self.name)
         return yaml.dump(data, **params)
 
-
 class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
     """Parses YAML and sorts all the dict keys reasonably.
     Does not write to the file, only to the buffer.
@@ -317,6 +316,11 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 ###############################################################################
 
 
+def inhibit(ret):
+    return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
+
+
+
 class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
     def __init__(self):
         base_keys = "match,end,begin,name,contentName,comment,scopeName,include".split(',')
@@ -334,21 +338,74 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
 
         self.base_completions = completions
 
+    def _validate_query_completions(self, locations, view):
+ 
+        if len(locations) > 1:
+            result = []
+        # Do not bother if not in yaml-tmlanguage scope and within or at the end of a comment
+        elif not view.match_selector(locations[0]
+                                     , "source.yaml-tmlanguage - comment"):
+            result = []
+        else:
+            result = None
+
+        return result
+
+    def _browse_nodes(self, nodes, tokens, window):
+        
+        node = None
+        # Browse the nodes and their children
+        for i, token in enumerate(tokens):
+            node = nodes.find(token)
+            if not node:
+                status(
+                    "Warning: `%s` not found in scope naming conventions"
+                    % '.'.join(tokens[:i + 1]),
+                    window
+                )
+                break
+            nodes = node.children
+            if not nodes:
+                break
+
+        return node
+
+    def _autocomplete(self, view, loc, window):
+
+        # Auto-completion for include values using the repository keys
+        if view.match_selector(loc, "meta.include meta.value string, variable.other.include"):
+            # Search for the whole include string which contains the current location
+            reg = extract_selector(view, "meta.include meta.value string", loc)
+            include_text = view.substr(reg)
+
+            if (
+                not reg
+                or (not include_text.startswith("'#")
+                    and not include_text.startswith('"#'))
+            ):
+                return []
+
+            variables = [view.substr(r)
+                         for r in view.find_by_selector("variable.other.repository-key")]
+            status(
+                "Found %d local repository keys to be used in includes" % len(variables),
+                window
+            )
+            return inhibit(zip(variables, variables))
+        
+        return None
+    
     def on_query_completions(self, view, prefix, locations):
         # We can't work with multiple selections here
 
         window = view.window()
 
-        if len(locations) > 1:
-            return []
+        result = self._validate_query_completions(locations, view)
+        if result:
+            return result
 
         loc = locations[0]
-        # Do not bother if not in yaml-tmlanguage scope and within or at the end of a comment
-        if not view.match_selector(loc, "source.yaml-tmlanguage - comment"):
-            return []
 
-        def inhibit(ret):
-            return (ret, sublime.INHIBIT_WORD_COMPLETIONS)
 
         # Extend numerics into `'123': {name: $0}`, as used in captures,
         # but only if they are not in a string scope
@@ -373,20 +430,8 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                 if len(tokens) > 1:
                     del tokens[-1]  # The last token is either incomplete or empty
 
-                    # Browse the nodes and their children
                     nodes = COMPILED_HEADS
-                    for i, token in enumerate(tokens):
-                        node = nodes.find(token)
-                        if not node:
-                            status(
-                                "Warning: `%s` not found in scope naming conventions"
-                                % '.'.join(tokens[:i + 1]),
-                                window
-                            )
-                            break
-                        nodes = node.children
-                        if not nodes:
-                            break
+                    node = self._browse_nodes(nodes, tokens, window)
 
                     if nodes and node:
                         return inhibit(nodes.to_completion())
@@ -416,26 +461,9 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
             # Due to "." being set as a trigger this should not be computed after the block above
             return []
 
-        # Auto-completion for include values using the repository keys
-        if view.match_selector(loc, "meta.include meta.value string, variable.other.include"):
-            # Search for the whole include string which contains the current location
-            reg = extract_selector(view, "meta.include meta.value string", loc)
-            include_text = view.substr(reg)
-
-            if (
-                not reg
-                or (not include_text.startswith("'#")
-                    and not include_text.startswith('"#'))
-            ):
-                return []
-
-            variables = [view.substr(r)
-                         for r in view.find_by_selector("variable.other.repository-key")]
-            status(
-                "Found %d local repository keys to be used in includes" % len(variables),
-                window
-            )
-            return inhibit(zip(variables, variables))
+        auto_complete = self._autocomplete(self, view, loc, window)
+        if auto_complete:
+            return auto_complete
 
         # Do not bother if the syntax def already matched the current position,
         # except in the main repository
