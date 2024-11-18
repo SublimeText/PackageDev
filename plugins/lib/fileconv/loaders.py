@@ -295,7 +295,8 @@ class LoaderProto(object):
         """To be implemented. Should return the parsed data from
         ``self.file_path`` as a Python object.
         """
-        pass
+        raise NotImplementedError
+
 
 
 class JSONLoader(LoaderProto):
