@@ -97,7 +97,8 @@ class DumperProto(object):
                      (lambda x: x is None, False))
                 ]
         """
-        pass
+        raise NotImplementedError
+
 
     def _validate_data(self, data, funcs):
         """Check for incompatible data recursively.
@@ -178,7 +179,7 @@ class DumperProto(object):
 
     def write(self, data, *args, **kwargs):
         """To be implemented."""
-        pass
+        raise NotImplementedError
 
 
 class JSONDumper(DumperProto):
