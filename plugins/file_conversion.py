@@ -14,7 +14,6 @@ from .lib.fileconv import dumpers, loaders
 __all__ = ('PackagedevConvertCommand',)
 
 
-
 # build command
 class PackagedevConvertCommand(sublime_plugin.WindowCommand):
     """Convert a file (view's buffer) of type ``source_format`` to type
@@ -47,104 +46,6 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                 dict(name="YAML (Block Style)",
                      kwargs={"target_format": "yaml", "default_flow_style": False})
             )
-
-    def _auto_detect_file_type(self, source_format, target_format, output):
-        """Available parameters:
-
-        source_format (str) = None
-            The source format. Any of "yaml", "plist" or "json".
-            If `None`, attempt to automatically detect the format by extension, used syntax
-            highlight or (with plist) the actual contents.
-
-        target_format (str) = None
-            The target format. Any of "yaml", "plist" or "json".
-            If `None`, attempt to find an option set in the file to parse.
-            If unable to find an option, ask the user directly with all available format options.
-        output (OutputPanel) = None
-        """
-
-        type_handling = None
-
-        # Auto-detect the file type if it's not specified
-        if not source_format:
-            output.write("Input type not specified, auto-detecting...")
-            for Loader in loaders.get.values():
-                if Loader.file_is_valid(self.view):
-                    source_format = Loader.ext
-                    output.print(' %s\n' % Loader.name)
-                    break
-
-            if not source_format:
-                type_handling =  output.print("\nUnable to detect file type.")
-            elif target_format == source_format:
-                type_handling = output.print("File already is %s." % Loader.name)
-
-        return type_handling
-
-    def _validate_run(self, source_format=None, target_format=None):
-        """Available parameters:
-
-        source_format (str) = None
-            The source format. Any of "yaml", "plist" or "json".
-            If `None`, attempt to automatically detect the format by extension, used syntax
-            highlight or (with plist) the actual contents.
-
-        target_format (str) = None
-            The target format. Any of "yaml", "plist" or "json".
-            If `None`, attempt to find an option set in the file to parse.
-            If unable to find an option, ask the user directly with all available format options.
-        """
-
-        result = False
-
-        # Check the environment (view, args, ...)
-        if self.view.is_dirty():
-            # Save the file so that source and target file on the drive don't differ
-            self.view.run_command("save")
-            if self.view.is_dirty():
-                result =  sublime.error_message("The file could not be saved correctly. "
-                                             "The build was aborted")
-        elif source_format and target_format == source_format:
-            result = True
-            self.status("Target and source file format are identical. (%s)" % target_format)
-
-        elif source_format and source_format not in loaders.get:
-            result = True
-            self.status("Loader for '%s' not supported/implemented." % source_format)
-
-        elif target_format and target_format not in dumpers.get:
-            result = True
-            self.status("Dumper for '%s' not supported/implemented." % target_format)
-
-        return result
-
-    def _revalidate_run(self, output, source_format=None, target_format=None,):
-        """Available parameters:
-
-        source_format (str) = None
-            The source format. Any of "yaml", "plist" or "json".
-            If `None`, attempt to automatically detect the format by extension, used syntax
-            highlight or (with plist) the actual contents.
-
-        target_format (str) = None
-            The target format. Any of "yaml", "plist" or "json".
-            If `None`, attempt to find an option set in the file to parse.
-            If unable to find an option, ask the user directly with all available format options.
-        output (OutputPanel) = None
-        """
-        result = None
-        # Validate the shit again, but this time print to output panel
-        if source_format is not None and target_format == source_format:
-            result = output.print("\nTarget and source file format are identical. (%s)"
-                                % target_format)
-
-        if target_format not in dumpers.get:
-            result = output.print("\nDumper for '%s' not supported/implemented."
-                                % target_format)
-
-        return result
-
-
 
     def run(self, source_format=None, target_format=None, ext=None,
             open_new_file=False, rearrange_yaml_syntax_def=False, _output=None, **kwargs):
@@ -195,24 +96,47 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
         """
         self.view = self.window.active_view()
 
-        result = self._validate_run(self, source_format, target_format)
-        if result:
-            return result
-        
+        # Check the environment (view, args, ...)
+        if self.view.is_dirty():
+            # Save the file so that source and target file on the drive don't differ
+            self.view.run_command("save")
+            if self.view.is_dirty():
+                return sublime.error_message("The file could not be saved correctly. "
+                                             "The build was aborted")
+
         file_path = self.view.file_name()
         if not file_path:
             return self.status("File does not exist.", file_path)
         file_path = Path(file_path)
+
+        if source_format and target_format == source_format:
+            return self.status("Target and source file format are identical. (%s)" % target_format)
+
+        if source_format and source_format not in loaders.get:
+            return self.status("Loader for '%s' not supported/implemented." % source_format)
+
+        if target_format and target_format not in dumpers.get:
+            return self.status("Dumper for '%s' not supported/implemented." % target_format)
 
         # Now the actual "building" starts (collecting remaining parameters)
         with OutputPanel.create(self.window, "package_dev",
                                 read_only=True, force_writes=True) as output:
             output.show()
 
-            type_handling = self._auto_detect_file_type(source_format, target_format, output)
-            if type_handling:
-                return type_handling
-            
+            # Auto-detect the file type if it's not specified
+            if not source_format:
+                output.write("Input type not specified, auto-detecting...")
+                for Loader in loaders.get.values():
+                    if Loader.file_is_valid(self.view):
+                        source_format = Loader.ext
+                        output.print(' %s\n' % Loader.name)
+                        break
+
+                if not source_format:
+                    return output.print("\nUnable to detect file type.")
+                elif target_format == source_format:
+                    return output.print("File already is %s." % Loader.name)
+
             # Load inline options
             Loader = loaders.get[source_format]
             opts = Loader.load_options(self.view)
@@ -267,12 +191,14 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                     return
 
                 target_format = opts['target_format']
-                result = self._revalidate_run(self, 
-                                              output, 
-                                              source_format, 
-                                              target_format)
-                if result:
-                    return result
+                # Validate the shit again, but this time print to output panel
+                if source_format is not None and target_format == source_format:
+                    return output.print("\nTarget and source file format are identical. (%s)"
+                                        % target_format)
+
+                if target_format not in dumpers.get:
+                    return output.print("\nDumper for '%s' not supported/implemented."
+                                        % target_format)
 
                 output.print(' %s\n' % dumpers.get[target_format].name)
 
@@ -288,18 +214,16 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                 output.print("Unexpected error occurred while parsing, "
                              "please see the console for details.")
                 raise
+            if not data:
+                return
 
             # Determine new file name
             new_file_path = file_path.with_suffix(get_new_ext(target_format))
             new_dir = new_file_path.parent
-            valid_path = True
             try:
                 os.makedirs(str(new_dir), exist_ok=True)
             except OSError:
                 output.print("Could not create folder '%s'" % new_dir)
-                valid_path = False
-
-            if not data or not valid_path:
                 return
 
             # Now dump to new file
