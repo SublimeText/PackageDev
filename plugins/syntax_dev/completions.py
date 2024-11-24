@@ -247,8 +247,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             "meta.expect-context-list-or-content | meta.context-list-or-content",
             -1,
         ):
-            result = ((self._complete_keyword(prefix, locations) or [])
-                    + self._complete_context(prefix, locations))
+            result = (
+                (self._complete_keyword(prefix, locations) or [])
+                + self._complete_context(prefix, locations)
+            )
 
         # Auto-completion for include values using the 'contexts' keys
         elif match_selector(
@@ -271,7 +273,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         else:
             # Standard completions for unmatched regions
             result = self._complete_keyword(prefix, locations)
-    
+
         return result
 
     def _line_prefix(self, point):
