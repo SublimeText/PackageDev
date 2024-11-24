@@ -165,7 +165,7 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
     @inhibit_word_completions
     def on_query_completions(self, view, prefix, locations):
         loc = locations[0]
-        python_arg_scope = ("source.python meta.function-call.arguments.python string.quoted")
+        python_arg_scope = "source.python meta.function-call.arguments.python string.quoted"
         if not view.score_selector(loc, python_arg_scope) or not is_plugin(view):
             return None
 

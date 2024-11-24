@@ -37,7 +37,9 @@ def _create_package(name):
         os.mkdir(path)
     except FileExistsError:
         logger.error("Path exists already: %r", path)
-    except Exception:
+    except FileNotFoundError:
+        logger.error("Parent path does not exist: %r", path)
+    except OSError:
         logger.exception("Unknown error while creating path %r", path)
     else:
         return path

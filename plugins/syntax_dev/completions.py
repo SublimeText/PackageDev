@@ -232,42 +232,49 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             return all(self.view.match_selector(point + offset, selector)
                        for point in locations)
 
+        result = None
+
         # None of our business
         if not match_selector("- comment - (source.regexp - keyword.other.variable)"):
-            return None
+            result = None
 
         # Scope name completions based on our scope_data database
-        if match_selector("meta.expect-scope, meta.scope", -1):
-            return self._complete_scope(prefix, locations)
+        elif match_selector("meta.expect-scope, meta.scope", -1):
+            result = self._complete_scope(prefix, locations)
 
         # Auto-completion for include values using the 'contexts' keys and for
-        if match_selector(
+        elif match_selector(
             "meta.expect-context-list-or-content | meta.context-list-or-content",
             -1,
         ):
-            return ((self._complete_keyword(prefix, locations) or [])
-                    + self._complete_context(prefix, locations))
+            result = (
+                (self._complete_keyword(prefix, locations) or [])
+                + self._complete_context(prefix, locations)
+            )
 
         # Auto-completion for include values using the 'contexts' keys
-        if match_selector(
+        elif match_selector(
             "meta.expect-context-list | meta.expect-context | meta.include | meta.context-list",
             -1,
         ):
-            return self._complete_context(prefix, locations) or None
+            result = self._complete_context(prefix, locations) or None
 
         # Auto-completion for branch points with 'fail' key
-        if match_selector(
+        elif match_selector(
             "meta.expect-branch-point-reference | meta.branch-point-reference",
             -1,
         ):
-            return self._complete_branch_point()
+            result = self._complete_branch_point()
 
         # Auto-completion for variables in match patterns using 'variables' keys
-        if match_selector("keyword.other.variable"):
-            return self._complete_variable()
+        elif match_selector("keyword.other.variable"):
+            result = self._complete_variable()
 
-        # Standard completions for unmatched regions
-        return self._complete_keyword(prefix, locations)
+        else:
+            # Standard completions for unmatched regions
+            result = self._complete_keyword(prefix, locations)
+
+        return result
 
     def _line_prefix(self, point):
         _, col = self.view.rowcol(point)
