@@ -294,18 +294,15 @@ repository:
     # multi-line (block style)
     - name: meta.match.block.yaml-tmlanguage
       contentName: meta.value.yaml-tmlanguage
-      # I don't have a single fucking clue why but apparently removing
-      # the empty capturing group BREAKS the regexp
-      begin: ^( *)(?:-?( +)())((["']?)(match|begin|end)(\3))(:) +([|>](\d*)[-+]?)(?=, |,$| +#| *$)
+      begin: ^( *)-?( +)((["']?)(match|begin|end)(\4))(:) +([|>](\d*)[-+]?)(?=, |,$| +#| *$)
       beginCaptures:
-        '4': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
-        '5': {name: punctuation.definition.string.yaml-tmlanguage}
-        '6': {name: keyword.other.match.yaml-tmlanguage}
-        '7': {name: punctuation.definition.string.yaml-tmlanguage}
-        '8': {name: keyword.control.definition.yaml-tmlanguage}
-
-        '9': {name: keyword.control.block.yaml-tmlanguage}
-        '10': {name: constant.numeric.indentation-indicator.yaml-tmlanguage}
+        '3': {name: string.other.quoted-or-unquoted.yaml-tmlanguage}
+        '4': {name: punctuation.definition.string.yaml-tmlanguage}
+        '5': {name: keyword.other.match.yaml-tmlanguage}
+        '6': {name: punctuation.definition.string.yaml-tmlanguage}
+        '7': {name: keyword.control.definition.yaml-tmlanguage}
+        '8': {name: keyword.control.block.yaml-tmlanguage}
+        '9': {name: constant.numeric.indentation-indicator.yaml-tmlanguage}
       # must be indented by at least as much as the key line + 1 (+ 1 for the potential '-')
       end: ^(?! *$|\1\2  )
       patterns:
