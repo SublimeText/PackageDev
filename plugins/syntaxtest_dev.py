@@ -535,6 +535,7 @@ class ScopeTreeNode:
 
     @classmethod
     def build_forest(cls, tokens, *, trim_suffix=False):
+        print(tokens)
         tokens = [
             (region, cls._split_scope(scope, trim_suffix=trim_suffix))
             for region, scope in tokens
@@ -561,7 +562,7 @@ class ScopeTreeNode:
     def _insert(cls, forest, region, scopes):
         if scopes:
             first, *rest = scopes
-            if forest and forest[-1].scope == first:
+            if forest and forest[-1].scope == first and forest[-1].region.b == region.a:
                 forest[-1].region = forest[-1].region.cover(region)
             else:
                 forest.append(cls(region, first))
