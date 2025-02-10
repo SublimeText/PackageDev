@@ -535,7 +535,6 @@ class ScopeTreeNode:
 
     @classmethod
     def build_forest(cls, tokens, *, trim_suffix=False):
-        print(tokens)
         tokens = [
             (region, cls._split_scope(scope, trim_suffix=trim_suffix))
             for region, scope in tokens
