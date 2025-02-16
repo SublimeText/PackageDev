@@ -95,7 +95,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         """
 
         name = self.view.file_name()
-        if name and not path.basename(name).startswith('syntax_test'):
+        if name and not path.basename(name).startswith('syntax_test_'):
             self.header = None
             return
         self.header = get_syntax_test_tokens(self.view)
