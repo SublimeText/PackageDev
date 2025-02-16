@@ -1,0 +1,8 @@
+v3.6.1 (2025-02-16)
+-------------------
+
+(Notes not shown on release)
+
+- Syntax: Fixed test generation code skipping gaps when joining almost-adjacent regions of the same scope. (#398, #404, @camila314)
+- Syntax Data: Updated scope name suggestions. (@FichteFoll)
+- Theme: Recognize `.sublime-merge-theme` extensioon. (@FichteFoll)
