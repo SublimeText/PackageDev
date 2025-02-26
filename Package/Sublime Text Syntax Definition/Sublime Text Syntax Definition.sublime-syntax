@@ -133,6 +133,7 @@ contexts:
       captures:
         1: string.unquoted.plain.out.yaml storage.type.extends.sublime-syntax
         2: punctuation.separator.key-value.yaml
+      push: expect_extends_list
 
     - match: ((?:hidden_)?file_extensions)\s*(:)(?=\s|$)
       captures:
@@ -161,6 +162,52 @@ contexts:
     - include: yaml-tags-anchors
 
     - include: scope:source.yaml
+
+  expect_extends_list:
+    - meta_content_scope: meta.extends.sublime-syntax
+    - include: comment
+    - include: yaml-tags-anchors
+    # array-like context list
+    - match: \[
+      scope: punctuation.definition.array.begin.sublime-syntax
+      set:
+        - meta_scope: meta.extends.sublime-syntax meta.flow-sequence.yaml
+        - match: \]
+          scope: punctuation.definition.array.end.sublime-syntax
+          pop: true
+        - match: ','
+          scope: punctuation.separator.array-element.sublime-syntax
+        - match: '{{plain_scalar_but_not_block_key}}'
+          push: extended_syntax_file
+        - include: comment
+        - include: yaml-tags-anchors
+    # multi-line context list
+    - match: ^([ ]+)(?=-\s*{{plain_scalar_but_not_block_key}})
+      set:
+        - meta_scope: meta.extends.sublime-syntax meta.block-sequence.yaml
+        # pop off at none-empty line with different indention than first item
+        - match: ^(?!(\s*$|\1-))
+          pop: true
+        - match: '{{plain_scalar_but_not_block_key}}'
+          push: extended_syntax_file
+        - include: comment
+        - include: yaml-block-sequence
+        - match: \S.*$
+          scope: invalid.illegal.extends.sublime-syntax
+    # maybe single include
+    - match: '{{plain_scalar_but_not_block_key}}'
+      set:
+        - meta_scope: meta.extends.sublime-syntax meta.path.sublime-syntax string.unquoted.plain.out.yaml
+        - include: extended_syntax_file
+    - match: ^\s*$
+      pop: 1
+
+  extended_syntax_file:
+    - meta_scope: meta.path.sublime-syntax string.unquoted.plain.out.yaml
+    - match: '{{_flow_scalar_end_plain_in}}'
+      pop: true
+    - match: /
+      scope: punctuation.separator.path.sublime-syntax
 
   variables_block:
     - meta_scope: meta.block.variables.sublime-syntax

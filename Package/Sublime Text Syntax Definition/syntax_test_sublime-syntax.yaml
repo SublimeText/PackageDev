@@ -13,7 +13,26 @@ version: 2
 extends: Packages/Default/Text.sublime-syntax
 #^^^^^^ string.unquoted.plain.out.yaml storage.type.extends.sublime-syntax
 #      ^ punctuation.separator.key-value.yaml
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml
+#       ^ meta.extends - meta.path
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extends.sublime-syntax meta.path.sublime-syntax string.unquoted.plain.out.yaml
+#                ^ punctuation.separator.path.sublime-syntax
+#                        ^ punctuation.separator.path.sublime-syntax
+#                                            ^ - meta.extends - meta.path
+extends: [ Text.sublime-syntax , Source.sublime-syntax ]
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extends.sublime-syntax meta.flow-sequence.yaml
+#         ^ - meta.path
+#          ^^^^^^^^^^^^^^^^^^^ meta.path.sublime-syntax string.unquoted.plain.out.yaml
+#                             ^^^ - meta.path
+#                                ^^^^^^^^^^^^^^^^^^^^^ meta.path.sublime-syntax string.unquoted.plain.out.yaml
+#                                                     ^^ - meta.path
+extends:
+  - Packages/Default/Text.sublime-syntax
+# <- meta.extends.sublime-syntax meta.block-sequence.yaml
+#^^^ meta.extends.sublime-syntax meta.block-sequence.yaml
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.extends.sublime-syntax meta.block-sequence.yaml meta.path.sublime-syntax string.unquoted.plain.out.yaml
+#           ^ punctuation.separator.path.sublime-syntax
+#                   ^ punctuation.separator.path.sublime-syntax
+#                                       ^ meta.extends.sublime-syntax meta.block-sequence.yaml - meta.path
 file_extensions: [a, b]
 #^^^^^^^^^^^^^^ string.unquoted.plain.out.yaml entity.name.tag.yaml
 #                ^^^^^^ meta.flow-sequence.yaml, meta.sequence.flow.yaml
