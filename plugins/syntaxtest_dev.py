@@ -117,7 +117,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         test_start_token = re.match(fr'^\s*({re.escape(tokens.comment_start)})', line_text)
         assertion_colrange = None
         if test_start_token:
-            assertion = re.match(r'\s*(?:(<-)|(\^+))', line_text[test_start_token.end():])
+            assertion = re.match(r'\s*(?:(<-)|(\^+|@+))', line_text[test_start_token.end():])
             if assertion:
                 if assertion.group(1):
                     assertion_colrange = (test_start_token.start(1),
