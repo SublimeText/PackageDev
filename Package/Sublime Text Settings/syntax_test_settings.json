@@ -36,6 +36,28 @@ s
 //                     ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json
 //                       ^ - entity.name.other.key
 
+    "disable_plugin_host-3.3": true,
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json
+//  ^ punctuation.definition.string.begin.json
+//   ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.other.key.sublime-settings - keyword.other.namespace - punctuation.separator.namespace
+//                          ^ punctuation.definition.string.end.json
+
+    "disable_plugin-1.2.3": true,
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json
+//  ^ punctuation.definition.string.begin.json
+//   ^^^^^^^^^^^^^^^^^^^^ entity.name.other.key.sublime-settings - keyword.other.namespace - punctuation.separator.namespace
+//                       ^ punctuation.definition.string.end.json
+
+    "package.3.4.5a": true,
+//  ^^^^^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json
+//  ^ punctuation.definition.string.begin.json
+//   ^^^^^^^^^^^^^^ entity.name.other.key.sublime-settings
+//   ^^^^^^^^^^^^ keyword.other.namespace.sublime-settings
+//          ^ punctuation.separator.namespace.sublime-settings
+//            ^ punctuation.separator.namespace.sublime-settings
+//              ^ punctuation.separator.namespace.sublime-settings
+//                 ^ punctuation.definition.string.end.json
+
     "package_name.setting": null
 //   ^^^^^^^^^^^^^^^^^^^^ entity.name.other.key.sublime-settings
 //   ^^^^^^^^^^^^^ keyword.other.namespace.sublime-settings
