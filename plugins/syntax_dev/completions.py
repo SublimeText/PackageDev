@@ -1,6 +1,8 @@
 import logging
 import re
 from collections import namedtuple
+from fnmatch import fnmatch
+from sublime_lib.resource_path import ResourcePath
 
 import sublime
 import sublime_plugin
@@ -266,6 +268,12 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         ):
             result = self._complete_branch_point()
 
+        elif match_selector(
+            "meta.extends",
+            -1,
+        ):
+            result = self._complete_syntax_file()
+
         # Auto-completion for variables in match patterns using 'variables' keys
         elif match_selector("keyword.other.variable"):
             result = self._complete_variable()
@@ -298,6 +306,45 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             annotation="",
             kind=TPL_CONTEXT.kind,
         )
+
+    def _complete_syntax_file(self):
+        completions = []
+        kind = (sublime.KIND_ID_VARIABLE, 's', 'Syntax')
+
+        settings = sublime.load_settings("PackageDev.sublime-settings")
+        excludes = settings.get("settings.exclude_syntax_patterns", [])
+        if not isinstance(excludes, list):
+            excludes = []
+
+        try:
+            my_folder = str(ResourcePath.from_file_path(self.view.file_name()).parent)
+        except (TypeError, ValueError):
+            my_folder = ""
+
+        for syntax in sublime.list_syntaxes():
+            if any(fnmatch(syntax.path, pattern) for pattern in excludes):
+                continue
+            # add relative resource path completion (file name of siblings)
+            if my_folder:
+                folder, file = syntax.path.rsplit("/", 1)
+                if folder == my_folder:
+                    completions.append(
+                        sublime.CompletionItem(
+                            trigger=file,
+                            kind=kind,
+                            annotation="hidden" if syntax.hidden else ""
+                        )
+                    )
+            # add full resource path
+            completions.append(
+                sublime.CompletionItem(
+                    trigger=syntax.path,
+                    kind=kind,
+                    annotation="hidden" if syntax.hidden else ""
+                )
+            )
+
+        return completions
 
     def _complete_keyword(self, prefix, locations):
 

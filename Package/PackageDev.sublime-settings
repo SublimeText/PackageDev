@@ -30,6 +30,13 @@
     // settings file for this to take effect.
     "settings.show_quick_edit_icon": true,
 
+    // List of patterns for syntax not to be displayed in completions.
+    // Each theme containing one of the list's strings is hidden.
+    "settings.exclude_syntax_patterns": [
+        "*.tmLanguage",
+        "Packages/zzz A File Icon zzz/**"
+    ],
+
     // Whether or not to keep the scope suffix in the suggested test scopes
     // i.e. if the base scope is text.html.markdown
     // then suggest meta.example.markdown (true) vs meta.example (false).
