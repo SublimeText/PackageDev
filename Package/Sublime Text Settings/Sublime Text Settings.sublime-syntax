@@ -40,7 +40,7 @@ contexts:
               scope: meta.mapping.key.json string.quoted.double.json punctuation.definition.string.end.json
               set: [expect-any-settings-value, expect-colon]
         - include: inside-string
-        - match: '[\w]+(\.)'
+        - match: '[\w]+(\.)(?![\d.]+\")'
           scope: keyword.other.namespace.sublime-settings
           captures:
             1: punctuation.separator.namespace.sublime-settings
