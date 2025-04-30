@@ -25,6 +25,12 @@
 	// in the OS file save manager.
 	"default_extension": "",
 
+	// Disable python 3.3 plugin host.
+	// All plugins plugins are executed on latest available plugin host, instead.
+	// With this setting set true, `.python-version` files are ignored.
+	// Added in 4193.
+	"disable_plugin_host_3.3": false,
+
 	// UI scaling factor (deprecated)
 	// Removed in 3181.
 	"dpi_scale": 1.0,
