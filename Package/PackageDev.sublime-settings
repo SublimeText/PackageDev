@@ -30,11 +30,12 @@
     // settings file for this to take effect.
     "settings.show_quick_edit_icon": true,
 
-    // List of patterns for syntax not to be displayed in completions.
-    // Each theme containing one of the list's strings is hidden.
+    // List of patterns for syntax definitions that will not be offered in completions.
+    // The syntaxes resource paths are fnmatch'ed (`*` matches everything, including slashes)
+    // against these patterns.
     "settings.exclude_syntax_patterns": [
         "*.tmLanguage",
-        "Packages/zzz A File Icon zzz/**"
+        "Packages/zzz A File Icon zzz/*"
     ],
 
     // Whether or not to keep the scope suffix in the suggested test scopes
