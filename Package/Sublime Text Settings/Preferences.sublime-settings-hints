@@ -2,12 +2,12 @@
 	// A list of valid spell checker words added by the user.
 	"added_words": [],
 
-	// Disable auto completion entirely, even when explictly requested.
+	// Disable auto completion entirely, even when explicitly requested.
 	// Added in 405x.
 	"auto_complete_disabled": false,
 
 	// Disable auto completions from (all third-party) plugins entirely,
-	// even when explictly requested. Mainly for plugin developers for testing.
+	// even when explicitly requested. Mainly for plugin developers for testing.
 	// Added in 4057.
 	"auto_complete_enable_plugins": true,
 
@@ -26,8 +26,8 @@
 	"default_extension": "",
 
 	// Disable python 3.3 plugin host.
-	// All plugins plugins are executed on latest available plugin host, instead.
-	// With this setting set true, `.python-version` files are ignored.
+	// All plugins are executed on latest available plugin host instead.
+	// With this setting set to true, `.python-version` files are ignored.
 	// Added in 4193.
 	"disable_plugin_host_3.3": false,
 
