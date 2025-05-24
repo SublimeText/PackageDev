@@ -1,0 +1,10 @@
+v3.6.2 (2025-05-24)
+-------------------
+
+(Notes not shown on release)
+
+- Syntax: Highlight the tested region for symbol test lines. (@michaelblyons, #408)
+- Syntax: Highlight `extends` values and provide completions for other syntax paths. (@deathaxe, #407)
+- Settings: Fix highlighting of setting keys with fractional numbers. (@deathaxe, #406, #409)
+- Settings: Updated undocumented settings. (@FichteFoll, @deathaxe, #411, #412)
+- Scope Data: Updated scope name suggestions. (@FichteFoll)
