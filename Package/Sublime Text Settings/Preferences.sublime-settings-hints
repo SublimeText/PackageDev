@@ -83,9 +83,8 @@
 	// Added in 4094.
 	"print_using_browser": null,
 
-	// The distance to move cursor away from scrollbar to reset scroll
-	// position. Dragging scroll puck is effectifly possible only within
-	// that distance.
+	// The distance in pixels the cursor is allowed to move away from scrollbars
+	// before the scroll position is reset.
 	"scroll_reset_distance": null,
 
 	// Controls whether a newly created and unsaved view
