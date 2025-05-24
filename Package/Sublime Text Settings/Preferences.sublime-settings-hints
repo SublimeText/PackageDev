@@ -83,6 +83,11 @@
 	// Added in 4094.
 	"print_using_browser": null,
 
+	// The distance to move cursor away from scrollbar to reset scroll
+	// position. Dragging scroll puck is effectifly possible only within
+	// that distance.
+	"scroll_reset_distance": null,
+
 	// Shows legacy color schemes in UI: Select Color Scheme.
 	// Added in 3136.
 	"show_legacy_color_schemes": false,
