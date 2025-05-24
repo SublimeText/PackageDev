@@ -101,6 +101,7 @@ DATA = """
                 do-while
                 end
                 for
+                in
                 repeat-until
                 while
             import
