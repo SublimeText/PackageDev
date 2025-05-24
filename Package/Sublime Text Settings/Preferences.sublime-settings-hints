@@ -88,6 +88,12 @@
 	// that distance.
 	"scroll_reset_distance": null,
 
+	// Controls whether a newly created and unsaved view
+	// will have its tab name updated automatically.
+	// This is best configured via syntax-specific settings.
+	// Added in 4198.
+	"set_unsaved_view_name_for_syntax": false,
+
 	// Shows legacy color schemes in UI: Select Color Scheme.
 	// Added in 3136.
 	"show_legacy_color_schemes": false,
