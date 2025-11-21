@@ -591,6 +591,13 @@ set_setting:
     value:
   command_type: text
   doc_string: Modifies a view setting.
+set_user_setting:
+  args:
+    file: ""
+    setting: ""
+    value:
+  command_type: text
+  doc_string: Modifies a user setting in .sublime-settings file.
 show_about_window:
   command_type: application
   doc_string: Display the About dialog.
