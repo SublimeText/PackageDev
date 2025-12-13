@@ -265,7 +265,7 @@ class JSONDumper(DumperProto):
 
                 Character encoding for str instances, default is UTF-8.
         """
-        with open(self.new_file_path, "w") as f:
+        with open(self.new_file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, **params)
 
 
@@ -376,7 +376,7 @@ class YAMLDumper(DumperProto):
             Dumper (supposedly derived from yaml.BaseDumper)
                 You should know what you are doing when passing this.
         """
-        with open(self.new_file_path, "w") as f:
+        with open(self.new_file_path, "w", encoding="utf-8") as f:
             yaml.dump(data, f, **params)
 
 
