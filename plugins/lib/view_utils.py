@@ -176,4 +176,10 @@ def region_flags_from_strings(flag_names):
     Example:
         flags: sublime.RegionFlags = region_flags_from_strings(["DRAW_EMPTY", "DRAW_NO_FILL"])
     """
-    return RegionFlags(sum(getattr(RegionFlags, n, RegionFlags.NONE) for n in flag_names))
+    result = RegionFlags.NONE
+    for name in flag_names:
+        try:
+            result |= RegionFlags[name]
+        except KeyError:
+            continue
+    return result
