@@ -1,4 +1,5 @@
 from sublime import Region
+from sublime import RegionFlags
 
 __all__ = ['has_file_ext', 'base_scope',
            'coorded_substr', 'get_text',
@@ -165,3 +166,20 @@ def extract_selector(view, selector, point):
         if reg.contains(point):
             return reg
     return None
+
+
+def region_flags_from_strings(flag_names):
+    """Convert a list of strings into ``sublime.RegionFlags`` object.
+
+    Note: Invalid flag names are silently ignored.
+
+    Example:
+        flags: sublime.RegionFlags = region_flags_from_strings(["DRAW_EMPTY", "DRAW_NO_FILL"])
+    """
+    result = RegionFlags.NONE
+    for name in flag_names:
+        try:
+            result |= RegionFlags[name]
+        except KeyError:
+            continue
+    return result
