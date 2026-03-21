@@ -1,0 +1,15 @@
+%YAML 1.2
+---
+# https://www.sublimetext.com/docs/syntax.html
+scope: source.css.sublime.json-string
+version: 2
+hidden: true
+
+extends: Sublime CSS.sublime-syntax
+
+contexts:
+  prototype:
+    - meta_prepend: true
+    - include: Sublime JSON.sublime-syntax#string-escape
+    - match: $|(?=")
+      pop: 1

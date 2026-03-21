@@ -25,12 +25,12 @@
 //      ^^^^^^^^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json meta.variable-name.sublime-color-scheme
 //       ^^^^^^^^^^^^^^^^^ entity.name.variable.sublime-color-scheme
 //                         ^ punctuation.separator.mapping.key-value.json
-//                           ^^^^^^^^^ string.quoted.double.json meta.color.sublime-color-scheme
+//                           ^^^^^^^^^ meta.color.sublime-color-scheme meta.string.json
 //                           ^ punctuation.definition.string.begin.json
+//                            ^^^^^^^ constant.other.color.rgb-value.css
+//                            ^ punctuation.definition.constant.css
 //                                   ^ punctuation.definition.string.end.json
 //                                    ^ punctuation.separator.mapping.pair.json
-//                            ^ punctuation.definition.constant.css
-//                             ^^^^^^ constant.other.color.rgb-value.css
         "color_pear_green": "#A6E22E",
 
     },
@@ -48,13 +48,14 @@
 //             ^ punctuation.definition.string.end.json
 //       ^^^^^^ entity.name.globals.sublime-color-scheme
 //              ^ punctuation.separator.mapping.key-value.json
-//                ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
-//                ^ punctuation.definition.string.begin.json
-//                 ^^^ support.function.var.css
+//                ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color.sublime-color-scheme
+//                 ^^^^^^^^^^^^^^^^^^^^^ - string
+//                ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                 ^^^ support.function.css
 //                    ^ punctuation.section.group.begin.css
 //                     ^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
 //                                     ^ punctuation.section.group.end.css
-//                                      ^ punctuation.definition.string.end.json
+//                                      ^ string.quoted.double.json punctuation.definition.string.end.json
 //                                       ^ punctuation.separator.mapping.pair.json
         "stack_guide": "#9D550FB0",
         "shadow_width": "12",
@@ -107,8 +108,10 @@
 
         "sheet_css": "html { background: blue; }",
 //       ^^^^^^^^^ entity.name.globals.sublime-color-scheme
-//                   ^ string.quoted.double.json meta.css.sublime-color-scheme punctuation.definition.string.begin.json
-//                    ^^^^ source.css meta.selector.css
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.css.sublime-color-scheme meta.string.json
+//                   ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css - string
+//                                              ^ string.quoted.double.json punctuation.definition.string.end.json
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json
@@ -136,18 +139,70 @@
 //          ^ punctuation.definition.string.begin.json
 //           ^^^^^^^^^^ keyword.other.rule.sublime-color-scheme
 //                     ^ punctuation.definition.string.end.json
-//                         ^^^^^^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.css
-//                         ^^^ support.function.var.css
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color.sublime-color-scheme
+//                         ^^^^^^^^^^^^^^^^^^^^^^ - string
+//                        ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                         ^^^ support.function.css
+//                            ^ punctuation.section.group.begin.css
 //                             ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
-//                                               ^ punctuation.definition.string.end.json
+//                                              ^ punctuation.section.group.end.css
+//                                               ^ string.quoted.double.json punctuation.definition.string.end.json
+//                                                ^ punctuation.separator.mapping.pair.json
             "foreground": "blend(hsl(219, 10%, 6%) 50%)",
-//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
-//                        ^ punctuation.definition.string.begin.json
-//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css-color meta.function-call
-//                               ^^^^^^^^^^^^^^^^^ meta.function-call meta.function-call
-            "foreground": "color(var(color_radical_red) tint(20%))",
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color.sublime-color-scheme meta.string.json
+//                        ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                         ^^^^^ meta.function-call.identifier.css support.function.css
+//                              ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
+//                              ^ punctuation.section.group.begin.css
+//                               ^^^ meta.function-call.identifier.css support.function.color.css
+//                                  ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
+//                                  ^ punctuation.section.group.begin.css
+//                                               ^ punctuation.section.group.end.css
+//                                                    ^ punctuation.section.group.end.css
+//                                                     ^ string.quoted.double.json punctuation.definition.string.end.json
+            "foreground": "color(var(color_radical_red) alpha(var(color_alpha)))",
 //                                   ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
+//                                                                ^^^^^^^^^^^ variable.other.sublime-color-scheme
+
+            "foreground": "color(var(--orangish) min-contrast(var(--background) 2.5))",
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color.sublime-color-scheme meta.string.json
+//                        ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css-color - string
+//                         ^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call
+//                              ^ meta.function-call.arguments.css meta.group.css - meta.function-call meta.function-call
+//                               ^^^ meta.function-call.arguments.css meta.group.css meta.function-call.identifier.css - meta.function-call meta.function-call meta.function-call
+//                                  ^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css - meta.function-call meta.function-call meta.function-call
+//                                              ^ meta.function-call.arguments.css meta.group.css - meta.function-call meta.function-call
+//                                               ^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css meta.function-call.identifier.css - meta.function-call meta.function-call meta.function-call
+//                                                           ^ meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css punctuation.section.group.begin.css - meta.function-call meta.function-call meta.function-call
+//                                                            ^^^ meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css meta.function-call.identifier.css support.function.css
+//                                                               ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css
+//                                                                             ^^^^^ meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css - meta.function-call meta.function-call meta.function-call
+//                                                                                  ^ meta.function-call.arguments.css meta.group.css punctuation.section.group.end.css - meta.function-call meta.function-call
+//                         ^^^^^ support.function.color.css
+//                              ^ punctuation.section.group.begin.css
+//                               ^^^ meta.function-call.identifier.css support.function.css
+//                                  ^ punctuation.section.group.begin.css
+//                                   ^^^^^^^^^^ variable.language.sublime-color-scheme
+//                                             ^ punctuation.section.group.end.css
+//                                               ^^^^^^^^^^^^ support.function.css
+//                                                           ^ punctuation.section.group.begin.css
+//                                                            ^^^ support.function.css
+//                                                               ^ punctuation.section.group.begin.css
+//                                                                ^^^^^^^^^^^^ variable.language.sublime-color-scheme
+//                                                                            ^ punctuation.section.group.end.css
+//                                                                              ^^^ meta.number.float.decimal.css constant.numeric.value.css
+//                                                                                 ^^ punctuation.section.group.end.css
+//                                                                                   ^ string.quoted.double.json punctuation.definition.string.end.json
+
             "foreground": "#F8F8F0",
+//                        ^^^^^^^^^ meta.mapping.value.json meta.color.sublime-color-scheme meta.string.json
+//                        ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                         ^^^^^^^ constant.other.color.rgb-value.css
+//                         ^ punctuation.definition.constant.css
+//                                ^ string.quoted.double.json punctuation.definition.string.end.json
+//                                 ^^ meta.mapping.json
+//                                 ^ meta.expect-comma.sublime punctuation.separator.mapping.pair.json
         },
         {
             "scope": "meta.structure.dictionary.key.json string.quoted.double.json",
@@ -177,14 +232,14 @@
             [
 //          ^ meta.mapping.value.json meta.sequence.json meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.begin.json
                 "hsl(100, 100%, 56%)",
-//              ^^^^^^^^^^^^^^^^^^^^^ meta.foreground.color-list.sublime-color-scheme string.quoted.double.json meta.color.sublime-color-scheme
+//              ^^^^^^^^^^^^^^^^^^^^^ meta.foreground.color-list.sublime-color-scheme meta.color.sublime-color-scheme
 //               ^^^ support.function.color.css
 //                   ^^^ constant.numeric
 //              ^ punctuation.definition.string.begin.json
 //                                  ^ punctuation.definition.string.end.json
 //                                   ^ punctuation.separator.sequence.json
                 "hsl(200, 100%, 56%)",
-//              ^^^^^^^^^^^^^^^^^^^^^ meta.foreground.color-list.sublime-color-scheme string.quoted.double.json meta.color.sublime-color-scheme
+//              ^^^^^^^^^^^^^^^^^^^^^ meta.foreground.color-list.sublime-color-scheme meta.color.sublime-color-scheme
 //               ^^^ support.function.color.css
 //                   ^^^ constant.numeric
 //              ^ punctuation.definition.string.begin.json
@@ -197,16 +252,37 @@
         {
             "scope": "variable.other.readwrite",
             "background": "color(var(color_radical_red) blend(#FFF 50% hsl))",
-//                               ^^^ support.function.var.css
-//                                                           ^^^^^^^^^^^^^^ source.css-color meta.function-call.arguments.css meta.group.css meta.function-call.arguments.css meta.group.css
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.color.sublime-color-scheme meta.string.json
+//                        ^ string.quoted.double.json punctuation.definition.string.begin.json - source.css-color
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.css-color - string
+//                         ^^^^^ meta.function-call.identifier.css support.function.color.css
+//                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
+//                              ^ punctuation.section.group.begin.css
+//                               ^^^ meta.function-call.identifier.css support.function.css
+//                                  ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
+//                                  ^ punctuation.section.group.begin.css
+//                                   ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
+//                                                    ^ punctuation.section.group.end.css
+//                                                      ^^^^^ meta.function-call.identifier.css support.function.css
+//                                                           ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
 //                                                           ^ punctuation.section.group.begin.css
 //                                                            ^^^^ constant.other.color.rgb-value.css
-//                                                                 ^^^ meta.number.integer.decimal.css
+//                                                            ^ punctuation.definition.constant.css
+//                                                                 ^^^ meta.number.integer.decimal.css constant.numeric
 //                                                                     ^^^ keyword.other.color-space.css
 //                                                                        ^^ punctuation.section.group.end.css
+//                                                                          ^ string.quoted.double.json punctuation.definition.string.end.json - source.css-color
             "foreground_adjust": "l(+ 50%)",
-//                               ^^^^^^^^^^ meta.color-adjuster.sublime-color-scheme
-//                                ^^^^^^^^ source.css-color-adjuster meta.function-call
+//                               ^^^^^^^^^^ meta.mapping.value.json meta.color-adjuster.sublime-color-scheme meta.string.json
+//                               ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                                ^^^^^^^^ source.css-color-adjuster
+//                                ^ meta.function-call.identifier.css support.function.css
+//                                 ^^^^^^^ meta.function-call.arguments.css meta.group.css
+//                                 ^ punctuation.section.group.begin.css
+//                                  ^ keyword.operator.arithmetic.css
+//                                    ^^^ meta.number.integer.decimal.css constant.numeric
+//                                       ^ punctuation.section.group.end.css
+//                                        ^ string.quoted.double.json punctuation.definition.string.end.json
         }
     ],
 }
