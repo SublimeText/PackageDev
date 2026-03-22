@@ -35,6 +35,7 @@
     // against these patterns.
     "settings.exclude_syntax_patterns": [
         "*.tmLanguage",
+        "Packages/zzz A File Icon/*",
         "Packages/zzz A File Icon zzz/*"
     ],
 
