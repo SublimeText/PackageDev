@@ -16,10 +16,11 @@
     // Each color scheme containing one of the list's strings is hidden.
     "settings.exclude_color_scheme_patterns": [
         "/Color Scheme - Legacy",
-        "/User/SublimeLinter",
-        "/User/Sublimerge",
+        "/InactivePanes",
         "/User/GitSavvy",
-        "/InactivePanes"
+        "/User/SFTP",
+        "/User/SublimeLinter",
+        "/User/Terminus",
     ],
 
     // List of patterns for themes not to be displayed in completions.
