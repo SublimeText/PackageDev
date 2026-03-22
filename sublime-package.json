@@ -1,0 +1,138 @@
+{
+	"contributions": {
+		"settings": [
+			{
+				"file_patterns": [
+					"PackageDev.sublime-settings"
+				],
+				"schema": {
+					"additionalProperties": false,
+					"properties": {
+						"log_level": {
+							"type": "string",
+							"enum": ["CRITICAL", "ERROR", "WARNING", "INFO", "DEBUG"],
+							"default": "WARNING",
+							"markdownDescription": "Define the minimum log level used for logging output on the console."
+						},
+						"settings.auto_complete": {
+							"type": "boolean",
+							"default": true,
+							"markdownDescription": "Auto complete keys and values in Sublime Settings."
+						},
+						"settings.exclude_color_scheme_patterns": {
+							"type": "array",
+							"default": [
+								"/Color Scheme - Legacy",
+								"/InactivePanes",
+								"/User/GitSavvy",
+								"/User/SFTP",
+								"/User/SublimeLinter",
+								"/User/Terminus"
+							],
+							"markdownDescription": "List of patterns for color schemes not to be displayed in completions. Each color scheme containing one of the list's strings is hidden."
+						},
+						"settings.exclude_syntax_patterns": {
+							"type": "array",
+							"default": [
+								"*.tmLanguage",
+								"Packages/zzz A File Icon zzz/*"
+							],
+							"markdownDescription": "List of patterns for syntax definitions that will not be offered in completions. The syntaxes resource paths are fnmatch'ed (`*` matches everything, including slashes) against these patterns."
+						},
+						"settings.exclude_theme_patterns": {
+							"type": "array",
+							"default": [],
+							"markdownDescription": "List of patterns for themes not to be displayed in completions. Each theme containing one of the list's strings is hidden."
+						},
+						"settings.highlight_scope": {
+							"type": "string",
+							"default": "markup.warning.unknown-key.sublime-settings",
+							"markdownDescription": "Scope for highlighting unknown settings keys."
+						},
+						"settings.highlight_styles": {
+							"type": "array",
+							"default": ["DRAW_SOLID_UNDERLINE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE"],
+							"items": {
+								"type": "string",
+								"enum": ["DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE", "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"],
+							},
+							"markdownDescription": "What add_region styles to use for highlighting of unknown settings keys."
+						},
+						"settings.linting": {
+							"type": "boolean",
+							"default": true,
+							"markdownDescription": "Underline unknown keys in Sublime Settings."
+						},
+						"settings.show_quick_edit_icon": {
+							"type": "boolean",
+							"default": true,
+							"markdownDescription": "Whether to show the edit settings pencil icon. Close & reopen the settings file for this to take effect."
+						},
+						"settings.tooltip": {
+							"type": "boolean",
+							"default": true,
+							"markdownDescription": "Show tooltip with setting description on hovering keys and values."
+						},
+						"syntax.captures_highlight_scope": {
+							"type": "string",
+							"default": "markup.info.capture.sublime-syntax",
+							"markdownDescription": "Scope for highlighting capture group for the current scope line."
+						},
+						"syntax.captures_highlight_styles": {
+							"type": "array",
+							"default": ["DRAW_NO_FILL"],
+							"items": {
+								"type": "string",
+								"enum": ["DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE", "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"],
+							},
+							"markdownDescription": "What add_region styles to use for highlighting of the capture group."
+						},
+						"syntax_test.highlight_scope": {
+							"type": "string",
+							"default": "markup.info.test.sublime-syntax",
+							"markdownDescription": "Scope for highlighting the line/positions being tested."
+						},
+						"syntax_test.highlight_styles": {
+							"type": "array",
+							"default": ["DRAW_NO_FILL"],
+							"items": {
+								"type": "string",
+								"enum": ["DRAW_EMPTY", "HIDE_ON_MINIMAP", "DRAW_EMPTY_AS_OVERWRITE", "DRAW_NO_FILL", "DRAW_NO_OUTLINE", "DRAW_SOLID_UNDERLINE", "DRAW_STIPPLED_UNDERLINE", "DRAW_SQUIGGLY_UNDERLINE", "HIDDEN", "PERSISTENT"],
+							},
+							"markdownDescription": "What add_region styles to use for highlighting of the line/positions being tested."
+						},
+						"syntax_test.skip_whitespace": {
+							"type": "boolean",
+							"default": true,
+							"markdownDescription": "Whether to skip whitespace after the previous line's test assertions when pressing the Tab key on a new syntax test line"
+						},
+						"syntax_test.suggest_scope_suffix": {
+							"type": "boolean",
+							"default": true,
+							"markdownDescription": "Whether or not to keep the scope suffix in the suggested test scopes i.e. if the base scope is text.html.markdown then suggest meta.example.markdown (true) vs meta.example (false)."
+						},
+						"syntax_test.suggest_asserted_prefix": {
+							"type": "boolean",
+							"default": false,
+							"markdownDescription": "Whether to trim leading scopes from suggestions that are already part of previous assertions."
+						}
+					}
+				}
+			},
+			{
+				"file_patterns": [
+					"Preferences.sublime-settings"
+				],
+				"schema": {
+					"properties": {
+						"packagedev.syntax.input_helpers": {
+							"type": "boolean",
+							"default": false,
+							"markdownDescription": "Enable input helpers for syntax definitions.\n\nInput helpers automatically insert whitespace after a `-` or `:`."
+						}
+					}
+				}
+			}
+		]
+	}
+}
