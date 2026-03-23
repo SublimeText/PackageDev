@@ -124,7 +124,7 @@
 //                       ^ punctuation.separator.mapping.key-value.json
 //                         ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color.sublime-color-scheme meta.string.json
 //                         ^ string.quoted.double.json punctuation.definition.string.begin.json
-//                          ^^^^^^^^^^^^^^^^^ source.css-color
+//                          ^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme
 //                          ^^^ meta.function-call.identifier.css support.function
 //                             ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
 //                             ^ punctuation.section.group.begin.css
@@ -177,7 +177,7 @@
 //                               ^ punctuation.separator.mapping.key-value.json
 //                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color-adjuster.sublime-color-scheme meta.string.json
 //                                 ^ string.quoted.double.json punctuation.definition.string.begin.json
-//                                  ^^^^^^^^^^^^^^^^^^^^^^ source.css-color-adjuster
+//                                  ^^^^^^^^^^^^^^^^^^^^^^ source.css-color-adjuster meta.function-call.var.sublime-color-scheme
 //                                  ^^^ meta.function-call.identifier.css support.function.css
 //                                     ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
 //                                     ^ punctuation.section.group.begin.css
@@ -208,7 +208,7 @@
             "opacity": "var(icon_button_opacity)",
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.string.json
 //                     ^ string.quoted.double.json punctuation.definition.string.begin.json
-//                      ^^^^^^^^^^^^^^^^^^^^^^^^ source.css-color
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme
 //                      ^^^ meta.function-call.identifier.css support.function.css
 //                         ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
 //                         ^ punctuation.section.group.begin.css
@@ -223,7 +223,7 @@
             "font.size": "var(default_size)"
 //                       ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.string.json
 //                       ^ string.quoted.double.json punctuation.definition.string.begin.json
-//                        ^^^^^^^^^^^^^^^^^ source.css-color
+//                        ^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme
 //                        ^^^ meta.function-call.identifier.css support.function.css
 //                           ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
 //                           ^ punctuation.section.group.begin.css

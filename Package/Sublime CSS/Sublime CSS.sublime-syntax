@@ -105,6 +105,7 @@ contexts:
 
   var-function-argument-list-body:
     # ST's `var()` function does not support default values (e.g. `var(name #fff)`)
+    - meta_scope: meta.function-call.var.sublime-color-scheme
     - meta_content_scope: meta.function-call.arguments.css meta.group.css
     - match: \)
       scope: meta.function-call.arguments.css meta.group.css punctuation.section.group.end.css
