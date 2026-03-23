@@ -1,5 +1,5 @@
 {
-    "scope": "meta.interpolation-mapping.sublime-theme - string - comment",
+    "scope": "meta.interpolation-mapping.sublime-theme - meta.string - string - comment",
     "completions": [
         {
             "trigger": "target",

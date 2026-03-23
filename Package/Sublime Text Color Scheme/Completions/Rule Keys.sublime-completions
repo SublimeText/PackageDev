@@ -1,5 +1,5 @@
 {
-    "scope": "meta.rule.sublime-color-scheme - meta.sequence meta.sequence - string - comment",
+    "scope": "meta.rule.sublime-color-scheme - meta.sequence meta.sequence - meta.string - string - comment",
     "completions": [
         {
             "trigger": "scope",

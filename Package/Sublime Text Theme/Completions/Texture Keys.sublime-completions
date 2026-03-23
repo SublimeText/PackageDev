@@ -1,5 +1,5 @@
 {
-    "scope": "meta.texture-mapping.sublime-theme - meta.texture-mapping.sublime-theme meta.sequence - string - comment",
+    "scope": "meta.texture-mapping.sublime-theme - meta.texture-mapping.sublime-theme meta.sequence - meta.string - string - comment",
     "completions": [
         {
             "trigger": "keyframes",

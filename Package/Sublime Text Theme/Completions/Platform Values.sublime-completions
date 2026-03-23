@@ -1,5 +1,5 @@
 {
-    "scope": "meta.platforms-sequence.sublime-theme - string - comment",
+    "scope": "meta.platforms-sequence.sublime-theme - meta.string - string - comment",
     "completions": [
         {
             "trigger": "linux",
