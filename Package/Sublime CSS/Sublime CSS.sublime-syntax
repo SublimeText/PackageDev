@@ -1,0 +1,158 @@
+%YAML 1.2
+---
+# https://www.sublimetext.com/docs/syntax.html
+scope: source.css.sublime
+version: 2
+hidden: true
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+contexts:
+
+  stylesheet:
+    # Note: ST doesn't support at-rules
+    - include: comments
+    - include: selectors
+    - include: property-lists
+    - include: rule-terminators
+    - include: illegal-commas
+    - include: illegal-groups
+
+  at-rules: []
+  nested-at-rules: []
+
+  property-list-body:
+    # Note: ST doesn't support nested selectors
+    - meta_include_prototype: false
+    - meta_scope: meta.property-list.css meta.block.css
+    - match: '{{block_end}}'
+      scope: punctuation.section.block.end.css
+      pop: 1
+    - include: comments
+    - include: property-identifiers
+    - include: property-values
+    - include: rule-terminators
+    - include: illegal-commas
+    - include: illegal-blocks
+    - include: illegal-groups
+
+###[ BUILTIN FUNCTIONS ]#######################################################
+
+  builtin-functions:
+    # Note: ST only supports a limited subset of CSS functions
+    - include: color-adjuster-functions
+
+###[ COLOR FUNCTIONS ]#########################################################
+
+  color-functions:
+    - meta_prepend: true
+    # proprietary color function supported by Sublime Text
+    - match: \b((?i:min-contrast))(\()
+      captures:
+        1: meta.function-call.identifier.css support.function.css
+        2: meta.function-call.arguments.css meta.group.css punctuation.section.group.begin.css
+      push: color-function-argument-list-body
+
+  color-function-argument-list-body:
+    - meta_content_scope: meta.function-call.arguments.css meta.group.css
+    - match: \)
+      scope: meta.function-call.arguments.css meta.group.css punctuation.section.group.end.css
+      pop: 1
+    - include: var-functions
+    - include: color-adjuster-functions
+    - include: color-values
+    - include: none-constants
+    - include: numeric-constants
+    - include: sublime-color-variables
+    - include: other-constants
+
+  color-adjuster-functions:
+    # color adjuster functions supported by Sublime Text
+    - match: \b((?i:blenda?|alpha|saturation|lightness|[asl]))(\()
+      captures:
+        1: meta.function-call.identifier.css support.function.css
+        2: meta.function-call.arguments.css meta.group.css punctuation.section.group.begin.css
+      push: color-adjuster-function-argument-list-body
+
+  color-adjuster-function-argument-list-body:
+    - meta_content_scope: meta.function-call.arguments.css meta.group.css
+    - match: \)
+      scope: meta.function-call.arguments.css meta.group.css punctuation.section.group.end.css
+      pop: 1
+    - include: var-functions
+    - include: color-adjuster-operators
+    - include: color-values
+    - include: none-constants
+    - include: numeric-constants
+    - include: sublime-color-variables
+    - match: \b(?i:rgb|hsl|hwb){{break}}
+      scope: keyword.other.color-space.css
+    - include: other-constants
+
+  var-functions:
+    - match: \b((?i:var))(\()
+      captures:
+        1: meta.function-call.identifier.css support.function.css
+        2: meta.function-call.arguments.css meta.group.css punctuation.section.group.begin.css
+      push: var-function-argument-list-body
+
+  var-function:
+    - match: \b((?i:var))(\()
+      captures:
+        1: meta.function-call.identifier.css support.function.css
+        2: meta.function-call.arguments.css meta.group.css punctuation.section.group.begin.css
+      push: var-function-argument-list-body
+
+  var-function-argument-list-body:
+    # ST's `var()` function does not support default values (e.g. `var(name #fff)`)
+    - meta_scope: meta.function-call.var.sublime-color-scheme
+    - meta_content_scope: meta.function-call.arguments.css meta.group.css
+    - match: \)
+      scope: meta.function-call.arguments.css meta.group.css punctuation.section.group.end.css
+      pop: 1
+    - include: sublime-color-variables
+    - include: sublime-other-variables
+
+###[ IDENTIFIERS ]#############################################################
+
+  none-constants:
+    # Note: required until sublimehq/Packages/pulls/3717 (<ST4149)
+    - match: (?i:none){{break}}
+      scope: constant.language.null.css
+
+  sublime-color-variables:
+    - match: |-
+        (?x)
+        --(?:
+            background
+          | foreground
+          | accent
+          | bluish
+          | cyanish
+          | greenish
+          | orangish
+          | pinkish
+          | purplish
+          | redish
+          | yellowish
+        ){{break}}
+      scope: variable.language.sublime-color-scheme
+
+  sublime-other-variables:
+    # Supports identifiers with and without leading `--`
+    - match: '{{ident}}'
+      scope: variable.other.sublime-color-scheme
+
+###[ PUNCTUATION ]#############################################################
+
+  illegal-commas:
+    # Note: required until sublimehq/Packages/pulls/3831 (<ST4174)
+    - match: ','
+      scope: invalid.illegal.unexpected-token.css
+
+###############################################################################
+
+variables:
+  # Block punctuation
+  # Note: required until sublimehq/Packages/pulls/4055 (<ST4193)
+  block_end: \}

@@ -191,15 +191,11 @@ contexts:
   variable-mapping-key-string:
     - match: '"'
       scope: punctuation.definition.string.begin.json
-      set:
-        - meta_content_scope: entity.name.variable.sublime-color-scheme
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        - include: string-escape
+      set: inside-variable-mapping-key-string
+
+  inside-variable-mapping-key-string:
+    - meta_content_scope: entity.name.variable.sublime-color-scheme
+    - include: Sublime JSON.sublime-syntax#inside-string
 
   expect-globals-mapping-value:
     - match: (?=\{)
@@ -352,93 +348,32 @@ contexts:
 
   color-string-pop:
     - match: \"
-      scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: string.quoted.double.json meta.color.sublime-color-scheme
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        # The CSS syntax doesn't recognize bare words as variables,
-        # i.e. without the "custom property prefix" of `--`,
-        # so we push a prototype.
-        - match: ''
-          push:
-            - meta_scope: source.css-color
-            - include: CSS.sublime-syntax#color-values
-          with_prototype:
-            - match: (?=")
-              pop: true
-            - include: string-escape
-            - include: color-custom-functions
-        - include: string-escape
+      scope: string.quoted.double.json punctuation.definition.string.begin.json
+      set: inside-color-string
 
-  color-custom-functions:
-    # Collection of functions that differ in behavior from the CSS syntax
-    # due to the ST implementation being based on a draft that has since evolved.
-    # https://www.sublimetext.com/docs/minihtml.html#css:ver-dev
-    - include: color-var-function
-    - include: color-min-contrast-function
-    # Adjusters may be used directly (#327)
-    - include: CSS.sublime-syntax#color-adjuster-functions
-
-  color-min-contrast-function:
-    # Custom function of ST
-    - match: \b(?i:min-contrast)(?=\()
-      scope: support.function.min-contrast.css
-      push:
-        - meta_scope: meta.function-call.min-contrast.css
-        - match: \)
-          scope: meta.group.css punctuation.section.group.end.css
-          pop: true
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          push:
-            - meta_scope: meta.group.css
-            - match: (?=\))
-              pop: true
-            - match: (?=")  # embed this here so we don't have to "with_prototype"
-              pop: true
-            - include: color-var-function
-            - include: CSS.sublime-syntax#color-values
-            - include: CSS.sublime-syntax#numeric-constants
-        - match: (?=")
-          pop: true
-
-  color-var-function:
-    # Supports identifiers without leading `--`
-    - match: \b(?i:var)(?=\()
-      scope: support.function.var.css
-      push:
-        - meta_scope: meta.function-call.var.css
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.var.css meta.group.css
-            - match: \)
-              scope: meta.group.css punctuation.section.group.end.css
-              pop: true
-            - match: (?:--)?[\w-]+
-              scope: variable.other.sublime-color-scheme
-            - match: (?=")  # embed this here so we don't have to "with_prototype"
-              pop: true
+  inside-color-string:
+    - meta_scope: meta.color.sublime-color-scheme meta.string.json
+    - meta_content_scope: source.css-color
+    - include: Sublime JSON.sublime-syntax#inside-interpolated-string
+    - include: Sublime CSS (for JSON).sublime-syntax#var-functions
+    - include: Sublime CSS (for JSON).sublime-syntax#color-adjuster-functions
+    - include: Sublime CSS (for JSON).sublime-syntax#color-values
 
   color-list-pop:
     - match: \[
-      scope: meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.begin.json
-      set:
-        - meta_scope: meta.sequence.json
-        - meta_content_scope: meta.foreground.color-list.sublime-color-scheme
-        - match: \]
-          scope: meta.foreground.color-list.sublime-color-scheme punctuation.section.sequence.end.json
-          pop: true
-        - match: (?=")
-          push: [in-sequence-expect-comma, color-string-pop]
-        - include: comments
-        - match: '[^\s\]\/,]+'
-          scope: invalid.illegal.color.expected-string.sublime-color-scheme
+      scope: punctuation.section.sequence.begin.json
+      set: inside-color-list
+
+  inside-color-list:
+    - meta_scope: meta.sequence.json meta.foreground.color-list.sublime-color-scheme
+    - match: \]
+      scope: punctuation.section.sequence.end.json
+      pop: true
+    - match: (?=")
+      push: [in-sequence-expect-comma, color-string-pop]
+    - include: comments
+    - match: '[^\s\]\/,]+'
+      scope: invalid.illegal.color.expected-string.sublime-color-scheme
 
   expect-color-adjuster-value:
     - match: (?=")
@@ -447,20 +382,15 @@ contexts:
 
   color-adjuster-string-pop:
     - match: \"
-      scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: string.quoted.double.json meta.color-adjuster.sublime-color-scheme
-        # Set a fake source scope so it's recognized as "embedded code",
-        # but don't set "source.css" to avoid completions provided by shipped package.
-        - meta_content_scope: source.css-color-adjuster
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        - include: color-var-function
-        - include: CSS.sublime-syntax#color-adjuster-functions
+      scope: string.quoted.double.json punctuation.definition.string.begin.json
+      set: inside-color-adjuster-string
+
+  inside-color-adjuster-string:
+    - meta_scope: meta.color-adjuster.sublime-color-scheme meta.string.json
+    - meta_content_scope: source.css-color-adjuster
+    - include: Sublime JSON.sublime-syntax#inside-interpolated-string
+    - include: Sublime CSS (for JSON).sublime-syntax#var-functions
+    - include: Sublime CSS (for JSON).sublime-syntax#color-adjuster-functions
 
   expect-css-string-value:
     - match: (?=")
@@ -469,25 +399,14 @@ contexts:
 
   css-string-pop:
     - match: \"
-      scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: string.quoted.double.json meta.css.sublime-color-scheme
-        - meta_content_scope: source.css
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        - match: ''
-          push:
-            - include: scope:source.css
-          with_prototype:
-            - match: (?="|$)
-              pop: true
-            - include: string-escape
-            - include: color-custom-functions
+      scope: string.quoted.double.json punctuation.definition.string.begin.json
+      set: inside-css-string
 
+  inside-css-string:
+    - meta_scope: meta.css.sublime-color-scheme meta.string.json
+    - meta_content_scope: source.css
+    - include: Sublime JSON.sublime-syntax#inside-interpolated-string
+    - include: Sublime CSS (for JSON).sublime-syntax
 
   expect-fontstyle-string-value:
     - match: (?=")
@@ -497,16 +416,12 @@ contexts:
   fontstyle-string-pop:
     - match: \"
       scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: meta.font-style.sublime-color-scheme string.quoted.double.json
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        - include: font-style
-        - include: string-escape
+      set: inside-fontstyle-string
+
+  inside-fontstyle-string:
+    - meta_scope: meta.font-style.sublime-color-scheme meta.string.json string.quoted.double.json
+    - include: Sublime JSON.sublime-syntax#inside-string
+    - include: font-style
 
   font-style:
     - match: \b(bold|glow|italic|underline)\b  # glow & underline added in 4050 and 4074
@@ -520,18 +435,14 @@ contexts:
   underline-string-pop:
     - match: \"
       scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: meta.underline-style.sublime-color-scheme string.quoted.double.json
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        - include: string-escape
-        - match: \b(underline|stippled_underline|squiggly_underline|foreground)\b
-          scope: support.constant.underline-style.color-scheme
-        - include: font-style
+      set: inside-underline-string
+
+  inside-underline-string:
+    - meta_scope: meta.underline-style.sublime-color-scheme meta.string.json string.quoted.double.json
+    - include: Sublime JSON.sublime-syntax#inside-string
+    - match: \b(underline|stippled_underline|squiggly_underline|foreground)\b
+      scope: support.constant.underline-style.color-scheme
+    - include: font-style
 
   expect-string-boolean-value:
     - match: (?=")
@@ -541,17 +452,13 @@ contexts:
   boolean-string-pop:
     - match: \"
       scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: meta.boolean-string.sublime-color-scheme string.quoted.double.json
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        - include: string-escape
-        - match: \b(true|false)\b
-          scope: support.constant.boolean-string.color-scheme
+      set: inside-boolean-string
+
+  inside-boolean-string:
+    - meta_scope: meta.boolean-string.sublime-color-scheme meta.string.json string.quoted.double.json
+    - include: Sublime JSON.sublime-syntax#inside-string
+    - match: \b(true|false)\b
+      scope: support.constant.boolean-string.color-scheme
 
   expect-cornerstyle-string-value:
     - match: (?=")
@@ -561,17 +468,13 @@ contexts:
   cornerstyle-string-pop:
     - match: \"
       scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: meta.corner-style.sublime-color-scheme string.quoted.double.json
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        - include: string-escape
-        - match: \b(square|cut|round)\b
-          scope: support.constant.corner-style.color-scheme
+      set: inside-cornerstyle-string
+
+  inside-cornerstyle-string:
+    - meta_scope: meta.corner-style.sublime-color-scheme meta.string.json string.quoted.double.json
+    - include: Sublime JSON.sublime-syntax#inside-string
+    - match: \b(square|cut|round)\b
+      scope: support.constant.corner-style.color-scheme
 
   expect-possible-number-in-string-value:
     - match: (?=")
@@ -581,13 +484,9 @@ contexts:
   possible-number-in-string-pop:
     - match: \"
       scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: string.quoted.double.json
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: $\n?
-          scope: invalid.illegal.unclosed-string.json
-          pop: true
-        - include: string-escape
-        - include: Sublime JSON.sublime-syntax#number
+      set: inside-possible-number-in-string
+
+  inside-possible-number-in-string:
+    - meta_scope: meta.string.json string.quoted.double.json
+    - include: Sublime JSON.sublime-syntax#inside-string
+    - include: Sublime JSON.sublime-syntax#number

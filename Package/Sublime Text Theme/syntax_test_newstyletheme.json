@@ -25,12 +25,12 @@
 //      ^^^^^^^^^^^^^^^^^^^ meta.mapping.key.json string.quoted.double.json meta.variable-name.sublime-theme
 //       ^^^^^^^^^^^^^^^^^ entity.name.variable.sublime-theme
 //                         ^ punctuation.separator.mapping.key-value.json
-//                           ^^^^^^^^^ string.quoted.double.json meta.color
+//                           ^^^^^^^^^ meta.color.sublime-color-scheme meta.string.json
 //                           ^ punctuation.definition.string.begin.json
+//                            ^^^^^^^ constant.other.color.rgb-value.css
+//                            ^ punctuation.definition.constant.css
 //                                   ^ punctuation.definition.string.end.json
 //                                    ^ punctuation.separator.mapping.pair.json
-//                            ^ punctuation.definition.constant.css
-//                             ^^^^^^ constant.other.color.rgb-value.css
         "color_pear_green": "color(var(color_radical_red) alpha(0.02))",
 //                                     ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
         "icon_button_opacity":
@@ -42,7 +42,7 @@
         },
 
         "text_widget_dark_modifier": "l(- 5%)", // #327
-//                                    ^ support.function.color.css
+//                                    ^ support.function
     },
 //  ^ punctuation.section.mapping.end.json
 //   ^ punctuation.separator.mapping.pair.json - meta.variables.sublime-theme
@@ -58,7 +58,10 @@
 //      ^ meta.rules.collection.sublime-theme meta.sequence.json meta.rule.sublime-theme meta.mapping.json punctuation.section.mapping.begin.json
             "class": "button_control",
 //           ^^^^^ meta.theme meta.mapping.value meta.rules.collection meta.sequence meta.rule meta.mapping.key meta.rule-key.class string.quoted.double storage.modifier.selector
-//                    ^^^^^^^^^^^^^^ string.quoted.double.json meta.class-selector.sublime-theme entity.name.class-selector.sublime-theme
+//                   ^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.class-selector.sublime-theme meta.string.json string.quoted.double.json
+//                   ^ punctuation.definition.string.begin.json - entity
+//                    ^^^^^^^^^^^^^^ entity.name.class-selector.sublime-theme
+//                                  ^ punctuation.definition.string.end.json - entity
             "settings": ["test_setting", "!namespaced.setting"],
 //           ^^^^^^^^ meta.rule-key.settings.sublime-theme string.quoted.double.json storage.modifier.selector.sublime-theme
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.json meta.settings-sequence.sublime-theme
@@ -112,22 +115,32 @@
 //                            ^^^^ source.css-color meta.function-call
             "layer0.tint": "var(--background)"
 //          ^^^^^^^^^^^^^ meta.mapping.key.json meta.rule-key.color.sublime-theme string.quoted.double.json
+//          ^ punctuation.definition.string.begin.json
 //           ^^^^^^^^^^^ keyword.other.rule.sublime-theme
 //           ^^^^^^ constant.other.layer.sublime-theme
 //                 ^ punctuation.accessor.dot.sublime-theme
 //                      ^ punctuation.definition.string.end.json
+//                       ^^ meta.mapping.json
 //                       ^ punctuation.separator.mapping.key-value.json
-//                         ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json string.quoted.double.json meta.color.sublime-color-scheme
-//                              ^^^^^^^^^^^^ variable.other.sublime-color-scheme
+//                         ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color.sublime-color-scheme meta.string.json
+//                         ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                          ^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme
+//                          ^^^ meta.function-call.identifier.css support.function
+//                             ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
+//                             ^ punctuation.section.group.begin.css
+//                              ^^^^^^^^^^^^ variable.language.sublime-color-scheme
+//                                          ^ punctuation.section.group.end.css
+//                                           ^ string.quoted.double.json punctuation.definition.string.end.json
+//                                            ^ meta.mapping.json meta.expect-comma.sublime
             "line_selection_color": "color(var(blue) alpha(0.05))",
 // <- invalid.illegal.expected-comma.inside-mapping.json
 //          ^^^^^^^^^^^^^^^^^^^^^^ meta.rule-key.color.sublime-theme
-//                                         ^^^ support.function.var.css
+//                                         ^^^ support.function
             "layer2.tint": "color(var(--bluish) min-contrast(rgb(235, 237, 239) 2.5))",
-//                          ^^^^^ support.function.color.css
-//                                ^^^ support.function.var.css
-//                                              ^^^^^^^^^^^^ support.function.min-contrast.css
-//                                                           ^^^ support.function.color.css
+//                          ^^^^^ support.function
+//                                ^^^ support.function
+//                                              ^^^^^^^^^^^^ support.function
+//                                                           ^^^ support.function
 //                                                                              ^^^ constant.numeric
         },
         { // tints (like colors but support `null`)
@@ -138,18 +151,39 @@
         },
         { // color adjusters
             "background_modifier": "blend(white 97.5%)"
-//           ^^^^^^^^^^^^^^^^^^^ meta.rule-key.color-adjuster.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
-//                                  ^^^^^^^^^^^^^^^^^^ meta.rule.sublime-theme meta.mapping.value.json string.quoted.double.json meta.color-adjuster.sublime-color-scheme source.css-color-adjuster
-//                                  ^^^^^ support.function.color.css
+//          ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.json meta.rule-key.color-adjuster.sublime-theme string.quoted.double.json
+//          ^ punctuation.definition.string.begin.json
+//           ^^^^^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                              ^ punctuation.definition.string.end.json
+//                               ^^ meta.mapping.json
+//                               ^ punctuation.separator.mapping.key-value.json
+//                                 ^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color-adjuster.sublime-color-scheme meta.string.json
+//                                 ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                                  ^^^^^^^^^^^^^^^^^^ source.css-color-adjuster
+//                                  ^^^^^ meta.function-call.identifier.css support.function.css
+//                                       ^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
 //                                       ^ punctuation.section.group.begin.css
-//                                        ^^^^^ support.constant
+//                                        ^^^^^ support.constant.color.w3c.standard.css
+//                                              ^^^^^ meta.number.float.decimal.css constant.numeric
+//                                                   ^ punctuation.section.group.end.css
+//                                                    ^ string.quoted.double.json punctuation.definition.string.end.json
+//                                                     ^ meta.mapping.json meta.expect-comma.sublime
             "background_modifier": "var(adjuster_variable)"
-//           ^^^^^^^^^^^^^^^^^^^ meta.rule-key.color-adjuster.sublime-theme string.quoted.double.json keyword.other.rule.sublime-theme
-//                                  ^^^^^^^^^^^^^^^^^^^^^^ meta.rule.sublime-theme meta.mapping.value.json string.quoted.double.json meta.color-adjuster.sublime-color-scheme source.css-color-adjuster
-//                                  ^^^ support.function.var.css
+//          ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key.json meta.rule-key.color-adjuster.sublime-theme string.quoted.double.json
+//          ^ punctuation.definition.string.begin.json
+//           ^^^^^^^^^^^^^^^^^^^ keyword.other.rule.sublime-theme
+//                              ^ punctuation.definition.string.end.json
+//                               ^^ meta.mapping.json
+//                               ^ punctuation.separator.mapping.key-value.json
+//                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.color-adjuster.sublime-color-scheme meta.string.json
+//                                 ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                                  ^^^^^^^^^^^^^^^^^^^^^^ source.css-color-adjuster meta.function-call.var.sublime-color-scheme
+//                                  ^^^ meta.function-call.identifier.css support.function.css
+//                                     ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
 //                                     ^ punctuation.section.group.begin.css
 //                                      ^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
 //                                                       ^ punctuation.section.group.end.css
+//                                                        ^ string.quoted.double.json punctuation.definition.string.end.json
         },
         { // floats
             "line_selection_border_width": "abc" 2.0,
@@ -172,15 +206,30 @@
 //              ^^^^^^^^^^^^ meta.interpolation-key.sublime-theme
             },
             "opacity": "var(icon_button_opacity)",
-//                      ^^^ string.quoted.double.json source.css-color meta.function-call.var.css support.function.var.css
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.string.json
+//                     ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme
+//                      ^^^ meta.function-call.identifier.css support.function.css
+//                         ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
+//                         ^ punctuation.section.group.begin.css
 //                          ^^^^^^^^^^^^^^^^^^^ variable.other.sublime-color-scheme
+//                                             ^ punctuation.section.group.end.css
+//                                              ^ string.quoted.double.json punctuation.definition.string.end.json
             "font.size": "",
 //                       ^^ string.quoted.double.json
             "font.size": "0.9rem",
 //                        ^^^ source.css-size constant.numeric.float
 //                           ^^^ source.css-size keyword.other.unit.css
             "font.size": "var(default_size)"
-//                            ^^^^^^^^^^^^ source.css-color meta.function-call.var.css meta.group.css variable.other.sublime-color-scheme
+//                       ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.json meta.string.json
+//                       ^ string.quoted.double.json punctuation.definition.string.begin.json
+//                        ^^^^^^^^^^^^^^^^^ source.css-color meta.function-call.var.sublime-color-scheme
+//                        ^^^ meta.function-call.identifier.css support.function.css
+//                           ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css
+//                           ^ punctuation.section.group.begin.css
+//                            ^^^^^^^^^^^^ variable.other.sublime-color-scheme
+//                                        ^ punctuation.section.group.end.css
+//                                         ^ string.quoted.double.json punctuation.definition.string.end.json
         },
         { // integer sequences
             "min_size": 0,

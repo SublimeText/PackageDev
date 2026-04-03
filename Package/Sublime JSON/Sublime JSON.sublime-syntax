@@ -205,10 +205,19 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.json
       pop: true
-    - include: string-escape
     - match: $\n?
       scope: invalid.illegal.unclosed-string.json
       pop: true
+    - include: string-escape
+
+  inside-interpolated-string:
+    - match: '"'
+      scope: string.quoted.double.json punctuation.definition.string.end.json
+      pop: true
+    - match: $\n?
+      scope: string.quoted.double.json invalid.illegal.unclosed-string.json
+      pop: true
+    - include: string-escape
 
   string-escape:
     - match: |-

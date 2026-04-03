@@ -755,20 +755,22 @@ contexts:
 
   font-size-string-value:
     - match: \"
-      scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: string.quoted.double.json
-        - meta_content_scope: source.css-size
-        - include: Sublime JSON.sublime-syntax#inside-string
-        - match: '(?:({{css_integer}})|({{css_float}}))(r?em)?'
-          scope: constant.numeric.float.decimal.css
-          captures:
-            1: constant.numeric.integer.decimal.css
-            2: constant.numeric.float.decimal.css
-            3: punctuation.separator.decimal.css
-            4: keyword.other.unit.css
-        - match: .
-          scope: invalid.illegal.expected-font-size.sublime-theme
+      scope: string.quoted.double.json punctuation.definition.string.begin.json
+      set: inside-font-size-string
+
+  inside-font-size-string:
+    - meta_scope: meta.string.json
+    - meta_content_scope: source.css-size
+    - include: Sublime JSON.sublime-syntax#inside-interpolated-string
+    - match: '(?:({{css_integer}})|({{css_float}}))(r?em)?'
+      scope: constant.numeric.float.decimal.css
+      captures:
+        1: constant.numeric.integer.decimal.css
+        2: constant.numeric.float.decimal.css
+        3: punctuation.separator.decimal.css
+        4: keyword.other.unit.css
+    - match: .
+      scope: invalid.illegal.expected-font-size.sublime-theme
 
   var-value:
     - match: (?=\"var\(|\"(v(a(r)?)?)?(\"|$)) # improve ux while typing
@@ -776,12 +778,14 @@ contexts:
 
   var-pop:
     - match: \"
-      scope: punctuation.definition.string.begin.json
-      set:
-        - meta_scope: string.quoted.double.json
-        - meta_content_scope: source.css-color
-        - include: Sublime JSON.sublime-syntax#inside-string
-        - include: Sublime Text Color Scheme.sublime-syntax#color-var-function
+      scope: string.quoted.double.json punctuation.definition.string.begin.json
+      set: inside-var-string
+
+  inside-var-string:
+    - meta_scope: meta.string.json
+    - meta_content_scope: source.css-color
+    - include: Sublime JSON.sublime-syntax#inside-interpolated-string
+    - include: Sublime CSS (for JSON).sublime-syntax#var-functions
 
   expect-class-string-value:
     - match: (?=")
@@ -789,13 +793,15 @@ contexts:
     - include: expect-string-rest
 
   class-string-pop:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.json
-      set:
-        # deliberately do not choose "entity.name.class"
-        - meta_scope: string.quoted.double.json meta.class-selector.sublime-theme
-        - meta_content_scope: entity.name.class-selector.sublime-theme
-        - include: Sublime JSON.sublime-syntax#inside-string
+      set: inside-class-string
+
+  inside-class-string:
+    # deliberately do not choose "entity.name.class"
+    - meta_scope: meta.class-selector.sublime-theme meta.string.json string.quoted.double.json
+    - meta_content_scope: entity.name.class-selector.sublime-theme
+    - include: Sublime JSON.sublime-syntax#inside-string
 
   #####################################
 
