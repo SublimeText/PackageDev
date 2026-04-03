@@ -3,9 +3,9 @@ import re
 import sublime
 import sublime_plugin
 
-from sublime_lib.flags import RegionOption
-
+from ..lib import package_settings
 from ..lib import syntax_paths
+from ..lib.view_utils import region_flags_from_strings
 
 __all__ = (
     'SyntaxDefRegexCaptureGroupHighlighter',
@@ -23,17 +23,12 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
         return settings.get('syntax') == syntax_paths.SYNTAX_DEF
 
     def on_selection_modified(self):
-        prefs = sublime.load_settings('PackageDev.sublime-settings')
-        scope = prefs.get('syntax.captures_highlight_scope', "text")
-        styles = prefs.get('syntax.captures_highlight_styles', ['DRAW_NO_FILL'])
-
-        style_flags = RegionOption(*styles)
-
+        prefs = package_settings()
         self.view.add_regions(
             key='captures',
             regions=list(self.get_regex_regions()),
-            scope=scope,
-            flags=style_flags,
+            scope=prefs['syntax.captures_highlight_scope'],
+            flags=region_flags_from_strings(prefs['syntax.captures_highlight_styles']),
         )
 
     def get_regex_regions(self):
