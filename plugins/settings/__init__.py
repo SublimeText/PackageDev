@@ -1,4 +1,4 @@
-import html.parser
+import html
 import logging
 import os
 
@@ -221,7 +221,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
     def on_navigate(self, href):
         """Popup navigation event handler."""
         command, _, argument = href.partition(":")
-        argument = html.parser.HTMLParser().unescape(argument)
+        argument = html.unescape(argument)
 
         if command == 'edit':
             view_id = self.view.settings().get('edit_settings_other_view_id')
