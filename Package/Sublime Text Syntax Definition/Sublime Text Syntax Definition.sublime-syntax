@@ -602,11 +602,10 @@ contexts:
       scope: punctuation.definition.string.begin.yaml
       push:
         - meta_scope: comment.other.quoted.double.sublime-syntax
-        - match: \\.
-          scope: constant.character.escape.yaml
         - match: '"'
           scope: punctuation.definition.string.end.yaml
           pop: true
+        - include: yaml-double-quoted-escapes
 
     - match: "'"
       scope: punctuation.definition.string.begin.yaml
@@ -660,12 +659,11 @@ contexts:
       push:
         - meta_scope: string.quoted.double.yaml
         - meta_content_scope: source.regexp.oniguruma
-        - include: regexp_variable
-        - match: \\.
-          scope: constant.character.escape.yaml
         - match: '"'
           scope: punctuation.definition.string.end.yaml
           pop: 2
+        - include: yaml-double-quoted-escapes
+        - include: regexp_variable
 
     - match: "'"
       scope: punctuation.definition.string.begin.yaml
@@ -794,3 +792,15 @@ contexts:
 
   yaml-tags-anchors:
     - include: YAML.sublime-syntax#property
+
+  yaml-double-quoted-escapes:
+    - match: \\[ 0_abefLnNPprtv/\\"]
+      scope: constant.character.escape.yaml
+    - match: \\x\h{2}
+      scope: constant.character.escape.unicode.8bit.yaml
+    - match: \\u\h{4}
+      scope: constant.character.escape.unicode.16bit.yaml
+    - match: \\U\h{8}
+      scope: constant.character.escape.unicode.32bit.yaml
+    - match: \\.
+      scope: invalid.illegal.escape.yaml

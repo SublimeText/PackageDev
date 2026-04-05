@@ -252,11 +252,13 @@ contexts:
     - comment: "this is a \"comment"
 #              ^^^^^^^^^^^^^^^^^^^^^ comment.other.quoted.double.sublime-syntax
 #              ^ punctuation.definition.string.begin.yaml
+#                         ^^ constant.character.escape.yaml
 #                                  ^ punctuation.definition.string.end.yaml
 
       comment: 'this is a ''comment'
 #              ^^^^^^^^^^^^^^^^^^^^^ comment.other.quoted.single.sublime-syntax
 #              ^ punctuation.definition.string.begin.yaml
+#                         ^^ constant.character.escape.yaml
 #                                  ^ punctuation.definition.string.end.yaml
 
     - comment: |-
@@ -288,6 +290,61 @@ contexts:
       (?x) # extended group with comments
 #     ^^^^ source.regexp.oniguruma meta.group.extended.regexp
 #          ^ source.regexp.oniguruma comment.line.number-sign.regexp punctuation.definition.comment.regexp
+
+    - match: "(?=\0)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\a)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\b)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\t)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\n)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\v)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\f)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\r)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\e)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\ )"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\")"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\/)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\\)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\N)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\_)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\L)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\P)"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\ )"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\ )"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\ )"
+#                ^^ constant.character.escape.yaml
+    - match: "(?=\')"
+#                ^^ invalid.illegal.escape.yaml
+    - match: "(?=\m)"
+#                ^^ invalid.illegal.escape.yaml
+    - match: "(?=\x1234)"
+#                ^^^^ constant.character.escape.unicode.8bit.yaml
+#                    ^^ - constant.character.escape
+    - match: "(?=\u123fd)"
+#                ^^^^^^ constant.character.escape.unicode.16bit.yaml
+#                      ^ - constant.character.escape
+    - match: "(?=\U123fda3f2)"
+#                ^^^^^^^^^^ constant.character.escape.unicode.32bit.yaml
+#                          ^ - constant.character.escape
+
     - scope: abc
 #     ^^^^^ string.unquoted.plain.out.yaml storage.type.scope-name.sublime-syntax
     - meta_scope: abc
