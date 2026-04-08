@@ -54,15 +54,15 @@
 <!--                    ^ punctuation.definition.tag.begin.xml -->
 <!--                     ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.selector.tmPreferences -->
 <!--                                            ^^^ punctuation.definition.tag.end.xml - meta.string - invalid -->
-<!--                         ^ keyword.operator.with.scope-selector -->
+<!--                         ^ keyword.operator.combinator.with.scope-selector -->
 <!--                           ^ punctuation.section.group.begin.scope-selector -->
-<!--                                      ^ keyword.operator.with.scope-selector -->
+<!--                                      ^ keyword.operator.combinator.with.scope-selector -->
 <!--                                           ^ punctuation.section.group.end.scope-selector -->
         <key>scope</key>
         <string>abc & (def - ghi & jkl &amp; mno)</string>
 <!--                ^ invalid.illegal.bad-ampersand.xml -->
 <!--                             ^ invalid.illegal.bad-ampersand.xml -->
-<!--                                   ^^^^^ constant.character.entity.xml keyword.operator.with.scope-selector -->
+<!--                                   ^^^^^ constant.character.entity.xml keyword.operator.combinator.with.scope-selector -->
 
         <key>settings</key>
 <!--         ^^^^^^^^ meta.inside-dict-key.plist keyword.other.settings.tmPreferences-->
@@ -255,7 +255,7 @@
 <!--                                                ^^^^^ string.unquoted.scope-segment.scope-selector -->
 <!--                                                     ^ punctuation.separator.scope-segments.scope-selector -->
 <!--                                                      ^^^^^ string.unquoted.scope-segment.scope-selector -->
-<!--                                                            ^^^^^ constant.character.entity.xml keyword.operator.with.scope-selector -->
+<!--                                                            ^^^^^ constant.character.entity.xml keyword.operator.combinator.with.scope-selector -->
 <!--                                                                  ^ punctuation.section.group.begin.scope-selector -->
 <!--                                                                           ^ invalid.illegal.missing-group-end.scope-selector -->
 <!--                                                                            ^^^^^^^^^ meta.tag.xml - meta.inside-value -->
@@ -275,12 +275,12 @@
 <!--                                                            ^^^^^^^^^^^^^^^ meta.group.scope-selector - meta.group meta.group -->
 <!--                            ^ punctuation.section.group.begin.scope-selector -->
 <!--                              ^ punctuation.section.group.begin.scope-selector -->
-<!--                                           ^ keyword.operator.or.scope-selector -->
+<!--                                           ^ keyword.operator.combinator.or.scope-selector -->
 <!--                                                           ^ punctuation.section.group.end.scope-selector -->
-<!--                                                             ^^^^^ constant.character.entity.xml keyword.operator.with.scope-selector -->
+<!--                                                             ^^^^^ constant.character.entity.xml keyword.operator.combinator.with.scope-selector -->
 <!--                                                                   ^^^^^^ string.unquoted.scope-segment.scope-selector -->
 <!--                                                                          ^ punctuation.section.group.end.scope-selector -->
-<!--                                                                            ^^^^^ constant.character.entity.xml keyword.operator.with.scope-selector -->
+<!--                                                                            ^^^^^ constant.character.entity.xml keyword.operator.combinator.with.scope-selector -->
 <!--                                                                                  ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector -->
 <!--                                                                                              ^^^^^^^^^^^^^^^^ comment.block.xml -->
                 </dict>

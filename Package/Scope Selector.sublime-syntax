@@ -45,15 +45,17 @@ contexts:
     - match: \s+\(
       scope: invalid.illegal.operator-required-between-scope-and-group.scope-selector
     - match: \s+(?=\w)
-      scope: keyword.operator.right.scope-selector
+      scope: keyword.operator.combinator.right.scope-selector
       pop: true
     - match: ''
       pop: true
 
   operators:
+    - match: '>'
+      scope: keyword.operator.combinator.child.scope-selector
     - match: '-'
-      scope: keyword.operator.without.scope-selector
+      scope: keyword.operator.combinator.without.scope-selector
     - match: '&'
-      scope: keyword.operator.with.scope-selector
+      scope: keyword.operator.combinator.with.scope-selector
     - match: '[,|]'
-      scope: keyword.operator.or.scope-selector
+      scope: keyword.operator.combinator.or.scope-selector

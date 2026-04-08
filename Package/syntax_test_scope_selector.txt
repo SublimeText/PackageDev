@@ -20,7 +20,7 @@ string.quoted.double
 
 
  - quoted.double
-#^ keyword.operator.without.scope-selector
+#^ keyword.operator.combinator.without.scope-selector
 # ^ - keyword - string
 #  ^^^^^^ string.unquoted.scope-segment.scope-selector
 #        ^ punctuation.separator.scope-segments.scope-selector
@@ -29,56 +29,56 @@ string.quoted.double
  string - comment
 #^^^^^^ string.unquoted.scope-segment.scope-selector
 #      ^ - string - keyword
-#       ^ keyword.operator.without.scope-selector
+#       ^ keyword.operator.combinator.without.scope-selector
 #        ^ - string - keyword
 #         ^^^^^^^ string.unquoted.scope-segment.scope-selector
 
  string, comment
 #^^^^^^ string.unquoted.scope-segment.scope-selector
-#      ^ keyword.operator.or.scope-selector
+#      ^ keyword.operator.combinator.or.scope-selector
 #       ^ - string - keyword
 #        ^^^^^^^ string.unquoted.scope-segment.scope-selector
 
  string | comment
 #^^^^^^ string.unquoted.scope-segment.scope-selector
 #      ^ - string - keyword
-#       ^ keyword.operator.or.scope-selector
+#       ^ keyword.operator.combinator.or.scope-selector
 #        ^ - string - keyword
 #         ^^^^^^^ string.unquoted.scope-segment.scope-selector
 
  string & - comment
 #^^^^^^ string.unquoted.scope-segment.scope-selector
 #      ^ - string - keyword
-#       ^ keyword.operator.with.scope-selector
+#       ^ keyword.operator.combinator.with.scope-selector
 #        ^ - string - keyword
-#         ^ keyword.operator.without.scope-selector
+#         ^ keyword.operator.combinator.without.scope-selector
 #          ^ - string - keyword
 #           ^^^^^^^ string.unquoted.scope-segment.scope-selector
 
  source string
 #^^^^^^ string.unquoted.scope-segment.scope-selector
-#      ^ keyword.operator.right.scope-selector
+#      ^ keyword.operator.combinator.right.scope-selector
 #       ^^^^^^ string.unquoted.scope-segment.scope-selector
 
  source & (string - comment) &
 #^^^^^^ string.unquoted.scope-segment.scope-selector
 #      ^ - string - keyword
-#       ^ keyword.operator.with.scope-selector
+#       ^ keyword.operator.combinator.with.scope-selector
 #        ^ - string - keyword
 #         ^ punctuation.section.group.begin.scope-selector
 #          ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                ^ - string - keyword
-#                 ^ keyword.operator.without.scope-selector
+#                 ^ keyword.operator.combinator.without.scope-selector
 #                  ^ - string - keyword
 #                   ^^^^^^^ string.unquoted.scope-segment.scope-selector
 #                          ^ punctuation.section.group.end.scope-selector
 #                           ^ - string - keyword
-#                            ^ keyword.operator.with.scope-selector
+#                            ^ keyword.operator.combinator.with.scope-selector
 
  string & source
 #^^^^^^ string.unquoted.scope-segment.scope-selector
 #      ^ - string - keyword
-#       ^ keyword.operator.with.scope-selector
+#       ^ keyword.operator.combinator.with.scope-selector
 #        ^ - string - keyword
 #         ^^^^^^ string.unquoted.scope-segment.scope-selector
 
@@ -86,7 +86,7 @@ string.quoted.double
 #^^^^^^ string.unquoted.scope-segment.scope-selector
 #      ^ punctuation.separator.scope-segments.scope-selector
 #       ^^^^^^ string.unquoted.scope-segment.scope-selector
-#             ^ keyword.operator.right.scope-selector
+#             ^ keyword.operator.combinator.right.scope-selector
 #              ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                    ^ punctuation.separator.scope-segments.scope-selector
 #                     ^^^^^^ string.unquoted.scope-segment.scope-selector
@@ -96,7 +96,7 @@ string.quoted.double
 #                                   ^^^^^ string.unquoted.scope-segment.scope-selector
 #                                        ^ punctuation.separator.scope-segments.scope-selector
 #                                         ^^^^^^ string.unquoted.scope-segment.scope-selector
-#                                               ^ keyword.operator.right.scope-selector
+#                                               ^ keyword.operator.combinator.right.scope-selector
 #                                                ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
 #                                                           ^ punctuation.separator.scope-segments.scope-selector
 #                                                            ^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
@@ -110,11 +110,11 @@ string.quoted.double
  source & string & punctuation.definition.string.begin.python
 #^^^^^^ string.unquoted.scope-segment.scope-selector
 #      ^ - string - keyword
-#       ^ keyword.operator.with.scope-selector
+#       ^ keyword.operator.combinator.with.scope-selector
 #        ^ - string - keyword
 #         ^^^^^^ string.unquoted.scope-segment.scope-selector
 #               ^ - string - keyword
-#                ^ keyword.operator.with.scope-selector
+#                ^ keyword.operator.combinator.with.scope-selector
 #                 ^ - string - keyword
 #                  ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
 #                             ^ punctuation.separator.scope-segments.scope-selector
@@ -128,10 +128,10 @@ string.quoted.double
 
  string punctuation & source
 #^^^^^^ string.unquoted.scope-segment.scope-selector
-#      ^ keyword.operator.right.scope-selector
+#      ^ keyword.operator.combinator.right.scope-selector
 #       ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
 #                  ^ - string - keyword
-#                   ^ keyword.operator.with.scope-selector
+#                   ^ keyword.operator.combinator.with.scope-selector
 #                    ^ - string - keyword
 #                     ^^^^^^ string.unquoted.scope-segment.scope-selector
 
@@ -141,47 +141,47 @@ string.quoted.double
  (punctuation string) test.example - foo bar
 #^ punctuation.section.group.begin.scope-selector
 # ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
-#            ^ keyword.operator.right.scope-selector
+#            ^ keyword.operator.combinator.right.scope-selector
 #             ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                   ^ punctuation.section.group.end.scope-selector
 #                    ^^^^^^^^^^^^^ invalid.illegal.operator-required-after-group.scope-selector
 #                                 ^ - string - keyword - illegal
-#                                  ^ keyword.operator.without.scope-selector
+#                                  ^ keyword.operator.combinator.without.scope-selector
 #                                   ^ - string - keyword - illegal
 #                                    ^^^ string.unquoted.scope-segment.scope-selector
-#                                       ^ keyword.operator.right.scope-selector
+#                                       ^ keyword.operator.combinator.right.scope-selector
 #                                        ^^^ string.unquoted.scope-segment.scope-selector
 
  (source&string)
 #^ punctuation.section.group.begin.scope-selector
 # ^^^^^^ string.unquoted.scope-segment.scope-selector
-#       ^ keyword.operator.with.scope-selector
+#       ^ keyword.operator.combinator.with.scope-selector
 #        ^^^^^^ string.unquoted.scope-segment.scope-selector
 #              ^ punctuation.section.group.end.scope-selector
 
  (punctuation|string)&source.python -comment
 #^ punctuation.section.group.begin.scope-selector
 # ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
-#            ^ keyword.operator.or.scope-selector
+#            ^ keyword.operator.combinator.or.scope-selector
 #             ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                   ^ punctuation.section.group.end.scope-selector
-#                    ^ keyword.operator.with.scope-selector
+#                    ^ keyword.operator.combinator.with.scope-selector
 #                     ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                           ^ punctuation.separator.scope-segments.scope-selector
 #                            ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                                  ^ - string - keyword
-#                                   ^ keyword.operator.without.scope-selector
+#                                   ^ keyword.operator.combinator.without.scope-selector
 #                                    ^^^^^^^ string.unquoted.scope-segment.scope-selector
 
  comment,string|source
 #^^^^^^^ string.unquoted.scope-segment.scope-selector
-#       ^ keyword.operator.or.scope-selector
+#       ^ keyword.operator.combinator.or.scope-selector
 #        ^^^^^^ string.unquoted.scope-segment.scope-selector
-#              ^ keyword.operator.or.scope-selector
+#              ^ keyword.operator.combinator.or.scope-selector
 #               ^^^^^^ string.unquoted.scope-segment.scope-selector
 
 -comment
-#<- keyword.operator.without.scope-selector
+#<- keyword.operator.combinator.without.scope-selector
 #^^^^^^^ string.unquoted.scope-segment.scope-selector
 
 ( text )|source
@@ -190,13 +190,13 @@ string.quoted.double
 # ^^^^ string.unquoted.scope-segment.scope-selector
 #     ^ - string - keyword
 #      ^ punctuation.section.group.end.scope-selector
-#       ^ keyword.operator.or.scope-selector
+#       ^ keyword.operator.combinator.or.scope-selector
 #        ^^^^^^ string.unquoted.scope-segment.scope-selector
 
 (trailing space)
 #<- punctuation.section.group.begin.scope-selector
 #^^^^^^^^ string.unquoted.scope-segment.scope-selector
-#        ^ keyword.operator.right.scope-selector
+#        ^ keyword.operator.combinator.right.scope-selector
 #         ^^^^^ string.unquoted.scope-segment.scope-selector
 #              ^ punctuation.section.group.end.scope-selector
 #               ^^ - string - keyword - illegal
@@ -211,17 +211,17 @@ text.html - (source & - source text.html)
 #   ^ punctuation.separator.scope-segments.scope-selector
 #    ^^^^ string.unquoted.scope-segment.scope-selector
 #        ^ - string - keyword
-#         ^ keyword.operator.without.scope-selector
+#         ^ keyword.operator.combinator.without.scope-selector
 #          ^ - string - keyword
 #           ^ punctuation.section.group.begin.scope-selector
 #            ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                  ^ - string - keyword
-#                   ^ keyword.operator.with.scope-selector
+#                   ^ keyword.operator.combinator.with.scope-selector
 #                    ^ - string - keyword
-#                     ^ keyword.operator.without.scope-selector
+#                     ^ keyword.operator.combinator.without.scope-selector
 #                      ^ - string - keyword
 #                       ^^^^^^ string.unquoted.scope-segment.scope-selector
-#                             ^ keyword.operator.right.scope-selector
+#                             ^ keyword.operator.combinator.right.scope-selector
 #                              ^^^^ string.unquoted.scope-segment.scope-selector
 #                                  ^ punctuation.separator.scope-segments.scope-selector
 #                                   ^^^^ string.unquoted.scope-segment.scope-selector
@@ -232,12 +232,12 @@ source.php - source.php text.html
 #     ^ punctuation.separator.scope-segments.scope-selector
 #      ^^^ string.unquoted.scope-segment.scope-selector
 #         ^ - string - keyword
-#          ^ keyword.operator.without.scope-selector
+#          ^ keyword.operator.combinator.without.scope-selector
 #           ^ - string - keyword
 #            ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                  ^ punctuation.separator.scope-segments.scope-selector
 #                   ^^^ string.unquoted.scope-segment.scope-selector
-#                      ^ keyword.operator.right.scope-selector
+#                      ^ keyword.operator.combinator.right.scope-selector
 #                       ^^^^ string.unquoted.scope-segment.scope-selector
 #                           ^ punctuation.separator.scope-segments.scope-selector
 #                            ^^^^ string.unquoted.scope-segment.scope-selector
@@ -246,26 +246,26 @@ embedding.php text.html - (source.php &amp; - source.php text.html)
 #^^^^^^^^ string.unquoted.scope-segment.scope-selector
 #        ^ punctuation.separator.scope-segments.scope-selector
 #         ^^^ string.unquoted.scope-segment.scope-selector
-#            ^ keyword.operator.right.scope-selector
+#            ^ keyword.operator.combinator.right.scope-selector
 #             ^^^^ string.unquoted.scope-segment.scope-selector
 #                 ^ punctuation.separator.scope-segments.scope-selector
 #                  ^^^^ string.unquoted.scope-segment.scope-selector
 #                      ^ - string - keyword
-#                       ^ keyword.operator.without.scope-selector
+#                       ^ keyword.operator.combinator.without.scope-selector
 #                        ^ - string - keyword
 #                         ^ punctuation.section.group.begin.scope-selector
 #                          ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                                ^ punctuation.separator.scope-segments.scope-selector
 #                                 ^^^ string.unquoted.scope-segment.scope-selector
 #                                    ^ - string - keyword
-#                                     ^ keyword.operator.with.scope-selector
+#                                     ^ keyword.operator.combinator.with.scope-selector
 #                                          ^ - string - keyword
-#                                           ^ keyword.operator.without.scope-selector
+#                                           ^ keyword.operator.combinator.without.scope-selector
 #                                            ^ - string - keyword
 #                                             ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                                                   ^ punctuation.separator.scope-segments.scope-selector
 #                                                    ^^^ string.unquoted.scope-segment.scope-selector
-#                                                       ^ keyword.operator.right.scope-selector
+#                                                       ^ keyword.operator.combinator.right.scope-selector
 #                                                        ^^^^ string.unquoted.scope-segment.scope-selector
 #                                                            ^ punctuation.separator.scope-segments.scope-selector
 #                                                             ^^^^ string.unquoted.scope-segment.scope-selector
@@ -275,3 +275,17 @@ source.c++
 # ^^^^ string.unquoted.scope-segment.scope-selector
 #     ^ punctuation.separator.scope-segments.scope-selector
 #      ^^^ string.unquoted.scope-segment.scope-selector
+
+source.c > parent & (parent > child)
+#^^^^^ string.unquoted.scope-segment.scope-selector
+#     ^ punctuation.separator.scope-segments.scope-selector
+#      ^ string.unquoted.scope-segment.scope-selector
+#        ^ keyword.operator.combinator.child.scope-selector
+#          ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                 ^ keyword.operator.combinator.with.scope-selector
+#                   ^^^^^^^^^^^^^^^^ meta.group.scope-selector
+#                   ^ punctuation.section.group.begin.scope-selector
+#                    ^^^^^^ string.unquoted.scope-segment.scope-selector
+#                           ^ keyword.operator.combinator.child.scope-selector
+#                             ^^^^^ string.unquoted.scope-segment.scope-selector
+#                                  ^ punctuation.section.group.end.scope-selector

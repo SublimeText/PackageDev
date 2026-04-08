@@ -62,7 +62,7 @@ contexts:
         - include: scope:source.scope-selector
       with_prototype:
         - match: '&amp;'
-          scope: keyword.operator.with.scope-selector
+          scope: keyword.operator.combinator.with.scope-selector
     - match: '(<)(tabTrigger)(>)'
       scope: meta.tag.xml
       captures:

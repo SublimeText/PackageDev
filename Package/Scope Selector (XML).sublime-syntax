@@ -23,7 +23,7 @@ contexts:
   operators:
     - meta_prepend: true
     - match: (&)amp(;)
-      scope: constant.character.entity.xml keyword.operator.with.scope-selector
+      scope: constant.character.entity.xml keyword.operator.combinator.with.scope-selector
       captures:
         1: punctuation.definition.constant.xml
         2: punctuation.definition.constant.xml
