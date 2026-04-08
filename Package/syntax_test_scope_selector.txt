@@ -57,7 +57,7 @@ string.quoted.double
 
  source string
 #^^^^^^ string.unquoted.scope-segment.scope-selector
-#      ^ keyword.operator.combinator.right.scope-selector
+#      ^ keyword.operator.combinator.descendent.scope-selector
 #       ^^^^^^ string.unquoted.scope-segment.scope-selector
 
  source & (string - comment) &
@@ -86,7 +86,7 @@ string.quoted.double
 #^^^^^^ string.unquoted.scope-segment.scope-selector
 #      ^ punctuation.separator.scope-segments.scope-selector
 #       ^^^^^^ string.unquoted.scope-segment.scope-selector
-#             ^ keyword.operator.combinator.right.scope-selector
+#             ^ keyword.operator.combinator.descendent.scope-selector
 #              ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                    ^ punctuation.separator.scope-segments.scope-selector
 #                     ^^^^^^ string.unquoted.scope-segment.scope-selector
@@ -96,7 +96,7 @@ string.quoted.double
 #                                   ^^^^^ string.unquoted.scope-segment.scope-selector
 #                                        ^ punctuation.separator.scope-segments.scope-selector
 #                                         ^^^^^^ string.unquoted.scope-segment.scope-selector
-#                                               ^ keyword.operator.combinator.right.scope-selector
+#                                               ^ keyword.operator.combinator.descendent.scope-selector
 #                                                ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
 #                                                           ^ punctuation.separator.scope-segments.scope-selector
 #                                                            ^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
@@ -128,7 +128,7 @@ string.quoted.double
 
  string punctuation & source
 #^^^^^^ string.unquoted.scope-segment.scope-selector
-#      ^ keyword.operator.combinator.right.scope-selector
+#      ^ keyword.operator.combinator.descendent.scope-selector
 #       ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
 #                  ^ - string - keyword
 #                   ^ keyword.operator.combinator.with.scope-selector
@@ -141,7 +141,7 @@ string.quoted.double
  (punctuation string) test.example - foo bar
 #^ punctuation.section.group.begin.scope-selector
 # ^^^^^^^^^^^ string.unquoted.scope-segment.scope-selector
-#            ^ keyword.operator.combinator.right.scope-selector
+#            ^ keyword.operator.combinator.descendent.scope-selector
 #             ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                   ^ punctuation.section.group.end.scope-selector
 #                    ^^^^^^^^^^^^^ invalid.illegal.operator-required-after-group.scope-selector
@@ -149,7 +149,7 @@ string.quoted.double
 #                                  ^ keyword.operator.combinator.without.scope-selector
 #                                   ^ - string - keyword - illegal
 #                                    ^^^ string.unquoted.scope-segment.scope-selector
-#                                       ^ keyword.operator.combinator.right.scope-selector
+#                                       ^ keyword.operator.combinator.descendent.scope-selector
 #                                        ^^^ string.unquoted.scope-segment.scope-selector
 
  (source&string)
@@ -196,7 +196,7 @@ string.quoted.double
 (trailing space)
 #<- punctuation.section.group.begin.scope-selector
 #^^^^^^^^ string.unquoted.scope-segment.scope-selector
-#        ^ keyword.operator.combinator.right.scope-selector
+#        ^ keyword.operator.combinator.descendent.scope-selector
 #         ^^^^^ string.unquoted.scope-segment.scope-selector
 #              ^ punctuation.section.group.end.scope-selector
 #               ^^ - string - keyword - illegal
@@ -221,7 +221,7 @@ text.html - (source & - source text.html)
 #                     ^ keyword.operator.combinator.without.scope-selector
 #                      ^ - string - keyword
 #                       ^^^^^^ string.unquoted.scope-segment.scope-selector
-#                             ^ keyword.operator.combinator.right.scope-selector
+#                             ^ keyword.operator.combinator.descendent.scope-selector
 #                              ^^^^ string.unquoted.scope-segment.scope-selector
 #                                  ^ punctuation.separator.scope-segments.scope-selector
 #                                   ^^^^ string.unquoted.scope-segment.scope-selector
@@ -237,7 +237,7 @@ source.php - source.php text.html
 #            ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                  ^ punctuation.separator.scope-segments.scope-selector
 #                   ^^^ string.unquoted.scope-segment.scope-selector
-#                      ^ keyword.operator.combinator.right.scope-selector
+#                      ^ keyword.operator.combinator.descendent.scope-selector
 #                       ^^^^ string.unquoted.scope-segment.scope-selector
 #                           ^ punctuation.separator.scope-segments.scope-selector
 #                            ^^^^ string.unquoted.scope-segment.scope-selector
@@ -246,7 +246,7 @@ embedding.php text.html - (source.php &amp; - source.php text.html)
 #^^^^^^^^ string.unquoted.scope-segment.scope-selector
 #        ^ punctuation.separator.scope-segments.scope-selector
 #         ^^^ string.unquoted.scope-segment.scope-selector
-#            ^ keyword.operator.combinator.right.scope-selector
+#            ^ keyword.operator.combinator.descendent.scope-selector
 #             ^^^^ string.unquoted.scope-segment.scope-selector
 #                 ^ punctuation.separator.scope-segments.scope-selector
 #                  ^^^^ string.unquoted.scope-segment.scope-selector
@@ -265,7 +265,7 @@ embedding.php text.html - (source.php &amp; - source.php text.html)
 #                                             ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                                                   ^ punctuation.separator.scope-segments.scope-selector
 #                                                    ^^^ string.unquoted.scope-segment.scope-selector
-#                                                       ^ keyword.operator.combinator.right.scope-selector
+#                                                       ^ keyword.operator.combinator.descendent.scope-selector
 #                                                        ^^^^ string.unquoted.scope-segment.scope-selector
 #                                                            ^ punctuation.separator.scope-segments.scope-selector
 #                                                             ^^^^ string.unquoted.scope-segment.scope-selector

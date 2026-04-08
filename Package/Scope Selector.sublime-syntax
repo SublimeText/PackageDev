@@ -45,7 +45,7 @@ contexts:
     - match: \s+\(
       scope: invalid.illegal.operator-required-between-scope-and-group.scope-selector
     - match: \s+(?=\w)
-      scope: keyword.operator.combinator.right.scope-selector
+      scope: keyword.operator.combinator.descendent.scope-selector
       pop: true
     - match: ''
       pop: true
