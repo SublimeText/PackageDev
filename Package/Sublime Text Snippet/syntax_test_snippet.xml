@@ -293,14 +293,14 @@ ${TM_CURRENT_LINE/^\\s*((?:\\/\1/}
 #      ^^^^ string.unquoted.scope-segment
 #          ^ punctuation.separator.scope-segments
 #           ^^^^ string.unquoted.scope-segment
-#                ^^^^^ keyword.operator.with.scope-selector
+#                ^^^^^ keyword.operator.combinator.with.scope-selector
 #                      ^^^^ string.unquoted.scope-segment
 <scope><![CDATA[text.html &amp; test]]></scope>
 #      ^^^^^^^^^ invalid.illegal
 #               ^^^^ string.unquoted.scope-segment
 #                   ^ punctuation.separator.scope-segments
 #                    ^^^^ string.unquoted.scope-segment
-#                         ^^^^^ keyword.operator.with
+#                         ^^^^^ keyword.operator.combinator.with
 #                               ^^^^ string.unquoted.scope-segment
 #                                   ^^^ invalid.illegal
 <scope>text.html &amp; test
@@ -312,18 +312,18 @@ ${TM_CURRENT_LINE/^\\s*((?:\\/\1/}
 #       ^^^^^^ string.unquoted.scope-segment.scope-selector
 #             ^ punctuation.separator.scope-segments.scope-selector
 #              ^ string.unquoted.scope-segment.scope-selector
-#                ^ keyword.operator.or.scope-selector
+#                ^ keyword.operator.combinator.or.scope-selector
 #                  ^^^^^^ string.unquoted.scope-segment.scope-selector
 #                        ^ punctuation.separator.scope-segments.scope-selector
 #                         ^^^ string.unquoted.scope-segment.scope-selector
 #                            ^ punctuation.section.group.end.scope-selector
-#                              ^^^^^ keyword.operator.with.scope-selector
+#                              ^^^^^ keyword.operator.combinator.with.scope-selector
 #                                    ^^^^^^ string.unquoted.scope-segment.scope-selector
-#                                          ^ keyword.operator.or.scope-selector
+#                                          ^ keyword.operator.combinator.or.scope-selector
 #                                            ^ punctuation.section.group.begin.scope-selector
-#                                             ^^^^^ keyword.operator.with.scope-selector
+#                                             ^^^^^ keyword.operator.combinator.with.scope-selector
 #                                                  ^ punctuation.section.group.end.scope-selector
-#                                                    ^ keyword.operator.or.scope-selector
+#                                                    ^ keyword.operator.combinator.or.scope-selector
 #                                                      ^^^^^^ string.unquoted.scope-segment.scope-selector
 
 <tabTrigger> </tabTrigger>

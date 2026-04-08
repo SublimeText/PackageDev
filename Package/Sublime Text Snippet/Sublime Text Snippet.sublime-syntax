@@ -59,10 +59,7 @@ contexts:
           scope: invalid.illegal.newline-not-supported-here.sublime-snippet
         - match: '(?=</scope>)'
           pop: true
-        - include: scope:source.scope-selector
-      with_prototype:
-        - match: '&amp;'
-          scope: keyword.operator.with.scope-selector
+        - include: scope:source.scope-selector.xml
     - match: '(<)(tabTrigger)(>)'
       scope: meta.tag.xml
       captures:
