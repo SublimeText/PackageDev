@@ -82,8 +82,10 @@ variables:
 
 
   x9: '{{im_a_variable}}'
-#      ^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
+#      ^^^^^^^^^^^^^^^^^ meta.interpolation.sublime-syntax
+#      ^^ punctuation.section.interpolation.begin.sublime-syntax
 #        ^^^^^^^^^^^^^ variable.other.constant.sublime-syntax
+#                     ^^ punctuation.section.interpolation.end.sublime-syntax
 
   x10: '''{{identifier}}(?!\'')\b'
 #       ^^ constant.character.escape.yaml
@@ -149,7 +151,7 @@ variables:
         | {{duration_units}}
         | {{frequency_units}}
         | {{resolution_units}} )\b
-#         ^^^^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
+#         ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.sublime-syntax
 #           ^^^^^^^^^^^^^^^^ variable.other.constant.sublime-syntax
 
   'null': |-

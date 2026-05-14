@@ -237,7 +237,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         result = None
 
         # None of our business
-        if not match_selector("- comment - (source.regexp - keyword.other.variable)"):
+        if not match_selector("- comment - (source.regexp - meta.interpolation)"):
             result = None
 
         # Scope name completions based on our scope_data database
@@ -275,7 +275,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             result = self._complete_syntax_file()
 
         # Auto-completion for variables in match patterns using 'variables' keys
-        elif match_selector("keyword.other.variable"):
+        elif match_selector("meta.interpolation"):
             result = self._complete_variable()
 
         else:

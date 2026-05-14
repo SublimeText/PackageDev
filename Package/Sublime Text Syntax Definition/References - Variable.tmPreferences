@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>scope</key>
-    <string>source.yaml.sublime.syntax keyword.other.variable variable.other</string>
+    <string>source.yaml.sublime.syntax variable.other.constant</string>
     <key>settings</key>
     <dict>
         <key>showInIndexedReferenceList</key>

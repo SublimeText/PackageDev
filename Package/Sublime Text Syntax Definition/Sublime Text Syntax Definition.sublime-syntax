@@ -775,11 +775,11 @@ contexts:
 
   regexp_variable:
     - match: '(\{\{)([a-zA-Z_0-9]+)(\}\})'
-      scope: meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
+      scope: meta.interpolation.sublime-syntax
       captures:
-        1: punctuation.definition.variable.begin.sublime-syntax
+        1: punctuation.section.interpolation.begin.sublime-syntax
         2: variable.other.constant.sublime-syntax
-        3: punctuation.definition.variable.end.sublime-syntax
+        3: punctuation.section.interpolation.end.sublime-syntax
       push: regexp_quantifier_pop
 
   regexp_quantifier_pop:
