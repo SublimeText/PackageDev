@@ -778,7 +778,7 @@ contexts:
       scope: meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
       captures:
         1: punctuation.definition.variable.begin.sublime-syntax
-        2: variable.other.sublime-syntax
+        2: variable.other.constant.sublime-syntax
         3: punctuation.definition.variable.end.sublime-syntax
       push: regexp_quantifier_pop
 
