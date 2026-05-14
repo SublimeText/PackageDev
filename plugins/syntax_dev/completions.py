@@ -54,7 +54,7 @@ TPL_BRANCH = CompletionTemplate(
 )
 TPL_CONTEXT = CompletionTemplate(
     format=sublime.COMPLETION_FORMAT_SNIPPET,
-    kind=(sublime.KIND_ID_KEYWORD, 'c', 'Context'),
+    kind=(sublime.KIND_ID_TYPE, 'c', 'Context'),
     suffix=":\n  ",
 )
 TPL_FUNCTION = CompletionTemplate(
@@ -302,7 +302,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         return format_completions(
             [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
-             for r in self.view.find_by_selector("entity.name.function.context")],
+             for r in self.view.find_by_selector("entity.name.class.context")],
             annotation="",
             kind=TPL_CONTEXT.kind,
         )
