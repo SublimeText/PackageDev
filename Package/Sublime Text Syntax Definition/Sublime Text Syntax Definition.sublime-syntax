@@ -551,7 +551,7 @@ contexts:
               pop: true
         # local includes
         - match: '[\w-]+{{_flow_scalar_end_plain_in}}'  # matches until first '/' or ',' or ']'
-          scope: variable.other.sublime-syntax
+          scope: variable.other.context.sublime-syntax
         # We don't recognize this anything else, so just match as string
         - match: ''
           set:
