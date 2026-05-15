@@ -424,13 +424,36 @@ contexts:
         3: punctuation.definition.string.end.json
       set: [context-entry-contents-selector, in-mapping-expect-comma]
     - match: |-
-        (?x)(")((?:preceding_|following_)?text|num_selections|selection_empty
-                |has_(?:next|prev)_field
-                |(?:panel|auto_complete|popup)_visible|panel|panel_has_focus
-                |last_command|indented_block|has_snippet|is_javadoc
-                |overlay_(?:has_focus|visible|name)
-                |group_has_(?:multiselect|transient_sheet)
-               )(")
+        (?x)
+        (")
+        ( auto_complete_primed
+        | auto_complete_visible
+        | following_text
+        | group_has_multiselect
+        | group_has_transient_sheet
+        | has_prev_field
+        | has_next_field
+        | has_snippet
+        | indented_block
+        | is_javadoc
+        | is_recording_macro
+        | last_command
+        | last_modifying_command
+        | num_selections
+        | overlay_has_focus
+        | overlay_name
+        | overlay_visible
+        | panel
+        | panel_has_focus
+        | panel_type
+        | panel_visible
+        | popup_visible
+        | preceding_text
+        | read_only
+        | selection_empty
+        | text
+        )
+        (")
       scope: meta.context.key-value.key.other.sublime-keymap string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
