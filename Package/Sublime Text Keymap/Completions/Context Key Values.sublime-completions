@@ -3,11 +3,6 @@
 
 	"completions": [
 		{
-			"trigger": "num_selections",
-			"details": "Number of selections in current buffer",
-			"kind": ["variable", "k", "key"],
-		},
-		{
 			"trigger": "auto_complete_primed",
 			"details": "Completion popup visibility",
 			"kind": ["variable", "k", "key"],
@@ -18,18 +13,23 @@
 			"kind": ["variable", "k", "key"],
 		},
 		{
-			"trigger": "selection_empty",
-			"details": "Selection is empty",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "preceding_text",
-			"details": "Text prededing the caret",
+			"trigger": "eol_selector",
+			"details": "Match the scope at the end of the line",
 			"kind": ["variable", "k", "key"],
 		},
 		{
 			"trigger": "following_text",
 			"details": "Text following the caret",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "group_has_multiselect",
+			"details": "Group has multiselected tabs",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "group_has_transient_sheet",
+			"details": "Group has a transient sheet",
 			"kind": ["variable", "k", "key"],
 		},
 		{
@@ -43,28 +43,23 @@
 			"kind": ["variable", "k", "key"],
 		},
 		{
+			"trigger": "has_snippet",
+			"details": "Word before cursor expands to a snippet",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "indented_block",
+			// "details": "TODO",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "is_javadoc",
+			"details": "Caret in <code>/**</code> block comment",
+			"kind": ["variable", "k", "key"],
+		},
+		{
 			"trigger": "is_recording_macro",
-			"details": "If a macro is currently being recorded",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "panel_visible",
-			"details": "Panel visibility",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "overlay_visible",
-			"details": "Overlay visibility",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "setting.",
-			"details": "View setting value",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "popup_visible",
-			"details": "Popup visibility",
+			"details": "A macro is currently being recorded",
 			"kind": ["variable", "k", "key"],
 		},
 		{
@@ -78,13 +73,23 @@
 			"kind": ["variable", "k", "key"],
 		},
 		{
-			"trigger": "text",
-			"details": "Selection text",
+			"trigger": "num_selections",
+			"details": "Number of selections in current buffer",
 			"kind": ["variable", "k", "key"],
 		},
 		{
-			"trigger": "indented_block",
-			// "details": "TODO",
+			"trigger": "overlay_has_focus",
+			"details": "Overlay has focus",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "overlay_name",
+			"details": "Name of the overlay open",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "overlay_visible",
+			"details": "Overlay visibility",
 			"kind": ["variable", "k", "key"],
 		},
 		{
@@ -103,8 +108,28 @@
 			"kind": ["variable", "k", "key"],
 		},
 		{
+			"trigger": "panel_visible",
+			"details": "Panel visibility",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "popup_visible",
+			"details": "Popup visibility",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "preceding_text",
+			"details": "Text prededing the caret",
+			"kind": ["variable", "k", "key"],
+		},
+		{
 			"trigger": "read_only",
 			"details": "If the buffer is marked read only",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "selection_empty",
+			"details": "Selection is empty",
 			"kind": ["variable", "k", "key"],
 		},
 		{
@@ -113,40 +138,14 @@
 			"kind": ["variable", "k", "key"],
 		},
 		{
-			"trigger": "eol_selector",
-			"details": "Match the scope at the end of the line",
+			"trigger": "setting.",
+			"details": "View setting value",
 			"kind": ["variable", "k", "key"],
 		},
 		{
-			"trigger": "overlay_has_focus",
-			"details": "Overlay has focus",
+			"trigger": "text",
+			"details": "Selection text",
 			"kind": ["variable", "k", "key"],
 		},
-		{
-			"trigger": "overlay_name",
-			"details": "Name of the overlay open",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "group_has_multiselect",
-			"details": "Group has multiselected tabs",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "group_has_transient_sheet",
-			"details": "Group has a transient sheet",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "has_snippet",
-			"details": "Word before cursor expands to a snippet",
-			"kind": ["variable", "k", "key"],
-		},
-		{
-			"trigger": "is_javadoc",
-			"details": "Caret in <code>/**</code> block comment",
-			"kind": ["variable", "k", "key"],
-		},
-
 	]
 }
