@@ -4,12 +4,17 @@
 	"completions": [
 		{
 			"trigger": "num_selections",
-			"details": "Number of selections",
+			"details": "Number of selections in current buffer",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "auto_complete_primed",
+			"details": "Completion popup visibility",
 			"kind": ["variable", "k", "key"],
 		},
 		{
 			"trigger": "auto_complete_visible",
-			"details": "Completion popup visibility",
+			"details": "Mini auto-complete or completion popup visible; completion query active",
 			"kind": ["variable", "k", "key"],
 		},
 		{
@@ -38,6 +43,11 @@
 			"kind": ["variable", "k", "key"],
 		},
 		{
+			"trigger": "is_recording_macro",
+			"details": "If a macro is currently being recorded",
+			"kind": ["variable", "k", "key"],
+		},
+		{
 			"trigger": "panel_visible",
 			"details": "Panel visibility",
 			"kind": ["variable", "k", "key"],
@@ -63,6 +73,11 @@
 			"kind": ["variable", "k", "key"],
 		},
 		{
+			"trigger": "last_modifying_command",
+			"details": "Name of the last command run that modified a buffer",
+			"kind": ["variable", "k", "key"],
+		},
+		{
 			"trigger": "text",
 			"details": "Selection text",
 			"kind": ["variable", "k", "key"],
@@ -80,6 +95,16 @@
 		{
 			"trigger": "panel_has_focus",
 			"details": "Panel is visible and has focus",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "panel_type",
+			"details": "Type of focused panel",
+			"kind": ["variable", "k", "key"],
+		},
+		{
+			"trigger": "read_only",
+			"details": "If the buffer is marked read only",
 			"kind": ["variable", "k", "key"],
 		},
 		{
@@ -119,8 +144,9 @@
 		},
 		{
 			"trigger": "is_javadoc",
-			// "details": "TODO",
+			"details": "Caret in <code>/**</code> block comment",
 			"kind": ["variable", "k", "key"],
-		}
+		},
+
 	]
 }
