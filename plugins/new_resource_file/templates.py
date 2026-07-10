@@ -140,7 +140,7 @@ contexts:
 
   keywords:
     # Keywords are if, else for and while.
-    # Note that blackslashes don't need to be escaped within single quoted
+    # Note that backslashes don't need to be escaped within single quoted
     # strings in YAML. When using single quoted strings, only single quotes
     # need to be escaped: this is done by using two single quotes next to each
     # other.
@@ -229,7 +229,7 @@ contexts:
 </dict>
 </plist>""",  # noqa - line length
     # Technically ST does not use uuids at all,
-    # but we leave it in for TextMate compatability
+    # but we leave it in for TextMate compatibility
     tm_syntax_def_yaml="""\
 # [PackageDev] target_format: plist, ext: tmLanguage
 ---
