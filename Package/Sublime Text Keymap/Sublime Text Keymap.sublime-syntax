@@ -7,7 +7,7 @@ file_extensions:
 scope: source.json.sublime.keymap
 
 variables:
-  modifiers: (?:shift|ctrl|alt|altgr|super|command|option|primary)
+  modifiers: (?:shift|ctrl|control|alt|altgr|super|command|option|primary)
 
 contexts:
   main:
