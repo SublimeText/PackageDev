@@ -82,8 +82,10 @@ variables:
 
 
   x9: '{{im_a_variable}}'
-#      ^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
-#        ^^^^^^^^^^^^^ variable.other.sublime-syntax
+#      ^^^^^^^^^^^^^^^^^ meta.interpolation.sublime-syntax
+#      ^^ punctuation.section.interpolation.begin.sublime-syntax
+#        ^^^^^^^^^^^^^ variable.other.constant.sublime-syntax
+#                     ^^ punctuation.section.interpolation.end.sublime-syntax
 
   x10: '''{{identifier}}(?!\'')\b'
 #       ^^ constant.character.escape.yaml
@@ -149,8 +151,8 @@ variables:
         | {{duration_units}}
         | {{frequency_units}}
         | {{resolution_units}} )\b
-#         ^^^^^^^^^^^^^^^^^^^^ meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
-#           ^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
+#         ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.sublime-syntax
+#           ^^^^^^^^^^^^^^^^ variable.other.constant.sublime-syntax
 
   'null': |-
 # ^^^^^^ string.quoted.single.yaml
@@ -166,7 +168,7 @@ contexts:
 # <- meta.block.contexts keyword.control.flow.contexts.sublime-syntax - meta.block.variables
 
   main:
-# ^^^^ entity.name.function.context.sublime-syntax
+# ^^^^ entity.name.class.context.sublime-syntax
     - include: scope:source.json
 #     ^^^^^^^ string.unquoted.plain.out.yaml keyword.operator.include.sublime-syntax
       apply_prototype: true
@@ -177,15 +179,15 @@ contexts:
 #<- - meta.expect-include - meta.expect-context-list-or-content - meta.expect-context-list
 
   context_name:
-# ^^^^^^^^^^^^ entity.name.function.context.sublime-syntax
+# ^^^^^^^^^^^^ entity.name.class.context.sublime-syntax
     - captures:
 #     ^^^^^^^^ string.unquoted.plain.out.yaml storage.type.captures.sublime-syntax
         1: name
   another_context_name:
-# ^ entity.name.function.context.sublime-syntax
+# ^ entity.name.class.context.sublime-syntax
     - captures:
   another_context_name:
-# ^ entity.name.function.context.sublime-syntax
+# ^ entity.name.class.context.sublime-syntax
 
     - meta_append: true
 #     ^^^^^^^^^^^ storage.modifier.context-extension.sublime-syntax
@@ -203,12 +205,12 @@ contexts:
 #              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
 #              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
 #                                               ^ punctuation.separator.context-name.sublime-syntax - comment
-#                                                ^^^^^^^ variable.other.sublime-syntax
+#                                                ^^^^^^^ variable.other.context.sublime-syntax
     - include: JSON.sublime-syntax#comments
 #<- - meta.expect-include - meta.expect-context-list-or-content - meta.expect-context-list
 #              ^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
 #                                 ^ punctuation.separator.context-name.sublime-syntax
-#                                  ^^^^^^^ variable.other.sublime-syntax
+#                                  ^^^^^^^ variable.other.context.sublime-syntax
 
     - include: Packages/JSON/ #JSON.sublime-syntax#comment
 #<- - meta.expect-include - meta.expect-context-list-or-content - meta.expect-context-list
@@ -218,7 +220,7 @@ contexts:
 #              ^^^^^^ support.type.include.sublime-syntax
 #                   ^ punctuation.definition.scope-include.sublime-syntax
 #                                           ^ punctuation.separator.context-name.sublime-syntax - comment
-#                                            ^^^^^^^^^^^^^^^^^^^ variable.other.sublime-syntax
+#                                            ^^^^^^^^^^^^^^^^^^^ variable.other.context.sublime-syntax
 
     - push: [main, Packages/JSON/JSON.sublime-syntax#comment]
 #<- - meta.expect-include - meta.expect-context-list-or-content - meta.expect-context-list
@@ -231,7 +233,7 @@ contexts:
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.sublime-syntax string
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.module.file-path.sublime-syntax
 #                                                   ^ punctuation.separator.context-name.sublime-syntax
-#                                                    ^^^^^^^ variable.other.sublime-syntax
+#                                                    ^^^^^^^ variable.other.context.sublime-syntax
 #                                                           ^ punctuation.definition.array.end.sublime-syntax
       set: Packages/JSON/JSON.sublime-syntax#comment
 #    ^ - meta.expect-include - meta.expect-context-list-or-content - meta.expect-context-list
@@ -390,7 +392,7 @@ contexts: !mytag
 #^^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.contexts.sublime-syntax
 #         ^^^^^^ storage.type.tag-handle.yaml
   main: !mytag
-# ^^^^ entity.name.function.context.sublime-syntax
+# ^^^^ entity.name.class.context.sublime-syntax
 #       ^^^^^^ storage.type.tag-handle.yaml
     - match: !mytag abc+
 #     ^^^^^ keyword.other.match.sublime-syntax
@@ -399,7 +401,7 @@ contexts: !mytag
       push: !mytag scope
 #     ^^^^ keyword.control.flow.push.sublime-syntax
 #           ^^^^^^ storage.type.tag-handle.yaml
-#                  ^^^^^ variable.other.sublime-syntax
+#                  ^^^^^ variable.other.context.sublime-syntax
       pop: !mytag true
 #     ^^^ keyword.control.flow.pop.sublime-syntax
 #          ^^^^^^ storage.type.tag-handle.yaml
@@ -411,16 +413,16 @@ contexts: !mytag
       push:
         !mytag scope
 #       ^^^^^^ storage.type.tag-handle.yaml
-#              ^^^^^ variable.other.sublime-syntax
+#              ^^^^^ variable.other.context.sublime-syntax
 
     - match: foo
       push: scope
-#           ^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.sublime-syntax
+#           ^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.context.sublime-syntax
 
     - match: foo
       push:
         scope
-#       ^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.sublime-syntax
+#       ^^^^^ meta.include.sublime-syntax string.unquoted.plain.out.yaml variable.other.context.sublime-syntax
 
     - match: foo
       push:
@@ -450,14 +452,14 @@ contexts: !mytag
 #         ^^^^^ meta.context-list-or-content meta.include.sublime-syntax - meta.expect-context-list-or-content
 #              ^ meta.context-list-or-content.sublime-syntax - meta.expect-context-list-or-content - meta.include
 #       ^ punctuation.definition.block.sequence.item.yaml
-#         ^^^^^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
+#         ^^^^^ string.unquoted.plain.out.yaml variable.other.context.sublime-syntax
         - match
 #<- meta.context-list.sublime-syntax - meta.include - meta.expect-context-list-or-content - meta.context-list-or-content
 #       ^^ meta.context-list.sublime-syntax - meta.include
 #         ^^^^^ meta.context-list meta.include.sublime-syntax
 #              ^ meta.context-list.sublime-syntax - meta.include
 #       ^ punctuation.definition.block.sequence.item.yaml
-#         ^^^^^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
+#         ^^^^^ string.unquoted.plain.out.yaml variable.other.context.sublime-syntax
         - scope:source.yaml
 #       ^^ meta.context-list.sublime-syntax - meta.include
 #         ^^^^^^^^^^^^^^^^^ meta.context-list meta.include.sublime-syntax
@@ -492,7 +494,7 @@ contexts: !mytag
 #       ^^ meta.context-list-or-content.sublime-syntax
 #         ^^^^^^^^^ meta.context-list-or-content.sublime-syntax meta.include.sublime-syntax
 #       ^ punctuation.definition.block.sequence.item.yaml
-#         ^^^^^^^^^ variable.other.sublime-syntax
+#         ^^^^^^^^^ variable.other.context.sublime-syntax
         - - meta_scope: meta
 #      ^ - meta.anonymous-context
 #       ^^^^^^^^^^^^^^^^^^^^^ meta.anonymous-context.sublime-syntax
@@ -508,13 +510,13 @@ contexts: !mytag
 #      ^^^ meta.context-list.sublime-syntax
 #         ^^^^^^^^^ meta.context-list.sublime-syntax meta.include.sublime-syntax
 #       ^ punctuation.definition.block.sequence.item.yaml
-#         ^^^^^^^^^ variable.other.sublime-syntax
+#         ^^^^^^^^^ variable.other.context.sublime-syntax
         - context-3
 #<- - meta.anonymous-context
 #      ^^^ meta.context-list.sublime-syntax
 #         ^^^^^^^^^ meta.context-list.sublime-syntax meta.include.sublime-syntax
 #       ^ punctuation.definition.block.sequence.item.yaml
-#         ^^^^^^^^^ variable.other.sublime-syntax
+#         ^^^^^^^^^ variable.other.context.sublime-syntax
 
     - match: foo
       push:
@@ -536,7 +538,7 @@ contexts: !mytag
       branch:
 #     ^^^^^^ string.unquoted.plain.out.yaml keyword.control.flow.push.sublime-syntax
         - a
-#         ^ string.unquoted.plain.out.yaml variable.other.sublime-syntax
+#         ^ string.unquoted.plain.out.yaml variable.other.context.sublime-syntax
         - b
       fail: point
 #     ^ string.unquoted.plain.out.yaml keyword.control.flow.break.sublime-syntax

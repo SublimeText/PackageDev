@@ -263,7 +263,7 @@ contexts:
           pop: true
         - match: ''
           set:
-            - meta_scope: string.unquoted.plain.out.yaml entity.name.function.context.sublime-syntax
+            - meta_scope: string.unquoted.plain.out.yaml entity.name.class.context.sublime-syntax
             - match: '{{_flow_scalar_end_plain_out}}'
               pop: true
 
@@ -551,7 +551,7 @@ contexts:
               pop: true
         # local includes
         - match: '[\w-]+{{_flow_scalar_end_plain_in}}'  # matches until first '/' or ',' or ']'
-          scope: variable.other.sublime-syntax
+          scope: variable.other.context.sublime-syntax
         # We don't recognize this anything else, so just match as string
         - match: ''
           set:
@@ -775,11 +775,11 @@ contexts:
 
   regexp_variable:
     - match: '(\{\{)([a-zA-Z_0-9]+)(\}\})'
-      scope: meta.variable.sublime-syntax keyword.other.variable.sublime-syntax
+      scope: meta.interpolation.sublime-syntax
       captures:
-        1: punctuation.definition.variable.begin.sublime-syntax
-        2: variable.other.sublime-syntax
-        3: punctuation.definition.variable.end.sublime-syntax
+        1: punctuation.section.interpolation.begin.sublime-syntax
+        2: variable.other.constant.sublime-syntax
+        3: punctuation.section.interpolation.end.sublime-syntax
       push: regexp_quantifier_pop
 
   regexp_quantifier_pop:

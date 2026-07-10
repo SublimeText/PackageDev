@@ -54,7 +54,7 @@ TPL_BRANCH = CompletionTemplate(
 )
 TPL_CONTEXT = CompletionTemplate(
     format=sublime.COMPLETION_FORMAT_SNIPPET,
-    kind=(sublime.KIND_ID_KEYWORD, 'c', 'Context'),
+    kind=(sublime.KIND_ID_TYPE, 'c', 'Context'),
     suffix=":\n  ",
 )
 TPL_FUNCTION = CompletionTemplate(
@@ -237,7 +237,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         result = None
 
         # None of our business
-        if not match_selector("- comment - (source.regexp - keyword.other.variable)"):
+        if not match_selector("- comment - (source.regexp - meta.interpolation)"):
             result = None
 
         # Scope name completions based on our scope_data database
@@ -275,7 +275,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             result = self._complete_syntax_file()
 
         # Auto-completion for variables in match patterns using 'variables' keys
-        elif match_selector("keyword.other.variable"):
+        elif match_selector("meta.interpolation"):
             result = self._complete_variable()
 
         else:
@@ -302,7 +302,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         return format_completions(
             [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
-             for r in self.view.find_by_selector("entity.name.function.context")],
+             for r in self.view.find_by_selector("entity.name.class.context")],
             annotation="",
             kind=TPL_CONTEXT.kind,
         )
