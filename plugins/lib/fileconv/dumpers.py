@@ -1,10 +1,11 @@
 import datetime
-
 import json
-import yaml
 import plistlib
 
+import yaml
 from sublime_lib import OutputPanel
+
+PLIST_DATA_TYPE = getattr(plistlib, 'Data', bytes)
 
 
 class DumperProto(object):
@@ -203,7 +204,7 @@ class JSONDumper(DumperProto):
     def validate_data(self, data):
         return self._validate_data(data, (
             # TOTEST: sets
-            (lambda x: isinstance(x, plistlib.Data), lambda x: x.data),  # plist
+            (lambda x: isinstance(x, PLIST_DATA_TYPE), lambda x: x.data if hasattr(x, 'data') else x),  # plist
             (lambda x: isinstance(x, datetime.date), str),  # yaml
             (lambda x: isinstance(x, datetime.datetime), str)  # plist and yaml
         ))
@@ -282,7 +283,8 @@ class PlistDumper(DumperProto):
         ))
 
     def write(self, data, params, *args, **kwargs):
-        plistlib.writePlist(data, self.new_file_path)
+        with open(self.new_file_path, 'wb') as f:
+            plistlib.dump(data, f)
 
 
 class YAMLDumper(DumperProto):
@@ -310,7 +312,7 @@ class YAMLDumper(DumperProto):
 
     def validate_data(self, data):
         return self._validate_data(data, (
-            (lambda x: isinstance(x, plistlib.Data), lambda x: x.data),  # plist
+            (lambda x: isinstance(x, PLIST_DATA_TYPE), lambda x: x.data if hasattr(x, 'data') else x),  # plist
         ))
 
     def write(self, data, params, *args, **kwargs):

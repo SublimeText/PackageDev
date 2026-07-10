@@ -13,12 +13,7 @@ a property list file and get back a python native data structure.
 """
 
 import re
-import sys
-
-
-if sys.version_info >= (3,):
-    # Some forwards compatability
-    basestring = str
+from io import BytesIO
 
 
 class PropertyListParseError(Exception):
@@ -79,12 +74,12 @@ class XmlPropertyListParser(object):
     def endDocument(self):
         self._assert(self.__plist is not None, "A top level element must be <plist>.")
         self._assert(
-            len(self.__stack) is 0,
+            len(self.__stack) == 0,
             "multiple objects at top level.")
 
-    def startElement(self, name, attributes):
+    def startElement(self, name, attrs):
         if name in XmlPropertyListParser.START_CALLBACKS:
-            XmlPropertyListParser.START_CALLBACKS[name](self, name, attributes)
+            XmlPropertyListParser.START_CALLBACKS[name](self, name, attrs)
         if name in XmlPropertyListParser.PARSE_CALLBACKS:
             self.__characters = []
 
@@ -93,7 +88,10 @@ class XmlPropertyListParser(object):
             XmlPropertyListParser.END_CALLBACKS[name](self, name)
         if name in XmlPropertyListParser.PARSE_CALLBACKS:
             # Creates character string from buffered characters.
-            content = ''.join(self.__characters)
+            characters = self.__characters
+            if characters is None:
+                return
+            content = ''.join(characters)
             # For compatibility with ``xml.etree`` and ``plistlib``,
             # convert text string to ascii, if possible
             try:
@@ -103,7 +101,7 @@ class XmlPropertyListParser(object):
             XmlPropertyListParser.PARSE_CALLBACKS[name](self, name, content)
             self.__characters = None
 
-    def characters(self, content):
+    def characters(self, content: str):
         if self.__characters is not None:
             self.__characters.append(content)
 
@@ -235,10 +233,9 @@ class XmlPropertyListParser(object):
     # XmlPropertyListParser
     # ------------------------------------------------
     def _to_stream(self, io_or_string):
-        if isinstance(io_or_string, basestring):
+        if isinstance(io_or_string, str):
             # Creates a string stream for in-memory contents.
-            from cStringIO import StringIO
-            return StringIO(io_or_string)
+            return BytesIO(io_or_string.encode('utf-8'))
         elif hasattr(io_or_string, 'read') and callable(getattr(io_or_string, 'read')):
             return io_or_string
         else:
@@ -306,5 +303,5 @@ def parse_string(io_or_string):
 def parse_file(file_path):
     """Parse the specified file and return the resulting object.
     """
-    with open(file_path) as f:
+    with open(file_path, 'rb') as f:
         return XmlPropertyListParser().parse(f)

@@ -1,28 +1,14 @@
-import re
-import os
-
 import json
-import yaml
+import os
 import plistlib
+import re
+from xml.parsers.expat import ErrorString, ExpatError
 
 import sublime
-
+import yaml
 from sublime_lib import OutputPanel
 
-from ..view_utils import coorded_substr, base_scope, get_text
-
-
-# xml.parsers.expat is not available on certain Linux dists, use plist_parser then.
-# See https://github.com/SublimeText/AAAPackageDev/issues/19
-try:
-    from xml.parsers.expat import ExpatError, ErrorString
-except ImportError:
-    from . import plist_parser
-    use_plistlib = False
-    print("[PackageDev] 'xml.parsers.expat' module not available; "
-          "Falling back to bundled 'plist_parser'...")
-else:
-    use_plistlib = True
+from ..view_utils import base_scope, coorded_substr, get_text
 
 ###############################################################################
 
@@ -356,38 +342,21 @@ class PlistLoader(LoaderProto):
         if text.startswith('<?xml version="1.0" encoding="UTF-8"?>'):
             text = text[38:]
 
-        if use_plistlib:
-            try:
-                # This will try `from xml.parsers.expat import ParserCreate`
-                # but since it is already tried above it should succeed.
-                data = plistlib.readPlistFromBytes(text.encode('utf-8'))
-            except ExpatError as e:
-                self.output.print(self.debug_base
-                                  % (self.file_path,
-                                     ErrorString(e.code),
-                                     e.lineno,
-                                     e.offset)
-                                  )
-            # except BaseException as e:
-            #     # Whatever could happen here ...
-            #     self.output.print(self.debug_base % (self.file_path, str(e), 0, 0))
-            else:
-                return data
+        try:
+            # This will try `from xml.parsers.expat import ParserCreate`
+            # but since it is already tried above it should succeed.
+            data = plistlib.loads(text.encode('utf-8'))
+        except ExpatError as e:
+            self.output.print(self.debug_base
+                              % (self.file_path,
+                                 ErrorString(e.code),
+                                 e.lineno,
+                                 e.offset)
+                              )
+        except plistlib.InvalidFileException as e:
+            self.output.print(self.debug_base % (self.file_path, str(e), 0, 0))
         else:
-            # falling back to plist_parser
-            from xml.sax._exceptions import SAXReaderNotAvailable
-            try:
-                data = plist_parser.parse_string(text)
-            except plist_parser.PropertyListParseError as e:
-                self.output.print(self.debug_base % (self.file_path, str(e), 0, 0))
-            except SAXReaderNotAvailable:
-                # https://github.com/SublimeText/AAAPackageDev/issues/48
-                self.output.print("Unable to parse Property List because of missing XML "
-                                  "parsers in your Python environment.\n"
-                                  "Please use Sublime Text 3 or reinstall Python 2.6 "
-                                  "on your system.")
-            else:
-                return data
+            return data
 
 
 class YAMLLoader(LoaderProto):
