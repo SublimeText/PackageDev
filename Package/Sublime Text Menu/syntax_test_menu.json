@@ -25,6 +25,11 @@
 //       ^^^^^^^^ keyword.other.main.sublime-menu
 //                  ^^^ meta.mapping.value.json string.quoted.double.json
 //                   ^ support.constant.mnemonic.sublime-menu
+        "mnemonic": "9",
+//      ^^^^^^^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
+//       ^^^^^^^^ keyword.other.main.sublime-menu
+//                  ^^^ meta.mapping.value.json string.quoted.double.json
+//                   ^ support.constant.mnemonic.sublime-menu
         "id": ["file"],
 //      ^^^^ meta.mapping.key.json meta.main-key.sublime-menu string.quoted.double.json
 //       ^^ keyword.other.main.sublime-menu

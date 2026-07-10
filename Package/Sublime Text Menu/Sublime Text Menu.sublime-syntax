@@ -102,14 +102,14 @@ contexts:
     - include: expect-string-rest
 
   mnemonic-string-pop:
-    - match: (\")([A-Za-z])(\")
+    - match: (\")([A-Za-z0-9])(\")
       scope: string.quoted.double.json
       captures:
         1: punctuation.definition.string.begin.json
         2: support.constant.mnemonic.sublime-menu
         3: punctuation.definition.string.end.json
       pop: true
-    - match: (\")([A-Za-z])?([^\"]*)
+    - match: (\")([A-Za-z0-9])?([^\"]*)
       captures:
         1: punctuation.definition.string.begin.json
         2: support.constant.mnemonic.sublime-menu
