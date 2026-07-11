@@ -1,5 +1,4 @@
-from sublime import Region
-from sublime import RegionFlags
+from sublime import Region, RegionFlags
 
 __all__ = ['has_file_ext', 'base_scope',
            'coorded_substr', 'get_text',

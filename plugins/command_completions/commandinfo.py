@@ -1,11 +1,11 @@
-from collections import OrderedDict
-import inspect
 import functools
+import inspect
 import logging
-import yaml
+from collections import OrderedDict
 
 import sublime
 import sublime_plugin
+import yaml
 
 from .yaml_omap import SaveOmapLoader
 
@@ -42,7 +42,7 @@ def get_command_name(command_class):
     return name
 
 
-@functools.lru_cache()
+@functools.lru_cache
 def get_builtin_command_meta_data():
     """Retrieve the meta data of built-in commands.
 
@@ -68,7 +68,7 @@ def get_builtin_command_meta_data():
     return meta, data
 
 
-@functools.lru_cache()
+@functools.lru_cache
 def get_builtin_commands(command_type=""):
     """Retrieve a set of the names of the built-in commands.
 
@@ -100,8 +100,8 @@ def get_builtin_commands(command_type=""):
             and name in result
         ):
             logger.warning(
-                'command "{name}" in the {package} package is defined in the built-in'
-                ' metadata file. Probably it should not be'.format(name=name, package=package)
+                f'command "{name}" in the {package} package is defined in the built-in'
+                ' metadata file. Probably it should not be'
             )
 
     return result

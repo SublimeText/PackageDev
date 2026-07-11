@@ -7,12 +7,11 @@ import time
 import weakref
 
 import sublime
-from sublime_lib import encodings, ResourcePath
+from sublime_lib import ResourcePath, encodings
 
-
-from ..lib.weakmethod import WeakMethodProxy
 from ..lib import get_setting
-from .region_math import VALUE_SCOPE, get_value_region_at, get_last_key_name_from
+from ..lib.weakmethod import WeakMethodProxy
+from .region_math import VALUE_SCOPE, get_last_key_name_from, get_value_region_at
 
 logger = logging.getLogger(__name__)
 
@@ -74,7 +73,7 @@ def decode_value(string):
         return float(string)
 
 
-class KnownSettings(object):
+class KnownSettings:
     """A class which provides all known settings with comments/defaults.
 
     An object of this class initialized with a sublime-settings file loads all
@@ -584,7 +583,7 @@ class KnownSettings(object):
 
                 if is_list and not in_list:
                     # wrap each item in a brackets to insert a 'list'
-                    value_str = "[{}]".format(value_str)
+                    value_str = f"[{value_str}]"
 
                 # escape snippet markers
                 value_str = value_str.replace("$", "\\$")

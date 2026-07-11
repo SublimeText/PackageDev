@@ -3,8 +3,7 @@ import re
 import sublime
 import sublime_plugin
 
-from ..lib import package_settings
-from ..lib import syntax_paths
+from ..lib import package_settings, syntax_paths
 from ..lib.view_utils import region_flags_from_strings
 
 __all__ = (

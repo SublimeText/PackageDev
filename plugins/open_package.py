@@ -6,7 +6,9 @@ import sublime
 import sublime_plugin
 
 from .create_package import (
-    open_folder_in_st, get_default_packages, get_installed_packages,
+    get_default_packages,
+    get_installed_packages,
+    open_folder_in_st,
 )
 
 __all__ = ('PackagedevOpenPackageCommand',)

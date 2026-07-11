@@ -40,7 +40,7 @@ def strip_js_comments(string):
 
 
 # Define the prototype loader class and the loaders for the separate data types
-class LoaderProto(object):
+class LoaderProto:
     r"""Prototype class for data loaders of different types.
 
         Classes derived from this class (and in this file) will be appended
@@ -145,7 +145,7 @@ class LoaderProto(object):
     def __init__(self, window, view, file_path=None, output=None, *args, **kwargs):
         """Mirror the parameters to ``self``, do "init" stuff.
         """
-        super(LoaderProto, self).__init__()  # object.__init__ takes no parameters
+        super().__init__()  # object.__init__ takes no parameters
 
         self.window = window or view.window() or sublime.active_window()
         self.view = view
@@ -374,7 +374,7 @@ class YAMLLoader(LoaderProto):
         except yaml.YAMLError as e:
             out = self.debug_base % str(e).replace("<unicode string>", self.file_path)
             self.output.print(out)
-        except IOError as e:
+        except OSError as e:
             self.output.print('Error opening "%s": %s' % (self.file_path, str(e)))
         else:
             return data

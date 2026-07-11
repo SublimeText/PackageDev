@@ -1,6 +1,6 @@
-from collections import namedtuple
 import logging
 import re
+from collections import namedtuple
 from os import path
 from pathlib import Path
 
@@ -82,10 +82,10 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         # or plugin was unloaded.
         # Complain about the former, if we have a test file.
         if self.header and not self.is_applicable(self.view.settings()):
-            sublime.status_message((
+            sublime.status_message(
                 "Syntax tests do not work properly with tabs as indentation."
                 " You MUST use spaces!"
-            ))
+            )
 
     def on_modified_async(self):
         """If the view has a filename, and that file name starts with

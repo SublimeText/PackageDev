@@ -2,7 +2,6 @@ import logging
 
 import sublime
 
-
 DEFAULT_LOG_LEVEL = logging.WARNING
 DEFAULT_LOG_LEVEL_NAME = logging.getLevelName(DEFAULT_LOG_LEVEL)
 EVENT_LEVEL = logging.INFO

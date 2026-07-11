@@ -1,19 +1,16 @@
 # Defines (Safe)Loaders and a SafeDumper for YAML supporting ordered
 # dictionaries. Also adds a representer to the default Dumper.
-import yaml
-
-from yaml.loader import SafeLoader, Loader
-from yaml.dumper import SafeDumper
-from yaml.constructor import ConstructorError
-
-
 from collections import OrderedDict
 
+import yaml
+from yaml.constructor import ConstructorError
+from yaml.dumper import SafeDumper
+from yaml.loader import Loader, SafeLoader
 
 __all__ = ['OrderedDictLoader', 'OrderedDictSafeLoader', 'OrderedDictSafeDumper']
 
 
-class BaseOrderedDictLoader(object):
+class BaseOrderedDictLoader:
     # http://stackoverflow.com/questions/5121931
 
     def construct_yaml_map(self, node):
@@ -62,11 +59,11 @@ class OrderedDictSafeLoader(BaseOrderedDictLoader, SafeLoader):
 
 def add_ordereddict_constructor(cls):
     cls.add_constructor(
-        u'tag:yaml.org,2002:map',
+        'tag:yaml.org,2002:map',
         cls.construct_yaml_map
     )
     cls.add_constructor(
-        u'tag:yaml.org,2002:omap',
+        'tag:yaml.org,2002:omap',
         cls.construct_yaml_map
     )
 
@@ -82,7 +79,7 @@ class OrderedDictSafeDumper(SafeDumper):
 
     def represent_ordereddict(self, data):
         # Bypass the sorting in represent_mapping
-        return self.represent_mapping(u'tag:yaml.org,2002:map', list(data.items()))
+        return self.represent_mapping('tag:yaml.org,2002:map', list(data.items()))
 
 
 OrderedDictSafeDumper.add_representer(

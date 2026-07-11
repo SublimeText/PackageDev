@@ -2,11 +2,9 @@ import logging
 
 import sublime
 import sublime_plugin
-
 from sublime_lib import ResourcePath
 
-from .lib import syntax_paths
-from .lib import inhibit_word_completions
+from .lib import inhibit_word_completions, syntax_paths
 
 __all__ = (
     'PackagedevEditThemeCommand',

@@ -66,16 +66,16 @@ class PackagedevCreatePackageCommand(sublime_plugin.WindowCommand):
             return
 
         if _is_override_package(name):
-            result = sublime.ok_cancel_dialog("A package named {!r} already exists."
+            result = sublime.ok_cancel_dialog(f"A package named {name!r} already exists."
                                               " Do you want to create an override package?"
-                                              .format(name))
+                                              )
             if not result:
                 logger.debug("Aborted creation of override package for %r", name)
                 return
 
         path = _create_package(name)
         if not path:
-            self.window.status_message("Could not create directory for package {!r}".format(name))
+            self.window.status_message(f"Could not create directory for package {name!r}")
             return
         new_window = open_folder_in_st(path)
 

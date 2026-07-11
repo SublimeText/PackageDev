@@ -1,21 +1,18 @@
-from collections import OrderedDict
-import uuid
 import re
 import textwrap
 import time
-
-import yaml
+import uuid
+from collections import OrderedDict
 
 import sublime
 import sublime_plugin
-
+import yaml
 from sublime_lib import OutputPanel
 
-from .lib.view_utils import base_scope, get_viewport_coords, set_viewport, extract_selector
-
 from .lib.fileconv import dumpers, loaders
-from .lib.scope_data import COMPILED_HEADS
 from .lib.ordereddict_yaml import OrderedDictSafeDumper
+from .lib.scope_data import COMPILED_HEADS
+from .lib.view_utils import base_scope, extract_selector, get_viewport_coords, set_viewport
 
 __all__ = (
     'PackagedevRearrangeYamlSyntaxDefCommand',
@@ -37,9 +34,9 @@ def status(msg, window, console=False):
 
 class YAMLLanguageDevDumper(OrderedDictSafeDumper):
     def represent_scalar(self, tag, value, style=None):
-        if tag == u'tag:yaml.org,2002:str':
+        if tag == 'tag:yaml.org,2002:str':
             # Block style for multiline strings
-            if any(c in value for c in u"\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029"):
+            if any(c in value for c in "\u000a\u000d\u001c\u001d\u001e\u0085\u2028\u2029"):
                 style = '|'
 
                 # Do some special replacements of leading tabs or spaces in (?x) patterns
@@ -54,7 +51,7 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
                   or any(s in value for s in (' #', ': '))):
                 style = "'"
 
-        return super(YAMLLanguageDevDumper, self).represent_scalar(tag, value, style)
+        return super().represent_scalar(tag, value, style)
 
     def represent_mapping(self, tag, mapping, flow_style=False):
         # Default to block style; revert back to flow if len = 1 and only has "name" key
@@ -64,7 +61,7 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
             else:
                 flow_style = (mapping[0][0] == 'name')
 
-        return super(YAMLLanguageDevDumper, self).represent_mapping(tag, mapping, flow_style)
+        return super().represent_mapping(tag, mapping, flow_style)
 
 
 class YAMLOrderedTextDumper(dumpers.YAMLDumper):
@@ -274,15 +271,15 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
                 output.print("Inserting newlines...")
                 find = self.view.find_by_selector
 
-                def select(l, only_first=True, not_first=True):
+                def select(lst, only_first=True, not_first=True):
                     # 'only_first' has priority
-                    if not l:
-                        return l  # empty
+                    if not lst:
+                        return lst  # empty
                     elif only_first:
-                        return l[:1]
+                        return lst[:1]
                     elif not_first:
-                        return l[1:]
-                    return l
+                        return lst[1:]
+                    return lst
 
                 def filter_pattern_regs(reg):
                     # Only use those keys where the region starts at column 0 and begins with '-'
@@ -327,9 +324,9 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
             ("include\tinclude: '#...'", "include: '#$0'"),
             ("include\tinclude: $self", "include: \\$self"),
         ]
-        for ex in ((("{0}\t{0}:".format(s), "%s: "    % s) for s in base_keys),
-                   (("{0}\t{0}:".format(s), "%s:\n  " % s) for s in dict_keys),
-                   (("{0}\t{0}:".format(s), "%s:\n- " % s) for s in list_keys)):
+        for ex in (((f"{s}\t{s}:", "%s: "    % s) for s in base_keys),
+                   ((f"{s}\t{s}:", "%s:\n  " % s) for s in dict_keys),
+                   ((f"{s}\t{s}:", "%s:\n- " % s) for s in list_keys)):
             completions.extend(ex)
 
         self.base_completions = completions

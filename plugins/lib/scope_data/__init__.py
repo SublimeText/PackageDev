@@ -59,7 +59,7 @@ class NodeSet(set):
         return [create_scope_completion(n.name) for n in self]
 
 
-class ScopeNode(object):
+class ScopeNode:
     """
     Attributes:
         * name

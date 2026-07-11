@@ -1,10 +1,10 @@
 from xml.etree import ElementTree as ET
 
-from sublime import Region
 import sublime_plugin
+from sublime import Region
 
-from .lib.view_utils import has_file_ext, get_text
 from .lib import syntax_paths
+from .lib.view_utils import get_text, has_file_ext
 
 __all__ = (
     'PackagedevSnippetFromRawSnippetCommand',
@@ -13,8 +13,8 @@ __all__ = (
 
 PACKAGE_NAME = __package__.split(".")[0]
 SNIPPET_PATH = (
-    "Packages/{}/Package/Sublime Text Snippet/Snippet.sublime-snippet"
-    .format(PACKAGE_NAME)
+    f"Packages/{PACKAGE_NAME}/Package/Sublime Text Snippet/Snippet.sublime-snippet"
+    
 )
 
 

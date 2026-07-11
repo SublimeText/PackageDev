@@ -1,15 +1,13 @@
 import os
 import time
+from pathlib import Path
 
 import sublime
 import sublime_plugin
-
 from sublime_lib import OutputPanel
-from pathlib import Path
-
-from .lib.view_utils import get_text
 
 from .lib.fileconv import dumpers, loaders
+from .lib.view_utils import get_text
 
 __all__ = ('PackagedevConvertCommand',)
 

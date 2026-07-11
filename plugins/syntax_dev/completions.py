@@ -2,18 +2,17 @@ import logging
 import re
 from collections import namedtuple
 from fnmatch import fnmatch
-from sublime_lib.resource_path import ResourcePath
 
 import sublime
 import sublime_plugin
+from sublime_lib.resource_path import ResourcePath
 
+from ..lib import inhibit_word_completions, syntax_paths
 from ..lib.scope_data import (
     COMMIT_SCOPE_COMPLETION_CMD,
     COMPILED_HEADS,
-    create_scope_suffix_completion
+    create_scope_suffix_completion,
 )
-from ..lib import syntax_paths
-from ..lib import inhibit_word_completions
 
 __all__ = (
     'SyntaxDefCompletionsListener',

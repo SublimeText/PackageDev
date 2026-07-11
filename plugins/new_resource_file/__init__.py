@@ -23,7 +23,7 @@ def _syntax_path_for_kind(kind):
 def _get_template(kind, suffix):
     template_key = kind
     if suffix:
-        template_key = "{}_{}".format(kind, suffix)
+        template_key = f"{kind}_{suffix}"
     template = TEMPLATES[template_key]
 
     if template_key.startswith("tm_"):

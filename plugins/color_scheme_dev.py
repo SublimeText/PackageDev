@@ -1,15 +1,13 @@
-from collections import OrderedDict, namedtuple
 import logging
 import re
+from collections import OrderedDict, namedtuple
 
 import sublime
 import sublime_plugin
-
 from sublime_lib import ResourcePath
 
+from .lib import inhibit_word_completions, syntax_paths
 from .lib.scope_data import completions_from_prefix
-from .lib import syntax_paths
-from .lib import inhibit_word_completions
 
 __all__ = (
     'ColorSchemeCompletionsListener',
@@ -79,7 +77,7 @@ class Variable(namedtuple("_Varible", "name value source")):
         if with_key:
             # TODO doesn't escape json chars
             formatted_value = _escape_in_snippet(sublime.encode_value(self.value))
-            contents = '"{}": ${{0:{}}},'.format(self.name, formatted_value)
+            contents = f'"{self.name}": ${{0:{formatted_value}}},'
             completion_format = sublime.COMPLETION_FORMAT_SNIPPET
         else:
             contents = self.name
@@ -170,10 +168,10 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         return set(_collect_inherited_variables(name, extends, excludes))
 
     def variable_completions(self, locations):
-        variable_regions = self.view.find_by_selector((
+        variable_regions = self.view.find_by_selector(
             "entity.name.variable.sublime-color-scheme"
             "| entity.name.variable.sublime-theme"
-        ))
+        )
         variables = {Variable(self.view.substr(r), None, "") for r in variable_regions}
         inherited_variables = self._inherited_variables()
         variables |= inherited_variables

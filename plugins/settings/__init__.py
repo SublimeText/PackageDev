@@ -5,14 +5,17 @@ import os
 import sublime
 import sublime_plugin
 
-from ..lib import get_setting, inhibit_word_completions
-from ..lib import syntax_paths
+from ..lib import get_setting, inhibit_word_completions, syntax_paths
 from ..lib.view_utils import region_flags_from_strings
 from ..lib.weakmethod import WeakMethodProxy
-
-from .region_math import (VALUE_SCOPE, KEY_SCOPE, KEY_COMPLETIONS_SCOPE,
-                          get_key_region_at, get_last_key_region)
-from .known_settings import KnownSettings, PREF_FILE
+from .known_settings import PREF_FILE, KnownSettings
+from .region_math import (
+    KEY_COMPLETIONS_SCOPE,
+    KEY_SCOPE,
+    VALUE_SCOPE,
+    get_key_region_at,
+    get_last_key_region,
+)
 
 __all__ = (
     'SettingsListener',
@@ -91,7 +94,7 @@ WIDGET_SETTINGS_NAMES = {
 }
 
 # user package pattern
-USER_PATH = "{0}Packages{0}User{0}".format(os.sep)
+USER_PATH = f"{os.sep}Packages{os.sep}User{os.sep}"
 
 logger = logging.getLogger(__name__)
 
@@ -228,7 +231,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             user_view = sublime.View(view_id)
             if not user_view.is_valid():
                 return
-            result = user_view.find('"{}"'.format(argument), 0)
+            result = user_view.find(f'"{argument}"', 0)
             self.view.hide_popup()
             if self.view.window():
                 self.view.window().focus_view(user_view)
@@ -280,7 +283,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         for region in key_regions:
             key_name = self.view.substr(region)
             phantom_region = sublime.Region(region.end() + 1)  # before colon
-            content = "<a href=\"edit:{0}\">✏</a>".format(html.escape(key_name))
+            content = f"<a href=\"edit:{html.escape(key_name)}\">✏</a>"
             phantoms.append(sublime.Phantom(
                 region=phantom_region,
                 content=PHANTOM_TEMPLATE.format(content),

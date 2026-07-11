@@ -1,8 +1,8 @@
 from collections import OrderedDict
 
-from yaml.loader import Reader, Scanner, Parser, Composer, SafeConstructor, Resolver
-from yaml.nodes import SequenceNode, MappingNode
 from yaml.constructor import ConstructorError
+from yaml.loader import Composer, Parser, Reader, Resolver, SafeConstructor, Scanner
+from yaml.nodes import MappingNode, SequenceNode
 
 
 class SafeOrderedDictConstructor(SafeConstructor):

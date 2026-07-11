@@ -23,7 +23,7 @@ class _weak_callable:
         raise AttributeError(attr)
 
 
-class WeakMethod: # noqa: D
+class WeakMethod:
     """ Wraps a function or, more importantly, a bound method, in
     a way that allows a bound method's object to be GC'd, while
     providing the same interface as a normal weak reference. """
