@@ -8,3 +8,10 @@ requires-python = ">=3.8"
 dev = [
   "ruff",
 ]
+
+
+[tool.ruff]
+line-length = 99
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
