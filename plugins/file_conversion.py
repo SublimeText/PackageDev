@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import os
 import time
 from pathlib import Path
+from typing import Any
 
 import sublime
 import sublime_plugin
@@ -10,6 +13,24 @@ from .lib.fileconv import dumpers, loaders
 from .lib.view_utils import get_text
 
 __all__ = ('PackagedevConvertCommand',)
+
+
+# {name:, kwargs:}
+# name is for the quick panel; others are arguments used when running the command again
+target_list: list[dict[str, Any]] = [
+    {'name': fmt.name, 'kwargs': {"target_format": fmt.ext}}
+    for fmt in dumpers.get.values()
+]
+for i, itm in enumerate(target_list):
+    if itm['name'] == "YAML":
+        # Hardcode YAML block style, who knows if anyone can use this
+        target_list.insert(
+            i + 1,
+            {
+                'name': "YAML (Block Style)",
+                'kwargs': {"target_format": "yaml", "default_flow_style": False},
+            }
+        )
 
 
 # build command
@@ -31,19 +52,6 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
         This works best for json -> anything because json only defines
         strings, numbers, lists and objects (dicts, arrays, hash tables).
     """
-    # {name:, kwargs:}
-    # name is for the quick panel; others are arguments used when running the command again
-    target_list = [dict(name=fmt.name,
-                        kwargs={"target_format": fmt.ext})
-                   for fmt in dumpers.get.values()]
-    for i, itm in enumerate(target_list):
-        if itm['name'] == "YAML":
-            # Hardcode YAML block style, who knows if anyone can use this
-            target_list.insert(
-                i + 1,
-                dict(name="YAML (Block Style)",
-                     kwargs={"target_format": "yaml", "default_flow_style": False})
-            )
 
     def run(self, source_format=None, target_format=None, ext=None,
             open_new_file=False, rearrange_yaml_syntax_def=False, _output=None, **kwargs):
@@ -61,7 +69,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
 
         ext (str) = None
             The extension of the file to convert to, without leading dot. If `None`, the extension
-            will be automatically determined by a special algorythm using "appendixes".
+            will be automatically determined by a special algorithm using "appendixes".
 
             Here are a few examples:
                 ".YAML-ppplist" yaml  -> plist ".ppplist"
