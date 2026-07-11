@@ -332,13 +332,6 @@ class PlistLoader(LoaderProto):
         # plist files is a REAL PITA.
         text = get_text(self.view)
 
-        # Parsing will fail if `<?xml version="1.0" encoding="UTF-8"?>` encoding is in the first
-        # line, so strip it.
-        # XXX: Find a better way to fix this misbehaviour of xml stuff in Python
-        #      (I mean, plistliv even "writes" that line)
-        if text.startswith('<?xml version="1.0" encoding="UTF-8"?>'):
-            text = text[38:]
-
         try:
             # This will try `from xml.parsers.expat import ParserCreate`
             # but since it is already tried above it should succeed.
