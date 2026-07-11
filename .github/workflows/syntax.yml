@@ -20,23 +20,22 @@ jobs:
     strategy:
       matrix:
         include:
-          # latest dev build
-          # This test must pass, the others are optional
-          # due to changes in the Packages repo that affect our tests.
-          - build: latest
-            packages: v4129
+          # latest stable build
+          - build: stable
+            packages: binary
             continue_on_error: false
-          # last dev & Packages `master`
+          # latest dev build
+          - build: latest
+            packages: binary
+            continue_on_error: false
+          # earliest build supported by the current release branch
+          # note: binary for 4135 does not exist, so we go one higher
+          - build: 4136
+            packages: v4136
+            continue_on_error: false
+          # last dev & Packages `master` (may fail)
           - build: latest
             packages: master
-            continue_on_error: true
-          # latest stable build
-          - build: 4126
-            packages: v4126
-            continue_on_error: true
-          # earliest stable build supported by the current release branch
-          - build: 4107
-            packages: v4107
             continue_on_error: true
     runs-on: ubuntu-latest
     steps:
