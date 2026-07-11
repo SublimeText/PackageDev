@@ -56,7 +56,7 @@ def get_builtin_command_meta_data():
         try:
             res_raw = sublime.load_resource(res_path)
             res_meta, res_data = yaml.safe_load_all(res_raw)
-        except (OSError, ValueError):
+        except (OSError, ValueError, yaml.YAMLError):
             logger.exception("couldn't load resource: %s", res_path)
         else:
             meta.update(res_meta)

@@ -109,10 +109,10 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
     def dump(self, data, sort=True, sort_order=None, sort_numeric=True, *args, **kwargs):
         self.output.print(f"Sorting {self.name}...")
         self.output.show()
+        params = self.validate_params(kwargs)
         if sort:
             data = self.sort_keys(data, sort_order, sort_numeric)
             kwargs['sort_keys'] = False
-        params = self.validate_params(kwargs)
 
         self.output.print(f"Dumping {self.name}...")
         return yaml.dump(data, **params)
