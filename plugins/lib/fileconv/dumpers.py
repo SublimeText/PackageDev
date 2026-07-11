@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import datetime
 import json
 import plistlib
+from typing import Any, ClassVar
 
 import yaml
 from sublime_lib import OutputPanel
@@ -8,7 +11,7 @@ from sublime_lib import OutputPanel
 PLIST_DATA_TYPE = getattr(plistlib, 'Data', bytes)
 
 
-class DumperProto(object):
+class DumperProto:
     """Prototype class for data dumpers of different types.
 
         Classes derived from this class (and in this file) will be appended
@@ -43,7 +46,7 @@ class DumperProto(object):
                 Data to write is defined in ``data``.
                 The parsed data should be returned.
                 To output problems, use ``self.output.print(str)``.
-                The default self.dump function will catch excetions raised
+                The default self.dump function will catch exceptions raised
                 and print them via ``str()`` to the output.
 
                 Parameters to the dumping functions are in ``params`` dict,
@@ -67,15 +70,16 @@ class DumperProto(object):
 
             dump(self, *args, **kwargs)
     """
-    name = ""
-    ext  = ""
-    output_panel_name = "package_dev"
-    default_params = {}
-    allowed_params = set()
+    name: ClassVar[str] = ""
+    ext: ClassVar[str]  = ""
+    output_panel_name: ClassVar[str] = "package_dev"
+    default_params: ClassVar[dict[str, Any]] = {}
+    allowed_params: ClassVar[set] = set()
 
     def __init__(self, window, view, new_file_path, output=None, file_path=None, *args, **kwargs):
         """Guess what this does.
         """
+        super().__init__(*args, **kwargs)
         self.window = window
         self.view = view
         self.file_path = file_path or view.file_name()
@@ -86,7 +90,7 @@ class DumperProto(object):
         elif window:
             self.output = OutputPanel(window, self.output_panel_name)
 
-    def validate_data(self, data, *args, **kwargs):
+    def validate_data(self, data, *_args, **_kwargs):
         """To be implemented (optional).
 
             Must return the validated data object.
@@ -141,7 +145,7 @@ class DumperProto(object):
                     obj[i] = check_recursive(obj[i])
 
             if isinstance(obj, tuple):  # tuples are immutable ...
-                return tuple([check_recursive(sub_obj) for sub_obj in obj])
+                return tuple(check_recursive(sub_obj) for sub_obj in obj)
 
             if isinstance(obj, set):  # sets ...
                 for val in obj:
@@ -160,7 +164,7 @@ class DumperProto(object):
         """
         new_params = self.default_params.copy()
         new_params.update(params)
-        for key in params.keys():
+        for key in params:
             if key not in self.allowed_params:
                 del new_params[key]
         return new_params
@@ -170,14 +174,14 @@ class DumperProto(object):
 
         This function is called by the handler directly.
         """
-        self.output.print("Writing %s... (%s)" % (self.name, self.new_file_path))
+        self.output.print(f"Writing {self.name}... ({self.new_file_path})")
         self.output.show()
         data = self.validate_data(data)
         params = self.validate_params(kwargs)
 
         self.write(data, params, *args, **kwargs)
 
-    def write(self, data, *args, **kwargs):
+    def write(self, data, *_args, **_kwargs):
         """To be implemented."""
         raise NotImplementedError
 
@@ -185,12 +189,12 @@ class DumperProto(object):
 class JSONDumper(DumperProto):
     name = "JSON"
     ext  = "json"
-    default_params = dict(
-        skipkeys=True,
-        check_circular=False,  # there won't be references here, hopefully
-        indent=4
-    )
-    allowed_params = {
+    default_params: ClassVar[dict[str, Any]] = {
+        'skipkeys': True,
+        'check_circular': False,  # there won't be references here, hopefully
+        'indent': 4
+    }
+    allowed_params: ClassVar[set[str]] = {
         'skipkeys',
         'ensure_ascii',
         'check_circular',
@@ -212,7 +216,7 @@ class JSONDumper(DumperProto):
             (lambda x: isinstance(x, datetime.datetime), str)  # plist and yaml
         ))
 
-    def write(self, data, params, *args, **kwargs):
+    def write(self, data, params, *_args, **_kwargs):
         """Parameters:
 
             skipkeys (bool)
@@ -285,7 +289,7 @@ class PlistDumper(DumperProto):
             (lambda x: x is None, False)
         ))
 
-    def write(self, data, params, *args, **kwargs):
+    def write(self, data, params, *_args, **_kwargs):
         with open(self.new_file_path, 'wb') as f:
             plistlib.dump(data, f)
 
@@ -293,11 +297,11 @@ class PlistDumper(DumperProto):
 class YAMLDumper(DumperProto):
     name = "YAML"
     ext  = "yaml"
-    default_params = dict(
-        Dumper=yaml.SafeDumper,
-        allow_unicode=True
-    )
-    allowed_params = {
+    default_params: ClassVar[dict[str, Any]] = {
+        'Dumper': yaml.SafeDumper,
+        'allow_unicode': True
+    }
+    allowed_params: ClassVar[set[str]] = {
         'default_style',
         'default_flow_style',
         'canonical',
@@ -321,7 +325,7 @@ class YAMLDumper(DumperProto):
             ),  # plist
         ))
 
-    def write(self, data, params, *args, **kwargs):
+    def write(self, data, params, *_args, **_kwargs):
         """Parameters:
 
             default_style (str)
@@ -366,7 +370,7 @@ class YAMLDumper(DumperProto):
             explicit_end (bool)
                 Default: None (-> False)
 
-                Excplicit '...' at the end.
+                Explicit '...' at the end.
 
             version (tuple)
                 Default: Newest
@@ -400,13 +404,12 @@ if hasattr(plistlib, '_InternalDict'):
 
 
 # Collect all the dumpers and assign them to `get`
-get = dict()
+get = {}
 for type_name in dir():
     try:
         t = globals()[type_name]
-        if t.__bases__:
-            if issubclass(t, DumperProto) and t is not DumperProto:
-                get[t.ext] = t
+        if t.__bases__ and issubclass(t, DumperProto) and t is not DumperProto:
+            get[t.ext] = t
 
     except AttributeError:
         pass
