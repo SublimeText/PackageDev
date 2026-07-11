@@ -169,11 +169,11 @@ class LoaderProto:
         """Assign attributes that depend on other attributes defined by subclasses.
         """
         if not hasattr(cls, 'ext_regex'):
-            cls.ext_regex = r'(?i)\.%s(?:-([^\.]+))?$' % cls.ext
+            cls.ext_regex = rf'(?i)\.{cls.ext}(?:-([^\.]+))?$'
 
         if not hasattr(cls, 'opt_regex'):
             # Will result in an exception when running cls.load_options but will be caught.
-            cls.opt_regex = cls.comment and r'^\s*%s\s+\[PackageDev\]\s+(.+)$' % cls.comment or ""
+            cls.opt_regex = cls.comment and rf'^\s*{cls.comment}\s+\[PackageDev\]\s+(.+)$' or ""
 
     @classmethod
     def get_ext_appendix(cls, file_name):
@@ -233,7 +233,7 @@ class LoaderProto:
                 optstr = re.search(self.opt_regex, line)
                 # Just parse the string with yaml; wrapped in {}
                 # Yeah, I'm lazy like that, but see, I even put "safe_" in front of it
-                return yaml.safe_load('{%s}' % optstr.group(1))
+                return yaml.safe_load(f'{{{optstr.group(1)}}}')
             except Exception:
                 continue
 
@@ -270,10 +270,10 @@ class LoaderProto:
         This function is called by the handler directly.
         """
         if not self.is_valid():
-            self.output.print("Not a %s file." % self.name)
+            self.output.print(f"Not a {self.name} file.")
             return
 
-        self.output.print("Parsing %s... (%s)" % (self.name, self.file_path))
+        self.output.print(f"Parsing {self.name}... ({self.file_path})")
 
         return self.parse(*args, **kwargs)
 
@@ -375,7 +375,7 @@ class YAMLLoader(LoaderProto):
             out = self.debug_base % str(e).replace("<unicode string>", self.file_path)
             self.output.print(out)
         except OSError as e:
-            self.output.print('Error opening "%s": %s' % (self.file_path, str(e)))
+            self.output.print(f'Error opening "{self.file_path}": {str(e)}')
         else:
             return data
 

@@ -25,7 +25,7 @@ class BaseOrderedDictLoader:
         else:
             raise ConstructorError(None,
                                    None,
-                                   'expected a mapping node, but found %s' % node.id,
+                                   f'expected a mapping node, but found {node.id}',
                                    node.start_mark)
 
         mapping = OrderedDict()
@@ -37,7 +37,7 @@ class BaseOrderedDictLoader:
             except TypeError as exc:
                 raise ConstructorError('while constructing a mapping',
                                        node.start_mark,
-                                       'found unacceptable key (%s)' % exc,
+                                       f'found unacceptable key ({exc})',
                                        key_node.start_mark)
             value = self.construct_object(value_node, deep=deep)
             mapping[key] = value

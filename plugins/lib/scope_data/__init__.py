@@ -105,7 +105,7 @@ class ScopeNode:
     def __repr__(self):
         ret = self.name
         if self.children:
-            ret += " {%s}" % ' '.join(map(repr, self.children))
+            ret += " {{{}}}".format(' '.join(map(repr, self.children)))
         return ret
 
 

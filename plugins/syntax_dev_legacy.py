@@ -23,7 +23,7 @@ PACKAGE_NAME = __package__.split('.')[0]
 
 
 def status(msg, window, console=False):
-    msg = "[%s] %s" % (PACKAGE_NAME, msg)
+    msg = f"[{PACKAGE_NAME}] {msg}"
     window.status_message(msg)
     if console:
         print(msg)
@@ -110,13 +110,13 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         ))
 
     def dump(self, data, sort=True, sort_order=None, sort_numeric=True, *args, **kwargs):
-        self.output.print("Sorting %s..." % self.name)
+        self.output.print(f"Sorting {self.name}...")
         self.output.show()
         if sort:
             data = self.sort_keys(data, sort_order, sort_numeric)
         params = self.validate_params(kwargs)
 
-        self.output.print("Dumping %s..." % self.name)
+        self.output.print(f"Dumping {self.name}...")
         return yaml.dump(data, **params)
 
 
@@ -324,9 +324,9 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
             ("include\tinclude: '#...'", "include: '#$0'"),
             ("include\tinclude: $self", "include: \\$self"),
         ]
-        for ex in (((f"{s}\t{s}:", "%s: "    % s) for s in base_keys),
-                   ((f"{s}\t{s}:", "%s:\n  " % s) for s in dict_keys),
-                   ((f"{s}\t{s}:", "%s:\n- " % s) for s in list_keys)):
+        for ex in (((f"{s}\t{s}:", f"{s}: ") for s in base_keys),
+                   ((f"{s}\t{s}:", f"{s}:\n  ") for s in dict_keys),
+                   ((f"{s}\t{s}:", f"{s}:\n- ") for s in list_keys)):
             completions.extend(ex)
 
         self.base_completions = completions
@@ -351,7 +351,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
         # but only if they are not in a string scope
         word = view.substr(view.word(loc))
         if word.isdigit() and not view.match_selector(loc, "string"):
-            return inhibit([(word, "'%s': {name: $0}" % word)])
+            return inhibit([(word, f"'{word}': {{name: $0}}")])
 
         # Provide a selection of naming convention from TextMate + the base scope appendix
         if (
@@ -376,8 +376,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                         node = nodes.find(token)
                         if not node:
                             status(
-                                "Warning: `%s` not found in scope naming conventions"
-                                % '.'.join(tokens[:i + 1]),
+                                "Warning: `{}` not found in scope naming conventions".format('.'.join(tokens[:i + 1])),
                                 window
                             )
                             break
@@ -388,8 +387,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                     if nodes and node:
                         return inhibit(nodes.to_completion())
                     else:
-                        status("No nodes available in scope naming conventions after `%s`"
-                               % '.'.join(tokens), window)
+                        status("No nodes available in scope naming conventions after `{}`".format('.'.join(tokens)), window)
                         # Search for the base scope appendix/suffix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:
@@ -445,7 +443,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
 
         # Otherwise, use the default completions + generated uuid
         completions = [
-            ('uuid\tuuid: ...', "uuid: %s" % uuid.uuid4())
+            ('uuid\tuuid: ...', f"uuid: {uuid.uuid4()}")
         ]
 
         return inhibit(self.base_completions + completions)

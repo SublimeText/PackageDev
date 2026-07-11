@@ -108,13 +108,13 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
         file_path = Path(file_path)
 
         if source_format and target_format == source_format:
-            return self.status("Target and source file format are identical. (%s)" % target_format)
+            return self.status(f"Target and source file format are identical. ({target_format})")
 
         if source_format and source_format not in loaders.get:
-            return self.status("Loader for '%s' not supported/implemented." % source_format)
+            return self.status(f"Loader for '{source_format}' not supported/implemented.")
 
         if target_format and target_format not in dumpers.get:
-            return self.status("Dumper for '%s' not supported/implemented." % target_format)
+            return self.status(f"Dumper for '{target_format}' not supported/implemented.")
 
         # Now the actual "building" starts (collecting remaining parameters)
         with OutputPanel.create(self.window, "package_dev",
@@ -127,13 +127,13 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                 for Loader in loaders.get.values():
                     if Loader.file_is_valid(self.view):
                         source_format = Loader.ext
-                        output.print(' %s\n' % Loader.name)
+                        output.print(f' {Loader.name}\n')
                         break
 
                 if not source_format:
                     return output.print("\nUnable to detect file type.")
                 elif target_format == source_format:
-                    return output.print("File already is %s." % Loader.name)
+                    return output.print(f"File already is {Loader.name}.")
 
             # Load inline options
             Loader = loaders.get[source_format]
@@ -148,7 +148,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                 else:
                     new_ext, prepend_target_format = Loader.get_new_file_ext(self.view)
                     if prepend_target_format:
-                        new_ext = ".%s-%s" % (target_format.upper(), new_ext[1:])
+                        new_ext = f".{target_format.upper()}-{new_ext[1:]}"
 
                 return (new_ext or '.' + target_format)
 
@@ -167,7 +167,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                         # To not clash with function-local "target_format"
                         target_format_ = itm['kwargs']['target_format']
                         if target_format_ != source_format:
-                            options.append(["Convert to: %s" % itm['name'],
+                            options.append(["Convert to: {}".format(itm['name']),
                                             file_path.stem + get_new_ext(target_format_)])
                             items.append(itm)
 
@@ -178,7 +178,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                             return
 
                         target = items[index]
-                        output.print(' %s\n' % target['name'])
+                        output.print(' {}\n'.format(target['name']))
 
                         kwargs.update(target['kwargs'])
                         kwargs.update(dict(source_format=source_format, _output=output))
@@ -191,14 +191,12 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                 target_format = opts['target_format']
                 # Validate the shit again, but this time print to output panel
                 if source_format is not None and target_format == source_format:
-                    return output.print("\nTarget and source file format are identical. (%s)"
-                                        % target_format)
+                    return output.print(f"\nTarget and source file format are identical. ({target_format})")
 
                 if target_format not in dumpers.get:
-                    return output.print("\nDumper for '%s' not supported/implemented."
-                                        % target_format)
+                    return output.print(f"\nDumper for '{target_format}' not supported/implemented.")
 
-                output.print(' %s\n' % dumpers.get[target_format].name)
+                output.print(f' {dumpers.get[target_format].name}\n')
 
             start_time = time.time()
 
@@ -221,7 +219,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
             try:
                 os.makedirs(str(new_dir), exist_ok=True)
             except OSError:
-                output.print("Could not create folder '%s'" % new_dir)
+                output.print(f"Could not create folder '{new_dir}'")
                 return
 
             # Now dump to new file
@@ -233,8 +231,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                 output.print("Unexpected error occurred while dumping, "
                              "please see the console for details.")
                 raise
-            self.status("File conversion successful. (%s -> %s)"
-                        % (source_format, target_format))
+            self.status(f"File conversion successful. ({source_format} -> {target_format})")
 
             # Finish
             output.print("[Finished in %.3fs]" % (time.time() - start_time))
@@ -252,4 +249,4 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
 
     def status(self, msg, file_path=None):
         self.window.status_message(msg)
-        print("[PackageDev] " + msg + (" (%s)" % file_path if file_path is not None else ""))
+        print("[PackageDev] " + msg + (f" ({file_path})" if file_path is not None else ""))

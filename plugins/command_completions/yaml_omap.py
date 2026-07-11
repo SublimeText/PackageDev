@@ -17,13 +17,13 @@ class SafeOrderedDictConstructor(SafeConstructor):
         if not isinstance(node, SequenceNode):
             raise ConstructorError("while constructing an ordered map",
                                    node.start_mark,
-                                   "expected a sequence, but found %s" % node.id,
+                                   f"expected a sequence, but found {node.id}",
                                    node.start_mark)
         for subnode in node.value:
             if not isinstance(subnode, MappingNode):
                 raise ConstructorError("while constructing an ordered map",
                                        node.start_mark,
-                                       "expected a mapping of length 1, but found %s" % subnode.id,
+                                       f"expected a mapping of length 1, but found {subnode.id}",
                                        subnode.start_mark)
             if len(subnode.value) != 1:
                 raise ConstructorError("while constructing an ordered map",

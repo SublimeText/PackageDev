@@ -91,7 +91,7 @@ PACKAGE_NAME = __package__.split('.')[0]
 
 
 def status(msg, window=None, console=False):
-    msg = "[%s] %s" % (PACKAGE_NAME, msg)
+    msg = f"[{PACKAGE_NAME}] {msg}"
     (window or sublime).status_message(msg)
     if console:
         print(msg)
@@ -404,14 +404,13 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             node = nodes.find(token)
             if not node:
                 status(
-                    "`%s` not found in scope naming conventions" % '.'.join(tokens[:i + 1]),
+                    "`{}` not found in scope naming conventions".format('.'.join(tokens[:i + 1])),
                     window
                 )
                 break
             nodes = node.children
             if not nodes:
-                status("No nodes available in scope naming conventions after `%s`"
-                       % '.'.join(tokens[:-1]), window)
+                status("No nodes available in scope naming conventions after `{}`".format('.'.join(tokens[:-1])), window)
                 break
         else:
             # Offer to complete from conventions or base scope
