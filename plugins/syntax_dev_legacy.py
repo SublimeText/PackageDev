@@ -9,7 +9,6 @@ import yaml
 from sublime_lib import OutputPanel
 
 from .lib.fileconv import dumpers, loaders
-from .lib.ordereddict_yaml import OrderedDictSafeDumper
 from .lib.scope_data import COMPILED_HEADS
 from .lib.view_utils import base_scope, extract_selector, get_viewport_coords, set_viewport
 
@@ -31,7 +30,7 @@ def status(msg, window, console=False):
 ###############################################################################
 
 
-class YAMLLanguageDevDumper(OrderedDictSafeDumper):
+class YAMLLanguageDevDumper(yaml.SafeDumper):
     def represent_scalar(self, tag, value, style=None):
         if tag == 'tag:yaml.org,2002:str':
             # Block style for multiline strings
@@ -63,7 +62,7 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
 
 
 class YAMLOrderedTextDumper(dumpers.YAMLDumper):
-    default_params = {'Dumper': OrderedDictSafeDumper}
+    default_params = {'Dumper': YAMLLanguageDevDumper, 'sort_keys': False}
 
     def __init__(self, window=None, output=None):
         if isinstance(output, OutputPanel):
@@ -78,12 +77,12 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
 
     def sort_keys(self, data, sort_order, sort_numeric):
         def do_sort(obj):
-            od = {}
+            sorted_obj = {}
             # The usual order
             if sort_order:
                 for key in sort_order:
                     if key in obj:
-                        od[key] = obj[key]
+                        sorted_obj[key] = obj[key]
                         del obj[key]
             # The number order
             if sort_numeric:
@@ -94,16 +93,16 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
                 nums.sort()
                 for num in nums:
                     key = str(num)
-                    od[key] = obj[key]
+                    sorted_obj[key] = obj[key]
                     del obj[key]
             # The remaining stuff (in alphabetical order)
             keys = sorted(obj.keys())
             for key in keys:
-                od[key] = obj[key]
+                sorted_obj[key] = obj[key]
                 del obj[key]
 
             assert len(obj) == 0
-            return od
+            return sorted_obj
 
         return self._validate_data(data, ((lambda x: isinstance(x, dict), do_sort),))
 
@@ -112,6 +111,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
         self.output.show()
         if sort:
             data = self.sort_keys(data, sort_order, sort_numeric)
+            kwargs['sort_keys'] = False
         params = self.validate_params(kwargs)
 
         self.output.print(f"Dumping {self.name}...")
