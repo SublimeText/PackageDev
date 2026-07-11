@@ -111,6 +111,11 @@
 							"default": true,
 							"markdownDescription": "Whether or not to keep the scope suffix in the suggested test scopes i.e. if the base scope is text.html.markdown then suggest meta.example.markdown (true) vs meta.example (false)."
 						},
+						"syntax.scope_completion.add_trailing_period": {
+							"type": "boolean",
+							"default": true,
+							"markdownDescription": "Whether to add a trailing period after inserting a scope name completion and re-open the completions popup."
+						},
 						"syntax_test.suggest_asserted_prefix": {
 							"type": "boolean",
 							"default": false,

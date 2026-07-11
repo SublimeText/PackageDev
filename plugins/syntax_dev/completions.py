@@ -7,7 +7,7 @@ import sublime
 import sublime_plugin
 from sublime_lib.resource_path import ResourcePath
 
-from ..lib import inhibit_word_completions, syntax_paths
+from ..lib import get_setting, inhibit_word_completions, syntax_paths
 from ..lib.scope_data import (
     COMMIT_SCOPE_COMPLETION_CMD,
     COMPILED_HEADS,
@@ -482,7 +482,7 @@ class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
     def run(self, edit, text, is_base_suffix=False):
         self.view.run_command("insert", {"characters": text})
 
-        if is_base_suffix:
+        if is_base_suffix or not get_setting("syntax.scope_completion.add_trailing_period", True):
             return
 
         self.view.run_command('insert', {'characters': "."})
