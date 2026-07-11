@@ -6,8 +6,6 @@ import sublime
 import sublime_plugin
 import yaml
 
-from .yaml_omap import SaveOmapLoader
-
 BUILTIN_METADATA_FILENAME = "builtin_commands_meta_data.yaml"
 
 logger = logging.getLogger(__name__)
@@ -57,7 +55,7 @@ def get_builtin_command_meta_data():
     for res_path in res_paths:
         try:
             res_raw = sublime.load_resource(res_path)
-            res_meta, res_data = yaml.load_all(res_raw, Loader=SaveOmapLoader)
+            res_meta, res_data = yaml.safe_load_all(res_raw)
         except (OSError, ValueError):
             logger.exception("couldn't load resource: %s", res_path)
         else:
