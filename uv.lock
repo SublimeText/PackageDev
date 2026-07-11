@@ -6,6 +6,9 @@ requires-python = ">=3.8"
 name = "package-dev"
 version = "0.0.0"
 source = { virtual = "." }
+dependencies = [
+    { name = "pyyaml" },
+]
 
 [package.dev-dependencies]
 dev = [
@@ -13,9 +16,16 @@ dev = [
 ]
 
 [package.metadata]
+requires-dist = [{ name = "pyyaml", specifier = "==5.1.1" }]
 
 [package.metadata.requires-dev]
 dev = [{ name = "ruff" }]
+
+[[package]]
+name = "pyyaml"
+version = "5.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a3/65/837fefac7475963d1eccf4aa684c23b95aa6c1d033a2c5965ccb11e22623/PyYAML-5.1.1.tar.gz", hash = "sha256:b4bb4d3f5e232425e25dda21c070ce05168a786ac9eda43768ab7f3ac2770955", size = 274442, upload-time = "2019-06-06T22:31:22.624Z" }
 
 [[package]]
 name = "ruff"

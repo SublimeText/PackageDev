@@ -3,6 +3,9 @@ name = "package-dev"
 version = "0.0.0"
 description = "The Sublime Text meta package"
 requires-python = ">=3.8"
+dependencies = [
+    "pyyaml==5.1.1",
+]
 
 [dependency-groups]
 dev = [
