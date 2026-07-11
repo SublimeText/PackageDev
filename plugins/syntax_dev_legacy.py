@@ -23,7 +23,7 @@ PACKAGE_NAME = __package__.split('.')[0]
 
 
 def status(msg, window, console=False):
-    msg = f"[{PACKAGE_NAME} {msg}"
+    msg = f"[{PACKAGE_NAME}] {msg}"
     window.status_message(msg)
     if console:
         print(msg)
