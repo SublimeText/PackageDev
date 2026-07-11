@@ -2,7 +2,6 @@ import itertools
 import json
 import logging
 import re
-from collections import OrderedDict
 
 import sublime
 import sublime_plugin
@@ -85,10 +84,7 @@ def create_args_snippet_from_command_args(command_args, quote_char='"', for_json
             v = f'${next(counter)}'
         return f'{quote_char}{k}{quote_char}: {v}'
 
-    keys = iter(command_args)
-    if not isinstance(command_args, OrderedDict):
-        keys = sorted(keys)
-    snippet_items = (make_snippet_item(k, command_args[k]) for k in keys)
+    snippet_items = (make_snippet_item(k, command_args[k]) for k in command_args)
     if for_json:
         args_content = ",\n\t".join(snippet_items)
         args_snippet = f'"args": {{\n\t{args_content}\n}},$0'

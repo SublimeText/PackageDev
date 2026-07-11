@@ -1,7 +1,6 @@
 import functools
 import inspect
 import logging
-from collections import OrderedDict
 
 import sublime
 import sublime_plugin
@@ -148,7 +147,7 @@ def extract_command_class_args(command_class):
         defaults,
     )
 
-    arg_dict = OrderedDict()
+    arg_dict = {}
     for i, arg in enumerate(args):
         if i == 0:  # strip 'self' arg
             continue

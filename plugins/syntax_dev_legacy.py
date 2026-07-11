@@ -2,7 +2,6 @@ import re
 import textwrap
 import time
 import uuid
-from collections import OrderedDict
 
 import sublime
 import sublime_plugin
@@ -79,7 +78,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
 
     def sort_keys(self, data, sort_order, sort_numeric):
         def do_sort(obj):
-            od = OrderedDict()
+            od = {}
             # The usual order
             if sort_order:
                 for key in sort_order:
