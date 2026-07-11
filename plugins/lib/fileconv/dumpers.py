@@ -204,7 +204,10 @@ class JSONDumper(DumperProto):
     def validate_data(self, data):
         return self._validate_data(data, (
             # TOTEST: sets
-            (lambda x: isinstance(x, PLIST_DATA_TYPE), lambda x: x.data if hasattr(x, 'data') else x),  # plist
+            (
+                lambda x: isinstance(x, PLIST_DATA_TYPE),
+                lambda x: x.data if hasattr(x, 'data') else x,
+            ),  # plist
             (lambda x: isinstance(x, datetime.date), str),  # yaml
             (lambda x: isinstance(x, datetime.datetime), str)  # plist and yaml
         ))
@@ -312,7 +315,10 @@ class YAMLDumper(DumperProto):
 
     def validate_data(self, data):
         return self._validate_data(data, (
-            (lambda x: isinstance(x, PLIST_DATA_TYPE), lambda x: x.data if hasattr(x, 'data') else x),  # plist
+            (
+                lambda x: isinstance(x, PLIST_DATA_TYPE),
+                lambda x: x.data if hasattr(x, 'data') else x,
+            ),  # plist
         ))
 
     def write(self, data, params, *args, **kwargs):
