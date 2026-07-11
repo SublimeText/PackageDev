@@ -9,6 +9,8 @@ Support for older builds is dropped and they will remain on 3.6.x.
 
 - Settings: Add `sublime-package.json` metadata to support LSP-json code intelligence. (#424, @deathaxe)
 - Syntax: Treat variables as interpolation. (#433, @deathaxe)
+- Syntax: Add new setting to disable adding trailing periods and re-opening of the completions popup
+  when a scope name from our completions was selected. (#439, @FichteFoll)
 - Theme: Improve CSS highlighting by extending the default CSS syntax. (#369, #425, @deathaxe)
 - Various: Add support for child combinator scope operator. (#428, @deathaxe)
 - Various: Add support for merge conflict markers. (#416, @deathaxe)
