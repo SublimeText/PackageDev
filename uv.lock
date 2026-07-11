@@ -16,16 +16,26 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "pyyaml", specifier = "==5.1.1" }]
+requires-dist = [{ name = "pyyaml", specifier = "==5.4" }]
 
 [package.metadata.requires-dev]
 dev = [{ name = "ruff" }]
 
 [[package]]
 name = "pyyaml"
-version = "5.1.1"
+version = "5.4"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/a3/65/837fefac7475963d1eccf4aa684c23b95aa6c1d033a2c5965ccb11e22623/PyYAML-5.1.1.tar.gz", hash = "sha256:b4bb4d3f5e232425e25dda21c070ce05168a786ac9eda43768ab7f3ac2770955", size = 274442, upload-time = "2019-06-06T22:31:22.624Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b5/fd/15638de2da0a5aa91c095718444624aa565f766fc178249ca6faa372f71a/PyYAML-5.4.tar.gz", hash = "sha256:3c49e39ac034fd64fd576d63bb4db53cda89b362768a67f07749d55f128ac18a", size = 174831, upload-time = "2021-01-19T20:54:47.482Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/60/a0/c6c7fb6604a6083d1bb7a96e6841132e6256742e9ffbb981f9496adbe97c/PyYAML-5.4-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:cc547d3ead3754712223abb7b403f0a184e4c3eae18c9bb7fd15adef1597cc4b", size = 253104, upload-time = "2021-01-19T20:54:35.461Z" },
+    { url = "https://files.pythonhosted.org/packages/a1/7a/b20840eda7a55ab7342fd284c6d66203532789d2805845925930bc7e6d9b/PyYAML-5.4-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:8635d53223b1f561b081ff4adecb828fd484b8efffe542edcfdff471997f7c39", size = 662210, upload-time = "2021-01-19T20:54:37.005Z" },
+    { url = "https://files.pythonhosted.org/packages/84/8a/feb2444e1df62c8d209de96e9120b21bd51941f7148a87ab987a939f2af6/PyYAML-5.4-cp38-cp38-win32.whl", hash = "sha256:26fcb33776857f4072601502d93e1a619f166c9c00befb52826e7b774efaa9db", size = 196152, upload-time = "2021-01-19T20:54:38.353Z" },
+    { url = "https://files.pythonhosted.org/packages/8e/d3/33437da769147dcde81ffdbd7ecc2dff2674a2857e6e6dd82d183934fbac/PyYAML-5.4-cp38-cp38-win_amd64.whl", hash = "sha256:b2243dd033fd02c01212ad5c601dafb44fbb293065f430b0d3dbf03f3254d615", size = 213475, upload-time = "2021-01-19T20:54:39.706Z" },
+    { url = "https://files.pythonhosted.org/packages/86/cf/892fb8177b0eb25e118f761eeed5a94df16ad2a82a78a43647c106a11e5f/PyYAML-5.4-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:31ba07c54ef4a897758563e3a0fcc60077698df10180abe4b8165d9895c00ebf", size = 259181, upload-time = "2021-01-19T20:54:41.616Z" },
+    { url = "https://files.pythonhosted.org/packages/43/e8/31007862b01580c507e24b88aeedb71bb81d6125a71c651a26370e6e0648/PyYAML-5.4-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:02c78d77281d8f8d07a255e57abdbf43b02257f59f50cc6b636937d68efa5dd0", size = 629951, upload-time = "2021-01-19T20:54:43.077Z" },
+    { url = "https://files.pythonhosted.org/packages/78/73/67c64bbc2e57b6b5e43d6849868c945f4ada0b582405899b7f50861cfc77/PyYAML-5.4-cp39-cp39-win32.whl", hash = "sha256:fdc6b2cb4b19e431994f25a9160695cc59a4e861710cc6fc97161c5e845fc579", size = 196165, upload-time = "2021-01-19T20:54:44.366Z" },
+    { url = "https://files.pythonhosted.org/packages/2e/36/591fa17e752056a0308c40f9446578ad7dca924594e226098afbb57d9093/PyYAML-5.4-cp39-cp39-win_amd64.whl", hash = "sha256:8bf38641b4713d77da19e91f8b5296b832e4db87338d6aeffe422d42f1ca896d", size = 213297, upload-time = "2021-01-19T20:54:45.985Z" },
+]
 
 [[package]]
 name = "ruff"
