@@ -21,11 +21,10 @@ should find it very useful.
 Install the package using [Package Control][].
 The package's name is <kbd>PackageDev</kbd>.
 
-PackageDev was made for **Sublime Text 3**.
-An older unmaintained version
-can still be installed for Sublime Text 2, however.
+The current version of PackageDev targets recent builds of Sublime Text.
+Older unmaintaned versions are available back until Sublime Text 2, however.
 
-[Package Control]: https://packagecontrol.io/
+[Package Control]: https://packages.sublimetext.com/
 
 
 ## Getting Started
