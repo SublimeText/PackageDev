@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """A `Property Lists`_ is a data representation used in Apple's Mac OS X as
 a convenient way to store standard object types, such as string, number,
 boolean, and container object.
@@ -11,17 +10,16 @@ a property list file and get back a python native data structure.
 
 .. _Property Lists: http://developer.apple.com/documentation/Cocoa/Conceptual/PropertyLists/
 """
-
 import re
 from io import BytesIO
+from typing import Callable, ClassVar
 
 
 class PropertyListParseError(Exception):
     """Raised when parsing a property list is failed."""
-    pass
 
 
-class XmlPropertyListParser(object):
+class XmlPropertyListParser:
     """The ``XmlPropertyListParser`` class provides methods that
     convert `Property Lists`_ objects from xml format.
     Property list objects include ``string``, ``unicode``,
@@ -114,7 +112,7 @@ class XmlPropertyListParser(object):
             self.__plist = value
         else:
             top = self.__stack[-1]
-            #assert isinstance(top, (dict, list))
+            # assert isinstance(top, (dict, list))
             if self.__in_dict:
                 k = self.__key
                 if k is None:
@@ -135,15 +133,15 @@ class XmlPropertyListParser(object):
     def _start_plist(self, name, attrs):
         self._assert(not self.__stack and self.__plist is None, "<plist> more than once.")
         self._assert(attrs.get('version', '1.0') == '1.0',
-                     "version 1.0 is only supported, but was '%s'." % attrs.get('version'))
+                     "version 1.0 is only supported, but was '{}'.".format(attrs.get('version')))
 
     def _start_array(self, name, attrs):
-        v = list()
+        v = []
         self._push_value(v)
         self._push_stack(v)
 
     def _start_dict(self, name, attrs):
-        v = dict()
+        v = {}
         self._push_value(v)
         self._push_stack(v)
 
@@ -152,7 +150,7 @@ class XmlPropertyListParser(object):
 
     def _end_dict(self, name):
         if self.__key is not None:
-            raise PropertyListParseError("Missing value for key '%s'" % self.__key)
+            raise PropertyListParseError(f"Missing value for key '{self.__key}'")
         self._pop_stack()
 
     def _start_true(self, name, attrs):
@@ -187,7 +185,7 @@ class XmlPropertyListParser(object):
         pattern = XmlPropertyListParser.DATETIME_PATTERN
         match = pattern.match(content)
         if not match:
-            raise PropertyListParseError("Failed to parse datetime '%s'" % content)
+            raise PropertyListParseError(f"Failed to parse datetime '{content}'")
 
         groups, components = match.groupdict(), []
         for key in units:
@@ -207,7 +205,7 @@ class XmlPropertyListParser(object):
     def _parse_integer(self, name, content):
         self._push_value(int(content))
 
-    START_CALLBACKS = {
+    START_CALLBACKS: ClassVar[dict[str, Callable[..., None]]] = {
         'plist': _start_plist,
         'array': _start_array,
         'dict': _start_dict,
@@ -215,12 +213,12 @@ class XmlPropertyListParser(object):
         'false': _start_false,
     }
 
-    END_CALLBACKS = {
+    END_CALLBACKS: ClassVar[dict[str, Callable[..., None]]] = {
         'array': _end_array,
         'dict': _end_dict,
     }
 
-    PARSE_CALLBACKS = {
+    PARSE_CALLBACKS: ClassVar[dict[str, Callable[..., None]]] = {
         'key': _parse_key,
         'string': _parse_string,
         'data': _parse_data,
@@ -236,13 +234,13 @@ class XmlPropertyListParser(object):
         if isinstance(io_or_string, str):
             # Creates a string stream for in-memory contents.
             return BytesIO(io_or_string.encode('utf-8'))
-        elif hasattr(io_or_string, 'read') and callable(getattr(io_or_string, 'read')):
+        elif hasattr(io_or_string, 'read') and callable(io_or_string.read):
             return io_or_string
         else:
-            raise TypeError('Can\'t convert %s to file-like-object' % type(io_or_string))
+            raise TypeError(f'Can\'t convert {type(io_or_string)} to file-like-object')
 
     def _parse_using_etree(self, xml_input):
-        from xml.etree.cElementTree import iterparse
+        from xml.etree.ElementTree import iterparse
 
         parser = iterparse(self._to_stream(xml_input), events=('start', 'end'))
         self.startDocument()
@@ -265,7 +263,8 @@ class XmlPropertyListParser(object):
         return self.__plist
 
     def _parse_using_sax_parser(self, xml_input):
-        from xml.sax import make_parser, xmlreader, SAXParseException
+        from xml.sax import SAXParseException, make_parser, xmlreader
+
         source = xmlreader.InputSource()
         source.setByteStream(self._to_stream(xml_input))
         reader = make_parser()
