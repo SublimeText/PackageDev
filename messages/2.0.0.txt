@@ -4,7 +4,7 @@ v2.0.0 (2016-01-24)
 ## The Big Changes
 
 * Renamed to just "PackageDev".
-  This mostly noticable in syntax definition paths
+  This mostly noticeable in syntax definition paths
   (you may need to re-set syntaxes for open files)
   and the command palette.
 

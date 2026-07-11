@@ -1,0 +1,34 @@
+v3.7.0 (2026-07-11)
+-------------------
+
+This new release requires ST build 4135 or higher.
+The next stable build is 4142 and was released on 10 November 2022, so almost 4 years ago.
+Support for older builds is dropped and they will remain on 3.6.x.
+
+## Minor changes
+
+- Settings: Add `sublime-package.json` metadata to support LSP-json code intelligence. (#424, @deathaxe)
+- Syntax: Treat variables as interpolation. (#433, @deathaxe)
+- Theme: Improve CSS highlighting by extending the default CSS syntax. (#369, #425, @deathaxe)
+- Various: Add support for child combinator scope operator. (#428, @deathaxe)
+- Various: Add support for merge conflict markers. (#416, @deathaxe)
+
+## Trivial changes and fixes
+
+- Commands: Add built-in `set_user_setting` command, supported by all ST3/4 builds. (#414, @deathaxe)
+- fileconv: Make `plistlib` usage ready for Python 3.13 and up. (#436, @FichteFoll)
+- fileconv: Fix encoding on non-UTF-8 systems like Windows. (#418, #419, @AmjadHD)
+- Keymap: Add missing context keys and sort existing context keys. (#434, @deathaxe)
+- Keymap: Support `control` as a valid modifier key. (#431, #432, @vwheeler63)
+- Menu: Support numeric mnemonic characters. (#435, @FichteFoll)
+- Settings: Add new A File Icon overlay path to default syntax exclude patterns. (#423, @deathaxe)
+- Settings: Update default color scheme exclude patterns. (@deathaxe)
+- Settings: Fix dumpers encoding on Windows. (#419, #418, @AmjadHD)
+- Settings: Fix setting helpers for 3.14. (#426, @deathaxe)
+- Syntax: Change the scope of contexts, global variables, and context name references. (@deathaxe)
+- Syntax: Fix typos in templates. (@FichteFoll)
+- Syntax: Restore `var()` meta scope and adjust completion selectors. (@deathaxe)
+- Syntax: Various small scope adjustments. (#428, #433, @deathaxe)
+- Syntax: Scope invalid escape sequences in double-quoted YAML strings. (#415, #427, @deathaxe)
+- Syntax: Include newline character in generated syntax assertions (#420, #421, @michaelblyons)
+- Internal: Replace `sublime_lib.RegionOption` with built-in `RegionFlags`. (#422, @deathaxe)

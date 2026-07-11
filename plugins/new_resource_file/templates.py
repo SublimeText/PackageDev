@@ -273,5 +273,5 @@ patterns:
         $0
     </array>
 </dict>
-</plist>""".replace("    ", "\t")  # noqa - line length
+</plist>""".replace("    ", "\t"),  # noqa - line length
 )

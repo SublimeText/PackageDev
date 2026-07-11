@@ -633,7 +633,7 @@ contexts:
         1: punctuation.definition.string.begin.json
         2: keyword.other.texture.sublime-theme
         3: punctuation.definition.string.end.json
-      set: [expect-sequence-value, expect-colon] # techincally a sequence of strings
+      set: [expect-sequence-value, expect-colon] # technically a sequence of strings
     - match: (")(frame_time)(")
       scope: meta.mapping.key.json meta.texture-key.sublime-theme string.quoted.double.json
       captures:

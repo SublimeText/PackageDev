@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import datetime
 import json
 import plistlib
+from typing import Any, ClassVar
 
 import yaml
 from sublime_lib import OutputPanel
@@ -8,74 +11,75 @@ from sublime_lib import OutputPanel
 PLIST_DATA_TYPE = getattr(plistlib, 'Data', bytes)
 
 
-class DumperProto(object):
+class DumperProto:
     """Prototype class for data dumpers of different types.
 
-        Classes derived from this class (and in this file) will be appended
-        to the module's ``get`` variable (a dict) with ``self.ext`` as their key.
+    Classes derived from this class (and in this file) will be appended
+    to the module's ``get`` variable (a dict) with ``self.ext`` as their key.
 
-        Variables to be defined:
+    Variables to be defined:
 
-            name (str)
-                The dumpers name, e.g. "JSON" or "Property List".
+        name (str)
+            The dumpers name, e.g. "JSON" or "Property List".
 
-            ext (str)
-                The default file extension.
+        ext (str)
+            The default file extension.
 
-            output_panel_name (str; optional)
-                If this is specified it will be used as the output panel's
-                reference name.
-                Defaults to ``"package_dev"``.
+        output_panel_name (str; optional)
+            If this is specified it will be used as the output panel's
+            reference name.
+            Defaults to ``"package_dev"``.
 
-            default_params (dict; optional)
-                Just a dict of the default params for self.write().
+        default_params (dict; optional)
+            Just a dict of the default params for self.write().
 
-            allowed_params (set; optional)
-                A collection of strings defining the allowed parameters for
-                self.write(). Other keys in the kwargs dict will be removed.
+        allowed_params (set; optional)
+            A collection of strings defining the allowed parameters for
+            self.write(). Other keys in the kwargs dict will be removed.
 
 
-        Methods to be implemented:
+    Methods to be implemented:
 
-            write(self, data, params, *args, **kwargs)
-                This is called when the actual parsing should happen.
+        write(self, data, params, *args, **kwargs)
+            This is called when the actual parsing should happen.
 
-                Data to write is defined in ``data``.
-                The parsed data should be returned.
-                To output problems, use ``self.output.print(str)``.
-                The default self.dump function will catch excetions raised
-                and print them via ``str()`` to the output.
+            Data to write is defined in ``data``.
+            The parsed data should be returned.
+            To output problems, use ``self.output.print(str)``.
+            The default self.dump function will catch exceptions raised
+            and print them via ``str()`` to the output.
 
-                Parameters to the dumping functions are in ``params`` dict,
-                which have been validated before, according to the class
-                variables (see above).
-                *args, **kwargs parameters are passed from
-                ``load(self, *args, **kwargs)``. If you want to specify or
-                process any options or optional parsing, use these.
+            Parameters to the dumping functions are in ``params`` dict,
+            which have been validated before, according to the class
+            variables (see above).
+            *args, **kwargs parameters are passed from
+            ``load(self, *args, **kwargs)``. If you want to specify or
+            process any options or optional parsing, use these.
 
-            validate_data(self, data, *args, **kwargs) (optional)
+        validate_data(self, data, *args, **kwargs) (optional)
 
-                Called by self.dump. Please read the documentation for
-                _validate_data in order to understand how this function works.
+            Called by self.dump. Please read the documentation for
+            _validate_data in order to understand how this function works.
 
-        Methods you can override/implement
-        (please read their documentation/code to understand their purposes):
+    Methods you can override/implement
+    (please read their documentation/code to understand their purposes):
 
-            _validate_data(self, data, funcs)
+        _validate_data(self, data, funcs)
 
-            validate_params(self, params)
+        validate_params(self, params)
 
-            dump(self, *args, **kwargs)
+        dump(self, *args, **kwargs)
     """
-    name = ""
-    ext  = ""
-    output_panel_name = "package_dev"
-    default_params = {}
-    allowed_params = set()
+
+    name: ClassVar[str] = ""
+    ext: ClassVar[str] = ""
+    output_panel_name: ClassVar[str] = "package_dev"
+    default_params: ClassVar[dict[str, Any]] = {}
+    allowed_params: ClassVar[set] = set()
 
     def __init__(self, window, view, new_file_path, output=None, file_path=None, *args, **kwargs):
-        """Guess what this does.
-        """
+        """Guess what this does."""
+        super().__init__(*args, **kwargs)
         self.window = window
         self.view = view
         self.file_path = file_path or view.file_name()
@@ -86,17 +90,17 @@ class DumperProto(object):
         elif window:
             self.output = OutputPanel(window, self.output_panel_name)
 
-    def validate_data(self, data, *args, **kwargs):
+    def validate_data(self, data, *_args, **_kwargs):
         """To be implemented (optional).
 
-            Must return the validated data object.
+        Must return the validated data object.
 
-            Example:
-                return self._validate_data(data, [
-                    ((lambda x: isinstance(x, float), int),
-                     (lambda x: isinstance(x, datetime.datetime), str),
-                     (lambda x: x is None, False))
-                ]
+        Example:
+            return self._validate_data(data, [
+                ((lambda x: isinstance(x, float), int),
+                 (lambda x: isinstance(x, datetime.datetime), str),
+                 (lambda x: x is None, False))
+            ]
         """
         raise NotImplementedError
 
@@ -141,7 +145,7 @@ class DumperProto(object):
                     obj[i] = check_recursive(obj[i])
 
             if isinstance(obj, tuple):  # tuples are immutable ...
-                return tuple([check_recursive(sub_obj) for sub_obj in obj])
+                return tuple(check_recursive(sub_obj) for sub_obj in obj)
 
             if isinstance(obj, set):  # sets ...
                 for val in obj:
@@ -160,7 +164,7 @@ class DumperProto(object):
         """
         new_params = self.default_params.copy()
         new_params.update(params)
-        for key in params.keys():
+        for key in params:
             if key not in self.allowed_params:
                 del new_params[key]
         return new_params
@@ -170,27 +174,27 @@ class DumperProto(object):
 
         This function is called by the handler directly.
         """
-        self.output.print("Writing %s... (%s)" % (self.name, self.new_file_path))
+        self.output.print(f"Writing {self.name}... ({self.new_file_path})")
         self.output.show()
         data = self.validate_data(data)
         params = self.validate_params(kwargs)
 
         self.write(data, params, *args, **kwargs)
 
-    def write(self, data, *args, **kwargs):
+    def write(self, data, *_args, **_kwargs):
         """To be implemented."""
         raise NotImplementedError
 
 
 class JSONDumper(DumperProto):
     name = "JSON"
-    ext  = "json"
-    default_params = dict(
-        skipkeys=True,
-        check_circular=False,  # there won't be references here, hopefully
-        indent=4
-    )
-    allowed_params = {
+    ext = "json"
+    default_params: ClassVar[dict[str, Any]] = {
+        'skipkeys': True,
+        'check_circular': False,  # there won't be references here, hopefully
+        'indent': 4,
+    }
+    allowed_params: ClassVar[set[str]] = {
         'skipkeys',
         'ensure_ascii',
         'check_circular',
@@ -198,76 +202,79 @@ class JSONDumper(DumperProto):
         'sort_keys',
         'indent',
         'separators',
-        'encoding'
+        'encoding',
     }
 
     def validate_data(self, data):
-        return self._validate_data(data, (
-            # TOTEST: sets
+        return self._validate_data(
+            data,
             (
-                lambda x: isinstance(x, PLIST_DATA_TYPE),
-                lambda x: x.data if hasattr(x, 'data') else x,
-            ),  # plist
-            (lambda x: isinstance(x, datetime.date), str),  # yaml
-            (lambda x: isinstance(x, datetime.datetime), str)  # plist and yaml
-        ))
+                # TOTEST: sets
+                (
+                    lambda x: isinstance(x, PLIST_DATA_TYPE),
+                    lambda x: x.data if hasattr(x, 'data') else x,
+                ),  # plist
+                (lambda x: isinstance(x, datetime.date), str),  # yaml
+                (lambda x: isinstance(x, datetime.datetime), str),  # plist and yaml
+            ),
+        )
 
-    def write(self, data, params, *args, **kwargs):
+    def write(self, data, params, *_args, **_kwargs):
         """Parameters:
 
-            skipkeys (bool)
-                Default: True
+        skipkeys (bool)
+            Default: True
 
-                Dict keys that are not of a basic type (str, unicode, int,
-                long, float, bool, None) will be skipped instead of raising a
-                TypeError.
+            Dict keys that are not of a basic type (str, unicode, int,
+            long, float, bool, None) will be skipped instead of raising a
+            TypeError.
 
-            ensure_ascii (bool)
-                Default: True
+        ensure_ascii (bool)
+            Default: True
 
-                If False, then some chunks may be unicode instances, subject to
-                normal Python str to unicode coercion rules.
+            If False, then some chunks may be unicode instances, subject to
+            normal Python str to unicode coercion rules.
 
-            check_circular (bool)
-                Default: False
+        check_circular (bool)
+            Default: False
 
-                If False, the circular reference check for container types will
-                be skipped and a circular reference will result in an
-                OverflowError (or worse).
-                Since we are working with file data here this is likely not
-                going to happen.
+            If False, the circular reference check for container types will
+            be skipped and a circular reference will result in an
+            OverflowError (or worse).
+            Since we are working with file data here this is likely not
+            going to happen.
 
-            allow_nan (bool)
-                Default: True
+        allow_nan (bool)
+            Default: True
 
-                If False, it will be a ValueError to serialize out of range
-                float values (nan, inf, -inf) in strict compliance of the JSON
-                specification, instead of using the JavaScript equivalents
-                (NaN, Infinity, -Infinity).
+            If False, it will be a ValueError to serialize out of range
+            float values (nan, inf, -inf) in strict compliance of the JSON
+            specification, instead of using the JavaScript equivalents
+            (NaN, Infinity, -Infinity).
 
-            sort_keys (bool)
-                Default: True
+        sort_keys (bool)
+            Default: True
 
-                The output of dictionaries will be sorted by key.
+            The output of dictionaries will be sorted by key.
 
-            indent (int)
-                Default: 4
+        indent (int)
+            Default: 4
 
-                If a non-negative integer, then JSON array elements and object
-                members will be pretty-printed with that indent level. An
-                indent level of 0 will only insert newlines. None (the default)
-                selects the most compact representation.
+            If a non-negative integer, then JSON array elements and object
+            members will be pretty-printed with that indent level. An
+            indent level of 0 will only insert newlines. None (the default)
+            selects the most compact representation.
 
-            separators (tuple, iterable)
-                Default: (', ', ': ')
+        separators (tuple, iterable)
+            Default: (', ', ': ')
 
-                (item_separator, dict_separator) tuple. (',', ':') is the most
-                compact JSON representation.
+            (item_separator, dict_separator) tuple. (',', ':') is the most
+            compact JSON representation.
 
-            encoding (str)
-                Default: UTF-8
+        encoding (str)
+            Default: UTF-8
 
-                Character encoding for str instances, default is UTF-8.
+            Character encoding for str instances, default is UTF-8.
         """
         with open(self.new_file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, **params)
@@ -275,29 +282,29 @@ class JSONDumper(DumperProto):
 
 class PlistDumper(DumperProto):
     name = "Property List"
-    ext  = "plist"
+    ext = "plist"
 
     def validate_data(self, data):
-        return self._validate_data(data, (
-            # TOTEST: sets
-            # yaml; lost of "precision" when converting to datetime.datetime
-            (lambda x: isinstance(x, datetime.date), str),
-            (lambda x: x is None, False)
-        ))
+        return self._validate_data(
+            data,
+            (
+                # TOTEST: sets
+                # yaml; lost of "precision" when converting to datetime.datetime
+                (lambda x: isinstance(x, datetime.date), str),
+                (lambda x: x is None, False),
+            ),
+        )
 
-    def write(self, data, params, *args, **kwargs):
+    def write(self, data, params, *_args, **_kwargs):
         with open(self.new_file_path, 'wb') as f:
             plistlib.dump(data, f)
 
 
 class YAMLDumper(DumperProto):
     name = "YAML"
-    ext  = "yaml"
-    default_params = dict(
-        Dumper=yaml.SafeDumper,
-        allow_unicode=True
-    )
-    allowed_params = {
+    ext = "yaml"
+    default_params: ClassVar[dict[str, Any]] = {'Dumper': yaml.SafeDumper, 'allow_unicode': True}
+    allowed_params: ClassVar[set[str]] = {
         'default_style',
         'default_flow_style',
         'canonical',
@@ -310,79 +317,82 @@ class YAMLDumper(DumperProto):
         'explicit_end',
         'version',
         'tags',
-        'Dumper'
+        'Dumper',
     }
 
     def validate_data(self, data):
-        return self._validate_data(data, (
+        return self._validate_data(
+            data,
             (
-                lambda x: isinstance(x, PLIST_DATA_TYPE),
-                lambda x: x.data if hasattr(x, 'data') else x,
-            ),  # plist
-        ))
+                (
+                    lambda x: isinstance(x, PLIST_DATA_TYPE),
+                    lambda x: x.data if hasattr(x, 'data') else x,
+                ),  # plist
+            ),
+        )
 
-    def write(self, data, params, *args, **kwargs):
+    def write(self, data, params, *_args, **_kwargs):
         """Parameters:
 
-            default_style (str)
-                Default: None
-                Accepted: None, '', '\'', '"', '|', '>'.
+        default_style (str)
+            Default: None
+            Accepted: None, '', '\'', '"', '|', '>'.
 
-                Indicates the style of the scalar.
+            Indicates the style of the scalar.
 
-            default_flow_style (bool)
-                Default: True
+        default_flow_style (bool)
+            Default: True
 
-                Indicates if a collection is block or flow.
+            Indicates if a collection is block or flow.
 
-            canonical (bool)
-                Default: None (-> False)
+        canonical (bool)
+            Default: None (-> False)
 
-                Export tag type to the output file.
+            Export tag type to the output file.
 
-            indent (int)
-                Default: 2
-                Accepted: 1 < x < 10
+        indent (int)
+            Default: 2
+            Accepted: 1 < x < 10
 
-            width (int)
-                Default: 80
-                Accepted: > indent*2
+        width (int)
+            Default: 80
+            Accepted: > indent*2
 
-            allow_unicode (bool)
-                Default: None (-> False)
+        allow_unicode (bool)
+            Default: None (-> False)
 
-            line_break (str)
-                Default: "\n"
-                Accepted: u'\r', u'\n', u'\r\n'
+        line_break (str)
+            Default: "\n"
+            Accepted: u'\r', u'\n', u'\r\n'
 
-            encoding (str)
-                Default: 'utf-8'
+        encoding (str)
+            Default: 'utf-8'
 
-            explicit_start (bool)
-                Default: None (-> False)
+        explicit_start (bool)
+            Default: None (-> False)
 
-                Explicit '---' at the start.
+            Explicit '---' at the start.
 
-            explicit_end (bool)
-                Default: None (-> False)
+        explicit_end (bool)
+            Default: None (-> False)
 
-                Excplicit '...' at the end.
+            Explicit '...' at the end.
 
-            version (tuple)
-                Default: Newest
+        version (tuple)
+            Default: Newest
 
-                Version of the YAML parser: tuple(major, minor).
-                Supports only major version 1.
+            Version of the YAML parser: tuple(major, minor).
+            Supports only major version 1.
 
-            tags (str?)
-                Default: None
+        tags (str?)
+            Default: None
 
-                ???
+            ???
 
-            ===========================
+        ===========================
 
-            Dumper (supposedly derived from yaml.BaseDumper)
-                You should know what you are doing when passing this.
+        Dumper (supposedly derived from yaml.BaseDumper)
+            You should know what you are doing when passing this.
         """
         with open(self.new_file_path, "w", encoding="utf-8") as f:
             yaml.dump(data, f, **params)
@@ -390,23 +400,19 @@ class YAMLDumper(DumperProto):
 
 # Add the internal plistlib dict wrapper to the safe dumper
 if hasattr(plistlib, '_InternalDict'):
-    yaml.SafeDumper.add_representer(
-        plistlib._InternalDict,
-        yaml.SafeDumper.represent_dict
-    )
+    yaml.SafeDumper.add_representer(plistlib._InternalDict, yaml.SafeDumper.represent_dict)
 
 
 ###############################################################################
 
 
 # Collect all the dumpers and assign them to `get`
-get = dict()
+get = {}
 for type_name in dir():
     try:
         t = globals()[type_name]
-        if t.__bases__:
-            if issubclass(t, DumperProto) and t is not DumperProto:
-                get[t.ext] = t
+        if t.__bases__ and issubclass(t, DumperProto) and t is not DumperProto:
+            get[t.ext] = t
 
     except AttributeError:
         pass

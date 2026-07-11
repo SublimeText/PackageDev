@@ -122,7 +122,7 @@ repository:
     match: \\[wWsSdDhH]|\.
 
   character_property:
-    name: keyword.contol.character-property.regexp
+    name: keyword.control.character-property.regexp
     match: |
       (?x)
       \\(?:p\{\^?|P\{)(

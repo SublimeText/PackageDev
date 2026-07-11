@@ -428,7 +428,7 @@
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>string.meta.sytax.name.json-tmlanguage</string>
+					<string>string.meta.syntax.name.json-tmlanguage</string>
 				</dict>
 			</dict>
 			<key>match</key>

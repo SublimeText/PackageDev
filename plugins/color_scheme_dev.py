@@ -1,15 +1,13 @@
-from collections import OrderedDict, namedtuple
 import logging
 import re
+from collections import OrderedDict, namedtuple
 
 import sublime
 import sublime_plugin
-
 from sublime_lib import ResourcePath
 
+from .lib import inhibit_word_completions, syntax_paths
 from .lib.scope_data import completions_from_prefix
-from .lib import syntax_paths
-from .lib import inhibit_word_completions
 
 __all__ = (
     'ColorSchemeCompletionsListener',
@@ -79,7 +77,7 @@ class Variable(namedtuple("_Varible", "name value source")):
         if with_key:
             # TODO doesn't escape json chars
             formatted_value = _escape_in_snippet(sublime.encode_value(self.value))
-            contents = '"{}": ${{0:{}}},'.format(self.name, formatted_value)
+            contents = f'"{self.name}": ${{0:{formatted_value}}},'
             completion_format = sublime.COMPLETION_FORMAT_SNIPPET
         else:
             contents = self.name
@@ -130,7 +128,6 @@ def _collect_inherited_variables(name=None, extends=None, excludes=set()):
 
 
 class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
-
     """Provide variable and scope name completions for color schemes.
 
     Extract completions from defined variables in the current file
@@ -170,15 +167,18 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         return set(_collect_inherited_variables(name, extends, excludes))
 
     def variable_completions(self, locations):
-        variable_regions = self.view.find_by_selector((
-            "entity.name.variable.sublime-color-scheme"
-            "| entity.name.variable.sublime-theme"
-        ))
+        variable_regions = self.view.find_by_selector(
+            "entity.name.variable.sublime-color-scheme | entity.name.variable.sublime-theme"
+        )
         variables = {Variable(self.view.substr(r), None, "") for r in variable_regions}
         inherited_variables = self._inherited_variables()
         variables |= inherited_variables
-        logger.debug("Found %d (%d inherited) variables to complete: %r",
-                     len(variables), len(inherited_variables), variables)
+        logger.debug(
+            "Found %d (%d inherited) variables to complete: %r",
+            len(variables),
+            len(inherited_variables),
+            variables,
+        )
         variable_completions = [var.as_completion() for var in variables]
 
         if self.view.match_selector(locations[0], "source.json.sublime.theme"):
@@ -191,8 +191,9 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         if not variables:
             return None
         sorted_variables = sorted(variables)
-        logger.debug("Found %d inherited variables to complete: %r",
-                     len(variables), sorted_variables)
+        logger.debug(
+            "Found %d inherited variables to complete: %r", len(variables), sorted_variables
+        )
         return [var.as_completion(with_key) for var in sorted_variables]
 
     def _scope_prefix(self, locations):
@@ -221,8 +222,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
 
         def verify_scope(selector, offset=0):
             """Verify scope for each location."""
-            return all(self.view.match_selector(point + offset, selector)
-                       for point in locations)
+            return all(self.view.match_selector(point + offset, selector) for point in locations)
 
         if (
             verify_scope("meta.function-call.var.sublime-color-scheme")
@@ -245,7 +245,6 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
 
 
 class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
-
     """Like syntax-specific settings but for the currently used color scheme."""
 
     def run(self):
@@ -281,7 +280,7 @@ class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
                 choices,
                 on_done,
                 selected_index=selected_index,
-                placeholder='Choose a color scheme to edit ...'
+                placeholder='Choose a color scheme to edit ...',
             )
 
     @staticmethod

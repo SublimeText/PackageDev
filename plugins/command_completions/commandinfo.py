@@ -1,11 +1,11 @@
-from collections import OrderedDict
-import inspect
 import functools
+import inspect
 import logging
-import yaml
+from collections import OrderedDict
 
 import sublime
 import sublime_plugin
+import yaml
 
 from .yaml_omap import SaveOmapLoader
 
@@ -42,7 +42,7 @@ def get_command_name(command_class):
     return name
 
 
-@functools.lru_cache()
+@functools.lru_cache
 def get_builtin_command_meta_data():
     """Retrieve the meta data of built-in commands.
 
@@ -68,7 +68,7 @@ def get_builtin_command_meta_data():
     return meta, data
 
 
-@functools.lru_cache()
+@functools.lru_cache
 def get_builtin_commands(command_type=""):
     """Retrieve a set of the names of the built-in commands.
 
@@ -86,22 +86,17 @@ def get_builtin_commands(command_type=""):
     if not command_type:
         result = frozenset(data.keys())
     else:
-        result = frozenset(k for k, v in data.items()
-                           if v['command_type'] == command_type)
+        result = frozenset(k for k, v in data.items() if v['command_type'] == command_type)
 
     should_check_outdated = int(sublime.version()) >= meta.get('build', 1e10)
     for c in iter_python_command_classes(command_type):
         name = get_command_name(c)
         module = c.__module__
         package = module.split(".")[0]
-        if (
-            should_check_outdated
-            and package == 'Default'
-            and name in result
-        ):
+        if should_check_outdated and package == 'Default' and name in result:
             logger.warning(
-                'command "{name}" in the {package} package is defined in the built-in'
-                ' metadata file. Probably it should not be'.format(name=name, package=package)
+                f'command "{name}" in the {package} package is defined in the built-in'
+                ' metadata file. Probably it should not be'
             )
 
     return result
@@ -125,7 +120,7 @@ def iter_python_command_classes(command_type=""):
         cmd_list = {
             "text": sublime_plugin.text_command_classes,
             "window": sublime_plugin.window_command_classes,
-            "app": sublime_plugin.application_command_classes
+            "app": sublime_plugin.application_command_classes,
         }[command_type]
         yield from iter(cmd_list)
 
@@ -146,8 +141,12 @@ def extract_command_class_args(command_class):
     args = spec.args
     defaults = spec.defaults or ()
     num_non_default_args = len(args) - len(defaults)
-    logger.debug("Args for command %r: %s; defaults: %s",
-                 get_command_name(command_class), args, defaults)
+    logger.debug(
+        "Args for command %r: %s; defaults: %s",
+        get_command_name(command_class),
+        args,
+        defaults,
+    )
 
     arg_dict = OrderedDict()
     for i, arg in enumerate(args):
@@ -155,8 +154,9 @@ def extract_command_class_args(command_class):
             continue
         elif i == 1 and issubclass(command_class, sublime_plugin.TextCommand):  # and 'edit'
             if arg != "edit":
-                logger.warning("Second argument for TextCommand is not named 'edit'."
-                               " Ignoring anyway")
+                logger.warning(
+                    "Second argument for TextCommand is not named 'edit'. Ignoring anyway"
+                )
             continue
         elif i < num_non_default_args:
             value = None
@@ -178,9 +178,7 @@ def find_class_from_command_name(command_name):
         The python class, which belongs to the command name, or None.
     """
     return next(
-        (c for c in iter_python_command_classes()
-         if get_command_name(c) == command_name),
-        None
+        (c for c in iter_python_command_classes() if get_command_name(c) == command_name), None
     )
 
 

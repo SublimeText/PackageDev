@@ -185,7 +185,7 @@ contexts:
     - match: ^([ ]+)(?=-\s*{{plain_scalar_but_not_block_key}})
       set:
         - meta_scope: meta.extends.sublime-syntax meta.block-sequence.yaml
-        # pop off at none-empty line with different indention than first item
+        # pop off at none-empty line with different indentation than first item
         - match: ^(?!(\s*$|\1-))
           pop: true
         - match: '{{plain_scalar_but_not_block_key}}'
@@ -502,7 +502,7 @@ contexts:
     - include: include
     - include: yaml-block-sequence
     - include: include_anonymous
-    # pop off at none-empty line with different indention than first include item
+    # pop off at none-empty line with different indentation than first include item
     - match: ^(?!(\s*$|\1-))
       pop: true
     - match: \S.+$
@@ -723,7 +723,7 @@ contexts:
         # Instead, only naively include the regexp context and hope the user
         # closes his regexp groups.
         #
-        # Because extened mode `(?x)` would push its own context,
+        # Because extended mode `(?x)` would push its own context,
         # we match a block scalar beginning with this separately.
         #
         # Another option would be to pop on empty lines.

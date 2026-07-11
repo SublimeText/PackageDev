@@ -1,19 +1,16 @@
 # Defines (Safe)Loaders and a SafeDumper for YAML supporting ordered
 # dictionaries. Also adds a representer to the default Dumper.
-import yaml
-
-from yaml.loader import SafeLoader, Loader
-from yaml.dumper import SafeDumper
-from yaml.constructor import ConstructorError
-
-
 from collections import OrderedDict
 
+import yaml
+from yaml.constructor import ConstructorError
+from yaml.dumper import SafeDumper
+from yaml.loader import Loader, SafeLoader
 
 __all__ = ['OrderedDictLoader', 'OrderedDictSafeLoader', 'OrderedDictSafeDumper']
 
 
-class BaseOrderedDictLoader(object):
+class BaseOrderedDictLoader:
     # http://stackoverflow.com/questions/5121931
 
     def construct_yaml_map(self, node):
@@ -26,10 +23,12 @@ class BaseOrderedDictLoader(object):
         if isinstance(node, yaml.MappingNode):
             self.flatten_mapping(node)
         else:
-            raise ConstructorError(None,
-                                   None,
-                                   'expected a mapping node, but found %s' % node.id,
-                                   node.start_mark)
+            raise ConstructorError(
+                None,
+                None,
+                f'expected a mapping node, but found {node.id}',
+                node.start_mark,
+            )
 
         mapping = OrderedDict()
 
@@ -38,10 +37,12 @@ class BaseOrderedDictLoader(object):
             try:
                 hash(key)
             except TypeError as exc:
-                raise ConstructorError('while constructing a mapping',
-                                       node.start_mark,
-                                       'found unacceptable key (%s)' % exc,
-                                       key_node.start_mark)
+                raise ConstructorError(
+                    'while constructing a mapping',
+                    node.start_mark,
+                    f'found unacceptable key ({exc})',
+                    key_node.start_mark,
+                )
             value = self.construct_object(value_node, deep=deep)
             mapping[key] = value
 
@@ -49,26 +50,20 @@ class BaseOrderedDictLoader(object):
 
 
 class OrderedDictLoader(BaseOrderedDictLoader, Loader):
-    """A YAML loader that loads mappings into ordered dictionaries.
-    """
+    """A YAML loader that loads mappings into ordered dictionaries."""
+
     pass
 
 
 class OrderedDictSafeLoader(BaseOrderedDictLoader, SafeLoader):
-    """A YAML (safe) loader that loads mappings into ordered dictionaries.
-    """
+    """A YAML (safe) loader that loads mappings into ordered dictionaries."""
+
     pass
 
 
 def add_ordereddict_constructor(cls):
-    cls.add_constructor(
-        u'tag:yaml.org,2002:map',
-        cls.construct_yaml_map
-    )
-    cls.add_constructor(
-        u'tag:yaml.org,2002:omap',
-        cls.construct_yaml_map
-    )
+    cls.add_constructor('tag:yaml.org,2002:map', cls.construct_yaml_map)
+    cls.add_constructor('tag:yaml.org,2002:omap', cls.construct_yaml_map)
 
 
 add_ordereddict_constructor(OrderedDictLoader)
@@ -82,16 +77,10 @@ class OrderedDictSafeDumper(SafeDumper):
 
     def represent_ordereddict(self, data):
         # Bypass the sorting in represent_mapping
-        return self.represent_mapping(u'tag:yaml.org,2002:map', list(data.items()))
+        return self.represent_mapping('tag:yaml.org,2002:map', list(data.items()))
 
 
-OrderedDictSafeDumper.add_representer(
-    OrderedDict,
-    OrderedDictSafeDumper.represent_ordereddict
-)
+OrderedDictSafeDumper.add_representer(OrderedDict, OrderedDictSafeDumper.represent_ordereddict)
 
 # Add representer to the default dumper
-yaml.add_representer(
-    OrderedDict,
-    OrderedDictSafeDumper.represent_ordereddict
-)
+yaml.add_representer(OrderedDict, OrderedDictSafeDumper.represent_ordereddict)

@@ -1,5 +1,5 @@
 %YAML 1.2
-# There are multiple represenations of a Property List,
+# There are multiple representations of a Property List,
 # but here we only care about the XML one.
 #
 # XML Property Lists are XML files with the following DTD:
@@ -360,7 +360,7 @@ contexts:
     - include: value-bailout
 
   value-bailout:
-    # don't escalate errors caused by incomplete tags beyound array or dict boundaries
+    # don't escalate errors caused by incomplete tags beyond array or dict boundaries
     - match: \s?(?=</(?:array|dict){{tag_name_break}})
       scope: invalid.illegal.missing-tag.plist
       pop: 1

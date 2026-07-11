@@ -7,12 +7,11 @@ import time
 import weakref
 
 import sublime
-from sublime_lib import encodings, ResourcePath
+from sublime_lib import ResourcePath, encodings
 
-
-from ..lib.weakmethod import WeakMethodProxy
 from ..lib import get_setting
-from .region_math import VALUE_SCOPE, get_value_region_at, get_last_key_name_from
+from ..lib.weakmethod import WeakMethodProxy
+from .region_math import VALUE_SCOPE, get_last_key_name_from, get_value_region_at
 
 logger = logging.getLogger(__name__)
 
@@ -24,12 +23,16 @@ KIND_SETTING = (sublime.KIND_ID_VARIABLE, "S", "Setting")
 
 def html_encode(string):
     """Encode some critical characters to html entities."""
-    return string.replace("&", "&amp;")           \
-                 .replace("<", "&lt;")            \
-                 .replace(">", "&gt;")            \
-                 .replace("\t", "&nbsp;&nbsp;")   \
-                 .replace("  ", "&nbsp;&nbsp;")   \
-                 .replace("\n", "<br>") if string else ""
+    if not string:
+        return ""
+    return (
+        string.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("\t", "&nbsp;&nbsp;")
+        .replace("  ", "&nbsp;&nbsp;")
+        .replace("\n", "<br>")
+    )
 
 
 def format_completion_item(value, default=None, is_default=False, label=None, annotation=None):
@@ -74,7 +77,7 @@ def decode_value(string):
         return float(string)
 
 
-class KnownSettings(object):
+class KnownSettings:
     """A class which provides all known settings with comments/defaults.
 
     An object of this class initialized with a sublime-settings file loads all
@@ -198,8 +201,7 @@ class KnownSettings(object):
                     # merge settings without overwriting existing ones
                     self.defaults.setdefault(key, value)
             except Exception as e:
-                logger.error("error parsing %r - %s%r",
-                             resource, e.__class__.__name__, e.args)
+                logger.error("error parsing %r - %s%r", resource, e.__class__.__name__, e.args)
 
         duration = time.time() - start_time
         logger.debug("loading took %.3fs", duration)
@@ -328,16 +330,11 @@ class KnownSettings(object):
             # the comment for the setting
             comment = html_encode(self.comments.get(key) or "No description.")
             # the default value from base file
-            default = html_encode(
-                sublime.encode_value(self.defaults.get(key), pretty=True))
+            default = html_encode(sublime.encode_value(self.defaults.get(key), pretty=True))
         else:
             comment, default = "No description.", "unknown setting"
         # format tooltip html content
-        return (
-            "<h1>{key}</h1>"
-            "<h2>Default: {default}</h2>"
-            "<p>{comment}</p>"
-        ).format(**locals())
+        return f"<h1>{key}</h1><h2>Default: {default}</h2><p>{comment}</p>"
 
     def insert_snippet(self, view, key):
         """Insert a snippet for the settings key at the end of the view.
@@ -436,10 +433,7 @@ class KnownSettings(object):
     @staticmethod
     def _encode_snippet_field_default_content(content: str) -> str:
         """Escape string for snippet's default content context."""
-        return content             \
-            .replace("\\", "\\\\") \
-            .replace("$", "\\$")   \
-            .replace("}", "\\}")
+        return content.replace("\\", "\\\\").replace("$", "\\$").replace("}", "\\}")
 
     @staticmethod
     def _key_snippet(key, value, bol="", eol=",\n"):
@@ -529,10 +523,14 @@ class KnownSettings(object):
             return None
 
         is_str = any(
-            bool(isinstance(c.completion, str)
-                 or (isinstance(c.completion, list)
-                     and c.completion
-                     and isinstance(c.completion[0], str)))
+            bool(
+                isinstance(c.completion, str)
+                or (
+                    isinstance(c.completion, list)
+                    and c.completion
+                    and isinstance(c.completion[0], str)
+                )
+            )
             for c in completions
         )
         in_str = view.match_selector(point, "string")
@@ -552,10 +550,7 @@ class KnownSettings(object):
 
         if in_str and is_str:
             # Strip completions of non-strings. Don't need quotation marks.
-            completions = [
-                c for c in completions
-                if isinstance(c.completion, str)
-            ]
+            completions = [c for c in completions if isinstance(c.completion, str)]
         else:
             # JSON-ify completion values with special handling for floats.
             #
@@ -584,7 +579,7 @@ class KnownSettings(object):
 
                 if is_list and not in_list:
                     # wrap each item in a brackets to insert a 'list'
-                    value_str = "[{}]".format(value_str)
+                    value_str = f"[{value_str}]"
 
                 # escape snippet markers
                 value_str = value_str.replace("$", "\\$")
@@ -664,7 +659,7 @@ class KnownSettings(object):
         for match in re.finditer(r'"([\.\w]+)"', comment):
             # quotation marks either wrap a string, a numeric or a boolean
             # fall back to a str
-            value, = match.groups()
+            (value,) = match.groups()
             try:
                 value = decode_value(value)
             except ValueError:

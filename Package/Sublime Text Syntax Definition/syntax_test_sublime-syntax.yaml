@@ -1,6 +1,6 @@
 # SYNTAX TEST "Packages/PackageDev/Package/Sublime Text Syntax Definition/Sublime Text Syntax Definition.sublime-syntax"
 %YAML 1.2
-#^^^^ keyword.other.directive.yaml.yaml
+#^^^^ keyword.other.directive.yaml.yaml, keyword.control.directive.yaml.yaml
 ---
 name: foo
 #^^^ string.unquoted.plain.out.yaml storage.type.display-name.sublime-syntax

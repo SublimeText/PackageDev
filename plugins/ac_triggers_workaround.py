@@ -2,7 +2,6 @@ import sublime_plugin
 
 
 class ACTriggerWorkaroundListener(sublime_plugin.EventListener):
-
     """Work around an issue
     where auto complete triggers aren't respected
     after a snippet from an auto-match has been inserted.

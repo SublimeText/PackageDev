@@ -3,17 +3,13 @@ import re
 import sublime
 import sublime_plugin
 
-from ..lib import package_settings
-from ..lib import syntax_paths
+from ..lib import package_settings, syntax_paths
 from ..lib.view_utils import region_flags_from_strings
 
-__all__ = (
-    'SyntaxDefRegexCaptureGroupHighlighter',
-)
+__all__ = ('SyntaxDefRegexCaptureGroupHighlighter',)
 
 
 class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
-
     @classmethod
     def applies_to_primary_view_only(cls):
         return False
@@ -37,7 +33,7 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
             for selection in self.view.sel()
             if self.view.match_selector(
                 selection.begin(),
-                'source.yaml.sublime.syntax meta.expect-captures'
+                'source.yaml.sublime.syntax meta.expect-captures',
             )
             for region in self.view.split_by_newlines(selection)
         ]
@@ -68,10 +64,7 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
             parens = iter(
                 (match.group(), match.start() + regexp_offset)
                 for match in re.finditer(r'\(\??|\)', self.view.substr(regexp_region))
-                if self.view.match_selector(
-                    match.start() + regexp_offset,
-                    'keyword.control.group'
-                )
+                if self.view.match_selector(match.start() + regexp_offset, 'keyword.control.group')
             )
 
             # Find the start of the nth capture group.

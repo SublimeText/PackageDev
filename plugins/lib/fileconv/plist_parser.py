@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """A `Property Lists`_ is a data representation used in Apple's Mac OS X as
 a convenient way to store standard object types, such as string, number,
 boolean, and container object.
@@ -14,14 +13,14 @@ a property list file and get back a python native data structure.
 
 import re
 from io import BytesIO
+from typing import Callable, ClassVar
 
 
 class PropertyListParseError(Exception):
     """Raised when parsing a property list is failed."""
-    pass
 
 
-class XmlPropertyListParser(object):
+class XmlPropertyListParser:
     """The ``XmlPropertyListParser`` class provides methods that
     convert `Property Lists`_ objects from xml format.
     Property list objects include ``string``, ``unicode``,
@@ -73,9 +72,7 @@ class XmlPropertyListParser(object):
 
     def endDocument(self):
         self._assert(self.__plist is not None, "A top level element must be <plist>.")
-        self._assert(
-            len(self.__stack) == 0,
-            "multiple objects at top level.")
+        self._assert(len(self.__stack) == 0, "multiple objects at top level.")
 
     def startElement(self, name, attrs):
         if name in XmlPropertyListParser.START_CALLBACKS:
@@ -114,7 +111,7 @@ class XmlPropertyListParser(object):
             self.__plist = value
         else:
             top = self.__stack[-1]
-            #assert isinstance(top, (dict, list))
+            # assert isinstance(top, (dict, list))
             if self.__in_dict:
                 k = self.__key
                 if k is None:
@@ -134,16 +131,18 @@ class XmlPropertyListParser(object):
 
     def _start_plist(self, name, attrs):
         self._assert(not self.__stack and self.__plist is None, "<plist> more than once.")
-        self._assert(attrs.get('version', '1.0') == '1.0',
-                     "version 1.0 is only supported, but was '%s'." % attrs.get('version'))
+        self._assert(
+            attrs.get('version', '1.0') == '1.0',
+            "version 1.0 is only supported, but was '{}'.".format(attrs.get('version')),
+        )
 
     def _start_array(self, name, attrs):
-        v = list()
+        v = []
         self._push_value(v)
         self._push_stack(v)
 
     def _start_dict(self, name, attrs):
-        v = dict()
+        v = {}
         self._push_value(v)
         self._push_stack(v)
 
@@ -152,7 +151,7 @@ class XmlPropertyListParser(object):
 
     def _end_dict(self, name):
         if self.__key is not None:
-            raise PropertyListParseError("Missing value for key '%s'" % self.__key)
+            raise PropertyListParseError(f"Missing value for key '{self.__key}'")
         self._pop_stack()
 
     def _start_true(self, name, attrs):
@@ -171,6 +170,7 @@ class XmlPropertyListParser(object):
 
     def _parse_data(self, name, content):
         import base64
+
         self._push_value(base64.b64decode(content))
 
     # http://www.apple.com/DTDs/PropertyList-1.0.dtd says:
@@ -178,16 +178,36 @@ class XmlPropertyListParser(object):
     # Contents should conform to a subset of ISO 8601
     # (in particular, YYYY '-' MM '-' DD 'T' HH ':' MM ':' SS 'Z'.
     # Smaller units may be omitted with a loss of precision)
-    DATETIME_PATTERN = re.compile(r"(?P<year>\d\d\d\d)(?:-(?P<month>\d\d)(?:-(?P<day>\d\d)(?:T(?P<hour>\d\d)(?::(?P<minute>\d\d)(?::(?P<second>\d\d))?)?)?)?)?Z$")
+    DATETIME_PATTERN = re.compile(
+        r"""
+        (?P<year>\d\d\d\d)
+        (?:-(?P<month>\d\d)
+            (?:-(?P<day>\d\d)
+                (?:T(?P<hour>\d\d)
+                    (?::(?P<minute>\d\d)
+                        (?::(?P<second>\d\d))?
+                    )?
+                )?
+            )?
+        )?Z$""",
+        re.VERBOSE,
+    )
 
     def _parse_date(self, name, content):
         import datetime
 
-        units = ('year', 'month', 'day', 'hour', 'minute', 'second', )
+        units = (
+            'year',
+            'month',
+            'day',
+            'hour',
+            'minute',
+            'second',
+        )
         pattern = XmlPropertyListParser.DATETIME_PATTERN
         match = pattern.match(content)
         if not match:
-            raise PropertyListParseError("Failed to parse datetime '%s'" % content)
+            raise PropertyListParseError(f"Failed to parse datetime '{content}'")
 
         groups, components = match.groupdict(), []
         for key in units:
@@ -207,7 +227,7 @@ class XmlPropertyListParser(object):
     def _parse_integer(self, name, content):
         self._push_value(int(content))
 
-    START_CALLBACKS = {
+    START_CALLBACKS: ClassVar[dict[str, Callable[..., None]]] = {
         'plist': _start_plist,
         'array': _start_array,
         'dict': _start_dict,
@@ -215,12 +235,12 @@ class XmlPropertyListParser(object):
         'false': _start_false,
     }
 
-    END_CALLBACKS = {
+    END_CALLBACKS: ClassVar[dict[str, Callable[..., None]]] = {
         'array': _end_array,
         'dict': _end_dict,
     }
 
-    PARSE_CALLBACKS = {
+    PARSE_CALLBACKS: ClassVar[dict[str, Callable[..., None]]] = {
         'key': _parse_key,
         'string': _parse_string,
         'data': _parse_data,
@@ -236,13 +256,13 @@ class XmlPropertyListParser(object):
         if isinstance(io_or_string, str):
             # Creates a string stream for in-memory contents.
             return BytesIO(io_or_string.encode('utf-8'))
-        elif hasattr(io_or_string, 'read') and callable(getattr(io_or_string, 'read')):
+        elif hasattr(io_or_string, 'read') and callable(io_or_string.read):
             return io_or_string
         else:
-            raise TypeError('Can\'t convert %s to file-like-object' % type(io_or_string))
+            raise TypeError(f'Can\'t convert {type(io_or_string)} to file-like-object')
 
     def _parse_using_etree(self, xml_input):
-        from xml.etree.cElementTree import iterparse
+        from xml.etree.ElementTree import iterparse
 
         parser = iterparse(self._to_stream(xml_input), events=('start', 'end'))
         self.startDocument()
@@ -251,7 +271,11 @@ class XmlPropertyListParser(object):
                 name = element.tag
                 if action == 'start':
                     if name in XmlPropertyListParser.START_CALLBACKS:
-                        XmlPropertyListParser.START_CALLBACKS[name](self, element.tag, element.attrib)
+                        XmlPropertyListParser.START_CALLBACKS[name](
+                            self,
+                            element.tag,
+                            element.attrib,
+                        )
                 elif action == 'end':
                     if name in XmlPropertyListParser.END_CALLBACKS:
                         XmlPropertyListParser.END_CALLBACKS[name](self, name)
@@ -265,7 +289,8 @@ class XmlPropertyListParser(object):
         return self.__plist
 
     def _parse_using_sax_parser(self, xml_input):
-        from xml.sax import make_parser, xmlreader, SAXParseException
+        from xml.sax import SAXParseException, make_parser, xmlreader
+
         source = xmlreader.InputSource()
         source.setByteStream(self._to_stream(xml_input))
         reader = make_parser()
@@ -295,13 +320,11 @@ class XmlPropertyListParser(object):
 
 
 def parse_string(io_or_string):
-    """Parse a string (or a stream) and return the resulting object.
-    """
+    """Parse a string (or a stream) and return the resulting object."""
     return XmlPropertyListParser().parse(io_or_string)
 
 
 def parse_file(file_path):
-    """Parse the specified file and return the resulting object.
-    """
+    """Parse the specified file and return the resulting object."""
     with open(file_path, 'rb') as f:
         return XmlPropertyListParser().parse(f)

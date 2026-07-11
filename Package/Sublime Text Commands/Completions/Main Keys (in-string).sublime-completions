@@ -14,7 +14,7 @@
         },
         {
             "trigger": "args",
-            "details": "Command argumnts",
+            "details": "Command arguments",
             "kind": ["keyword", "k", "main"],
         },
         {

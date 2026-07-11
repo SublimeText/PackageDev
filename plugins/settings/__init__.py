@@ -5,14 +5,17 @@ import os
 import sublime
 import sublime_plugin
 
-from ..lib import get_setting, inhibit_word_completions
-from ..lib import syntax_paths
+from ..lib import get_setting, inhibit_word_completions, syntax_paths
 from ..lib.view_utils import region_flags_from_strings
 from ..lib.weakmethod import WeakMethodProxy
-
-from .region_math import (VALUE_SCOPE, KEY_SCOPE, KEY_COMPLETIONS_SCOPE,
-                          get_key_region_at, get_last_key_region)
-from .known_settings import KnownSettings, PREF_FILE
+from .known_settings import PREF_FILE, KnownSettings
+from .region_math import (
+    KEY_COMPLETIONS_SCOPE,
+    KEY_SCOPE,
+    VALUE_SCOPE,
+    get_key_region_at,
+    get_last_key_region,
+)
 
 __all__ = (
     'SettingsListener',
@@ -91,7 +94,7 @@ WIDGET_SETTINGS_NAMES = {
 }
 
 # user package pattern
-USER_PATH = "{0}Packages{0}User{0}".format(os.sep)
+USER_PATH = f"{os.sep}Packages{os.sep}User{os.sep}"
 
 logger = logging.getLogger(__name__)
 
@@ -106,7 +109,6 @@ def is_widget_file(filename):
 
 
 class SettingsListener(sublime_plugin.ViewEventListener):
-
     is_completing_key = False
 
     @classmethod
@@ -215,7 +217,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             content=POPUP_TEMPLATE.format(body),
             location=location,
             max_width=window_width,
-            flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY | sublime.COOPERATE_WITH_AUTO_COMPLETE
+            flags=sublime.HIDE_ON_MOUSE_MOVE_AWAY | sublime.COOPERATE_WITH_AUTO_COMPLETE,
         )
 
     def on_navigate(self, href):
@@ -228,7 +230,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             user_view = sublime.View(view_id)
             if not user_view.is_valid():
                 return
-            result = user_view.find('"{}"'.format(argument), 0)
+            result = user_view.find(f'"{argument}"', 0)
             self.view.hide_popup()
             if self.view.window():
                 self.view.window().focus_view(user_view)
@@ -245,26 +247,26 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         file_name = self.view.file_name() or ""
         if (
             self.known_settings
-            and (USER_PATH in file_name
-                 or file_name.endswith(".sublime-project"))
+            and (USER_PATH in file_name or file_name.endswith(".sublime-project"))
             and get_setting('settings.linting')
         ):
             unknown_regions = [
-                region for region in self.view.find_by_selector(KEY_SCOPE)
+                region
+                for region in self.view.find_by_selector(KEY_SCOPE)
                 if self.view.substr(region) not in self.known_settings
             ]
 
         if unknown_regions:
             styles = get_setting(
                 'settings.highlight_styles',
-                ['DRAW_SOLID_UNDERLINE', 'DRAW_NO_FILL', 'DRAW_NO_OUTLINE']
+                ['DRAW_SOLID_UNDERLINE', 'DRAW_NO_FILL', 'DRAW_NO_OUTLINE'],
             )
             self.view.add_regions(
                 'unknown_settings_keys',
                 unknown_regions,
                 scope=get_setting('settings.highlight_scope', "text"),
                 icon='dot',
-                flags=region_flags_from_strings(styles)
+                flags=region_flags_from_strings(styles),
             )
         else:
             self.view.erase_regions('unknown_settings_keys')
@@ -280,15 +282,17 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         for region in key_regions:
             key_name = self.view.substr(region)
             phantom_region = sublime.Region(region.end() + 1)  # before colon
-            content = "<a href=\"edit:{0}\">✏</a>".format(html.escape(key_name))
-            phantoms.append(sublime.Phantom(
-                region=phantom_region,
-                content=PHANTOM_TEMPLATE.format(content),
-                layout=sublime.LAYOUT_INLINE,
-                # use weak reference for callback
-                # to allow for phantoms to be cleaned up in __del__
-                on_navigate=WeakMethodProxy(self.on_navigate),
-            ))
+            content = f"<a href=\"edit:{html.escape(key_name)}\">✏</a>"
+            phantoms.append(
+                sublime.Phantom(
+                    region=phantom_region,
+                    content=PHANTOM_TEMPLATE.format(content),
+                    layout=sublime.LAYOUT_INLINE,
+                    # use weak reference for callback
+                    # to allow for phantoms to be cleaned up in __del__
+                    on_navigate=WeakMethodProxy(self.on_navigate),
+                )
+            )
         logger.debug("Made %d phantoms", len(phantoms))
 
         self.phantom_set.update(phantoms)
@@ -300,7 +304,6 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 # Some hooks are not available to ViewEventListeners,
 # which is why we need an EventListener as well.
 class GlobalSettingsListener(sublime_plugin.EventListener):
-
     def on_post_text_command(self, view, command_name, args):
         if command_name == 'hide_auto_complete':
             listener = sublime_plugin.find_view_event_listener(view, SettingsListener)
