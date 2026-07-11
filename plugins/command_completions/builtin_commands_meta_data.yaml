@@ -9,11 +9,11 @@ add_where_snippet:
   command_type: find
   doc_string: Adds a snippet to the 'Where' field in the Find in Files panel.
 append:
-  args: !!omap
-    - characters:
-    - force: false
-    - scroll_to_end: false
-    - disable_tab_translation: false
+  args:
+    characters:
+    force: false
+    scroll_to_end: false
+    disable_tab_translation: false
   command_type: text
   doc_string: Append the given text to the end of the document.
 auto_complete:
@@ -24,12 +24,12 @@ auto_complete:
   command_type: text
   doc_string: Show the auto-completion pop-up.
 build:
-  args: !!omap
-    - select: false
-    - build_system: ""
-    - variant: ""
-    - choice_build_system: false
-    - choice_variant: false
+  args:
+    select: false
+    build_system: ""
+    variant: ""
+    choice_build_system: false
+    choice_variant: false
   command_type: window
   doc_string: 'Execute the provided build system or prompt for selection (select: true) and choose a default.
     build_system should be a resource path to a build system file or the name of a project-specific build system.'
@@ -129,9 +129,9 @@ commit_completion:
   command_type: text
   doc_string: Insert the selected item into the text and close completion panel.
 console_python_version:
-  args: !!omap
-    - version: "3.8"
-    - checkbox: true
+  args:
+    version: "3.8"
+    checkbox: true
   command_type: window
   doc_string: Switch python interpreter version in debug console.
   added: 4050
@@ -267,18 +267,18 @@ left_delete:
   command_type: text
   doc_string: Delete the character to the left of the text selection caret(s).
 move:
-  args: !!omap
-    - by: chars|pages|lines|characters|words|word_ends|subwords|subword_ends|stops
-    - empty_line: false  # used by "stops"
-    - forward: true
-    - extend: false
-    - lines: false
+  args:
+    by: chars|pages|lines|characters|words|word_ends|subwords|subword_ends|stops
+    empty_line: false  # used by "stops"
+    forward: true
+    extend: false
+    lines: false
   command_type: text
   doc_string: Move the selection caret(s) by the specified units.
 move_to:
-  args: !!omap
-    - to: eol|bol|eof|bof|brackets|hardbol|hardeol
-    - extend: false
+  args:
+    to: eol|bol|eof|bof|brackets|hardbol|hardeol
+    extend: false
   command_type: text
   doc_string: Move the selection caret(s) to the specified relative location.
 move_to_group:
@@ -334,17 +334,17 @@ open_dir:
   doc_string: Open the specified dir in the default File Manager application, optionally
     highlighting the specified file.
 open_file:
-  args: !!omap
-    - file:
-    - contents:
-    - encoded_position: true  # ST4127
-    - add_to_selection: true  # ST?
-    - clear_to_right: true    # ST4149
-    - force_clone: true       # ST4149
-    - force_group: true       # ST4149
-    - replace_mru: true       # ST4149
-    - semi_transient: true    # ST4149
-    - transient: true         # ST4149
+  args:
+    file:
+    contents:
+    encoded_position: true  # ST4127
+    add_to_selection: true  # ST?
+    clear_to_right: true    # ST4149
+    force_clone: true       # ST4149
+    force_group: true       # ST4149
+    replace_mru: true       # ST4149
+    semi_transient: true    # ST4149
+    transient: true         # ST4149
   command_type: window
   doc_string: Open the specified file, and if it doesn't exist, prefill the default
     contents.
@@ -486,9 +486,9 @@ replace_next:
   command_type: find
   doc_string: Replace the next token in the view, which matches the pattern in the Find Input Field.
 resize_window:
-  args: !!omap
-    - width:
-    - height:
+  args:
+    width:
+    height:
   command_type: window
   doc_string: Resize the window('s external bounds) to the width and height specified.
 reveal_link_source:
@@ -569,10 +569,10 @@ set_build_system:
   command_type: window
   doc_string: Set selected build system.
 set_layout:
-  args: !!omap
-    - cols: [0.0, 1.0]
-    - rows:  [0.0, 1.0]
-    - cells: [[0, 0, 1, 1]]
+  args:
+    cols: [0.0, 1.0]
+    rows:  [0.0, 1.0]
+    cells: [[0, 0, 1, 1]]
   command_type: window
   doc_string: Set the layout of the window.
 set_file_type:
@@ -608,29 +608,29 @@ show_license_window:
   command_type: application
   doc_string: Display the License dialog.
 show_overlay:
-  args: !!omap
-    - overlay: goto|command_palette
-    - text:
-    - show_files:
-    - command:
-    - args:
+  args:
+    overlay: goto|command_palette
+    text:
+    show_files:
+    command:
+    args:
   command_type: window
   doc_string: Show the overlay from the argument.
 show_panel:
-  args: !!omap
-    - panel: incremental_find|find|replace|find_in_files|console
-    - pattern: ""
-    - replace_pattern: ""
-    - reverse: false
-    - regex: false
-    - in_selection: false
-    - whole_word: false
-    - preserve_case: false,
-    - use_gitignore: true,
-    - highlight: true
-    - wrap: true
-    - toggle: true
-    - toggle_when_not_focused: true
+  args:
+    panel: incremental_find|find|replace|find_in_files|console
+    pattern: ""
+    replace_pattern: ""
+    reverse: false
+    regex: false
+    in_selection: false
+    whole_word: false
+    preserve_case: false
+    use_gitignore: true
+    highlight: true
+    wrap: true
+    toggle: true
+    toggle_when_not_focused: true
   command_type: window
   doc_string: Show the panel from the argument.
 show_progress_window:

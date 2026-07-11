@@ -1,13 +1,10 @@
 import functools
 import inspect
 import logging
-from collections import OrderedDict
 
 import sublime
 import sublime_plugin
 import yaml
-
-from .yaml_omap import SaveOmapLoader
 
 BUILTIN_METADATA_FILENAME = "builtin_commands_meta_data.yaml"
 
@@ -58,8 +55,8 @@ def get_builtin_command_meta_data():
     for res_path in res_paths:
         try:
             res_raw = sublime.load_resource(res_path)
-            res_meta, res_data = yaml.load_all(res_raw, Loader=SaveOmapLoader)
-        except (OSError, ValueError):
+            res_meta, res_data = yaml.safe_load_all(res_raw)
+        except (OSError, ValueError, yaml.YAMLError):
             logger.exception("couldn't load resource: %s", res_path)
         else:
             meta.update(res_meta)
@@ -148,7 +145,7 @@ def extract_command_class_args(command_class):
         defaults,
     )
 
-    arg_dict = OrderedDict()
+    arg_dict = {}
     for i, arg in enumerate(args):
         if i == 0:  # strip 'self' arg
             continue

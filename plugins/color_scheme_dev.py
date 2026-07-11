@@ -1,6 +1,6 @@
 import logging
 import re
-from collections import OrderedDict, namedtuple
+from collections import namedtuple
 
 import sublime
 import sublime_plugin
@@ -102,7 +102,7 @@ def _collect_inherited_variables(name=None, extends=None, excludes=set()):
     The result is a collection of variables that follows
     ST's internal override algorithm.
     """
-    extends = extends or OrderedDict()  # preserve order & deduplicate
+    extends = extends or {}
     if name:
         resources = (r for r in reversed(sublime.find_resources(name)) if r not in excludes)
         for resource in resources:
@@ -151,7 +151,7 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
 
     def _inherited_variables(self):
         """Wraps _collect_inherited_variables for the current view."""
-        name, extends, excludes = None, OrderedDict(), set()
+        name, extends, excludes = None, {}, set()
         if file_name := self.view.file_name():
             this_resource = ResourcePath.from_file_path(file_name)
             name = this_resource.name
