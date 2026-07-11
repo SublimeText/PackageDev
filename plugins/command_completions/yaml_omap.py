@@ -26,11 +26,12 @@ class SafeOrderedDictConstructor(SafeConstructor):
                                        f"expected a mapping of length 1, but found {subnode.id}",
                                        subnode.start_mark)
             if len(subnode.value) != 1:
-                raise ConstructorError("while constructing an ordered map",
-                                       node.start_mark,
-                                       "expected a single mapping item, but found %d items"
-                                       % len(subnode.value),
-                                       subnode.start_mark)
+                raise ConstructorError(
+                    "while constructing an ordered map",
+                    node.start_mark,
+                    f"expected a single mapping item, but found {len(subnode.value)} items",
+                    subnode.start_mark,
+                )
             key_node, value_node = subnode.value[0]
             key = self.construct_object(key_node)
             value = self.construct_object(value_node)

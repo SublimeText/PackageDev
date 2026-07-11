@@ -410,7 +410,8 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 break
             nodes = node.children
             if not nodes:
-                status("No nodes available in scope naming conventions after `{}`".format('.'.join(tokens[:-1])), window)
+                name = '.'.join(tokens[:-1])
+                status(f"No nodes available in scope naming conventions after `{name}`", window)
                 break
         else:
             # Offer to complete from conventions or base scope

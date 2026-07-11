@@ -181,7 +181,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                         output.print(' {}\n'.format(target['name']))
 
                         kwargs.update(target['kwargs'])
-                        kwargs.update(dict(source_format=source_format, _output=output))
+                        kwargs.update({'source_format': source_format, '_output': output})
                         self.run(**kwargs)
 
                     # Forward all params to the new command call
@@ -191,10 +191,14 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                 target_format = opts['target_format']
                 # Validate the shit again, but this time print to output panel
                 if source_format is not None and target_format == source_format:
-                    return output.print(f"\nTarget and source file format are identical. ({target_format})")
+                    output.print(
+                        f"\nTarget and source file format are identical. ({target_format})",
+                    )
+                    return
 
                 if target_format not in dumpers.get:
-                    return output.print(f"\nDumper for '{target_format}' not supported/implemented.")
+                    output.print(f"\nDumper for '{target_format}' not supported/implemented.")
+                    return
 
                 output.print(f' {dumpers.get[target_format].name}\n')
 

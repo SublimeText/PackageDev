@@ -15,15 +15,15 @@ from .lib.scope_data import COMPILED_HEADS
 from .lib.view_utils import base_scope, extract_selector, get_viewport_coords, set_viewport
 
 __all__ = (
-    'PackagedevRearrangeYamlSyntaxDefCommand',
     'LegacySyntaxDefCompletions',
+    'PackagedevRearrangeYamlSyntaxDefCommand',
 )
 
 PACKAGE_NAME = __package__.split('.')[0]
 
 
 def status(msg, window, console=False):
-    msg = f"[{PACKAGE_NAME}] {msg}"
+    msg = f"[{PACKAGE_NAME} {msg}"
     window.status_message(msg)
     if console:
         print(msg)
@@ -65,7 +65,7 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
 
 
 class YAMLOrderedTextDumper(dumpers.YAMLDumper):
-    default_params = dict(Dumper=OrderedDictSafeDumper)
+    default_params = {'Dumper': OrderedDictSafeDumper}
 
     def __init__(self, window=None, output=None):
         if isinstance(output, OutputPanel):
@@ -124,10 +124,14 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
     """Parses YAML and sorts all the dict keys reasonably.
     Does not write to the file, only to the buffer.
     """
-    default_order = """comment
-        name scopeName contentName fileTypes uuid
-        begin beginCaptures end endCaptures match captures include
-        patterns repository""".split()
+    default_order = [
+        "comment", "name", "scopeName", "contentName",
+        "fileTypes", "uuid",
+        "begin", "beginCaptures",
+        "end", "endCaptures",
+        "match", "captures",
+        "include", "patterns", "repository",
+    ]
 
     def is_enabled(self):
         return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
@@ -196,14 +200,14 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             return
         if self.view.is_loading():
             # The view has not yet loaded, recall the command in this case until ST is done
-            kwargs.update(dict(
-                sort=sort,
-                sort_numeric=sort_numeric,
-                sort_order=sort_order,
-                remove_single_line_maps=remove_single_line_maps,
-                insert_newlines=insert_newlines,
-                save=save
-            ))
+            kwargs.update({
+                'sort': sort,
+                'sort_numeric': sort_numeric,
+                'sort_order': sort_order,
+                'remove_single_line_maps': remove_single_line_maps,
+                'insert_newlines': insert_newlines,
+                'save': save
+            })
             sublime.set_timeout(
                 lambda: self.view.run_command('packagedev_rearrange_yaml_syntax_def', kwargs),
                 20
@@ -316,9 +320,11 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 
 class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
     def __init__(self):
-        base_keys = "match,end,begin,name,contentName,comment,scopeName,include".split(',')
-        dict_keys = "repository,captures,beginCaptures,endCaptures".split(',')
-        list_keys = "fileTypes,patterns".split(',')
+        base_keys = [
+            "match", "end", "begin", "name", "contentName", "comment", "scopeName", "include"
+        ]
+        dict_keys = ["repository", "captures", "beginCaptures", "endCaptures"]
+        list_keys = ["fileTypes", "patterns"]
 
         completions = [
             ("include\tinclude: '#...'", "include: '#$0'"),
@@ -365,7 +371,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                 text = view.substr(reg)
                 pos = loc - reg.begin()
                 scope = re.search(r"[\w\-_.]+$", text[:pos])
-                tokens = scope and scope.group(0).split(".") or ""
+                tokens = scope and scope.group(0).split(".") or [""]
 
                 if len(tokens) > 1:
                     del tokens[-1]  # The last token is either incomplete or empty
@@ -375,8 +381,9 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                     for i, token in enumerate(tokens):
                         node = nodes.find(token)
                         if not node:
+                            name = '.'.join(tokens[:i + 1])
                             status(
-                                "Warning: `{}` not found in scope naming conventions".format('.'.join(tokens[:i + 1])),
+                                f"Warning: `{name}` not found in scope naming conventions",
                                 window
                             )
                             break
@@ -387,7 +394,11 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                     if nodes and node:
                         return inhibit(nodes.to_completion())
                     else:
-                        status("No nodes available in scope naming conventions after `{}`".format('.'.join(tokens)), window)
+                        status(
+                            "No nodes available in scope naming conventions after `{}`"
+                            .format('.'.join(tokens)),
+                            window,
+                        )
                         # Search for the base scope appendix/suffix
                         regs = view.find_by_selector("meta.scope-name meta.value string")
                         if not regs:
@@ -427,7 +438,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
             variables = [view.substr(r)
                          for r in view.find_by_selector("variable.other.repository-key")]
             status(
-                "Found %d local repository keys to be used in includes" % len(variables),
+                f"Found {len(variables)} local repository keys to be used in includes",
                 window
             )
             return inhibit(zip(variables, variables))

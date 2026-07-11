@@ -176,7 +176,20 @@ class XmlPropertyListParser:
     # Contents should conform to a subset of ISO 8601
     # (in particular, YYYY '-' MM '-' DD 'T' HH ':' MM ':' SS 'Z'.
     # Smaller units may be omitted with a loss of precision)
-    DATETIME_PATTERN = re.compile(r"(?P<year>\d\d\d\d)(?:-(?P<month>\d\d)(?:-(?P<day>\d\d)(?:T(?P<hour>\d\d)(?::(?P<minute>\d\d)(?::(?P<second>\d\d))?)?)?)?)?Z$")
+    DATETIME_PATTERN = re.compile(
+        r"""
+        (?P<year>\d\d\d\d)
+        (?:-(?P<month>\d\d)
+            (?:-(?P<day>\d\d)
+                (?:T(?P<hour>\d\d)
+                    (?::(?P<minute>\d\d)
+                        (?::(?P<second>\d\d))?
+                    )?
+                )?
+            )?
+        )?Z$""",
+        re.VERBOSE,
+    )
 
     def _parse_date(self, name, content):
         import datetime
@@ -249,7 +262,11 @@ class XmlPropertyListParser:
                 name = element.tag
                 if action == 'start':
                     if name in XmlPropertyListParser.START_CALLBACKS:
-                        XmlPropertyListParser.START_CALLBACKS[name](self, element.tag, element.attrib)
+                        XmlPropertyListParser.START_CALLBACKS[name](
+                            self,
+                            element.tag,
+                            element.attrib,
+                        )
                 elif action == 'end':
                     if name in XmlPropertyListParser.END_CALLBACKS:
                         XmlPropertyListParser.END_CALLBACKS[name](self, name)

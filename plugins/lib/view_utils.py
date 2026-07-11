@@ -1,9 +1,14 @@
 from sublime import Region, RegionFlags
 
-__all__ = ['has_file_ext', 'base_scope',
-           'coorded_substr', 'get_text',
-           'get_viewport_coords', 'set_viewport',
-           'extract_selector']
+__all__ = [
+    'base_scope',
+    'coorded_substr',
+    'extract_selector',
+    'get_text',
+    'get_viewport_coords',
+    'has_file_ext',
+    'set_viewport',
+]
 
 
 def has_file_ext(view, ext):
@@ -43,12 +48,12 @@ def relative_point(view, row=0, col=0, p=None):
     Supports relative (negative) parameters and checks if they are in the
     bounds (other than `View.text_point()`).
 
-    If p (indexable -> `p[0]`, `len(p) == 2`; preferrably a tuple) is
+    If p (indexable -> `p[0]`, `len(p) == 2`; preferably a tuple) is
     specified, row and col parameters are overridden.
     """
     if p is not None:
         if len(p) != 2:
-            raise TypeError("Coordinates have 2 dimensions, not %d" % len(p))
+            raise TypeError(f"Coordinates have 2 dimensions, not {len(p)}")
         (row, col) = p
 
     # shortcut
