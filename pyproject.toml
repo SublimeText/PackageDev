@@ -3,8 +3,12 @@ name = "package-dev"
 version = "0.0.0"
 description = "The Sublime Text meta package"
 requires-python = ">=3.8"
+# Version is pinned to 5.1.1. for runtimes below 3.13
+# because that is what is provided by Package Control.
+# See also https://github.com/packagecontrol/channel/pull/103
 dependencies = [
-    "pyyaml==5.1.1",
+    "pyyaml==5.1.1; python_version < '3.13'",
+    "pyyaml>=6.0.3; python_version >= '3.13'",
 ]
 
 [dependency-groups]
