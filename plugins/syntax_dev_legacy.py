@@ -483,6 +483,5 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
 
         # Otherwise, use the default completions + generated uuid
         completions = [('uuid\tuuid: ...', f"uuid: {uuid.uuid4()}")]
-        ]
 
         return inhibit(self.base_completions + completions)

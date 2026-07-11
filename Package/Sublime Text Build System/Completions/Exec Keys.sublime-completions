@@ -58,7 +58,7 @@
         {
             "trigger": "kill_previous",
             "contents": "\"kill_previous\": true,$0",
-            "details": "Kill the previously runnning build",
+            "details": "Kill the previously running build",
             "kind": ["keyword", "k", "exec"],
         },
         {

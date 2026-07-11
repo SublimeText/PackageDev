@@ -197,7 +197,7 @@
 )\}
 </string>
 			<key>name</key>
-			<string>keyword.contol.character-property.regexp</string>
+			<string>keyword.control.character-property.regexp</string>
 		</dict>
 		<key>escaped_char</key>
 		<dict>

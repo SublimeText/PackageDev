@@ -187,12 +187,12 @@ ${1My_Own_Constant}
 ${10}
 # ^^ constant.numeric
 
-${1/test/abc/:substituation not valid here}
+${1/test/abc/:substitution not valid here}
 #  ^ keyword.other.regex.start
 #       ^ keyword.other.regex.mid
 #           ^ keyword.other.regex.end
-#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token
-#                                         ^ keyword.other.block.end - invalid
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token
+#                                        ^ keyword.other.block.end - invalid
 
 ${1/test/escaped slash\/real slash/gx} x mode not supported properly in snippets
 #  ^ keyword.other.regex.start

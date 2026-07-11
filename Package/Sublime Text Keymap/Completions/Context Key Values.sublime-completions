@@ -34,12 +34,12 @@
 		},
 		{
 			"trigger": "has_prev_field",
-			"details": "Availibility of a preceding snippet field",
+			"details": "Availability of a preceding snippet field",
 			"kind": ["variable", "k", "key"],
 		},
 		{
 			"trigger": "has_next_field",
-			"details": "Availibility of a following snippet field",
+			"details": "Availability of a following snippet field",
 			"kind": ["variable", "k", "key"],
 		},
 		{

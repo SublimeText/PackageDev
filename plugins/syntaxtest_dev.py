@@ -411,7 +411,7 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         )
 
     def determine_test_extends(self, lines, line, start_col):
-        """Determine extend of token(s) to test and return lenght and scope set.
+        """Determine extend of token(s) to test and return length and scope set.
 
         To be precise, increase column as long as the selector wouldn't change
         and collect the scopes.

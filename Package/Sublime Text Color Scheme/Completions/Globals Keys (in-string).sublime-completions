@@ -133,7 +133,7 @@
         },
         {
             "trigger": "invisibles",
-            "details": "Color of whitspace characters",
+            "details": "Color of whitespace characters",
             "kind": ["keyword", "k", "globals"],
         },
         {

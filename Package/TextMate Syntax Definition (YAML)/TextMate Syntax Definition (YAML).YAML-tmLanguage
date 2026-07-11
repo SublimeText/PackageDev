@@ -426,7 +426,7 @@ repository:
       # the inline terminating sequences which are valid in blocks are ignored completely.
       # Currently only interesting for "comment: no # still no"
       # Note2: Minimum indent is "  " if the comment key is not the first key in a list
-      # (e.g. "- name: something\n  comment: dd"). Easiest workaroung.
+      # (e.g. "- name: something\n  comment: dd"). Easiest workaround.
       end: ^(?! *$|\1\2  ) #|(?<=.)(?=, |,$| +#| *(?<![^\\]\\)})
 
 # dict keys

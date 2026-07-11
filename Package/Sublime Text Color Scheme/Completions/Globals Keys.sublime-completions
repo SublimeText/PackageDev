@@ -159,7 +159,7 @@
         },
         {
             "trigger": "invisibles",
-            "details": "Color of whitspace characters",
+            "details": "Color of whitespace characters",
             "contents": "\"invisibles\": \"$1\",",
             "kind": ["keyword", "k", "globals"],
         },
