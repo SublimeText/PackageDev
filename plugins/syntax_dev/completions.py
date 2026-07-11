@@ -14,10 +14,7 @@ from ..lib.scope_data import (
     create_scope_suffix_completion,
 )
 
-__all__ = (
-    'SyntaxDefCompletionsListener',
-    'PackagedevCommitScopeCompletionCommand'
-)
+__all__ = ('SyntaxDefCompletionsListener', 'PackagedevCommitScopeCompletionCommand')
 
 logger = logging.getLogger(__name__)
 
@@ -125,96 +122,100 @@ def format_completions(items, annotation="", kind=sublime.KIND_AMBIGUOUS):
 
 
 class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
-
-    base_completions_root = format_static_completions([
-        # base keys
-        Completion('name', TPL_HEADER_BASE, "The display name of the syntax."),
-        Completion('scope', TPL_HEADER_BASE, "The main scope of the syntax."),
-        Completion('version', TPL_HEADER_BASE, "The sublime-syntax version."),
-        Completion('extends', TPL_HEADER_BASE, "The syntax which is to be extended."),
-        Completion('name', TPL_HEADER_BASE, "The display name of the syntax."),
-        Completion(
-            "first_line_match",
-            TPL_HEADER_BASE,
-            "The pattern to identify a file by content.",
-        ),
-
-        Completion('hidden', TPL_HEADER_TRUE, "Hide this syntax from the menu."),
-        # dict keys
-        Completion('variables', TPL_HEADER_DICT, 'The variables definitions.'),
-        Completion('contexts', TPL_HEADER_DICT, 'The syntax contexts.'),
-        # list keys
-        Completion('file_extensions', TPL_HEADER_LIST, "The list of file extensions."),
-        Completion(
-            'hidden_file_extensions',
-            TPL_HEADER_LIST,
-            "The list of hidden file extensions.",
-        ),
-    ])
-
-    base_completions_contexts = format_static_completions([
-        # meta functions
-        Completion(
-            'meta_append',
-            TPL_FUNCTION_TRUE,
-            "Add rules to the end of the inherit context.",
-        ),
-        Completion(
-            'meta_content_scope',
-            TPL_FUNCTION,
-            "A scope to apply to the content of a context.",
-        ),
-        Completion(
-            'meta_include_prototype',
-            TPL_FUNCTION_FALSE,
-            "Flag to in-/exclude `prototype`",
-        ),
-        Completion(
-            'meta_prepend',
-            TPL_FUNCTION_TRUE,
-            "Add rules to the beginning of the inherit context.",
-        ),
-        Completion('meta_scope', TPL_FUNCTION, "A scope to apply to the full context."),
-        Completion('clear_scopes', TPL_FUNCTION, "Clear meta scopes."),
-        # matching tokens
-        Completion('match', TPL_FUNCTION, "Pattern to match tokens."),
-        # scoping
-        Completion('scope', TPL_FUNCTION, "The scope to apply if a token matches"),
-        Completion('captures', TPL_CAPTURUES, "Assigns scopes to the capture groups."),
-        # contexts
-        Completion('push', TPL_FUNCTION, "Push a context onto the stack."),
-        Completion('set', TPL_FUNCTION, "Set a context onto the stack."),
-        Completion('with_prototype', TPL_FUNCTION, "Rules to prepend to each context."),
-        # branching
-        Completion(
-            'branch_point',
-            TPL_FUNCTION,
-            "Name of the point to rewind to if a branch fails.",
-        ),
-        Completion('branch', TPL_FUNCTION, "Push branches onto the stack."),
-        Completion('fail', TPL_FUNCTION, "Fail the current branch."),
-        # embedding
-        Completion('embed', TPL_FUNCTION, "A context or syntax to embed."),
-        Completion('embed_scope', TPL_FUNCTION, "A scope to apply to the embedded syntax."),
-        Completion('escape', TPL_FUNCTION, "A pattern to denote the end of the embedded syntax."),
-        Completion('escape_captures', TPL_CAPTURUES, "Assigns scopes to the capture groups."),
-        # including
-        Completion('include', TPL_FUNCTION, "Includes a context."),
-        Completion('apply_prototype', TPL_FUNCTION_TRUE, "Apply prototype of included syntax."),
-    ])
-
-    base_completions_contexts_version_1 = (
-        base_completions_contexts
-        + format_static_completions([
-            Completion('pop', TPL_FUNCTION_TRUE, 'Pop context(s) from the stack.'),
-        ])
+    base_completions_root = format_static_completions(
+        [
+            # base keys
+            Completion('name', TPL_HEADER_BASE, "The display name of the syntax."),
+            Completion('scope', TPL_HEADER_BASE, "The main scope of the syntax."),
+            Completion('version', TPL_HEADER_BASE, "The sublime-syntax version."),
+            Completion('extends', TPL_HEADER_BASE, "The syntax which is to be extended."),
+            Completion('name', TPL_HEADER_BASE, "The display name of the syntax."),
+            Completion(
+                "first_line_match",
+                TPL_HEADER_BASE,
+                "The pattern to identify a file by content.",
+            ),
+            Completion('hidden', TPL_HEADER_TRUE, "Hide this syntax from the menu."),
+            # dict keys
+            Completion('variables', TPL_HEADER_DICT, 'The variables definitions.'),
+            Completion('contexts', TPL_HEADER_DICT, 'The syntax contexts.'),
+            # list keys
+            Completion('file_extensions', TPL_HEADER_LIST, "The list of file extensions."),
+            Completion(
+                'hidden_file_extensions',
+                TPL_HEADER_LIST,
+                "The list of hidden file extensions.",
+            ),
+        ]
     )
 
-    base_completions_contexts_version_2 = (
-        base_completions_contexts
-        + format_static_completions([
+    base_completions_contexts = format_static_completions(
+        [
+            # meta functions
+            Completion(
+                'meta_append',
+                TPL_FUNCTION_TRUE,
+                "Add rules to the end of the inherit context.",
+            ),
+            Completion(
+                'meta_content_scope',
+                TPL_FUNCTION,
+                "A scope to apply to the content of a context.",
+            ),
+            Completion(
+                'meta_include_prototype',
+                TPL_FUNCTION_FALSE,
+                "Flag to in-/exclude `prototype`",
+            ),
+            Completion(
+                'meta_prepend',
+                TPL_FUNCTION_TRUE,
+                "Add rules to the beginning of the inherit context.",
+            ),
+            Completion('meta_scope', TPL_FUNCTION, "A scope to apply to the full context."),
+            Completion('clear_scopes', TPL_FUNCTION, "Clear meta scopes."),
+            # matching tokens
+            Completion('match', TPL_FUNCTION, "Pattern to match tokens."),
+            # scoping
+            Completion('scope', TPL_FUNCTION, "The scope to apply if a token matches"),
+            Completion('captures', TPL_CAPTURUES, "Assigns scopes to the capture groups."),
+            # contexts
+            Completion('push', TPL_FUNCTION, "Push a context onto the stack."),
+            Completion('set', TPL_FUNCTION, "Set a context onto the stack."),
+            Completion('with_prototype', TPL_FUNCTION, "Rules to prepend to each context."),
+            # branching
+            Completion(
+                'branch_point',
+                TPL_FUNCTION,
+                "Name of the point to rewind to if a branch fails.",
+            ),
+            Completion('branch', TPL_FUNCTION, "Push branches onto the stack."),
+            Completion('fail', TPL_FUNCTION, "Fail the current branch."),
+            # embedding
+            Completion('embed', TPL_FUNCTION, "A context or syntax to embed."),
+            Completion('embed_scope', TPL_FUNCTION, "A scope to apply to the embedded syntax."),
+            Completion(
+                'escape', TPL_FUNCTION, "A pattern to denote the end of the embedded syntax."
+            ),
+            Completion('escape_captures', TPL_CAPTURUES, "Assigns scopes to the capture groups."),
+            # including
+            Completion('include', TPL_FUNCTION, "Includes a context."),
+            Completion(
+                'apply_prototype', TPL_FUNCTION_TRUE, "Apply prototype of included syntax."
+            ),
+        ]
+    )
+
+    base_completions_contexts_version_1 = base_completions_contexts + format_static_completions(
+        [
+            Completion('pop', TPL_FUNCTION_TRUE, 'Pop context(s) from the stack.'),
+        ]
+    )
+
+    base_completions_contexts_version_2 = base_completions_contexts + format_static_completions(
+        [
             Completion('pop', TPL_FUNCTION_NUMERIC, 'Pop context(s) from the stack.'),
-        ])
+        ]
     )
 
     @classmethod
@@ -230,8 +231,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         def match_selector(selector, offset=0):
             """Verify scope for each location."""
-            return all(self.view.match_selector(point + offset, selector)
-                       for point in locations)
+            return all(self.view.match_selector(point + offset, selector) for point in locations)
 
         result = None
 
@@ -300,8 +300,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 return []
 
         return format_completions(
-            [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
-             for r in self.view.find_by_selector("entity.name.class.context")],
+            [
+                (self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
+                for r in self.view.find_by_selector("entity.name.class.context")
+            ],
             annotation="",
             kind=TPL_CONTEXT.kind,
         )
@@ -331,7 +333,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                         sublime.CompletionItem(
                             trigger=file,
                             kind=kind,
-                            annotation="hidden" if syntax.hidden else ""
+                            annotation="hidden" if syntax.hidden else "",
                         )
                     )
             # add full resource path
@@ -339,7 +341,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
                 sublime.CompletionItem(
                     trigger=syntax.path,
                     kind=kind,
-                    annotation="hidden" if syntax.hidden else ""
+                    annotation="hidden" if syntax.hidden else "",
                 )
             )
 
@@ -349,8 +351,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
         def match_selector(selector, offset=0):
             """Verify scope for each location."""
-            return all(self.view.match_selector(point + offset, selector)
-                       for point in locations)
+            return all(self.view.match_selector(point + offset, selector) for point in locations)
 
         prefixes = set()
         for point in locations:
@@ -404,8 +405,8 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
             node = nodes.find(token)
             if not node:
                 status(
-                    "`{}` not found in scope naming conventions".format('.'.join(tokens[:i + 1])),
-                    window
+                    "`{}` not found in scope naming conventions".format('.'.join(tokens[: i + 1])),
+                    window,
                 )
                 break
             nodes = node.children
@@ -424,10 +425,7 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
     def _complete_base_scope(self, last_token):
         regions = self.view.find_by_selector("meta.scope string - meta.block")
         if len(regions) != 1:
-            status(
-                "Warning: Could not determine base scope uniquely",
-                console=True
-            )
+            status("Warning: Could not determine base scope uniquely", console=True)
             return []
 
         # TODO some syntaxes use a different suffix than the last segment of the base scope
@@ -442,16 +440,20 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
     def _complete_variable(self):
         return format_completions(
-            [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
-             for r in self.view.find_by_selector("entity.name.constant")],
+            [
+                (self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
+                for r in self.view.find_by_selector("entity.name.constant")
+            ],
             annotation="",
             kind=TPL_VARIABLE.kind,
         )
 
     def _complete_branch_point(self):
         return format_completions(
-            [(self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
-             for r in self.view.find_by_selector("entity.name.label.branch-point")],
+            [
+                (self.view.substr(r), self.view.rowcol(r.begin())[0] + 1)
+                for r in self.view.find_by_selector("entity.name.label.branch-point")
+            ],
             annotation="",
             kind=TPL_BRANCH.kind,
         )
@@ -472,7 +474,6 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
 
 
 class PackagedevCommitScopeCompletionCommand(sublime_plugin.TextCommand):
-
     """Insert a scope segment and re-open the completions popup when sensible."""
 
     def name(self):

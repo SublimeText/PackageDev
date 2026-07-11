@@ -30,7 +30,6 @@ logger = logging.getLogger(__name__)
 
 
 class PackagedevEditThemeCommand(sublime_plugin.WindowCommand):
-
     """Like syntax-specific settings but for the currently used theme."""
 
     def run(self):
@@ -64,7 +63,7 @@ class PackagedevEditThemeCommand(sublime_plugin.WindowCommand):
                 choices,
                 on_done,
                 selected_index=selected_index,
-                placeholder="Choose a theme to edit ..."
+                placeholder="Choose a theme to edit ...",
             )
 
     def open_theme(self, theme_name):
@@ -80,7 +79,6 @@ class PackagedevEditThemeCommand(sublime_plugin.WindowCommand):
 
 
 class ThemeCompletionsListener(sublime_plugin.ViewEventListener):
-
     """Provide completions for themes.
 
     Offer names of theme files to extend.

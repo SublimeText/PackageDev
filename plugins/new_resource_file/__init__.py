@@ -49,7 +49,6 @@ def _default_file_name(kind, suffix, package_name):
 
 
 class PackagedevNewResourceCommand(sublime_plugin.WindowCommand):
-
     """Command to create a new resource file.
 
     - Assigns the proper syntax.
@@ -115,5 +114,5 @@ class PackagedevNewResourceCommand(sublime_plugin.WindowCommand):
         for pp in (real_packages_path, packages_path):
             for fp in (real_file_path, file_path):
                 if fp.startswith(pp):
-                    leaf = fp[len(pp):].strip(os.sep)
+                    leaf = fp[len(pp) :].strip(os.sep)
                     return os.sep not in leaf

@@ -32,9 +32,12 @@ def plugin_loaded():
                 # Only set level before emitting log event if it would not be seen otherwise
                 package_logger.setLevel(new_log_level)
             cur_log_level_name = logging.getLevelName(cur_log_level)
-            logger.log(EVENT_LEVEL,
-                       "Changing log level from %r to %r",
-                       cur_log_level_name, new_log_level_name)
+            logger.log(
+                EVENT_LEVEL,
+                "Changing log level from %r to %r",
+                cur_log_level_name,
+                new_log_level_name,
+            )
             package_logger.setLevel(new_log_level)  # Just set it again to be sure
 
     _settings().add_on_change(__name__, on_settings_reload)

@@ -18,8 +18,7 @@ __all__ = ('PackagedevConvertCommand',)
 # {name:, kwargs:}
 # name is for the quick panel; others are arguments used when running the command again
 target_list: list[dict[str, Any]] = [
-    {'name': fmt.name, 'kwargs': {"target_format": fmt.ext}}
-    for fmt in dumpers.get.values()
+    {'name': fmt.name, 'kwargs': {"target_format": fmt.ext}} for fmt in dumpers.get.values()
 ]
 for i, itm in enumerate(target_list):
     if itm['name'] == "YAML":
@@ -29,7 +28,7 @@ for i, itm in enumerate(target_list):
             {
                 'name': "YAML (Block Style)",
                 'kwargs': {"target_format": "yaml", "default_flow_style": False},
-            }
+            },
         )
 
 
@@ -53,8 +52,16 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
         strings, numbers, lists and objects (dicts, arrays, hash tables).
     """
 
-    def run(self, source_format=None, target_format=None, ext=None,
-            open_new_file=False, rearrange_yaml_syntax_def=False, _output=None, **kwargs):
+    def run(
+        self,
+        source_format=None,
+        target_format=None,
+        ext=None,
+        open_new_file=False,
+        rearrange_yaml_syntax_def=False,
+        _output=None,
+        **kwargs,
+    ):
         """Available parameters:
 
         source_format (str) = None
@@ -107,8 +114,9 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
             # Save the file so that source and target file on the drive don't differ
             self.view.run_command("save")
             if self.view.is_dirty():
-                return sublime.error_message("The file could not be saved correctly. "
-                                             "The build was aborted")
+                return sublime.error_message(
+                    "The file could not be saved correctly. The build was aborted"
+                )
 
         file_path = self.view.file_name()
         if not file_path:
@@ -125,8 +133,12 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
             return self.status(f"Dumper for '{target_format}' not supported/implemented.")
 
         # Now the actual "building" starts (collecting remaining parameters)
-        with OutputPanel.create(self.window, "package_dev",
-                                read_only=True, force_writes=True) as output:
+        with OutputPanel.create(
+            self.window,
+            "package_dev",
+            read_only=True,
+            force_writes=True,
+        ) as output:
             output.show()
 
             # Auto-detect the file type if it's not specified
@@ -158,15 +170,17 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                     if prepend_target_format:
                         new_ext = f".{target_format.upper()}-{new_ext[1:]}"
 
-                return (new_ext or '.' + target_format)
+                return new_ext or '.' + target_format
 
             if not target_format:
                 output.write("No target format specified, searching in file...")
 
                 # No information about a target format; ask for it
                 if not opts or 'target_format' not in opts:
-                    output.write(" Could not detect target format.\n"
-                                 "Please select or define a target format...")
+                    output.write(
+                        " Could not detect target format.\n"
+                        "Please select or define a target format..."
+                    )
 
                     # Show overlay with all dumping options except for the current type
                     # Save stripped-down `items` for later
@@ -175,8 +189,12 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                         # To not clash with function-local "target_format"
                         target_format_ = itm['kwargs']['target_format']
                         if target_format_ != source_format:
-                            options.append(["Convert to: {}".format(itm['name']),
-                                            file_path.stem + get_new_ext(target_format_)])
+                            options.append(
+                                [
+                                    "Convert to: {}".format(itm['name']),
+                                    file_path.stem + get_new_ext(target_format_),
+                                ]
+                            )
                             items.append(itm)
 
                     def on_select(index):
@@ -219,8 +237,9 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
             try:
                 data = loader_.load(**kwargs)
             except Exception:
-                output.print("Unexpected error occurred while parsing, "
-                             "please see the console for details.")
+                output.print(
+                    "Unexpected error occurred while parsing, please see the console for details."
+                )
                 raise
             if not data:
                 return
@@ -235,13 +254,18 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                 return
 
             # Now dump to new file
-            dumper = dumpers.get[target_format](self.window, self.view, str(new_file_path),
-                                                output=output)
+            dumper = dumpers.get[target_format](
+                self.window,
+                self.view,
+                str(new_file_path),
+                output=output,
+            )
             try:
                 dumper.dump(data, **kwargs)
             except Exception:
-                output.print("Unexpected error occurred while dumping, "
-                             "please see the console for details.")
+                output.print(
+                    "Unexpected error occurred while dumping, please see the console for details."
+                )
                 raise
             self.status(f"File conversion successful. ({source_format} -> {target_format})")
 
@@ -256,8 +280,10 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
             new_view = self.window.open_file(str(new_file_path))
 
             if rearrange_yaml_syntax_def:
-                new_view.run_command('packagedev_rearrange_yaml_syntax_def',
-                                     {'save': True, '_output_text': output_text})
+                new_view.run_command(
+                    'packagedev_rearrange_yaml_syntax_def',
+                    {'save': True, '_output_text': output_text},
+                )
 
     def status(self, msg, file_path=None):
         self.window.status_message(msg)

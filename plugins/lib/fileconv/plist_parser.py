@@ -10,6 +10,7 @@ a property list file and get back a python native data structure.
 
 .. _Property Lists: http://developer.apple.com/documentation/Cocoa/Conceptual/PropertyLists/
 """
+
 import re
 from io import BytesIO
 from typing import Callable, ClassVar
@@ -71,9 +72,7 @@ class XmlPropertyListParser:
 
     def endDocument(self):
         self._assert(self.__plist is not None, "A top level element must be <plist>.")
-        self._assert(
-            len(self.__stack) == 0,
-            "multiple objects at top level.")
+        self._assert(len(self.__stack) == 0, "multiple objects at top level.")
 
     def startElement(self, name, attrs):
         if name in XmlPropertyListParser.START_CALLBACKS:
@@ -132,8 +131,10 @@ class XmlPropertyListParser:
 
     def _start_plist(self, name, attrs):
         self._assert(not self.__stack and self.__plist is None, "<plist> more than once.")
-        self._assert(attrs.get('version', '1.0') == '1.0',
-                     "version 1.0 is only supported, but was '{}'.".format(attrs.get('version')))
+        self._assert(
+            attrs.get('version', '1.0') == '1.0',
+            "version 1.0 is only supported, but was '{}'.".format(attrs.get('version')),
+        )
 
     def _start_array(self, name, attrs):
         v = []
@@ -169,6 +170,7 @@ class XmlPropertyListParser:
 
     def _parse_data(self, name, content):
         import base64
+
         self._push_value(base64.b64decode(content))
 
     # http://www.apple.com/DTDs/PropertyList-1.0.dtd says:
@@ -194,7 +196,14 @@ class XmlPropertyListParser:
     def _parse_date(self, name, content):
         import datetime
 
-        units = ('year', 'month', 'day', 'hour', 'minute', 'second', )
+        units = (
+            'year',
+            'month',
+            'day',
+            'hour',
+            'minute',
+            'second',
+        )
         pattern = XmlPropertyListParser.DATETIME_PATTERN
         match = pattern.match(content)
         if not match:
@@ -311,13 +320,11 @@ class XmlPropertyListParser:
 
 
 def parse_string(io_or_string):
-    """Parse a string (or a stream) and return the resulting object.
-    """
+    """Parse a string (or a stream) and return the resulting object."""
     return XmlPropertyListParser().parse(io_or_string)
 
 
 def parse_file(file_path):
-    """Parse the specified file and return the resulting object.
-    """
+    """Parse the specified file and return the resulting object."""
     with open(file_path, 'rb') as f:
         return XmlPropertyListParser().parse(f)

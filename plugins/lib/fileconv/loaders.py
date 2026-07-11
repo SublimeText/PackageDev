@@ -36,6 +36,7 @@ def strip_js_comments(string):
     # with the comments being removed and it doesn't break things.
     return ''.join(x[0].strip(' ') for x in parts)
 
+
 ###############################################################################
 
 
@@ -43,108 +44,108 @@ def strip_js_comments(string):
 class LoaderProto:
     r"""Prototype class for data loaders of different types.
 
-        Classes derived from this class (and in this file) will be appended
-        to the module's ``get`` variable (a dict) with ``self.ext`` as their key.
+    Classes derived from this class (and in this file) will be appended
+    to the module's ``get`` variable (a dict) with ``self.ext`` as their key.
 
-        Variables to define:
+    Variables to define:
 
-            name (str)
-                The loaders name, e.g. "JSON" or "Property List".
+        name (str)
+            The loaders name, e.g. "JSON" or "Property List".
 
-            ext (str)
-                The default file extension. Used to construct ``self.ext_regex``.
+        ext (str)
+            The default file extension. Used to construct ``self.ext_regex``.
 
-            comment (str; optional)
-                The line comment string for the file type. Used to construct
-                ``self.opt_regex``.
+        comment (str; optional)
+            The line comment string for the file type. Used to construct
+            ``self.opt_regex``.
 
-            scope (str; optional)
-                If the view's base scope equals this the file will be considered
-                "valid" and then parsed.
+        scope (str; optional)
+            If the view's base scope equals this the file will be considered
+            "valid" and then parsed.
 
-            file_regex (str; optional)
-                Regex to be applied to your output string in ``parse()``.
+        file_regex (str; optional)
+            Regex to be applied to your output string in ``parse()``.
 
-                This is used to determine the problem's position in the file and
-                lets the user browse the errors with F4 and Shift+F4.
-                Define up to three groups:
-                    1: file path
-                    2: line number
-                    3: column
+            This is used to determine the problem's position in the file and
+            lets the user browse the errors with F4 and Shift+F4.
+            Define up to three groups:
+                1: file path
+                2: line number
+                3: column
 
-                For reference, see the "result_file_regex" key in a view's
-                settings() or compare to build systems.
+            For reference, see the "result_file_regex" key in a view's
+            settings() or compare to build systems.
 
-            output_panel_name (str; optional)
-                If this is specified it will be used as the output panel's
-                reference name.
+        output_panel_name (str; optional)
+            If this is specified it will be used as the output panel's
+            reference name.
 
-                Defaults to ``"package_dev"``.
+            Defaults to ``"package_dev"``.
 
-            ext_regex (str; optional)
-                This regex will be used by get_ext_appendix() to determine the
-                extension's appendix. The appendix should be found in group 1.
+        ext_regex (str; optional)
+            This regex will be used by get_ext_appendix() to determine the
+            extension's appendix. The appendix should be found in group 1.
 
-                Defaults to ``r'(?i)\.%s(?:-([^\.]+))?$' % self.ext``.
+            Defaults to ``r'(?i)\.%s(?:-([^\.]+))?$' % self.ext``.
 
-            opt_regex (str; optional)
-                A regex to search for an option dict in a line. Used by
-                ``self.get_options()`` and ``cls.load_options(view)``.
-                Content should be found in group 1.
+        opt_regex (str; optional)
+            A regex to search for an option dict in a line. Used by
+            ``self.get_options()`` and ``cls.load_options(view)``.
+            Content should be found in group 1.
 
-                Defaults to ``r'^\s*%s\s+\[PackageDev\]\s+(.+)$' % cls.comment``.
+            Defaults to ``r'^\s*%s\s+\[PackageDev\]\s+(.+)$' % cls.comment``.
 
 
-        Methods to implement:
+    Methods to implement:
 
-            parse(self, *args, **kwargs)
-                This is called when the actual parsing should happen.
+        parse(self, *args, **kwargs)
+            This is called when the actual parsing should happen.
 
-                The file to be read from is defined in ``self.file_path``.
-                The parsed data should be returned.
-                To output problems, use ``self.output.print(str)`` and use a
-                string matched by ``self.file_regex`` if possible.
+            The file to be read from is defined in ``self.file_path``.
+            The parsed data should be returned.
+            To output problems, use ``self.output.print(str)`` and use a
+            string matched by ``self.file_regex`` if possible.
 
-                *args, **kwargs parameters are passed from
-                ``load(self, *args, **kwargs)``. If you want to specify any options
-                or optional parsing, use these.
+            *args, **kwargs parameters are passed from
+            ``load(self, *args, **kwargs)``. If you want to specify any options
+            or optional parsing, use these.
 
-        Methods you can override/implement
-        (please read their documentation/code to understand their purposes):
+    Methods you can override/implement
+    (please read their documentation/code to understand their purposes):
 
-            @classmethod
-            _pre_init_(cls)
+        @classmethod
+        _pre_init_(cls)
 
-            @classmethod
-            get_ext_appendix(cls, file_name)
+        @classmethod
+        get_ext_appendix(cls, file_name)
 
-            @classmethod
-            get_new_file_ext(cls, view, file_name=None)
+        @classmethod
+        get_new_file_ext(cls, view, file_name=None)
 
-            new_file_ext(self)
+        new_file_ext(self)
 
-            @classmethod
-            load_options(self, view)
+        @classmethod
+        load_options(self, view)
 
-            get_options(self)
+        get_options(self)
 
-            @classmethod
-            file_is_valid(cls, view, file_name=None)
+        @classmethod
+        file_is_valid(cls, view, file_name=None)
 
-            is_valid(self)
+        is_valid(self)
 
-            load(self, *args, **kwargs)
+        load(self, *args, **kwargs)
     """
-    name    = ""
-    ext     = ""
+
+    name = ""
+    ext = ""
     comment = ""
-    scope   = None
+    scope = None
     file_regex = ""
     output_panel_name = "package_dev"
 
     def __init__(self, window, view, file_path=None, output=None, *args, **kwargs):
-        """Mirror the parameters to ``self``, do "init" stuff.
-        """
+        """Mirror the parameters to ``self``, do "init" stuff."""
         super().__init__()  # object.__init__ takes no parameters
 
         self.window = window or view.window() or sublime.active_window()
@@ -155,10 +156,7 @@ class LoaderProto:
         if isinstance(output, OutputPanel):
             self.output = output
         else:
-            self.output = OutputPanel.create(
-                self.window,
-                self.output_panel_name
-            )
+            self.output = OutputPanel.create(self.window, self.output_panel_name)
 
         output_settings = self.output.view.settings()
         output_settings.set('result_file_regex', self.file_regex)
@@ -166,8 +164,7 @@ class LoaderProto:
 
     @classmethod
     def _pre_init_(cls):
-        """Assign attributes that depend on other attributes defined by subclasses.
-        """
+        """Assign attributes that depend on other attributes defined by subclasses."""
         if not hasattr(cls, 'ext_regex'):
             cls.ext_regex = rf'(?i)\.{cls.ext}(?:-([^\.]+))?$'
 
@@ -212,8 +209,7 @@ class LoaderProto:
         return (None, False)
 
     def new_file_ext(self):
-        """Instance method wrapper for ``cls.get_new_file_ext``.
-        """
+        """Instance method wrapper for ``cls.get_new_file_ext``."""
         return self.__class__.get_new_file_ext(self.view, self.file_path)
 
     @classmethod
@@ -240,8 +236,7 @@ class LoaderProto:
         return None
 
     def get_options(self):
-        """Instance method wrapper for ``cls.load_options``.
-        """
+        """Instance method wrapper for ``cls.load_options``."""
         return self.__class__.load_options(self.view)
 
     @classmethod
@@ -253,14 +248,14 @@ class LoaderProto:
         if not file_path:
             return None
 
-        return (cls.get_ext_appendix(file_path) is not None
-                or os.path.splitext(file_path)[1] == '.' + cls.ext
-                or (cls.scope is not None and view
-                    and base_scope(view) == cls.scope))
+        return (
+            cls.get_ext_appendix(file_path) is not None
+            or os.path.splitext(file_path)[1] == '.' + cls.ext
+            or (cls.scope is not None and view and base_scope(view) == cls.scope)
+        )
 
     def is_valid(self):
-        """Instance method wrapper for ``cls.file_is_valid``.
-        """
+        """Instance method wrapper for ``cls.file_is_valid``."""
         return self.__class__.file_is_valid(self.view, self.file_path)
 
     def load(self, *args, **kwargs):
@@ -285,10 +280,10 @@ class LoaderProto:
 
 
 class JSONLoader(LoaderProto):
-    name    = "JSON"
-    ext     = "json"
+    name = "JSON"
+    ext = "json"
     comment = "//"
-    scope   = "source.json"
+    scope = "source.json"
     debug_base = 'Error parsing ' + name + ' "%s": %s'
     file_regex = debug_base % (r'(.*?)', r'.+? line (\d+) column (\d+)')
 
@@ -305,7 +300,7 @@ class JSONLoader(LoaderProto):
 
 class PlistLoader(LoaderProto):
     name = "Property List"
-    ext  = "plist"
+    ext = "plist"
     debug_base = 'Error parsing ' + name + ' "%s": %s, line %s, column %s'
     file_regex = re.escape(debug_base).replace(r'\%', '%') % (r'(.*?)', r'.*?', r'(\d+)', r'(\d+)')
     opt_regex = r'^\s*<!--\s+\[PackageDev\]\s+(.+)-->'
@@ -317,8 +312,10 @@ class PlistLoader(LoaderProto):
         if not file_path:
             return None
 
-        if (cls.get_ext_appendix(file_path) is not None
-                or os.path.splitext(file_path)[1] == '.' + cls.ext):
+        if (
+            cls.get_ext_appendix(file_path) is not None
+            or os.path.splitext(file_path)[1] == '.' + cls.ext
+        ):
             return True
 
         # Plists have no scope (syntax definition) since they are XML.
@@ -347,12 +344,9 @@ class PlistLoader(LoaderProto):
             # but since it is already tried above it should succeed.
             data = plistlib.loads(text.encode('utf-8'))
         except ExpatError as e:
-            self.output.print(self.debug_base
-                              % (self.file_path,
-                                 ErrorString(e.code),
-                                 e.lineno,
-                                 e.offset)
-                              )
+            self.output.print(
+                self.debug_base % (self.file_path, ErrorString(e.code), e.lineno, e.offset)
+            )
         except plistlib.InvalidFileException as e:
             self.output.print(self.debug_base % (self.file_path, str(e), 0, 0))
         else:
@@ -360,10 +354,10 @@ class PlistLoader(LoaderProto):
 
 
 class YAMLLoader(LoaderProto):
-    name    = "YAML"
-    ext     = "yaml"
+    name = "YAML"
+    ext = "yaml"
     comment = "#"
-    scope   = "source.yaml"
+    scope = "source.yaml"
     debug_base = "Error parsing YAML: %s"
     file_regex = r'^ +in "(.*?)", line (\d+), column (\d+)'
 

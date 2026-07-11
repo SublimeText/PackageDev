@@ -9,13 +9,16 @@ def _build_path(sub_package_name, file_name=None, textmate=False):
     ext = ".sublime-syntax" if not textmate else ".tmLanguage"
     file_name = file_name or sub_package_name
 
-    return _BASE_TMPL.format(package_name=_package_name,
-                             sub_package_name=sub_package_name,
-                             file_name=file_name,
-                             ext=ext)
+    return _BASE_TMPL.format(
+        package_name=_package_name,
+        sub_package_name=sub_package_name,
+        file_name=file_name,
+        ext=ext,
+    )
 
 
 # paths to our package
+# fmt:off
 PLIST              = _build_path("Property List")
 BUILD_SYSTEM       = _build_path("Sublime Text Build System")
 COLOR_SCHEME       = _build_path("Sublime Text Color Scheme")
@@ -34,6 +37,7 @@ THEME              = _build_path("Sublime Text Theme")
 TM_PREFERENCES     = _build_path("TextMate Preferences")
 TM_SYNTAX_DEF_JSON = _build_path("TextMate Syntax Definition (JSON)", textmate=True)
 TM_SYNTAX_DEF_YAML = _build_path("TextMate Syntax Definition (YAML)", textmate=True)
+# fmt:on
 
 # paths to default packages
 XML = "Packages/XML/XML.tmLanguage"

@@ -40,7 +40,7 @@ syntax_test_header_regex = re.compile(
     )
     "(?P<syntax_file>[^"]+)"\s*
     (?P<comment_end>\S+)?$''',
-    re.X
+    re.VERBOSE,
 )
 
 
@@ -63,7 +63,6 @@ def get_syntax_test_tokens(view):
 
 
 class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
-
     # TODO multiple views into the same file
 
     @classmethod
@@ -83,8 +82,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         # Complain about the former, if we have a test file.
         if self.header and not self.is_applicable(self.view.settings()):
             sublime.status_message(
-                "Syntax tests do not work properly with tabs as indentation."
-                " You MUST use spaces!"
+                "Syntax tests do not work properly with tabs as indentation. You MUST use spaces!"
             )
 
     def on_modified_async(self):
@@ -113,17 +111,18 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
             return AssertionLineDetails(None, None, None)
         line_region = self.view.line(pos)
         line_text = self.view.substr(line_region)
-        test_start_token = re.match(fr'^\s*({re.escape(tokens.comment_start)})', line_text)
+        test_start_token = re.match(rf'^\s*({re.escape(tokens.comment_start)})', line_text)
         assertion_colrange = None
         if test_start_token:
-            assertion = re.match(r'\s*(?:(<-)|(\^+|@+))', line_text[test_start_token.end():])
+            assertion = re.match(r'\s*(?:(<-)|(\^+|@+))', line_text[test_start_token.end() :])
             if assertion:
                 if assertion.group(1):
-                    assertion_colrange = (test_start_token.start(1),
-                                          test_start_token.start(1))
+                    assertion_colrange = (test_start_token.start(1), test_start_token.start(1))
                 elif assertion.group(2):
-                    assertion_colrange = (test_start_token.end() + assertion.start(2),
-                                          test_start_token.end() + assertion.end(2))
+                    assertion_colrange = (
+                        test_start_token.end() + assertion.start(2),
+                        test_start_token.end() + assertion.end(2),
+                    )
 
         return AssertionLineDetails(test_start_token, assertion_colrange, line_region)
 
@@ -212,8 +211,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
             return None
 
         def current_line_is_a_syntax_test():
-            results = (self.is_syntax_test_line(reg.begin(), False)
-                       for reg in view.sel())
+            results = (self.is_syntax_test_line(reg.begin(), False) for reg in view.sel())
             aggregator = all if match_all else any
             return aggregator(results)
 
@@ -276,7 +274,8 @@ def find_common_scopes(scopes, skip_syntax_suffix):
             # then drop it from the list of scopes to check
             check_scopes = [
                 '.'.join(check_scope.split('.')[0:-1])
-                for check_scope in check_scopes if '.' in check_scope
+                for check_scope in check_scopes
+                if '.' in check_scope
             ]
             skip_syntax_suffix = False
 
@@ -284,7 +283,6 @@ def find_common_scopes(scopes, skip_syntax_suffix):
 
 
 class PackagedevAlignSyntaxTestCommand(sublime_plugin.TextCommand):
-
     """Align the cursor with spaces to be to the right of the previous line's assertion."""
 
     def run(self, edit):
@@ -373,10 +371,12 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         trim_prefix = not get_setting('syntax_test.suggest_asserted_prefix', False)
         if trim_prefix:
             scopes_above = [
-                self.view.substr(sublime.Region(
-                    line.line_region.begin() + line.assertion_colrange[1],
-                    line.line_region.end(),
-                )).strip()
+                self.view.substr(
+                    sublime.Region(
+                        line.line_region.begin() + line.assertion_colrange[1],
+                        line.line_region.end(),
+                    )
+                ).strip()
                 for line in lines[1:]
                 if line.assertion_colrange[0] <= lines[0].assertion_colrange[0]
                 and line.assertion_colrange[1] >= lines[0].assertion_colrange[1]
@@ -406,10 +406,9 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         # move the selection to cover the added scope name,
         # so that the user can easily insert another ^ to extend the test
         view.sel().clear()
-        view.sel().add(sublime.Region(
-            insert_at + length,
-            insert_at + length + len(' ' + scope + end_token)
-        ))
+        view.sel().add(
+            sublime.Region(insert_at + length, insert_at + length + len(' ' + scope + end_token))
+        )
 
     def determine_test_extends(self, lines, line, start_col):
         """Determine extend of token(s) to test and return lenght and scope set.
@@ -420,8 +419,7 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         view = self.view
         col_start, col_end = lines[0].assertion_colrange
         scopes = {
-            view.scope_name(pos)
-            for pos in range(line.begin() + col_start, line.begin() + col_end)
+            view.scope_name(pos) for pos in range(line.begin() + col_start, line.begin() + col_end)
         }
         base_scope = path.commonprefix(list(scopes)).strip()
         logger.debug("Original base scope: %r", base_scope)
@@ -440,7 +438,6 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
 
 
 class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
-
     """Assign target syntax highlighting to a syntax test file."""
 
     PLAIN_TEXT = "Packages/Text/Plain text.tmLanguage"
@@ -489,8 +486,9 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
         elif not current_syntax.endswith('/' + test_syntax):
             syntax_candidates = sublime.find_resources(test_syntax)
             if syntax_candidates:
-                logger.debug("Found the following candidates for %r: %r",
-                             test_syntax, syntax_candidates)
+                logger.debug(
+                    "Found the following candidates for %r: %r", test_syntax, syntax_candidates
+                )
                 view.assign_syntax(syntax_candidates[0])
             else:
                 logger.info("Couldn't find a syntax matching %r", test_syntax)
@@ -518,7 +516,7 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
                 "Do you want to change this view's settings to use spaces?\n"
                 "Note that existing tab characters are NOT automatically converted!"
             ),
-            "Change setting"
+            "Change setting",
         ):
             view.settings().set('translate_tabs_to_spaces', True)
 
@@ -526,7 +524,6 @@ class AssignSyntaxTestSyntaxListener(sublime_plugin.EventListener):
 
 
 class ScopeTreeNode:
-
     def __init__(self, region, scope, children=None):
         self.region = region
         self.scope = scope
@@ -535,8 +532,7 @@ class ScopeTreeNode:
     @classmethod
     def build_forest(cls, tokens, *, trim_suffix=False):
         tokens = [
-            (region, cls._split_scope(scope, trim_suffix=trim_suffix))
-            for region, scope in tokens
+            (region, cls._split_scope(scope, trim_suffix=trim_suffix)) for region, scope in tokens
         ]
 
         forest = []
@@ -550,10 +546,7 @@ class ScopeTreeNode:
         ret = scope.strip().split(' ')
         ret = ret[1:]  # Trim root scope
         if trim_suffix:
-            ret = [
-                '.'.join(part.split('.')[:-1])
-                for part in ret
-            ]
+            ret = ['.'.join(part.split('.')[:-1]) for part in ret]
         return ret
 
     @classmethod
@@ -585,6 +578,7 @@ class ScopeTreeNode:
     def __repr__(self):
         from pprint import pformat
         from textwrap import indent
+
         return "ScopeTreeNode(\n\t{!r},\n\t{!r},\n{}\n)".format(
             self.region,
             self.scope,
@@ -593,7 +587,6 @@ class ScopeTreeNode:
 
 
 class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
-
     """Generate syntax tests for the selected line of code."""
 
     def is_enabled(self):

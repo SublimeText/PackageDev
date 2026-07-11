@@ -6,7 +6,6 @@ from yaml.nodes import MappingNode, SequenceNode
 
 
 class SafeOrderedDictConstructor(SafeConstructor):
-
     def construct_yaml_omap(self, node):
         # The functionality is already available
         # but it's just returned as a list of tuples
@@ -15,16 +14,20 @@ class SafeOrderedDictConstructor(SafeConstructor):
         omap = OrderedDict()
         yield omap
         if not isinstance(node, SequenceNode):
-            raise ConstructorError("while constructing an ordered map",
-                                   node.start_mark,
-                                   f"expected a sequence, but found {node.id}",
-                                   node.start_mark)
+            raise ConstructorError(
+                "while constructing an ordered map",
+                node.start_mark,
+                f"expected a sequence, but found {node.id}",
+                node.start_mark,
+            )
         for subnode in node.value:
             if not isinstance(subnode, MappingNode):
-                raise ConstructorError("while constructing an ordered map",
-                                       node.start_mark,
-                                       f"expected a mapping of length 1, but found {subnode.id}",
-                                       subnode.start_mark)
+                raise ConstructorError(
+                    "while constructing an ordered map",
+                    node.start_mark,
+                    f"expected a mapping of length 1, but found {subnode.id}",
+                    subnode.start_mark,
+                )
             if len(subnode.value) != 1:
                 raise ConstructorError(
                     "while constructing an ordered map",
@@ -40,12 +43,11 @@ class SafeOrderedDictConstructor(SafeConstructor):
 
 SafeOrderedDictConstructor.add_constructor(
     'tag:yaml.org,2002:omap',
-    SafeOrderedDictConstructor.construct_yaml_omap
+    SafeOrderedDictConstructor.construct_yaml_omap,
 )
 
 
 class SaveOmapLoader(Reader, Scanner, Parser, Composer, SafeOrderedDictConstructor, Resolver):
-
     def __init__(self, stream):
         # idk why yaml isn't using super internally here, but we just copy the code
         Reader.__init__(self, stream)

@@ -25,20 +25,17 @@ def has_file_ext(view, ext):
 
 
 def base_scope(view):
-    """Returns the view's base scope.
-    """
+    """Returns the view's base scope."""
     return view.scope_name(0).split(' ', 1)[0]
 
 
 def rowcount(view):
-    """Returns the 1-based number of rows in ``view``.
-    """
+    """Returns the 1-based number of rows in ``view``."""
     return view.rowcol(view.size())[0] + 1
 
 
 def rowwidth(view, row):
-    """Returns the 1-based number of characters of ``row`` in ``view``.
-    """
+    """Returns the 1-based number of characters of ``row`` in ``view``."""
     return view.rowcol(view.line(view.text_point(row, 0)).end())[1] + 1
 
 
@@ -119,29 +116,26 @@ def coorded_substr(view, reg1=None, reg2=None, rel=None):
 
 
 def get_text(view):
-    """Returns the whole string of a buffer. Alias for `coorded_substr(view)`.
-    """
+    """Returns the whole string of a buffer. Alias for `coorded_substr(view)`."""
     return coorded_substr(view)
 
 
 def get_viewport_point(view):
-    """Returns the text point of the current viewport.
-    """
+    """Returns the text point of the current viewport."""
     return view.layout_to_text(view.viewport_position())
 
 
 def get_viewport_coords(view):
-    """Returns the text coordinates of the current viewport.
-    """
+    """Returns the text coordinates of the current viewport."""
     return view.rowcol(get_viewport_point(view))
 
 
 def set_viewport(view, row, col=None):
     """Sets the current viewport from either a text point or relative coords.
 
-        set_viewport(view, 892)      # point
-        set_viewport(view, 2, 27)    # coords1
-        set_viewport(view, (2, 27))  # coords2
+    set_viewport(view, 892)      # point
+    set_viewport(view, 2, 27)    # coords1
+    set_viewport(view, (2, 27))  # coords2
     """
     if col is None:
         pos = row

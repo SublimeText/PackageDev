@@ -93,9 +93,11 @@ class ScopeNode:
         if isinstance(other, str):
             return str(self) == other
         elif isinstance(other, ScopeNode):
-            return (self.name == other.name
-                    and self.parent == other.parent
-                    and self.children == other.children)
+            return (
+                self.name == other.name
+                and self.parent == other.parent
+                and self.children == other.children
+            )
         else:
             return NotImplemented
 
@@ -164,12 +166,13 @@ def completions_from_prefix(prefix):
     for i, token in enumerate(tokens[:-1]):
         node = nodes.find(token)
         if not node:
-            logger.info("`%s` not found in scope naming conventions", '.'.join(tokens[:i + 1]))
+            logger.info("`%s` not found in scope naming conventions", '.'.join(tokens[: i + 1]))
             break
         nodes = node.children
         if not nodes:
-            logger.info("No nodes available in scope naming conventions after `%s`",
-                        '.'.join(tokens[:-1]))
+            logger.info(
+                "No nodes available in scope naming conventions after `%s`", '.'.join(tokens[:-1])
+            )
             break
     else:
         # Offer to complete from conventions or base scope

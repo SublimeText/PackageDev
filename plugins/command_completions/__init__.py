@@ -46,9 +46,11 @@ def is_plugin(view):
 
     Or the console input widget, should it be using the Python syntax.
     """
-    return (view.find("import sublime", 0, sublime.LITERAL) is not None
-            or sublime.packages_path() in (view.file_name() or "")
-            or view.settings().get('is_widget'))
+    return (
+        view.find("import sublime", 0, sublime.LITERAL) is not None
+        or sublime.packages_path() in (view.file_name() or "")
+        or view.settings().get('is_widget')
+    )
 
 
 def create_args_snippet_from_command_args(command_args, quote_char='"', for_json=True):
@@ -142,7 +144,6 @@ def _create_completions(command_type=""):
 
 
 class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
-
     @inhibit_word_completions
     def on_query_completions(self, view, prefix, locations):
         keymap_scope = "source.json.sublime meta.command-name"
@@ -153,11 +154,10 @@ class SublimeTextCommandCompletionListener(sublime_plugin.EventListener):
 
 
 class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
-
     _RE_LINE_BEFORE = re.compile(
         r"(?P<callervar>\w+)\s*\.\s*run_command\s*\("
         r"\s*['\"]\w*$",
-        re.MULTILINE
+        re.MULTILINE,
     )
 
     @inhibit_word_completions
@@ -189,13 +189,14 @@ class SublimeTextCommandCompletionPythonListener(sublime_plugin.EventListener):
 
 
 class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
-
     _default_args = [("args\targuments", '"args": {\n\t"$1": "$2"$0\n},')]
     _st_insert_arg_scope = (
         "("
         "  ("
-        + ", ".join(f"source.json.sublime.{suffix}"
-                    for suffix in ("commands", "keymap", "macro", "menu", "mousemap"))
+        + ", ".join(
+            f"source.json.sublime.{suffix}"
+            for suffix in ("commands", "keymap", "macro", "menu", "mousemap")
+        )
         + ")"
         "  & "
         "  meta.sequence meta.mapping"
@@ -230,17 +231,18 @@ class SublimeTextCommandArgsCompletionListener(sublime_plugin.EventListener):
             return self._default_args
         completion = create_args_snippet_from_command_args(command_args, for_json=True)
 
-        return [sublime.CompletionItem(
-            trigger="args",
-            annotation="auto-detected",
-            completion=completion,
-            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-            kind=KIND_SNIPPET,
-        )]
+        return [
+            sublime.CompletionItem(
+                trigger="args",
+                annotation="auto-detected",
+                completion=completion,
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=KIND_SNIPPET,
+            )
+        ]
 
 
 class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListener):
-
     _default_args_dict = {
         c: sublime.CompletionItem(
             trigger="args",
@@ -272,13 +274,18 @@ class SublimeTextCommandArgsCompletionPythonListener(sublime_plugin.EventListene
         command_args = get_args_from_command_name(command_name)
         if command_args is None:
             return self._default_args_dict[quote_char]
-        completion = create_args_snippet_from_command_args(command_args, quote_char,
-                                                           for_json=False)
+        completion = create_args_snippet_from_command_args(
+            command_args,
+            quote_char,
+            for_json=False,
+        )
 
-        return [sublime.CompletionItem(
-            trigger="args",
-            annotation="auto-detected",
-            completion=completion,
-            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-            kind=KIND_SNIPPET,
-        )]
+        return [
+            sublime.CompletionItem(
+                trigger="args",
+                annotation="auto-detected",
+                completion=completion,
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=KIND_SNIPPET,
+            )
+        ]

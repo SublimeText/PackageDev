@@ -4,7 +4,6 @@ from weakref import ref
 
 
 class _weak_callable:
-
     def __init__(self, obj, func):
         self._obj = obj
         self._meth = func
@@ -24,9 +23,9 @@ class _weak_callable:
 
 
 class WeakMethod:
-    """ Wraps a function or, more importantly, a bound method, in
+    """Wraps a function or, more importantly, a bound method, in
     a way that allows a bound method's object to be GC'd, while
-    providing the same interface as a normal weak reference. """
+    providing the same interface as a normal weak reference."""
 
     def __init__(self, fn):
         if not callable(fn):
@@ -53,18 +52,13 @@ class WeakMethod:
                 return _weak_callable(obj, meth)
 
     def __eq__(self, other):
-        return (
-            type(self) is type(other)
-            and self._obj is other._obj
-            and self._meth == other._meth
-        )
+        return type(self) is type(other) and self._obj is other._obj and self._meth == other._meth
 
     def __hash__(self):
         return hash((id(self._obj), self._meth))
 
 
 class WeakMethodProxy(WeakMethod):
-
     def __call__(self, *args, **kwargs):
         func = super().__call__()
         if func is None:

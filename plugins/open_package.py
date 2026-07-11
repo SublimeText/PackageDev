@@ -30,20 +30,17 @@ def _list_normal_packages():
 
 
 class NameInputHandler(sublime_plugin.ListInputHandler):
-
     def placeholder(self):
         return "Package"
 
     def list_items(self):
         packages = list(sorted(_list_normal_packages()))
         logger.debug(packages)
-        items = [name + (OVERRIDE_SUFFIX if override else "")
-                 for name, override in packages]
+        items = [name + (OVERRIDE_SUFFIX if override else "") for name, override in packages]
         return items
 
 
 class PackagedevOpenPackageCommand(sublime_plugin.WindowCommand):
-
     def input(self, args):
         return NameInputHandler()
 

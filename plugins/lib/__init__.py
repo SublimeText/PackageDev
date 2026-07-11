@@ -25,6 +25,7 @@ def get_setting(key, default=None):
 
 def inhibit_word_completions(func):
     """Decorator that inhibits ST's word completions if non-None value is returned."""
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         ret = func(*args, **kwargs)

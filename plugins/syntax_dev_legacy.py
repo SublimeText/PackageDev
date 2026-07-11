@@ -47,8 +47,7 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
 
             # Use ' to denote string if it contains illegal plain sequences
             # since it has easier escape sequences
-            elif (value[0] in "[]{#\"'}@,"
-                  or any(s in value for s in (' #', ': '))):
+            elif value[0] in "[]{#\"'}@," or any(s in value for s in (' #', ': ')):
                 style = "'"
 
         return super().represent_scalar(tag, value, style)
@@ -57,9 +56,9 @@ class YAMLLanguageDevDumper(OrderedDictSafeDumper):
         # Default to block style; revert back to flow if len = 1 and only has "name" key
         if len(mapping) == 1:
             if hasattr(mapping, 'items'):
-                flow_style = ('name' in mapping)
+                flow_style = 'name' in mapping
             else:
-                flow_style = (mapping[0][0] == 'name')
+                flow_style = mapping[0][0] == 'name'
 
         return super().represent_mapping(tag, mapping, flow_style)
 
@@ -72,8 +71,10 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
             self.output = output
         elif window:
             self.output = OutputPanel.create(
-                window, self.output_panel_name,
-                read_only=True, force_writes=True
+                window,
+                self.output_panel_name,
+                read_only=True,
+                force_writes=True,
             )
 
     def sort_keys(self, data, sort_order, sort_numeric):
@@ -105,9 +106,7 @@ class YAMLOrderedTextDumper(dumpers.YAMLDumper):
             assert len(obj) == 0
             return od
 
-        return self._validate_data(data, (
-            (lambda x: isinstance(x, dict), do_sort),
-        ))
+        return self._validate_data(data, ((lambda x: isinstance(x, dict), do_sort),))
 
     def dump(self, data, sort=True, sort_order=None, sort_numeric=True, *args, **kwargs):
         self.output.print(f"Sorting {self.name}...")
@@ -124,73 +123,91 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
     """Parses YAML and sorts all the dict keys reasonably.
     Does not write to the file, only to the buffer.
     """
+
     default_order = [
-        "comment", "name", "scopeName", "contentName",
-        "fileTypes", "uuid",
-        "begin", "beginCaptures",
-        "end", "endCaptures",
-        "match", "captures",
-        "include", "patterns", "repository",
+        "comment",
+        "name",
+        "scopeName",
+        "contentName",
+        "fileTypes",
+        "uuid",
+        "begin",
+        "beginCaptures",
+        "end",
+        "endCaptures",
+        "match",
+        "captures",
+        "include",
+        "patterns",
+        "repository",
     ]
 
     def is_enabled(self):
         return base_scope(self.view) in ('source.yaml', 'source.yaml-tmlanguage')
 
-    def run(self, edit,
-            sort=True, sort_numeric=True, sort_order=None, remove_single_line_maps=True,
-            insert_newlines=True, save=False,
-            _output_text=None, **kwargs):
+    def run(
+        self,
+        edit,
+        sort=True,
+        sort_numeric=True,
+        sort_order=None,
+        remove_single_line_maps=True,
+        insert_newlines=True,
+        save=False,
+        _output_text=None,
+        **kwargs,
+    ):
         """Available parameters:
 
-            sort (bool) = True
-                Whether the list should be sorted at all. If this is not
-                ``True`` the dicts' keys' order is likely not going to equal
-                the input.
+        sort (bool) = True
+            Whether the list should be sorted at all. If this is not
+            ``True`` the dicts' keys' order is likely not going to equal
+            the input.
 
-            sort_numeric (bool) = True
-                A language definition's captures are assigned to a numeric key
-                which is in fact a string. If you want to bypass the string
-                sorting and instead sort by the strings number value, you will
-                want this to be ``True``.
+        sort_numeric (bool) = True
+            A language definition's captures are assigned to a numeric key
+            which is in fact a string. If you want to bypass the string
+            sorting and instead sort by the strings number value, you will
+            want this to be ``True``.
 
-            sort_order (list)
-                When this is passed it will be used instead of the default.
-                The first element in the list will be the first key to be
-                written for ALL dictionaries.
-                Set to ``False`` to skip this step.
+        sort_order (list)
+            When this is passed it will be used instead of the default.
+            The first element in the list will be the first key to be
+            written for ALL dictionaries.
+            Set to ``False`` to skip this step.
 
-                The default order is:
-                comment, name, scopeName, fileTypes, uuid, begin,
-                beginCaptures, end, endCaptures, match, captures, include,
-                patterns, repository
+            The default order is:
+            comment, name, scopeName, fileTypes, uuid, begin,
+            beginCaptures, end, endCaptures, match, captures, include,
+            patterns, repository
 
-            remove_single_line_maps (bool) = True
-                This will in fact turn the "- {include: '#something'}" lines
-                into "- include: '#something'".
-                Also splits mappings like "- {name: anything, match: .*}" to
-                multiple lines.
+        remove_single_line_maps (bool) = True
+            This will in fact turn the "- {include: '#something'}" lines
+            into "- include: '#something'".
+            Also splits mappings like "- {name: anything, match: .*}" to
+            multiple lines.
 
-                Be careful though because this is just a
-                simple regexp that's safe for *usual* syntax definitions.
+            Be careful though because this is just a
+            simple regexp that's safe for *usual* syntax definitions.
 
-            insert_newlines (bool) = True
-                Add newlines where appropriate to make the whole data appear
-                better organized.
+        insert_newlines (bool) = True
+            Add newlines where appropriate to make the whole data appear
+            better organized.
 
-                Essentially add a new line:
-                - before global "patterns" key
-                - before global "repository" key
-                - before every repository key except for the first
+            Essentially add a new line:
+            - before global "patterns" key
+            - before global "repository" key
+            - before every repository key except for the first
 
-            save (bool) = False
-                Save the view after processing is done.
+        save (bool) = False
+            Save the view after processing is done.
 
-            _output_text (str) = None
-                Text to be prepended to the output panel since it gets cleared
-                by `window.get_output_panel`.
+        _output_text (str) = None
+            Text to be prepended to the output panel since it gets cleared
+            by `window.get_output_panel`.
 
-            **kwargs
-                Forwarded to yaml.dump (if they are valid).
+        **kwargs
+            Forwarded to yaml.dump (if they are valid).
         """
         # Check the environment (view, args, ...)
 
@@ -200,17 +217,19 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             return
         if self.view.is_loading():
             # The view has not yet loaded, recall the command in this case until ST is done
-            kwargs.update({
-                'sort': sort,
-                'sort_numeric': sort_numeric,
-                'sort_order': sort_order,
-                'remove_single_line_maps': remove_single_line_maps,
-                'insert_newlines': insert_newlines,
-                'save': save
-            })
+            kwargs.update(
+                {
+                    'sort': sort,
+                    'sort_numeric': sort_numeric,
+                    'sort_order': sort_order,
+                    'remove_single_line_maps': remove_single_line_maps,
+                    'insert_newlines': insert_newlines,
+                    'save': save,
+                }
+            )
             sublime.set_timeout(
                 lambda: self.view.run_command('packagedev_rearrange_yaml_syntax_def', kwargs),
-                20
+                20,
             )
             return
 
@@ -221,8 +240,10 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
         vp = get_viewport_coords(self.view)
 
         with OutputPanel.create(
-            self.view.window() or sublime.active_window(), "package_dev",
-            read_only=True, force_writes=True
+            self.view.window() or sublime.active_window(),
+            "package_dev",
+            read_only=True,
+            force_writes=True,
         ) as output:
             output.show()
             if _output_text:
@@ -237,8 +258,9 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             try:
                 data = loader.load(**kwargs)
             except Exception:
-                output.print("Unexpected error occurred while parsing, "
-                             "please see the console for details.")
+                output.print(
+                    "Unexpected error occurred while parsing, please see the console for details."
+                )
                 raise
 
             if not data:
@@ -253,8 +275,9 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             try:
                 text = dumper.dump(data, sort, sort_order, sort_numeric, **kwargs)
             except Exception:
-                output.print("Unexpected error occurred while dumping, "
-                             "please see the console for details.")
+                output.print(
+                    "Unexpected error occurred while dumping, please see the console for details."
+                )
                 raise
 
             if not text:
@@ -266,8 +289,7 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
             self.view.replace(
                 edit,
                 sublime.Region(0, self.view.size()),
-                "# [PackageDev] target_format: plist, ext: tmLanguage\n"
-                + text
+                "# [PackageDev] target_format: plist, ext: tmLanguage\n" + text,
             )
 
             # Insert the new lines using the syntax definition (which has hopefully been set)
@@ -321,7 +343,14 @@ class PackagedevRearrangeYamlSyntaxDefCommand(sublime_plugin.TextCommand):
 class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
     def __init__(self):
         base_keys = [
-            "match", "end", "begin", "name", "contentName", "comment", "scopeName", "include"
+            "match",
+            "end",
+            "begin",
+            "name",
+            "contentName",
+            "comment",
+            "scopeName",
+            "include",
         ]
         dict_keys = ["repository", "captures", "beginCaptures", "endCaptures"]
         list_keys = ["fileTypes", "patterns"]
@@ -330,9 +359,11 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
             ("include\tinclude: '#...'", "include: '#$0'"),
             ("include\tinclude: $self", "include: \\$self"),
         ]
-        for ex in (((f"{s}\t{s}:", f"{s}: ") for s in base_keys),
-                   ((f"{s}\t{s}:", f"{s}:\n  ") for s in dict_keys),
-                   ((f"{s}\t{s}:", f"{s}:\n- ") for s in list_keys)):
+        for ex in (
+            ((f"{s}\t{s}:", f"{s}: ") for s in base_keys),
+            ((f"{s}\t{s}:", f"{s}:\n  ") for s in dict_keys),
+            ((f"{s}\t{s}:", f"{s}:\n- ") for s in list_keys),
+        ):
             completions.extend(ex)
 
         self.base_completions = completions
@@ -381,10 +412,10 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                     for i, token in enumerate(tokens):
                         node = nodes.find(token)
                         if not node:
-                            name = '.'.join(tokens[:i + 1])
+                            name = '.'.join(tokens[: i + 1])
                             status(
                                 f"Warning: `{name}` not found in scope naming conventions",
-                                window
+                                window,
                             )
                             break
                         nodes = node.children
@@ -395,8 +426,8 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
                         return inhibit(nodes.to_completion())
                     else:
                         status(
-                            "No nodes available in scope naming conventions after `{}`"
-                            .format('.'.join(tokens)),
+                            "No nodes available in scope naming conventions "
+                            f"after `{'.'.join(tokens)}`",
                             window,
                         )
                         # Search for the base scope appendix/suffix
@@ -435,12 +466,10 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
             ):
                 return []
 
-            variables = [view.substr(r)
-                         for r in view.find_by_selector("variable.other.repository-key")]
-            status(
-                f"Found {len(variables)} local repository keys to be used in includes",
-                window
-            )
+            variables = [
+                view.substr(r) for r in view.find_by_selector("variable.other.repository-key")
+            ]
+            status(f"Found {len(variables)} local repository keys to be used in includes", window)
             return inhibit(zip(variables, variables))
 
         # Do not bother if the syntax def already matched the current position,
@@ -453,8 +482,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
             return []
 
         # Otherwise, use the default completions + generated uuid
-        completions = [
-            ('uuid\tuuid: ...', f"uuid: {uuid.uuid4()}")
+        completions = [('uuid\tuuid: ...', f"uuid: {uuid.uuid4()}")]
         ]
 
         return inhibit(self.base_completions + completions)

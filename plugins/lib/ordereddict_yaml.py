@@ -23,10 +23,12 @@ class BaseOrderedDictLoader:
         if isinstance(node, yaml.MappingNode):
             self.flatten_mapping(node)
         else:
-            raise ConstructorError(None,
-                                   None,
-                                   f'expected a mapping node, but found {node.id}',
-                                   node.start_mark)
+            raise ConstructorError(
+                None,
+                None,
+                f'expected a mapping node, but found {node.id}',
+                node.start_mark,
+            )
 
         mapping = OrderedDict()
 
@@ -35,10 +37,12 @@ class BaseOrderedDictLoader:
             try:
                 hash(key)
             except TypeError as exc:
-                raise ConstructorError('while constructing a mapping',
-                                       node.start_mark,
-                                       f'found unacceptable key ({exc})',
-                                       key_node.start_mark)
+                raise ConstructorError(
+                    'while constructing a mapping',
+                    node.start_mark,
+                    f'found unacceptable key ({exc})',
+                    key_node.start_mark,
+                )
             value = self.construct_object(value_node, deep=deep)
             mapping[key] = value
 
@@ -46,26 +50,20 @@ class BaseOrderedDictLoader:
 
 
 class OrderedDictLoader(BaseOrderedDictLoader, Loader):
-    """A YAML loader that loads mappings into ordered dictionaries.
-    """
+    """A YAML loader that loads mappings into ordered dictionaries."""
+
     pass
 
 
 class OrderedDictSafeLoader(BaseOrderedDictLoader, SafeLoader):
-    """A YAML (safe) loader that loads mappings into ordered dictionaries.
-    """
+    """A YAML (safe) loader that loads mappings into ordered dictionaries."""
+
     pass
 
 
 def add_ordereddict_constructor(cls):
-    cls.add_constructor(
-        'tag:yaml.org,2002:map',
-        cls.construct_yaml_map
-    )
-    cls.add_constructor(
-        'tag:yaml.org,2002:omap',
-        cls.construct_yaml_map
-    )
+    cls.add_constructor('tag:yaml.org,2002:map', cls.construct_yaml_map)
+    cls.add_constructor('tag:yaml.org,2002:omap', cls.construct_yaml_map)
 
 
 add_ordereddict_constructor(OrderedDictLoader)
@@ -82,13 +80,7 @@ class OrderedDictSafeDumper(SafeDumper):
         return self.represent_mapping('tag:yaml.org,2002:map', list(data.items()))
 
 
-OrderedDictSafeDumper.add_representer(
-    OrderedDict,
-    OrderedDictSafeDumper.represent_ordereddict
-)
+OrderedDictSafeDumper.add_representer(OrderedDict, OrderedDictSafeDumper.represent_ordereddict)
 
 # Add representer to the default dumper
-yaml.add_representer(
-    OrderedDict,
-    OrderedDictSafeDumper.represent_ordereddict
-)
+yaml.add_representer(OrderedDict, OrderedDictSafeDumper.represent_ordereddict)

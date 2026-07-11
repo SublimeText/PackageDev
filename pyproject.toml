@@ -18,3 +18,6 @@ line-length = 99
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP"]
+
+[tool.ruff.format]
+quote-style = "preserve"
