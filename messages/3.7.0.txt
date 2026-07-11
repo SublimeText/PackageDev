@@ -32,5 +32,5 @@ Support for older builds is dropped and they will remain on 3.6.x.
 - Syntax: Scope invalid escape sequences in double-quoted YAML strings. (#415, #427, @deathaxe)
 - Syntax: Include newline character in generated syntax assertions (#420, #421, @michaelblyons)
 - Internal: Replace `sublime_lib.RegionOption` with built-in `RegionFlags`. (#422, @deathaxe)
-- Internal: Remove various code that was specific for Python 2 and 3.4. (@FichteFoll)
-- Internal: Update dev tooling (ruff instead of flake8, uv to manage versions). (@FichteFoll)
+- Internal: Remove various code that was specific for Python 2 and 3.4. (#436, #438, @FichteFoll)
+- Internal: Update dev tooling (ruff instead of flake8, uv to manage versions). (#437, @FichteFoll)
