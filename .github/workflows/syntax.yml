@@ -40,8 +40,8 @@ jobs:
             continue_on_error: true
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: SublimeText/syntax-test-action@v2
+      - uses: actions/checkout@v7
+      - uses: SublimeText/syntax-test-action@v2.5.1
         with:
           build: ${{ matrix.build }}
           default_packages: ${{ matrix.packages }}
