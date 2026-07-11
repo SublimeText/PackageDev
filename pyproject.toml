@@ -1,0 +1,10 @@
+[project]
+name = "package-dev"
+version = "0.0.0"
+description = "The Sublime Text meta package"
+requires-python = ">=3.8"
+
+[dependency-groups]
+dev = [
+  "ruff",
+]
