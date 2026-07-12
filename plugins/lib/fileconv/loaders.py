@@ -227,6 +227,8 @@ class LoaderProto:
             try:
                 line = coorded_substr(view, (i, 0), (i, -1))
                 optstr = re.search(self.opt_regex, line)
+                if not optstr:
+                    continue
                 # Just parse the string with yaml; wrapped in {}
                 # Yeah, I'm lazy like that, but see, I even put "safe_" in front of it
                 return yaml.safe_load(f'{{{optstr.group(1)}}}')

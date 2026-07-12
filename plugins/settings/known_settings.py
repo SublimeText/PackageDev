@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import collections
 import logging
 import os
@@ -5,6 +7,7 @@ import re
 import textwrap
 import time
 import weakref
+from typing import ClassVar
 
 import sublime
 from sublime_lib import ResourcePath, encodings
@@ -87,51 +90,46 @@ class KnownSettings:
 
     # cache for instances, keyed by the basename
     # and using weakrefs for easy garbage collection
-    cache = weakref.WeakValueDictionary()
+    cache: ClassVar[weakref.WeakValueDictionary[str, KnownSettings]] = weakref.WeakValueDictionary()
 
-    _is_initialized = False
-    _is_loaded = False
-    filename = None
-    on_loaded_callbacks = None
-    on_loaded_once_callbacks = None
-    defaults = None
-    comments = None
-    fallback_settings = None
+    on_loaded_callbacks: list[WeakMethodProxy]
+    on_loaded_once_callbacks: list[WeakMethodProxy]
+    defaults: collections.ChainMap
+    comments: collections.ChainMap
+    fallback_settings: KnownSettings | None = None
 
-    def __new__(cls, filename, on_loaded=None, **kwargs):
-        # __init__ will be called on the return value
+    @classmethod
+    def load(cls, filename, /) -> KnownSettings:
+        # Implements weakref caching to avoid duplicate instances
+        # for the same setting file names.
         obj = cls.cache.get(filename)
         if obj:
             logger.debug("cache hit %r", filename)
             return cls.cache[filename]
         else:
-            obj = super().__new__(cls, **kwargs)
+            obj = cls(filename)
             cls.cache[filename] = obj
             return obj
 
-    def __init__(self, filename):
+    def __init__(self, filename: str) -> None:
         """Initialize view event listener object.
 
         Arguments:
             filename (str):
                 Settings file name to index.
         """
-        # Because __init__ may be called multiple times
-        # and we only want to trigger a reload once,
-        # we need special handling here.
-        if not self._is_initialized:
-            # the associated settings file name all the settings belong to
-            self.filename = filename
-            # callback lists
-            self.on_loaded_callbacks = []
-            self.on_loaded_once_callbacks = []
-            self._is_initialized = True
-            # the dictionary with all defaults of a setting
-            self.defaults = collections.ChainMap()
-            # the dictionary with all comments of each setting
-            self.comments = collections.ChainMap()
+        # the associated settings file name all the settings belong to
+        self.filename = filename
+        self._is_loaded = False
+        # callback lists
+        self.on_loaded_callbacks = []
+        self.on_loaded_once_callbacks = []
+        # the dictionary with all defaults of a setting
+        self.defaults = collections.ChainMap()
+        # the dictionary with all comments of each setting
+        self.comments = collections.ChainMap()
 
-            self.trigger_settings_reload()
+        self.trigger_settings_reload()
 
     def add_on_loaded(self, on_loaded, once=False):
         """Add a callback to call once settings have been indexed (asynchronously).
@@ -153,9 +151,11 @@ class KnownSettings:
             sublime.set_timeout_async(on_loaded, 0)
 
         if not once:
-            self.on_loaded_callbacks.append(WeakMethodProxy(on_loaded))
+            if callbacks := self.on_loaded_callbacks:
+                callbacks.append(WeakMethodProxy(on_loaded))
         elif not self._is_loaded:
-            self.on_loaded_once_callbacks.append(WeakMethodProxy(on_loaded))
+            if callbacks := self.on_loaded_once_callbacks:
+                callbacks.append(WeakMethodProxy(on_loaded))
 
     def __del__(self):
         logger.debug("deleting KnownSettings instance for %r", self.filename)

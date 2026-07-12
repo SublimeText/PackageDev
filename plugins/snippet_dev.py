@@ -47,6 +47,8 @@ class PackagedevRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         snippet = get_text(self.view)
         content = ET.fromstring(snippet).findtext(".//content")
+        if content is None:
+            return
         content = content.replace("]]$UNDEFINED>", "]]>")  # undo defusing
 
         v = self.view.window().new_file()
