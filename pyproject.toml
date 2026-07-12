@@ -30,3 +30,7 @@ quote-style = "preserve"
 
 [tool.ty.analysis]
 allowed-unresolved-imports = ["sublime", "sublime_plugin", "sublime_lib.**"]
+
+[tool.ty.environment]
+# ST considers the "parent" Packages folder to be the root.
+root = ["../"]
