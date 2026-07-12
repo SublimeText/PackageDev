@@ -26,3 +26,7 @@ select = ["E", "F", "I", "UP"]
 
 [tool.ruff.format]
 quote-style = "preserve"
+
+
+[tool.ty.analysis]
+allowed-unresolved-imports = ["sublime", "sublime_plugin", "sublime_lib.**"]
