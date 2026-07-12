@@ -6,8 +6,8 @@ import os
 import re
 import textwrap
 import time
-import weakref
 from typing import ClassVar
+from weakref import WeakValueDictionary
 
 import sublime
 from sublime_lib import ResourcePath, encodings
@@ -90,7 +90,7 @@ class KnownSettings:
 
     # cache for instances, keyed by the basename
     # and using weakrefs for easy garbage collection
-    cache: ClassVar[weakref.WeakValueDictionary[str, KnownSettings]] = weakref.WeakValueDictionary()
+    cache: ClassVar[WeakValueDictionary[str, KnownSettings]] = WeakValueDictionary()
 
     on_loaded_callbacks: list[WeakMethodProxy]
     on_loaded_once_callbacks: list[WeakMethodProxy]
