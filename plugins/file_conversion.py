@@ -185,7 +185,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
                     # Show overlay with all dumping options except for the current type
                     # Save stripped-down `items` for later
                     options, items = [], []
-                    for itm in self.target_list:
+                    for itm in target_list:
                         # To not clash with function-local "target_format"
                         target_format_ = itm['kwargs']['target_format']
                         if target_format_ != source_format:
