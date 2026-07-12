@@ -34,3 +34,7 @@ allowed-unresolved-imports = ["sublime", "sublime_plugin", "sublime_lib.**"]
 [tool.ty.environment]
 # ST considers the "parent" Packages folder to be the root.
 root = ["../"]
+
+[tool.ty.rules]
+missing-type-argument = "warn"
+possibly-unresolved-reference = "error"

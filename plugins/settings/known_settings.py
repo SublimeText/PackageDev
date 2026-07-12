@@ -94,8 +94,8 @@ class KnownSettings:
 
     on_loaded_callbacks: list[WeakMethodProxy]
     on_loaded_once_callbacks: list[WeakMethodProxy]
-    defaults: collections.ChainMap
-    comments: collections.ChainMap
+    defaults: collections.ChainMap[str, object]
+    comments: collections.ChainMap[str, str]
     fallback_settings: KnownSettings | None = None
 
     @classmethod

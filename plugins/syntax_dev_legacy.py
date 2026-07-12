@@ -409,6 +409,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
 
                     # Browse the nodes and their children
                     nodes = COMPILED_HEADS
+                    node = None
                     for i, token in enumerate(tokens):
                         node = nodes.find(token)
                         if not node:

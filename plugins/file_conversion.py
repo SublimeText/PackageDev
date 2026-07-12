@@ -144,6 +144,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
             # Auto-detect the file type if it's not specified
             if not source_format:
                 output.write("Input type not specified, auto-detecting...")
+                Loader = None
                 for Loader in loaders.get.values():
                     if Loader.file_is_valid(self.view):
                         source_format = Loader.ext
@@ -152,7 +153,7 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
 
                 if not source_format:
                     return output.print("\nUnable to detect file type.")
-                elif target_format == source_format:
+                elif Loader and target_format == source_format:
                     return output.print(f"File already is {Loader.name}.")
 
             # Load inline options
