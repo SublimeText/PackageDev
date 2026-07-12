@@ -2,6 +2,7 @@ name: Lint
 
 on:
   push:
+    branch: master
     paths:
       - '.github/workflows/typecheck.yml'
       - '**.py'
