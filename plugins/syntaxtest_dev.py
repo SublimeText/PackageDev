@@ -151,6 +151,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
         lines = []
         pos = self.view.sel()[0].begin()
         first_line = True
+        details = None
         while pos >= 0:
             details = self.get_details_of_test_assertion_line(pos)
             pos = details.line_region.begin() - 1
@@ -162,7 +163,7 @@ class SyntaxTestHighlighterListener(sublime_plugin.ViewEventListener):
                 lines.append(details)
             first_line = False
 
-        return (lines, details.line_region)
+        return (lines, details.line_region if details else None)
 
     def on_selection_modified_async(self):
         """Update highlighting of what the current line's test assertions point at."""

@@ -18,6 +18,8 @@ __all__ = ('SyntaxDefCompletionsListener', 'PackagedevCommitScopeCompletionComma
 
 logger = logging.getLogger(__name__)
 
+assert __package__
+
 CompletionTemplate = namedtuple('CompletionTemplate', ['kind', 'format', 'suffix'])
 
 Completion = namedtuple('Completion', ['trigger', 'template', 'details'])
@@ -292,7 +294,10 @@ class SyntaxDefCompletionsListener(sublime_plugin.ViewEventListener):
         # Verify that we're not looking for an external include
         for point in locations:
             line_prefix = self._line_prefix(point)
-            real_prefix = re.search(r"[^,\[ ]*$", line_prefix).group(0)
+            match = re.search(r"[^,\[ ]*$", line_prefix)
+            if not match:
+                return []
+            real_prefix = match.group(0)
             if real_prefix.startswith("scope:") or "/" in real_prefix:
                 return []  # Don't show any completions here
             elif real_prefix != prefix:

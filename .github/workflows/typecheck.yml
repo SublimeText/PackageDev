@@ -4,20 +4,20 @@ on:
   push:
     branch: master
     paths:
-      - '.github/workflows/lint.yml'
+      - '.github/workflows/typecheck.yml'
       - '**.py'
   pull_request:
     paths:
-      - '.github/workflows/lint.yml'
+      - '.github/workflows/typecheck.yml'
       - '**.py'
 
 jobs:
-  ruff:
-    name: Ruff
+  ty:
+    name: Ty
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
       - uses: astral-sh/setup-uv@v8.3.2
 
-      - run: uv run ruff check .
+      - run: uv run ty check .

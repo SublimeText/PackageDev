@@ -75,7 +75,7 @@ class DumperProto:
     ext: ClassVar[str] = ""
     output_panel_name: ClassVar[str] = "package_dev"
     default_params: ClassVar[dict[str, Any]] = {}
-    allowed_params: ClassVar[set] = set()
+    allowed_params: ClassVar[set[str]] = set()
 
     def __init__(self, window, view, new_file_path, output=None, file_path=None, *args, **kwargs):
         """Guess what this does."""

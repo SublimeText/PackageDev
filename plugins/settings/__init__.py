@@ -127,7 +127,7 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         # See also https://lists.gt.net/python/python/139992
         sublime_plugin.ViewEventListener.__init__(self, view)
 
-        filepath = view.file_name()
+        filepath: str | None = view.file_name()
         logger.debug("initializing SettingsListener for %r", view.file_name())
 
         self.known_settings = None
@@ -135,9 +135,9 @@ class SettingsListener(sublime_plugin.ViewEventListener):
             filename = os.path.basename(filepath)
             if filepath.endswith(".sublime-project") or is_widget_file(filename):
                 logger.debug("Opening a widget settings or project file")
-                self.known_settings = KnownSettings(PREF_FILE)
+                self.known_settings = KnownSettings.load(PREF_FILE)
             elif filepath.endswith(".sublime-settings"):
-                self.known_settings = KnownSettings(filename)
+                self.known_settings = KnownSettings.load(filename)
 
         if self.known_settings:
             self.known_settings.add_on_loaded(self.do_linting)

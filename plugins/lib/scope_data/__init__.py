@@ -34,31 +34,6 @@ def create_scope_suffix_completion(name: str):
     return create_scope_completion(name, "base suffix", True)
 
 
-class NodeSet(set):
-    """
-    Methods:
-        * find(name)
-        * find_all(name)
-        * to_completion()
-    """
-
-    def find(self, name):
-        for node in self:
-            if node == name:
-                return node
-        return None
-
-    def find_all(self, name):
-        res = NodeSet()
-        for node in self:
-            if node == name:
-                res.add(node)
-        return res
-
-    def to_completion(self):
-        return [create_scope_completion(n.name) for n in self]
-
-
 class ScopeNode:
     """
     Attributes:
@@ -109,6 +84,31 @@ class ScopeNode:
         if self.children:
             ret += " {{{}}}".format(' '.join(map(repr, self.children)))
         return ret
+
+
+class NodeSet(set[ScopeNode]):
+    """
+    Methods:
+        * find(name)
+        * find_all(name)
+        * to_completion()
+    """
+
+    def find(self, name):
+        for node in self:
+            if node == name:
+                return node
+        return None
+
+    def find_all(self, name):
+        res = NodeSet()
+        for node in self:
+            if node == name:
+                res.add(node)
+        return res
+
+    def to_completion(self):
+        return [create_scope_completion(n.name) for n in self]
 
 
 #######################################

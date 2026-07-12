@@ -112,7 +112,7 @@ def _collect_inherited_variables(name=None, extends=None, excludes=set()):
                     logger.debug("Skipping old-style theme '%s'", resource)
                     continue
                 if not isinstance(contents, dict):
-                    logger.warn("Unexpected root value in '%s': %s", resource, type(contents))
+                    logger.warning("Unexpected root value in '%s': %s", resource, type(contents))
                     continue
                 if 'variables' in contents:
                     for k, v in contents['variables'].items():
@@ -201,8 +201,10 @@ class ColorSchemeCompletionsListener(sublime_plugin.ViewEventListener):
         prefixes = set()
         for point in locations:
             text = self._line_prefix(point)
-            real_prefix = re.search(r'[\w.-]*$', text).group(0)  # may be zero-length
-            prefixes.add(real_prefix)
+            match = re.search(r'[\w.-]*$', text)
+            if not match:
+                return None
+            prefixes.add(match.group(0))  # may be zero-length
 
         if len(prefixes) > 1:
             return None

@@ -2,6 +2,7 @@ name: Syntax Tests
 
 on:
   push:
+    branch: master
     paths:
       - '.github/workflows/syntax.yml'
       - '**.sublime-syntax'

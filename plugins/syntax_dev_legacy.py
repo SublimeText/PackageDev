@@ -17,6 +17,7 @@ __all__ = (
     'PackagedevRearrangeYamlSyntaxDefCommand',
 )
 
+assert __package__
 PACKAGE_NAME = __package__.split('.')[0]
 
 
@@ -408,6 +409,7 @@ class LegacySyntaxDefCompletions(sublime_plugin.EventListener):
 
                     # Browse the nodes and their children
                     nodes = COMPILED_HEADS
+                    node = None
                     for i, token in enumerate(tokens):
                         node = nodes.find(token)
                         if not node:

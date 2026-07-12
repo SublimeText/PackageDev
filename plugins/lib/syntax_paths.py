@@ -2,6 +2,7 @@
 
 _BASE_TMPL = "Packages/{package_name}/Package/{sub_package_name}/{file_name}{ext}"
 
+assert __package__
 _package_name = __package__.split(".")[0]
 
 
