@@ -18,6 +18,8 @@ __all__ = ('SyntaxDefCompletionsListener', 'PackagedevCommitScopeCompletionComma
 
 logger = logging.getLogger(__name__)
 
+assert __package__
+
 CompletionTemplate = namedtuple('CompletionTemplate', ['kind', 'format', 'suffix'])
 
 Completion = namedtuple('Completion', ['trigger', 'template', 'details'])

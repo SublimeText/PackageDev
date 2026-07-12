@@ -17,6 +17,7 @@ __all__ = (
     'PackagedevRearrangeYamlSyntaxDefCommand',
 )
 
+assert __package__
 PACKAGE_NAME = __package__.split('.')[0]
 
 

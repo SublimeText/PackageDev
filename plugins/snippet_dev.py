@@ -11,6 +11,7 @@ __all__ = (
     'PackagedevRawSnippetFromSnippetCommand',
 )
 
+assert __package__
 PACKAGE_NAME = __package__.split(".")[0]
 SNIPPET_PATH = f"Packages/{PACKAGE_NAME}/Package/Sublime Text Snippet/Snippet.sublime-snippet"
 
