@@ -7,6 +7,12 @@ description: Use when filling `messages/*.txt` release notes from git commits, c
 
 Use this skill when the user asks for a release note or changelog entry in `messages/*.txt`.
 
+If the note is marked with `(Notes not shown on release)`, create only the
+`messages/<version>.txt` file.
+Do not add a `messages.json` entry for that version.
+If the note should appear on release, add the new `messages/<version>.txt`
+file to `messages.json`.
+
 ## Goal
 
 Turn the commit range since the previous release into a concise release note that matches the existing messages style.
@@ -82,6 +88,8 @@ Before writing the file:
 - Review the commit range with author and body output.
 - Inspect the target `messages/*.txt` file and nearby versions for formatting.
 - Check that every included PR number and issue reference actually appears in a commit body, PR body, or linked metadata.
+- If the resulting note should appear on release, verify that `messages.json` includes the new file.
+- If the resulting note is hidden on release, verify that `messages.json` was not changed.
 
 ## `gh` usage rules
 
