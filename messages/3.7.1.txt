@@ -1,0 +1,6 @@
+v3.7.1 (2026-07-14)
+-------------------
+
+(Notes not shown on release)
+
+- fileconv: Fix invalid variable reference in file conversion module. (#442, #441, @deathaxe)
