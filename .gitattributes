@@ -1,2 +1,3 @@
-uv.lock  export-ignore
+uv.lock export-ignore
 CLAUDE.md export-ignore
+.claude/** export-ignore
