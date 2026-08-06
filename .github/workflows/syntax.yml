@@ -6,13 +6,13 @@ on:
     paths:
       - '.github/workflows/syntax.yml'
       - '**.sublime-syntax'
-      - '**/syntax_test*'
+      - '**/syntax_test_*'
       - '**.tmPreferences'
   pull_request:
     paths:
       - '.github/workflows/syntax.yml'
       - '**.sublime-syntax'
-      - '**/syntax_test*'
+      - '**/syntax_test_*'
       - '**.tmPreferences'
 
 jobs:
