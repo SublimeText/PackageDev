@@ -8,6 +8,10 @@ This is a package for Sublime Text.
   It clears cached `PackageDev.plugins.*` modules before re-importing `plugins`.
 - `plugins/` holds all Sublime runtime code.
   New plugin classes must be imported from `plugins/__init__.py` or they will be missed.
+  Run `from PackageDev.plugins import _check_missing; _check_missing()` in Sublime's console
+  to verify no plugin class was left out of that import surface.
+- `plugins/lib/` holds shared helpers (e.g. `scope_data`, `fileconv`, `view_utils`) used across
+  multiple plugin modules; it has no plugin classes of its own.
 - `Package/` holds shipped Sublime resource files and syntax definitions.
 
 ## Commands
