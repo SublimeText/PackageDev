@@ -14,6 +14,11 @@ This is a package for Sublime Text.
 
 - Lint Python with `uv run ruff check .`.
 - Ruff is configured for `line-length = 99` and selects `E`, `F`, `I`, and `UP`.
+- Type-check Python with `uv run ty check .`.
+- Check Python 3.8 compatibility with `uv run --python 3.8 python -m compileall -q main.py plugins`.
+  This only catches syntax-level incompatibilities, not runtime ones
+  (e.g. builtin generics such as `set[X]` used as a base class,
+  which only work as of Python 3.9).
 - There is no repo Python test suite.
   Use Sublime Text as the primary runtime check.
 
