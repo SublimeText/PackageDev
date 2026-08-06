@@ -11,6 +11,8 @@ a property list file and get back a python native data structure.
 .. _Property Lists: http://developer.apple.com/documentation/Cocoa/Conceptual/PropertyLists/
 """
 
+from __future__ import annotations
+
 import re
 from io import BytesIO
 from typing import Callable, ClassVar

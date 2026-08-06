@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from typing import Set
 
 import sublime
 
@@ -86,7 +87,7 @@ class ScopeNode:
         return ret
 
 
-class NodeSet(set[ScopeNode]):
+class NodeSet(Set[ScopeNode]):
     """
     Methods:
         * find(name)
