@@ -1,4 +1,4 @@
-# AGENTS.md
+# CLAUDE.md
 
 This is a package for Sublime Text.
 
