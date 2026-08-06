@@ -1,0 +1,6 @@
+v3.7.2 (2026-08-06)
+-------------------
+
+(Notes not shown on release)
+
+- Internal: Fix Python 3.8 incompatibilities that could break the package on Sublime Text builds still running Python 3.8. (#444, @FichteFoll)
