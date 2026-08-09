@@ -108,6 +108,8 @@ class PackagedevConvertCommand(sublime_plugin.WindowCommand):
             be found in `fileconv/dumpers.py`.
         """
         self.view = self.window.active_view()
+        if not self.view:
+            return self.status("No file opened.")
 
         # Check the environment (view, args, ...)
         if self.view.is_dirty():

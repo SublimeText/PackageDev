@@ -205,6 +205,8 @@ class SettingsListener(sublime_plugin.ViewEventListener):
         self.show_popup_for(key_region)
 
     def show_popup_for(self, key_region):
+        if not self.known_settings:
+            return
         key = self.view.substr(key_region)
 
         body = self.known_settings.build_tooltip(self.view, key)
@@ -227,19 +229,22 @@ class SettingsListener(sublime_plugin.ViewEventListener):
 
         if command == 'edit':
             view_id = self.view.settings().get('edit_settings_other_view_id')
+            if not isinstance(view_id, int):
+                return
             user_view = sublime.View(view_id)
             if not user_view.is_valid():
                 return
             result = user_view.find(f'"{argument}"', 0)
             self.view.hide_popup()
-            if self.view.window():
-                self.view.window().focus_view(user_view)
-            if result.a == -1:
-                self.known_settings.insert_snippet(user_view, argument)
-            else:
+            window = self.view.window()
+            if window:
+                window.focus_view(user_view)
+            if result.a != -1:
                 user_view.sel().clear()
                 user_view.show_at_center(result.end())
                 user_view.sel().add(result.end() + 2)
+            elif self.known_settings:
+                self.known_settings.insert_snippet(user_view, argument)
 
     def do_linting(self):
         """Highlight all unknown settings keys."""

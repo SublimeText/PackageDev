@@ -52,6 +52,9 @@ class PackagedevRawSnippetFromSnippetCommand(sublime_plugin.TextCommand):
             return
         content = content.replace("]]$UNDEFINED>", "]]>")  # undo defusing
 
-        v = self.view.window().new_file()
+        window = self.view.window()
+        if not window:
+            return
+        v = window.new_file()
         v.assign_syntax(syntax_paths.SNIPPET_RAW)
         _insert_unindented(v, content)

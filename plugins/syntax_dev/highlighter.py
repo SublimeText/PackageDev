@@ -90,5 +90,6 @@ class SyntaxDefRegexCaptureGroupHighlighter(sublime_plugin.ViewEventListener):
                     else:
                         depth -= 1
 
-            if end is not None:
+            # `end` can only be found if `start` was found before it.
+            if start is not None and end is not None:
                 yield sublime.Region(start, end)
