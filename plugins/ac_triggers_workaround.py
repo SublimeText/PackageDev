@@ -8,11 +8,11 @@ class ACTriggerWorkaroundListener(sublime_plugin.EventListener):
     Manually apply the logic when that happened.
     """
 
-    def on_post_text_command(self, view, command, args):
+    def on_post_text_command(self, view, command_name, args):
         if "PackageDev" not in view.settings().get('syntax', ""):
             return
 
-        if command == 'insert_snippet':
+        if command_name == 'insert_snippet':
             triggers = view.settings().get('auto_complete_triggers', [])
             pt = view.sel()[0].begin() - 1
             for trigger in triggers:
