@@ -6,7 +6,7 @@ import sublime
 import sublime_plugin
 from sublime_lib import ResourcePath
 
-from .lib import inhibit_word_completions, syntax_paths
+from .lib import current_ui_style, inhibit_word_completions, syntax_paths
 from .lib.scope_data import completions_from_prefix
 
 __all__ = (
@@ -262,7 +262,7 @@ class PackagedevEditSchemeCommand(sublime_plugin.WindowCommand):
                 (setting, self.get_scheme_path(view, setting))
                 for setting in ('dark_color_scheme', 'light_color_scheme')
             ]
-            current_os_mode = sublime.ui_info()['system']['style']
+            current_os_mode = current_ui_style()
             choices = [
                 sublime.QuickPanelItem(setting, details=str(path), kind=KIND_SCHEME)
                 for setting, path in paths

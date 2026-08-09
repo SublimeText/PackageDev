@@ -1,5 +1,6 @@
 import functools
 import logging
+from typing import Any
 
 import sublime
 
@@ -21,6 +22,14 @@ def package_settings():
 
 def get_setting(key, default=None):
     return package_settings().get(key, default)
+
+
+def current_ui_style():
+    """Return the OS's current UI style, i.e. "dark" or "light"."""
+    # `ui_info` is typed as a nested mapping of arbitrary JSON values,
+    # so the known structure needs to be asserted manually.
+    ui_info: Any = sublime.ui_info()
+    return ui_info['system']['style']
 
 
 def inhibit_word_completions(func):

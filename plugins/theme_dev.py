@@ -4,7 +4,7 @@ import sublime
 import sublime_plugin
 from sublime_lib import ResourcePath
 
-from .lib import inhibit_word_completions, syntax_paths
+from .lib import current_ui_style, inhibit_word_completions, syntax_paths
 
 __all__ = (
     'PackagedevEditThemeCommand',
@@ -42,13 +42,13 @@ class PackagedevEditThemeCommand(sublime_plugin.WindowCommand):
             choices = [
                 sublime.QuickPanelItem(
                     setting,
-                    details=settings.get(setting, DEFAULT_THEME),
+                    details=str(settings.get(setting, DEFAULT_THEME)),
                     kind=KIND_THEME,
                 )
                 for setting in ('dark_theme', 'light_theme')
             ]
 
-            current_os_mode = sublime.ui_info()['system']['style']
+            current_os_mode = current_ui_style()
             selected_index = -1
             for idx, choice in enumerate(choices):
                 if choice.trigger.startswith(current_os_mode):

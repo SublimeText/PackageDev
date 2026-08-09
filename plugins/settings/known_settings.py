@@ -6,11 +6,14 @@ import os
 import re
 import textwrap
 import time
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 from weakref import WeakValueDictionary
 
 import sublime
 from sublime_lib import ResourcePath, encodings
+
+if TYPE_CHECKING:
+    from sublime_types import Value
 
 from ..lib import get_setting
 from ..lib.weakmethod import WeakMethodProxy
@@ -94,7 +97,7 @@ class KnownSettings:
 
     on_loaded_callbacks: list[WeakMethodProxy]
     on_loaded_once_callbacks: list[WeakMethodProxy]
-    defaults: collections.ChainMap[str, object]
+    defaults: collections.ChainMap[str, Value]
     comments: collections.ChainMap[str, str]
     fallback_settings: KnownSettings | None = None
 
