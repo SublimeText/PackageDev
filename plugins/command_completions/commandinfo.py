@@ -6,6 +6,8 @@ import sublime
 import sublime_plugin
 import yaml
 
+from ..lib.plugin_internals import all_command_classes, command_classes
+
 BUILTIN_METADATA_FILENAME = "builtin_commands_meta_data.yaml"
 
 logger = logging.getLogger(__name__)
@@ -111,15 +113,10 @@ def iter_python_command_classes(command_type=""):
         The command classes for the command type.
     """
     if not command_type:
-        for cmd_list in sublime_plugin.all_command_classes:
+        for cmd_list in all_command_classes():
             yield from iter(cmd_list)
     else:
-        cmd_list = {
-            "text": sublime_plugin.text_command_classes,
-            "window": sublime_plugin.window_command_classes,
-            "app": sublime_plugin.application_command_classes,
-        }[command_type]
-        yield from iter(cmd_list)
+        yield from iter(command_classes(command_type))
 
 
 def extract_command_class_args(command_class):

@@ -8,6 +8,7 @@ import sublime
 import sublime_plugin
 
 from .lib import get_setting, path_is_relative_to
+from .lib.plugin_internals import find_view_event_listener
 from .lib.view_utils import region_flags_from_strings
 
 __all__ = (
@@ -290,7 +291,7 @@ class PackagedevAlignSyntaxTestCommand(sublime_plugin.TextCommand):
         view = self.view
         cursor = view.sel()[0]
 
-        listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
+        listener = find_view_event_listener(view, SyntaxTestHighlighterListener)
         if not listener:
             return
 
@@ -344,7 +345,7 @@ class PackagedevSuggestSyntaxTestCommand(sublime_plugin.TextCommand):
         insert_at = view.sel()[0].begin()
         _, col = view.rowcol(insert_at)
 
-        listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
+        listener = find_view_event_listener(view, SyntaxTestHighlighterListener)
         if not listener or not listener.header:
             return
 
@@ -591,7 +592,7 @@ class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
     """Generate syntax tests for the selected line of code."""
 
     def is_enabled(self):
-        listener = sublime_plugin.find_view_event_listener(
+        listener = find_view_event_listener(
             self.view,
             SyntaxTestHighlighterListener,
         )
@@ -599,7 +600,7 @@ class PackagedevGenerateSyntaxTestsForLineCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         view = self.view
-        listener = sublime_plugin.find_view_event_listener(view, SyntaxTestHighlighterListener)
+        listener = find_view_event_listener(view, SyntaxTestHighlighterListener)
         if not listener or not listener.header:
             return
 
