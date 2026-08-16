@@ -15,7 +15,7 @@ dependencies = [
 dev = [
   "ruff",
   # Only a beta release exists so far, so pin it exactly.
-  "sublime-text-stubs==1.4200.0b1",
+  "sublime-text-stubs==1.4200.0b2",
   "ty>=0.0.58",
 ]
 

@@ -31,7 +31,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "ruff" },
-    { name = "sublime-text-stubs", specifier = "==1.4200.0b1" },
+    { name = "sublime-text-stubs", specifier = "==1.4200.0b2" },
     { name = "ty", specifier = ">=0.0.58" },
 ]
 
@@ -154,11 +154,11 @@ wheels = [
 
 [[package]]
 name = "sublime-text-stubs"
-version = "1.4200.0b1"
+version = "1.4200.0b2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/16/d7/8db77b7bb6473a001cfffbc4ee340197801c256c5731ceee91f9a34a3b9b/sublime_text_stubs-1.4200.0b1.tar.gz", hash = "sha256:79a84e1cfa373bcf0f822bd0b36db4c517abbe0729e50c50a77e839ba754103d", size = 55761, upload-time = "2026-08-02T15:55:13.02Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f7/7c/895f90ef23ac3bc784b88e805d4e8fc26bfe3538f1dc7b0b661bde4b79d6/sublime_text_stubs-1.4200.0b2.tar.gz", hash = "sha256:1e5742bd3eee20140c2b609f5f02544c67e445d0f09ea657c2404436b1fca5f0", size = 72753, upload-time = "2026-08-16T10:22:25.858Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4e/bf/cf6637761e7527e52f68a3d7865a09b8678bfb11e0ab8ce6f633c2775fe1/sublime_text_stubs-1.4200.0b1-py3-none-any.whl", hash = "sha256:56965fd12d16284afa36df3eac06a495c1ca58a61f6f4052dc0bd44eeece355b", size = 33850, upload-time = "2026-08-02T15:55:11.981Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/ec/590cd176f8088128ce954d85260f02516a78a27fc93fed9c14e468b34734/sublime_text_stubs-1.4200.0b2-py3-none-any.whl", hash = "sha256:84ab71657d716533e4e269e242b6d3c5989e843f5ffe5fc1267be9e6d868e2e3", size = 36470, upload-time = "2026-08-16T10:22:24.838Z" },
 ]
 
 [[package]]
