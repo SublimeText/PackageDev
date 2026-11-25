@@ -557,6 +557,7 @@ class KnownSettings:
             # the value typed so far, which may differ from prefix for floats
             typed_region = sublime.Region(value_region.begin(), point)
             typed = view.substr(typed_region).lstrip()
+            json_completions = []
             for c in completions:
                 value = c.completion
                 # unroll dicts
@@ -584,6 +585,8 @@ class KnownSettings:
                 # escape snippet markers
                 value_str = value_str.replace("$", "\\$")
                 c.completion = value_str
+                json_completions.append(c)
+            completions = json_completions
 
         # disable word completion to prevent stupid suggestions
         return completions
